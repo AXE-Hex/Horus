@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 // lib/features/academic/data/models/professor_profile_models.dart
 class ProfessorProfile {
   final String id;

@@ -1,5 +1,11 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/core/config/supabase_client.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'notification_provider.g.dart';
@@ -106,7 +112,7 @@ class NotificationController extends _$NotificationController {
       }
       return notes;
     } catch (e) {
-      print('Error fetching notifications: $e');
+      debugPrint('Error fetching notifications: $e');
       return [];
     }
   }
@@ -154,7 +160,7 @@ class NotificationController extends _$NotificationController {
           .delete()
           .eq('user_id', auth.user!.id);
     } catch (e) {
-      print('Error clearing notifications: $e');
+      debugPrint('Error clearing notifications: $e');
     }
   }
 }

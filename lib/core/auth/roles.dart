@@ -1,7 +1,8 @@
-/// ╔══════════════════════════════════════════════════════════════════╗
-/// ║               HUE University — Role & Permission System         ║
-/// ╚══════════════════════════════════════════════════════════════════╝
-///
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 /// Each role belongs to a [RoleCategory] and has a defined set of
 /// [RolePermission]s. The system is hierarchical — higher-privilege
 /// roles inherit the permissions of lower ones within the same category.
@@ -633,7 +634,7 @@ extension RoleCategoryX on RoleCategory {
   /// Get all roles in this category.
   List<UserRole> get roles =>
       UserRole.values.where((r) => r.category == this).toList();
-      
+
   /// Localized category name.
   String displayName({bool isArabic = false}) {
     switch (this) {

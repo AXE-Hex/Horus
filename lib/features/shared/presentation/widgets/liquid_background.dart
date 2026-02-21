@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 

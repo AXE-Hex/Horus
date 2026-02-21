@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Base repository providing generic CRUD operations against Supabase.

@@ -1,6 +1,12 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/core/config/supabase_client.dart';
 import 'package:hue/features/enrollment/data/models/registration_models.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final registrationRepositoryProvider = Provider((ref) {
@@ -12,13 +18,11 @@ class RegistrationRepository {
 
   RegistrationRepository(this._supabase);
 
-  // Get all active courses for a semester
   Future<List<Course>> fetchCoursesBySemester(String semester) async {
     final response = await _supabase
         .from('courses')
         .select('*')
-        .eq('is_active', true); // Add semester eq if courses have it
-    // Using mapping from your existing course.dart model
+        .eq('is_active', true);
     return (response as List)
         .map(
           (json) => Course(
@@ -37,9 +41,6 @@ class RegistrationRepository {
         .toList();
   }
 
-  // Get available group sections (e.g. A, B, C)
-  // We can group by name to get distinct groups if they are per course,
-  // or if there is a global sections table, just fetch it.
   Future<List<String>> fetchAvailableSections(String semester) async {
     final response = await _supabase
         .from('course_sections')
@@ -54,12 +55,10 @@ class RegistrationRepository {
     return names;
   }
 
-  // Get sub-sections for a specific section name (e.g. A1, A2 for group A)
   Future<List<String>> fetchSubSections(
     String semester,
     String sectionName,
   ) async {
-    // First find section IDs that match the name and semester
     final sectionsResp = await _supabase
         .from('course_sections')
         .select('id')
@@ -83,7 +82,6 @@ class RegistrationRepository {
     return names;
   }
 
-  // Get current student registration for a semester
   Future<StudentRegistration?> getStudentRegistration(
     String studentId,
     String semester,
@@ -99,12 +97,11 @@ class RegistrationRepository {
       if (response == null) return null;
       return StudentRegistration.fromJson(response);
     } catch (e) {
-      print('Error fetching registration: $e');
+      debugPrint('Error registering student: $e');
       return null;
     }
   }
 
-  // Register student to a group and sub-section
   Future<void> registerStudent(
     String studentId,
     String semester,

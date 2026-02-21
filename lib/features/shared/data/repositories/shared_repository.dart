@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:hue/core/data/base_repository.dart';
 
 /// Repository for shared features: notifications, forums, support, sessions, files, announcements.

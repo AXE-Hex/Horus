@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hue/i18n/strings.g.dart';
 import 'package:flutter/material.dart';

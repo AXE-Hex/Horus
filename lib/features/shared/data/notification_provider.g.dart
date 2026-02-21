@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'notification_provider.dart';

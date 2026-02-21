@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -92,9 +97,9 @@ class AboutScreen extends ConsumerWidget {
                     const Divider(height: 24),
                     _buildInfoRow(
                       context,
-                      LucideIcons.code2,
+                      LucideIcons.users,
                       isArabic ? 'المطور' : 'Developer',
-                      isArabic ? 'فريق تطوير HUE' : 'HUE Development Team',
+                      'GT-AXE Team',
                     ),
                     const Divider(height: 24),
                     _buildInfoRow(

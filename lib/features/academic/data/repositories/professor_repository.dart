@@ -1,6 +1,13 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/core/config/supabase_client.dart';
+import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hue/core/data/base_repository.dart';
 import 'package:hue/features/academic/data/models/professor_profile_models.dart';
 
@@ -175,7 +182,7 @@ class ProfessorRepository extends BaseRepository {
         officeHours: officeHours,
       );
     } catch (e) {
-      print('Error fetching full professor profile: $e');
+      debugPrint('Error uploading file to Superbase: $e');
       return null;
     }
   }

@@ -1,3 +1,8 @@
+// ---------------------------------------------------------------------------
+// 🚀 Developed by the GT-AXE Team
+// 👤 Signature: Axe
+// ---------------------------------------------------------------------------
+
 /// Environment configuration for the HUE application.
 /// Supabase credentials and feature flags are stored here.
 ///
