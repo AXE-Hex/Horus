@@ -1,4 +1,4 @@
-# <p align="center">💠 HUE : THE GLASS HARMONY HUB 💠</p>
+# <p align="center"> HUE : THE GLASS HARMONY HUB </p>
 
 <p align="center">
   <b>Elevating Academic Excellence through Immersive Translucent Intelligence</b>
