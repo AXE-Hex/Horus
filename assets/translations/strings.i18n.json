@@ -1,0 +1,442 @@
+{
+  "common": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "back": "Back"
+  },
+  "welcome": {
+    "title": "Welcome To Hue",
+    "subtitle": "Light up your world with meaningful connections.",
+    "get_started": "Get Started",
+    "have_account": "I already have an account"
+  },
+  "onboarding": {
+    "language": {
+      "title": "Choose your language",
+      "subtitle": "اختر لغتك المفضلة",
+      "english": "English",
+      "arabic": "العربية",
+      "german": "Deutsch",
+      "chinese": "中文",
+      "hint": "You can change this later in settings\nيمكنك تغيير هذا لاحقاً في الإعدادات"
+    },
+    "faculties_directory": {
+      "title": "Our Faculties",
+      "subtitle": "Discover Horus University portal."
+    },
+    "style": {
+      "title": "Choose your style",
+      "subtitle": "Select the interface design you prefer",
+      "classic": {
+        "title": "Classic",
+        "desc": "Clean, simple, and familiar Material Design"
+      },
+      "glass": {
+        "title": "Glass",
+        "desc": "Modern, translucent, and vibrant aesthetics"
+      }
+    },
+    "theme": {
+      "title": "Choose a theme",
+      "subtitle": "Light or dark, your choice",
+      "light": "Light",
+      "dark": "Dark"
+    }
+  },
+  "auth": {
+    "login": {
+      "welcome": "Welcome Back",
+      "subtitle": "Sign in to continue",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot Password?",
+      "submit": "Login",
+      "guest": "Browse as Guest"
+    },
+    "forgot_password": {
+      "title": "Forgot Password",
+      "subtitle": "Choose a recovery method",
+      "method_admin": "Visit Administration",
+      "method_online": "Online Request",
+      "admin_instructions": "Please visit the student affairs office to reset your password. Bring your valid university ID.",
+      "phone_label": "Phone Number",
+      "upload_id": "Upload ID Photo",
+      "upload_id_hint": "Tap to upload a clear photo of your university ID",
+      "submit": "Submit Request",
+      "back": "Back to Login",
+      "error_empty_phone": "Please enter your phone number",
+      "error_empty_email": "Please enter your email",
+      "error_no_id": "Please upload your ID photo",
+      "success": "Request submitted successfully",
+      "id_uploaded": "ID Uploaded"
+    }
+  },
+  "home": {
+    "tabs": {
+      "home": "Home",
+      "colleges": "Colleges",
+      "student": "Student",
+      "admin": "Admin",
+      "search": "Search",
+      "notifications": "Notifications",
+      "profile": "Profile"
+    }
+  },
+  "feed": {
+    "likes": "likes",
+    "caption_sample": "This is a sample caption for post",
+    "hours_ago": "hours ago"
+  },
+  "dashboard": {
+    "id_card": {
+      "student_name": "Student Name",
+      "college": "College",
+      "id": "Student ID",
+      "gpa": "GPA",
+      "level": "Level",
+      "verified": "Verified"
+    },
+    "sections": {
+      "academic": "Academic",
+      "enrollment": "Enrollment",
+      "utilities": "Utilities"
+    },
+    "items": {
+      "digital_id": "Digital ID",
+      "transcript": "Transcript",
+      "progress": "Progress",
+      "action_plan": "Action Plan",
+      "subject_result": "Subject Result",
+      "grades": "Grades",
+      "courses": "Courses",
+      "registration": "Registration",
+      "invoices": "Unpaid Invoices",
+      "payment": "Payment",
+      "tutorials": "Tutorials",
+      "security": "Security",
+      "forums": "Forums",
+      "support": "Support",
+      "notifications": "Notifications",
+      "no_lectures": "No lectures found"
+    },
+    "labels": {
+      "university_name": "Horus University",
+      "id_short": "ID",
+      "gpa_short": "GPA",
+      "level_short": "LVL"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "sections": {
+      "account": "Account",
+      "display": "Display",
+      "notifications": "Notifications",
+      "about": "About"
+    },
+    "tiles": {
+      "edit_profile": "Edit Profile",
+      "change_password": "Change Password",
+      "dark_mode": "Dark Mode",
+      "language": "Language",
+      "ui_style": "UI Style",
+      "app_notifications": "App Notifications",
+      "about_app": "About App",
+      "privacy_policy": "Privacy Policy",
+      "logout": "Logout"
+    },
+    "messages": {
+      "switching_theme": "Switching Theme...",
+      "changing_language": "Changing Language...",
+      "rebuilding_design": "Rebuilding Design System..."
+    }
+  },
+  "colleges": {
+    "details": {
+      "dean": "Dean of College",
+      "staff": "Academic Staff",
+      "view_all": "View All",
+      "departments": "Departments",
+      "explore_majors": "Explore available majors",
+      "majors": "Majors",
+      "dean_title": "The Dean",
+      "staff_member": "Staff Member",
+      "vice_dean": "Vice Dean",
+      "head_of_dept": "Head of Dept",
+      "assoc_prof": "Assoc. Prof",
+      "academic_statistics": "Academic Statistics",
+      "students": "Students",
+      "academic_staff": "Academic Staff",
+      "teaching_assistants": "Teaching Assistants",
+      "published_articles": "Published Articles"
+    },
+    "applied_health_sciences": "Faculty of Applied Health Sciences",
+    "business_administration": "Faculty of Business Administration",
+    "dentistry": "Faculty of Dentistry",
+    "engineering": "Faculty of Engineering",
+    "fine_arts": "Faculty of Fine Arts",
+    "human_medicine": "Faculty of Human Medicine",
+    "linguistics": "Faculty of Linguistics & Translation",
+    "pharmacy": "Faculty of Pharmacy",
+    "physical_therapy": "Faculty of Physical Therapy",
+    "ai": "Faculty of Artificial Intelligence",
+    "departments": {
+      "medical_laboratories_technology": "Medical Laboratories Technology",
+      "radiology_and_imaging_technology": "Radiology and Imaging Technology",
+      "respiratory_care_technology": "Respiratory Care Technology",
+      "dental_prosthetics_technology": "Dental Prosthetics Technology",
+      "health_administration_and_informatics_technology": "Health Administration and Informatics Technology",
+      "accounting": "Accounting",
+      "business_management": "Business Management",
+      "economics": "Economics",
+      "marketing": "Marketing",
+      "accounting_program_english": "Accounting Program (English)",
+      "business_administration_program_english": "Business Administration Program (English)",
+      "basic_sciences_in_dentistry": "Basic Sciences in Dentistry",
+      "basic_medical_and_clinical_sciences": "Basic Medical and Clinical Sciences",
+      "oral_and_maxillofacial_surgery": "Oral and Maxillofacial Surgery",
+      "orthodontics_and_pediatric_dentistry": "Orthodontics and Pediatric Dentistry",
+      "periodontics_and_oral_medicine": "Periodontics and Oral Medicine",
+      "prosthodontics": "Prosthodontics",
+      "conservative_dentistry_and_endodontics": "Conservative Dentistry and Endodontics",
+      "architectural_engineering": "Architectural Engineering",
+      "basic_sciences": "Basic Sciences",
+      "civil_engineering": "Civil Engineering",
+      "mechanical_engineering": "Mechanical Engineering",
+      "electrical_engineering": "Electrical Engineering",
+      "artificial_intelligence_engineering": "Artificial Intelligence Engineering",
+      "interior_design_and_architecture": "Interior Design and Architecture",
+      "furniture_design_and_production_technology": "Furniture Design and Production Technology",
+      "graphics_and_digital_arts": "Graphics and Digital Arts",
+      "animation_and_multimedia": "Animation and Multimedia",
+      "medical_education": "Medical Education",
+      "histology_and_cell_biology": "Histology and Cell Biology",
+      "clinical_pharmacy": "Clinical Pharmacy",
+      "human_anatomy_and_embryology": "Human Anatomy and Embryology",
+      "medical_physiology": "Medical Physiology",
+      "medical_microbiology_and_immunology": "Medical Microbiology and Immunology",
+      "forensic_medicine_and_toxicology": "Forensic Medicine and Toxicology",
+      "community_medicine_and_public_health": "Community Medicine and Public Health",
+      "biochemistry": "Biochemistry",
+      "pathology": "Pathology",
+      "english_language_program": "English Language Program",
+      "german_language_program": "German Language Program",
+      "chinese_language_program": "Chinese Language Program",
+      "french_department": "French Department",
+      "translation_department": "Translation Department",
+      "pharmaceutical_chemistry": "Pharmaceutical Chemistry",
+      "pharmacology_and_biochemistry": "Pharmacology and Biochemistry",
+      "pharmacognosy": "Pharmacognosy",
+      "microbiology_and_immunology": "Microbiology and Immunology",
+      "pharmaceutical_technology": "Pharmaceutical Technology",
+      "pharmacy_practice": "Pharmacy Practice",
+      "basic_sciences_pt": "Basic Sciences",
+      "biomechanics": "Biomechanics",
+      "pt_internal_medicine_and_geriatrics": "PT for Internal Medicine and Geriatrics",
+      "pt_womens_health": "PT for Women's Health",
+      "pt_surgery_and_integumentary": "PT for Surgery and Integumentary",
+      "pt_orthopedics": "PT for Orthopedics",
+      "pt_neurology": "PT for Neurology",
+      "pt_pediatrics": "PT for Pediatrics",
+      "artificial_biomedical_computing": "Artificial Biomedical Computing",
+      "artificial_cybersecurity": "Cyber Security",
+      "ai_and_data_science": "AI and Data Science",
+      "ai_for_robotics": "AI for Robotics",
+      "smart_systems": "Smart Systems"
+    }
+  },
+  "transcript": {
+    "title": "Academic Transcript",
+    "overview": {
+      "gpa": "Cumulative GPA",
+      "credits": "Earned Credits",
+      "standing": "Standing",
+      "active": "Good Standing"
+    },
+    "semester": {
+      "fall": "Fall Semester",
+      "spring": "Spring Semester",
+      "summer": "Summer Session"
+    },
+    "course": {
+      "grade": "Grade",
+      "credits": "Credits",
+      "status": {
+        "completed": "Completed",
+        "transferred": "Transferred"
+      }
+    }
+  },
+  "academic_progress": {
+    "title": "Academic Progress",
+    "completion": "Degree Completion",
+    "total_credits": "Total Credits",
+    "categories": {
+      "university_name": "Horus University",
+      "faculty": "Faculty Requirements",
+      "major": "Major Requirements",
+      "electives": "Electives"
+    },
+    "status": {
+      "completed": "Completed",
+      "in_progress": "In Progress",
+      "remaining": "Remaining",
+      "requirement_met": "Requirement Met"
+    }
+  },
+  "grades": {
+    "title": "Semester Grades",
+    "grade_point": "Grade Point",
+    "letter_grade": "Letter Grade",
+    "gpa": "Semester GPA"
+  },
+  "subject_results": {
+    "title": "Subject Results",
+    "midterm": "Midterm",
+    "final": "Final Exam",
+    "practical": "Practical/Lab",
+    "activities": "Semester Activities",
+    "total": "Total Score"
+  },
+  "action_plan": {
+    "title": "Degree Action Plan",
+    "roadmap": "Course Roadmap",
+    "year_1": "Freshman Year",
+    "year_2": "Sophomore Year",
+    "year_3": "Junior Year",
+    "year_4": "Senior Year"
+  },
+  "courses": {
+    "title": "My Courses",
+    "enrolled": "Enrolled",
+    "available": "Available",
+    "instructor": "Instructor",
+    "schedule": "Schedule"
+  },
+  "schedule": {
+    "title": "Weekly Schedule",
+    "time": "Time",
+    "room": "Room",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "instructor": "Instructor",
+    "doctor": "Dr.",
+    "type_lecture": "Lecture",
+    "type_section": "Section",
+    "status_active": "Upcoming",
+    "status_started": "Now",
+    "status_cancelled": "Cancelled",
+    "status_online": "Online",
+    "status_substitute": "Substitute",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "all_periods": "All Periods",
+    "floor": "Floor",
+    "direction": "Direction",
+    "east": "East",
+    "west": "West",
+    "south": "South",
+    "north": "North",
+    "no_lectures": "No lectures found"
+  },
+  "exam_schedule": {
+    "title": "Exam Schedule",
+    "date": "Date",
+    "duration": "Duration",
+    "seat": "Seat Number"
+  },
+  "attendance": {
+    "title": "Attendance Statistics",
+    "present": "Present",
+    "absent": "Absent",
+    "late": "Late",
+    "ratio": "Attendance Ratio"
+  },
+  "registration": {
+    "title": "Course Registration",
+    "submit": "Submit Registration",
+    "enrolled_credits": "Enrolled Credits"
+  },
+  "payment": {
+    "title": "Tuition Payment",
+    "outstanding": "Outstanding Balance",
+    "pay_now": "Pay Now",
+    "methods": "Payment Methods"
+  },
+  "invoices": {
+    "title": "Invoices",
+    "history": "Payment History",
+    "unpaid": "Unpaid",
+    "paid": "Paid"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No new notifications"
+  },
+  "support": {
+    "title": "Support & Help",
+    "contact_us": "Contact Us"
+  },
+  "security": {
+    "title": "Security",
+    "biometrics": "Biometrics",
+    "sessions": "Active Sessions"
+  },
+  "tutorials": {
+    "title": "Tutorials & Guides"
+  },
+  "forums": {
+    "title": "Forums"
+  },
+  "administration": {
+    "title": "Student Management",
+    "stats": "System Stats",
+    "users": "Users",
+    "reports": "Reports"
+  },
+  "professor": {
+    "dashboard": "Professor Dashboard",
+    "welcome_back": "Welcome back",
+    "stats": {
+      "groups": "Groups",
+      "students": "Total Students",
+      "rating": "Rating"
+    },
+    "quick_actions": {
+      "urgent": "Urgent",
+      "upload": "Upload",
+      "message": "Message",
+      "action_clicked": "Action clicked"
+    },
+    "manage": {
+      "manage_tas": "Manage TAs",
+      "active_tas": "Active TAs",
+      "student_groups": "Student Groups",
+      "total_students": "Total Students",
+      "shared_files": "Shared Files",
+      "uploaded_files": "Uploaded Files",
+      "office_hours": "Office Hours",
+      "weekly_slots": "Weekly Slots"
+    },
+    "profile": {
+      "office_hour": "Office Hour",
+      "urgent_announcements": "Urgent Announcements",
+      "teaching_assistants": "Teaching Assistants",
+      "student_groups": "Student Groups",
+      "students": "Students",
+      "join": "Join",
+      "joined": "Joined",
+      "shared_resources": "Shared Resources",
+      "office_hours": "Office Hours",
+      "walk_in": "Walk-in"
+    }
+  }
+}
