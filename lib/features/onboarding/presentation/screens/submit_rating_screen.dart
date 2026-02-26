@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';

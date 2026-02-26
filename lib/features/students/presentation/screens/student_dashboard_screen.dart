@@ -1,9 +1,4 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -230,8 +225,6 @@ class StudentDashboardScreen extends ConsumerWidget {
     );
   }
 
-  // --- WIDGET BUILDERS ---
-
   Widget _buildDigitalIDCard(
     BuildContext context,
     bool isArabic,
@@ -259,7 +252,7 @@ class StudentDashboardScreen extends ConsumerWidget {
       child: Hero(
         tag: 'digital_id_card',
         child: GlassContainer(
-          height: 250,
+          height: 260,
           borderRadius: BorderRadius.circular(32),
           padding: const EdgeInsets.all(28),
           child: Column(

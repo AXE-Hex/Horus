@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +33,7 @@ class InvoicesScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? "الفواتير والمالية" : "Financial Invoices",
+            t.invoices.title,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -50,35 +46,20 @@ class InvoicesScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              final invoices = isArabic
-                  ? [
-                      {
-                        'id': 'INV-2024-001',
-                        'date': '01 فبراير 2024',
-                        'amount': '8,500 ج.م',
-                        'status': 'مدفوع',
-                      },
-                      {
-                        'id': 'INV-2024-002',
-                        'date': '15 فبراير 2024',
-                        'amount': '3,950 ج.م',
-                        'status': 'غير مدفوع',
-                      },
-                    ]
-                  : [
-                      {
-                        'id': 'INV-2024-001',
-                        'date': '01 Feb 2024',
-                        'amount': '8,500 EGP',
-                        'status': 'Paid',
-                      },
-                      {
-                        'id': 'INV-2024-002',
-                        'date': '15 Feb 2024',
-                        'amount': '3,950 EGP',
-                        'status': 'Unpaid',
-                      },
-                    ];
+              final invoices = [
+                {
+                  'id': 'INV-2024-001',
+                  'date': isArabic ? '01 فبراير 2024' : '01 Feb 2024',
+                  'amount': t.payment.currency(amount: '8,500'),
+                  'status': t.invoices.paid,
+                },
+                {
+                  'id': 'INV-2024-002',
+                  'date': isArabic ? '15 فبراير 2024' : '15 Feb 2024',
+                  'amount': t.payment.currency(amount: '3,950'),
+                  'status': t.invoices.unpaid,
+                },
+              ];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16),
                 child: _buildInvoiceCard(
@@ -103,7 +84,7 @@ class InvoicesScreen extends ConsumerWidget {
     bool isGlass,
     bool isArabic,
   ) {
-    final isPaid = invoice['status'] == 'Paid' || invoice['status'] == 'مدفوع';
+    final isPaid = invoice['status'] == t.invoices.paid;
 
     final content = Padding(
       padding: const EdgeInsets.all(20),

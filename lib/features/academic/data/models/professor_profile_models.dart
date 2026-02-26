@@ -1,9 +1,4 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-// lib/features/academic/data/models/professor_profile_models.dart
 class ProfessorProfile {
   final String id;
   final String name;
@@ -43,7 +38,7 @@ class TeachingAssistant {
   final String id;
   final String name;
   final String email;
-  final String role; // e.g., "Lead TA", "Lab Assistant"
+  final String role;
 
   TeachingAssistant({
     required this.id,
@@ -55,7 +50,7 @@ class TeachingAssistant {
 
 class StudentGroup {
   final String id;
-  final String name; // e.g., "CS101 - Section A"
+  final String name;
   final String description;
   final int studentCount;
   final bool isJoined;
@@ -88,7 +83,7 @@ class ProfessorAnnouncement {
 class SharedFile {
   final String id;
   final String title;
-  final String fileType; // e.g., "pdf", "docx"
+  final String fileType;
   final String size;
   final DateTime uploadDate;
 
@@ -104,9 +99,9 @@ class SharedFile {
 class OfficeHour {
   final String id;
   final String dayOfWeek;
-  final String timeRange; // e.g., "10:00 AM - 12:00 PM"
-  final String location; // e.g., "Office 301, Lab C"
-  final bool isWalkIn; // true if no booking required
+  final String timeRange;
+  final String location;
+  final bool isWalkIn;
 
   OfficeHour({
     required this.id,
@@ -116,10 +111,6 @@ class OfficeHour {
     this.isWalkIn = false,
   });
 }
-
-// ---------------------------------------------------------
-// Mock Data
-// ---------------------------------------------------------
 
 final mockProfessorProfile = ProfessorProfile(
   id: 'dr_sarah_101',
@@ -214,7 +205,6 @@ final mockProfessorProfile = ProfessorProfile(
   ],
 );
 
-// Mock list of all available TAs in the faculty for adding
 final globalFacultyTAs = [
   TeachingAssistant(
     id: 'ta_3',

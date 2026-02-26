@@ -1,8 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 ///
 /// Generated file. Do not edit.
 ///
@@ -16,7 +11,7 @@ import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
 // Path: <root>
-class TranslationsZh extends Translations with BaseTranslations<AppLocale, Translations> {
+class TranslationsZh with BaseTranslations<AppLocale, Translations> implements Translations {
 	/// You can call this constructor and build your own translation instance of this locale.
 	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsZh({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
@@ -26,9 +21,7 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 		    overrides: overrides ?? {},
 		    cardinalResolver: cardinalResolver,
 		    ordinalResolver: ordinalResolver,
-		  ),
-		  super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver) {
-		super.$meta.setFlatMapFunction($meta.getTranslation); // copy base translations to super.$meta
+		  ) {
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
@@ -36,7 +29,7 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
 	/// Access flat map
-	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
+	@override dynamic operator[](String key) => $meta.getTranslation(key);
 
 	late final TranslationsZh _root = this; // ignore: unused_field
 
@@ -73,8 +66,8 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 }
 
 // Path: common
-class _TranslationsCommonZh extends TranslationsCommonEn {
-	_TranslationsCommonZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsCommonZh implements TranslationsCommonEn {
+	_TranslationsCommonZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -87,8 +80,8 @@ class _TranslationsCommonZh extends TranslationsCommonEn {
 }
 
 // Path: welcome
-class _TranslationsWelcomeZh extends TranslationsWelcomeEn {
-	_TranslationsWelcomeZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsWelcomeZh implements TranslationsWelcomeEn {
+	_TranslationsWelcomeZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -100,8 +93,8 @@ class _TranslationsWelcomeZh extends TranslationsWelcomeEn {
 }
 
 // Path: onboarding
-class _TranslationsOnboardingZh extends TranslationsOnboardingEn {
-	_TranslationsOnboardingZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingZh implements TranslationsOnboardingEn {
+	_TranslationsOnboardingZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -113,8 +106,8 @@ class _TranslationsOnboardingZh extends TranslationsOnboardingEn {
 }
 
 // Path: auth
-class _TranslationsAuthZh extends TranslationsAuthEn {
-	_TranslationsAuthZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAuthZh implements TranslationsAuthEn {
+	_TranslationsAuthZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -124,8 +117,8 @@ class _TranslationsAuthZh extends TranslationsAuthEn {
 }
 
 // Path: home
-class _TranslationsHomeZh extends TranslationsHomeEn {
-	_TranslationsHomeZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsHomeZh implements TranslationsHomeEn {
+	_TranslationsHomeZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -134,8 +127,8 @@ class _TranslationsHomeZh extends TranslationsHomeEn {
 }
 
 // Path: dashboard
-class _TranslationsDashboardZh extends TranslationsDashboardEn {
-	_TranslationsDashboardZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsDashboardZh implements TranslationsDashboardEn {
+	_TranslationsDashboardZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -147,8 +140,8 @@ class _TranslationsDashboardZh extends TranslationsDashboardEn {
 }
 
 // Path: settings
-class _TranslationsSettingsZh extends TranslationsSettingsEn {
-	_TranslationsSettingsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSettingsZh implements TranslationsSettingsEn {
+	_TranslationsSettingsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -160,8 +153,8 @@ class _TranslationsSettingsZh extends TranslationsSettingsEn {
 }
 
 // Path: colleges
-class _TranslationsCollegesZh extends TranslationsCollegesEn {
-	_TranslationsCollegesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsCollegesZh implements TranslationsCollegesEn {
+	_TranslationsCollegesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -181,8 +174,8 @@ class _TranslationsCollegesZh extends TranslationsCollegesEn {
 }
 
 // Path: transcript
-class _TranslationsTranscriptZh extends TranslationsTranscriptEn {
-	_TranslationsTranscriptZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsTranscriptZh implements TranslationsTranscriptEn {
+	_TranslationsTranscriptZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -194,8 +187,8 @@ class _TranslationsTranscriptZh extends TranslationsTranscriptEn {
 }
 
 // Path: academic_progress
-class _TranslationsAcademicProgressZh extends TranslationsAcademicProgressEn {
-	_TranslationsAcademicProgressZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAcademicProgressZh implements TranslationsAcademicProgressEn {
+	_TranslationsAcademicProgressZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -208,8 +201,8 @@ class _TranslationsAcademicProgressZh extends TranslationsAcademicProgressEn {
 }
 
 // Path: grades
-class _TranslationsGradesZh extends TranslationsGradesEn {
-	_TranslationsGradesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsGradesZh implements TranslationsGradesEn {
+	_TranslationsGradesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -221,8 +214,8 @@ class _TranslationsGradesZh extends TranslationsGradesEn {
 }
 
 // Path: subject_results
-class _TranslationsSubjectResultsZh extends TranslationsSubjectResultsEn {
-	_TranslationsSubjectResultsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSubjectResultsZh implements TranslationsSubjectResultsEn {
+	_TranslationsSubjectResultsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -236,8 +229,8 @@ class _TranslationsSubjectResultsZh extends TranslationsSubjectResultsEn {
 }
 
 // Path: action_plan
-class _TranslationsActionPlanZh extends TranslationsActionPlanEn {
-	_TranslationsActionPlanZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsActionPlanZh implements TranslationsActionPlanEn {
+	_TranslationsActionPlanZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -251,8 +244,8 @@ class _TranslationsActionPlanZh extends TranslationsActionPlanEn {
 }
 
 // Path: courses
-class _TranslationsCoursesZh extends TranslationsCoursesEn {
-	_TranslationsCoursesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsCoursesZh implements TranslationsCoursesEn {
+	_TranslationsCoursesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -265,8 +258,8 @@ class _TranslationsCoursesZh extends TranslationsCoursesEn {
 }
 
 // Path: schedule
-class _TranslationsScheduleZh extends TranslationsScheduleEn {
-	_TranslationsScheduleZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsScheduleZh implements TranslationsScheduleEn {
+	_TranslationsScheduleZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -304,8 +297,8 @@ class _TranslationsScheduleZh extends TranslationsScheduleEn {
 }
 
 // Path: exam_schedule
-class _TranslationsExamScheduleZh extends TranslationsExamScheduleEn {
-	_TranslationsExamScheduleZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsExamScheduleZh implements TranslationsExamScheduleEn {
+	_TranslationsExamScheduleZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -317,8 +310,8 @@ class _TranslationsExamScheduleZh extends TranslationsExamScheduleEn {
 }
 
 // Path: attendance
-class _TranslationsAttendanceZh extends TranslationsAttendanceEn {
-	_TranslationsAttendanceZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAttendanceZh implements TranslationsAttendanceEn {
+	_TranslationsAttendanceZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -331,8 +324,8 @@ class _TranslationsAttendanceZh extends TranslationsAttendanceEn {
 }
 
 // Path: registration
-class _TranslationsRegistrationZh extends TranslationsRegistrationEn {
-	_TranslationsRegistrationZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsRegistrationZh implements TranslationsRegistrationEn {
+	_TranslationsRegistrationZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -343,8 +336,8 @@ class _TranslationsRegistrationZh extends TranslationsRegistrationEn {
 }
 
 // Path: payment
-class _TranslationsPaymentZh extends TranslationsPaymentEn {
-	_TranslationsPaymentZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsPaymentZh implements TranslationsPaymentEn {
+	_TranslationsPaymentZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -356,8 +349,8 @@ class _TranslationsPaymentZh extends TranslationsPaymentEn {
 }
 
 // Path: invoices
-class _TranslationsInvoicesZh extends TranslationsInvoicesEn {
-	_TranslationsInvoicesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsInvoicesZh implements TranslationsInvoicesEn {
+	_TranslationsInvoicesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -369,8 +362,8 @@ class _TranslationsInvoicesZh extends TranslationsInvoicesEn {
 }
 
 // Path: notifications
-class _TranslationsNotificationsZh extends TranslationsNotificationsEn {
-	_TranslationsNotificationsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsNotificationsZh implements TranslationsNotificationsEn {
+	_TranslationsNotificationsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -380,8 +373,8 @@ class _TranslationsNotificationsZh extends TranslationsNotificationsEn {
 }
 
 // Path: support
-class _TranslationsSupportZh extends TranslationsSupportEn {
-	_TranslationsSupportZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSupportZh implements TranslationsSupportEn {
+	_TranslationsSupportZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -391,8 +384,8 @@ class _TranslationsSupportZh extends TranslationsSupportEn {
 }
 
 // Path: security
-class _TranslationsSecurityZh extends TranslationsSecurityEn {
-	_TranslationsSecurityZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSecurityZh implements TranslationsSecurityEn {
+	_TranslationsSecurityZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -403,8 +396,8 @@ class _TranslationsSecurityZh extends TranslationsSecurityEn {
 }
 
 // Path: tutorials
-class _TranslationsTutorialsZh extends TranslationsTutorialsEn {
-	_TranslationsTutorialsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsTutorialsZh implements TranslationsTutorialsEn {
+	_TranslationsTutorialsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -413,8 +406,8 @@ class _TranslationsTutorialsZh extends TranslationsTutorialsEn {
 }
 
 // Path: forums
-class _TranslationsForumsZh extends TranslationsForumsEn {
-	_TranslationsForumsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsForumsZh implements TranslationsForumsEn {
+	_TranslationsForumsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -423,8 +416,8 @@ class _TranslationsForumsZh extends TranslationsForumsEn {
 }
 
 // Path: administration
-class _TranslationsAdministrationZh extends TranslationsAdministrationEn {
-	_TranslationsAdministrationZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAdministrationZh implements TranslationsAdministrationEn {
+	_TranslationsAdministrationZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -436,8 +429,8 @@ class _TranslationsAdministrationZh extends TranslationsAdministrationEn {
 }
 
 // Path: onboarding.language
-class _TranslationsOnboardingLanguageZh extends TranslationsOnboardingLanguageEn {
-	_TranslationsOnboardingLanguageZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingLanguageZh implements TranslationsOnboardingLanguageEn {
+	_TranslationsOnboardingLanguageZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -452,8 +445,8 @@ class _TranslationsOnboardingLanguageZh extends TranslationsOnboardingLanguageEn
 }
 
 // Path: onboarding.faculties_directory
-class _TranslationsOnboardingFacultiesDirectoryZh extends TranslationsOnboardingFacultiesDirectoryEn {
-	_TranslationsOnboardingFacultiesDirectoryZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingFacultiesDirectoryZh implements TranslationsOnboardingFacultiesDirectoryEn {
+	_TranslationsOnboardingFacultiesDirectoryZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -463,8 +456,8 @@ class _TranslationsOnboardingFacultiesDirectoryZh extends TranslationsOnboarding
 }
 
 // Path: onboarding.style
-class _TranslationsOnboardingStyleZh extends TranslationsOnboardingStyleEn {
-	_TranslationsOnboardingStyleZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingStyleZh implements TranslationsOnboardingStyleEn {
+	_TranslationsOnboardingStyleZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -476,8 +469,8 @@ class _TranslationsOnboardingStyleZh extends TranslationsOnboardingStyleEn {
 }
 
 // Path: onboarding.theme
-class _TranslationsOnboardingThemeZh extends TranslationsOnboardingThemeEn {
-	_TranslationsOnboardingThemeZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingThemeZh implements TranslationsOnboardingThemeEn {
+	_TranslationsOnboardingThemeZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -489,8 +482,8 @@ class _TranslationsOnboardingThemeZh extends TranslationsOnboardingThemeEn {
 }
 
 // Path: auth.login
-class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
-	_TranslationsAuthLoginZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAuthLoginZh implements TranslationsAuthLoginEn {
+	_TranslationsAuthLoginZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -505,8 +498,8 @@ class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
 }
 
 // Path: auth.forgot_password
-class _TranslationsAuthForgotPasswordZh extends TranslationsAuthForgotPasswordEn {
-	_TranslationsAuthForgotPasswordZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAuthForgotPasswordZh implements TranslationsAuthForgotPasswordEn {
+	_TranslationsAuthForgotPasswordZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -529,8 +522,8 @@ class _TranslationsAuthForgotPasswordZh extends TranslationsAuthForgotPasswordEn
 }
 
 // Path: home.tabs
-class _TranslationsHomeTabsZh extends TranslationsHomeTabsEn {
-	_TranslationsHomeTabsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsHomeTabsZh implements TranslationsHomeTabsEn {
+	_TranslationsHomeTabsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -542,8 +535,8 @@ class _TranslationsHomeTabsZh extends TranslationsHomeTabsEn {
 }
 
 // Path: dashboard.id_card
-class _TranslationsDashboardIdCardZh extends TranslationsDashboardIdCardEn {
-	_TranslationsDashboardIdCardZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsDashboardIdCardZh implements TranslationsDashboardIdCardEn {
+	_TranslationsDashboardIdCardZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -557,8 +550,8 @@ class _TranslationsDashboardIdCardZh extends TranslationsDashboardIdCardEn {
 }
 
 // Path: dashboard.sections
-class _TranslationsDashboardSectionsZh extends TranslationsDashboardSectionsEn {
-	_TranslationsDashboardSectionsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsDashboardSectionsZh implements TranslationsDashboardSectionsEn {
+	_TranslationsDashboardSectionsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -569,8 +562,8 @@ class _TranslationsDashboardSectionsZh extends TranslationsDashboardSectionsEn {
 }
 
 // Path: dashboard.items
-class _TranslationsDashboardItemsZh extends TranslationsDashboardItemsEn {
-	_TranslationsDashboardItemsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsDashboardItemsZh implements TranslationsDashboardItemsEn {
+	_TranslationsDashboardItemsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -593,8 +586,8 @@ class _TranslationsDashboardItemsZh extends TranslationsDashboardItemsEn {
 }
 
 // Path: dashboard.labels
-class _TranslationsDashboardLabelsZh extends TranslationsDashboardLabelsEn {
-	_TranslationsDashboardLabelsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsDashboardLabelsZh implements TranslationsDashboardLabelsEn {
+	_TranslationsDashboardLabelsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -606,8 +599,8 @@ class _TranslationsDashboardLabelsZh extends TranslationsDashboardLabelsEn {
 }
 
 // Path: settings.sections
-class _TranslationsSettingsSectionsZh extends TranslationsSettingsSectionsEn {
-	_TranslationsSettingsSectionsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSettingsSectionsZh implements TranslationsSettingsSectionsEn {
+	_TranslationsSettingsSectionsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -619,8 +612,8 @@ class _TranslationsSettingsSectionsZh extends TranslationsSettingsSectionsEn {
 }
 
 // Path: settings.tiles
-class _TranslationsSettingsTilesZh extends TranslationsSettingsTilesEn {
-	_TranslationsSettingsTilesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSettingsTilesZh implements TranslationsSettingsTilesEn {
+	_TranslationsSettingsTilesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -637,8 +630,8 @@ class _TranslationsSettingsTilesZh extends TranslationsSettingsTilesEn {
 }
 
 // Path: settings.messages
-class _TranslationsSettingsMessagesZh extends TranslationsSettingsMessagesEn {
-	_TranslationsSettingsMessagesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsSettingsMessagesZh implements TranslationsSettingsMessagesEn {
+	_TranslationsSettingsMessagesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -649,8 +642,8 @@ class _TranslationsSettingsMessagesZh extends TranslationsSettingsMessagesEn {
 }
 
 // Path: colleges.details
-class _TranslationsCollegesDetailsZh extends TranslationsCollegesDetailsEn {
-	_TranslationsCollegesDetailsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsCollegesDetailsZh implements TranslationsCollegesDetailsEn {
+	_TranslationsCollegesDetailsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -674,8 +667,8 @@ class _TranslationsCollegesDetailsZh extends TranslationsCollegesDetailsEn {
 }
 
 // Path: colleges.departments
-class _TranslationsCollegesDepartmentsZh extends TranslationsCollegesDepartmentsEn {
-	_TranslationsCollegesDepartmentsZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsCollegesDepartmentsZh implements TranslationsCollegesDepartmentsEn {
+	_TranslationsCollegesDepartmentsZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -745,8 +738,8 @@ class _TranslationsCollegesDepartmentsZh extends TranslationsCollegesDepartments
 }
 
 // Path: transcript.overview
-class _TranslationsTranscriptOverviewZh extends TranslationsTranscriptOverviewEn {
-	_TranslationsTranscriptOverviewZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsTranscriptOverviewZh implements TranslationsTranscriptOverviewEn {
+	_TranslationsTranscriptOverviewZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -758,8 +751,8 @@ class _TranslationsTranscriptOverviewZh extends TranslationsTranscriptOverviewEn
 }
 
 // Path: transcript.semester
-class _TranslationsTranscriptSemesterZh extends TranslationsTranscriptSemesterEn {
-	_TranslationsTranscriptSemesterZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsTranscriptSemesterZh implements TranslationsTranscriptSemesterEn {
+	_TranslationsTranscriptSemesterZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -770,8 +763,8 @@ class _TranslationsTranscriptSemesterZh extends TranslationsTranscriptSemesterEn
 }
 
 // Path: transcript.course
-class _TranslationsTranscriptCourseZh extends TranslationsTranscriptCourseEn {
-	_TranslationsTranscriptCourseZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsTranscriptCourseZh implements TranslationsTranscriptCourseEn {
+	_TranslationsTranscriptCourseZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -782,8 +775,8 @@ class _TranslationsTranscriptCourseZh extends TranslationsTranscriptCourseEn {
 }
 
 // Path: academic_progress.categories
-class _TranslationsAcademicProgressCategoriesZh extends TranslationsAcademicProgressCategoriesEn {
-	_TranslationsAcademicProgressCategoriesZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAcademicProgressCategoriesZh implements TranslationsAcademicProgressCategoriesEn {
+	_TranslationsAcademicProgressCategoriesZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -795,8 +788,8 @@ class _TranslationsAcademicProgressCategoriesZh extends TranslationsAcademicProg
 }
 
 // Path: academic_progress.status
-class _TranslationsAcademicProgressStatusZh extends TranslationsAcademicProgressStatusEn {
-	_TranslationsAcademicProgressStatusZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsAcademicProgressStatusZh implements TranslationsAcademicProgressStatusEn {
+	_TranslationsAcademicProgressStatusZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -808,8 +801,8 @@ class _TranslationsAcademicProgressStatusZh extends TranslationsAcademicProgress
 }
 
 // Path: onboarding.style.classic
-class _TranslationsOnboardingStyleClassicZh extends TranslationsOnboardingStyleClassicEn {
-	_TranslationsOnboardingStyleClassicZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingStyleClassicZh implements TranslationsOnboardingStyleClassicEn {
+	_TranslationsOnboardingStyleClassicZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -819,8 +812,8 @@ class _TranslationsOnboardingStyleClassicZh extends TranslationsOnboardingStyleC
 }
 
 // Path: onboarding.style.glass
-class _TranslationsOnboardingStyleGlassZh extends TranslationsOnboardingStyleGlassEn {
-	_TranslationsOnboardingStyleGlassZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsOnboardingStyleGlassZh implements TranslationsOnboardingStyleGlassEn {
+	_TranslationsOnboardingStyleGlassZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
@@ -830,8 +823,8 @@ class _TranslationsOnboardingStyleGlassZh extends TranslationsOnboardingStyleGla
 }
 
 // Path: transcript.course.status
-class _TranslationsTranscriptCourseStatusZh extends TranslationsTranscriptCourseStatusEn {
-	_TranslationsTranscriptCourseStatusZh._(TranslationsZh root) : this._root = root, super.internal(root);
+class _TranslationsTranscriptCourseStatusZh implements TranslationsTranscriptCourseStatusEn {
+	_TranslationsTranscriptCourseStatusZh._(this._root);
 
 	final TranslationsZh _root; // ignore: unused_field
 

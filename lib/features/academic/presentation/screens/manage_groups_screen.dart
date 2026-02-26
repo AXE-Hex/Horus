@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -86,7 +82,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
               vertical: 16,
             ),
             title: Text(
-              isArabic ? 'المجموعات الطلابية' : 'Student Groups',
+              t.professor.stats.groups,
               style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -102,7 +98,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${_selectedGroupIds.length} ${isArabic ? "محدد" : "Selected"}',
+                  t.professor.selected_count(count: _selectedGroupIds.length),
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     color: color,
@@ -117,8 +113,8 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                   ),
                   label: Text(
                     allSelected
-                        ? (isArabic ? 'إلغاء التحديد' : 'Deselect All')
-                        : (isArabic ? 'تحديد الكل' : 'Select All'),
+                        ? t.professor.deselect_all
+                        : t.professor.select_all,
                     style: GoogleFonts.inter(
                       color: color,
                       fontWeight: FontWeight.bold,
@@ -145,7 +141,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          isArabic ? 'لا توجد مجموعات' : 'No Groups Available',
+                          t.professor.no_groups,
                           style: GoogleFonts.outfit(
                             fontSize: 18,
                             color: isGlass ? Colors.white70 : Colors.grey,
@@ -285,7 +281,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
           const Icon(LucideIcons.megaphone, color: Colors.white),
           const SizedBox(width: 12),
           Text(
-            '${isArabic ? "إرسال إعلان لـ" : "Announce to"} ${_selectedGroupIds.length}',
+            t.professor.announcement_to(count: _selectedGroupIds.length),
             style: GoogleFonts.outfit(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -300,11 +296,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
       onTap: () {
         HapticFeedback.heavyImpact();
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              isArabic ? 'جاري تجهيز الإعلان...' : 'Preparing Announcement...',
-            ),
-          ),
+          SnackBar(content: Text(t.professor.preparing_announcement)),
         );
       },
       borderRadius: BorderRadius.circular(32),

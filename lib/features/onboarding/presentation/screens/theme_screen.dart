@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +19,7 @@ class ThemeScreen extends ConsumerStatefulWidget {
 
 class _ThemeScreenState extends ConsumerState<ThemeScreen> {
   Future<void> _selectTheme(ThemeMode mode, String message) async {
-    // Apply theme immediately for visual feedback
+
     await ref.read(themeControllerProvider.notifier).setTheme(mode);
 
     if (!mounted) return;
@@ -33,7 +29,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
       extra: {
         'nextPath': '/login',
         'message': message,
-        'onComplete': null, // No longer needed in transition
+        'onComplete': null,
       },
     );
   }

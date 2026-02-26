@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -116,7 +112,7 @@ class AuthController extends _$AuthController {
         },
       );
       if (response.user != null) {
-        // Create profile row
+
         await _client.from('profiles').upsert({
           'id': response.user!.id,
           'email': email,
@@ -158,7 +154,7 @@ class AuthController extends _$AuthController {
           .eq('id', user.id)
           .single();
 
-      final roleStr = data['role'] as String? ?? 'regular_student';
+      final roleStr = data['role'] as String? ?? 'student';
       final role = UserRoleX.fromDbString(roleStr);
 
       state = AuthState(
@@ -169,10 +165,14 @@ class AuthController extends _$AuthController {
         isLoading: false,
       );
     } catch (e) {
+
+      final isMissingProfile = e.toString().contains('PGRST116');
+
       state = AuthState(
         user: user,
-        role: UserRole.regularStudent,
+        role: UserRole.student,
         isLoading: false,
+        error: isMissingProfile ? null : e.toString(),
       );
     }
   }

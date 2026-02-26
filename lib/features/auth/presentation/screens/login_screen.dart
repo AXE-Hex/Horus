@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,8 +32,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _handleSignIn() async {
-    final email = _emailController.text.trim();
+    String email = _emailController.text.trim();
     final password = _passwordController.text;
+
+    if (email.isNotEmpty && !email.contains('@')) {
+      email = '$email@horus.edu.eg';
+    }
 
     if (email.isEmpty || password.isEmpty) {
       _showError(
@@ -59,7 +59,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       _showError(authState.error!);
       setState(() => _isSigningIn = false);
     } else if (authState.isAuthenticated) {
-      // Router redirect will handle navigation to /home
+
       context.go('/home');
     } else {
       setState(() => _isSigningIn = false);
@@ -116,6 +116,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
             labelText: isArabic ? "البريد الإلكتروني" : "Email",
+            hintText: "username",
+            helperText: isArabic
+                ? "يمكنك كتابة اسم المستخدم فقط (بدون @horus.edu.eg)"
+                : "You can enter your username only (without @horus.edu.eg)",
             prefixIcon: const Icon(LucideIcons.mail),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             filled: isGlass,
@@ -198,7 +202,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo Animation
+
               Image.asset(
                     Theme.of(context).brightness == Brightness.dark
                         ? 'assets/images/Logo_dark.png'
@@ -224,11 +228,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     end: -10,
                     duration: 2.seconds,
                     curve: Curves.easeInOut,
-                  ), // Floating effect
+                  ),
 
               const SizedBox(height: 32),
 
-              // Form Entrance Animation
               isGlass
                   ? GlassContainer(
                           padding: const EdgeInsets.all(32),

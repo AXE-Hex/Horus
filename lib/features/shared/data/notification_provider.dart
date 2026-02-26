@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/core/config/supabase_client.dart';
@@ -82,7 +78,7 @@ class NotificationController extends _$NotificationController {
 
       final List<AppNotification> notes = [];
       for (final row in response) {
-        // Map database enums to NotificationCategory
+
         NotificationCategory category;
         final typeStr = row['type'] as String?;
         switch (typeStr) {
@@ -118,7 +114,7 @@ class NotificationController extends _$NotificationController {
   }
 
   Future<void> addNotification(AppNotification note) async {
-    // Adding local-only for immediate UI, typically created by triggers/backend
+
     final current = state.value ?? [];
     state = AsyncValue.data([note, ...current]);
   }
@@ -143,7 +139,7 @@ class NotificationController extends _$NotificationController {
           })
           .eq('id', id);
     } catch (e) {
-      print('Error updating notification read status: $e');
+      debugPrint('Error updating notification read status: $e');
     }
   }
 

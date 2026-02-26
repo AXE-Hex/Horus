@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -41,7 +37,6 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
     Color color,
     bool isArabic,
   ) {
-    // Filter out TAs already in the list
     final availableTAs = globalFacultyTAs
         .where((ta) => !currentTAs.any((c) => c.id == ta.id))
         .toList();
@@ -70,7 +65,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                isArabic ? 'إضافة معيد جديد' : 'Add New TA',
+                t.professor.add_new_ta,
                 style: GoogleFonts.outfit(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -82,9 +77,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
                 child: availableTAs.isEmpty
                     ? Center(
                         child: Text(
-                          isArabic
-                              ? 'لا يوجد معيدون متاحون'
-                              : 'No available TAs',
+                          t.professor.no_available_tas,
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             color: isGlass ? Colors.white60 : Colors.grey,
@@ -127,7 +120,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                      '${isArabic ? "تم إضافة:" : "Added:"} ${ta.name}',
+                                      t.professor.added(name: ta.name),
                                     ),
                                   ),
                                 );
@@ -141,7 +134,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
                                   borderRadius: BorderRadius.circular(8),
                                 ),
                               ),
-                              child: Text(isArabic ? 'إضافة' : 'Add'),
+                              child: Text(t.professor.add),
                             ),
                           );
                         },
@@ -204,7 +197,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
               vertical: 16,
             ),
             title: Text(
-              isArabic ? 'إدارة المعيدين' : 'Manage TAs',
+              t.roles.names.teaching_assistant,
               style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -229,7 +222,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          isArabic ? 'لا يوجد معيدون حالياً' : 'No Active TAs',
+                          t.professor.no_active_tas,
                           style: GoogleFonts.outfit(
                             fontSize: 18,
                             color: isGlass ? Colors.white70 : Colors.grey,
@@ -290,9 +283,7 @@ class _ManageTasScreenState extends ConsumerState<ManageTasScreen> {
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(
-                                '${isArabic ? "تم إزالة:" : "Removed:"} ${ta.name}',
-                              ),
+                              content: Text(t.professor.removed(name: ta.name)),
                             ),
                           );
                         },

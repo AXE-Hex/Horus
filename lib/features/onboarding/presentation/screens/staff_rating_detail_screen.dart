@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +20,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
-    final color = Colors.blue; // Should ideally come from college context
+    final color = Colors.blue;
 
     return isGlass
         ? GlassScaffold(body: _buildBody(context, isGlass, color))
@@ -112,7 +108,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
               _buildReviewsHeader(context, isGlass),
               const SizedBox(height: 16),
               ..._buildMockReviews(context, isGlass),
-              const SizedBox(height: 100), // Space for FAB
+              const SizedBox(height: 100),
             ]),
           ),
         ),

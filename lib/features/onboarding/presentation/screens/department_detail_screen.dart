@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +22,6 @@ class DepartmentDetailScreen extends ConsumerWidget {
     final name = departmentData['name'] as String;
     final deptKey = departmentData['key'] as String;
 
-    // Mock biological data for departments
     final bio = _getDepartmentBio(deptKey);
     final hod = _getMockHoD(deptKey);
 
@@ -198,7 +193,7 @@ class _HoDIdentityCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(28),
         child: Stack(
           children: [
-            // Holographic lines overlay
+
             Positioned.fill(
               child: CustomPaint(painter: _HoloLinesPainter(color: color)),
             ),

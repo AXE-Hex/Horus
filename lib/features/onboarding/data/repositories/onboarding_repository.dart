@@ -1,15 +1,8 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/core/data/base_repository.dart';
 
-/// Repository for onboarding data: colleges and departments.
 class OnboardingRepository extends BaseRepository {
   OnboardingRepository(super.client);
-
-  // ── Colleges ──────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getColleges() async {
     final result = await client
@@ -27,8 +20,6 @@ class OnboardingRepository extends BaseRepository {
         .single();
     return Map<String, dynamic>.from(result);
   }
-
-  // ── Departments ───────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getDepartments(String collegeId) async {
     final result = await client
@@ -51,8 +42,6 @@ class OnboardingRepository extends BaseRepository {
         .single();
     return Map<String, dynamic>.from(result);
   }
-
-  // ── Academic Staff ────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getStaffByDepartment(
     String departmentId,

@@ -1,15 +1,8 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/core/data/base_repository.dart';
 
-/// Repository for shared features: notifications, forums, support, sessions, files, announcements.
 class SharedRepository extends BaseRepository {
   SharedRepository(super.client);
-
-  // ── Notifications ─────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getNotifications(String userId) =>
       fetchWhere(
@@ -43,8 +36,6 @@ class SharedRepository extends BaseRepository {
         .eq('is_read', false);
   }
 
-  // ── Announcements ─────────────────────────────────
-
   Future<List<Map<String, dynamic>>> getAnnouncements({
     String? courseId,
     int limit = 20,
@@ -67,8 +58,6 @@ class SharedRepository extends BaseRepository {
   Future<Map<String, dynamic>> createAnnouncement(Map<String, dynamic> data) =>
       insert('announcements', data);
 
-  // ── Forums ────────────────────────────────────────
-
   Future<List<Map<String, dynamic>>> getForums() =>
       fetchAll('forums', orderBy: 'name');
 
@@ -86,8 +75,6 @@ class SharedRepository extends BaseRepository {
   Future<Map<String, dynamic>> createPost(Map<String, dynamic> data) =>
       insert('forum_posts', data);
 
-  // ── Support Tickets ───────────────────────────────
-
   Future<List<Map<String, dynamic>>> getTickets(String userId) => fetchWhere(
     'support_tickets',
     'user_id',
@@ -104,8 +91,6 @@ class SharedRepository extends BaseRepository {
     String status,
   ) => update('support_tickets', ticketId, {'status': status});
 
-  // ── User Sessions ─────────────────────────────────
-
   Future<List<Map<String, dynamic>>> getUserSessions(String userId) =>
       fetchWhere(
         'user_sessions',
@@ -117,8 +102,6 @@ class SharedRepository extends BaseRepository {
 
   Future<void> revokeSession(String sessionId) =>
       update('user_sessions', sessionId, {'is_active': false});
-
-  // ── Shared Files / Materials ──────────────────────
 
   Future<List<Map<String, dynamic>>> getSharedFiles({String? courseId}) async {
     if (courseId != null) {
@@ -143,7 +126,7 @@ class SharedRepository extends BaseRepository {
   ) => insert('shared_files', metadata);
 
   Future<void> incrementDownloadCount(String fileId) async {
-    // Use RPC or manual increment
+
     final current = await fetchById('shared_files', fileId);
     final count = (current['download_count'] as int? ?? 0) + 1;
     await update('shared_files', fileId, {'download_count': count});

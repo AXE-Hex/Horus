@@ -1,29 +1,11 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-/// Base repository providing generic CRUD operations against Supabase.
-///
-/// Extend this class for each feature module:
-/// ```dart
-/// class AcademicRepository extends BaseRepository {
-///   AcademicRepository(super.client);
-///
-///   Future<List<Map<String, dynamic>>> getCourses() =>
-///       fetchAll('courses', orderBy: 'name');
-/// }
-/// ```
 class BaseRepository {
   final SupabaseClient client;
 
   BaseRepository(this.client);
 
-  // ── READ ──────────────────────────────────────────
-
-  /// Fetch all rows from [table], optionally ordered and filtered.
   Future<List<Map<String, dynamic>>> fetchAll(
     String table, {
     String? orderBy,
@@ -39,7 +21,6 @@ class BaseRepository {
       }
     }
 
-    // Build the query with ordering and limit
     final List<dynamic> result;
     if (orderBy != null && limit != null) {
       result = await query.order(orderBy, ascending: ascending).limit(limit);
@@ -54,13 +35,11 @@ class BaseRepository {
     return List<Map<String, dynamic>>.from(result);
   }
 
-  /// Fetch a single row by its [id].
   Future<Map<String, dynamic>> fetchById(String table, String id) async {
     final result = await client.from(table).select().eq('id', id).single();
     return Map<String, dynamic>.from(result);
   }
 
-  /// Fetch rows matching a specific column value.
   Future<List<Map<String, dynamic>>> fetchWhere(
     String table,
     String column,
@@ -80,9 +59,6 @@ class BaseRepository {
     return List<Map<String, dynamic>>.from(result);
   }
 
-  // ── CREATE ────────────────────────────────────────
-
-  /// Insert a new row into [table].
   Future<Map<String, dynamic>> insert(
     String table,
     Map<String, dynamic> data,
@@ -91,7 +67,6 @@ class BaseRepository {
     return Map<String, dynamic>.from(result);
   }
 
-  /// Insert multiple rows at once.
   Future<List<Map<String, dynamic>>> insertMany(
     String table,
     List<Map<String, dynamic>> rows,
@@ -100,9 +75,6 @@ class BaseRepository {
     return List<Map<String, dynamic>>.from(result);
   }
 
-  // ── UPDATE ────────────────────────────────────────
-
-  /// Update a row by its [id].
   Future<Map<String, dynamic>> update(
     String table,
     String id,
@@ -117,7 +89,6 @@ class BaseRepository {
     return Map<String, dynamic>.from(result);
   }
 
-  /// Upsert (insert or update) a row.
   Future<Map<String, dynamic>> upsert(
     String table,
     Map<String, dynamic> data,
@@ -126,9 +97,6 @@ class BaseRepository {
     return Map<String, dynamic>.from(result);
   }
 
-  // ── DELETE ────────────────────────────────────────
-
-  /// Soft-delete a row by setting `deleted_at` to now.
   Future<void> softDelete(String table, String id) async {
     await client
         .from(table)
@@ -136,14 +104,10 @@ class BaseRepository {
         .eq('id', id);
   }
 
-  /// Hard-delete a row permanently.
   Future<void> hardDelete(String table, String id) async {
     await client.from(table).delete().eq('id', id);
   }
 
-  // ── REALTIME ──────────────────────────────────────
-
-  /// Subscribe to realtime changes on a table.
   RealtimeChannel subscribe(
     String table, {
     required void Function(PostgresChangePayload payload) onInsert,
@@ -181,9 +145,6 @@ class BaseRepository {
     return channel;
   }
 
-  // ── STORAGE ───────────────────────────────────────
-
-  /// Upload a file to Supabase Storage.
   Future<String> uploadFile(
     String bucket,
     String path,
@@ -200,7 +161,6 @@ class BaseRepository {
     return client.storage.from(bucket).getPublicUrl(path);
   }
 
-  /// Get a signed URL for private file access.
   Future<String> getSignedUrl(
     String bucket,
     String path, {

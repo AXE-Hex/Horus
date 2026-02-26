@@ -1,8 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'notification_provider.dart';
@@ -40,7 +35,7 @@ final class NotificationControllerProvider
 }
 
 String _$notificationControllerHash() =>
-    r'3fde8dbf34af5cf9fee496a3048c4673305319be';
+    r'ed6abd3afe38c20f345b3b74b3b54eed47361470';
 
 abstract class _$NotificationController
     extends $AsyncNotifier<List<AppNotification>> {

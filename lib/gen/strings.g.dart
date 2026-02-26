@@ -1,17 +1,12 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 /// Generated file. Do not edit.
 ///
 /// Source: assets/translations
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 4
-/// Strings: 1244 (311 per locale)
+/// Strings: 1458 (364 per locale)
 ///
-/// Built on 2026-02-21 at 19:48 UTC
+/// Built on 2026-02-25 at 20:51 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import

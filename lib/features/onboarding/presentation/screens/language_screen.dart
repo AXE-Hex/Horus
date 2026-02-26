@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,8 +50,8 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
       extra: {
         'nextPath': '/ui-style-selection',
         'message': message,
-        'newLocale': null, // Applied already
-        'onComplete': null, // No longer needed
+        'newLocale': null,
+        'onComplete': null,
       },
     );
   }

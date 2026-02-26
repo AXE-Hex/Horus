@@ -1,249 +1,305 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:hue/core/auth/roles.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hue/features/admin/presentation/widgets/admin_widgets.dart';
+import 'package:hue/features/admin/presentation/providers/admin_stats_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AdministrationScreen extends StatelessWidget {
+class AdministrationScreen extends ConsumerWidget {
   const AdministrationScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    const staggerDelay = Duration(milliseconds: 100);
+    final statsAsync = ref.watch(adminStatsProvider);
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildQuickOverview(
-            context,
-            isArabic,
-          ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1, end: 0),
-
-          const SizedBox(height: 32),
-
-          _buildSectionHeader(context, t.administration.title)
-              .animate()
-              .fadeIn(delay: staggerDelay)
-              .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
-          const SizedBox(height: 12),
-          GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1.3,
-                children: [
-                  _buildAdminCard(
-                    context,
-                    LucideIcons.userPlus,
-                    isArabic ? 'إدارة الموظفين' : 'Staff Management',
-                    isArabic ? '124 موظف' : '124 Staff',
-                    Colors.blueAccent,
-                  ),
-                  _buildAdminCard(
-                    context,
-                    LucideIcons.users,
-                    isArabic ? 'إدارة الطلاب' : 'Student Management',
-                    isArabic ? '4,250 طالب' : '4,250 Students',
-                    Colors.orangeAccent,
-                  ),
-                  _buildAdminCard(
-                    context,
-                    LucideIcons.building,
-                    isArabic ? 'الأقسام' : 'Departments',
-                    isArabic ? '12 قسم' : '12 Depts',
-                    Colors.purpleAccent,
-                  ),
-                  _buildAdminCard(
-                    context,
-                    LucideIcons.barChart,
-                    isArabic ? 'الإحصائيات' : 'Statistics',
-                    isArabic ? 'تقارير حية' : 'Live Reports',
-                    Colors.greenAccent,
-                  ),
-                ],
-              )
-              .animate()
-              .fadeIn(delay: staggerDelay * 2)
-              .slideY(begin: 0.2, end: 0),
-
-          const SizedBox(height: 32),
-
-          _buildSectionHeader(context, t.administration.title)
-              .animate()
-              .fadeIn(delay: staggerDelay * 3)
-              .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
-          const SizedBox(height: 12),
-          _buildSystemStatusList(context, isArabic)
-              .animate()
-              .fadeIn(delay: staggerDelay * 4)
-              .slideY(begin: 0.2, end: 0),
-
-          const SizedBox(height: 100),
-        ],
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: statsAsync.when(
+        data: (stats) => _buildContent(context, stats, isArabic),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, s) => Center(child: Text('Error: $e')),
       ),
     );
   }
 
-  Widget _buildQuickOverview(BuildContext context, bool isArabic) {
-    return GlassContainer(
-      borderRadius: BorderRadius.circular(24),
-      padding: const EdgeInsets.all(20),
+  Widget _buildContent(
+    BuildContext context,
+    Map<RoleCategory, int> stats,
+    bool isArabic,
+  ) {
+    final staffCount = stats[RoleCategory.teachingStaff] ?? 0;
+    final studentCount = stats[RoleCategory.studentRoles] ?? 0;
+    final leadershipCount = stats[RoleCategory.academicLeadership] ?? 0;
+    final adminCount = stats[RoleCategory.adminIT] ?? 0;
+
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.fromLTRB(20, 24, 20, 100),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                isArabic ? 'نظرة عامة' : 'Quick Overview',
-                style: GoogleFonts.outfit(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.green.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    const Icon(
-                      LucideIcons.activity,
-                      size: 14,
-                      color: Colors.green,
+          AdminSectionHeader(
+            title: isArabic ? 'نظرة عامة على النظام' : 'System Overview',
+            subtitle: isArabic
+                ? 'إحصائيات فورية حية'
+                : 'Live system performance',
+          ).animate().fadeIn(),
+
+          const SizedBox(height: 24),
+
+          // Main Stats Grid
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final crossAxisCount = constraints.maxWidth > 600 ? 4 : 2;
+              return GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.05,
+                children: [
+                  AdminStatCard(
+                    icon: LucideIcons.graduationCap,
+                    title: isArabic ? 'أعضاء التدريس' : 'Faculty',
+                    value: staffCount.toString(),
+                    color: Colors.blueAccent,
+                    onTap: () => context.push('/admin/professors'),
+                  ),
+                  AdminStatCard(
+                    icon: LucideIcons.users,
+                    title: isArabic ? 'الطلاب' : 'Students',
+                    value: studentCount.toString(),
+                    color: Colors.orangeAccent,
+                    onTap: () => _navigateToUsers(
+                      context,
+                      RoleCategory.studentRoles,
+                      isArabic ? 'الطلاب' : 'Students',
                     ),
-                    const SizedBox(width: 4),
+                  ),
+                  AdminStatCard(
+                    icon: LucideIcons.shieldCheck,
+                    title: isArabic ? 'القيادة الأكاديمية' : 'Leadership',
+                    value: leadershipCount.toString(),
+                    color: Colors.purpleAccent,
+                    onTap: () => _navigateToUsers(
+                      context,
+                      RoleCategory.academicLeadership,
+                      isArabic ? 'القيادة' : 'Leadership',
+                    ),
+                  ),
+                  AdminStatCard(
+                    icon: LucideIcons.settings,
+                    title: isArabic ? 'المسؤولون' : 'Admins',
+                    value: adminCount.toString(),
+                    color: Colors.tealAccent,
+                    onTap: () => _navigateToUsers(
+                      context,
+                      RoleCategory.adminIT,
+                      isArabic ? 'المسؤولون' : 'Admins',
+                    ),
+                  ),
+                ],
+              );
+            },
+          ).animate().slideY(begin: 0.1, end: 0).fadeIn(delay: 100.ms),
+
+          const SizedBox(height: 40),
+
+          AdminSectionHeader(
+            title: isArabic ? 'إدارة المؤسسة' : 'Institutional Control',
+          ),
+
+          const SizedBox(height: 16),
+
+          _buildManagementActionRow(
+            context,
+            isArabic,
+          ).animate().slideX(begin: 0.1, end: 0).fadeIn(delay: 200.ms),
+
+          const SizedBox(height: 40),
+
+          AdminSectionHeader(
+            title: isArabic ? 'حالة النظام والتدقيق' : 'Health & Auditing',
+            subtitle: isArabic
+                ? 'مراقبة العمليات الحية'
+                : 'Monitor live operations',
+          ),
+
+          const SizedBox(height: 16),
+
+          _buildSystemStatusList(
+            context,
+            isArabic,
+          ).animate().fadeIn(delay: 300.ms),
+
+          const SizedBox(height: 40),
+
+          AdminSectionHeader(
+            title: isArabic ? 'أداء المحرك' : 'Engine Performance',
+            subtitle: isArabic
+                ? 'تحليل سرعة الاستجابة'
+                : 'Latency & Throughput',
+          ),
+
+          const SizedBox(height: 16),
+
+          GlassContainer(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Text(
-                      isArabic ? 'نشط' : 'Active',
+                      isArabic ? 'استجابة Supabase' : 'Supabase Latency',
                       style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: Colors.green,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Text(
+                      '24ms',
+                      style: GoogleFonts.outfit(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.greenAccent,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _buildOverviewStat(
-                context,
-                '142',
-                isArabic ? 'طلبات معلقة' : 'Pending Req',
-              ),
-              _buildOverviewStat(
-                context,
-                '28',
-                isArabic ? 'تنبيهات النظام' : 'Sys Alerts',
-                isAlert: true,
-              ),
-              _buildOverviewStat(
-                context,
-                '98%',
-                isArabic ? 'جاهزية السيرفر' : 'Server Uptime',
-              ),
-            ],
-          ),
+                const SizedBox(height: 16),
+                LivePerformanceChart(color: Colors.greenAccent),
+              ],
+            ),
+          ).animate().fadeIn(delay: 400.ms),
         ],
       ),
     );
   }
 
-  Widget _buildOverviewStat(
+  void _navigateToUsers(
     BuildContext context,
-    String value,
-    String label, {
-    bool isAlert = false,
-  }) {
+    RoleCategory category,
+    String title,
+  ) {
+    context.push('/admin/users', extra: {'category': category, 'title': title});
+  }
+
+  Widget _buildManagementActionRow(BuildContext context, bool isArabic) {
     return Column(
       children: [
-        Text(
-          value,
-          style: GoogleFonts.outfit(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: isAlert ? Colors.redAccent : null,
-          ),
+        Row(
+          children: [
+            Expanded(
+              child: _buildActionCard(
+                context,
+                LucideIcons.building,
+                isArabic ? 'إدارة الكليات' : 'Colleges',
+                'Colleges & Deans',
+                Colors.indigoAccent,
+                () => context.push('/admin/colleges'),
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _buildActionCard(
+                context,
+                LucideIcons.layout,
+                isArabic ? 'إدارة الأقسام' : 'Departments',
+                'Programs & Heads',
+                Colors.amberAccent,
+                () => context.push('/admin/departments'),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 11,
-            color: Theme.of(context).hintColor,
-          ),
+        const SizedBox(height: 16),
+        _buildActionCard(
+          context,
+          LucideIcons.userCheck,
+          isArabic ? 'إدارة أعضاء التدريس' : 'Doctors Management',
+          'Faculty details & assignments',
+          Colors.lightBlueAccent,
+          () => context.push('/admin/professors'),
+        ),
+        const SizedBox(height: 16),
+        _buildActionCard(
+          context,
+          LucideIcons.scrollText,
+          isArabic ? 'سجلات النظام' : 'Audit Logs',
+          'Track every administrative action',
+          Colors.redAccent,
+          () => context.push('/admin/audit-logs'),
         ),
       ],
     );
   }
 
-  Widget _buildSectionHeader(BuildContext context, String title) {
-    return Text(
-      title,
-      style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.w600),
-    );
-  }
-
-  Widget _buildAdminCard(
+  Widget _buildActionCard(
     BuildContext context,
     IconData icon,
     String title,
     String subtitle,
     Color color,
+    VoidCallback onTap,
   ) {
     return GlassContainer(
-      borderRadius: BorderRadius.circular(20),
-      padding: const EdgeInsets.all(16),
-      onTap: () {},
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      onTap: onTap,
+      padding: const EdgeInsets.all(20),
+      borderRadius: BorderRadius.circular(24),
+      child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color.withValues(alpha: 0.2),
+                  color.withValues(alpha: 0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: color.withValues(alpha: 0.1), width: 1),
             ),
             child: Icon(icon, color: color, size: 24),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: GoogleFonts.outfit(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.outfit(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.3,
+                  ),
                 ),
-              ),
-              Text(
-                subtitle,
-                style: GoogleFonts.inter(
-                  fontSize: 11,
-                  color: Theme.of(context).hintColor,
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.inter(
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: 0.4),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+          Icon(
+            LucideIcons.chevronRight,
+            size: 18,
+            color: Colors.white.withValues(alpha: 0.2),
           ),
         ],
       ),
@@ -252,32 +308,31 @@ class AdministrationScreen extends StatelessWidget {
 
   Widget _buildSystemStatusList(BuildContext context, bool isArabic) {
     return GlassContainer(
-      borderRadius: BorderRadius.circular(20),
-      padding: EdgeInsets.zero,
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           _buildStatusTile(
             context,
-            LucideIcons.server,
-            isArabic ? 'قاعدة البيانات' : 'Core Database',
-            isArabic ? 'متصل' : 'Connected',
+            LucideIcons.database,
+            isArabic ? 'قاعدة البيانات (Supabase)' : 'Supabase Engine',
+            isArabic ? 'مستقر' : 'Stable',
             true,
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: Colors.white.withValues(alpha: 0.05)),
           _buildStatusTile(
             context,
-            LucideIcons.globe,
-            isArabic ? 'بوابة الدفع' : 'Payment Gateway',
+            LucideIcons.shield,
+            isArabic ? 'جدار الحماية' : 'HUE Firewall',
             isArabic ? 'نشط' : 'Active',
             true,
           ),
-          const Divider(height: 1),
+          Divider(height: 1, color: Colors.white.withValues(alpha: 0.05)),
           _buildStatusTile(
             context,
-            LucideIcons.mail,
-            isArabic ? 'خادم البريد' : 'Mail Server',
-            isArabic ? 'متوقف مؤقتاً' : 'Delayed',
-            false,
+            LucideIcons.activity,
+            isArabic ? 'سرعة النظام' : 'Latency',
+            '24ms',
+            true,
           ),
         ],
       ),
@@ -292,10 +347,10 @@ class AdministrationScreen extends StatelessWidget {
     bool isOk,
   ) {
     return ListTile(
-      leading: Icon(icon, color: Theme.of(context).primaryColor),
+      leading: Icon(icon, size: 20, color: Colors.white54),
       title: Text(
         title,
-        style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500),
+        style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
@@ -304,14 +359,26 @@ class AdministrationScreen extends StatelessWidget {
             status,
             style: GoogleFonts.inter(
               fontSize: 12,
-              color: isOk ? Colors.green : Colors.orange,
-              fontWeight: FontWeight.w500,
+              color: isOk ? Colors.greenAccent : Colors.orangeAccent,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(width: 8),
-          CircleAvatar(
-            radius: 4,
-            backgroundColor: isOk ? Colors.green : Colors.orange,
+          const SizedBox(width: 12),
+          Container(
+            width: 8,
+            height: 8,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: isOk ? Colors.greenAccent : Colors.orangeAccent,
+              boxShadow: [
+                BoxShadow(
+                  color: (isOk ? Colors.greenAccent : Colors.orangeAccent)
+                      .withValues(alpha: 0.4),
+                  blurRadius: 4,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
           ),
         ],
       ),

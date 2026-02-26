@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -181,7 +177,6 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
 
-        // Settings Content
         SliverPadding(
           padding: const EdgeInsets.all(20),
           sliver: SliverList(
@@ -431,8 +426,6 @@ class SettingsScreen extends ConsumerWidget {
     HapticFeedback.mediumImpact();
     await ref.read(themeControllerProvider.notifier).setTheme(nextMode);
 
-    // Application is immediate, no need for transition screen here
-    // to keep the experience fast and responsive.
   }
 
   void _handleLanguageSwitch(BuildContext context, AppLocale nextLocale) {
@@ -540,7 +533,7 @@ class SettingsScreen extends ConsumerWidget {
               emoji,
               style: const TextStyle(
                 fontSize: 24,
-                fontFamily: null, // Don't inherit theme font (e.g. Outfit)
+                fontFamily: null,
               ),
             ),
             const SizedBox(width: 16),

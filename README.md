@@ -2,10 +2,12 @@
 
 <p align="center">
   <b>Elevating Academic Excellence through Immersive Translucent Intelligence</b>
+  <br>
+  <b>الارتقاء بالتميز الأكاديمي من خلال الذكاء الانسيابي الغامر</b>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.10.7-027DFD?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
+  <img src="https://img.shields.io/badge/Flutter-3.x-027DFD?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
   <img src="https://img.shields.io/badge/Bento_Grid-Layout-7B61FF?style=for-the-badge" alt="Bento">
   <img src="https://img.shields.io/badge/Glassmorphism-Enabled-00CFE8?style=for-the-badge" alt="Glass">
   <img src="https://img.shields.io/badge/Architecture-Feature_Driven-FF4081?style=for-the-badge" alt="Architecture">
@@ -13,96 +15,86 @@
 
 ---
 
-## 💎 THE VISION: A New Dimension of Learning
+## 💎 THE VISION | الرؤية
 
-**HUE** is a state-of-the-art academic ecosystem that dissolves the barrier between data and user experience. Built on the principles of **Glassmorphism**, it provides a depth-filled, translucent interface that feels both powerful and weightless.
+**HUE** is a state-of-the-art academic ecosystem that dissolves the barrier between data and user experience.
+**HUE** هو نظام أكاديمي متطور يذيب الحواجز بين البيانات وتجربة المستخدم.
 
 > [!IMPORTANT]
-> **Aesthetic Integrity**: Every component in HUE follows a strict "Visual-First" directive, ensuring a premium feel that inspires confidence and focus.
+> **Aesthetic Integrity | النزاهة الجمالية**:
+> Every component in HUE follows a strict "Visual-First" directive, ensuring a premium feel.
+> كل مكون في HUE يتبع توجيهاً صارماً "البصر أولاً"، مما يضمن شعوراً متميزاً.
 
 ---
 
-## 🏛️ CORE ARCHITECTURE: GLASS INFRASTRUCTURE
+## 🏛️ CORE ARCHITECTURE | الهيكل الأساسي
 
 ```mermaid
 graph LR
-    subgraph "The Core (Glass Base)"
-    A[Router] -- "Secure Routing" --> B[Auth]
+    subgraph "Core (Base)"
+    A[Router] -- "Secure" --> B[Auth]
     B -- "Identity" --> C[Theme Engine]
     end
-    subgraph "Feature Spheres (Translucent Layers)"
+    subgraph "Feature Spheres"
     D[Onboarding]
     E[Academic]
     F[Finance]
     end
-    C -. "Visual Style" .-> D
-    C -. "Visual Style" .-> E
-    C -. "Visual Style" .-> F
+    C -. "Style" .-> D
+    C -. "Style" .-> E
+    C -. "Style" .-> F
 ```
 
 ---
 
-## 🛠️ THE TECHNOLOGY STACK (SECTIONED)
+## 🛠️ TECHNOLOGY STACK | التقنيات المستخدمة
 
-| Category       | Component     | Specialized Role                             |
-| :------------- | :------------ | :------------------------------------------- |
-| **Foundation** | `Flutter SDK` | Cross-platform orchestration.                |
-| **Nexus**      | `Riverpod`    | Unidirectional state harmonizer.             |
-| **Logic**      | `GoRouter`    | Dynamic navigation with type-safe guards.    |
-| **Memory**     | `Supabase`    | Enterprise-grade backend & persistent layer. |
-| **Dynamics**   | `Animate`     | Liquid-smooth micro-interactions.            |
-| **Dialect**    | `Slang`       | Ultra-fast localized translation engine.     |
-
----
-
-## 🛡️ SPECIALIZED REPORT: SECURITY & AUTH PROTOCOL
-
-> Status: **STABILIZED** | Integrity: **94%**
-
-| Metric            | Level     | Protocol                                   |
-| :---------------- | :-------- | :----------------------------------------- |
-| **Auth Shield**   | `HIGH`    | Supabase JWT & Row Level Security.         |
-| **Biometrics**    | `ACTIVE`  | Local Authentication (FaceID/Fingerprint). |
-| **Session Guard** | `STRICT`  | Automatic session timeout & device audit.  |
-| **Encryption**    | `AES-256` | Secure storage for sensitive local tokens. |
-
-> [!WARNING]
-> **Hardening Needed**: Transitioning from logic-based roles to Database-enforced RLS is the current priority.
+| Category       | Component     | Role                             |
+| :------------- | :------------ | :------------------------------- |
+| **Foundation** | `Flutter SDK` | Cross-platform orchestration.    |
+| **Nexus**      | `Riverpod`    | Unidirectional state harmonizer. |
+| **Logic**      | `GoRouter`    | Dynamic navigation & guards.     |
+| **Memory**     | `Supabase`    | Enterprise-grade backend.        |
+| **Dialect**    | `Slang`       | Ultra-fast i18n engine.          |
 
 ---
 
-## 🔍 SPECIALIZED REPORT: SYSTEM INTEGRITY SCAN
+## 🏗️ PROGRESS REPORT | تقرير التقدم (WIP)
 
-> Status: **PASSING** | Code Quality: **A+**
+### Modernization & Hardening | التحديث والتحصين
 
-| Module             | Pulse     | Findings / Recommendations                            |
-| :----------------- | :-------- | :---------------------------------------------------- |
-| **`lib/core`**     | `VIBRANT` | Highly decoupled. Performance is optimal.             |
-| **`lib/features`** | `SOLID`   | Feature-parity achieved. Needs documentation refresh. |
-| **`lib/shared`**   | `FAST`    | UI components are highly reusable.                    |
+> Current overall completion: **~85%**
 
-- **Stress Resilience**: The system handles high-frequency animations well thanks to efficient state management.
-- **Lints & Ethics**: Consistent adherence to the `riverpod_lint` and `custom_lint` rulesets.
+- **[60%] Security Architecture**: Transitioning to Database-enforced RLS (Row Level Security).
+- **[75%] Academic Module**: Migrating legacy `StateProvider` to modern `Notifier` API.
+- **[90%] Data Fluidity**: Moving from local mock structures to live Supabase nodes.
+- **[80%] UI/UX Refinement**: Implementing `RepaintBoundary` for complex glass shaders.
 
 ---
 
-## 🚀 OPTIMIZATION & RESILIENCE STRATEGY
+## 🚀 ROADMAP: THE FUTURE | خارطة الطريق: المستقبل
 
-1.  **Stage 1 - Performance Tuning**: Implementing `RepaintBoundary` for complex glass shaders.
-2.  **Stage 2 - Data Fluidity**: Transitioning all mock data to live Supabase data nodes.
-3.  **Stage 3 - Global Resilience**: Hardening edge-case navigation routes and offline persistence.
+We are currently expanding HUE to support high-performance media and real-time interaction:
+نحن نعمل حالياً على توسيع HUE لدعم الوسائط عالية الأداء والتفاعل في الوقت الفعلي:
+
+### 📹 Media Excellence | تميز الوسائط
+
+- **Video Recording**: High-quality local and cloud recording of sessions.
+- **بث مباشر (Live Streaming)**: Real-time broadcasting capabilities for events.
+- **بث فيديو (Video Broadcasting)**: High-definition video content distribution.
+- **محاضرات أون لاين (Online Lectures)**: Dedicated virtual classroom environment with interactive tools.
 
 ---
 
-## 🏁 IGNITION SEQUENCE
+## 🏁 IGNITION SEQUENCE | التشغيل
 
-1.  **Clone the Dimension**: `git clone https://github.com/hue-org/hue.git`
-2.  **Sync Dependencies**: `flutter pub get`
-3.  **Synthesize Code**: `dart run build_runner build --delete-conflicting-outputs`
-4.  **Execute HUE**: `flutter run`
+1. **Clone**: `git clone https://github.com/hue-org/hue.git`
+2. **Sync**: `flutter pub get`
+3. **Synthesize**: `dart run build_runner build --delete-conflicting-outputs`
+4. **Execute**: `flutter run`
 
 ---
 
 <p align="center">
-  🎨 <b>Crafted by Antigravity</b> | © 2026 HUE Academic Systems
+  🎨 <b>Developed by GT-Axe Team</b> | © 2025 HUE Academic Systems
 </p>

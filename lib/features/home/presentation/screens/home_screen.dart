@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -31,19 +27,16 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentIndex = 0;
 
-  /// Build tabs dynamically based on the user's role.
   List<Widget> _buildTabs(UserRole role) {
     final tabs = <Widget>[
       const FeedScreen(),
       const CollegesScreen(isOnboarding: false),
     ];
 
-    // Student tab — visible to student roles + superAdmin
     if (role.isStudent || role == UserRole.superAdmin) {
       tabs.add(const StudentDashboardScreen());
     }
 
-    // Professor tab — visible to teaching staff + academic leadership + superAdmin
     if (role.isTeachingStaff ||
         role.isLeadership ||
         role == UserRole.superAdmin) {
@@ -64,7 +57,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       );
     }
 
-    // Admin tab — visible to admin/IT roles
     if (role.isAdmin) {
       tabs.add(const AdministrationScreen());
     }
@@ -72,7 +64,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return tabs;
   }
 
-  /// Build navigation destinations dynamically based on the user's role.
   List<NavigationDestination> _buildDestinations(bool isArabic, UserRole role) {
     final destinations = <NavigationDestination>[
       NavigationDestination(
@@ -135,7 +126,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       extendBody: isGlass,
       appBar: AppBar(
         title: Text(
-          isArabic ? 'بوابة الطالب' : 'STUDENT PORTAL',
+          role.isAdmin
+              ? (isArabic ? 'بوابة الإدارة' : 'ADMIN PORTAL')
+              : (role.isTeachingStaff || role.isLeadership)
+              ? (isArabic ? 'بوابة المحاضر' : 'FACULTY PORTAL')
+              : (isArabic ? 'بوابة الطالب' : 'STUDENT PORTAL'),
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
             fontSize: 24,
@@ -206,7 +201,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           padding: EdgeInsets.zero,
           child: Stack(
             children: [
-              // Sliding Selection Indicator
+
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 400),
                 curve: Curves.easeOutBack,
@@ -229,7 +224,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
               ),
 
-              // Icons and Labels
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(destinations.length, (index) {

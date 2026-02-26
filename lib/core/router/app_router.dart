@@ -1,8 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -57,6 +52,14 @@ import 'package:hue/features/settings/presentation/screens/profile_screen.dart';
 import 'package:hue/features/settings/presentation/screens/change_password_screen.dart';
 import 'package:hue/features/settings/presentation/screens/about_screen.dart';
 import 'package:hue/features/settings/presentation/screens/privacy_policy_screen.dart';
+import 'package:hue/features/admin/presentation/screens/users_list_screen.dart';
+import 'package:hue/features/admin/presentation/screens/user_form_screen.dart';
+import 'package:hue/features/admin/presentation/screens/colleges_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/departments_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/audit_logs_screen.dart';
+import 'package:hue/features/admin/presentation/screens/professors_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/system_settings_screen.dart';
+import 'package:hue/features/admin/data/models/user_management_models.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authNotifier = ValueNotifier<AuthState>(
@@ -78,17 +81,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isLoggedIn = authState.isAuthenticated;
       final isPublic = publicRoutes.contains(location);
 
-      // 1. Auth guard — unauthenticated users must go to /login
       if (!isLoggedIn && !isPublic) {
         return '/login';
       }
 
-      // 2. Already-logged-in guard — no need to see /login again
       if (isLoggedIn && location == '/login') {
         return '/home';
       }
 
-      // 3. Role guard — check route permissions
       if (isLoggedIn && !canAccessRoute(location, authState.role)) {
         return '/home';
       }
@@ -206,6 +206,56 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin',
         builder: (context, state) => const AdministrationScreen(),
+        routes: [
+          GoRoute(
+            path: 'users',
+            builder: (context, state) {
+              final extras = state.extra as Map<String, dynamic>? ?? {};
+              return UsersListScreen(
+                category: extras['category'] as RoleCategory?,
+                role: extras['role'] as UserRole?,
+                title: extras['title'] as String? ?? 'User Management',
+              );
+            },
+          ),
+          GoRoute(
+            path: 'users/new',
+            builder: (context, state) {
+              final extras = state.extra as Map<String, dynamic>? ?? {};
+              return UserFormScreen(
+                initialCategory: extras['category'] as RoleCategory?,
+                initialRole: extras['role'] as UserRole?,
+              );
+            },
+          ),
+          GoRoute(
+            path: 'users/details',
+            builder: (context, state) {
+              final user = state.extra as UserProfileModel;
+              return UserFormScreen(user: user);
+            },
+          ),
+          GoRoute(
+            path: 'colleges',
+            builder: (context, state) => const CollegesManagementScreen(),
+          ),
+          GoRoute(
+            path: 'departments',
+            builder: (context, state) => const DepartmentsManagementScreen(),
+          ),
+          GoRoute(
+            path: 'audit-logs',
+            builder: (context, state) => const AuditLogsScreen(),
+          ),
+          GoRoute(
+            path: 'professors',
+            builder: (context, state) => const ProfessorsManagementScreen(),
+          ),
+          GoRoute(
+            path: 'settings',
+            builder: (context, state) => const SystemSettingsScreen(),
+          ),
+        ],
       ),
       GoRoute(path: '/', builder: (context, state) => const WelcomeScreen()),
       GoRoute(

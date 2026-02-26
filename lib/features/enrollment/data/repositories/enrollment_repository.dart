@@ -1,15 +1,8 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/core/data/base_repository.dart';
 
-/// Repository for enrollment, registration, and financial data.
 class EnrollmentRepository extends BaseRepository {
   EnrollmentRepository(super.client);
-
-  // ── Enrollments ───────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getStudentEnrollments(
     String studentId, {
@@ -43,8 +36,6 @@ class EnrollmentRepository extends BaseRepository {
   Future<void> withdrawFromCourse(String enrollmentId) =>
       update('enrollments', enrollmentId, {'status': 'withdrawn'});
 
-  // ── Invoices & Payments ───────────────────────────
-
   Future<List<Map<String, dynamic>>> getStudentInvoices(String studentId) =>
       fetchWhere(
         'invoices',
@@ -63,6 +54,6 @@ class EnrollmentRepository extends BaseRepository {
   }) => update('invoices', invoiceId, {
     'status': 'paid',
     'paid_at': DateTime.now().toIso8601String(),
-    if (receiptUrl != null) 'receipt_url': receiptUrl,
+    'receipt_url': receiptUrl,
   });
 }

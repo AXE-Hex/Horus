@@ -1,15 +1,8 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/core/data/base_repository.dart';
 
-/// Repository for academic data: courses, grades, schedules, attendance, action plan.
 class AcademicRepository extends BaseRepository {
   AcademicRepository(super.client);
-
-  // ── Courses ───────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getCourses({String? semester}) async {
     if (semester != null) {
@@ -24,8 +17,6 @@ class AcademicRepository extends BaseRepository {
   Future<List<Map<String, dynamic>>> getCoursesByProfessor(
     String professorId,
   ) => fetchWhere('courses', 'professor_id', professorId, orderBy: 'code');
-
-  // ── Grades ────────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getStudentGrades(
     String studentId, {
@@ -47,8 +38,6 @@ class AcademicRepository extends BaseRepository {
   Future<Map<String, dynamic>> submitGrade(Map<String, dynamic> gradeData) =>
       upsert('grades', gradeData);
 
-  // ── Daily Schedule ────────────────────────────────
-
   Future<List<Map<String, dynamic>>> getSchedule({
     required String semester,
     String? courseId,
@@ -63,14 +52,10 @@ class AcademicRepository extends BaseRepository {
     return fetchWhere('schedules', 'semester', semester, orderBy: 'start_time');
   }
 
-  // ── Exam Schedule ─────────────────────────────────
-
   Future<List<Map<String, dynamic>>> getExamSchedule({
     required String semester,
   }) =>
       fetchWhere('exam_schedules', 'semester', semester, orderBy: 'exam_date');
-
-  // ── Attendance ────────────────────────────────────
 
   Future<List<Map<String, dynamic>>> getStudentAttendance(
     String studentId,
@@ -85,8 +70,6 @@ class AcademicRepository extends BaseRepository {
   Future<Map<String, dynamic>> recordAttendance(Map<String, dynamic> data) =>
       insert('attendance', data);
 
-  // ── Action Plan ───────────────────────────────────
-
   Future<List<Map<String, dynamic>>> getActionPlan(String studentId) =>
       fetchWhere('action_plan_items', 'student_id', studentId, orderBy: 'year');
 
@@ -94,8 +77,6 @@ class AcademicRepository extends BaseRepository {
     String id,
     Map<String, dynamic> data,
   ) => update('action_plan_items', id, data);
-
-  // ── Transcript (aggregated grades) ────────────────
 
   Future<List<Map<String, dynamic>>> getTranscript(String studentId) async {
     final result = await client

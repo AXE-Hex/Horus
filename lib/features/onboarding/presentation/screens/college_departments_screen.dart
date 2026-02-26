@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -32,7 +28,7 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
     Widget content = SafeArea(
       child: Column(
         children: [
-          // HEADER
+
           Padding(
             padding: const EdgeInsets.all(24),
             child: Row(
@@ -69,7 +65,6 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
             ),
           ),
 
-          // DEPARTMENTS LIST
           Expanded(
             child: ListView.separated(
               padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
@@ -149,7 +144,7 @@ class _DepartmentCard extends StatelessWidget {
             'key': name.toLowerCase().replaceAll(
               ' ',
               '_',
-            ), // Simple key generation
+            ),
           },
         );
       },

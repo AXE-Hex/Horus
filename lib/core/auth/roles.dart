@@ -1,17 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-/// Each role belongs to a [RoleCategory] and has a defined set of
-/// [RolePermission]s. The system is hierarchical — higher-privilege
-/// roles inherit the permissions of lower ones within the same category.
+import 'package:hue/core/i18n/strings.g.dart';
 
-// ─────────────────────────────────────────────────
-// 1. ROLE CATEGORIES
-// ─────────────────────────────────────────────────
-
-/// Top-level grouping for all roles in the system.
 enum RoleCategory {
   adminIT,
   academicLeadership,
@@ -22,69 +11,51 @@ enum RoleCategory {
   externalRoles,
 }
 
-// ─────────────────────────────────────────────────
-// 2. USER ROLES (all 22 roles)
-// ─────────────────────────────────────────────────
-
-/// Every role in the HUE university system.
 enum UserRole {
-  // ── 1. Admin & IT ─────────────────────────────
   superAdmin,
+  admin,
   itSupport,
   financialAuditor,
 
-  // ── 2. Academic Leadership ────────────────────
   rector,
   dean,
   departmentHead,
   academicCoordinator,
 
-  // ── 3. Teaching Staff ─────────────────────────
   professor,
   lecturer,
   teachingAssistant,
 
-  // ── 4. Student Affairs ────────────────────────
   registrarOfficer,
   academicAdvisor,
   librarian,
 
-  // ── 5. Student Roles ──────────────────────────
   freshman,
   regularStudent,
+  student,
   classRepresentative,
   alumni,
 
-  // ── 6. Facilities & Security ──────────────────
   dormSupervisor,
   securityOfficer,
   guest,
 
-  // ── 7. External Roles ─────────────────────────
   parent,
   recruiter,
 }
 
-// ─────────────────────────────────────────────────
-// 3. PERMISSIONS
-// ─────────────────────────────────────────────────
-
-/// Fine-grained permissions that can be assigned to roles.
 enum RolePermission {
-  // System
   manageSystem,
   manageUsers,
   viewAuditLogs,
   manageFinances,
 
-  // Academic Management
   manageColleges,
   manageDepartments,
   manageCourses,
   manageSchedules,
   approveEnrollments,
 
-  // Teaching
   manageGrades,
   manageAttendance,
   createAnnouncements,
@@ -92,12 +63,10 @@ enum RolePermission {
   manageTAs,
   manageGroups,
 
-  // Student Affairs
   manageEnrollments,
   adviseStudents,
   manageLibrary,
 
-  // Student
   viewGrades,
   viewSchedule,
   viewAttendance,
@@ -106,22 +75,15 @@ enum RolePermission {
   accessForums,
   viewMaterials,
 
-  // External
   viewStudentProgress,
   viewJobBoard,
 
-  // Shared
   viewProfile,
   editOwnProfile,
   viewNotifications,
   submitSupportTicket,
 }
 
-// ─────────────────────────────────────────────────
-// 4. ROLE METADATA
-// ─────────────────────────────────────────────────
-
-/// Holds display info and permissions for a single role.
 class RoleInfo {
   final UserRole role;
   final RoleCategory category;
@@ -129,7 +91,7 @@ class RoleInfo {
   final String nameAr;
   final String descriptionEn;
   final String descriptionAr;
-  final int hierarchyLevel; // lower = more privilege
+  final int hierarchyLevel;
   final Set<RolePermission> permissions;
 
   const RoleInfo({
@@ -144,13 +106,7 @@ class RoleInfo {
   });
 }
 
-// ─────────────────────────────────────────────────
-// 5. ROLE REGISTRY
-// ─────────────────────────────────────────────────
-
-/// The complete registry of all roles with their metadata and permissions.
 final Map<UserRole, RoleInfo> roleRegistry = {
-  // ═══ 1. Admin & IT ════════════════════════════
   UserRole.superAdmin: RoleInfo(
     role: UserRole.superAdmin,
     category: RoleCategory.adminIT,
@@ -160,6 +116,19 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     descriptionAr: 'تحكم كامل في النظام بأكمله',
     hierarchyLevel: 0,
     permissions: RolePermission.values.toSet(),
+  ),
+
+  UserRole.admin: RoleInfo(
+    role: UserRole.admin,
+    category: RoleCategory.adminIT,
+    nameEn: 'Administrator',
+    nameAr: 'مسؤول نظام',
+    descriptionEn: 'System administrator with high privileges',
+    descriptionAr: 'مسؤول نظام بصلاحيات عالية',
+    hierarchyLevel: 1,
+    permissions: RolePermission.values
+        .where((p) => p != RolePermission.manageSystem)
+        .toSet(),
   ),
 
   UserRole.itSupport: const RoleInfo(
@@ -197,7 +166,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     },
   ),
 
-  // ═══ 2. Academic Leadership ═══════════════════
   UserRole.rector: const RoleInfo(
     role: UserRole.rector,
     category: RoleCategory.academicLeadership,
@@ -279,7 +247,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     },
   ),
 
-  // ═══ 3. Teaching Staff ════════════════════════
   UserRole.professor: const RoleInfo(
     role: UserRole.professor,
     category: RoleCategory.teachingStaff,
@@ -343,7 +310,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     },
   ),
 
-  // ═══ 4. Student Affairs ═══════════════════════
   UserRole.registrarOfficer: const RoleInfo(
     role: UserRole.registrarOfficer,
     category: RoleCategory.studentAffairs,
@@ -400,7 +366,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     },
   ),
 
-  // ═══ 5. Student Roles ═════════════════════════
   UserRole.freshman: const RoleInfo(
     role: UserRole.freshman,
     category: RoleCategory.studentRoles,
@@ -437,6 +402,27 @@ final Map<UserRole, RoleInfo> roleRegistry = {
       RolePermission.enrollCourses,
       RolePermission.submitRatings,
       RolePermission.accessForums,
+      RolePermission.viewMaterials,
+      RolePermission.viewProfile,
+      RolePermission.editOwnProfile,
+      RolePermission.viewNotifications,
+      RolePermission.submitSupportTicket,
+    },
+  ),
+
+  UserRole.student: const RoleInfo(
+    role: UserRole.student,
+    category: RoleCategory.studentRoles,
+    nameEn: 'Student',
+    nameAr: 'طالب',
+    descriptionEn: 'General student role',
+    descriptionAr: 'طالب عام',
+    hierarchyLevel: 7,
+    permissions: {
+      RolePermission.viewGrades,
+      RolePermission.viewSchedule,
+      RolePermission.viewAttendance,
+      RolePermission.enrollCourses,
       RolePermission.viewMaterials,
       RolePermission.viewProfile,
       RolePermission.editOwnProfile,
@@ -488,7 +474,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     },
   ),
 
-  // ═══ 6. Facilities & Security ═════════════════
   UserRole.dormSupervisor: const RoleInfo(
     role: UserRole.dormSupervisor,
     category: RoleCategory.facilitiesSecurity,
@@ -531,7 +516,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
     permissions: {RolePermission.viewProfile},
   ),
 
-  // ═══ 7. External Roles ════════════════════════
   UserRole.parent: const RoleInfo(
     role: UserRole.parent,
     category: RoleCategory.externalRoles,
@@ -561,63 +545,146 @@ final Map<UserRole, RoleInfo> roleRegistry = {
   ),
 };
 
-// ─────────────────────────────────────────────────
-// 6. UTILITY EXTENSIONS
-// ─────────────────────────────────────────────────
-
 extension UserRoleX on UserRole {
-  /// Get the [RoleInfo] metadata for this role.
   RoleInfo get info => roleRegistry[this]!;
 
-  /// Localized display name (auto-selects based on [isArabic]).
-  String displayName({bool isArabic = false}) =>
-      isArabic ? info.nameAr : info.nameEn;
+  String displayName({bool isArabic = false}) {
+    switch (this) {
+      case UserRole.superAdmin:
+        return t.roles.names.super_admin;
+      case UserRole.admin:
+        return t.roles.names.admin;
+      case UserRole.itSupport:
+        return t.roles.names.it_support;
+      case UserRole.financialAuditor:
+        return t.roles.names.financial_auditor;
+      case UserRole.rector:
+        return t.roles.names.rector;
+      case UserRole.dean:
+        return t.roles.names.dean;
+      case UserRole.departmentHead:
+        return t.roles.names.department_head;
+      case UserRole.academicCoordinator:
+        return t.roles.names.academic_coordinator;
+      case UserRole.professor:
+        return t.roles.names.professor;
+      case UserRole.lecturer:
+        return t.roles.names.lecturer;
+      case UserRole.teachingAssistant:
+        return t.roles.names.teaching_assistant;
+      case UserRole.registrarOfficer:
+        return t.roles.names.registrar_officer;
+      case UserRole.academicAdvisor:
+        return t.roles.names.academic_advisor;
+      case UserRole.librarian:
+        return t.roles.names.librarian;
+      case UserRole.freshman:
+        return t.roles.names.freshman;
+      case UserRole.regularStudent:
+        return t.roles.names.regular_student;
+      case UserRole.student:
+        return t.roles.names.student;
+      case UserRole.classRepresentative:
+        return t.roles.names.class_representative;
+      case UserRole.alumni:
+        return t.roles.names.alumni;
+      case UserRole.dormSupervisor:
+        return t.roles.names.dorm_supervisor;
+      case UserRole.securityOfficer:
+        return t.roles.names.security_officer;
+      case UserRole.guest:
+        return t.roles.names.guest;
+      case UserRole.parent:
+        return t.roles.names.parent;
+      case UserRole.recruiter:
+        return t.roles.names.recruiter;
+    }
+  }
 
-  /// Localized description.
-  String description({bool isArabic = false}) =>
-      isArabic ? info.descriptionAr : info.descriptionEn;
+  String description({bool isArabic = false}) {
+    switch (this) {
+      case UserRole.superAdmin:
+        return t.roles.descriptions.super_admin;
+      case UserRole.admin:
+        return t.roles.descriptions.admin;
+      case UserRole.itSupport:
+        return t.roles.descriptions.it_support;
+      case UserRole.financialAuditor:
+        return t.roles.descriptions.financial_auditor;
+      case UserRole.rector:
+        return t.roles.descriptions.rector;
+      case UserRole.dean:
+        return t.roles.descriptions.dean;
+      case UserRole.departmentHead:
+        return t.roles.descriptions.department_head;
+      case UserRole.academicCoordinator:
+        return t.roles.descriptions.academic_coordinator;
+      case UserRole.professor:
+        return t.roles.descriptions.professor;
+      case UserRole.lecturer:
+        return t.roles.descriptions.lecturer;
+      case UserRole.teachingAssistant:
+        return t.roles.descriptions.teaching_assistant;
+      case UserRole.registrarOfficer:
+        return t.roles.descriptions.registrar_officer;
+      case UserRole.academicAdvisor:
+        return t.roles.descriptions.academic_advisor;
+      case UserRole.librarian:
+        return t.roles.descriptions.librarian;
+      case UserRole.freshman:
+        return t.roles.descriptions.freshman;
+      case UserRole.regularStudent:
+        return t.roles.descriptions.regular_student;
+      case UserRole.student:
+        return t.roles.descriptions.student;
+      case UserRole.classRepresentative:
+        return t.roles.descriptions.class_representative;
+      case UserRole.alumni:
+        return t.roles.descriptions.alumni;
+      case UserRole.dormSupervisor:
+        return t.roles.descriptions.dorm_supervisor;
+      case UserRole.securityOfficer:
+        return t.roles.descriptions.security_officer;
+      case UserRole.guest:
+        return t.roles.descriptions.guest;
+      case UserRole.parent:
+        return t.roles.descriptions.parent;
+      case UserRole.recruiter:
+        return t.roles.descriptions.recruiter;
+    }
+  }
 
-  /// The category this role belongs to.
   RoleCategory get category => info.category;
 
-  /// Check if this role has a specific permission.
   bool hasPermission(RolePermission permission) =>
       info.permissions.contains(permission);
 
-  /// Check if this role is any kind of admin.
   bool get isAdmin =>
       this == UserRole.superAdmin ||
+      this == UserRole.admin ||
       this == UserRole.itSupport ||
       this == UserRole.financialAuditor;
 
-  /// Check if this role is academic leadership.
   bool get isLeadership => category == RoleCategory.academicLeadership;
 
-  /// Check if this role is teaching staff.
   bool get isTeachingStaff => category == RoleCategory.teachingStaff;
 
-  /// Check if this role is a student (any type).
   bool get isStudent => category == RoleCategory.studentRoles;
 
-  /// Check if this role belongs to staff (non-student, non-external).
   bool get isStaff =>
       category == RoleCategory.adminIT ||
       category == RoleCategory.academicLeadership ||
       category == RoleCategory.teachingStaff ||
       category == RoleCategory.studentAffairs;
 
-  /// Convert to database string (snake_case).
   String toDbString() {
-    // Convert camelCase enum name to snake_case
     return name.replaceAllMapped(
       RegExp(r'[A-Z]'),
       (match) => '_${match.group(0)!.toLowerCase()}',
     );
   }
 
-  /// Parse from database string.
   static UserRole fromDbString(String value) {
-    // Convert snake_case to camelCase
     final camel = value.replaceAllMapped(
       RegExp(r'_([a-z])'),
       (match) => match.group(1)!.toUpperCase(),
@@ -629,29 +696,26 @@ extension UserRoleX on UserRole {
   }
 }
 
-/// Extension to get roles by category.
 extension RoleCategoryX on RoleCategory {
-  /// Get all roles in this category.
   List<UserRole> get roles =>
       UserRole.values.where((r) => r.category == this).toList();
 
-  /// Localized category name.
   String displayName({bool isArabic = false}) {
     switch (this) {
       case RoleCategory.adminIT:
-        return isArabic ? 'الإدارة والتقنية' : 'Admin & IT';
+        return t.roles.categories.admin_it;
       case RoleCategory.academicLeadership:
-        return isArabic ? 'القيادة الأكاديمية' : 'Academic Leadership';
+        return t.roles.categories.academic_leadership;
       case RoleCategory.teachingStaff:
-        return isArabic ? 'الكادر التعليمي' : 'Teaching Staff';
+        return t.roles.categories.teaching_staff;
       case RoleCategory.studentAffairs:
-        return isArabic ? 'الخدمات الطلابية' : 'Student Affairs';
+        return t.roles.categories.student_affairs;
       case RoleCategory.studentRoles:
-        return isArabic ? 'رتب الطلاب' : 'Student Roles';
+        return t.roles.categories.student_roles;
       case RoleCategory.facilitiesSecurity:
-        return isArabic ? 'المرافق والأمن' : 'Facilities & Security';
+        return t.roles.categories.facilities_security;
       case RoleCategory.externalRoles:
-        return isArabic ? 'الخبراء الخارجيين' : 'External Roles';
+        return t.roles.categories.external_roles;
     }
   }
 }

@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
+import 'package:hue/core/security/axe_fingerprint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/core/router/app_router.dart';
@@ -32,7 +28,11 @@ class HueApp extends ConsumerWidget {
       supportedLocales: AppLocaleUtils.supportedLocales,
       locale: TranslationProvider.of(context).locale.flutterLocale,
       builder: (context, child) {
-        return LiquidToastOverlay(child: child!);
+        return Semantics(
+          identifier: AxeFingerprint.identifier,
+          container: true,
+          child: LiquidToastOverlay(child: child!),
+        );
       },
     );
   }

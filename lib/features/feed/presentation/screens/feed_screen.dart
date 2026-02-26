@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
@@ -15,7 +11,7 @@ class FeedScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        // Added top padding to clear the transparent AppBar
+
         const SliverPadding(padding: EdgeInsets.only(top: 110)),
         SliverToBoxAdapter(
           child: SizedBox(
@@ -71,7 +67,7 @@ class FeedScreen extends StatelessWidget {
           }, childCount: 10),
         ),
         const SliverToBoxAdapter(
-          child: SizedBox(height: 120), // Bottom padding for floating nav bar
+          child: SizedBox(height: 120),
         ),
       ],
     );

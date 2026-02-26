@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +33,7 @@ class PaymentScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? "الدفع الإلكتروني" : "E-Payment",
+            t.payment.title,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -62,7 +58,7 @@ class PaymentScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isArabic ? "طرق الدفع بضمان الجامعة" : "Payment Methods",
+                  t.payment.methods,
                   style: GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -74,21 +70,21 @@ class PaymentScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
                 _buildPaymentMethod(
                   context,
-                  isArabic ? 'بطاقة ائتمان / خصم مباشر' : 'Credit / Debit Card',
+                  t.payment.credit_debit,
                   LucideIcons.creditCard,
                   isGlass,
                 ),
                 const SizedBox(height: 12),
                 _buildPaymentMethod(
                   context,
-                  isArabic ? 'فوري / دفع إلكتروني' : 'Fawry / E-Payment',
+                  t.payment.fawry,
                   LucideIcons.zap,
                   isGlass,
                 ),
                 const SizedBox(height: 12),
                 _buildPaymentMethod(
                   context,
-                  isArabic ? 'تحويل بنكي' : 'Bank Transfer',
+                  t.payment.bank_transfer,
                   LucideIcons.landmark,
                   isGlass,
                 ),
@@ -108,7 +104,7 @@ class PaymentScreen extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            isArabic ? '12,450 ج.م' : '12,450 EGP',
+            t.payment.currency(amount: '12,450'),
             style: GoogleFonts.shareTechMono(
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -116,7 +112,7 @@ class PaymentScreen extends ConsumerWidget {
             ),
           ),
           Text(
-            isArabic ? "الرصيد المستحق" : "Outstanding Balance",
+            t.payment.outstanding,
             style: GoogleFonts.inter(
               fontSize: 14,
               color: isGlass ? Colors.white60 : Theme.of(context).hintColor,
@@ -135,7 +131,7 @@ class PaymentScreen extends ConsumerWidget {
               elevation: 0,
             ),
             child: Text(
-              isArabic ? "سداد الآن" : "Pay Now",
+              t.payment.pay_now,
               style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
             ),
           ),

@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,15 +6,6 @@ import 'package:hue/features/academic/data/repositories/professor_repository.dar
 import 'package:hue/features/enrollment/data/repositories/enrollment_repository.dart';
 import 'package:hue/features/shared/data/repositories/shared_repository.dart';
 import 'package:hue/features/onboarding/data/repositories/onboarding_repository.dart';
-
-/// ── Repository Providers ───────────────────────────
-///
-/// Each provider creates a repository bound to the Supabase client.
-/// Usage:
-/// ```dart
-/// final repo = ref.watch(academicRepositoryProvider);
-/// final courses = await repo.getCourses();
-/// ```
 
 final academicRepositoryProvider = Provider<AcademicRepository>((ref) {
   return AcademicRepository(Supabase.instance.client);

@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -40,7 +36,7 @@ class AcademicStaffScreen extends ConsumerWidget {
         'role': t.colleges.details.head_of_dept,
         'name': 'Prof. Sarah Miller',
         'dept': 'AI Systems',
-        'id': 'dr_sarah_101', // Example existing ID
+        'id': 'dr_sarah_101',
         'generalRating': 4.9,
         'curriculumRating': 4.7,
       },
@@ -257,7 +253,7 @@ class AcademicStaffScreen extends ConsumerWidget {
         HapticFeedback.mediumImpact();
 
         if (member['name'] == 'Prof. Sarah Miller') {
-          // Show loading dialog
+
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -265,12 +261,12 @@ class AcademicStaffScreen extends ConsumerWidget {
           );
 
           try {
-            // In a real app this would use the member's actual ID
+
             final profile = await ref
                 .read(professorRepositoryProvider)
                 .getFullProfessorProfile('dr_sarah_101');
             if (context.mounted) {
-              Navigator.pop(context); // close dialog
+              Navigator.pop(context);
               if (profile != null) {
                 context.push('/professor-profile', extra: profile);
               } else {

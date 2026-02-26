@@ -1,8 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'auth_provider.dart';
@@ -46,7 +41,7 @@ final class AuthControllerProvider
   }
 }
 
-String _$authControllerHash() => r'7c0d56f02009d249389f817a3e64c74e2a5f8a0e';
+String _$authControllerHash() => r'68b4cbe66203235deb89cec2697dc7f1f531d7cf';
 
 abstract class _$AuthController extends $Notifier<AuthState> {
   AuthState build();

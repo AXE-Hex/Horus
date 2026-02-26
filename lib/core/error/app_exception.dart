@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 abstract class AppException implements Exception {
   final String code;
@@ -14,7 +10,6 @@ abstract class AppException implements Exception {
   String toString() => '[$code] $message';
 }
 
-/// Security related errors (Auth, Permissions, Encryption)
 class SecurityException extends AppException {
   SecurityException({
     required String code,
@@ -23,7 +18,6 @@ class SecurityException extends AppException {
   }) : super(code: 'SEC-$code');
 }
 
-/// Network/API related errors
 class NetworkException extends AppException {
   NetworkException({
     required String code,
@@ -32,7 +26,6 @@ class NetworkException extends AppException {
   }) : super(code: 'NET-$code');
 }
 
-/// Data Validation errors
 class ValidationException extends AppException {
   ValidationException({
     required String code,
@@ -41,7 +34,6 @@ class ValidationException extends AppException {
   }) : super(code: 'DAT-$code');
 }
 
-/// System/Internal errors
 class SystemException extends AppException {
   SystemException({required String code, required super.message, super.details})
     : super(code: 'SYS-$code');

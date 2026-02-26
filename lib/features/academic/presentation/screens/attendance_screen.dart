@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -37,7 +33,7 @@ class AttendanceScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'الحضور والغياب' : 'Attendance',
+            t.attendance.title,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -59,47 +55,26 @@ class AttendanceScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              final attendance = isArabic
-                  ? [
-                      {
-                        'subject': 'الذكاء الاصطناعي',
-                        'present': '12',
-                        'absent': '2',
-                        'ratio': '85%',
-                      },
-                      {
-                        'subject': 'تعلم الآلة',
-                        'present': '14',
-                        'absent': '0',
-                        'ratio': '100%',
-                      },
-                      {
-                        'subject': 'أخلاقيات المهنة',
-                        'present': '6',
-                        'absent': '1',
-                        'ratio': '86%',
-                      },
-                    ]
-                  : [
-                      {
-                        'subject': 'Artificial Intelligence',
-                        'present': '12',
-                        'absent': '2',
-                        'ratio': '85%',
-                      },
-                      {
-                        'subject': 'Machine Learning',
-                        'present': '14',
-                        'absent': '0',
-                        'ratio': '100%',
-                      },
-                      {
-                        'subject': 'Ethics in IT',
-                        'present': '6',
-                        'absent': '1',
-                        'ratio': '86%',
-                      },
-                    ];
+              final attendance = [
+                {
+                  'subject': t.attendance.subjects.ai,
+                  'present': '12',
+                  'absent': '2',
+                  'ratio': '85%',
+                },
+                {
+                  'subject': t.attendance.subjects.machine_learning,
+                  'present': '14',
+                  'absent': '0',
+                  'ratio': '100%',
+                },
+                {
+                  'subject': t.attendance.subjects.ethics,
+                  'present': '6',
+                  'absent': '1',
+                  'ratio': '86%',
+                },
+              ];
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: _buildAttendanceCard(
@@ -136,7 +111,7 @@ class AttendanceScreen extends ConsumerWidget {
             ),
           ),
           Text(
-            isArabic ? 'نسبة الحضور' : 'Attendance Ratio',
+            t.attendance.ratio,
             style: GoogleFonts.inter(
               fontSize: 14,
               color: isGlass ? Colors.white60 : Theme.of(context).hintColor,
@@ -149,21 +124,21 @@ class AttendanceScreen extends ConsumerWidget {
               _buildStatItem(
                 context,
                 '32',
-                isArabic ? 'حضور' : 'Present',
+                t.attendance.present,
                 Colors.green,
                 isGlass,
               ),
               _buildStatItem(
                 context,
                 '3',
-                isArabic ? 'غياب' : 'Absent',
+                t.attendance.absent,
                 Colors.red,
                 isGlass,
               ),
               _buildStatItem(
                 context,
                 '1',
-                isArabic ? 'تأخير' : 'Late',
+                t.attendance.late,
                 Colors.orange,
                 isGlass,
               ),
@@ -244,7 +219,7 @@ class AttendanceScreen extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  '${isArabic ? 'حضور' : 'Present'}: ${item['present']} | ${isArabic ? 'غياب' : 'Absent'}: ${item['absent']}',
+                  '${t.attendance.present}: ${item['present']} | ${t.attendance.absent}: ${item['absent']}',
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     color: Theme.of(context).hintColor,

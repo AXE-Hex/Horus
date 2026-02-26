@@ -1,10 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 import 'dart:math' as math;
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -12,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/features/students/data/digital_id_theme_repository.dart';
+import 'package:hue/features/students/domain/models/digital_id_theme.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class DigitalIDScreen extends StatelessWidget {
@@ -42,11 +38,12 @@ class DigitalIDScreen extends StatelessWidget {
         ),
         title: Text(
           isArabic ? "الهوية الجامعية" : "Digital ID",
-          style: GoogleFonts.outfit(
-            color: Colors.white,
-            letterSpacing: 1.2,
-            fontWeight: FontWeight.bold,
-          ),
+          style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+              .copyWith(
+                color: Colors.white,
+                letterSpacing: 1.2,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         centerTitle: true,
         actions: [
@@ -61,13 +58,9 @@ class DigitalIDScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
             children: [
-              // Redesigned Flippable Card
               _FlippableDigitalIDCard(studentData: studentData),
-
               const SizedBox(height: 40),
-
               _buildVerificationBadge(context, isArabic),
-
               const SizedBox(height: 30),
               _buildNFCHint(isArabic),
             ],
@@ -94,11 +87,12 @@ class DigitalIDScreen extends StatelessWidget {
             isArabic
                 ? 'جاهز للتحقق اللاسلكي'
                 : 'Ready for contactless validation',
-            style: GoogleFonts.outfit(
-              color: Colors.white54,
-              fontSize: 12,
-              letterSpacing: 0.5,
-            ),
+            style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+                .copyWith(
+                  color: Colors.white54,
+                  fontSize: 12,
+                  letterSpacing: 0.5,
+                ),
           ),
         ],
       ),
@@ -148,12 +142,14 @@ class DigitalIDScreen extends StatelessWidget {
                 const SizedBox(width: 14),
                 Text(
                   isArabic ? 'هوية رقمية آمنة' : 'SECURE DIGITAL PASS',
-                  style: GoogleFonts.outfit(
-                    color: const Color(0xFF10B981),
-                    fontWeight: FontWeight.w900,
-                    fontSize: 12,
-                    letterSpacing: 2.0,
-                  ),
+                  style:
+                      (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+                          .copyWith(
+                            color: const Color(0xFF10B981),
+                            fontWeight: FontWeight.w900,
+                            fontSize: 12,
+                            letterSpacing: 2.0,
+                          ),
                 ),
               ],
             ),
@@ -186,18 +182,20 @@ class DigitalIDScreen extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               isArabic ? 'مشاركة الهوية الرقمية' : 'Share Digital Identity',
-              style: GoogleFonts.outfit(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+              style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+                  .copyWith(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
             ),
             const SizedBox(height: 8),
             Text(
               isArabic
                   ? 'تَم إنشاؤها بأمان عبر الجامعة'
                   : 'Generated securely via University Hub',
-              style: GoogleFonts.outfit(fontSize: 14, color: Colors.white70),
+              style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+                  .copyWith(fontSize: 14, color: Colors.white70),
             ),
             const SizedBox(height: 40),
             Row(
@@ -241,6 +239,7 @@ class _ShareOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = t.$meta.locale.languageCode == 'ar';
     return Column(
       children: [
         Container(
@@ -263,11 +262,12 @@ class _ShareOption extends StatelessWidget {
         const SizedBox(height: 14),
         Text(
           label,
-          style: GoogleFonts.outfit(
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-          ),
+          style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+              .copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
         ),
       ],
     );
@@ -283,218 +283,261 @@ class _FrontCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final theme = DigitalIDThemeRepository.getTheme(
-      collegeId: studentData['college'],
-      specializationId: studentData['specialization'],
+      collegeId: studentData['college']?.toString() ?? '',
+      specializationId: studentData['specialization']?.toString(),
     );
 
     return GlassContainer(
-      height: 240, // Reduced height to avoid overflow
+      height: 260,
       width: double.infinity,
       borderRadius: BorderRadius.circular(32),
       padding: EdgeInsets.zero,
-      blur: 25, // Adjusted blur
+      blur: 35,
       border: Border.all(
-        color: Colors.white.withValues(alpha: 0.1),
+        color: Colors.white.withValues(alpha: 0.15),
         width: 1.5,
       ),
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
-          theme.primaryColor.withValues(alpha: 0.25),
-          const Color(0xFF0F172A).withValues(alpha: 0.4),
-        ],
+        colors: theme.gradientColors.isNotEmpty
+            ? theme.gradientColors
+            : [
+                theme.primaryColor.withValues(alpha: 0.3),
+                const Color(0xFF0F172A).withValues(alpha: 0.6),
+              ],
       ),
       child: Stack(
         children: [
-          // 💎 Refractive Edges
           _buildRefractiveEdges(),
-
-          // Deep Pattern (Watermark)
+          _buildHolographicLayer(theme),
           Positioned(
-            right: -40,
+            right: isArabic ? null : -40,
+            left: isArabic ? -40 : null,
             top: -40,
             child: Icon(
               theme.patternIcon,
               size: 240,
-              color: Colors.white.withValues(alpha: 0.03),
+              color: Colors.white.withValues(alpha: 0.04),
             ),
           ),
-
-          // Content
           Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            padding: const EdgeInsets.all(24.0),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topLeft,
+              child: SizedBox(
+                width:
+                    462, // Using a reference width to maintain relative scaling
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          LucideIcons.graduationCap,
-                          color: Colors.white.withValues(alpha: 0.8),
-                          size: 20,
-                        ),
-                        const SizedBox(width: 12),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Text(
-                              isArabic ? 'جامعة حورس' : 'Horus University',
-                              style: GoogleFonts.cinzel(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w900,
-                                fontSize: 13,
-                                letterSpacing: 2.5,
-                              ),
+                            Icon(
+                              LucideIcons.graduationCap,
+                              color: Colors.white.withValues(alpha: 0.9),
+                              size: 22,
                             ),
-                            Text(
-                              isArabic
-                                  ? 'بِطاقة أكاديمية'
-                                  : 'ACADEMIC CREDENTIAL',
-                              style: GoogleFonts.outfit(
-                                color: Colors.white24,
-                                fontSize: 7,
-                                fontWeight: FontWeight.w900,
-                                letterSpacing: 1.5,
-                              ),
+                            const SizedBox(width: 12),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  isArabic ? 'جامعة حورس' : 'Horus University',
+                                  style:
+                                      (isArabic
+                                              ? GoogleFonts.tajawal()
+                                              : GoogleFonts.cinzel())
+                                          .copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 14,
+                                            letterSpacing: isArabic ? 0 : 2.5,
+                                          ),
+                                ),
+                                Text(
+                                  isArabic
+                                      ? 'بِطاقة أكاديمية رقمية'
+                                      : 'DIGITAL ACADEMIC CREDENTIAL',
+                                  style:
+                                      (isArabic
+                                              ? GoogleFonts.tajawal()
+                                              : GoogleFonts.outfit())
+                                          .copyWith(
+                                            color: Colors.white30,
+                                            fontSize: 8,
+                                            fontWeight: FontWeight.w900,
+                                            letterSpacing: 1.5,
+                                          ),
+                                ),
+                              ],
                             ),
                           ],
+                        ),
+                        _buildSecurityChip(theme),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        _buildProfileAvatar(theme),
+                        const SizedBox(width: 24),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                studentData['name'] ?? 'Ahmed Mohamed',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                    (isArabic
+                                            ? GoogleFonts.tajawal()
+                                            : GoogleFonts.outfit())
+                                        .copyWith(
+                                          color: Colors.white,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w900,
+                                          height: 1.1,
+                                        ),
+                              ),
+                              const SizedBox(height: 10),
+                              _buildDepartmentTag(theme, isArabic),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.05),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: theme.secondaryColor.withValues(alpha: 0.2),
-                        ),
-                      ),
-                      child: Icon(
-                        theme.patternIcon,
-                        color: theme.secondaryColor,
-                        size: 18,
-                      ),
-                    ),
+                    const SizedBox(height: 20),
+                    _buildDetailsRow(studentData, isArabic),
                   ],
                 ),
-
-                const Spacer(),
-
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: SweepGradient(
-                          colors: [
-                            theme.primaryColor,
-                            theme.secondaryColor,
-                            theme.primaryColor,
-                          ],
-                        ),
-                      ),
-                      child: const CircleAvatar(
-                        radius: 38,
-                        backgroundColor: Color(0xFF0F172A),
-                        child: Icon(
-                          LucideIcons.user,
-                          size: 40,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 24),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            studentData['name'] ?? 'Ahmed Mohamed',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.outfit(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w900,
-                              height: 1.0,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: theme.secondaryColor.withValues(
-                                alpha: 0.1,
-                              ),
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                color: theme.secondaryColor.withValues(
-                                  alpha: 0.25,
-                                ),
-                              ),
-                            ),
-                            child: Text(
-                              isArabic
-                                  ? theme.name.toUpperCase()
-                                  : theme.name.toUpperCase(),
-                              style: GoogleFonts.outfit(
-                                color: theme.secondaryColor.withValues(
-                                  alpha: 0.8,
-                                ),
-                                fontSize: 9,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                const Spacer(),
-
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.03),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.03),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildStat(
-                        isArabic ? 'الرقم الجامعي' : 'STUDENT ID',
-                        studentData['id'],
-                      ),
-                      _buildStat(
-                        isArabic ? 'الفصل الدراسي' : 'SEMESTER',
-                        studentData['level'],
-                      ),
-                      _buildStat(
-                        isArabic ? 'المعدل التراكمي' : 'GPA UNIT',
-                        studentData['gpa'],
-                      ),
-                      _buildStat(isArabic ? 'صالح حتى' : 'VALID TO', '09/2026'),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHolographicLayer(DigitalIDTheme theme) {
+    return Positioned.fill(
+      child:
+          Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(32),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white.withValues(alpha: 0.0),
+                      theme.primaryColor.withValues(alpha: 0.05),
+                      Colors.white.withValues(alpha: 0.1),
+                      theme.secondaryColor.withValues(alpha: 0.05),
+                      Colors.white.withValues(alpha: 0.0),
+                    ],
+                    stops: const [0.0, 0.3, 0.5, 0.7, 1.0],
+                  ),
+                ),
+              )
+              .animate(onPlay: (c) => c.repeat())
+              .shimmer(duration: 3.seconds, color: Colors.white10),
+    );
+  }
+
+  Widget _buildSecurityChip(DigitalIDTheme theme) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        shape: BoxShape.circle,
+        border: Border.all(color: theme.secondaryColor.withValues(alpha: 0.3)),
+        boxShadow: [
+          BoxShadow(
+            color: theme.primaryColor.withValues(alpha: 0.1),
+            blurRadius: 10,
+          ),
+        ],
+      ),
+      child: Icon(theme.patternIcon, color: theme.secondaryColor, size: 20),
+    );
+  }
+
+  Widget _buildProfileAvatar(DigitalIDTheme theme) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          colors: [theme.primaryColor, theme.secondaryColor],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: theme.primaryColor.withValues(alpha: 0.3),
+            blurRadius: 15,
+          ),
+        ],
+      ),
+      child: const CircleAvatar(
+        radius: 42,
+        backgroundColor: Color(0xFF0F172A),
+        child: Icon(LucideIcons.user, size: 44, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildDepartmentTag(DigitalIDTheme theme, bool isArabic) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: theme.secondaryColor.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: theme.secondaryColor.withValues(alpha: 0.3)),
+      ),
+      child: Text(
+        theme.name.toUpperCase(),
+        style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+            .copyWith(
+              color: theme.secondaryColor.withValues(alpha: 0.9),
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              letterSpacing: isArabic ? 0 : 1.5,
+            ),
+      ),
+    );
+  }
+
+  Widget _buildDetailsRow(Map<String, dynamic> studentData, bool isArabic) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildStat(
+            isArabic ? 'المُعرف' : 'ID NO',
+            studentData['id']?.toString() ?? '',
+            isArabic,
+          ),
+          _buildStat(
+            isArabic ? 'المستوى' : 'LEVEL',
+            studentData['level']?.toString() ?? '',
+            isArabic,
+          ),
+          _buildStat(
+            isArabic ? 'المعدل' : 'GPA',
+            studentData['gpa']?.toString() ?? '',
+            isArabic,
+          ),
+          _buildStat(isArabic ? 'صلاحية' : 'EXPIRY', '09/2026', isArabic),
         ],
       ),
     );
@@ -506,35 +549,37 @@ class _FrontCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.05),
-            width: 1,
+            color: Colors.white.withValues(alpha: 0.08),
+            width: 1.2,
           ),
         ),
       ),
     );
   }
 
-  Widget _buildStat(String label, String value) {
+  Widget _buildStat(String label, String value, bool isArabic) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: GoogleFonts.inter(
-            color: Colors.white.withValues(alpha: 0.3),
-            fontSize: 7,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
-          ),
+          style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.inter())
+              .copyWith(
+                color: Colors.white.withValues(alpha: 0.4),
+                fontSize: 8,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 4),
         Text(
           value,
-          style: GoogleFonts.outfit(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
+          style: (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+              .copyWith(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w800,
+              ),
         ),
       ],
     );
@@ -562,7 +607,7 @@ class _FlippableDigitalIDCardState extends State<_FlippableDigitalIDCard>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600),
+      duration: const Duration(milliseconds: 800),
     );
     _animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOutBack),
@@ -622,74 +667,71 @@ class _BackCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final theme = DigitalIDThemeRepository.getTheme(
-      collegeId: studentData['college'],
-      specializationId: studentData['specialization'],
+      collegeId: studentData['college']?.toString() ?? '',
+      specializationId: studentData['specialization']?.toString(),
     );
 
     return GlassContainer(
-      height: 240,
+      height: 260,
       width: double.infinity,
       borderRadius: BorderRadius.circular(32),
-      padding: const EdgeInsets.all(28),
-      blur: 25,
+      padding: const EdgeInsets.all(24),
+      blur: 35,
       border: Border.all(
-        color: Colors.white.withValues(alpha: 0.1),
+        color: Colors.white.withValues(alpha: 0.15),
         width: 1.5,
       ),
       gradient: LinearGradient(
         begin: Alignment.bottomRight,
         end: Alignment.topLeft,
         colors: [
-          const Color(0xFF0F172A).withValues(alpha: 0.8),
-          theme.primaryColor.withValues(alpha: 0.3),
+          const Color(0xFF0F172A).withValues(alpha: 0.9),
+          theme.primaryColor.withValues(alpha: 0.4),
         ],
       ),
       child: Stack(
         children: [
-          // 💎 Refractive Edges
           _buildRefractiveEdges(),
-
-          // Centered QR Code
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(28),
                     boxShadow: [
                       BoxShadow(
-                        color: theme.secondaryColor.withValues(alpha: 0.3),
-                        blurRadius: 30,
-                        spreadRadius: 5,
+                        color: theme.secondaryColor.withValues(alpha: 0.4),
+                        blurRadius: 40,
+                        spreadRadius: 8,
                       ),
                     ],
                   ),
-                  child: Icon(
+                  child: const Icon(
                     LucideIcons.qrCode,
-                    size: 100,
-                    color: Colors.black.withValues(alpha: 0.8),
+                    size: 110,
+                    color: Colors.black,
                   ),
-                ),
-                const SizedBox(height: 20),
+                ).animate().scale(duration: 600.ms, curve: Curves.elasticOut),
+                const SizedBox(height: 24),
                 Text(
                   isArabic
-                      ? 'امسح للتحقق من الهوية'
-                      : 'SCAN FOR IDENTITY VERIFICATION',
-                  style: GoogleFonts.outfit(
-                    color: Colors.white.withValues(alpha: 0.6),
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                  ),
+                      ? 'امسح للتحقق الرقمي'
+                      : 'SCAN FOR ENCRYPTED VERIFICATION',
+                  style:
+                      (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+                          .copyWith(
+                            color: Colors.white.withValues(alpha: 0.7),
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: isArabic ? 0 : 2,
+                          ),
                 ),
               ],
             ),
           ),
-
-          // Bottom Info
           Positioned(
             bottom: 0,
             left: 0,
@@ -698,18 +740,22 @@ class _BackCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  isArabic ? 'نظام HUE الأمني' : 'HUE SECURITY SYSTEM',
-                  style: GoogleFonts.outfit(
-                    color: Colors.white24,
-                    fontSize: 8,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1,
-                  ),
+                  isArabic
+                      ? 'نظام HUE الأمني المتطور'
+                      : 'HUE ADVANCED SECURITY',
+                  style:
+                      (isArabic ? GoogleFonts.tajawal() : GoogleFonts.outfit())
+                          .copyWith(
+                            color: Colors.white24,
+                            fontSize: 9,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
                 ),
                 const Icon(
                   LucideIcons.shieldCheck,
-                  color: Colors.white12,
-                  size: 16,
+                  color: Colors.white24,
+                  size: 18,
                 ),
               ],
             ),
@@ -725,8 +771,8 @@ class _BackCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(32),
           border: Border.all(
-            color: Colors.white.withValues(alpha: 0.05),
-            width: 1,
+            color: Colors.white.withValues(alpha: 0.08),
+            width: 1.2,
           ),
         ),
       ),

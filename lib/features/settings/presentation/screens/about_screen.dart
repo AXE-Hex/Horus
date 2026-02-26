@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +7,7 @@ import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AboutScreen extends ConsumerWidget {
@@ -48,7 +44,7 @@ class AboutScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              // App Logo
+
               Center(
                 child: Image.asset(
                   Theme.of(context).brightness == Brightness.dark
@@ -81,7 +77,6 @@ class AboutScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 32),
 
-              // About info
               GlassContainer(
                 borderRadius: BorderRadius.circular(20),
                 padding: const EdgeInsets.all(20),
@@ -120,7 +115,6 @@ class AboutScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // Description
               GlassContainer(
                 borderRadius: BorderRadius.circular(20),
                 padding: const EdgeInsets.all(20),
@@ -139,7 +133,6 @@ class AboutScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 24),
 
-              // Copyright
               Center(
                 child: Text(
                   '© 2026 Horus University. All rights reserved.',

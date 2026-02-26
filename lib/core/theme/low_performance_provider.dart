@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +11,7 @@ class LowPerformanceController extends _$LowPerformanceController {
   @override
   bool build() {
     _loadState();
-    return false; // Default is false (high performance/glassmorphism on)
+    return false;
   }
 
   Future<void> _loadState() async {

@@ -1,21 +1,24 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/academic/data/models/professor_profile_models.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:hue/features/academic/data/repositories/professor_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+
+import 'package:flutter_riverpod/legacy.dart';
+
+final selectedGroupIdProvider = StateProvider.autoDispose<String?>(
+  (ref) => null,
+);
 
 class ProfessorDashboardScreen extends ConsumerWidget {
   final ProfessorProfile profile;
@@ -24,76 +27,198 @@ class ProfessorDashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profileAsync = ref.watch(professorProfileProvider);
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
     final theme = Theme.of(context);
-    final color = Colors.indigo; // Different theme for management side
+    final color = Colors.indigo;
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
-    Widget content = CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        _buildGlassSliverAppBar(context, isGlass, color, isArabic),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate([
-              _buildStatsRow(context, isGlass, color, isArabic),
-              const SizedBox(height: 24),
-              _buildQuickActions(context, isGlass, color, isArabic),
-              const SizedBox(height: 24),
-              _buildManageSection(
-                context,
-                isArabic ? 'إدارة المعيدين' : 'Manage TAs',
-                LucideIcons.users,
-                isGlass,
-                color,
-                '${profile.teachingAssistants.length} ${isArabic ? 'معيد حالي' : 'Active TAs'}',
-                isArabic,
-              ),
-              const SizedBox(height: 16),
-              _buildManageSection(
-                context,
-                isArabic ? 'المجموعات الطلابية' : 'Student Groups',
-                LucideIcons.network,
-                isGlass,
-                color,
-                '${profile.groups.fold(0, (sum, g) => sum + g.studentCount)} ${isArabic ? 'إجمالي الطلاب' : 'Total Students'}',
-                isArabic,
-              ),
-              const SizedBox(height: 16),
-              _buildManageSection(
-                context,
-                isArabic ? 'الملفات المشتركة' : 'Shared Files',
-                LucideIcons.folderKey,
-                isGlass,
-                color,
-                '${profile.sharedFiles.length} ${isArabic ? 'ملف مرفوع' : 'Uploaded Files'}',
-                isArabic,
-              ),
-              const SizedBox(height: 16),
-              _buildManageSection(
-                context,
-                isArabic ? 'الساعات المكتبية' : 'Office Hours',
-                LucideIcons.clock,
-                isGlass,
-                color,
-                '${profile.officeHours.length} ${isArabic ? 'مواعيد أسبوعية' : 'Weekly Slots'}',
-                isArabic,
-              ),
-              const SizedBox(height: 80),
-            ]),
-          ),
-        ),
-      ],
-    );
+    return profileAsync.when(
+      data: (profile) {
+        if (profile == null) {
+          return const Center(child: Text('Profile not found'));
+        }
 
-    return isGlass
-        ? GlassScaffold(body: content)
-        : Scaffold(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            body: content,
-          );
+        final selectedGroupId = ref.watch(selectedGroupIdProvider);
+        final filteredGroups = selectedGroupId == null
+            ? profile.groups
+            : profile.groups.where((g) => g.id == selectedGroupId).toList();
+
+        final studentCount = filteredGroups.fold<int>(
+          0,
+          (sum, g) => sum + g.studentCount,
+        );
+
+        Widget content = CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            _buildGlassSliverAppBar(context, isGlass, color, isArabic, profile),
+            SliverToBoxAdapter(
+              child: _buildGroupSelector(
+                context,
+                ref,
+                profile,
+                isGlass,
+                isArabic,
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  _buildStatsRow(
+                    context,
+                    isGlass,
+                    color,
+                    isArabic,
+                    profile,
+                    studentCount: studentCount,
+                    groupCount: filteredGroups.length,
+                  ),
+                  const SizedBox(height: 24),
+                  _buildQuickActions(
+                    context,
+                    isGlass,
+                    color,
+                    isArabic,
+                    profile,
+                  ),
+                  const SizedBox(height: 24),
+                  _buildManageSection(
+                    context,
+                    t.roles.names.teaching_assistant,
+                    LucideIcons.users,
+                    isGlass,
+                    color,
+                    t.professor.active_tas_count(
+                      count: profile.teachingAssistants.length,
+                    ),
+                    isArabic,
+                    profile,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildManageSection(
+                    context,
+                    t.professor.stats.groups,
+                    LucideIcons.network,
+                    isGlass,
+                    color,
+                    t.professor.total_students_count(count: studentCount),
+                    isArabic,
+                    profile,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildManageSection(
+                    context,
+                    t.professor.stats.shared_files,
+                    LucideIcons.folderKey,
+                    isGlass,
+                    color,
+                    t.professor.uploaded_files_count(
+                      count: profile.sharedFiles.length,
+                    ),
+                    isArabic,
+                    profile,
+                  ),
+                  const SizedBox(height: 16),
+                  _buildManageSection(
+                    context,
+                    t.professor.stats.office_hours,
+                    LucideIcons.clock,
+                    isGlass,
+                    color,
+                    t.professor.weekly_slots_count(
+                      count: profile.officeHours.length,
+                    ),
+                    isArabic,
+                    profile,
+                  ),
+                  const SizedBox(height: 80),
+                ]),
+              ),
+            ),
+          ],
+        );
+
+        return isGlass
+            ? GlassScaffold(body: content)
+            : Scaffold(
+                backgroundColor: theme.scaffoldBackgroundColor,
+                body: content,
+              );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+    );
+  }
+
+  Widget _buildGroupSelector(
+    BuildContext context,
+    WidgetRef ref,
+    ProfessorProfile profile,
+    bool isGlass,
+    bool isArabic,
+  ) {
+    final selectedId = ref.watch(selectedGroupIdProvider);
+
+    return Container(
+      height: 50,
+      margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: [
+          _buildGroupChip(
+            context,
+            ref,
+            null,
+            isArabic ? 'الكل' : 'All',
+            selectedId == null,
+            isGlass,
+          ),
+          ...profile.groups.map(
+            (g) => _buildGroupChip(
+              context,
+              ref,
+              g.id,
+              g.name,
+              selectedId == g.id,
+              isGlass,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGroupChip(
+    BuildContext context,
+    WidgetRef ref,
+    String? id,
+    String label,
+    bool isSelected,
+    bool isGlass,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: ChoiceChip(
+        label: Text(label),
+        selected: isSelected,
+        onSelected: (val) =>
+            ref.read(selectedGroupIdProvider.notifier).state = id,
+        selectedColor: Colors.indigo.withValues(alpha: 0.2),
+        backgroundColor: isGlass
+            ? Colors.white10
+            : Colors.grey.withValues(alpha: 0.1),
+        labelStyle: GoogleFonts.inter(
+          fontSize: 12,
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          color: isSelected
+              ? Colors.indigo
+              : (isGlass ? Colors.white : Colors.black87),
+        ),
+      ),
+    );
   }
 
   Widget _buildGlassSliverAppBar(
@@ -101,6 +226,7 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     bool isGlass,
     Color color,
     bool isArabic,
+    ProfessorProfile profile,
   ) {
     return GlassSliverAppBar(
       expandedHeight: 160,
@@ -139,7 +265,7 @@ class ProfessorDashboardScreen extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Professor Dashboard',
+                      t.professor.dashboard_title,
                       style: GoogleFonts.outfit(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -148,7 +274,9 @@ class ProfessorDashboardScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Welcome back, ${profile.name.split(' ').first}',
+                      t.professor.welcome_back_name(
+                        name: profile.name.split(' ').first,
+                      ),
                       style: GoogleFonts.inter(
                         fontSize: 14,
                         color: Colors.white70,
@@ -169,14 +297,17 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     bool isGlass,
     Color color,
     bool isArabic,
-  ) {
+    ProfessorProfile profile, {
+    int? studentCount,
+    int? groupCount,
+  }) {
     return Row(
       children: [
         Expanded(
           child: _buildStatCard(
             context,
-            isArabic ? 'المجموعات' : 'Groups',
-            profile.groups.length.toString(),
+            t.professor.stats.groups,
+            (groupCount ?? profile.groups.length).toString(),
             LucideIcons.layoutGrid,
             isGlass,
             Colors.blue,
@@ -186,8 +317,8 @@ class ProfessorDashboardScreen extends ConsumerWidget {
         Expanded(
           child: _buildStatCard(
             context,
-            isArabic ? 'إجمالي الطلاب' : 'Total Students',
-            profile.groups.fold(0, (sum, g) => sum + g.studentCount).toString(),
+            t.professor.stats.students,
+            (studentCount).toString(),
             LucideIcons.users,
             isGlass,
             Colors.orange,
@@ -197,7 +328,7 @@ class ProfessorDashboardScreen extends ConsumerWidget {
         Expanded(
           child: _buildStatCard(
             context,
-            isArabic ? 'التقييم' : 'Rating',
+            t.professor.stats.rating,
             profile.generalRating.toString(),
             LucideIcons.star,
             isGlass,
@@ -262,6 +393,7 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     bool isGlass,
     Color color,
     bool isArabic,
+    ProfessorProfile profile,
   ) {
     final block = Container(
       padding: const EdgeInsets.all(16),
@@ -274,27 +406,30 @@ class ProfessorDashboardScreen extends ConsumerWidget {
         children: [
           _buildActionButton(
             context,
-            isArabic ? 'عاجل' : 'Urgent',
+            t.professor.quick_actions.urgent,
             LucideIcons.megaphone,
             Colors.redAccent,
             isGlass,
             isArabic,
+            profile,
           ),
           _buildActionButton(
             context,
-            isArabic ? 'رفع' : 'Upload',
+            t.professor.quick_actions.upload,
             LucideIcons.uploadCloud,
             Colors.blueAccent,
             isGlass,
             isArabic,
+            profile,
           ),
           _buildActionButton(
             context,
-            isArabic ? 'مراسلة' : 'Message',
+            t.professor.quick_actions.message,
             LucideIcons.messageCircle,
             Colors.teal,
             isGlass,
             isArabic,
+            profile,
           ),
         ],
       ),
@@ -315,16 +450,19 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     Color color,
     bool isGlass,
     bool isArabic,
+    ProfessorProfile profile,
   ) {
     return InkWell(
       onTap: () {
         HapticFeedback.selectionClick();
-        if (label == 'Message' || label == 'مراسلة') {
+        if (label == t.professor.quick_actions.message) {
           context.push('/professor-chat', extra: profile);
+        } else if (label == t.professor.quick_actions.upload) {
+          _showUploadDialog(context, profile);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${isArabic ? "تم النقر:" : "Clicked:"} $label'),
+              content: Text(t.professor.action_clicked(action: label)),
               duration: const Duration(seconds: 1),
             ),
           );
@@ -354,6 +492,69 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     );
   }
 
+  void _showUploadDialog(BuildContext context, ProfessorProfile profile) {
+    final isArabic = t.$meta.locale.languageCode == 'ar';
+    final titleController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => Consumer(
+        builder: (context, ref, child) => AlertDialog(
+          title: Text(isArabic ? 'رفع ملف جديد' : 'Upload New File'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                decoration: InputDecoration(
+                  labelText: isArabic ? 'عنوان الملف' : 'File Title',
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                isArabic
+                    ? 'سيتم رفع الملف إلى التخزين السحابي'
+                    : 'File will be uploaded to cloud storage',
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(isArabic ? 'إلغاء' : 'Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (titleController.text.isEmpty) return;
+
+                await ref
+                    .read(professorRepositoryProvider)
+                    .uploadSharedFile(
+                      professorId: profile.id,
+                      title: titleController.text,
+                      filePath: 'mock_path.pdf',
+                      fileName: 'document.pdf',
+                    );
+
+                if (!context.mounted) return;
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      isArabic ? 'تم الرفع بنجاح' : 'Uploaded successfully',
+                    ),
+                  ),
+                );
+              },
+              child: Text(isArabic ? 'رفع' : 'Upload'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildManageSection(
     BuildContext context,
     String title,
@@ -362,18 +563,21 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     Color color,
     String subtitle,
     bool isArabic,
+    ProfessorProfile profile,
   ) {
     final block = ListTile(
       onTap: () {
         HapticFeedback.mediumImpact();
-        if (title == 'Manage TAs' || title == 'إدارة المعيدين') {
+        if (title == 'Manage TAs' ||
+            title == 'إدارة المعيدين' ||
+            title == t.roles.names.teaching_assistant) {
           context.push('/manage-tas', extra: profile);
         } else if (title == 'Student Groups' || title == 'المجموعات الطلابية') {
           context.push('/manage-groups', extra: profile);
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('${isArabic ? "تفعيل:" : "Activating:"} $title'),
+              content: Text(t.professor.activating(target: title)),
               duration: const Duration(seconds: 1),
             ),
           );

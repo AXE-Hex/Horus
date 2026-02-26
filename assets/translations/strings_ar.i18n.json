@@ -287,10 +287,13 @@
     }
   },
   "grades": {
-    "title": "درجات الفصل الدراسي",
-    "grade_point": "نقاط المادة",
-    "letter_grade": "التقدير",
-    "gpa": "المعدل الفصلي"
+    "title": "الدرجات",
+    "summary": "ملخص الدرجات",
+    "cumulative_gpa": "المعدل التراكمي",
+    "gpa": "المعدل الفصلي",
+    "credits": "ساعات",
+    "grade_point": "النقاط",
+    "letter_grade": "التقدير"
   },
   "subject_results": {
     "title": "نتائج المواد",
@@ -317,6 +320,8 @@
   },
   "schedule": {
     "title": "جدول المحاضرات",
+    "daily_title": "الجدول اليومي",
+    "no_lectures": "لا توجد محاضرات اليوم",
     "time": "الوقت",
     "room": "القاعة",
     "monday": "الاثنين",
@@ -344,8 +349,7 @@
     "east": "شرق",
     "west": "غرب",
     "south": "جنوب",
-    "north": "شمال",
-    "no_lectures": "لا توجد محاضرات"
+    "north": "شمال"
   },
   "exam_schedule": {
     "title": "جدول الامتحانات",
@@ -358,24 +362,60 @@
     "present": "حاضر",
     "absent": "غائب",
     "late": "متأخر",
-    "ratio": "نسبة الحضور"
+    "ratio": "نسبة الحضور",
+    "subjects": {
+      "ai": "الذكاء الاصطناعي",
+      "machine_learning": "تعلم الآلة",
+      "ethics": "أخلاقيات المهنة",
+      "calculus": "تفاضل متقدم"
+    }
   },
   "registration": {
     "title": "التسجيل الأكاديمي",
     "submit": "إرسال طلب التسجيل",
-    "enrolled_credits": "الساعات المسجلة"
+    "enrolled_credits": "الساعات المسجلة",
+    "step1_title": "الخطوة ١: اختر المجموعة الرئيسية",
+    "step1_subtitle": "اختر المجموعة التي ترغب بالتسجيل فيها لهذا الفصل الدراسي.",
+    "group_label": "المجموعة ${group}",
+    "main_cohort": "تسجيل المجموعة الرئيسية",
+    "step2_title": "الخطوة ٢: اختر القسم الفرعي (السكشن)",
+    "step2_subtitle": "المجموعة المختارة: ${group}. الآن اختر السكشن العملي والتطبيقي.",
+    "section_label": "سكشن ${section}",
+    "labs_sessions": "المعامل والدروس العملية",
+    "step3_title": "الخطوة ٣: تأكيد التسجيل",
+    "review": "مراجعة خياراتك",
+    "semester": "الفصل",
+    "group": "المجموعة",
+    "section": "السكشن",
+    "auto_registered": "المقررات التي سيتم تسجيلها تلقائياً:",
+    "credits_count": "${credits} ساعات",
+    "confirm_final": "تأكيد التسجيل النهائي",
+    "already_registered_title": "مسجل بالفعل!",
+    "success_message": "لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: ${group} | السكشن: ${section}",
+    "back_home": "العودة للرئيسية",
+    "registration_success": "تم التسجيل بنجاح!",
+    "error_loading": "خطأ: ${error}\n\nاضغط لإعادة المحاولة"
   },
   "payment": {
     "title": "الدفع الإلكتروني",
     "outstanding": "المبلغ المستحق",
-    "pay_now": "دفع الآن",
-    "methods": "طرق الدفع"
+    "pay_now": "سداد الآن",
+    "methods": "طرق الدفع",
+    "university_guaranteed": "طرق الدفع بضمان الجامعة",
+    "credit_debit": "بطاقة ائتمان / خصم مباشر",
+    "fawry": "فوري / دفع إلكتروني",
+    "bank_transfer": "تحويل بنكي",
+    "currency": "${amount} ج.م"
   },
   "invoices": {
-    "title": "الفواتير",
+    "title": "الفواتير والمالية",
     "history": "سجل الدفع",
     "unpaid": "غير مدفوع",
-    "paid": "تم الدفع"
+    "paid": "تم الدفع",
+    "id": "رقم الفاتورة",
+    "date": "التاريخ",
+    "amount": "المبلغ",
+    "status": "الحالة"
   },
   "notifications": {
     "title": "الإشعارات",
@@ -403,12 +443,40 @@
     "reports": "التقارير"
   },
   "professor": {
-    "dashboard": "لوحة تحكم الدكتور",
-    "welcome_back": "مرحباً بعودتك",
+    "dashboard_title": "لوحة تحكم الدكتور",
+    "welcome_back_name": "مرحباً بعودتك، ${name}",
+    "active_tas_count": "${count} معيد حالي",
+    "total_students_count": "${count} إجمالي الطلاب",
+    "uploaded_files_count": "${count} ملف مرفوع",
+    "weekly_slots_count": "${count} مواعيد أسبوعية",
+    "announcement_to": "إرسال إعلان لـ ${count}",
+    "preparing_announcement": "جاري تجهيز الإعلان...",
+    "no_groups": "لا توجد مجموعات",
+    "select_all": "تحديد الكل",
+    "deselect_all": "إلغاء التحديد",
+    "selected_count": "${count} محدد",
+    "action_clicked": "تم النقر: ${action}",
+    "activating": "تفعيل: ${target}",
+    "add_new_ta": "إضافة معيد جديد",
+    "no_available_tas": "لا يوجد معيدون متاحون",
+    "no_active_tas": "لا يوجد معيدون حالياً",
+    "added": "تم إضافة: ${name}",
+    "removed": "تم إزالة: ${name}",
+    "add": "إضافة",
+    "urgent": "عاجل",
+    "upload": "رفع",
+    "message": "مراسلة",
+    "downloading": "جاري التحميل...",
+    "walk_in": "بدون موعد",
+    "joined": "تم الانضمام: ${name}",
+    "join": "انضمام",
     "stats": {
       "groups": "المجموعات",
       "students": "إجمالي الطلاب",
-      "rating": "التقييم"
+      "tas": "المعيدين",
+      "rating": "التقييم",
+      "shared_files": "الملفات المشتركة",
+      "office_hours": "الساعات المكتبية"
     },
     "quick_actions": {
       "urgent": "عاجل",
@@ -416,27 +484,74 @@
       "message": "مراسلة",
       "action_clicked": "تم النقر"
     },
-    "manage": {
-      "manage_tas": "إدارة المعيدين",
-      "active_tas": "المعيدين الحاليين",
-      "student_groups": "المجموعات الطلابية",
-      "total_students": "إجمالي الطلاب",
-      "shared_files": "الملفات المشتركة",
-      "uploaded_files": "ملفات مرفوعة",
-      "office_hours": "الساعات المكتبية",
-      "weekly_slots": "مواعيد أسبوعية"
-    },
     "profile": {
-      "office_hour": "موعد مكتبي",
-      "urgent_announcements": "إعلانات عاجلة",
-      "teaching_assistants": "الهيئة المعاونة",
-      "student_groups": "المجموعات الطلابية",
-      "students": "طلاب",
-      "join": "انضمام",
-      "joined": "تم الانضمام",
+      "urgent_announcements": "التنبيهات العاجلة",
+      "teaching_assistants": "المعيدين",
       "shared_resources": "المصادر المشتركة",
-      "office_hours": "الساعات المكتبية",
-      "walk_in": "بدون موعد"
+      "office_hours": "الساعات المكتبية"
+    }
+  },
+  "roles": {
+    "categories": {
+      "admin_it": "الإدارة والتقنية",
+      "academic_leadership": "القيادة الأكاديمية",
+      "teaching_staff": "الكادر التعليمي",
+      "student_affairs": "الخدمات الطلابية",
+      "student_roles": "رتب الطلاب",
+      "facilities_security": "المرافق والأمن",
+      "external_roles": "الخبراء الخارجيين"
+    },
+    "names": {
+      "super_admin": "مدير النظام العام",
+      "admin": "مسؤول نظام",
+      "it_support": "المسؤول التقني",
+      "financial_auditor": "المراقب المالي",
+      "rector": "مدير الجامعة",
+      "dean": "عميد الكلية",
+      "department_head": "رئيس القسم",
+      "academic_coordinator": "المنسق الأكاديمي",
+      "professor": "عضو هيئة تدريس",
+      "lecturer": "محاضر",
+      "teaching_assistant": "معيد / مساعد باحث",
+      "registrar_officer": "مشرف القبول والتسجيل",
+      "academic_advisor": "المرشد الأكاديمي",
+      "librarian": "أمين المكتبة",
+      "freshman": "طالب مستجد",
+      "regular_student": "طالب منتظم",
+      "student": "طالب",
+      "class_representative": "رئيس الدفعة",
+      "alumni": "خريج",
+      "dorm_supervisor": "مشرف السكن",
+      "security_officer": "مسؤول الأمن",
+      "guest": "زائر",
+      "parent": "ولي الأمر",
+      "recruiter": "جهة توظيف"
+    },
+    "descriptions": {
+      "super_admin": "تحكم كامل في النظام بأكمله",
+      "admin": "مسؤول نظام بصلاحيات عالية",
+      "it_support": "دعم وصيانة النظام التقني",
+      "financial_auditor": "مراقبة السجلات المالية والفواتير",
+      "rector": "مدير الجامعة مع إشراف أكاديمي كامل",
+      "dean": "رئيس كلية أو مجمع أكاديمي",
+      "department_head": "رئيس قسم أكاديمي",
+      "academic_coordinator": "تنسيق البرامج الأكاديمية والجداول",
+      "professor": "عضو هيئة تدريس يقوم بالتدريس وإدارة المقررات",
+      "lecturer": "يقوم بالتدريس بدون صلاحيات الأستاذ الكاملة",
+      "teaching_assistant": "يساعد الأساتذة في التصحيح والمعامل والتمارين",
+      "registrar_officer": "إدارة قبول وتسجيل الطلاب",
+      "academic_advisor": "يرشد الطلاب خلال التخطيط الأكاديمي",
+      "librarian": "إدارة الموارد والمواد المكتبية",
+      "freshman": "طالب في السنة الأولى مع صلاحيات محدودة",
+      "regular_student": "طالب منتظم مع جميع الصلاحيات الأكاديمية المعتادة",
+      "student": "طالب عام",
+      "class_representative": "قائد طلابي يمثل مجموعته الدراسية",
+      "alumni": "طالب خريج مع صلاحيات محدودة",
+      "dorm_supervisor": "إدارة عمليات السكن الطلابي",
+      "security_officer": "أمن الحرم الجامعي والتحكم في الدخول",
+      "guest": "زائر مؤقت مع صلاحيات محدودة",
+      "parent": "يمكنه متابعة تقدم الطالب المرتبط ودرجاته",
+      "recruiter": "جهة توظيف خارجية"
     }
   }
 }

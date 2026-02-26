@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
@@ -85,12 +81,10 @@ class _LiquidPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
 
-    // 1. Solid Base
     final bgPaint = Paint()
       ..color = isDark ? const Color(0xFF020617) : const Color(0xFFF8FAFC);
     canvas.drawRect(rect, bgPaint);
 
-    // 2. Fluid Blobs
     _drawBlob(canvas, size, primary, 0.4, 0.3, 0.6, 1.2, 0.0);
     _drawBlob(canvas, size, secondary, 0.7, 0.8, 0.5, 1.0, 0.3);
     _drawBlob(canvas, size, tertiary, 0.2, 0.7, 0.4, 0.8, 0.6);
@@ -105,7 +99,6 @@ class _LiquidPainter extends CustomPainter {
       0.9,
     );
 
-    // 3. Subtle Lighting Overlay
     final overlayPaint = Paint()
       ..shader = LinearGradient(
         begin: Alignment.topLeft,

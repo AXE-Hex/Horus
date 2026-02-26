@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +7,7 @@ import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class PrivacyPolicyScreen extends ConsumerWidget {
@@ -50,7 +46,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              // Last updated
+
               Center(
                 child: Text(
                   isArabic

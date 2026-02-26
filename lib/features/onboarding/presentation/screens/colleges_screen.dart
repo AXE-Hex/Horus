@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,7 +23,6 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
-  /// Centralized college data with translation keys
   final List<Map<String, dynamic>> _colleges = [
     {
       'title': (Translations t) => t.colleges.applied_health_sciences,
@@ -321,7 +316,7 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen>
                   padding: EdgeInsets.zero,
                   child: Stack(
                     children: [
-                      // Image Background with overlay
+
                       Positioned.fill(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30),
@@ -342,7 +337,7 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen>
                           ),
                         ),
                       ),
-                      // Color Accent Glow
+
                       Positioned(
                         top: -20,
                         right: -20,
@@ -361,7 +356,7 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen>
                           ),
                         ),
                       ),
-                      // Content
+
                       Positioned(
                         bottom: 0,
                         left: 0,
@@ -398,7 +393,7 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen>
                 .scale(begin: const Offset(0.9, 0.9), end: const Offset(1, 1)),
       );
     } else {
-      // CLASSIC DESIGN
+
       return GestureDetector(
         onTap: () => _onCollegeTap(college),
         child:

@@ -1,16 +1,12 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hue/core/security/axe_fingerprint.dart';
 import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/academic/data/models/professor_profile_models.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
@@ -57,15 +53,23 @@ class ProfessorProfileScreen extends ConsumerWidget {
       ],
     );
 
-    return isGlass
-        ? GlassScaffold(body: content)
-        : Scaffold(
-            backgroundColor: theme.scaffoldBackgroundColor,
-            body: content,
-          );
+    return Semantics(
+      identifier: AxeFingerprint.axeSignature,
+      container: true,
+      child: isGlass
+          ? GlassScaffold(body: content)
+          : Scaffold(
+              backgroundColor: theme.scaffoldBackgroundColor,
+              body: content,
+            ),
+    );
   }
 
-  Widget _buildGlassSliverAppBar(BuildContext context, bool isGlass, Color color) {
+  Widget _buildGlassSliverAppBar(
+    BuildContext context,
+    bool isGlass,
+    Color color,
+  ) {
     return GlassSliverAppBar(
       expandedHeight: 280,
       pinned: true,
@@ -189,7 +193,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
         Expanded(
           child: _buildActionBtn(
             context,
-            isArabic ? 'مراسلة' : 'Message',
+            t.professor.message,
             LucideIcons.messageSquare,
             isGlass,
             color,
@@ -200,7 +204,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
         Expanded(
           child: _buildActionBtn(
             context,
-            isArabic ? 'موعد مكتبي' : 'Office Hour',
+            t.professor.stats.office_hours,
             LucideIcons.calendarClock,
             isGlass,
             Colors.teal,
@@ -431,7 +435,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          '${isArabic ? "تم النقر:" : "Clicked:"} ${ta.name}',
+                          t.professor.action_clicked(action: ta.name),
                         ),
                         duration: const Duration(seconds: 1),
                       ),
@@ -461,11 +465,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle(
-          isArabic ? 'المجموعات الطلابية' : 'Student Groups',
-          isGlass,
-          context,
-        ),
+        _buildSectionTitle(t.professor.stats.groups, isGlass, context),
         const SizedBox(height: 12),
         ...profile.groups.map((group) {
           final block = ListTile(
@@ -485,7 +485,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
               ),
             ),
             subtitle: Text(
-              '${group.studentCount} ${isArabic ? 'طالب' : 'Students'}',
+              t.professor.total_students_count(count: group.studentCount),
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: isGlass ? Colors.white60 : Colors.grey,
@@ -512,7 +512,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Text(isArabic ? 'انضمام' : 'Join'),
+                    child: Text(t.professor.join),
                   ),
           );
 
@@ -586,9 +586,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                 HapticFeedback.selectionClick();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text(
-                      isArabic ? 'جاري التحميل...' : 'Downloading...',
-                    ),
+                    content: Text(t.professor.downloading),
                     duration: const Duration(seconds: 1),
                   ),
                 );
@@ -677,7 +675,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      isArabic ? 'بدون موعد' : 'Walk-in',
+                      t.professor.walk_in,
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         color: Colors.green,

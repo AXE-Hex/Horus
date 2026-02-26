@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 class Course {
   final String id;
@@ -47,7 +43,7 @@ class Course {
 class CourseSection {
   final String id;
   final String courseId;
-  final String name; // e.g. A, B, C
+  final String name;
   final String semester;
   final int maxStudents;
   final DateTime createdAt;
@@ -76,7 +72,7 @@ class CourseSection {
 class CourseSubSection {
   final String id;
   final String sectionId;
-  final String name; // e.g. A1, A2
+  final String name;
   final int maxStudents;
   final DateTime createdAt;
 

@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +19,7 @@ class StyleScreen extends ConsumerStatefulWidget {
 
 class _StyleScreenState extends ConsumerState<StyleScreen> {
   Future<void> _selectStyle(AppStyle style, String message) async {
-    // Apply style immediately for visual feedback
+
     await ref.read(styleControllerProvider.notifier).setStyle(style);
 
     if (!mounted) return;
@@ -33,7 +29,7 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
       extra: {
         'nextPath': '/theme-selection',
         'message': message,
-        'onComplete': null, // No longer needed in transition
+        'onComplete': null,
       },
     );
   }

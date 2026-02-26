@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -149,7 +145,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'الجدول اليومي' : 'Daily Schedule',
+            t.schedule.daily_title,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -158,7 +154,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
           centerTitle: true,
         ),
 
-        // Day Filter
         SliverToBoxAdapter(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -171,7 +166,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
                   child: ChoiceChip(
                     label: Text(
                       isArabic ? t['schedule.$day'] : t['schedule.$day'],
-                    ), // TODO: Ensure correct Arabic text map for days or replace inline
+                    ),
                     selected: isSelected,
                     onSelected: (val) {
                       if (val) selectedDay.value = day;
@@ -191,7 +186,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
 
         const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
-        // Period Filter
         SliverToBoxAdapter(
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -243,9 +237,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        isArabic
-                            ? "لا توجد محاضرات في هذا اليوم"
-                            : "No lectures today",
+                        t.schedule.no_lectures,
                         style: GoogleFonts.outfit(
                           color: Theme.of(context).hintColor,
                         ),
@@ -319,7 +311,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Time Column
           Column(
             children: [
               Text(
@@ -359,12 +350,10 @@ class DailyScheduleScreen extends HookConsumerWidget {
           ),
           const SizedBox(width: 24),
 
-          // Details Column
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Type and Status Row
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -426,7 +415,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 8),
 
-                // Subject Name
                 Text(
                   slot['subject']!,
                   style: GoogleFonts.outfit(
@@ -440,7 +428,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
 
                 const SizedBox(height: 8),
 
-                // Instructor Info
                 Row(
                   children: [
                     Icon(
@@ -461,7 +448,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
 
                 const SizedBox(height: 4),
 
-                // Location Info
                 Wrap(
                   spacing: 12,
                   runSpacing: 4,
@@ -483,7 +469,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
                       _buildRoomDetail(
                         context,
                         LucideIcons.layers,
-                        '${isArabic ? 'الطابق' : 'Floor'}: ${slot['floor']}',
+                        '${t.schedule.floor}: ${slot['floor']}',
                         isGlass,
                       ),
                     if (slot.containsKey('direction'))
@@ -498,7 +484,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
                   ],
                 ),
 
-                // Substitute Doctor Info
                 if (status == 'status_substitute' &&
                     slot.containsKey('substitute'))
                   Padding(
@@ -522,7 +507,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              '${isArabic ? 'بديل' : 'Substitute'}: ${slot['substitute']}',
+                              '${t.schedule.status_substitute}: ${slot['substitute']}',
                               style: GoogleFonts.inter(
                                 fontSize: 11,
                                 color: Colors.orange[800],

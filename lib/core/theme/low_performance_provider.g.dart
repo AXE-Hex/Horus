@@ -1,8 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'low_performance_provider.dart';

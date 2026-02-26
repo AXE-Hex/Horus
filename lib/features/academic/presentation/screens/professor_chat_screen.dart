@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -89,7 +85,6 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
       }
     });
 
-    // Mock reply
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         HapticFeedback.mediumImpact();

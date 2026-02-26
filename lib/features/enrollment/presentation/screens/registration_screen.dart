@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -61,7 +57,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         throw Exception("User not logged in");
       }
 
-      // Check if already registered
       final reg = await repo.getStudentRegistration(studentId, currentSemester);
       if (reg != null) {
         setState(() {
@@ -73,10 +68,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         return;
       }
 
-      // Fetch Groups
       _availableGroups = await repo.fetchAvailableSections(currentSemester);
 
-      // If no groups found in Supabase yet, use fallback for UI demo purposes
       if (_availableGroups.isEmpty) {
         _availableGroups = ['A', 'B', 'C'];
       }
@@ -120,7 +113,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       _semesterCourses = await repo.fetchCoursesBySemester(currentSemester);
 
       if (_semesterCourses.isEmpty) {
-        // Fallback fake courses for demo if none in DB
         _semesterCourses = [
           Course(
             id: '1',
@@ -171,13 +163,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              t.$meta.locale.languageCode == 'ar'
-                  ? "تم التسجيل بنجاح!"
-                  : "Registration Successful!",
-            ),
-          ),
+          SnackBar(content: Text(t.registration.registration_success)),
         );
       }
     } catch (e) {
@@ -201,7 +187,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     } else if (_error != null) {
       body = Center(
         child: Text(
-          'Error: $_error\n\nTap to retry',
+          t.registration.error_loading(error: _error!),
           textAlign: TextAlign.center,
         ),
       );
@@ -225,17 +211,19 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? "تسجيل المقررات" : "Course Registration",
+            t.registration.title,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
-              color: isGlass ? Colors.white : Theme.of(context).primaryColor,
+              color: isGlass
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.primary,
             ),
           ),
           centerTitle: true,
           flexibleSpace: FlexibleSpaceBar(
             background: isGlass
                 ? null
-                : Container(color: Theme.of(context).primaryColor),
+                : Container(color: Theme.of(context).colorScheme.primary),
           ),
         ),
         SliverFillRemaining(
@@ -265,29 +253,31 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          isArabic
-              ? "الخطوة ١: اختر المجموعة الرئيسية"
-              : "Step 1: Choose Main Group",
+          t.registration.step1_title,
           style: GoogleFonts.outfit(
             fontSize: 22,
             fontWeight: FontWeight.bold,
-            color: isGlass ? Colors.white : Colors.black87,
+            color: isGlass
+                ? Colors.white
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          isArabic
-              ? "اختر المجموعة التي ترغب بالتسجيل فيها لهذا الفصل الدراسي."
-              : "Select the main group you wish to register for this semester.",
-          style: TextStyle(color: isGlass ? Colors.white70 : Colors.black54),
+          t.registration.step1_subtitle,
+          style: TextStyle(
+            color: isGlass
+                ? Colors.white70
+                : Theme.of(context).textTheme.bodySmall?.color,
+          ),
         ),
         const SizedBox(height: 24),
         ..._availableGroups.map(
           (group) => Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: _buildSelectionCard(
-              title: isArabic ? "المجموعة $group" : "Group $group",
-              subtitle: "Main cohort registration",
+              title: t.registration.group_label(group: group),
+              subtitle: t.registration.main_cohort,
               icon: LucideIcons.users,
               isGlass: isGlass,
               onTap: () {
@@ -310,7 +300,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             IconButton(
               icon: Icon(
                 LucideIcons.arrowLeft,
-                color: isGlass ? Colors.white : Colors.black87,
+                color: isGlass
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.onSurface,
               ),
               onPressed: () => setState(() {
                 _currentStep = 0;
@@ -319,13 +311,13 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             ),
             Expanded(
               child: Text(
-                isArabic
-                    ? "الخطوة ٢: اختر القسم الفرعي (السكشن)"
-                    : "Step 2: Choose Sub-section",
+                t.registration.step2_title,
                 style: GoogleFonts.outfit(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: isGlass ? Colors.white : Colors.black87,
+                  color: isGlass
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
@@ -333,18 +325,20 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          isArabic
-              ? "المجموعة المختارة: $_selectedGroup. الآن اختر السكشن العملي والتطبيقي."
-              : "Selected Group: $_selectedGroup. Now select your practical sub-section.",
-          style: TextStyle(color: isGlass ? Colors.white70 : Colors.black54),
+          t.registration.step2_subtitle(group: _selectedGroup!),
+          style: TextStyle(
+            color: isGlass
+                ? Colors.white70
+                : Theme.of(context).textTheme.bodySmall?.color,
+          ),
         ),
         const SizedBox(height: 24),
         ..._availableSubSections.map(
           (sec) => Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: _buildSelectionCard(
-              title: isArabic ? "سكشن $sec" : "Section $sec",
-              subtitle: "Labs and practical sessions",
+              title: t.registration.section_label(section: sec),
+              subtitle: t.registration.labs_sessions,
               icon: LucideIcons.bookOpen,
               isGlass: isGlass,
               onTap: () {
@@ -367,7 +361,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             IconButton(
               icon: Icon(
                 LucideIcons.arrowLeft,
-                color: isGlass ? Colors.white : Colors.black87,
+                color: isGlass
+                    ? Colors.white
+                    : Theme.of(context).colorScheme.onSurface,
               ),
               onPressed: () => setState(() {
                 _currentStep = 1;
@@ -376,13 +372,13 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             ),
             Expanded(
               child: Text(
-                isArabic
-                    ? "الخطوة ٣: تأكيد التسجيل"
-                    : "Step 3: Confirm Registration",
+                t.registration.step3_title,
                 style: GoogleFonts.outfit(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
-                  color: isGlass ? Colors.white : Colors.black87,
+                  color: isGlass
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
             ),
@@ -394,22 +390,26 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           decoration: BoxDecoration(
             color: isGlass
                 ? Colors.white10
-                : Colors.blue.withValues(alpha: 0.1),
+                : Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: isGlass
                   ? Colors.white24
-                  : Colors.blue.withValues(alpha: 0.3),
+                  : Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.3),
             ),
           ),
           child: Column(
             children: [
               Text(
-                isArabic ? "مراجعة خياراتك" : "Review Selections",
+                t.registration.review,
                 style: GoogleFonts.outfit(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: isGlass ? Colors.white : Colors.blue[800],
+                  color: isGlass
+                      ? Colors.white
+                      : Theme.of(context).colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 12),
@@ -417,17 +417,17 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   _buildReviewItem(
-                    isArabic ? "الفصل" : "Semester",
+                    t.registration.semester,
                     currentSemester,
                     isGlass,
                   ),
                   _buildReviewItem(
-                    isArabic ? "المجموعة" : "Group",
+                    t.registration.group,
                     _selectedGroup!,
                     isGlass,
                   ),
                   _buildReviewItem(
-                    isArabic ? "السكشن" : "Section",
+                    t.registration.section,
                     _selectedSubSection!,
                     isGlass,
                   ),
@@ -438,9 +438,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         ),
         const SizedBox(height: 24),
         Text(
-          isArabic
-              ? "المقررات التي سيتم تسجيلها تلقائياً:"
-              : "Courses to be automatically registered:",
+          t.registration.auto_registered,
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
             color: isGlass ? Colors.white : Colors.black87,
@@ -458,14 +456,18 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   child: Text(
                     isArabic ? c.nameAr ?? c.name : c.name,
                     style: TextStyle(
-                      color: isGlass ? Colors.white : Colors.black87,
+                      color: isGlass
+                          ? Colors.white
+                          : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                 ),
                 Text(
-                  isArabic ? "${c.credits} ساعات" : "${c.credits} CR",
+                  t.registration.credits_count(credits: c.credits),
                   style: TextStyle(
-                    color: isGlass ? Colors.white54 : Colors.black54,
+                    color: isGlass
+                        ? Colors.white54
+                        : Theme.of(context).textTheme.bodySmall?.color,
                     fontSize: 12,
                   ),
                 ),
@@ -489,9 +491,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
               : Text(
-                  isArabic
-                      ? "تأكيد التسجيل النهائي"
-                      : "Confirm Final Registration",
+                  t.registration.confirm_final,
                   style: GoogleFonts.outfit(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -508,7 +508,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         Text(
           label,
           style: TextStyle(
-            color: isGlass ? Colors.white54 : Colors.black54,
+            color: isGlass
+                ? Colors.white54
+                : Theme.of(context).textTheme.bodySmall?.color,
             fontSize: 12,
           ),
         ),
@@ -517,7 +519,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           value,
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
-            color: isGlass ? Colors.white : Colors.black87,
+            color: isGlass
+                ? Colors.white
+                : Theme.of(context).colorScheme.onSurface,
             fontSize: 16,
           ),
         ),
@@ -537,22 +541,33 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       leading: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: isGlass ? Colors.white10 : Colors.blue.withValues(alpha: 0.1),
+          color: isGlass
+              ? Colors.white10
+              : Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: isGlass ? Colors.white : Colors.blue),
+        child: Icon(
+          icon,
+          color: isGlass ? Colors.white : Theme.of(context).colorScheme.primary,
+        ),
       ),
       title: Text(
         title,
         style: GoogleFonts.outfit(
           fontWeight: FontWeight.bold,
           fontSize: 18,
-          color: isGlass ? Colors.white : Colors.black87,
+          color: isGlass
+              ? Colors.white
+              : Theme.of(context).colorScheme.onSurface,
         ),
       ),
       subtitle: Text(
         subtitle,
-        style: TextStyle(color: isGlass ? Colors.white60 : Colors.black54),
+        style: TextStyle(
+          color: isGlass
+              ? Colors.white60
+              : Theme.of(context).textTheme.bodySmall?.color,
+        ),
       ),
       trailing: Icon(
         LucideIcons.chevronRight,
@@ -577,7 +592,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+                border: Border.all(color: Theme.of(context).dividerColor),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.05),
@@ -603,7 +618,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         ),
         const SizedBox(height: 24),
         Text(
-          isArabic ? "مسجل بالفعل!" : "Already Registered!",
+          t.registration.already_registered_title,
           textAlign: TextAlign.center,
           style: GoogleFonts.outfit(
             fontSize: 24,
@@ -613,12 +628,15 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         ),
         const SizedBox(height: 16),
         Text(
-          isArabic
-              ? "لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: $_selectedGroup | السكشن: $_selectedSubSection"
-              : "You have successfully registered for this semester.\nGroup: $_selectedGroup | Section: $_selectedSubSection",
+          t.registration.success_message(
+            group: _selectedGroup ?? '',
+            section: _selectedSubSection ?? '',
+          ),
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isGlass ? Colors.white70 : Colors.black54,
+            color: isGlass
+                ? Colors.white70
+                : Theme.of(context).textTheme.bodySmall?.color,
             fontSize: 16,
             height: 1.5,
           ),
@@ -633,7 +651,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             ),
           ),
           child: Text(
-            isArabic ? "العودة للرئيسية" : "Back to Home",
+            t.registration.back_home,
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.bold,

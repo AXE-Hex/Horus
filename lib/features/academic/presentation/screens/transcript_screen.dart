@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,7 +43,6 @@ class TranscriptScreen extends ConsumerWidget {
           centerTitle: true,
         ),
 
-        // GPA OVERVIEW
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -57,7 +52,6 @@ class TranscriptScreen extends ConsumerWidget {
 
         const SliverToBoxAdapter(child: SizedBox(height: 16)),
 
-        // SEMESTER LIST
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           sliver: SliverList(
@@ -73,7 +67,7 @@ class TranscriptScreen extends ConsumerWidget {
                   ),
                 );
               },
-              childCount: 2, // Mocking 2 semesters
+              childCount: 2,
             ),
           ),
         ),

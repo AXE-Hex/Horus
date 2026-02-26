@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +9,7 @@ import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -43,7 +39,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final auth = ref.read(authControllerProvider);
     _nameController.text = auth.fullName ?? '';
 
-    // Load additional fields from Supabase
     final supabase = ref.read(supabaseClientProvider);
     if (auth.user != null) {
       supabase
@@ -165,7 +160,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           padding: const EdgeInsets.all(20),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              // Avatar
+
               Center(
                 child: Stack(
                   children: [
@@ -190,7 +185,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 32),
 
-              // Full Name
               _buildField(
                 context,
                 label: isArabic ? 'الاسم الكامل' : 'Full Name',
@@ -200,7 +194,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Email (read-only)
               _buildField(
                 context,
                 label: isArabic ? 'البريد الإلكتروني' : 'Email',
@@ -211,7 +204,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Phone
               _buildField(
                 context,
                 label: isArabic ? 'رقم الهاتف' : 'Phone',
@@ -222,7 +214,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Bio
               _buildField(
                 context,
                 label: isArabic ? 'نبذة' : 'Bio',
@@ -232,7 +223,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 maxLines: 4,
               ),
 
-              // Role info (read-only)
               const SizedBox(height: 24),
               GlassContainer(
                 borderRadius: BorderRadius.circular(16),

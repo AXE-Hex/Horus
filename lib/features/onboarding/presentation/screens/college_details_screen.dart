@@ -1,10 +1,6 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -31,7 +27,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
     Widget content = CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        // IMMERSIVE APP BAR
+
         GlassSliverAppBar(
           expandedHeight: 210,
           pinned: true,
@@ -57,7 +53,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
             background: Stack(
               fit: StackFit.expand,
               children: [
-                // Background Image with Dark Overlay
+
                 Positioned.fill(
                   child: Image.asset(
                     collegeData['image'] as String,
@@ -83,7 +79,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
                     child: CustomPaint(painter: _MeshPainter()),
                   ),
 
-                // Center Content (Icon & Title)
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -137,21 +132,19 @@ class CollegeDetailsScreen extends ConsumerWidget {
           ),
         ),
 
-        // MAIN CONTENT
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // DEAN SECTION
+
                 _buildSectionHeader(context, t.colleges.details.dean, color),
                 const SizedBox(height: 12),
                 _buildDeanCard(context, color, isGlass),
 
                 const SizedBox(height: 24),
 
-                // STATISTICS SECTION
                 _buildSectionHeader(
                   context,
                   t.colleges.details.academic_statistics,
@@ -162,7 +155,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
                 const SizedBox(height: 24),
 
-                // STAFF SECTION
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -191,7 +183,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
                 const SizedBox(height: 24),
 
-                // DEPARTMENTS ENTRY POINT
                 _buildDepartmentsButton(context, collegeData, color, isGlass),
 
                 const SizedBox(height: 60),
@@ -552,7 +543,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
       ),
       child: Stack(
         children: [
-          // Background Watermark Icon
+
           Positioned(
             right: -8,
             bottom: -8,

@@ -1,9 +1,5 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -23,16 +19,15 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _phoneController = TextEditingController();
-  final _emailController = TextEditingController(); // Added email controller
+  final _emailController = TextEditingController();
 
-  // 0: Administration, 1: Online Request
   int _selectedMethod = 0;
-  bool _isIdUploaded = false; // Simulated state
+  bool _isIdUploaded = false;
 
   @override
   void dispose() {
     _phoneController.dispose();
-    _emailController.dispose(); // Dispose email controller
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -65,7 +60,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         );
       }
 
-      // Simulate API call
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -74,7 +68,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
       Future.delayed(const Duration(seconds: 2), () {
         if (mounted) {
-          Navigator.pop(context); // Close loading dialog
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
@@ -85,7 +79,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               backgroundColor: Colors.green,
             ),
           );
-          context.pop(); // Go back to login
+          context.pop();
         }
       });
     } catch (e) {
@@ -94,7 +88,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void _simulateUpload() {
-    // Simulate picking an image
+
     setState(() {
       _isIdUploaded = !_isIdUploaded;
     });
@@ -112,7 +106,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           isArabic ? "استعادة كلمة المرور" : "Forgot Password",
           textAlign: TextAlign.center,
           style: GoogleFonts.outfit(
-            fontSize: 24, // Slightly smaller than login
+            fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).textTheme.displayLarge?.color,
           ),
@@ -132,14 +126,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
         const SizedBox(height: 24),
 
-        // Method Selector
         Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.grey.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.2), // Glass border
+              color: Colors.white.withValues(alpha: 0.2),
               width: 1,
             ),
           ),
@@ -166,7 +159,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
         const SizedBox(height: 24),
 
-        // Content
         AnimatedCrossFade(
           firstChild: _buildAdminContent(context),
           secondChild: _buildOnlineContent(context, isGlass),
@@ -194,12 +186,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo Animation
+
               Image.asset(
                     Theme.of(context).brightness == Brightness.dark
                         ? 'assets/images/Logo_dark.png'
                         : 'assets/images/Logo_light.png',
-                    width: 100, // Smaller logo for recovery screen
+                    width: 100,
                     height: 100,
                     fit: BoxFit.contain,
                   )

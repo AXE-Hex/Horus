@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/i18n/strings.g.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -157,7 +153,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               ),
               const SizedBox(height: 32),
 
-              // New password
               TextFormField(
                 controller: _newPasswordController,
                 obscureText: _obscureNew,
@@ -181,7 +176,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               ),
               const SizedBox(height: 16),
 
-              // Confirm password
               TextFormField(
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirm,

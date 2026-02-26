@@ -1,24 +1,11 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
-
-///
-/// Generated file. Do not edit.
-///
-// coverage:ignore-file
-// ignore_for_file: type=lint, unused_import
-// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
-// Path: <root>
 class TranslationsDe extends Translations with BaseTranslations<AppLocale, Translations> {
-	/// You can call this constructor and build your own translation instance of this locale.
-	/// Constructing via the enum [AppLocale.build] is preferred.
+
 	TranslationsDe({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
 		  $meta = meta ?? TranslationMetadata(
@@ -32,10 +19,8 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
-	/// Metadata for the translations of <de>.
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
-	/// Access flat map
 	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
 
 	late final TranslationsDe _root = this; // ignore: unused_field
@@ -43,7 +28,6 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override 
 	TranslationsDe $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsDe(meta: meta ?? this.$meta);
 
-	// Translations
 	@override late final _TranslationsCommonDe common = _TranslationsCommonDe._(_root);
 	@override late final _TranslationsWelcomeDe welcome = _TranslationsWelcomeDe._(_root);
 	@override late final _TranslationsOnboardingDe onboarding = _TranslationsOnboardingDe._(_root);
@@ -72,13 +56,11 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsAdministrationDe administration = _TranslationsAdministrationDe._(_root);
 }
 
-// Path: common
 class _TranslationsCommonDe extends TranslationsCommonEn {
 	_TranslationsCommonDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get close => 'Schließen';
 	@override String get cancel => 'Abbrechen';
 	@override String get confirm => 'Bestätigen';
@@ -86,86 +68,72 @@ class _TranslationsCommonDe extends TranslationsCommonEn {
 	@override String get back => 'Zurück';
 }
 
-// Path: welcome
 class _TranslationsWelcomeDe extends TranslationsWelcomeEn {
 	_TranslationsWelcomeDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Willkommen bei Hue';
 	@override String get subtitle => 'Erleuchten Sie Ihre Welt mit bedeutungsvollen Verbindungen.';
 	@override String get get_started => 'Loslegen';
 	@override String get have_account => 'Ich habe bereits ein Konto';
 }
 
-// Path: onboarding
 class _TranslationsOnboardingDe extends TranslationsOnboardingEn {
 	_TranslationsOnboardingDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override late final _TranslationsOnboardingLanguageDe language = _TranslationsOnboardingLanguageDe._(_root);
 	@override late final _TranslationsOnboardingFacultiesDirectoryDe faculties_directory = _TranslationsOnboardingFacultiesDirectoryDe._(_root);
 	@override late final _TranslationsOnboardingStyleDe style = _TranslationsOnboardingStyleDe._(_root);
 	@override late final _TranslationsOnboardingThemeDe theme = _TranslationsOnboardingThemeDe._(_root);
 }
 
-// Path: auth
 class _TranslationsAuthDe extends TranslationsAuthEn {
 	_TranslationsAuthDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override late final _TranslationsAuthLoginDe login = _TranslationsAuthLoginDe._(_root);
 	@override late final _TranslationsAuthForgotPasswordDe forgot_password = _TranslationsAuthForgotPasswordDe._(_root);
 }
 
-// Path: home
 class _TranslationsHomeDe extends TranslationsHomeEn {
 	_TranslationsHomeDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override late final _TranslationsHomeTabsDe tabs = _TranslationsHomeTabsDe._(_root);
 }
 
-// Path: dashboard
 class _TranslationsDashboardDe extends TranslationsDashboardEn {
 	_TranslationsDashboardDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override late final _TranslationsDashboardIdCardDe id_card = _TranslationsDashboardIdCardDe._(_root);
 	@override late final _TranslationsDashboardSectionsDe sections = _TranslationsDashboardSectionsDe._(_root);
 	@override late final _TranslationsDashboardItemsDe items = _TranslationsDashboardItemsDe._(_root);
 	@override late final _TranslationsDashboardLabelsDe labels = _TranslationsDashboardLabelsDe._(_root);
 }
 
-// Path: settings
 class _TranslationsSettingsDe extends TranslationsSettingsEn {
 	_TranslationsSettingsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Einstellungen';
 	@override late final _TranslationsSettingsSectionsDe sections = _TranslationsSettingsSectionsDe._(_root);
 	@override late final _TranslationsSettingsTilesDe tiles = _TranslationsSettingsTilesDe._(_root);
 	@override late final _TranslationsSettingsMessagesDe messages = _TranslationsSettingsMessagesDe._(_root);
 }
 
-// Path: colleges
 class _TranslationsCollegesDe extends TranslationsCollegesEn {
 	_TranslationsCollegesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override late final _TranslationsCollegesDetailsDe details = _TranslationsCollegesDetailsDe._(_root);
 	@override String get applied_health_sciences => 'Fakultät für angewandte Gesundheitswissenschaften';
 	@override String get business_administration => 'Fakultät für Betriebswirtschaft';
@@ -180,26 +148,22 @@ class _TranslationsCollegesDe extends TranslationsCollegesEn {
 	@override late final _TranslationsCollegesDepartmentsDe departments = _TranslationsCollegesDepartmentsDe._(_root);
 }
 
-// Path: transcript
 class _TranslationsTranscriptDe extends TranslationsTranscriptEn {
 	_TranslationsTranscriptDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Akademisches Transkript';
 	@override late final _TranslationsTranscriptOverviewDe overview = _TranslationsTranscriptOverviewDe._(_root);
 	@override late final _TranslationsTranscriptSemesterDe semester = _TranslationsTranscriptSemesterDe._(_root);
 	@override late final _TranslationsTranscriptCourseDe course = _TranslationsTranscriptCourseDe._(_root);
 }
 
-// Path: academic_progress
 class _TranslationsAcademicProgressDe extends TranslationsAcademicProgressEn {
 	_TranslationsAcademicProgressDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Akademischer Fortschritt';
 	@override String get completion => 'Abschlussgrad';
 	@override String get total_credits => 'Gesamt-Credits';
@@ -207,26 +171,22 @@ class _TranslationsAcademicProgressDe extends TranslationsAcademicProgressEn {
 	@override late final _TranslationsAcademicProgressStatusDe status = _TranslationsAcademicProgressStatusDe._(_root);
 }
 
-// Path: grades
 class _TranslationsGradesDe extends TranslationsGradesEn {
 	_TranslationsGradesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Semesternoten';
 	@override String get grade_point => 'Notenpunkte';
 	@override String get letter_grade => 'Notenbuchstabe';
 	@override String get gpa => 'Semester-GPA';
 }
 
-// Path: subject_results
 class _TranslationsSubjectResultsDe extends TranslationsSubjectResultsEn {
 	_TranslationsSubjectResultsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Fachergebnisse';
 	@override String get midterm => 'Zwischenprüfung';
 	@override String get kFinal => 'Abschlussprüfung';
@@ -235,13 +195,11 @@ class _TranslationsSubjectResultsDe extends TranslationsSubjectResultsEn {
 	@override String get total => 'Gesamtpunktzahl';
 }
 
-// Path: action_plan
 class _TranslationsActionPlanDe extends TranslationsActionPlanEn {
 	_TranslationsActionPlanDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Grad-Aktionsplan';
 	@override String get roadmap => 'Kurs-Roadmap';
 	@override String get year_1 => 'Erstes Jahr';
@@ -250,13 +208,11 @@ class _TranslationsActionPlanDe extends TranslationsActionPlanEn {
 	@override String get year_4 => 'Viertes Jahr';
 }
 
-// Path: courses
 class _TranslationsCoursesDe extends TranslationsCoursesEn {
 	_TranslationsCoursesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Meine Kurse';
 	@override String get enrolled => 'Eingeschrieben';
 	@override String get available => 'Verfügbar';
@@ -264,13 +220,11 @@ class _TranslationsCoursesDe extends TranslationsCoursesEn {
 	@override String get schedule => 'Zeitplan';
 }
 
-// Path: schedule
 class _TranslationsScheduleDe extends TranslationsScheduleEn {
 	_TranslationsScheduleDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Stundenplan';
 	@override String get time => 'Zeit';
 	@override String get room => 'Raum';
@@ -303,26 +257,22 @@ class _TranslationsScheduleDe extends TranslationsScheduleEn {
 	@override String get no_lectures => 'Keine Vorlesungen gefunden';
 }
 
-// Path: exam_schedule
 class _TranslationsExamScheduleDe extends TranslationsExamScheduleEn {
 	_TranslationsExamScheduleDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Prüfungsplan';
 	@override String get date => 'Datum';
 	@override String get duration => 'Dauer';
 	@override String get seat => 'Sitznummer';
 }
 
-// Path: attendance
 class _TranslationsAttendanceDe extends TranslationsAttendanceEn {
 	_TranslationsAttendanceDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Anwesenheitsstatistik';
 	@override String get present => 'Anwesend';
 	@override String get absent => 'Abwesend';
@@ -330,118 +280,98 @@ class _TranslationsAttendanceDe extends TranslationsAttendanceEn {
 	@override String get ratio => 'Anwesenheitsquote';
 }
 
-// Path: registration
 class _TranslationsRegistrationDe extends TranslationsRegistrationEn {
 	_TranslationsRegistrationDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Kursregistrierung';
 	@override String get submit => 'Registrierung absenden';
 	@override String get enrolled_credits => 'Eingeschriebene Credits';
 }
 
-// Path: payment
 class _TranslationsPaymentDe extends TranslationsPaymentEn {
 	_TranslationsPaymentDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Studiengebühren';
 	@override String get outstanding => 'Offener Betrag';
 	@override String get pay_now => 'Jetzt bezahlen';
 	@override String get methods => 'Zahlungsmethoden';
 }
 
-// Path: invoices
 class _TranslationsInvoicesDe extends TranslationsInvoicesEn {
 	_TranslationsInvoicesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Rechnungen';
 	@override String get history => 'Zahlungshistorie';
 	@override String get unpaid => 'Unbezahlt';
 	@override String get paid => 'Bezahlt';
 }
 
-// Path: notifications
 class _TranslationsNotificationsDe extends TranslationsNotificationsEn {
 	_TranslationsNotificationsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Benachrichtigungen';
 	@override String get empty => 'Keine neuen Benachrichtigungen';
 }
 
-// Path: support
 class _TranslationsSupportDe extends TranslationsSupportEn {
 	_TranslationsSupportDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Support & Hilfe';
 	@override String get contact_us => 'Kontaktieren Sie uns';
 }
 
-// Path: security
 class _TranslationsSecurityDe extends TranslationsSecurityEn {
 	_TranslationsSecurityDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Sicherheit';
 	@override String get biometrics => 'Biometrie';
 	@override String get sessions => 'Aktive Sitzungen';
 }
 
-// Path: tutorials
 class _TranslationsTutorialsDe extends TranslationsTutorialsEn {
 	_TranslationsTutorialsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Tutorials & Leitfäden';
 }
 
-// Path: forums
 class _TranslationsForumsDe extends TranslationsForumsEn {
 	_TranslationsForumsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Foren';
 }
 
-// Path: administration
 class _TranslationsAdministrationDe extends TranslationsAdministrationEn {
 	_TranslationsAdministrationDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Studentenverwaltung';
 	@override String get stats => 'Systemstatistik';
 	@override String get users => 'Benutzer';
 	@override String get reports => 'Berichte';
 }
 
-// Path: onboarding.language
 class _TranslationsOnboardingLanguageDe extends TranslationsOnboardingLanguageEn {
 	_TranslationsOnboardingLanguageDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Wählen Sie Ihre Sprache';
 	@override String get subtitle => 'Wählen Sie Ihre bevorzugte Sprache';
 	@override String get english => 'Englisch';
@@ -451,50 +381,42 @@ class _TranslationsOnboardingLanguageDe extends TranslationsOnboardingLanguageEn
 	@override String get hint => 'Sie können dies später in den Einstellungen ändern';
 }
 
-// Path: onboarding.faculties_directory
 class _TranslationsOnboardingFacultiesDirectoryDe extends TranslationsOnboardingFacultiesDirectoryEn {
 	_TranslationsOnboardingFacultiesDirectoryDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Unsere Fakultäten';
 	@override String get subtitle => 'Entdecken Sie unsere vielfältigen akademischen Abteilungen';
 }
 
-// Path: onboarding.style
 class _TranslationsOnboardingStyleDe extends TranslationsOnboardingStyleEn {
 	_TranslationsOnboardingStyleDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Wählen Sie Ihren Stil';
 	@override String get subtitle => 'Wählen Sie das Interface-Design, das Sie bevorzugen';
 	@override late final _TranslationsOnboardingStyleClassicDe classic = _TranslationsOnboardingStyleClassicDe._(_root);
 	@override late final _TranslationsOnboardingStyleGlassDe glass = _TranslationsOnboardingStyleGlassDe._(_root);
 }
 
-// Path: onboarding.theme
 class _TranslationsOnboardingThemeDe extends TranslationsOnboardingThemeEn {
 	_TranslationsOnboardingThemeDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Wählen Sie ein Thema';
 	@override String get subtitle => 'Hell oder dunkel, Ihre Wahl';
 	@override String get light => 'Hell';
 	@override String get dark => 'Dunkel';
 }
 
-// Path: auth.login
 class _TranslationsAuthLoginDe extends TranslationsAuthLoginEn {
 	_TranslationsAuthLoginDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get welcome => 'Willkommen zurück';
 	@override String get subtitle => 'Melden Sie sich an, um fortzufahren';
 	@override String get email => 'E-Mail';
@@ -504,13 +426,11 @@ class _TranslationsAuthLoginDe extends TranslationsAuthLoginEn {
 	@override String get guest => 'Als Gast stöbern';
 }
 
-// Path: auth.forgot_password
 class _TranslationsAuthForgotPasswordDe extends TranslationsAuthForgotPasswordEn {
 	_TranslationsAuthForgotPasswordDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Passwort vergessen';
 	@override String get subtitle => 'Wählen Sie eine Wiederherstellungsmethode';
 	@override String get method_admin => 'Verwaltung besuchen';
@@ -528,26 +448,22 @@ class _TranslationsAuthForgotPasswordDe extends TranslationsAuthForgotPasswordEn
 	@override String get id_uploaded => 'ID hochgeladen';
 }
 
-// Path: home.tabs
 class _TranslationsHomeTabsDe extends TranslationsHomeTabsEn {
 	_TranslationsHomeTabsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get home => 'Startseite';
 	@override String get search => 'Suche';
 	@override String get notifications => 'Benachrichtigungen';
 	@override String get profile => 'Profil';
 }
 
-// Path: dashboard.id_card
 class _TranslationsDashboardIdCardDe extends TranslationsDashboardIdCardEn {
 	_TranslationsDashboardIdCardDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get student_name => 'Studentenname';
 	@override String get college => 'Fakultät';
 	@override String get id => 'Studenten-ID';
@@ -556,25 +472,21 @@ class _TranslationsDashboardIdCardDe extends TranslationsDashboardIdCardEn {
 	@override String get verified => 'Verifiziert';
 }
 
-// Path: dashboard.sections
 class _TranslationsDashboardSectionsDe extends TranslationsDashboardSectionsEn {
 	_TranslationsDashboardSectionsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get academic => 'Akademisch';
 	@override String get enrollment => 'Einschreibung';
 	@override String get utilities => 'Dienstprogramme';
 }
 
-// Path: dashboard.items
 class _TranslationsDashboardItemsDe extends TranslationsDashboardItemsEn {
 	_TranslationsDashboardItemsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get transcript => 'Transkript';
 	@override String get progress => 'Fortschritt';
 	@override String get action_plan => 'Aktionsplan';
@@ -592,39 +504,33 @@ class _TranslationsDashboardItemsDe extends TranslationsDashboardItemsEn {
 	@override String get no_lectures => 'Keine Vorlesungen gefunden';
 }
 
-// Path: dashboard.labels
 class _TranslationsDashboardLabelsDe extends TranslationsDashboardLabelsEn {
 	_TranslationsDashboardLabelsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get university_name => 'UNIVERSITÄT VON HUE';
 	@override String get id_short => 'ID';
 	@override String get gpa_short => 'GPA';
 	@override String get level_short => 'LVL';
 }
 
-// Path: settings.sections
 class _TranslationsSettingsSectionsDe extends TranslationsSettingsSectionsEn {
 	_TranslationsSettingsSectionsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get account => 'Konto';
 	@override String get display => 'Anzeige';
 	@override String get notifications => 'Benachrichtigungen';
 	@override String get about => 'Über';
 }
 
-// Path: settings.tiles
 class _TranslationsSettingsTilesDe extends TranslationsSettingsTilesEn {
 	_TranslationsSettingsTilesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get edit_profile => 'Profil bearbeiten';
 	@override String get change_password => 'Passwort ändern';
 	@override String get dark_mode => 'Dunkelmodus';
@@ -636,25 +542,21 @@ class _TranslationsSettingsTilesDe extends TranslationsSettingsTilesEn {
 	@override String get logout => 'Abmelden';
 }
 
-// Path: settings.messages
 class _TranslationsSettingsMessagesDe extends TranslationsSettingsMessagesEn {
 	_TranslationsSettingsMessagesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get switching_theme => 'Thema wird gewechselt...';
 	@override String get changing_language => 'Sprache wird geändert...';
 	@override String get rebuilding_design => 'Design-System wird neu aufgebaut...';
 }
 
-// Path: colleges.details
 class _TranslationsCollegesDetailsDe extends TranslationsCollegesDetailsEn {
 	_TranslationsCollegesDetailsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get dean => 'Dekan der Fakultät';
 	@override String get staff => 'Lehrpersonal';
 	@override String get view_all => 'Alle anzeigen';
@@ -673,13 +575,11 @@ class _TranslationsCollegesDetailsDe extends TranslationsCollegesDetailsEn {
 	@override String get published_articles => 'Veröffentlichte Artikel';
 }
 
-// Path: colleges.departments
 class _TranslationsCollegesDepartmentsDe extends TranslationsCollegesDepartmentsEn {
 	_TranslationsCollegesDepartmentsDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get medical_laboratories_technology => 'Medizinische Labortechnologie';
 	@override String get radiology_and_imaging_technology => 'Radiologie und Bildgebungstechnologie';
 	@override String get respiratory_care_technology => 'Atemwegspflege-Technologie';
@@ -744,107 +644,86 @@ class _TranslationsCollegesDepartmentsDe extends TranslationsCollegesDepartments
 	@override String get smart_systems => 'Smart Systems';
 }
 
-// Path: transcript.overview
 class _TranslationsTranscriptOverviewDe extends TranslationsTranscriptOverviewEn {
 	_TranslationsTranscriptOverviewDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get gpa => 'Gesamt-GPA';
 	@override String get credits => 'Erworbene Credits';
 	@override String get standing => 'Status';
 	@override String get active => 'Guter Status';
 }
 
-// Path: transcript.semester
 class _TranslationsTranscriptSemesterDe extends TranslationsTranscriptSemesterEn {
 	_TranslationsTranscriptSemesterDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get fall => 'Herbstsemester';
 	@override String get spring => 'Frühlingssemester';
 	@override String get summer => 'Sommersemester';
 }
 
-// Path: transcript.course
 class _TranslationsTranscriptCourseDe extends TranslationsTranscriptCourseEn {
 	_TranslationsTranscriptCourseDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get grade => 'Note';
 	@override String get credits => 'Credits';
 	@override late final _TranslationsTranscriptCourseStatusDe status = _TranslationsTranscriptCourseStatusDe._(_root);
 }
 
-// Path: academic_progress.categories
 class _TranslationsAcademicProgressCategoriesDe extends TranslationsAcademicProgressCategoriesEn {
 	_TranslationsAcademicProgressCategoriesDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get university => 'Universitätsanforderungen';
 	@override String get faculty => 'Fakultätsanforderungen';
 	@override String get major => 'Hauptfachanforderungen';
 	@override String get electives => 'Wahlfächer';
 }
 
-// Path: academic_progress.status
 class _TranslationsAcademicProgressStatusDe extends TranslationsAcademicProgressStatusEn {
 	_TranslationsAcademicProgressStatusDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get completed => 'Abgeschlossen';
 	@override String get in_progress => 'In Arbeit';
 	@override String get remaining => 'Verbleibend';
 	@override String get requirement_met => 'Anforderung erfüllt';
 }
 
-// Path: onboarding.style.classic
 class _TranslationsOnboardingStyleClassicDe extends TranslationsOnboardingStyleClassicEn {
 	_TranslationsOnboardingStyleClassicDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Klassisch';
 	@override String get desc => 'Sauberes, einfaches und vertrautes Material Design';
 }
 
-// Path: onboarding.style.glass
 class _TranslationsOnboardingStyleGlassDe extends TranslationsOnboardingStyleGlassEn {
 	_TranslationsOnboardingStyleGlassDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get title => 'Glas';
 	@override String get desc => 'Moderne, transluzente und lebendige Ästhetik';
 }
 
-// Path: transcript.course.status
 class _TranslationsTranscriptCourseStatusDe extends TranslationsTranscriptCourseStatusEn {
 	_TranslationsTranscriptCourseStatusDe._(TranslationsDe root) : this._root = root, super.internal(root);
 
 	final TranslationsDe _root; // ignore: unused_field
 
-	// Translations
 	@override String get completed => 'Abgeschlossen';
 	@override String get transferred => 'Übertragen';
 }
 
-/// The flat map containing all translations for locale <de>.
-/// Only for edge cases! For simple maps, use the map function of this library.
-///
-/// The Dart AOT compiler has issues with very large switch statements,
-/// so the map is split into smaller functions (512 entries each).
 extension on TranslationsDe {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {

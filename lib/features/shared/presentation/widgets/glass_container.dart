@@ -1,7 +1,3 @@
-// ---------------------------------------------------------------------------
-// 🚀 Developed by the GT-AXE Team
-// 👤 Signature: Axe
-// ---------------------------------------------------------------------------
 
 import 'dart:ui';
 import 'package:flutter/material.dart';
@@ -130,16 +126,15 @@ class GlassContainer extends ConsumerWidget {
         color ??
         (isDark ? Colors.black : Colors.white).withValues(alpha: opacity);
 
-    // Optimized Refractive Fluid Gradient
     final glassGradient =
         gradient ??
         LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.white.withValues(alpha: isDark ? 0.1 : 0.22), // Shine
-            Colors.white.withValues(alpha: 0.01), // Clear
-            Colors.black.withValues(alpha: isDark ? 0.04 : 0.02), // Depth
+            Colors.white.withValues(alpha: isDark ? 0.1 : 0.22),
+            Colors.white.withValues(alpha: 0.01),
+            Colors.black.withValues(alpha: isDark ? 0.04 : 0.02),
           ],
           stops: const [0.0, 0.45, 1.0],
         );
@@ -167,7 +162,7 @@ class GlassContainer extends ConsumerWidget {
           filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
           child: Stack(
             children: [
-              // Liquid Tint Layer
+
               Container(
                 decoration: BoxDecoration(
                   color: baseColor,
@@ -175,7 +170,6 @@ class GlassContainer extends ConsumerWidget {
                 ),
               ),
 
-              // Refraction Layer
               Container(
                 decoration: BoxDecoration(
                   gradient: glassGradient,
@@ -183,7 +177,6 @@ class GlassContainer extends ConsumerWidget {
                 ),
               ),
 
-              // Specular Rim (Refractive Edge)
               Container(
                 decoration: BoxDecoration(
                   borderRadius: radius,
@@ -198,10 +191,8 @@ class GlassContainer extends ConsumerWidget {
                 ),
               ),
 
-              // Inner Glow (Liquid Depth)
               _buildInnerGlow(radius, isDark),
 
-              // Content
               Padding(padding: padding ?? EdgeInsets.zero, child: child),
 
               if (onTap != null)
