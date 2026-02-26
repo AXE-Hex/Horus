@@ -140,7 +140,7 @@ class AdminSectionHeader extends StatelessWidget {
             ],
           ],
         ),
-        if (trailing != null) trailing,
+        ?trailing,
       ],
     );
   }
@@ -148,66 +148,67 @@ class AdminSectionHeader extends StatelessWidget {
 
 class LivePerformanceChart extends StatelessWidget {
   final Color color;
-  const LivePerformanceChart({super.key, required this.color});
+  final List<double> data;
+  const LivePerformanceChart({
+    super.key,
+    required this.color,
+    required this.data,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
       width: double.infinity,
-      child: CustomPaint(painter: _ChartPainter(color: color)),
+      child: CustomPaint(
+        painter: _ChartPainter(color: color, data: data),
+      ),
     );
   }
 }
 
 class _ChartPainter extends CustomPainter {
   final Color color;
-  _ChartPainter({required this.color});
+  final List<double> data;
+  _ChartPainter({required this.color, required this.data});
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (data.isEmpty) return;
+
     final paint = Paint()
-      ..color = color.withValues(alpha: 0.5)
+      ..color = color.withValues(alpha: 0.8)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3
+      ..strokeWidth = 2.5
       ..strokeCap = StrokeCap.round;
 
     final fillPaint = Paint()
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [color.withValues(alpha: 0.2), color.withValues(alpha: 0.0)],
+        colors: [color.withValues(alpha: 0.3), color.withValues(alpha: 0.0)],
       ).createShader(Rect.fromLTWH(0, 0, size.width, size.height));
 
     final path = Path();
-    path.moveTo(0, size.height * 0.7);
 
-    final points = [
-      Offset(size.width * 0.1, size.height * 0.5),
-      Offset(size.width * 0.2, size.width * 0.8),
-      Offset(size.width * 0.3, size.height * 0.4),
-      Offset(size.width * 0.4, size.height * 0.6),
-      Offset(size.width * 0.5, size.height * 0.3),
-      Offset(size.width * 0.6, size.height * 0.7),
-      Offset(size.width * 0.7, size.height * 0.4),
-      Offset(size.width * 0.8, size.height * 0.5),
-      Offset(size.width * 0.9, size.height * 0.2),
-      Offset(size.width, size.height * 0.4),
-    ];
+    // Normalize data: map 0-200ms to height
+    double normalize(double val) {
+      const maxVal = 200.0;
+      final factor = (val / maxVal).clamp(0.0, 1.0);
+      return size.height * (1.0 - factor * 0.8); // Reserve some space
+    }
 
-    for (var i = 0; i < points.length - 1; i++) {
-      final p1 = points[i];
-      final p2 = points[i + 1];
-      final controlPoint1 = Offset(p1.dx + (p2.dx - p1.dx) / 2, p1.dy);
-      final controlPoint2 = Offset(p1.dx + (p2.dx - p1.dx) / 2, p2.dy);
-      path.cubicTo(
-        controlPoint1.dx,
-        controlPoint1.dy,
-        controlPoint2.dx,
-        controlPoint2.dy,
-        p2.dx,
-        p2.dy,
-      );
+    final stepX = size.width / (data.length - 1);
+    path.moveTo(0, normalize(data[0]));
+
+    for (var i = 1; i < data.length; i++) {
+      final x1 = (i - 1) * stepX;
+      final y1 = normalize(data[i - 1]);
+      final x2 = i * stepX;
+      final y2 = normalize(data[i]);
+
+      final cx = x1 + (x2 - x1) / 2;
+      path.cubicTo(cx, y1, cx, y2, x2, y2);
     }
 
     canvas.drawPath(path, paint);
@@ -220,5 +221,7 @@ class _ChartPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _ChartPainter oldDelegate) {
+    return oldDelegate.data != data || oldDelegate.color != color;
+  }
 }

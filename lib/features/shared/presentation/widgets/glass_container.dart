@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +12,7 @@ class GlassContainer extends ConsumerWidget {
   final EdgeInsetsGeometry? margin;
   final BorderRadius? borderRadius;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final Color? color;
   final Gradient? gradient;
   final BoxBorder? border;
@@ -29,6 +29,7 @@ class GlassContainer extends ConsumerWidget {
     this.margin,
     this.borderRadius,
     this.onTap,
+    this.onLongPress,
     this.color,
     this.gradient,
     this.border,
@@ -80,7 +81,13 @@ class GlassContainer extends ConsumerWidget {
       child: child,
     );
 
-    if (onTap != null) return GestureDetector(onTap: onTap, child: container);
+    if (onTap != null || onLongPress != null) {
+      return GestureDetector(
+        onTap: onTap,
+        onLongPress: onLongPress,
+        child: container,
+      );
+    }
     return container;
   }
 
@@ -113,7 +120,13 @@ class GlassContainer extends ConsumerWidget {
       child: child,
     );
 
-    if (onTap != null) return GestureDetector(onTap: onTap, child: container);
+    if (onTap != null || onLongPress != null) {
+      return GestureDetector(
+        onTap: onTap,
+        onLongPress: onLongPress,
+        child: container,
+      );
+    }
     return container;
   }
 
@@ -162,7 +175,6 @@ class GlassContainer extends ConsumerWidget {
           filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
           child: Stack(
             children: [
-
               Container(
                 decoration: BoxDecoration(
                   color: baseColor,
@@ -202,6 +214,7 @@ class GlassContainer extends ConsumerWidget {
                     child: InkWell(
                       borderRadius: radius,
                       onTap: onTap,
+                      onLongPress: onLongPress,
                       splashColor: Colors.white.withValues(alpha: 0.1),
                       highlightColor: Colors.white.withValues(alpha: 0.05),
                     ),

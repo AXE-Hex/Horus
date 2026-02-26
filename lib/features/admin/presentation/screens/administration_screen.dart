@@ -8,6 +8,7 @@ import 'package:hue/core/auth/roles.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hue/features/admin/presentation/widgets/admin_widgets.dart';
 import 'package:hue/features/admin/presentation/providers/admin_stats_provider.dart';
+import 'package:hue/features/admin/presentation/providers/performance_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AdministrationScreen extends ConsumerWidget {
@@ -17,11 +18,12 @@ class AdministrationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final statsAsync = ref.watch(adminStatsProvider);
+    final perfState = ref.watch(performanceProvider);
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: statsAsync.when(
-        data: (stats) => _buildContent(context, stats, isArabic),
+        data: (stats) => _buildContent(context, stats, isArabic, perfState),
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, s) => Center(child: Text('Error: $e')),
       ),
@@ -32,6 +34,7 @@ class AdministrationScreen extends ConsumerWidget {
     BuildContext context,
     Map<RoleCategory, int> stats,
     bool isArabic,
+    PerformanceState perfState,
   ) {
     final staffCount = stats[RoleCategory.teachingStaff] ?? 0;
     final studentCount = stats[RoleCategory.studentRoles] ?? 0;
@@ -137,6 +140,7 @@ class AdministrationScreen extends ConsumerWidget {
           _buildSystemStatusList(
             context,
             isArabic,
+            perfState.latestLatency,
           ).animate().fadeIn(delay: 300.ms),
 
           const SizedBox(height: 40),
@@ -165,7 +169,7 @@ class AdministrationScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      '24ms',
+                      '${perfState.latestLatency.toInt()}ms',
                       style: GoogleFonts.outfit(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -175,7 +179,10 @@ class AdministrationScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                LivePerformanceChart(color: Colors.greenAccent),
+                LivePerformanceChart(
+                  color: Colors.greenAccent,
+                  data: perfState.latencyHistory,
+                ),
               ],
             ),
           ).animate().fadeIn(delay: 400.ms),
@@ -306,7 +313,11 @@ class AdministrationScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSystemStatusList(BuildContext context, bool isArabic) {
+  Widget _buildSystemStatusList(
+    BuildContext context,
+    bool isArabic,
+    double latency,
+  ) {
     return GlassContainer(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -331,7 +342,7 @@ class AdministrationScreen extends ConsumerWidget {
             context,
             LucideIcons.activity,
             isArabic ? 'سرعة النظام' : 'Latency',
-            '24ms',
+            '${latency.toInt()}ms',
             true,
           ),
         ],

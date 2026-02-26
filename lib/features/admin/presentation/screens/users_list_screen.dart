@@ -36,6 +36,10 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
   String _verifiedFilter = 'all'; // all, verified, unverified
   int _warningFilter = -1; // -1 for all, 0-4 for specific level
 
+  // Selection Mode
+  bool _isSelectionMode = false;
+  final Set<String> _selectedUserIds = {};
+
   @override
   void initState() {
     super.initState();
@@ -68,13 +72,33 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.userPlus),
-            onPressed: () => context.push(
-              '/admin/users/new',
-              extra: {'category': _getCurrentCategory(), 'role': widget.role},
+          if (_isSelectionMode) ...[
+            IconButton(
+              icon: const Icon(LucideIcons.checkSquare),
+              onPressed: () {
+                // Logic to select all visible (would need visible list)
+              },
             ),
-          ),
+            IconButton(
+              icon: const Icon(LucideIcons.trash2, color: Colors.redAccent),
+              onPressed: () => _handleBulkAction('delete'),
+            ),
+            IconButton(
+              icon: const Icon(LucideIcons.x),
+              onPressed: () => setState(() {
+                _isSelectionMode = false;
+                _selectedUserIds.clear();
+              }),
+            ),
+          ] else ...[
+            IconButton(
+              icon: const Icon(LucideIcons.userPlus),
+              onPressed: () => context.push(
+                '/admin/users/new',
+                extra: {'category': _getCurrentCategory(), 'role': widget.role},
+              ),
+            ),
+          ],
         ],
         bottom: widget.category == null
             ? TabBar(
@@ -96,23 +120,68 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
             child: Row(
               children: [
                 Expanded(
-                  child: GlassContainer(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    borderRadius: BorderRadius.circular(20),
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: (val) =>
-                          setState(() => _searchQuery = val.toLowerCase()),
-                      decoration: InputDecoration(
-                        hintText: isArabic
-                            ? 'بحث بالاسم، البريد، الهاتف، المعرف...'
-                            : 'Search by name, email, phone, ID...',
-                        hintStyle: GoogleFonts.inter(fontSize: 14),
-                        prefixIcon: const Icon(LucideIcons.search, size: 20),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
+                  child:
+                      Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              color: Colors.white.withValues(alpha: 0.05),
+                              border: Border.all(
+                                color: Theme.of(
+                                  context,
+                                ).primaryColor.withValues(alpha: 0.2),
+                                width: 1.5,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(
+                                    context,
+                                  ).primaryColor.withValues(alpha: 0.1),
+                                  blurRadius: 15,
+                                  spreadRadius: -5,
+                                ),
+                              ],
+                            ),
+                            child: TextField(
+                              controller: _searchController,
+                              onChanged: (val) => setState(
+                                () => _searchQuery = val.toLowerCase(),
+                              ),
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                color: Colors.white,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: isArabic
+                                    ? 'بحث بالاسم، البريد، الهاتف، المعرف...'
+                                    : 'Search by name, email, phone, ID...',
+                                hintStyle: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  color: Colors.white.withValues(alpha: 0.3),
+                                ),
+                                prefixIcon: Icon(
+                                  LucideIcons.search,
+                                  size: 18,
+                                  color: Theme.of(
+                                    context,
+                                  ).primaryColor.withValues(alpha: 0.5),
+                                ),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          )
+                          .animate()
+                          .fadeIn()
+                          .scale(
+                            begin: const Offset(0.98, 0.98),
+                            end: const Offset(1, 1),
+                          )
+                          .shimmer(
+                            color: Theme.of(
+                              context,
+                            ).primaryColor.withValues(alpha: 0.1),
+                            duration: 3.seconds,
+                          ),
                 ),
                 const SizedBox(width: 8),
                 GlassContainer(
@@ -189,14 +258,28 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  LucideIcons.users,
-                  size: 64,
-                  color: Theme.of(context).hintColor.withValues(alpha: 0.2),
-                ),
-                const SizedBox(height: 16),
+                      LucideIcons.users,
+                      size: 80,
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.1),
+                    )
+                    .animate(onPlay: (c) => c.repeat())
+                    .shimmer(duration: 2.seconds)
+                    .scale(
+                      begin: const Offset(0.8, 0.8),
+                      end: const Offset(1, 1),
+                      curve: Curves.easeInOutBack,
+                      duration: 4.seconds,
+                    ),
+                const SizedBox(height: 24),
                 Text(
-                  isArabic ? 'لا يوجد مستخدمين' : 'No users found',
-                  style: GoogleFonts.inter(color: Theme.of(context).hintColor),
+                  isArabic ? 'لم نعثر على أي مستخدم' : 'No users found',
+                  style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
               ],
             ),
@@ -208,7 +291,28 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
           itemCount: filteredUsers.length,
           itemBuilder: (context, index) {
             final user = filteredUsers[index];
-            return _UserTile(user: user, category: category)
+            return _UserTile(
+                  user: user,
+                  category: category,
+                  isSelected: _selectedUserIds.contains(user.id),
+                  selectionMode: _isSelectionMode,
+                  onToggleSelection: (id) {
+                    setState(() {
+                      if (_selectedUserIds.contains(id)) {
+                        _selectedUserIds.remove(id);
+                        if (_selectedUserIds.isEmpty) _isSelectionMode = false;
+                      } else {
+                        _selectedUserIds.add(id);
+                      }
+                    });
+                  },
+                  onLongPress: (id) {
+                    setState(() {
+                      _isSelectionMode = true;
+                      _selectedUserIds.add(id);
+                    });
+                  },
+                )
                 .animate()
                 .fadeIn(delay: (index * 50).ms, duration: 400.ms)
                 .slideX(
@@ -223,6 +327,26 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, stack) => Center(child: Text('Error: $err')),
     );
+  }
+
+  void _handleBulkAction(String action) {
+    if (_selectedUserIds.isEmpty) {
+      // Optionally show a message that no users are selected
+      return;
+    }
+
+    // Implement bulk action logic here based on 'action' and '_selectedUserIds'
+    // For example:
+    if (action == 'delete') {
+      // Call a controller method to delete selected users
+      // ref.read(usersControllerProvider.notifier).deleteUsers(_selectedUserIds.toList());
+      debugPrint('Deleting users: $_selectedUserIds');
+    }
+    // After action, exit selection mode
+    setState(() {
+      _isSelectionMode = false;
+      _selectedUserIds.clear();
+    });
   }
 
   void _showFilterSheet(bool isArabic) {
@@ -343,8 +467,19 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
 class _UserTile extends ConsumerWidget {
   final UserProfileModel user;
   final RoleCategory? category;
+  final bool isSelected;
+  final bool selectionMode;
+  final ValueChanged<String>? onToggleSelection;
+  final ValueChanged<String>? onLongPress;
 
-  const _UserTile({required this.user, this.category});
+  const _UserTile({
+    required this.user,
+    this.category,
+    this.isSelected = false,
+    this.selectionMode = false,
+    this.onToggleSelection,
+    this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -358,165 +493,228 @@ class _UserTile extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: GlassContainer(
         padding: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(28),
-        onTap: () => context.push('/admin/users/details', extra: user),
-        child: Row(
+        borderRadius: BorderRadius.circular(32),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            isSelected
+                ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
+                : Colors.white.withValues(alpha: 0.05),
+            Colors.white.withValues(alpha: 0.01),
+          ],
+        ),
+        border: Border.all(
+          color: isSelected
+              ? Theme.of(context).primaryColor
+              : Colors.white.withValues(alpha: 0.08),
+          width: isSelected ? 2 : 1.2,
+        ),
+        onTap: () {
+          if (selectionMode) {
+            onToggleSelection?.call(user.id);
+          } else {
+            context.push('/admin/users/details', extra: user);
+          }
+        },
+        onLongPress: () {
+          if (!selectionMode) {
+            onLongPress?.call(user.id);
+          }
+        },
+        child: Stack(
           children: [
-            // Avatar with Status Ring
-            Stack(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: statusColor.withValues(alpha: 0.3),
-                      width: 2,
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Theme.of(
-                      context,
-                    ).primaryColor.withValues(alpha: 0.1),
-                    backgroundImage: user.avatarUrl != null
-                        ? NetworkImage(user.avatarUrl!)
-                        : null,
-                    child: user.avatarUrl == null
-                        ? Icon(
-                            LucideIcons.user,
-                            color: Theme.of(context).primaryColor,
-                            size: 28,
-                          )
-                        : null,
-                  ),
-                ),
-                Positioned(
-                  right: 2,
-                  bottom: 2,
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: BoxDecoration(
-                      color: statusColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 3),
-                      boxShadow: [
-                        BoxShadow(
-                          color: statusColor.withValues(alpha: 0.4),
-                          blurRadius: 4,
-                          spreadRadius: 1,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          user.fullName,
-                          style: GoogleFonts.outfit(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                            letterSpacing: -0.4,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      if (user.isVerified) ...[
-                        const SizedBox(width: 6),
-                        const Icon(
-                          Icons.verified,
-                          size: 18,
-                          color: Colors.blueAccent,
-                        ),
-                      ],
+            // Background Glow (Inspired by Dashboard Stat Cards)
+            Positioned(
+              left: -30,
+              top: -30,
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      statusColor.withValues(alpha: 0.1),
+                      statusColor.withValues(alpha: 0.0),
                     ],
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    user.email,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: Colors.white.withValues(alpha: 0.4),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: [
-                      _buildBadge(
-                        context,
-                        user.role.displayName(isArabic: isArabic),
-                        Theme.of(context).primaryColor,
-                      ),
-                      if (user.studentId != null)
-                        _buildBadge(
-                          context,
-                          'ID: ${user.studentId}',
-                          Colors.blueGrey,
-                        ),
-                      ...user.tags
-                          .take(2)
-                          .map(
-                            (tag) => _buildBadge(context, '#$tag', Colors.grey),
-                          ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
-            const SizedBox(width: 8),
-            // Actions Column
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            Row(
               children: [
-                PopupMenuButton<String>(
-                  padding: EdgeInsets.zero,
-                  icon: Icon(
-                    LucideIcons.moreHorizontal,
+                if (selectionMode) ...[
+                  Icon(
+                    isSelected ? LucideIcons.checkCircle2 : LucideIcons.circle,
+                    color: isSelected
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey,
                     size: 20,
-                    color: Colors.white.withValues(alpha: 0.3),
                   ),
-                  onSelected: (value) => _handleAction(context, ref, value),
-                  itemBuilder: (context) => _buildMenuItems(isArabic),
+                  const SizedBox(width: 12),
+                ],
+                // Avatar with Status Ring
+                Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: statusColor.withValues(alpha: 0.3),
+                          width: 2,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).primaryColor.withValues(alpha: 0.1),
+                        backgroundImage: user.avatarUrl != null
+                            ? NetworkImage(user.avatarUrl!)
+                            : null,
+                        child: user.avatarUrl == null
+                            ? Icon(
+                                LucideIcons.user,
+                                color: Theme.of(context).primaryColor,
+                                size: 28,
+                              )
+                            : null,
+                      ),
+                    ),
+                    Positioned(
+                      right: 2,
+                      bottom: 2,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          color: statusColor,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFF0F0F0F),
+                            width: 2.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: statusColor.withValues(alpha: 0.6),
+                              blurRadius: 8,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 12),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              user.fullName,
+                              style: GoogleFonts.outfit(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17,
+                                letterSpacing: -0.4,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (user.isVerified) ...[
+                            const SizedBox(width: 6),
+                            const Icon(
+                              Icons.verified,
+                              size: 18,
+                              color: Colors.blueAccent,
+                            ),
+                          ],
+                        ],
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        user.email,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: Colors.white.withValues(alpha: 0.4),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          _buildBadge(
+                            context,
+                            user.role.displayName(isArabic: isArabic),
+                            Theme.of(context).primaryColor,
+                          ),
+                          if (user.studentId != null)
+                            _buildBadge(
+                              context,
+                              'ID: ${user.studentId}',
+                              Colors.blueGrey,
+                            ),
+                          ...user.tags
+                              .take(2)
+                              .map(
+                                (tag) =>
+                                    _buildBadge(context, '#$tag', Colors.grey),
+                              ),
+                        ],
+                      ),
+                    ],
                   ),
-                  decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: statusColor.withValues(alpha: 0.2),
-                      width: 1,
+                ),
+                const SizedBox(width: 8),
+                // Actions Column
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    PopupMenuButton<String>(
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        LucideIcons.moreHorizontal,
+                        size: 20,
+                        color: Colors.white.withValues(alpha: 0.3),
+                      ),
+                      onSelected: (value) => _handleAction(context, ref, value),
+                      itemBuilder: (context) => _buildMenuItems(isArabic),
                     ),
-                  ),
-                  child: Text(
-                    user.isBanned
-                        ? (isArabic ? 'محظور' : 'Banned')
-                        : (isActive
-                              ? (isArabic ? 'نشط' : 'Active')
-                              : (isArabic ? 'معطل' : 'Off')),
-                    style: GoogleFonts.inter(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: statusColor,
+                    const SizedBox(height: 12),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: statusColor.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: statusColor.withValues(alpha: 0.2),
+                          width: 1,
+                        ),
+                      ),
+                      child: Text(
+                        user.isBanned
+                            ? (isArabic ? 'محظور' : 'Banned')
+                            : (isActive
+                                  ? (isArabic ? 'نشط' : 'Active')
+                                  : (isArabic ? 'معطل' : 'Off')),
+                        style: GoogleFonts.inter(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: statusColor,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

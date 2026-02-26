@@ -10,6 +10,7 @@ import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class UserFormScreen extends ConsumerStatefulWidget {
   final UserProfileModel? user;
@@ -65,6 +66,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
   }
 
   Future<void> _handleSave() async {
+    final isArabic = t.$meta.locale.languageCode == 'ar';
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isSaving = true);
@@ -92,7 +94,29 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
         await controller.refresh();
       }
 
-      if (mounted) context.pop();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(LucideIcons.checkCircle, color: Colors.white),
+                const SizedBox(width: 12),
+                Text(
+                  isArabic
+                      ? 'تم حفظ التغييرات بنجاح!'
+                      : 'Changes saved successfully!',
+                ),
+              ],
+            ),
+            backgroundColor: Colors.green,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        );
+        context.pop();
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -133,7 +157,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
                 icon: LucideIcons.user,
                 validator: (val) =>
                     val == null || val.isEmpty ? 'Required' : null,
-              ),
+              ).animate().fadeIn(delay: 100.ms).slideY(begin: 0.1, end: 0),
               const SizedBox(height: 20),
               _buildField(
                 label: isArabic ? 'البريد الإلكتروني' : 'Email Address',
@@ -143,7 +167,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
                 enabled: !isEdit,
                 validator: (val) =>
                     val == null || !val.contains('@') ? 'Invalid email' : null,
-              ),
+              ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.1, end: 0),
               if (!isEdit) ...[
                 const SizedBox(height: 24),
                 _buildField(
@@ -154,7 +178,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
                   validator: (val) => val == null || val.length < 6
                       ? (isArabic ? '6 أحرف على الأقل' : 'Min 6 chars')
                       : null,
-                ),
+                ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.1, end: 0),
               ],
               const SizedBox(height: 24),
               Text(
@@ -165,26 +189,48 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              _buildRoleSelector(isArabic),
+              _buildRoleSelector(
+                isArabic,
+              ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.1, end: 0),
               const SizedBox(height: 48),
               ElevatedButton(
-                onPressed: _isSaving ? null : _handleSave,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: _isSaving
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : Text(
-                        isArabic ? 'حفظ البيانات' : 'Save Changes',
-                        style: GoogleFonts.inter(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
+                    onPressed: _isSaving ? null : _handleSave,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white,
+                      elevation: 8,
+                      shadowColor: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.5),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
-              ),
+                    ),
+                    child: _isSaving
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : Text(
+                            isArabic ? 'حفظ البيانات' : 'Save Changes',
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              letterSpacing: 1.1,
+                            ),
+                          ),
+                  )
+                  .animate()
+                  .fadeIn(delay: 500.ms)
+                  .scale(
+                    begin: const Offset(0.95, 0.95),
+                    end: const Offset(1, 1),
+                  ),
             ],
           ),
         ),
@@ -219,6 +265,17 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           borderRadius: BorderRadius.circular(20),
           opacity: enabled ? 0.08 : 0.03,
+          boxShadow: enabled
+              ? [
+                  BoxShadow(
+                    color: Theme.of(
+                      context,
+                    ).primaryColor.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : null,
           child: TextFormField(
             controller: controller,
             obscureText: obscureText,
@@ -246,31 +303,72 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen> {
         ? widget.initialCategory!.roles
         : UserRole.values.where((r) => r != UserRole.guest).toList();
 
-    return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
-      borderRadius: BorderRadius.circular(20),
-      opacity: 0.08,
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<UserRole>(
-          value: _selectedRole,
-          isExpanded: true,
-          dropdownColor: const Color(0xFF1A1A1A),
-          borderRadius: BorderRadius.circular(20),
-          icon: const Icon(LucideIcons.chevronDown, size: 20),
-          items: rolesToShow.map((role) {
-            return DropdownMenuItem(
-              value: role,
-              child: Text(
-                role.displayName(isArabic: isArabic),
-                style: GoogleFonts.inter(fontSize: 15),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 8, bottom: 12),
+          child: Text(
+            isArabic ? 'رتبة المستخدم' : 'User Role',
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: Colors.white.withValues(alpha: 0.5),
+            ),
+          ),
+        ),
+        Wrap(
+          spacing: 12,
+          runSpacing: 12,
+          children: rolesToShow.map((role) {
+            final isSelected = _selectedRole == role;
+            final color = isSelected
+                ? Theme.of(context).primaryColor
+                : Colors.white.withValues(alpha: 0.05);
+
+            return InkWell(
+              onTap: () => setState(() => _selectedRole = role),
+              borderRadius: BorderRadius.circular(16),
+              child: AnimatedContainer(
+                duration: 200.ms,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: isSelected ? color.withValues(alpha: 0.15) : color,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: isSelected
+                        ? color
+                        : Colors.white.withValues(alpha: 0.05),
+                    width: 1.5,
+                  ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: color.withValues(alpha: 0.2),
+                            blurRadius: 8,
+                            offset: const Offset(0, 4),
+                          ),
+                        ]
+                      : null,
+                ),
+                child: Text(
+                  role.displayName(isArabic: isArabic),
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                    color: isSelected
+                        ? color
+                        : Colors.white.withValues(alpha: 0.6),
+                  ),
+                ),
               ),
             );
           }).toList(),
-          onChanged: (val) {
-            if (val != null) setState(() => _selectedRole = val);
-          },
         ),
-      ),
+      ],
     );
   }
 }
