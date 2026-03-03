@@ -1,4 +1,3 @@
-
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
           elevation: 0,
           leading: IconButton(
             icon: Icon(
-              LucideIcons.chevronLeft,
+              isArabic ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
               color: isGlass ? Colors.white : Colors.black87,
             ),
             onPressed: () => context.pop(),
@@ -229,7 +228,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                               )
                               .animate()
                               .fadeIn(delay: Duration(milliseconds: 50 * index))
-                              .slideX(begin: 0.1),
+                              .slideX(begin: isArabic ? -0.1 : 0.1),
                     );
                   }, childCount: widget.profile.groups.length),
                 ),

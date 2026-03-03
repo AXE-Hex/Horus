@@ -33,7 +33,7 @@ class ForumsScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'المنتديات' : 'Forums',
+            t.shared.forums,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -135,7 +135,7 @@ class ForumsScreen extends ConsumerWidget {
         ),
       ),
       subtitle: Text(
-        '${forum['threads']} ${isArabic ? "مواضيع" : "threads"} • ${forum['members']} ${isArabic ? "أعضاء" : "members"}',
+        '${forum['threads']} ${t.shared.threads} • ${forum['members']} ${t.shared.members}',
         style: GoogleFonts.inter(
           fontSize: 12,
           color: Theme.of(context).hintColor,

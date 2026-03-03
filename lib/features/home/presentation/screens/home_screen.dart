@@ -1,4 +1,3 @@
-
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,7 +57,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     if (role.isAdmin) {
-      tabs.add(const AdministrationScreen());
+      tabs.add(const AdministrationScreen(isStandalone: false));
     }
 
     return tabs;
@@ -68,11 +67,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final destinations = <NavigationDestination>[
       NavigationDestination(
         icon: const Icon(LucideIcons.home),
-        label: isArabic ? "الرئيسية" : "Home",
+        label: t.home.home,
       ),
       NavigationDestination(
         icon: const Icon(LucideIcons.graduationCap),
-        label: isArabic ? "الكليات" : "Colleges",
+        label: t.home.colleges,
       ),
     ];
 
@@ -80,7 +79,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       destinations.add(
         NavigationDestination(
           icon: const Icon(LucideIcons.layoutDashboard),
-          label: isArabic ? "الطالب" : "Student",
+          label: t.home.student,
         ),
       );
     }
@@ -91,7 +90,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       destinations.add(
         NavigationDestination(
           icon: const Icon(LucideIcons.presentation),
-          label: isArabic ? "أستاذ" : "Prof",
+          label: t.home.prof,
         ),
       );
     }
@@ -100,7 +99,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       destinations.add(
         NavigationDestination(
           icon: const Icon(LucideIcons.shield),
-          label: isArabic ? "الإدارة" : "Admin",
+          label: t.home.admin,
         ),
       );
     }
@@ -123,14 +122,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     final scaffold = GlassScaffold(
-      extendBody: isGlass,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           role.isAdmin
-              ? (isArabic ? 'بوابة الإدارة' : 'ADMIN PORTAL')
+              ? (t.home.admin_portal)
               : (role.isTeachingStaff || role.isLeadership)
-              ? (isArabic ? 'بوابة المحاضر' : 'FACULTY PORTAL')
-              : (isArabic ? 'بوابة الطالب' : 'STUDENT PORTAL'),
+              ? (t.home.faculty_portal)
+              : (t.home.student_portal),
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
             fontSize: 24,
@@ -201,11 +200,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           padding: EdgeInsets.zero,
           child: Stack(
             children: [
-
-              AnimatedPositioned(
+              AnimatedPositionedDirectional(
                 duration: const Duration(milliseconds: 400),
                 curve: Curves.easeOutBack,
-                left: _currentIndex * itemWidth + 8,
+                start: _currentIndex * itemWidth + 8,
                 top: 8,
                 bottom: 8,
                 width: itemWidth - 16,

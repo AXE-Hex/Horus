@@ -1,4 +1,3 @@
-
 import 'package:hue/core/data/base_repository.dart';
 
 class AcademicRepository extends BaseRepository {
@@ -86,5 +85,49 @@ class AcademicRepository extends BaseRepository {
         .eq('is_published', true)
         .order('semester');
     return List<Map<String, dynamic>>.from(result);
+  }
+
+  Future<List<Map<String, dynamic>>> getStudentSchedule({
+    required String studentId,
+    required String semester,
+  }) async {
+    // 1. Get all course registrations for the student in this semester
+    final regResponse = await client
+        .from('student_course_registrations')
+        .select('course_id, section_name, sub_section_name')
+        .eq('student_id', studentId)
+        .eq('semester', semester);
+
+    if ((regResponse as List).isEmpty) return [];
+
+    final List<Map<String, dynamic>> allSchedules = [];
+
+    // 2. For each course, fetch its specific schedule based on chosen section/subsection
+    for (final reg in regResponse) {
+      final courseId = reg['course_id'];
+      final sectionName = reg['section_name'];
+      final subSectionName = reg['sub_section_name'];
+
+      var query = client
+          .from('schedules')
+          .select('*, courses(*)')
+          .eq('course_id', courseId)
+          .eq('semester', semester);
+
+      // Filter by section if specified
+      if (sectionName != null) {
+        query = query.eq('section_name', sectionName);
+      }
+
+      // Filter by subsection if specified
+      if (subSectionName != null) {
+        query = query.eq('sub_section_name', subSectionName);
+      }
+
+      final schedules = await query;
+      allSchedules.addAll(List<Map<String, dynamic>>.from(schedules));
+    }
+
+    return allSchedules;
   }
 }

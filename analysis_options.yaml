@@ -4,8 +4,11 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "**/diagnostic_schema.dart"
+    - "docs/**"
   errors:
     invalid_use_of_internal_member: ignore
 
 linter:
   rules:
+    avoid_print: false

@@ -33,7 +33,7 @@ class TutorialsScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'الدروس التعليمية' : 'Tutorials',
+            t.shared.tutorials,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,

@@ -29,18 +29,20 @@ class AuditLogModel {
 
   factory AuditLogModel.fromJson(Map<String, dynamic> json) {
     return AuditLogModel(
-      id: json['id'] as String,
+      id: (json['id'] ?? '') as String,
       actorId: json['actor_id'] as String?,
       actorName: json['actor_name'] as String?,
-      action: json['action'] as String,
-      entityType: json['entity_type'] as String,
+      action: (json['action'] ?? 'unknown') as String,
+      entityType: (json['entity_type'] ?? 'unknown') as String,
       entityId: json['entity_id'] as String?,
       oldData: json['old_data'] as Map<String, dynamic>?,
       newData: json['new_data'] as Map<String, dynamic>?,
       ipAddress: json['ip_address'] as String?,
       userAgent: json['user_agent'] as String?,
       report: json['report'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'] as String)
+          : DateTime.now(),
     );
   }
 

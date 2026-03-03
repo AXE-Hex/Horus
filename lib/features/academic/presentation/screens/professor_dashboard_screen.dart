@@ -1,10 +1,7 @@
-import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/core/theme/style_provider.dart';
@@ -12,15 +9,10 @@ import 'package:hue/features/academic/data/models/professor_profile_models.dart'
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/features/academic/data/repositories/professor_repository.dart';
+import 'package:hue/core/auth/auth_provider.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import 'package:flutter_riverpod/legacy.dart';
-
-final selectedGroupIdProvider = StateProvider.autoDispose<String?>(
-  (ref) => null,
-);
-
-class ProfessorDashboardScreen extends ConsumerWidget {
+class ProfessorDashboardScreen extends HookConsumerWidget {
   final ProfessorProfile profile;
 
   const ProfessorDashboardScreen({super.key, required this.profile});
@@ -30,8 +22,6 @@ class ProfessorDashboardScreen extends ConsumerWidget {
     final profileAsync = ref.watch(professorProfileProvider);
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
-    final theme = Theme.of(context);
-    final color = Colors.indigo;
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
     return profileAsync.when(
@@ -40,210 +30,55 @@ class ProfessorDashboardScreen extends ConsumerWidget {
           return const Center(child: Text('Profile not found'));
         }
 
-        final selectedGroupId = ref.watch(selectedGroupIdProvider);
-        final filteredGroups = selectedGroupId == null
-            ? profile.groups
-            : profile.groups.where((g) => g.id == selectedGroupId).toList();
-
-        final studentCount = filteredGroups.fold<int>(
-          0,
-          (sum, g) => sum + g.studentCount,
-        );
-
-        Widget content = CustomScrollView(
+        final body = CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            _buildGlassSliverAppBar(context, isGlass, color, isArabic, profile),
-            SliverToBoxAdapter(
-              child: _buildGroupSelector(
-                context,
-                ref,
-                profile,
-                isGlass,
-                isArabic,
-              ),
-            ),
+            _ImmersiveHeader(profile: profile, isArabic: isArabic),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 100),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  _buildStatsRow(
-                    context,
-                    isGlass,
-                    color,
-                    isArabic,
-                    profile,
-                    studentCount: studentCount,
-                    groupCount: filteredGroups.length,
-                  ),
                   const SizedBox(height: 24),
-                  _buildQuickActions(
-                    context,
-                    isGlass,
-                    color,
-                    isArabic,
-                    profile,
-                  ),
-                  const SizedBox(height: 24),
-                  _buildManageSection(
-                    context,
-                    t.roles.names.teaching_assistant,
-                    LucideIcons.users,
-                    isGlass,
-                    color,
-                    t.professor.active_tas_count(
-                      count: profile.teachingAssistants.length,
-                    ),
-                    isArabic,
-                    profile,
+                  _BentoStatsGrid(profile: profile, isArabic: isArabic),
+                  const SizedBox(height: 32),
+                  _SectionHeader(
+                    title: t.academic.course_management,
+                    onTap: () => context.push('/manage-groups', extra: profile),
+                    isArabic: isArabic,
                   ),
                   const SizedBox(height: 16),
-                  _buildManageSection(
-                    context,
-                    t.professor.stats.groups,
-                    LucideIcons.network,
-                    isGlass,
-                    color,
-                    t.professor.total_students_count(count: studentCount),
-                    isArabic,
-                    profile,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildManageSection(
-                    context,
-                    t.professor.stats.shared_files,
-                    LucideIcons.folderKey,
-                    isGlass,
-                    color,
-                    t.professor.uploaded_files_count(
-                      count: profile.sharedFiles.length,
-                    ),
-                    isArabic,
-                    profile,
-                  ),
-                  const SizedBox(height: 16),
-                  _buildManageSection(
-                    context,
-                    t.professor.stats.office_hours,
-                    LucideIcons.clock,
-                    isGlass,
-                    color,
-                    t.professor.weekly_slots_count(
-                      count: profile.officeHours.length,
-                    ),
-                    isArabic,
-                    profile,
-                  ),
-                  const SizedBox(height: 80),
+                  _GroupsBentoList(profile: profile, isArabic: isArabic),
+                  const SizedBox(height: 32),
+                  _QuickActionsPanel(profile: profile, isArabic: isArabic),
+                  const SizedBox(height: 32),
+                  _ManagementGrid(profile: profile, isArabic: isArabic),
                 ]),
               ),
             ),
           ],
         );
 
-        return isGlass
-            ? GlassScaffold(body: content)
-            : Scaffold(
-                backgroundColor: theme.scaffoldBackgroundColor,
-                body: content,
-              );
+        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, stack) => Center(child: Text('Error: $err')),
     );
   }
+}
 
-  Widget _buildGroupSelector(
-    BuildContext context,
-    WidgetRef ref,
-    ProfessorProfile profile,
-    bool isGlass,
-    bool isArabic,
-  ) {
-    final selectedId = ref.watch(selectedGroupIdProvider);
+class _ImmersiveHeader extends StatelessWidget {
+  final ProfessorProfile profile;
+  final bool isArabic;
 
-    return Container(
-      height: 50,
-      margin: const EdgeInsets.only(top: 20, left: 16, right: 16),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: [
-          _buildGroupChip(
-            context,
-            ref,
-            null,
-            isArabic ? 'الكل' : 'All',
-            selectedId == null,
-            isGlass,
-          ),
-          ...profile.groups.map(
-            (g) => _buildGroupChip(
-              context,
-              ref,
-              g.id,
-              g.name,
-              selectedId == g.id,
-              isGlass,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  const _ImmersiveHeader({required this.profile, required this.isArabic});
 
-  Widget _buildGroupChip(
-    BuildContext context,
-    WidgetRef ref,
-    String? id,
-    String label,
-    bool isSelected,
-    bool isGlass,
-  ) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: ChoiceChip(
-        label: Text(label),
-        selected: isSelected,
-        onSelected: (val) =>
-            ref.read(selectedGroupIdProvider.notifier).state = id,
-        selectedColor: Colors.indigo.withValues(alpha: 0.2),
-        backgroundColor: isGlass
-            ? Colors.white10
-            : Colors.grey.withValues(alpha: 0.1),
-        labelStyle: GoogleFonts.inter(
-          fontSize: 12,
-          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          color: isSelected
-              ? Colors.indigo
-              : (isGlass ? Colors.white : Colors.black87),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGlassSliverAppBar(
-    BuildContext context,
-    bool isGlass,
-    Color color,
-    bool isArabic,
-    ProfessorProfile profile,
-  ) {
-    return GlassSliverAppBar(
-      expandedHeight: 160,
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      expandedHeight: 280,
       pinned: true,
-      backgroundColor: isGlass ? Colors.transparent : color,
+      backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: IconButton(
-        icon: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.black.withValues(alpha: 0.2),
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(LucideIcons.chevronLeft, color: Colors.white),
-        ),
-        onPressed: () => context.pop(),
-      ),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(
           fit: StackFit.expand,
@@ -253,33 +88,102 @@ class ProfessorDashboardScreen extends ConsumerWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [color, color.withValues(alpha: 0.7)],
+                  colors: [
+                    const Color(0xFF6366F1),
+                    const Color(0xFF4F46E5),
+                    const Color(0xFF4338CA),
+                  ],
                 ),
+              ),
+            ),
+            Positioned(
+              right: isArabic ? null : -50,
+              left: isArabic ? -50 : null,
+              top: -50,
+              child: Opacity(
+                opacity: 0.1,
+                child: Icon(LucideIcons.brain, size: 300, color: Colors.white),
               ),
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      t.professor.dashboard_title,
-                      style: GoogleFonts.outfit(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.greenAccent.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: Colors.greenAccent.withValues(alpha: 0.3),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                    width: 6,
+                                    height: 6,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.greenAccent,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  )
+                                  .animate(
+                                    onPlay: (controller) => controller.repeat(),
+                                  )
+                                  .scale(
+                                    begin: const Offset(1, 1),
+                                    end: const Offset(1.5, 1.5),
+                                    duration: 800.ms,
+                                    curve: Curves.easeInOut,
+                                  )
+                                  .then()
+                                  .scale(
+                                    begin: const Offset(1.5, 1.5),
+                                    end: const Offset(1, 1),
+                                  ),
+                              const SizedBox(width: 6),
+                              Text(
+                                t.academic.live_now,
+                                style: GoogleFonts.shareTechMono(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.greenAccent,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 12),
                     Text(
                       t.professor.welcome_back_name(
                         name: profile.name.split(' ').first,
                       ),
-                      style: GoogleFonts.inter(
+                      style: GoogleFonts.outfit(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        letterSpacing: -0.5,
+                      ),
+                    ),
+                    Text(
+                      profile.department,
+                      style: GoogleFonts.outfit(
                         fontSize: 14,
                         color: Colors.white70,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.2,
                       ),
                     ),
                   ],
@@ -291,339 +195,586 @@ class ProfessorDashboardScreen extends ConsumerWidget {
       ),
     );
   }
+}
 
-  Widget _buildStatsRow(
-    BuildContext context,
-    bool isGlass,
-    Color color,
-    bool isArabic,
-    ProfessorProfile profile, {
-    int? studentCount,
-    int? groupCount,
-  }) {
-    return Row(
+class _BentoStatsGrid extends StatelessWidget {
+  final ProfessorProfile profile;
+  final bool isArabic;
+
+  const _BentoStatsGrid({required this.profile, required this.isArabic});
+
+  @override
+  Widget build(BuildContext context) {
+    final totalStudents = profile.groups.fold<int>(
+      0,
+      (sum, g) => sum + g.studentCount,
+    );
+
+    return Column(
       children: [
-        Expanded(
-          child: _buildStatCard(
-            context,
-            t.professor.stats.groups,
-            (groupCount ?? profile.groups.length).toString(),
-            LucideIcons.layoutGrid,
-            isGlass,
-            Colors.blue,
-          ),
+        Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: _BentoCard(
+                title: t.academic.total_students,
+                value: totalStudents.toString(),
+                icon: LucideIcons.users,
+                color: const Color(0xFF6366F1),
+                subtitle: t.academic.across_all_groups,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: _BentoCard(
+                title: t.academic.rating,
+                value: profile.generalRating.toString(),
+                icon: LucideIcons.star,
+                color: Colors.amber,
+                isSmall: true,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _buildStatCard(
-            context,
-            t.professor.stats.students,
-            (studentCount).toString(),
-            LucideIcons.users,
-            isGlass,
-            Colors.orange,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _buildStatCard(
-            context,
-            t.professor.stats.rating,
-            profile.generalRating.toString(),
-            LucideIcons.star,
-            isGlass,
-            Colors.amber,
-          ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _BentoCard(
+                title: t.academic.tas,
+                value: profile.teachingAssistants.length.toString(),
+                icon: LucideIcons.graduationCap,
+                color: const Color(0xFF10B981),
+                isSmall: true,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              flex: 2,
+              child: _BentoCard(
+                title: t.academic.office_hours,
+                value: profile.officeHours.length.toString(),
+                icon: LucideIcons.clock,
+                color: const Color(0xFFEC4899),
+                subtitle: t.academic.sessions_this_week,
+              ),
+            ),
+          ],
         ),
       ],
-    ).animate().fadeIn().slideY(begin: 0.1, end: 0);
+    ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1, end: 0);
   }
+}
 
-  Widget _buildStatCard(
-    BuildContext context,
-    String title,
-    String value,
-    IconData icon,
-    bool isGlass,
-    Color iconColor,
-  ) {
-    final block = Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(
-        color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: isGlass
-            ? null
-            : [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 8,
-                ),
-              ],
-      ),
+class _BentoCard extends StatelessWidget {
+  final String title;
+  final String value;
+  final IconData icon;
+  final Color color;
+  final String? subtitle;
+  final bool isSmall;
+
+  const _BentoCard({
+    required this.title,
+    required this.value,
+    required this.icon,
+    required this.color,
+    this.subtitle,
+    this.isSmall = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(24),
+      padding: const EdgeInsets.all(20),
+      border: Border.all(color: color.withValues(alpha: 0.2)),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: iconColor),
-          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(height: 16),
           Text(
             value,
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-              color: isGlass ? Colors.white : null,
+            style: GoogleFonts.shareTechMono(
+              fontSize: isSmall ? 28 : 36,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
             ),
           ),
           Text(
             title,
-            style: GoogleFonts.inter(
-              fontSize: 11,
-              color: isGlass ? Colors.white60 : Colors.grey,
-            ),
-          ),
-        ],
-      ),
-    );
-    return isGlass
-        ? GlassContainer(padding: EdgeInsets.zero, child: block)
-        : block;
-  }
-
-  Widget _buildQuickActions(
-    BuildContext context,
-    bool isGlass,
-    Color color,
-    bool isArabic,
-    ProfessorProfile profile,
-  ) {
-    final block = Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildActionButton(
-            context,
-            t.professor.quick_actions.urgent,
-            LucideIcons.megaphone,
-            Colors.redAccent,
-            isGlass,
-            isArabic,
-            profile,
-          ),
-          _buildActionButton(
-            context,
-            t.professor.quick_actions.upload,
-            LucideIcons.uploadCloud,
-            Colors.blueAccent,
-            isGlass,
-            isArabic,
-            profile,
-          ),
-          _buildActionButton(
-            context,
-            t.professor.quick_actions.message,
-            LucideIcons.messageCircle,
-            Colors.teal,
-            isGlass,
-            isArabic,
-            profile,
-          ),
-        ],
-      ),
-    );
-
-    return isGlass
-        ? GlassContainer(
-            padding: EdgeInsets.zero,
-            child: block,
-          ).animate().fadeIn()
-        : block.animate().fadeIn();
-  }
-
-  Widget _buildActionButton(
-    BuildContext context,
-    String label,
-    IconData icon,
-    Color color,
-    bool isGlass,
-    bool isArabic,
-    ProfessorProfile profile,
-  ) {
-    return InkWell(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        if (label == t.professor.quick_actions.message) {
-          context.push('/professor-chat', extra: profile);
-        } else if (label == t.professor.quick_actions.upload) {
-          _showUploadDialog(context, profile);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(t.professor.action_clicked(action: label)),
-              duration: const Duration(seconds: 1),
-            ),
-          );
-        }
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          CircleAvatar(
-            radius: 24,
-            backgroundColor: isGlass
-                ? Colors.white12
-                : color.withValues(alpha: 0.1),
-            child: Icon(icon, color: isGlass ? color : color),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            label,
-            style: GoogleFonts.inter(
+            style: GoogleFonts.outfit(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: isGlass ? Colors.white : color,
+              color: Colors.white70,
+              letterSpacing: 0.5,
             ),
           ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 4),
+            Text(
+              subtitle!,
+              style: GoogleFonts.outfit(fontSize: 10, color: Colors.white38),
+            ),
+          ],
         ],
       ),
     );
   }
+}
 
-  void _showUploadDialog(BuildContext context, ProfessorProfile profile) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
+class _GroupsBentoList extends StatelessWidget {
+  final ProfessorProfile profile;
+  final bool isArabic;
+
+  const _GroupsBentoList({required this.profile, required this.isArabic});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: profile.groups.map((group) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: GlassContainer(
+            borderRadius: BorderRadius.circular(20),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.05),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: Text(
+                      group.name.substring(0, 1),
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF6366F1),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        group.name,
+                        style: GoogleFonts.outfit(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        '${group.studentCount} ${t.academic.students}',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          color: Colors.white38,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
+                  color: Colors.white24,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    ).animate().fadeIn().slideX(begin: 0.1, end: 0);
+  }
+}
+
+class _QuickActionsPanel extends HookConsumerWidget {
+  final ProfessorProfile profile;
+  final bool isArabic;
+
+  const _QuickActionsPanel({required this.profile, required this.isArabic});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          t.academic.quick_actions,
+          style: GoogleFonts.outfit(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: _ActionTile(
+                icon: LucideIcons.megaphone,
+                label: t.academic.urgent_news,
+                color: Colors.redAccent,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _ActionTile(
+                icon: LucideIcons.uploadCloud,
+                label: t.academic.upload_files,
+                color: Colors.blueAccent,
+                onTap: () => _showUploadDialog(context, ref, profile),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _ActionTile(
+                icon: LucideIcons.messageCircle,
+                label: t.academic.messages,
+                color: Colors.tealAccent,
+                onTap: () => context.push('/professor-chat', extra: profile),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  void _showUploadDialog(
+    BuildContext context,
+    WidgetRef ref,
+    ProfessorProfile profile,
+  ) {
     final titleController = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context) => Consumer(
-        builder: (context, ref, child) => AlertDialog(
-          title: Text(isArabic ? 'رفع ملف جديد' : 'Upload New File'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(
-                  labelText: isArabic ? 'عنوان الملف' : 'File Title',
+      builder: (context) => AlertDialog(
+        backgroundColor: const Color(0xFF1E1E2E).withValues(alpha: 0.9),
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.white10),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        title: Text(
+          t.academic.upload_new_file,
+          style: GoogleFonts.outfit(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: titleController,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                labelText: t.academic.file_title,
+                labelStyle: const TextStyle(color: Colors.white60),
+                enabledBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white10),
+                ),
+                focusedBorder: const UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFF6366F1)),
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                isArabic
-                    ? 'سيتم رفع الملف إلى التخزين السحابي'
-                    : 'File will be uploaded to cloud storage',
-                style: const TextStyle(fontSize: 12, color: Colors.grey),
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(isArabic ? 'إلغاء' : 'Cancel'),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                if (titleController.text.isEmpty) return;
-
-                await ref
-                    .read(professorRepositoryProvider)
-                    .uploadSharedFile(
-                      professorId: profile.id,
-                      title: titleController.text,
-                      filePath: 'mock_path.pdf',
-                      fileName: 'document.pdf',
-                    );
-
-                if (!context.mounted) return;
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      isArabic ? 'تم الرفع بنجاح' : 'Uploaded successfully',
-                    ),
+            const SizedBox(height: 24),
+            Text(
+              t.academic.file_will_be_uploaded_to_cloud,
+              style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              t.academic.cancel,
+              style: const TextStyle(color: Colors.white60),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF6366F1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            onPressed: () async {
+              if (titleController.text.isEmpty) return;
+              await ref
+                  .read(professorRepositoryProvider)
+                  .uploadSharedFile(
+                    professorId: profile.id,
+                    title: titleController.text,
+                    filePath: 'mock_path.pdf',
+                    fileName: 'document.pdf',
+                  );
+              if (!context.mounted) return;
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: const Color(0xFF6366F1),
+                  content: Text(
+                    t.academic.uploaded_successfully,
                   ),
-                );
-              },
-              child: Text(isArabic ? 'رفع' : 'Upload'),
+                ),
+              );
+            },
+            child: Text(
+              t.academic.upload,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ActionTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+
+  const _ActionTile({
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        decoration: BoxDecoration(
+          color: color.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: color.withValues(alpha: 0.2)),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: color, size: 28),
+            const SizedBox(height: 12),
+            Text(
+              label,
+              style: GoogleFonts.outfit(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildManageSection(
-    BuildContext context,
-    String title,
-    IconData icon,
-    bool isGlass,
-    Color color,
-    String subtitle,
-    bool isArabic,
-    ProfessorProfile profile,
-  ) {
-    final block = ListTile(
-      onTap: () {
-        HapticFeedback.mediumImpact();
-        if (title == 'Manage TAs' ||
-            title == 'إدارة المعيدين' ||
-            title == t.roles.names.teaching_assistant) {
-          context.push('/manage-tas', extra: profile);
-        } else if (title == 'Student Groups' || title == 'المجموعات الطلابية') {
-          context.push('/manage-groups', extra: profile);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(t.professor.activating(target: title)),
-              duration: const Duration(seconds: 1),
+class _ManagementGrid extends ConsumerWidget {
+  final ProfessorProfile profile;
+  final bool isArabic;
+
+  const _ManagementGrid({required this.profile, required this.isArabic});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final role = ref.watch(authControllerProvider).role;
+    final roles =
+        ref.watch(authControllerProvider).user?.userMetadata?['roles']
+            as List<dynamic>? ??
+        [];
+    final isAdvisor = roles.contains('academic_advisor');
+    final isDean = role == UserRole.dean || role == UserRole.superAdmin;
+
+    return Column(
+      children: [
+        if (isAdvisor) ...[
+          _ManagementRow(
+            icon: LucideIcons.checkSquare,
+            title: t.academic.registration_requests,
+            count:
+                0, // Could fetch actual pending count here via provider if desired
+            color: Colors.greenAccent,
+            onTap: () => context.push('/advisor-approval'),
+            isArabic: isArabic,
+            hideCount: true,
+          ),
+          const SizedBox(height: 12),
+        ],
+        if (isDean) ...[
+          _ManagementRow(
+            icon: LucideIcons.userPlus,
+            title: t.academic.advisor_assignment,
+            count: 0,
+            color: Colors.orangeAccent,
+            onTap: () => context.push('/dean-assignment'),
+            isArabic: isArabic,
+            hideCount: true,
+          ),
+          const SizedBox(height: 12),
+        ],
+
+        _ManagementRow(
+          icon: LucideIcons.users,
+          title: t.academic.manage_tas,
+          count: profile.teachingAssistants.length,
+          color: const Color(0xFF6366F1),
+          onTap: () => context.push('/manage-tas', extra: profile),
+          isArabic: isArabic,
+        ),
+        const SizedBox(height: 12),
+        _ManagementRow(
+          icon: LucideIcons.folderKey,
+          title: t.academic.shared_files,
+          count: profile.sharedFiles.length,
+          color: const Color(0xFFF59E0B),
+          onTap: () {},
+          isArabic: isArabic,
+        ),
+      ],
+    );
+  }
+}
+
+class _ManagementRow extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final int count;
+  final Color color;
+  final VoidCallback onTap;
+  final bool isArabic;
+  final bool hideCount;
+
+  const _ManagementRow({
+    required this.icon,
+    required this.title,
+    required this.count,
+    required this.color,
+    required this.onTap,
+    required this.isArabic,
+    this.hideCount = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: GlassContainer(
+        borderRadius: BorderRadius.circular(16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 24),
             ),
-          );
-        }
-      },
-      leading: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: isGlass ? Colors.white12 : color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Icon(icon, color: isGlass ? Colors.white : color),
-      ),
-      title: Text(
-        title,
-        style: GoogleFonts.outfit(
-          fontWeight: FontWeight.bold,
-          color: isGlass ? Colors.white : null,
-        ),
-      ),
-      subtitle: Text(
-        subtitle,
-        style: GoogleFonts.inter(
-          fontSize: 12,
-          color: isGlass ? Colors.white60 : Colors.grey,
-        ),
-      ),
-      trailing: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isGlass ? Colors.white12 : Colors.grey.withValues(alpha: 0.1),
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          LucideIcons.chevronRight,
-          size: 16,
-          color: isGlass ? Colors.white70 : Colors.black54,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                title,
+                style: GoogleFonts.outfit(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            if (!hideCount)
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: color.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  count.toString(),
+                  style: GoogleFonts.shareTechMono(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                ),
+              ),
+            const SizedBox(width: 12),
+
+            Icon(
+              isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
+              color: Colors.white24,
+              size: 20,
+            ),
+          ],
         ),
       ),
     );
+  }
+}
 
-    return isGlass
-        ? GlassContainer(
-            padding: EdgeInsets.zero,
-            child: block,
-          ).animate().fadeIn()
-        : Card(child: block).animate().fadeIn();
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
+  final bool isArabic;
+
+  const _SectionHeader({
+    required this.title,
+    required this.onTap,
+    required this.isArabic,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.outfit(
+            fontSize: 20,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+          ),
+        ),
+        GestureDetector(
+          onTap: onTap,
+          child: Text(
+            t.academic.view_all,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF6366F1),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

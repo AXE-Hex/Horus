@@ -54,7 +54,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
     );
 
     return Semantics(
-      identifier: AxeFingerprint.axeSignature,
+      identifier: Axe.axeSignature,
       container: true,
       child: isGlass
           ? GlassScaffold(body: content)
@@ -250,7 +250,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
         HapticFeedback.mediumImpact();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('${isArabic ? "تم النقر:" : "Clicked:"} $title'),
+            content: Text('${t.academic.clicked} $title'),
             duration: const Duration(seconds: 1),
           ),
         );
@@ -499,7 +499,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            '${isArabic ? "تم الانضمام:" : "Joined:"} ${group.name}',
+                            '${t.academic.joined} ${group.name}',
                           ),
                           duration: const Duration(seconds: 1),
                         ),

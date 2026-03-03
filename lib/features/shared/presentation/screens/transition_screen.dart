@@ -1,4 +1,3 @@
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -7,7 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 
-class TransitionScreen extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class TransitionScreen extends ConsumerStatefulWidget {
   final String nextPath;
   final VoidCallback? onComplete;
   final String? message;
@@ -24,10 +25,10 @@ class TransitionScreen extends StatefulWidget {
   });
 
   @override
-  State<TransitionScreen> createState() => _TransitionScreenState();
+  ConsumerState<TransitionScreen> createState() => _TransitionScreenState();
 }
 
-class _TransitionScreenState extends State<TransitionScreen> {
+class _TransitionScreenState extends ConsumerState<TransitionScreen> {
   Timer? _timer;
   bool _hasTriggered = false;
 
@@ -81,7 +82,6 @@ class _TransitionScreenState extends State<TransitionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = LocaleSettings.currentLocale == AppLocale.ar;
     return GlassScaffold(
       body: Center(
         child: Column(
@@ -152,8 +152,7 @@ class _TransitionScreenState extends State<TransitionScreen> {
             const SizedBox(height: 32),
 
             Text(
-                  widget.message ??
-                      (isArabic ? 'الرجاء الانتظار...' : 'Please wait...'),
+                  widget.message ?? (t.shared.please_wait),
                   style: GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,

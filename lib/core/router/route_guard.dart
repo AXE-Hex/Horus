@@ -1,4 +1,3 @@
-
 import 'package:hue/core/auth/roles.dart';
 
 const Set<String> publicRoutes = {
@@ -6,7 +5,6 @@ const Set<String> publicRoutes = {
   '/login',
   '/welcome',
   '/',
-  '/forgot-password',
   '/language-selection',
   '/ui-style-selection',
   '/theme-selection',
@@ -15,7 +13,6 @@ const Set<String> publicRoutes = {
 };
 
 const Map<String, Set<RoleCategory>> routePermissions = {
-
   '/students': {RoleCategory.studentRoles, RoleCategory.adminIT},
   '/grades': {
     RoleCategory.studentRoles,
@@ -67,11 +64,18 @@ const Map<String, Set<RoleCategory>> routePermissions = {
   '/professor-chat': {RoleCategory.teachingStaff, RoleCategory.adminIT},
 
   '/admin': {RoleCategory.adminIT},
+  '/admin/users': {RoleCategory.adminIT},
+  '/admin/users/new': {RoleCategory.adminIT},
+  '/admin/users/details': {RoleCategory.adminIT},
+  '/admin/colleges': {RoleCategory.adminIT},
+  '/admin/departments': {RoleCategory.adminIT},
+  '/admin/audit-logs': {RoleCategory.adminIT},
+  '/admin/roles': {RoleCategory.adminIT},
+  '/admin/monitor': {RoleCategory.adminIT},
   '/students-mgmt': {RoleCategory.adminIT, RoleCategory.studentAffairs},
 };
 
 bool canAccessRoute(String path, UserRole role) {
-
   if (role == UserRole.superAdmin) return true;
 
   final allowed = routePermissions[path];

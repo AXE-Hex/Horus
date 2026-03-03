@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hue/core/auth/auth_provider.dart';
@@ -54,12 +54,21 @@ import 'package:hue/features/settings/presentation/screens/about_screen.dart';
 import 'package:hue/features/settings/presentation/screens/privacy_policy_screen.dart';
 import 'package:hue/features/admin/presentation/screens/users_list_screen.dart';
 import 'package:hue/features/admin/presentation/screens/user_form_screen.dart';
+import 'package:hue/features/admin/presentation/screens/student_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/staff_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/faculty_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/leadership_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/admin_it_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/college_details_screen.dart'
+    as admin_screens;
 import 'package:hue/features/admin/presentation/screens/colleges_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/departments_management_screen.dart';
+import 'package:hue/features/admin/data/models/institutional_models.dart';
 import 'package:hue/features/admin/presentation/screens/audit_logs_screen.dart';
-import 'package:hue/features/admin/presentation/screens/professors_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/system_settings_screen.dart';
+import 'package:hue/features/admin/presentation/screens/roles_management_screen.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
+import 'package:hue/features/enrollment/presentation/screens/advisor_approval_screen.dart';
+import 'package:hue/features/enrollment/presentation/screens/dean_advisor_assignment_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authNotifier = ValueNotifier<AuthState>(
@@ -206,56 +215,84 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin',
         builder: (context, state) => const AdministrationScreen(),
-        routes: [
-          GoRoute(
-            path: 'users',
-            builder: (context, state) {
-              final extras = state.extra as Map<String, dynamic>? ?? {};
-              return UsersListScreen(
-                category: extras['category'] as RoleCategory?,
-                role: extras['role'] as UserRole?,
-                title: extras['title'] as String? ?? 'User Management',
-              );
-            },
-          ),
-          GoRoute(
-            path: 'users/new',
-            builder: (context, state) {
-              final extras = state.extra as Map<String, dynamic>? ?? {};
-              return UserFormScreen(
-                initialCategory: extras['category'] as RoleCategory?,
-                initialRole: extras['role'] as UserRole?,
-              );
-            },
-          ),
-          GoRoute(
-            path: 'users/details',
-            builder: (context, state) {
-              final user = state.extra as UserProfileModel;
-              return UserFormScreen(user: user);
-            },
-          ),
-          GoRoute(
-            path: 'colleges',
-            builder: (context, state) => const CollegesManagementScreen(),
-          ),
-          GoRoute(
-            path: 'departments',
-            builder: (context, state) => const DepartmentsManagementScreen(),
-          ),
-          GoRoute(
-            path: 'audit-logs',
-            builder: (context, state) => const AuditLogsScreen(),
-          ),
-          GoRoute(
-            path: 'professors',
-            builder: (context, state) => const ProfessorsManagementScreen(),
-          ),
-          GoRoute(
-            path: 'settings',
-            builder: (context, state) => const SystemSettingsScreen(),
-          ),
-        ],
+      ),
+      GoRoute(
+        path: '/admin/management/students',
+        builder: (context, state) => const StudentManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/management/staff',
+        builder: (context, state) => const StaffManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/management/faculty',
+        builder: (context, state) => const FacultyManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/management/leadership',
+        builder: (context, state) => const LeadershipManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/management/admin-it',
+        builder: (context, state) => const AdminITManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/users',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          return UsersListScreen(
+            category: extras['category'] as RoleCategory?,
+            role: extras['role'] as UserRole?,
+            title: extras['title'] as String? ?? 'User Management',
+          );
+        },
+      ),
+      GoRoute(
+        path: '/admin/users/new',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          return UserFormScreen(
+            initialCategory: extras['category'] as RoleCategory?,
+            initialRole: extras['role'] as UserRole?,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/admin/users/details',
+        builder: (context, state) {
+          final user = state.extra as UserProfileModel;
+          return UserFormScreen(user: user);
+        },
+      ),
+      GoRoute(
+        path: '/admin/colleges',
+        builder: (context, state) => const CollegesManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/departments',
+        builder: (context, state) => const DepartmentsManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/audit-logs',
+        builder: (context, state) => const AuditLogsScreen(),
+      ),
+      GoRoute(
+        path: '/admin/roles',
+        builder: (context, state) => const RolesManagementScreen(),
+      ),
+      GoRoute(
+        path: '/advisor-approval',
+        builder: (context, state) => const AdvisorApprovalScreen(),
+      ),
+      GoRoute(
+        path: '/dean-assignment',
+        builder: (context, state) => const DeanAdvisorAssignmentScreen(),
+      ),
+      GoRoute(
+        path: '/admin/monitor',
+        builder: (context, state) {
+          return const PlaceholderScreen(title: 'System Monitor');
+        },
       ),
       GoRoute(path: '/', builder: (context, state) => const WelcomeScreen()),
       GoRoute(
@@ -301,6 +338,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final collegeData = state.extra as Map<String, dynamic>;
           return AcademicStaffScreen(collegeData: collegeData);
+        },
+      ),
+      GoRoute(
+        path: '/admin/colleges/details',
+        builder: (context, state) {
+          final college = state.extra as CollegeModel;
+          return admin_screens.CollegeDetailsScreen(college: college);
         },
       ),
       GoRoute(

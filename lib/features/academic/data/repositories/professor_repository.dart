@@ -5,8 +5,24 @@ import 'package:flutter/foundation.dart';
 import 'package:hue/core/data/base_repository.dart';
 import 'package:hue/features/academic/data/models/professor_profile_models.dart';
 
+import 'package:hue/features/academic/data/repositories/academic_repository.dart';
+
 final professorRepositoryProvider = Provider((ref) {
   return ProfessorRepository(ref.watch(supabaseClientProvider));
+});
+
+final academicRepositoryProvider = Provider((ref) {
+  return AcademicRepository(ref.watch(supabaseClientProvider));
+});
+
+final studentScheduleProvider = FutureProvider<List<Map<String, dynamic>>>((
+  ref,
+) async {
+  final auth = ref.watch(authControllerProvider);
+  if (auth.user == null) return [];
+  return ref
+      .watch(academicRepositoryProvider)
+      .getStudentSchedule(studentId: auth.user!.id, semester: 'Spring 2024');
 });
 
 final professorProfileProvider = FutureProvider<ProfessorProfile?>((ref) async {

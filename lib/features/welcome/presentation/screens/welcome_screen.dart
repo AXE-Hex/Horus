@@ -125,11 +125,10 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildHeroText(BuildContext context) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     return Column(
       children: [
         Text(
-          isArabic ? "بوابة الطالب" : "STUDENT PORTAL",
+          t.welcome.student_portal,
           textAlign: TextAlign.center,
           style: GoogleFonts.outfit(
             fontSize: 48,
@@ -141,9 +140,7 @@ class WelcomeScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 16),
         Text(
-          isArabic
-              ? "مرحباً بك في نظام الجامعة الذكي. راقب علاماتك، وسجل في موادك، وتواصل مع زملائك."
-              : "Welcome to the smart university system. Track grades, register courses, and connect.",
+          t.welcome.welcome_to_the_smart_universit,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 16,
@@ -159,7 +156,6 @@ class WelcomeScreen extends ConsumerWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     return Column(
       children: [
         GestureDetector(
@@ -194,7 +190,7 @@ class WelcomeScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isArabic ? "لنبدأ 🚀" : "Get Started 🚀",
+                      t.welcome.get_started,
                       style: GoogleFonts.outfit(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -234,7 +230,7 @@ class WelcomeScreen extends ConsumerWidget {
             ),
           ),
           child: Text(
-            isArabic ? "لدي حساب بالفعل" : "I already have an account",
+            t.welcome.i_already_have_an_account,
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w600,

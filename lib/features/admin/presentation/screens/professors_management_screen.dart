@@ -19,7 +19,7 @@ class ProfessorsManagementScreen extends ConsumerWidget {
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          isArabic ? 'إدارة أعضاء التدريس' : 'Faculty Management',
+          t.admin.faculty_management,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
@@ -39,7 +39,7 @@ class ProfessorsManagementScreen extends ConsumerWidget {
           if (professors.isEmpty) {
             return Center(
               child: Text(
-                isArabic ? 'لا توجد بيانات متاحة' : 'No faculty records found',
+                t.admin.no_faculty_records_found,
               ),
             );
           }
@@ -98,7 +98,7 @@ class ProfessorsManagementScreen extends ConsumerWidget {
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
-                                  '${isArabic ? "المكتب" : "Office"}: ${doc['office_symbol'] ?? "-"}',
+                                  '${t.admin.office}: ${doc['office_symbol'] ?? "-"}',
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
                                     color: Colors.white.withValues(alpha: 0.4),

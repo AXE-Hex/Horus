@@ -14,19 +14,18 @@ class AuditLogsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
 
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          isArabic ? 'سجلات التدقيق' : 'Audit Logs',
+          t.admin.audit_logs,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: FutureBuilder<List<AuditLogModel>>(
-        future: ref.read(auditRepositoryProvider).getLogs(),
+      body: StreamBuilder<List<AuditLogModel>>(
+        stream: ref.read(auditRepositoryProvider).watchLogs(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -38,7 +37,7 @@ class AuditLogsScreen extends ConsumerWidget {
 
           if (logs.isEmpty) {
             return Center(
-              child: Text(isArabic ? 'لا توجد سجلات' : 'No logs found'),
+              child: Text(t.admin.no_logs_found),
             );
           }
 
@@ -95,7 +94,7 @@ class AuditLogsScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 20),
                           Text(
-                            '${isArabic ? "المسؤول" : "Actor"}: ${log.actorName ?? "System"}',
+                            '${t.admin.actor}: ${log.actorName ?? "System"}',
                             style: GoogleFonts.outfit(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -111,7 +110,7 @@ class AuditLogsScreen extends ConsumerWidget {
                               ),
                               const SizedBox(width: 6),
                               Text(
-                                '${isArabic ? "الكيان" : "Entity"}: ${log.entityType}',
+                                '${t.admin.entity}: ${log.entityType}',
                                 style: GoogleFonts.inter(
                                   fontSize: 13,
                                   color: Colors.white.withValues(alpha: 0.4),
@@ -152,9 +151,7 @@ class AuditLogsScreen extends ConsumerWidget {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        isArabic
-                                            ? 'التقرير المصاحب:'
-                                            : 'Attached Report:',
+                                        t.admin.attached_report,
                                         style: GoogleFonts.inter(
                                           fontSize: 11,
                                           fontWeight: FontWeight.bold,
@@ -200,7 +197,7 @@ class AuditLogsScreen extends ConsumerWidget {
                                     ),
                                     const SizedBox(width: 8),
                                     Text(
-                                      isArabic ? 'إضافة تقرير' : 'Add Report',
+                                      t.admin.add_report,
                                       style: GoogleFonts.inter(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,

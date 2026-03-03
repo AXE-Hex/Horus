@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.22")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.0")
     }
 }
 
@@ -16,7 +16,7 @@ allprojects {
     configurations.all {
         resolutionStrategy.eachDependency {
             if (requested.group == "org.jetbrains.kotlin") {
-                useVersion("1.8.22")
+                useVersion("2.1.0")
             }
         }
     }

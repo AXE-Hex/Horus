@@ -8,259 +8,133 @@ export 'package:hue/core/auth/roles.dart' show UserRole, RoleCategory;
 
 part 'users_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class UsersController extends _$UsersController {
   @override
-  FutureOr<List<UserProfileModel>> build({
+  Stream<List<UserProfileModel>> build({
     RoleCategory? category,
     UserRole? role,
-  }) async {
+  }) {
     return ref
         .watch(usersRepositoryProvider)
-        .getUsers(category: category, role: role);
+        .watchUsers(category: category, role: role);
   }
 
   Future<void> createUser({
     required String email,
     required String password,
     required String fullName,
-    required UserRole role,
+    required List<UserRole> roles,
+    String? studentId,
+    String? nationalId,
+    String? nationality,
+    String? phone,
+    String? collegeId,
+    String? departmentId,
   }) async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await ref
-          .read(usersRepositoryProvider)
-          .createAccount(
-            email: email,
-            password: password,
-            fullName: fullName,
-            role: role,
-          );
-      if (!ref.mounted) return [];
-      return ref
-          .read(usersRepositoryProvider)
-          .getUsers(category: category, role: role);
-    });
+    final repo = ref.read(usersRepositoryProvider);
+    await repo.createAccount(
+      email: email,
+      password: password,
+      fullName: fullName,
+      roles: roles,
+      studentId: studentId,
+      nationalId: nationalId,
+      nationality: nationality,
+      phone: phone,
+      collegeId: collegeId,
+      departmentId: departmentId,
+    );
   }
 
   Future<void> _handleModification(
     String userId,
     Map<String, dynamic> data,
   ) async {
-    final authState = ref.read(authControllerProvider);
-    if (authState.isAdmin) {
-      await ref.read(usersRepositoryProvider).updateProfile(userId, data);
-    } else {
-      // Queue for approval
-      await Supabase.instance.client.from('user_modification_requests').insert({
-        'target_user_id': userId,
-        'requester_id': authState.user?.id,
-        'modification_data': data,
-      });
-    }
+    await Supabase.instance.client.from('audit_logs').insert({
+      'performed_by': ref.read(authControllerProvider).user?.id,
+      'target_user': userId,
+      'action': 'update',
+      'notes': 'Pending approval: ${data.toString()}',
+    });
   }
 
   Future<void> toggleUserStatus(String userId, bool isActive) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final authState = ref.read(authControllerProvider);
-    final isDirect = authState.isAdmin;
-
+    final isDirect = ref.read(authControllerProvider).isAdmin;
     if (isDirect) {
-      state = AsyncValue.data(
-        previousState
-            .map((u) => u.id == userId ? u.copyWith(isActive: isActive) : u)
-            .toList(),
-      );
-    }
-
-    try {
-      if (isDirect) {
-        await ref
-            .read(usersRepositoryProvider)
-            .toggleUserStatus(userId, isActive);
-      } else {
-        await _handleModification(userId, {'is_active': isActive});
-      }
-    } catch (e) {
-      if (!ref.mounted) return;
-      if (isDirect) state = AsyncValue.data(previousState);
+      await ref
+          .read(usersRepositoryProvider)
+          .toggleUserStatus(userId, isActive);
+    } else {
+      await _handleModification(userId, {'is_active': isActive});
     }
   }
 
   Future<void> updateWarningLevel(String userId, int level) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final authState = ref.read(authControllerProvider);
-    final isDirect = authState.isAdmin;
-
+    final isDirect = ref.read(authControllerProvider).isAdmin;
     if (isDirect) {
-      state = AsyncValue.data(
-        previousState
-            .map((u) => u.id == userId ? u.copyWith(warningLevel: level) : u)
-            .toList(),
-      );
-    }
-
-    try {
-      if (isDirect) {
-        await ref
-            .read(usersRepositoryProvider)
-            .updateWarningLevel(userId, level);
-      } else {
-        await _handleModification(userId, {'warning_level': level});
-      }
-    } catch (e) {
-      if (!ref.mounted) return;
-      if (isDirect) state = AsyncValue.data(previousState);
+      await ref.read(usersRepositoryProvider).updateWarningLevel(userId, level);
+    } else {
+      await _handleModification(userId, {'warning_level': level});
     }
   }
 
   Future<void> toggleVerification(String userId, bool isVerified) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final authState = ref.read(authControllerProvider);
-    final isDirect = authState.isAdmin;
-
+    final isDirect = ref.read(authControllerProvider).isAdmin;
     if (isDirect) {
-      state = AsyncValue.data(
-        previousState
-            .map((u) => u.id == userId ? u.copyWith(isVerified: isVerified) : u)
-            .toList(),
-      );
-    }
-
-    try {
-      if (isDirect) {
-        await ref
-            .read(usersRepositoryProvider)
-            .toggleVerification(userId, isVerified);
-      } else {
-        await _handleModification(userId, {'is_verified': isVerified});
-      }
-    } catch (e) {
-      if (!ref.mounted) return;
-      if (isDirect) state = AsyncValue.data(previousState);
+      await ref
+          .read(usersRepositoryProvider)
+          .toggleVerification(userId, isVerified);
+    } else {
+      await _handleModification(userId, {'is_verified': isVerified});
     }
   }
 
   Future<void> updateTags(String userId, List<String> tags) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final authState = ref.read(authControllerProvider);
-    final isDirect = authState.isAdmin;
-
+    final isDirect = ref.read(authControllerProvider).isAdmin;
     if (isDirect) {
-      state = AsyncValue.data(
-        previousState
-            .map((u) => u.id == userId ? u.copyWith(tags: tags) : u)
-            .toList(),
-      );
-    }
-
-    try {
-      if (isDirect) {
-        await ref.read(usersRepositoryProvider).updateTags(userId, tags);
-      } else {
-        await _handleModification(userId, {'tags': tags});
-      }
-    } catch (e) {
-      if (!ref.mounted) return;
-      if (isDirect) state = AsyncValue.data(previousState);
+      await ref.read(usersRepositoryProvider).updateTags(userId, tags);
+    } else {
+      await _handleModification(userId, {'tags': tags});
     }
   }
 
   Future<void> toggleBan(String userId, bool isBanned) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final authState = ref.read(authControllerProvider);
-    final isDirect = authState.isAdmin;
-
+    final isDirect = ref.read(authControllerProvider).isAdmin;
     if (isDirect) {
-      state = AsyncValue.data(
-        previousState
-            .map((u) => u.id == userId ? u.copyWith(isBanned: isBanned) : u)
-            .toList(),
-      );
-    }
-
-    try {
-      if (isDirect) {
-        await ref.read(usersRepositoryProvider).toggleBan(userId, isBanned);
-      } else {
-        await _handleModification(userId, {'is_banned': isBanned});
-      }
-    } catch (e) {
-      if (!ref.mounted) return;
-      if (isDirect) state = AsyncValue.data(previousState);
+      await ref.read(usersRepositoryProvider).toggleBan(userId, isBanned);
+    } else {
+      await _handleModification(userId, {'is_banned': isBanned});
     }
   }
 
-  Future<void> updateUserRole(String userId, UserRole newRole) async {
-    final previousState = state.value;
-    if (previousState == null) return;
-
-    final authState = ref.read(authControllerProvider);
-    final isDirect = authState.isAdmin;
-
+  Future<void> updateUserRoles(String userId, List<UserRole> newRoles) async {
+    final isDirect = ref.read(authControllerProvider).isAdmin;
     if (isDirect) {
-      state = AsyncValue.data(
-        previousState
-            .map((u) => u.id == userId ? u.copyWith(role: newRole) : u)
-            .toList(),
-      );
-    }
-
-    try {
-      if (isDirect) {
-        await ref.read(usersRepositoryProvider).updateProfile(userId, {
-          'role': newRole.toDbString(),
-        });
-      } else {
-        await _handleModification(userId, {'role': newRole.toDbString()});
-      }
-    } catch (e) {
-      if (!ref.mounted) return;
-      if (isDirect) state = AsyncValue.data(previousState);
+      await ref.read(usersRepositoryProvider).updateProfile(userId, {
+        'roles': newRoles.map((r) => r.toDbString()).toList(),
+      });
+    } else {
+      await _handleModification(userId, {
+        'roles': newRoles.map((r) => r.toDbString()).toList(),
+      });
     }
   }
 
   Future<void> deleteUser(String userId, {bool hardDelete = false}) async {
-    final authState = ref.read(authControllerProvider);
-    if (!authState.isAdmin) {
-      // For delete, maybe we just block it or queue a deletion request
+    if (!ref.read(authControllerProvider).isAdmin) {
       await _handleModification(userId, {
         '_action': 'DELETE',
         'hard': hardDelete,
       });
       return;
     }
-
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      await ref
-          .read(usersRepositoryProvider)
-          .deleteUser(userId, hardDelete: hardDelete);
-      if (!ref.mounted) return [];
-      return ref
-          .read(usersRepositoryProvider)
-          .getUsers(category: category, role: role);
-    });
+    await ref
+        .read(usersRepositoryProvider)
+        .deleteUser(userId, hardDelete: hardDelete);
   }
 
   Future<void> refresh() async {
-    state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
-      final users = await ref
-          .read(usersRepositoryProvider)
-          .getUsers(category: category, role: role);
-      if (!ref.mounted) return [];
-      return users;
-    });
+    // With stream, refresh is typically less needed, but we keep it to not break external calls.
   }
 }

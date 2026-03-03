@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+
+enum DigitalIDDesignStyle { modern, cyber, organic, classic, elegant }
 
 class DigitalIDTheme {
   final String id;
@@ -11,6 +12,7 @@ class DigitalIDTheme {
   final List<Color> gradientColors;
   final IconData patternIcon;
   final String? hologramAsset;
+  final DigitalIDDesignStyle designStyle;
 
   const DigitalIDTheme({
     required this.id,
@@ -21,6 +23,7 @@ class DigitalIDTheme {
     required this.gradientColors,
     this.patternIcon = LucideIcons.school,
     this.hologramAsset,
+    this.designStyle = DigitalIDDesignStyle.modern,
   });
 
   DigitalIDTheme mergeWith(DigitalIDTheme? overlay) {
@@ -39,6 +42,9 @@ class DigitalIDTheme {
       ],
       patternIcon: patternIcon,
       hologramAsset: hologramAsset,
+      designStyle: overlay.designStyle != DigitalIDDesignStyle.modern
+          ? overlay.designStyle
+          : designStyle,
     );
   }
 }

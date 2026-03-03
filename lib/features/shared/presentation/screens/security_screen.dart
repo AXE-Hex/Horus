@@ -15,7 +15,6 @@ class SecurityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
@@ -33,7 +32,7 @@ class SecurityScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'الأمان' : 'Security',
+            t.shared.security,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -50,23 +49,19 @@ class SecurityScreen extends ConsumerWidget {
               children: [
                 _buildSecuritySection(
                   context,
-                  isArabic ? 'المصادقة' : 'Authentication',
+                  t.shared.authentication,
                   [
                     _buildSwitchTile(
                       context,
-                      isArabic ? 'تسجيل الدخول الحيوي' : 'Biometric Login',
-                      isArabic
-                          ? 'استخدم البصمة أو التعرف على الوجه'
-                          : 'Use Fingerprint or Face ID',
+                      t.shared.biometric_login,
+                      t.shared.use_fingerprint_or_face_id,
                       true,
                       isGlass,
                     ),
                     _buildSwitchTile(
                       context,
-                      isArabic ? 'المصادقة الثنائية' : 'Two-Factor Auth',
-                      isArabic
-                          ? 'حماية الحساب بالمصادقة الثنائية'
-                          : 'Protect account with 2FA',
+                      t.shared.twofactor_auth,
+                      t.shared.protect_account_with_2fa,
                       false,
                       isGlass,
                     ),
@@ -76,24 +71,20 @@ class SecurityScreen extends ConsumerWidget {
                 const SizedBox(height: 24),
                 _buildSecuritySection(
                   context,
-                  isArabic ? 'إدارة الأجهزة' : 'Device Management',
+                  t.shared.device_management,
                   [
                     _buildActionTile(
                       context,
-                      isArabic ? 'عرض الجلسات النشطة' : 'View Active Sessions',
-                      isArabic
-                          ? 'إدارة الأجهزة المسجلة'
-                          : 'Manage logged in devices',
+                      t.shared.view_active_sessions,
+                      t.shared.manage_logged_in_devices,
                       LucideIcons.monitor,
                       () => context.push('/sessions'),
                       isGlass,
                     ),
                     _buildActionTile(
                       context,
-                      isArabic ? 'تغيير كلمة المرور' : 'Change Password',
-                      isArabic
-                          ? 'تحديث بيانات تسجيل الدخول'
-                          : 'Update your login credentials',
+                      t.shared.change_password,
+                      t.shared.update_your_login_credentials,
                       LucideIcons.key,
                       () {},
                       isGlass,

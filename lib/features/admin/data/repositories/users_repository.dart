@@ -18,17 +18,19 @@ class UsersRepository {
     var query = _client.from('profiles').select();
 
     if (role != null) {
-      query = query.eq('role', role.toDbString());
+      query = query.contains('roles', [role.toDbString()]);
     } else if (category != null) {
       final roles = category.roles.map((r) => r.toDbString()).toList();
-      query = query.inFilter('role', roles);
+      query = query.overlaps('roles', roles);
     }
 
     if (searchQuery != null && searchQuery.isNotEmpty) {
       query = query.or(
         'full_name.ilike.%$searchQuery%,'
+        'full_name_ar.ilike.%$searchQuery%,'
         'email.ilike.%$searchQuery%,'
         'student_id.ilike.%$searchQuery%,'
+        'national_id.ilike.%$searchQuery%,'
         'phone.ilike.%$searchQuery%,'
         'tags.cs.{"$searchQuery"}',
       );
@@ -40,11 +42,54 @@ class UsersRepository {
         .toList();
   }
 
+  Stream<List<UserProfileModel>> watchUsers({
+    RoleCategory? category,
+    UserRole? role,
+    String? searchQuery,
+  }) {
+    SupabaseStreamBuilder stream = _client
+        .from('profiles')
+        .stream(primaryKey: ['id']);
+
+    return stream.order('created_at', ascending: false).map((list) {
+      var profiles = list
+          .map((json) => UserProfileModel.fromJson(json))
+          .toList();
+
+      if (role != null) {
+        profiles = profiles.where((p) => p.roles.contains(role)).toList();
+      } else if (category != null) {
+        profiles = profiles
+            .where((p) => p.roles.any((r) => category.roles.contains(r)))
+            .toList();
+      }
+
+      if (searchQuery != null && searchQuery.isNotEmpty) {
+        final lowerQuery = searchQuery.toLowerCase();
+        profiles = profiles.where((p) {
+          return (p.fullName.toLowerCase().contains(lowerQuery)) ||
+              (p.fullNameAr?.toLowerCase().contains(lowerQuery) ?? false) ||
+              (p.email.toLowerCase().contains(lowerQuery)) ||
+              (p.studentId?.toLowerCase().contains(lowerQuery) ?? false) ||
+              (p.nationalId?.toLowerCase().contains(lowerQuery) ?? false);
+        }).toList();
+      }
+
+      return profiles;
+    });
+  }
+
   Future<String> createAccount({
     required String email,
     required String password,
     required String fullName,
-    required UserRole role,
+    required List<UserRole> roles,
+    String? studentId,
+    String? nationalId,
+    String? nationality,
+    String? phone,
+    String? collegeId,
+    String? departmentId,
   }) async {
     final response = await _client.rpc(
       'admin_create_user',
@@ -52,7 +97,13 @@ class UsersRepository {
         'email': email,
         'password': password,
         'full_name': fullName,
-        'role': role.toDbString(),
+        'roles': roles.map((r) => r.toDbString()).toList(),
+        'student_id': studentId,
+        'national_id': nationalId,
+        'nationality': nationality,
+        'phone': phone,
+        'college_id': collegeId,
+        'department_id': departmentId,
       },
     );
     return response as String;
@@ -77,19 +128,31 @@ class UsersRepository {
   }
 
   Future<void> updateWarningLevel(String userId, int level) async {
-    await updateProfile(userId, {'warning_level': level});
+    await _client.rpc(
+      'admin_update_warning_level',
+      params: {'user_id': userId, 'level': level},
+    );
   }
 
   Future<void> toggleVerification(String userId, bool isVerified) async {
-    await updateProfile(userId, {'is_verified': isVerified});
+    await _client.rpc(
+      'admin_toggle_verification',
+      params: {'user_id': userId, 'is_verified': isVerified},
+    );
   }
 
   Future<void> updateTags(String userId, List<String> tags) async {
-    await updateProfile(userId, {'tags': tags});
+    await _client.rpc(
+      'admin_update_tags',
+      params: {'user_id': userId, 'tags': tags},
+    );
   }
 
   Future<void> toggleBan(String userId, bool isBanned) async {
-    await updateProfile(userId, {'is_banned': isBanned});
+    await _client.rpc(
+      'admin_toggle_ban',
+      params: {'user_id': userId, 'is_banned': isBanned},
+    );
   }
 
   Future<void> enableMFA(String userId, bool enabled) async {
@@ -107,7 +170,7 @@ class UsersRepository {
     final response = await _client
         .from('profiles')
         .select('id')
-        .inFilter('role', roles);
+        .overlaps('roles', roles);
     return (response as List).length;
   }
 }

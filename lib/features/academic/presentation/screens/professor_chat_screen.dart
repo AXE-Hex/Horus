@@ -1,4 +1,3 @@
-
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -119,6 +118,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
 
     return isGlass
         ? GlassScaffold(
+            resizeToAvoidBottomInset: true,
             appBar: _buildAppBar(isGlass, color, isArabic),
             body: _buildChatBody(isGlass, color, isArabic),
           )
@@ -144,7 +144,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                isArabic ? 'فريق المعيدين' : 'TA Team Chat',
+                t.academic.ta_team_chat,
                 style: GoogleFonts.outfit(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -152,7 +152,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
                 ),
               ),
               Text(
-                '${widget.profile.teachingAssistants.length} ${isArabic ? "أعضاء" : "Members"}',
+                '${widget.profile.teachingAssistants.length} ${t.academic.members}',
                 style: GoogleFonts.inter(fontSize: 12, color: Colors.white70),
               ),
             ],
@@ -313,7 +313,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
                 color: isGlass ? Colors.white : Colors.black,
               ),
               decoration: InputDecoration(
-                hintText: isArabic ? 'اكتب رسالة...' : 'Type a message...',
+                hintText: t.academic.type_a_message,
                 hintStyle: GoogleFonts.inter(
                   color: isGlass ? Colors.white54 : Colors.grey,
                 ),

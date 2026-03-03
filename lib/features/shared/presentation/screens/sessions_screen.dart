@@ -33,7 +33,7 @@ class SessionsScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'الجلسات النشطة' : 'Active Sessions',
+            t.shared.active_sessions,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -154,7 +154,7 @@ class SessionsScreen extends ConsumerWidget {
             TextButton(
               onPressed: () {},
               child: Text(
-                isArabic ? 'تسجيل الخروج' : 'Logout',
+                t.shared.logout,
                 style: GoogleFonts.inter(
                   color: Colors.red,
                   fontWeight: FontWeight.bold,

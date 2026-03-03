@@ -20,7 +20,7 @@ class CollegesManagementScreen extends ConsumerWidget {
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          isArabic ? 'إدارة الكليات' : 'Colleges Management',
+          t.admin.colleges_management,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
@@ -46,7 +46,7 @@ class CollegesManagementScreen extends ConsumerWidget {
           if (colleges.isEmpty) {
             return Center(
               child: Text(
-                isArabic ? 'لا توجد كليات مضافة' : 'No colleges found',
+                t.admin.no_colleges_found,
               ),
             );
           }
@@ -59,6 +59,10 @@ class CollegesManagementScreen extends ConsumerWidget {
               return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GlassContainer(
+                      onTap: () => context.push(
+                        '/admin/colleges/details',
+                        extra: college,
+                      ),
                       padding: const EdgeInsets.all(24),
                       borderRadius: BorderRadius.circular(30),
                       child: Row(
@@ -118,17 +122,6 @@ class CollegesManagementScreen extends ConsumerWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          // Actions
-                          _buildCircleButton(
-                            context,
-                            LucideIcons.arrowRight,
-                            Colors.white.withValues(alpha: 0.1),
-                            () => context.push(
-                              '/admin/departments',
-                              extra: {'collegeId': college.id},
                             ),
                           ),
                           const SizedBox(width: 8),

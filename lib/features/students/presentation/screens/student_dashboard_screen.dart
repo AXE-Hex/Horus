@@ -37,7 +37,7 @@ class StudentDashboardScreen extends ConsumerWidget {
 
             const SizedBox(height: 32),
 
-            _buildSectionHeader(context, isArabic ? "أكاديمي" : "Academic")
+            _buildSectionHeader(context, t.students.academic)
                 .animate()
                 .fadeIn(delay: staggerDelay)
                 .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
@@ -54,56 +54,56 @@ class StudentDashboardScreen extends ConsumerWidget {
                     _buildGridItem(
                       context,
                       LucideIcons.fileText,
-                      isArabic ? "السجل الأكاديمي" : "Transcript",
+                      t.students.transcript,
                       () => context.push('/transcript'),
                       Colors.blueAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.trendingUp,
-                      isArabic ? "المقررات" : "Courses",
+                      t.students.courses,
                       () => context.push('/progress'),
                       Colors.greenAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.target,
-                      isArabic ? "خطة العمل" : "Action Plan",
+                      t.students.action_plan,
                       () => context.push('/action-plan'),
                       Colors.purpleAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.award,
-                      isArabic ? "نتائج المقررات" : "Subject Results",
+                      t.students.subject_results,
                       () => context.push('/subject-result'),
                       Colors.orangeAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.graduationCap,
-                      isArabic ? "الهوية الجامعية" : "Digital ID",
+                      t.students.digital_id,
                       () => context.push('/digital-id'),
                       Colors.indigoAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.calendar,
-                      isArabic ? "الجدول اليومي" : "Daily Schedule",
+                      t.students.daily_schedule,
                       () => context.push('/schedule'),
                       Colors.deepPurpleAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.clipboardCheck,
-                      isArabic ? "الغياب والحضور" : "Attendance",
+                      t.students.attendance,
                       () => context.push('/attendance'),
                       Colors.redAccent,
                     ),
                     _buildGridItem(
                       context,
                       LucideIcons.fileSpreadsheet,
-                      isArabic ? "جدول الامتحانات" : "Exam Schedule",
+                      t.students.exam_schedule,
                       () => context.push('/exam-schedule'),
                       Colors.amberAccent,
                     ),
@@ -117,7 +117,7 @@ class StudentDashboardScreen extends ConsumerWidget {
 
             _buildSectionHeader(
                   context,
-                  isArabic ? "التسجيل والمالية" : "Enrollment & Finance",
+                  t.students.enrollment_finance,
                 )
                 .animate()
                 .fadeIn(delay: staggerDelay * 3)
@@ -135,21 +135,21 @@ class StudentDashboardScreen extends ConsumerWidget {
                     _buildHorizontalItem(
                       context,
                       LucideIcons.fileText,
-                      isArabic ? "التسجيل" : "Registration",
+                      t.students.registration,
                       () => context.push('/registration'),
                       Colors.tealAccent,
                     ),
                     _buildHorizontalItem(
                       context,
                       LucideIcons.alertCircle,
-                      isArabic ? "الفواتير" : "Invoices",
+                      t.students.invoices,
                       () => context.push('/invoices'),
                       Colors.deepOrangeAccent,
                     ),
                     _buildHorizontalItem(
                       context,
                       LucideIcons.creditCard,
-                      isArabic ? "الدفع الإلكتروني" : "Payment",
+                      t.students.payment,
                       () => context.push('/payment'),
                       Colors.pinkAccent,
                     ),
@@ -161,7 +161,7 @@ class StudentDashboardScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            _buildSectionHeader(context, isArabic ? "خدمات أخرى" : "Utilities")
+            _buildSectionHeader(context, t.students.utilities)
                 .animate()
                 .fadeIn(delay: staggerDelay * 5)
                 .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
@@ -175,7 +175,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       _buildSquareItem(
                         context,
                         LucideIcons.helpCircle,
-                        isArabic ? "الشروحات" : "Tutorials",
+                        t.students.tutorials,
                         () => context.push('/tutorials'),
                         Colors.blueGrey,
                       ),
@@ -183,7 +183,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       _buildSquareItem(
                         context,
                         LucideIcons.fingerprint,
-                        isArabic ? "الأمان" : "Security",
+                        t.students.security,
                         () => context.push('/biometrics'),
                         Colors.redAccent,
                       ),
@@ -191,7 +191,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       _buildSquareItem(
                         context,
                         LucideIcons.bell,
-                        isArabic ? "الإشعارات" : "Notifications",
+                        t.students.notifications,
                         () => context.push('/notifications'),
                         Colors.amberAccent,
                       ),
@@ -199,7 +199,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       _buildSquareItem(
                         context,
                         LucideIcons.messageSquare,
-                        isArabic ? "المنتديات" : "Forums",
+                        t.students.forums,
                         () => context.push('/forums'),
                         Colors.cyanAccent,
                       ),
@@ -207,7 +207,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       _buildSquareItem(
                         context,
                         LucideIcons.lifeBuoy,
-                        isArabic ? "الدعم الفني" : "Support",
+                        t.students.support,
                         () => context.push('/support'),
                         Colors.indigoAccent,
                       ),
@@ -240,7 +240,7 @@ class StudentDashboardScreen extends ConsumerWidget {
         context.push(
           '/digital-id',
           extra: {
-            'name': auth.fullName ?? (isArabic ? 'طالب' : 'Student'),
+            'name': auth.fullName ?? (t.students.student),
             'id': auth.user?.id ?? '',
             'college': 'ai',
             'specialization': 'artificial_cybersecurity',
@@ -270,7 +270,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       ),
                       const SizedBox(width: 12),
                       Text(
-                        isArabic ? "جامعة حورس" : "Horus University",
+                        t.students.horus_university,
                         style: GoogleFonts.cinzel(
                           fontSize: 13,
                           fontWeight: FontWeight.w900,
@@ -327,7 +327,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          auth.fullName ?? (isArabic ? 'طالب' : 'Student'),
+                          auth.fullName ?? (t.students.student),
                           style: GoogleFonts.outfit(
                             fontSize: 24,
                             fontWeight: FontWeight.w900,
@@ -351,9 +351,7 @@ class StudentDashboardScreen extends ConsumerWidget {
                             ),
                           ),
                           child: Text(
-                            isArabic
-                                ? "الذكاء الاصطناعي"
-                                : "ARTIFICIAL INTELLIGENCE",
+                            t.students.artificial_intelligence,
                             style: GoogleFonts.outfit(
                               fontSize: 10,
                               fontWeight: FontWeight.w700,

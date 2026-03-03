@@ -1,4 +1,3 @@
-
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,78 @@ class ActionPlanScreen extends ConsumerWidget {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
+    final List<Map<String, dynamic>> timelineData = [
+      {
+        'title': t.academic.year_1,
+        'subtitle': t.academic.foundational_skills,
+        'status': 'completed',
+        'progress': 1.0,
+        'icon': LucideIcons.bookOpen,
+        'color': const Color(0xFF10B981),
+        'tasks': [
+          {
+            'label': t.academic.programming_basics,
+            'done': true,
+          },
+          {
+            'label': t.academic.intro_to_ai,
+            'done': true,
+          },
+        ],
+      },
+      {
+        'title': t.academic.year_2,
+        'subtitle': t.academic.advanced_learning,
+        'status': 'completed',
+        'progress': 1.0,
+        'icon': LucideIcons.code,
+        'color': const Color(0xFF10B981),
+        'tasks': [
+          {
+            'label': t.academic.data_structures,
+            'done': true,
+          },
+          {'label': t.academic.algorithms, 'done': true},
+        ],
+      },
+      {
+        'title': t.academic.year_3,
+        'subtitle': t.academic.specialization_projects,
+        'status': 'in_progress',
+        'progress': 0.65,
+        'icon': LucideIcons.layers,
+        'color': const Color(0xFF6366F1),
+        'tasks': [
+          {
+            'label': t.academic.track_project_i,
+            'done': true,
+          },
+          {
+            'label': t.academic.deep_learning,
+            'done': false,
+          },
+        ],
+      },
+      {
+        'title': t.academic.year_4,
+        'subtitle': t.academic.graduation_mastery,
+        'status': 'remaining',
+        'progress': 0.0,
+        'icon': LucideIcons.graduationCap,
+        'color': Colors.white24,
+        'tasks': [
+          {
+            'label': t.academic.graduation_project,
+            'done': false,
+          },
+          {
+            'label': t.academic.field_internship,
+            'done': false,
+          },
+        ],
+      },
+    ];
+
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -30,150 +101,314 @@ class ActionPlanScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: const Icon(LucideIcons.arrowLeft),
+            icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'خطة العمل' : 'Action Plan',
+            t.academic.action_plan,
             style: GoogleFonts.outfit(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.w900,
+              fontSize: 24,
+              color: Colors.white,
+              letterSpacing: 1.2,
             ),
           ),
           centerTitle: true,
         ),
-
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: _buildProgressHeader(isArabic),
+          ),
+        ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              final years = [
-                {
-                  'title': isArabic ? 'السنة الأولى' : 'Year 1',
-                  'status': 'completed',
-                },
-                {
-                  'title': isArabic ? 'السنة الثانية' : 'Year 2',
-                  'status': 'completed',
-                },
-                {
-                  'title': isArabic ? 'السنة الثالثة' : 'Year 3',
-                  'status': 'in_progress',
-                },
-                {
-                  'title': isArabic ? 'السنة الرابعة' : 'Year 4',
-                  'status': 'remaining',
-                },
-              ];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: _buildYearPlanCard(
-                  context,
-                  years[index],
-                  isGlass,
-                  index,
-                  isArabic,
-                ),
+              return _TimelineItem(
+                data: timelineData[index],
+                isFirst: index == 0,
+                isLast: index == timelineData.length - 1,
+                index: index,
+                isArabic: isArabic,
               );
-            }, childCount: 4),
+            }, childCount: timelineData.length),
           ),
         ),
+        const SliverToBoxAdapter(child: SizedBox(height: 100)),
       ],
     );
 
     return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
   }
 
-  Widget _buildYearPlanCard(
-    BuildContext context,
-    Map<String, String> year,
-    bool isGlass,
-    int index,
-    bool isArabic,
-  ) {
-    final status = year['status']!;
-    final isCompleted = status == 'completed';
-    final isInProgress = status == 'in_progress';
-
-    final content = Padding(
-      padding: const EdgeInsets.all(20),
-      child: Row(
+  Widget _buildProgressHeader(bool isArabic) {
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(32),
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: isCompleted
-                  ? Colors.green.withValues(alpha: 0.1)
-                  : (isInProgress
-                        ? Colors.blue.withValues(alpha: 0.1)
-                        : Colors.grey.withValues(alpha: 0.1)),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              isCompleted
-                  ? LucideIcons.check
-                  : (isInProgress ? LucideIcons.play : LucideIcons.lock),
-              color: isCompleted
-                  ? Colors.green
-                  : (isInProgress ? Colors.blue : Colors.grey),
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  year['title']!,
-                  style: GoogleFonts.outfit(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isGlass
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurface,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    t.academic.overall_progress,
+                    style: GoogleFonts.outfit(
+                      color: Colors.white60,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 2,
+                    ),
                   ),
-                ),
-                Text(
-                  isCompleted
-                      ? (isArabic ? 'مكتمل' : 'Completed')
-                      : (isInProgress
-                            ? (isArabic ? 'قيد التنفيذ' : 'In Progress')
-                            : (isArabic ? 'متبقي' : 'Remaining')),
-                  style: GoogleFonts.inter(
-                    fontSize: 12,
-                    color: Theme.of(context).hintColor,
+                  const SizedBox(height: 4),
+                  Text(
+                    '68%',
+                    style: GoogleFonts.outfit(
+                      fontSize: 32,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+              const Icon(
+                LucideIcons.trendingUp,
+                color: Color(0xFF10B981),
+                size: 32,
+              ),
+            ],
           ),
-          IconButton(
-            icon: const Icon(LucideIcons.chevronDown, size: 18),
-            onPressed: () {},
-            color: Theme.of(context).hintColor,
+          const SizedBox(height: 20),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              height: 12,
+              width: double.infinity,
+              color: Colors.white10,
+              child: Stack(
+                children: [
+                  Container(
+                    width: 300 * 0.68,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF6366F1), Color(0xFF10B981)],
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF10B981).withValues(alpha: 0.5),
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                  ).animate().shimmer(duration: 2.seconds),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
+  }
+}
 
-    return isGlass
-        ? GlassContainer(
-            borderRadius: BorderRadius.circular(20),
-            padding: EdgeInsets.zero,
-            child: content,
-          )
-        : Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.black12),
+class _TimelineItem extends StatelessWidget {
+  final Map<String, dynamic> data;
+  final bool isFirst;
+  final bool isLast;
+  final int index;
+  final bool isArabic;
+
+  const _TimelineItem({
+    required this.data,
+    required this.isFirst,
+    required this.isLast,
+    required this.index,
+    required this.isArabic,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final status = data['status'] as String;
+    final isCompleted = status == 'completed';
+    final isInProgress = status == 'in_progress';
+    final color = data['color'] as Color;
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildLine(isFirst, isLast, isCompleted, isInProgress, color),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: _buildCard(isCompleted, isInProgress, color),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLine(
+    bool isFirst,
+    bool isLast,
+    bool isCompleted,
+    bool isInProgress,
+    Color color,
+  ) {
+    return Column(
+      children: [
+        if (!isFirst)
+          Container(
+            width: 2,
+            height: 20,
+            color: isCompleted ? color : Colors.white10,
+          ),
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: isCompleted
+                ? color
+                : (isInProgress ? Colors.white : Colors.white10),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: isCompleted || isInProgress ? color : Colors.white24,
+              width: 2,
+            ),
+            boxShadow: isCompleted || isInProgress
+                ? [
+                    BoxShadow(
+                      color: color.withValues(alpha: 0.5),
+                      blurRadius: 10,
+                    ),
+                  ]
+                : null,
+          ),
+          child: Icon(
+            isCompleted
+                ? LucideIcons.check
+                : (isInProgress ? LucideIcons.play : LucideIcons.lock),
+            size: 14,
+            color: isCompleted || isInProgress ? Colors.black : Colors.white24,
+          ),
+        ),
+        if (!isLast)
+          Expanded(
+            child: Container(
+              width: 2,
+              color: isCompleted ? color : Colors.white10,
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildCard(bool isCompleted, bool isInProgress, Color color) {
+    return GlassContainer(
+          borderRadius: BorderRadius.circular(24),
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: isCompleted || isInProgress
+                          ? color.withValues(alpha: 0.15)
+                          : Colors.white10,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      data['icon'] as IconData,
+                      color: isCompleted || isInProgress
+                          ? color
+                          : Colors.white24,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data['title'] as String,
+                          style: GoogleFonts.outfit(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: isCompleted || isInProgress
+                                ? Colors.white
+                                : Colors.white38,
+                          ),
+                        ),
+                        Text(
+                          data['subtitle'] as String,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.white38,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (isCompleted)
+                    const Icon(
+                      LucideIcons.shieldCheck,
+                      color: Color(0xFF10B981),
+                      size: 20,
+                    ),
+                ],
+              ),
+              if (isInProgress) ...[
+                const SizedBox(height: 20),
+                _buildTaskList(
+                  data['tasks'] as List<Map<String, dynamic>>,
+                  color,
                 ),
-                child: content,
-              )
-              .animate()
-              .fadeIn(delay: (index * 100).ms)
-              .slideX(begin: 0.1, end: 0);
+              ],
+            ],
+          ),
+        )
+        .animate(delay: (index * 150).ms)
+        .fadeIn(duration: 600.ms)
+        .slideX(begin: 0.1, end: 0);
+  }
+
+  Widget _buildTaskList(List<Map<String, dynamic>> tasks, Color color) {
+    return Column(
+      children: tasks.map((task) {
+        final done = task['done'] as bool;
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Row(
+            children: [
+              Icon(
+                done ? LucideIcons.checkSquare : LucideIcons.square,
+                size: 16,
+                color: done ? color : Colors.white24,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                task['label'] as String,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: done ? Colors.white70 : Colors.white24,
+                  decoration: done ? TextDecoration.lineThrough : null,
+                ),
+              ),
+            ],
+          ),
+        );
+      }).toList(),
+    );
   }
 }

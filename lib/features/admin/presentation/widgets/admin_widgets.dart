@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+
+export 'holographic_card.dart';
 
 class AdminStatCard extends StatelessWidget {
   final IconData icon;
@@ -21,23 +24,23 @@ class AdminStatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassContainer(
-      borderRadius: BorderRadius.circular(30),
-      padding: const EdgeInsets.all(24),
+      borderRadius: BorderRadius.circular(28),
+      padding: const EdgeInsets.all(20),
       onTap: onTap,
       child: Stack(
         children: [
           // Background Glow
-          Positioned(
-            right: -20,
-            top: -20,
+          PositionedDirectional(
+            end: -24,
+            top: -24,
             child: Container(
-              width: 80,
-              height: 80,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    color.withValues(alpha: 0.15),
+                    color.withValues(alpha: 0.12),
                     color.withValues(alpha: 0.0),
                   ],
                 ),
@@ -48,16 +51,16 @@ class AdminStatCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(14),
                   border: Border.all(
                     color: color.withValues(alpha: 0.2),
                     width: 1,
                   ),
                 ),
-                child: Icon(icon, color: color, size: 28),
+                child: Icon(icon, color: color, size: 22),
               ),
               const Spacer(),
               Column(
@@ -68,27 +71,105 @@ class AdminStatCard extends StatelessWidget {
                     child: Text(
                       value,
                       style: GoogleFonts.outfit(
-                        fontSize: 28,
+                        fontSize: 26,
                         fontWeight: FontWeight.bold,
                         letterSpacing: -1,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: GoogleFonts.inter(
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).hintColor,
-                      letterSpacing: 0.2,
+                      color: Colors.white.withValues(alpha: 0.5),
+                      letterSpacing: 0.1,
                     ),
                   ),
                 ],
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AdminDashboardTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final VoidCallback onTap;
+
+  const AdminDashboardTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassContainer(
+      onTap: onTap,
+      padding: const EdgeInsets.all(18),
+      borderRadius: BorderRadius.circular(24),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color.withValues(alpha: 0.15),
+                  color.withValues(alpha: 0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: color.withValues(alpha: 0.1), width: 1),
+            ),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.outfit(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: -0.2,
+                  ),
+                ),
+                const SizedBox(height: 1),
+                Text(
+                  subtitle,
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    color: Colors.white.withValues(alpha: 0.4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            Directionality.of(context) == TextDirection.rtl
+                ? LucideIcons.chevronLeft
+                : LucideIcons.chevronRight,
+            size: 16,
+            color: Colors.white.withValues(alpha: 0.2),
           ),
         ],
       ),

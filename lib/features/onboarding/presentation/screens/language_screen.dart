@@ -58,7 +58,6 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     return GlassScaffold(
       body: Stack(
         children: [
@@ -80,7 +79,7 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
                   const SizedBox(height: 30),
 
                   Text(
-                    isArabic ? "اختر لغتك" : "Choose Language",
+                    t.onboarding.choose_language,
                     style: GoogleFonts.outfit(
                       fontSize: 40,
                       fontWeight: FontWeight.w900,
@@ -92,9 +91,7 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
                   const SizedBox(height: 12),
 
                   Text(
-                    isArabic
-                        ? "يمكنك تغيير هذا لاحقاً من الإعدادات"
-                        : "You can change this later in settings",
+                    t.onboarding.you_can_change_this_later_in_s,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       color: Theme.of(

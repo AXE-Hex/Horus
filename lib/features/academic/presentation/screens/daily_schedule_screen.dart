@@ -1,4 +1,4 @@
-
+import 'dart:async';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +11,8 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hue/features/academic/data/repositories/professor_repository.dart';
+import 'package:intl/intl.dart';
 
 class DailyScheduleScreen extends HookConsumerWidget {
   const DailyScheduleScreen({super.key});
@@ -20,564 +22,493 @@ class DailyScheduleScreen extends HookConsumerWidget {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
-    final selectedDay = useState('monday');
-    final selectedPeriod = useState('all_periods');
+    final selectedDay = useState(
+      DateFormat('EEEE').format(DateTime.now()).toLowerCase(),
+    );
+
+    // Timer to update current time every minute
+    final currentTime = useState(DateTime.now());
+    useEffect(() {
+      final timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+        currentTime.value = DateTime.now();
+      });
+      return timer.cancel;
+    }, []);
 
     final days = [
+      'all',
       'monday',
       'tuesday',
       'wednesday',
       'thursday',
-      'friday',
       'saturday',
       'sunday',
     ];
 
-    final periods = ['all_periods', 'morning', 'afternoon', 'evening'];
+    final scheduleAsync = ref.watch(studentScheduleProvider);
 
-    final allSlots = [
-      {
-        'day': 'monday',
-        'time': '09:00 - 10:30',
-        'period': 'morning',
-        'subject': 'Artificial Intelligence',
-        'room': 'Hall 4',
-        'room_number': '4',
-        'room_code': 'H4',
-        'floor': '1st',
-        'direction': 'east',
-        'type': 'type_lecture',
-        'instructor': 'Dr. Ahmed Ali',
-        'status': 'status_started',
-      },
-      {
-        'day': 'monday',
-        'time': '10:45 - 12:15',
-        'period': 'morning',
-        'subject': 'Machine Learning',
-        'room': 'Lab 12',
-        'room_number': '12',
-        'room_code': 'L12',
-        'floor': '2nd',
-        'direction': 'west',
-        'type': 'type_section',
-        'instructor': 'Eng. Sara Kamal',
-        'status': 'status_active',
-      },
-      {
-        'day': 'monday',
-        'time': '01:00 - 02:30',
-        'period': 'afternoon',
-        'subject': 'Ethics in IT',
-        'room': 'Room 105',
-        'room_number': '105',
-        'room_code': 'R105',
-        'floor': '1st',
-        'direction': 'south',
-        'type': 'type_lecture',
-        'instructor': 'Dr. Mohamed Hassan',
-        'status': 'status_online',
-      },
-      {
-        'day': 'tuesday',
-        'time': '09:00 - 10:30',
-        'period': 'morning',
-        'subject': 'Data Structures',
-        'room': 'Hall 2',
-        'room_number': '2',
-        'room_code': 'H2',
-        'floor': 'Ground',
-        'direction': 'east',
-        'type': 'type_lecture',
-        'instructor': 'Dr. Leila Mahmoud',
-        'status': 'status_active',
-      },
-      {
-        'day': 'tuesday',
-        'time': '11:00 - 12:30',
-        'period': 'morning',
-        'subject': 'Software Engineering',
-        'room': 'Hall 5',
-        'room_number': '5',
-        'room_code': 'H5',
-        'floor': '2nd',
-        'direction': 'north',
-        'type': 'type_lecture',
-        'instructor': 'Dr. Omar Khaled',
-        'status': 'status_cancelled',
-      },
-      {
-        'day': 'tuesday',
-        'time': '02:00 - 03:30',
-        'period': 'afternoon',
-        'subject': 'Operating Systems',
-        'room': 'Lab 4',
-        'room_number': '4',
-        'room_code': 'L4',
-        'floor': '1st',
-        'direction': 'west',
-        'type': 'type_section',
-        'instructor': 'Eng. Ahmed Zaki',
-        'status': 'status_substitute',
-        'substitute': 'Dr. Yasmine Ali',
-      },
-    ];
+    return scheduleAsync.when(
+      data: (allSlots) {
+        final filteredSlots = allSlots.where((slot) {
+          if (selectedDay.value == 'all') return true;
+          return (slot['day'] as String).toLowerCase() == selectedDay.value;
+        }).toList();
 
-    final filteredSlots = allSlots.where((slot) {
-      final dayMatch = slot['day'] == selectedDay.value;
-      final periodMatch =
-          selectedPeriod.value == 'all_periods' ||
-          slot['period'] == selectedPeriod.value;
-      return dayMatch && periodMatch;
-    }).toList();
-
-    final body = CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        GlassSliverAppBar(
-          expandedHeight: 120,
-          floating: true,
-          pinned: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(LucideIcons.arrowLeft),
-            onPressed: () => context.pop(),
-          ),
-          title: Text(
-            t.schedule.daily_title,
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
-            ),
-          ),
-          centerTitle: true,
-        ),
-
-        SliverToBoxAdapter(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: days.map((day) {
-                final isSelected = day == selectedDay.value;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: ChoiceChip(
-                    label: Text(
-                      isArabic ? t['schedule.$day'] : t['schedule.$day'],
-                    ),
-                    selected: isSelected,
-                    onSelected: (val) {
-                      if (val) selectedDay.value = day;
-                    },
-                    selectedColor: Theme.of(context).primaryColor,
-                    labelStyle: GoogleFonts.outfit(
-                      color: isSelected
-                          ? Colors.white
-                          : Theme.of(context).primaryColor,
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-
-        const SliverToBoxAdapter(child: SizedBox(height: 12)),
-
-        SliverToBoxAdapter(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Row(
-              children: periods.map((period) {
-                final isSelected = period == selectedPeriod.value;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: FilterChip(
-                    label: Text(
-                      isArabic ? t['schedule.$period'] : t['schedule.$period'],
-                    ),
-                    selected: isSelected,
-                    onSelected: (val) {
-                      selectedPeriod.value = period;
-                    },
-                    selectedColor: Theme.of(
-                      context,
-                    ).primaryColor.withValues(alpha: 0.2),
-                    checkmarkColor: Theme.of(context).primaryColor,
-                    labelStyle: GoogleFonts.outfit(
-                      fontSize: 12,
-                      color: isSelected
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).hintColor,
-                    ),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-        ),
-
-        const SliverToBoxAdapter(child: SizedBox(height: 20)),
-
-        filteredSlots.isEmpty
-            ? SliverFillRemaining(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        LucideIcons.calendarX,
-                        size: 48,
-                        color: Theme.of(
-                          context,
-                        ).hintColor.withValues(alpha: 0.3),
-                      ),
-                      const SizedBox(height: 16),
-                      Text(
-                        t.schedule.no_lectures,
-                        style: GoogleFonts.outfit(
-                          color: Theme.of(context).hintColor,
-                        ),
-                      ),
-                    ],
-                  ),
+        final body = CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            GlassSliverAppBar(
+              expandedHeight: 120,
+              floating: true,
+              pinned: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+                onPressed: () => context.pop(),
+              ),
+              title: Text(
+                t.schedule.daily_title,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 24,
+                  color: Colors.white,
+                  letterSpacing: 1.2,
                 ),
-              )
-            : SliverPadding(
+              ),
+              centerTitle: true,
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: _buildDayPicker(isArabic, selectedDay, days),
+              ),
+            ),
+            if (filteredSlots.isEmpty)
+              SliverFillRemaining(child: _buildEmptyState(context, isArabic))
+            else
+              SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                    return Padding(
-                          padding: const EdgeInsets.only(bottom: 16),
-                          child: _buildTimeSlotCard(
-                            context,
-                            filteredSlots[index],
-                            isGlass,
-                            isArabic,
-                          ),
-                        )
-                        .animate()
-                        .fadeIn(delay: (index * 50).ms)
-                        .slideY(begin: 0.1, end: 0);
+                    final slot = filteredSlots[index];
+                    return _ScheduleItem(
+                      slot: slot,
+                      currentTime: currentTime.value,
+                      isArabic: isArabic,
+                      index: index,
+                    );
                   }, childCount: filteredSlots.length),
                 ),
               ),
-        const SliverToBoxAdapter(child: SizedBox(height: 100)),
-      ],
-    );
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          ],
+        );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+    );
   }
 
-  Widget _buildTimeSlotCard(
-    BuildContext context,
-    Map<String, String> slot,
-    bool isGlass,
+  Widget _buildDayPicker(
     bool isArabic,
+    ValueNotifier<String> selectedDay,
+    List<String> days,
   ) {
-    final status = slot['status']!;
-    final type = slot['type']!;
-
-    Color statusColor;
-    IconData statusIcon;
-
-    switch (status) {
-      case 'status_started':
-        statusColor = Colors.green;
-        statusIcon = LucideIcons.playCircle;
-        break;
-      case 'status_cancelled':
-        statusColor = Colors.red;
-        statusIcon = LucideIcons.xCircle;
-        break;
-      case 'status_online':
-        statusColor = Colors.purple;
-        statusIcon = LucideIcons.globe;
-        break;
-      case 'status_substitute':
-        statusColor = Colors.orange;
-        statusIcon = LucideIcons.userPlus;
-        break;
-      default:
-        statusColor = Colors.blue;
-        statusIcon = LucideIcons.clock;
-    }
-
-    final content = Padding(
-      padding: const EdgeInsets.all(20),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Column(
-            children: [
-              Text(
-                slot['time']!.split(' - ')[0],
-                style: GoogleFonts.shareTechMono(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: isGlass
-                      ? Colors.white
-                      : Theme.of(context).primaryColor,
+        children: days.map((day) {
+          final isSelected = day == selectedDay.value;
+          return Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: GestureDetector(
+              onTap: () => selectedDay.value = day,
+              child: AnimatedContainer(
+                duration: 300.ms,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 12,
                 ),
-              ),
-              Container(
-                width: 2,
-                height: 40,
-                margin: const EdgeInsets.symmetric(vertical: 4),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      statusColor.withValues(alpha: 0.5),
-                      statusColor.withValues(alpha: 0.0),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+                  color: isSelected
+                      ? const Color(0xFF6366F1)
+                      : Colors.white.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: isSelected
+                        ? const Color(0xFF6366F1)
+                        : Colors.white.withValues(alpha: 0.1),
+                    width: 1,
                   ),
-                ),
-              ),
-              Text(
-                slot['time']!.split(' - ')[1],
-                style: GoogleFonts.shareTechMono(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).hintColor,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(width: 24),
-
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: type == 'type_lecture'
-                            ? Colors.blue.withValues(alpha: 0.1)
-                            : Colors.teal.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        isArabic ? t['schedule.$type'] : t['schedule.$type'],
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: type == 'type_lecture'
-                              ? Colors.blue
-                              : Colors.teal,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Icon(statusIcon, size: 12, color: statusColor),
-                        const SizedBox(width: 4),
-                        Text(
-                          isArabic
-                              ? t['schedule.$status']
-                              : t['schedule.$status'],
-                          style: GoogleFonts.inter(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                            color: statusColor,
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: const Color(
+                              0xFF6366F1,
+                            ).withValues(alpha: 0.3),
+                            blurRadius: 10,
                           ),
-                        ),
-                        if (status == 'status_started')
-                          const SizedBox(width: 4),
-                        if (status == 'status_started')
-                          Container(
-                                width: 6,
-                                height: 6,
-                                decoration: const BoxDecoration(
-                                  color: Colors.green,
-                                  shape: BoxShape.circle,
-                                ),
-                              )
-                              .animate(
-                                onPlay: (controller) => controller.repeat(),
-                              )
-                              .fadeIn(duration: 500.ms)
-                              .fadeOut(delay: 500.ms),
-                      ],
-                    ),
-                  ],
+                        ]
+                      : null,
                 ),
-                const SizedBox(height: 8),
-
-                Text(
-                  slot['subject']!,
+                child: Text(
+                  isArabic ? _getArabicDay(day) : day.toUpperCase(),
                   style: GoogleFonts.outfit(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: isGlass
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurface,
+                    color: isSelected ? Colors.white : Colors.white60,
+                    fontWeight: isSelected ? FontWeight.w900 : FontWeight.bold,
+                    fontSize: 12,
+                    letterSpacing: 1,
                   ),
                 ),
-
-                const SizedBox(height: 8),
-
-                Row(
-                  children: [
-                    Icon(
-                      LucideIcons.user,
-                      size: 14,
-                      color: isGlass ? Colors.white60 : Colors.black54,
-                    ),
-                    const SizedBox(width: 6),
-                    Text(
-                      slot['instructor']!,
-                      style: GoogleFonts.inter(
-                        fontSize: 13,
-                        color: isGlass ? Colors.white70 : Colors.black87,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 4),
-
-                Wrap(
-                  spacing: 12,
-                  runSpacing: 4,
-                  children: [
-                    _buildRoomDetail(
-                      context,
-                      LucideIcons.mapPin,
-                      slot['room']!,
-                      isGlass,
-                    ),
-                    if (slot.containsKey('room_code'))
-                      _buildRoomDetail(
-                        context,
-                        LucideIcons.tag,
-                        slot['room_code']!,
-                        isGlass,
-                      ),
-                    if (slot.containsKey('floor'))
-                      _buildRoomDetail(
-                        context,
-                        LucideIcons.layers,
-                        '${t.schedule.floor}: ${slot['floor']}',
-                        isGlass,
-                      ),
-                    if (slot.containsKey('direction'))
-                      _buildRoomDetail(
-                        context,
-                        LucideIcons.compass,
-                        isArabic
-                            ? t['schedule.${slot['direction']}']
-                            : t['schedule.${slot['direction']}'],
-                        isGlass,
-                      ),
-                  ],
-                ),
-
-                if (status == 'status_substitute' &&
-                    slot.containsKey('substitute'))
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: Colors.orange.withValues(alpha: 0.2),
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          const Icon(
-                            LucideIcons.info,
-                            size: 14,
-                            color: Colors.orange,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              '${t.schedule.status_substitute}: ${slot['substitute']}',
-                              style: GoogleFonts.inter(
-                                fontSize: 11,
-                                color: Colors.orange[800],
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-              ],
+              ),
             ),
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  String _getArabicDay(String day) {
+    switch (day) {
+      case 'all':
+        return 'الكل';
+      case 'monday':
+        return 'الإثنين';
+      case 'tuesday':
+        return 'الثلاثاء';
+      case 'wednesday':
+        return 'الأربعاء';
+      case 'thursday':
+        return 'الخميس';
+      case 'saturday':
+        return 'السبت';
+      case 'sunday':
+        return 'الأحد';
+      default:
+        return day;
+    }
+  }
+
+  Widget _buildEmptyState(BuildContext context, bool isArabic) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(LucideIcons.calendarX, size: 64, color: Colors.white10),
+          const SizedBox(height: 20),
+          Text(
+            t.schedule.no_lectures,
+            style: GoogleFonts.outfit(color: Colors.white38, fontSize: 16),
           ),
         ],
       ),
     );
+  }
+}
 
-    return isGlass
-        ? GlassContainer(
-            borderRadius: BorderRadius.circular(24),
-            padding: EdgeInsets.zero,
-            child: content,
-          )
-        : Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(
-                color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+class _ScheduleItem extends StatelessWidget {
+  final Map<String, dynamic> slot;
+  final DateTime currentTime;
+  final bool isArabic;
+  final int index;
+
+  const _ScheduleItem({
+    required this.slot,
+    required this.currentTime,
+    required this.isArabic,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final startTimeStr = slot['startTime'] as String;
+    final endTimeStr = slot['endTime'] as String;
+    final color = slot['color'] as Color;
+
+    final startParts = startTimeStr.split(':');
+    final endParts = endTimeStr.split(':');
+
+    final now = DateTime.now();
+    final start = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      int.parse(startParts[0]),
+      int.parse(startParts[1]),
+    );
+    final end = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      int.parse(endParts[0]),
+      int.parse(endParts[1]),
+    );
+
+    final isActive = currentTime.isAfter(start) && currentTime.isBefore(end);
+    final isPast = currentTime.isAfter(end);
+
+    double progress = 0.0;
+    if (isActive) {
+      final totalSeconds = end.difference(start).inSeconds;
+      final passedSeconds = currentTime.difference(start).inSeconds;
+      progress = (passedSeconds / totalSeconds).clamp(0.0, 1.0);
+    }
+
+    return IntrinsicHeight(
+          child: Row(
+            children: [
+              Column(
+                children: [
+                  Text(
+                    startTimeStr,
+                    style: GoogleFonts.shareTechMono(
+                      color: isActive
+                          ? color
+                          : (isPast ? Colors.white24 : Colors.white60),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: 2,
+                      margin: const EdgeInsets.symmetric(vertical: 8),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            isActive || isPast ? color : Colors.white10,
+                            isActive
+                                ? color.withValues(alpha: 0.1)
+                                : (isPast
+                                      ? color.withValues(alpha: 0.1)
+                                      : Colors.white10),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    endTimeStr,
+                    style: GoogleFonts.shareTechMono(
+                      color: isPast ? Colors.white10 : Colors.white24,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.05),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: isActive
+                          ? [
+                              BoxShadow(
+                                color: color.withValues(alpha: 0.3),
+                                blurRadius: 30,
+                                spreadRadius: -5,
+                              ),
+                              BoxShadow(
+                                color: color.withValues(alpha: 0.1),
+                                blurRadius: 10,
+                                spreadRadius: 2,
+                              ),
+                            ]
+                          : null,
+                    ),
+                    child: GlassContainer(
+                      borderRadius: BorderRadius.circular(24),
+                      padding: const EdgeInsets.all(20),
+                      border: Border.all(
+                        color: isActive
+                            ? color.withValues(alpha: 0.8)
+                            : Colors.white.withValues(alpha: 0.05),
+                        width: isActive ? 1.5 : 1,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildTypeBadge(slot['type'] as String, color),
+                              if (isActive)
+                                _buildLiveIndicator(color)
+                              else if (isPast)
+                                const Icon(
+                                  LucideIcons.checkCircle2,
+                                  color: Colors.white10,
+                                  size: 16,
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            (isArabic
+                                    ? (slot['courses']?['name_ar'] ??
+                                          slot['courses']?['name'] ??
+                                          slot['subject'] ??
+                                          '')
+                                    : (slot['courses']?['name'] ??
+                                          slot['subject'] ??
+                                          ''))
+                                as String,
+                            style: GoogleFonts.outfit(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w900,
+                              color: isPast ? Colors.white24 : Colors.white,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Icon(
+                                LucideIcons.user,
+                                size: 14,
+                                color: isPast ? Colors.white10 : color,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                slot['instructor'] as String,
+                                style: GoogleFonts.inter(
+                                  color: isPast
+                                      ? Colors.white10
+                                      : Colors.white70,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          Row(
+                            children: [
+                              _buildDetailChip(
+                                LucideIcons.mapPin,
+                                slot['room'] as String,
+                                isPast,
+                              ),
+                            ],
+                          ),
+                          if (isActive) ...[
+                            const SizedBox(height: 20),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: LinearProgressIndicator(
+                                value: progress,
+                                backgroundColor: Colors.white10,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  color,
+                                ),
+                                minHeight: 4,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              '${(progress * 100).toInt()}% ${t.academic.completed_1}',
+                              style: GoogleFonts.shareTechMono(
+                                color: color,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-              ],
-            ),
-            child: content,
-          );
+              ),
+            ],
+          ),
+        )
+        .animate(delay: (index * 100).ms)
+        .fadeIn(duration: 600.ms)
+        .slideX(begin: 0.1, end: 0);
   }
 
-  Widget _buildRoomDetail(
-    BuildContext context,
-    IconData icon,
-    String label,
-    bool isGlass,
-  ) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          size: 14,
-          color: isGlass
-              ? Colors.white.withValues(alpha: 0.5)
-              : Theme.of(context).hintColor,
+  Widget _buildTypeBadge(String type, Color color) {
+    final isLecture = type == 'type_lecture';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Text(
+        (isLecture
+                ? (t.academic.lecture)
+                : (t.academic.section))
+            .toUpperCase(),
+        style: GoogleFonts.outfit(
+          color: color,
+          fontSize: 8,
+          fontWeight: FontWeight.w900,
+          letterSpacing: 1,
         ),
-        const SizedBox(width: 6),
+      ),
+    );
+  }
+
+  Widget _buildLiveIndicator(Color color) {
+    return Row(
+      children: [
         Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            color: isGlass
-                ? Colors.white.withValues(alpha: 0.7)
-                : Theme.of(context).hintColor,
+          t.academic.live,
+          style: GoogleFonts.outfit(
+            color: color,
+            fontSize: 10,
+            fontWeight: FontWeight.w900,
           ),
         ),
+        const SizedBox(width: 6),
+        Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            )
+            .animate(onPlay: (c) => c.repeat())
+            .scale(
+              begin: const Offset(1, 1),
+              end: const Offset(1.5, 1.5),
+              duration: 800.ms,
+            )
+            .fadeOut(duration: 800.ms),
       ],
+    );
+  }
+
+  Widget _buildDetailChip(IconData icon, String label, bool isPast) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: isPast ? Colors.white10 : Colors.white38),
+          const SizedBox(width: 8),
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              color: isPast ? Colors.white10 : Colors.white60,
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

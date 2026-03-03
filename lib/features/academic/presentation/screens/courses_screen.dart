@@ -33,7 +33,7 @@ class CoursesScreen extends ConsumerWidget {
                       onPressed: () => context.pop(),
                     ),
                     title: Text(
-                      isArabic ? "المقررات الدراسية" : "Courses",
+                      t.academic.courses,
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).primaryColor,
@@ -50,8 +50,8 @@ class CoursesScreen extends ConsumerWidget {
                         fontWeight: FontWeight.bold,
                       ),
                       tabs: [
-                        Tab(text: isArabic ? "المسجلة" : "Enrolled"),
-                        Tab(text: isArabic ? "المتاحة" : "Available"),
+                        Tab(text: t.academic.enrolled),
+                        Tab(text: t.academic.available),
                       ],
                     ),
                   ),
@@ -73,7 +73,7 @@ class CoursesScreen extends ConsumerWidget {
                   onPressed: () => context.pop(),
                 ),
                 title: Text(
-                  isArabic ? "المقررات الدراسية" : "Courses",
+                  t.academic.courses,
                   style: GoogleFonts.outfit(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor,
@@ -86,8 +86,8 @@ class CoursesScreen extends ConsumerWidget {
                   unselectedLabelColor: Theme.of(context).hintColor,
                   labelStyle: GoogleFonts.outfit(fontWeight: FontWeight.bold),
                   tabs: [
-                    Tab(text: isArabic ? "المسجلة" : "Enrolled"),
-                    Tab(text: isArabic ? "المتاحة" : "Available"),
+                    Tab(text: t.academic.enrolled),
+                    Tab(text: t.academic.available),
                   ],
                 ),
               ),
@@ -110,44 +110,36 @@ class CoursesScreen extends ConsumerWidget {
     final courses = isEnrolled
         ? [
             {
-              'name': isArabic
-                  ? 'الذكاء الاصطناعي CS402'
-                  : 'CS402 Artificial Intelligence',
+              'name': t.academic.cs402_artificial_intelligence,
               'id': 'CS402',
               'credits': '3',
-              'instructor': isArabic ? 'د/ سارة أحمد' : 'Dr. Sarah Ahmed',
+              'instructor': t.academic.dr_sarah_ahmed,
             },
             {
-              'name': isArabic
-                  ? 'تفاضل متقدم MAT301'
-                  : 'MAT301 Advanced Calculus',
+              'name': t.academic.mat301_advanced_calculus,
               'id': 'MAT301',
               'credits': '4',
-              'instructor': isArabic ? 'د/ روبرت سميث' : 'Dr. Robert Smith',
+              'instructor': t.academic.dr_robert_smith,
             },
             {
-              'name': isArabic
-                  ? 'أخلاقيات المهنة HUM210'
-                  : 'HUM210 Professional Ethics',
+              'name': t.academic.hum210_professional_ethics,
               'id': 'HUM210',
               'credits': '2',
-              'instructor': isArabic ? 'أ.م/ جون دو' : 'Prof. John Doe',
+              'instructor': t.academic.prof_john_doe,
             },
           ]
         : [
             {
-              'name': isArabic
-                  ? 'تقنيات تعلم الآلة CS405'
-                  : 'CS405 Machine Learning',
+              'name': t.academic.cs405_machine_learning,
               'id': 'CS405',
               'credits': '3',
-              'instructor': isArabic ? 'د/ آلان تورينج' : 'Dr. Alan Turing',
+              'instructor': t.academic.dr_alan_turing,
             },
             {
-              'name': isArabic ? 'رؤية حاسوبية CS410' : 'CS410 Computer Vision',
+              'name': t.academic.cs410_computer_vision,
               'id': 'CS410',
               'credits': '3',
-              'instructor': isArabic ? 'د/ أدا لوفلايس' : 'Dr. Ada Lovelace',
+              'instructor': t.academic.dr_ada_lovelace,
             },
           ];
 
@@ -201,7 +193,7 @@ class CoursesScreen extends ConsumerWidget {
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    '${course['credits']} ${isArabic ? "ساعات" : "Credits"}',
+                    '${course['credits']} ${t.academic.credits}',
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       color: Theme.of(context).hintColor,

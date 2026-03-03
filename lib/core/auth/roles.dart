@@ -1,4 +1,3 @@
-
 import 'package:hue/core/i18n/strings.g.dart';
 
 enum RoleCategory {
@@ -678,10 +677,12 @@ extension UserRoleX on UserRole {
       category == RoleCategory.studentAffairs;
 
   String toDbString() {
-    return name.replaceAllMapped(
-      RegExp(r'[A-Z]'),
-      (match) => '_${match.group(0)!.toLowerCase()}',
-    );
+    return name
+        .replaceAllMapped(
+          RegExp(r'(?<=[a-z])[A-Z]'),
+          (match) => '_${match.group(0)!.toLowerCase()}',
+        )
+        .toLowerCase();
   }
 
   static UserRole fromDbString(String value) {
@@ -694,6 +695,13 @@ extension UserRoleX on UserRole {
       orElse: () => UserRole.guest,
     );
   }
+}
+
+extension UserRolesX on List<UserRole> {
+  bool get containsAcademicStaff => any((r) => r.isTeachingStaff);
+  bool get containsAdmin => any((r) => r.isAdmin);
+
+  UserRole get primaryRole => isNotEmpty ? first : UserRole.guest;
 }
 
 extension RoleCategoryX on RoleCategory {

@@ -141,3 +141,51 @@ class AppointmentModel {
     };
   }
 }
+
+class DepartmentProjectModel {
+  final String id;
+  final String departmentId;
+  final String titleEn;
+  final String titleAr;
+  final String? descriptionEn;
+  final String? descriptionAr;
+  final String status;
+  final DateTime createdAt;
+
+  DepartmentProjectModel({
+    required this.id,
+    required this.departmentId,
+    required this.titleEn,
+    required this.titleAr,
+    this.descriptionEn,
+    this.descriptionAr,
+    required this.status,
+    required this.createdAt,
+  });
+
+  factory DepartmentProjectModel.fromJson(Map<String, dynamic> json) {
+    return DepartmentProjectModel(
+      id: json['id'] as String,
+      departmentId: json['department_id'] as String,
+      titleEn: json['title_en'] as String,
+      titleAr: json['title_ar'] as String,
+      descriptionEn: json['description_en'] as String?,
+      descriptionAr: json['description_ar'] as String?,
+      status: json['status'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'department_id': departmentId,
+      'title_en': titleEn,
+      'title_ar': titleAr,
+      'description_en': descriptionEn,
+      'description_ar': descriptionAr,
+      'status': status,
+      'created_at': createdAt.toIso8601String(),
+    };
+  }
+}

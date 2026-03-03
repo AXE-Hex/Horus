@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/core/theme/low_performance_provider.dart';
+import 'package:hue/core/utils/responsive_helper.dart';
 
 class GlassContainer extends ConsumerWidget {
   final Widget child;
@@ -35,7 +36,7 @@ class GlassContainer extends ConsumerWidget {
     this.border,
     this.boxShadow,
     this.blur = 30.0,
-    this.opacity = 0.06,
+    this.opacity = 0.08,
   });
 
   @override
@@ -47,7 +48,11 @@ class GlassContainer extends ConsumerWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    final BorderRadius radius = borderRadius ?? BorderRadius.circular(28);
+    // Responsive Metrics
+    final isMobile = ResponsiveHelper.isMobile(context);
+    final defaultRadius = isMobile ? 24.0 : 32.0;
+    final BorderRadius radius =
+        borderRadius ?? BorderRadius.circular(defaultRadius);
 
     if (!isGlass) {
       return _buildClassic(context, radius, theme);
@@ -63,7 +68,7 @@ class GlassContainer extends ConsumerWidget {
   Widget _buildFlat(BuildContext context, BorderRadius radius, bool isDark) {
     final baseColor =
         color ??
-        (isDark ? const Color(0xFF1E1E1E) : const Color(0xFFF9F9F9)).withValues(
+        (isDark ? const Color(0xFF0F172A) : const Color(0xFFF1F5F9)).withValues(
           alpha: 0.95,
         );
 
@@ -71,20 +76,26 @@ class GlassContainer extends ConsumerWidget {
       width: width,
       height: height,
       margin: margin,
-      padding: padding,
+      padding: padding ?? const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: baseColor,
         borderRadius: radius,
         border:
-            border ?? Border.all(color: Colors.white.withValues(alpha: 0.1)),
+            border ??
+            Border.all(
+              color: (isDark ? Colors.white : Colors.black).withValues(
+                alpha: 0.1,
+              ),
+            ),
       ),
       child: child,
     );
 
     if (onTap != null || onLongPress != null) {
-      return GestureDetector(
+      return InkWell(
         onTap: onTap,
         onLongPress: onLongPress,
+        borderRadius: radius,
         child: container,
       );
     }
@@ -100,31 +111,41 @@ class GlassContainer extends ConsumerWidget {
       width: width,
       height: height,
       margin: margin,
-      padding: padding,
+      padding: padding ?? const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: color ?? theme.cardColor,
+        color: color ?? theme.cardTheme.color ?? theme.cardColor,
         borderRadius: radius,
         border:
             border ??
-            Border.all(color: theme.dividerColor.withValues(alpha: 0.1)),
+            (theme.cardTheme.shape is RoundedRectangleBorder
+                ? Border.fromBorderSide(
+                    (theme.cardTheme.shape as RoundedRectangleBorder).side,
+                  )
+                : Border.all(color: theme.dividerColor.withValues(alpha: 0.1))),
         boxShadow:
             boxShadow ??
-            [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                offset: const Offset(0, 4),
-                blurRadius: 12,
-              ),
-            ],
+            (theme.cardTheme.elevation != null && theme.cardTheme.elevation! > 0
+                ? [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.05),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : []),
       ),
       child: child,
     );
 
     if (onTap != null || onLongPress != null) {
-      return GestureDetector(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        child: container,
+      return Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          onLongPress: onLongPress,
+          borderRadius: radius,
+          child: container,
+        ),
       );
     }
     return container;
@@ -145,12 +166,15 @@ class GlassContainer extends ConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.white.withValues(alpha: isDark ? 0.1 : 0.22),
+            Colors.white.withValues(alpha: isDark ? 0.12 : 0.22),
             Colors.white.withValues(alpha: 0.01),
-            Colors.black.withValues(alpha: isDark ? 0.04 : 0.02),
+            Colors.black.withValues(alpha: isDark ? 0.06 : 0.02),
           ],
           stops: const [0.0, 0.45, 1.0],
         );
+
+    final isMobile = ResponsiveHelper.isMobile(context);
+    final responsivePadding = padding ?? EdgeInsets.all(isMobile ? 16 : 24);
 
     return Container(
       width: width,
@@ -162,7 +186,7 @@ class GlassContainer extends ConsumerWidget {
             boxShadow ??
             [
               BoxShadow(
-                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.08),
+                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
                 blurRadius: 30,
                 offset: const Offset(0, 15),
                 spreadRadius: -5,
@@ -196,16 +220,16 @@ class GlassContainer extends ConsumerWidget {
                       border ??
                       Border.all(
                         color: Colors.white.withValues(
-                          alpha: isDark ? 0.08 : 0.2,
+                          alpha: isDark ? 0.12 : 0.2,
                         ),
-                        width: 1.2,
+                        width: 1.5,
                       ),
                 ),
               ),
 
               _buildInnerGlow(radius, isDark),
 
-              Padding(padding: padding ?? EdgeInsets.zero, child: child),
+              Padding(padding: responsivePadding, child: child),
 
               if (onTap != null)
                 Positioned.fill(

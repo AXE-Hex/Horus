@@ -13,14 +13,14 @@ part of 'users_provider.dart';
 final usersControllerProvider = UsersControllerFamily._();
 
 final class UsersControllerProvider
-    extends $AsyncNotifierProvider<UsersController, List<UserProfileModel>> {
+    extends $StreamNotifierProvider<UsersController, List<UserProfileModel>> {
   UsersControllerProvider._({
     required UsersControllerFamily super.from,
     required ({RoleCategory? category, UserRole? role}) super.argument,
   }) : super(
          retry: null,
          name: r'usersControllerProvider',
-         isAutoDispose: true,
+         isAutoDispose: false,
          dependencies: null,
          $allTransitiveDependencies: null,
        );
@@ -50,7 +50,7 @@ final class UsersControllerProvider
   }
 }
 
-String _$usersControllerHash() => r'014808aabebc8798b7211e8726199e88bce303cc';
+String _$usersControllerHash() => r'3fd104c9fc9c1d0fc310526bfd349e696ab941ae';
 
 final class UsersControllerFamily extends $Family
     with
@@ -58,7 +58,7 @@ final class UsersControllerFamily extends $Family
           UsersController,
           AsyncValue<List<UserProfileModel>>,
           List<UserProfileModel>,
-          FutureOr<List<UserProfileModel>>,
+          Stream<List<UserProfileModel>>,
           ({RoleCategory? category, UserRole? role})
         > {
   UsersControllerFamily._()
@@ -67,7 +67,7 @@ final class UsersControllerFamily extends $Family
         name: r'usersControllerProvider',
         dependencies: null,
         $allTransitiveDependencies: null,
-        isAutoDispose: true,
+        isAutoDispose: false,
       );
 
   UsersControllerProvider call({RoleCategory? category, UserRole? role}) =>
@@ -81,12 +81,12 @@ final class UsersControllerFamily extends $Family
 }
 
 abstract class _$UsersController
-    extends $AsyncNotifier<List<UserProfileModel>> {
+    extends $StreamNotifier<List<UserProfileModel>> {
   late final _$args = ref.$arg as ({RoleCategory? category, UserRole? role});
   RoleCategory? get category => _$args.category;
   UserRole? get role => _$args.role;
 
-  FutureOr<List<UserProfileModel>> build({
+  Stream<List<UserProfileModel>> build({
     RoleCategory? category,
     UserRole? role,
   });

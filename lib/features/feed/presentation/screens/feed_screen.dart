@@ -1,21 +1,21 @@
-
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 
-class FeedScreen extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CustomScrollView(
       slivers: [
-
         const SliverPadding(padding: EdgeInsets.only(top: 110)),
         SliverToBoxAdapter(
           child: SizedBox(
-            height: 100,
+            height: 110,
             child: ListView.separated(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               scrollDirection: Axis.horizontal,
@@ -66,21 +66,19 @@ class FeedScreen extends StatelessWidget {
             return _PostCard(index: index);
           }, childCount: 10),
         ),
-        const SliverToBoxAdapter(
-          child: SizedBox(height: 120),
-        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 120)),
       ],
     );
   }
 }
 
-class _PostCard extends StatelessWidget {
+class _PostCard extends ConsumerWidget {
   final int index;
 
   const _PostCard({required this.index});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GlassContainer(
       margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
       borderRadius: BorderRadius.circular(24),

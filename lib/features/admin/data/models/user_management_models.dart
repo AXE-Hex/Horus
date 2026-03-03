@@ -6,9 +6,13 @@ class UserProfileModel {
   final String fullName;
   final String? fullNameAr;
   final String? avatarUrl;
-  final UserRole role;
+  final List<UserRole> roles;
   final String? studentId;
+  final String? nationalId;
+  final String? nationality;
   final String? phone;
+  final String? collegeId;
+  final String? departmentId;
   final int warningLevel;
   final bool isVerified;
   final List<String> tags;
@@ -25,9 +29,13 @@ class UserProfileModel {
     required this.fullName,
     this.fullNameAr,
     this.avatarUrl,
-    required this.role,
+    required this.roles,
     this.studentId,
+    this.nationalId,
+    this.nationality,
     this.phone,
+    this.collegeId,
+    this.departmentId,
     this.warningLevel = 0,
     this.isVerified = false,
     this.tags = const [],
@@ -46,9 +54,17 @@ class UserProfileModel {
       fullName: json['full_name'] as String,
       fullNameAr: json['full_name_ar'] as String?,
       avatarUrl: json['avatar_url'] as String?,
-      role: UserRoleX.fromDbString(json['role'] as String),
+      roles:
+          (json['roles'] as List?)
+              ?.map((r) => UserRoleX.fromDbString(r as String))
+              .toList() ??
+          [UserRoleX.fromDbString(json['role'] as String? ?? 'student')],
       studentId: json['student_id'] as String?,
+      nationalId: json['national_id'] as String?,
+      nationality: json['nationality'] as String?,
       phone: json['phone'] as String?,
+      collegeId: json['college_id'] as String?,
+      departmentId: json['department_id'] as String?,
       warningLevel: json['warning_level'] as int? ?? 0,
       isVerified: json['is_verified'] as bool? ?? false,
       tags: (json['tags'] as List?)?.cast<String>() ?? [],
@@ -72,9 +88,13 @@ class UserProfileModel {
       'full_name': fullName,
       'full_name_ar': fullNameAr,
       'avatar_url': avatarUrl,
-      'role': role.toDbString(),
+      'roles': roles.map((r) => r.toDbString()).toList(),
       'student_id': studentId,
+      'national_id': nationalId,
+      'nationality': nationality,
       'phone': phone,
+      'college_id': collegeId,
+      'department_id': departmentId,
       'warning_level': warningLevel,
       'is_verified': isVerified,
       'tags': tags,
@@ -93,9 +113,13 @@ class UserProfileModel {
     String? fullName,
     String? fullNameAr,
     String? avatarUrl,
-    UserRole? role,
+    List<UserRole>? roles,
     String? studentId,
+    String? nationalId,
+    String? nationality,
     String? phone,
+    String? collegeId,
+    String? departmentId,
     int? warningLevel,
     bool? isVerified,
     List<String>? tags,
@@ -112,9 +136,13 @@ class UserProfileModel {
       fullName: fullName ?? this.fullName,
       fullNameAr: fullNameAr ?? this.fullNameAr,
       avatarUrl: avatarUrl ?? this.avatarUrl,
-      role: role ?? this.role,
+      roles: roles ?? this.roles,
       studentId: studentId ?? this.studentId,
+      nationalId: nationalId ?? this.nationalId,
+      nationality: nationality ?? this.nationality,
       phone: phone ?? this.phone,
+      collegeId: collegeId ?? this.collegeId,
+      departmentId: departmentId ?? this.departmentId,
       warningLevel: warningLevel ?? this.warningLevel,
       isVerified: isVerified ?? this.isVerified,
       tags: tags ?? this.tags,

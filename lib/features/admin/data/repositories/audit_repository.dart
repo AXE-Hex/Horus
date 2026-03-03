@@ -30,6 +30,26 @@ class AuditRepository {
         .toList();
   }
 
+  Stream<List<AuditLogModel>> watchLogs({
+    String? entityType,
+    String? entityId,
+    String? actorId,
+    int limit = 100,
+  }) {
+    dynamic stream = _client.from('audit_logs').stream(primaryKey: ['id']);
+
+    if (entityType != null) stream = stream.eq('entity_type', entityType);
+    if (entityId != null) stream = stream.eq('entity_id', entityId);
+    if (actorId != null) stream = stream.eq('actor_id', actorId);
+
+    return stream
+        .order('created_at', ascending: false)
+        .limit(limit)
+        .map(
+          (list) => list.map((json) => AuditLogModel.fromJson(json)).toList(),
+        );
+  }
+
   Future<void> logAction({
     required String action,
     required String entityType,

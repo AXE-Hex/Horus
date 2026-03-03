@@ -4,8 +4,7 @@ class BrandingVerifier {
   static bool verify() {
     try {
       final isVerified =
-          AxeFingerprint.axeSignature != 'AXE_UNVERIFIED' &&
-          AxeFingerprint.axeSignature.length >= 64;
+          Axe.axeSignature != 'AXE_UNVERIFIED' && Axe.axeSignature.length >= 64;
       return isVerified;
     } catch (e) {
       return false;

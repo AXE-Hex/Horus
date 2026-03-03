@@ -1,4 +1,3 @@
-
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -9,15 +8,17 @@ import 'package:hue/core/error/error_handler.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ForgotPasswordScreen extends StatefulWidget {
+class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+  ConsumerState<ForgotPasswordScreen> createState() =>
+      _ForgotPasswordScreenState();
 }
 
-class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
 
@@ -34,29 +35,19 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   void _submit() {
     try {
       if (_emailController.text.isEmpty) {
-        throw ValidationException(
-          code: '001',
-          message: t.$meta.locale.languageCode == 'ar'
-              ? "الرجاء إدخال البريد الإلكتروني"
-              : "Please enter your email",
-        );
+        throw ValidationException(code: '001', message: t.auth.login.email);
       }
 
       if (_phoneController.text.isEmpty) {
         throw ValidationException(
           code: '002',
-          message: t.$meta.locale.languageCode == 'ar'
-              ? "الرجاء إدخال رقم الهاتف"
-              : "Please enter your phone number",
+          message: t.auth.forgot_password.error_empty_phone,
         );
       }
-
       if (_selectedMethod == 1 && !_isIdUploaded) {
         throw ValidationException(
           code: '003',
-          message: t.$meta.locale.languageCode == 'ar'
-              ? "الرجاء إرفاق صورة الهوية بطريقة صحيحة"
-              : "Please upload your ID correctly",
+          message: t.auth.forgot_password.error_no_id,
         );
       }
 
@@ -71,11 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                t.$meta.locale.languageCode == 'ar'
-                    ? "تم إرسال الطلب بنجاح"
-                    : "Request sent successfully",
-              ),
+              content: Text(t.auth.forgot_password.success),
               backgroundColor: Colors.green,
             ),
           );
@@ -88,7 +75,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void _simulateUpload() {
-
     setState(() {
       _isIdUploaded = !_isIdUploaded;
     });
@@ -97,13 +83,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     const isGlass = true;
-    final isArabic = t.$meta.locale.languageCode == 'ar';
 
     Widget formContent = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          isArabic ? "استعادة كلمة المرور" : "Forgot Password",
+          t.settings.forgot_password,
           textAlign: TextAlign.center,
           style: GoogleFonts.outfit(
             fontSize: 24,
@@ -113,9 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          isArabic
-              ? "اختر طريقة استعادة الحساب"
-              : "Choose account recovery method",
+          t.auth.choose_account_recovery_method,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
             fontSize: 14,
@@ -140,7 +123,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             children: [
               Expanded(
                 child: _MethodTab(
-                  title: isArabic ? "شؤون الطلاب" : "Admin Office",
+                  title: t.auth.forgot_password.method_admin,
                   icon: LucideIcons.building,
                   isSelected: _selectedMethod == 0,
                   onTap: () => setState(() => _selectedMethod = 0),
@@ -148,7 +131,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
               Expanded(
                 child: _MethodTab(
-                  title: isArabic ? "طلب إلكتروني" : "Online Request",
+                  title: t.auth.forgot_password.method_online,
                   icon: LucideIcons.smartphone,
                   isSelected: _selectedMethod == 1,
                   onTap: () => setState(() => _selectedMethod = 1),
@@ -172,7 +155,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         TextButton(
           onPressed: () => context.pop(),
           child: Text(
-            isArabic ? "رجوع" : "Back",
+            t.auth.back,
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
         ),
@@ -180,13 +163,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
 
     return GlassScaffold(
+      resizeToAvoidBottomInset: true,
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
               Image.asset(
                     Theme.of(context).brightness == Brightness.dark
                         ? 'assets/images/Logo_dark.png'
@@ -236,9 +219,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
         const SizedBox(height: 24),
         Text(
-          t.$meta.locale.languageCode == 'ar'
-              ? "يرجى مراجعة شؤون الطلاب في كليتك لتحديث بيانات الدخول الخاصة بك."
-              : "Please visit your college's administration office to update your login details.",
+          t.auth.forgot_password.admin_instructions,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(fontSize: 16, height: 1.5),
         ),
@@ -255,9 +236,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: t.$meta.locale.languageCode == 'ar'
-                ? "البريد الإلكتروني"
-                : "Email",
+            labelText: t.auth.login.email,
             prefixIcon: const Icon(LucideIcons.mail),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             filled: isGlass,
@@ -269,9 +248,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           controller: _phoneController,
           keyboardType: TextInputType.phone,
           decoration: InputDecoration(
-            labelText: t.$meta.locale.languageCode == 'ar'
-                ? "رقم الهاتف المحمول"
-                : "Phone Number",
+            labelText: t.auth.forgot_password.phone_label,
             prefixIcon: const Icon(LucideIcons.phone),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             filled: isGlass,
@@ -308,12 +285,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 const SizedBox(height: 8),
                 Text(
                   _isIdUploaded
-                      ? (t.$meta.locale.languageCode == 'ar'
-                            ? "تم رفع الهوية"
-                            : "ID Uploaded")
-                      : (t.$meta.locale.languageCode == 'ar'
-                            ? "رفع الهوية"
-                            : "Upload ID"),
+                      ? t.auth.forgot_password.id_uploaded
+                      : t.auth.forgot_password.upload_id,
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     color: _isIdUploaded
@@ -324,9 +297,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 if (!_isIdUploaded) ...[
                   const SizedBox(height: 4),
                   Text(
-                    t.$meta.locale.languageCode == 'ar'
-                        ? "الرجاء رفع صورة واضحة للهوية"
-                        : "Please upload a clear image of your ID",
+                    t.auth.forgot_password.upload_id_hint,
                     textAlign: TextAlign.center,
                     style: GoogleFonts.inter(fontSize: 10, color: Colors.grey),
                   ),
@@ -348,7 +319,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             elevation: isGlass ? 0 : 2,
           ),
           child: Text(
-            t.$meta.locale.languageCode == 'ar' ? "إرسال" : "Submit",
+            t.auth.login.submit,
             style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),

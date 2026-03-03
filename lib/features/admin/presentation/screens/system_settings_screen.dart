@@ -5,6 +5,7 @@ import 'package:hue/core/i18n/strings.g.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SystemSettingsScreen extends ConsumerWidget {
   const SystemSettingsScreen({super.key});
@@ -16,49 +17,69 @@ class SystemSettingsScreen extends ConsumerWidget {
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          isArabic ? 'إعدادات النظام' : 'System Settings',
+          t.admin.system_settings,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          _buildSettingsSection(
-            context,
-            title: isArabic ? 'العام الأكاديمي' : 'Academic Year',
-            icon: LucideIcons.calendar,
-            children: [
-              _buildSettingItem(
-                context,
-                label: isArabic
-                    ? 'إدارة الأعوام الدراسية'
-                    : 'Manage Academic Years',
+      body: StreamBuilder<List<Map<String, dynamic>>>(
+        stream: Supabase.instance.client
+            .from('system_settings')
+            .stream(primaryKey: ['id']),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                t.admin.error_snapshoterror,
               ),
-              _buildSettingItem(
-                context,
-                label: isArabic ? 'الفصول الدراسية النشطة' : 'Active Semesters',
+            );
+          }
+
+          final data = snapshot.data ?? [];
+          if (data.isEmpty) {
+            return Center(
+              child: Text(
+                t.admin.no_settings_found_in_the_datab,
+                style: GoogleFonts.outfit(fontSize: 16),
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          _buildSettingsSection(
-            context,
-            title: isArabic ? 'سياسات التقييم' : 'Grading Policies',
-            icon: LucideIcons.barChart,
-            children: [
-              _buildSettingItem(
+            );
+          }
+
+          // Group by category
+          final Map<String, List<Map<String, dynamic>>> groupedSettings = {};
+          for (var item in data) {
+            final cat = isArabic
+                ? (item['category_ar'] ?? item['category_en'] ?? 'General')
+                : (item['category_en'] ?? 'General');
+            groupedSettings.putIfAbsent(cat, () => []).add(item);
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: groupedSettings.length,
+            itemBuilder: (context, index) {
+              final category = groupedSettings.keys.elementAt(index);
+              final items = groupedSettings[category]!;
+
+              return _buildSettingsSection(
                 context,
-                label: isArabic ? 'إعدادات GPA' : 'GPA Settings',
-              ),
-              _buildSettingItem(
-                context,
-                label: isArabic ? 'حدود النجاح والرسوب' : 'Passing Thresholds',
-              ),
-            ],
-          ),
-        ],
+                title: category,
+                icon: LucideIcons.settings,
+                children: items.map((item) {
+                  return _buildSettingItem(
+                    context,
+                    item: item,
+                    isArabic: isArabic,
+                  );
+                }).toList(),
+              );
+            },
+          );
+        },
       ),
     );
   }
@@ -87,11 +108,21 @@ class SystemSettingsScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
         ...children,
+        const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget _buildSettingItem(BuildContext context, {required String label}) {
+  Widget _buildSettingItem(
+    BuildContext context, {
+    required Map<String, dynamic> item,
+    required bool isArabic,
+  }) {
+    final title = isArabic
+        ? (item['description_ar'] ?? item['setting_key'] ?? 'Unknown Key')
+        : (item['description_en'] ?? item['setting_key'] ?? 'Unknown Key');
+    final value = item['setting_value']?.toString() ?? 'N/A';
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: GlassContainer(
@@ -99,8 +130,33 @@ class SystemSettingsScreen extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: GoogleFonts.inter(fontSize: 14)),
-            const Icon(LucideIcons.chevronRight, size: 16),
+            Expanded(
+              child: Text(
+                title.toString(),
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  value,
+                  style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Icon(
+                  LucideIcons.edit2,
+                  size: 16,
+                  color: Colors.white.withValues(alpha: 0.5),
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -14,8 +14,7 @@ void main() async {
 
   debugPrint('🚀 HUE Traceability Key: ${BuildConfig.traceabilityKey}');
 
-  if (!BrandingVerifier.verify() || AxeFingerprint.axeSignature == 'INVALID') {
-  }
+  if (!BrandingVerifier.verify() || Axe.axeSignature == 'INVALID') {}
 
   await Supabase.initialize(
     url: EnvConfig.supabaseUrl,
@@ -27,4 +26,3 @@ void main() async {
 
   runApp(TranslationProvider(child: const ProviderScope(child: HueApp())));
 }
-//غير الاوان بي الكامل وحسنه حسن 

@@ -34,7 +34,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'سياسة الخصوصية' : 'Privacy Policy',
+            t.settings.privacy_policy,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -49,9 +49,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
 
               Center(
                 child: Text(
-                  isArabic
-                      ? 'آخر تحديث: فبراير 2026'
-                      : 'Last Updated: February 2026',
+                  t.settings.last_updated_february_2026,
                   style: GoogleFonts.inter(
                     fontSize: 12,
                     color: Theme.of(context).hintColor,

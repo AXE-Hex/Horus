@@ -37,7 +37,6 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
   @override
   Widget build(BuildContext context) {
     final currentStyle = ref.watch(styleControllerProvider);
-    final isArabic = t.$meta.locale.languageCode == 'ar';
 
     return GlassScaffold(
       body: Stack(
@@ -60,7 +59,7 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
                   const SizedBox(height: 30),
 
                   Text(
-                    isArabic ? "اختر النمط البصري" : "Choose App Style",
+                    t.onboarding.choose_app_style,
                     style: GoogleFonts.outfit(
                       fontSize: 40,
                       fontWeight: FontWeight.w900,
@@ -72,9 +71,7 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
                   const SizedBox(height: 12),
 
                   Text(
-                    isArabic
-                        ? "يمكنك التبديل بين الأنماط في الإعدادات"
-                        : "You can switch styles later in settings",
+                    t.onboarding.you_can_switch_styles_later_in,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       color: Theme.of(
@@ -87,10 +84,8 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
                   const SizedBox(height: 48),
 
                   _StyleCard(
-                    title: isArabic ? "كلاسيكي ومستقر" : "Classic Solid",
-                    description: isArabic
-                        ? "أداء عالي وثابت للأجهزة القديمة"
-                        : "High performance, flat & solid colors",
+                    title: t.onboarding.classic_solid,
+                    description: t.onboarding.high_performance_flat_solid_co,
                     icon: LucideIcons.layers,
                     isActive: currentStyle.value == AppStyle.classic,
                     onTap: () async {
@@ -104,10 +99,8 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
                   const SizedBox(height: 12),
 
                   _StyleCard(
-                    title: isArabic ? "حديث ولامع" : "Modern Glass",
-                    description: isArabic
-                        ? "مؤثرات ضبابية شفافة وتجربة فاخرة"
-                        : "Premium frosted glass blur effects",
+                    title: t.onboarding.modern_glass,
+                    description: t.onboarding.premium_frosted_glass_blur_eff,
                     icon: LucideIcons.droplets,
                     isActive: currentStyle.value == AppStyle.glass,
                     isPremium: true,
@@ -123,9 +116,7 @@ class _StyleScreenState extends ConsumerState<StyleScreen> {
 
                   Center(
                     child: Text(
-                      isArabic
-                          ? 'اقتربنا! خطوة واحدة فقط.'
-                          : 'Almost there! Just one more step.',
+                      t.onboarding.almost_there_just_one_more_ste,
                       style: GoogleFonts.inter(
                         color: Colors.white.withValues(alpha: 0.3),
                         fontSize: 12,
@@ -171,7 +162,6 @@ class _StyleCardState extends State<_StyleCard> {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     return GestureDetector(
       onTap: _isLoading
           ? null
@@ -281,7 +271,7 @@ class _StyleCardState extends State<_StyleCard> {
                               ),
                             ),
                             child: Text(
-                              isArabic ? 'مُوصى به' : 'RECOMMENDED',
+                              t.onboarding.recommended,
                               style: GoogleFonts.outfit(
                                 fontSize: 7,
                                 fontWeight: FontWeight.w900,

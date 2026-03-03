@@ -18,7 +18,6 @@ class NotificationsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
     final notificationsAsync = ref.watch(notificationControllerProvider);
@@ -33,7 +32,7 @@ class NotificationsScreen extends ConsumerWidget {
           backgroundColor: Colors.transparent,
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
-              isArabic ? 'الإشعارات' : 'Notifications',
+              t.shared.notifications,
               style: GoogleFonts.outfit(
                 fontWeight: FontWeight.bold,
                 color: isGlass ? Colors.white : Theme.of(context).primaryColor,
@@ -70,9 +69,7 @@ class NotificationsScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        isArabic
-                            ? 'لا توجد إشعارات حتى الآن'
-                            : 'No notifications yet',
+                        t.shared.no_notifications_yet,
                         style: GoogleFonts.outfit(color: Colors.white30),
                       ),
                     ],

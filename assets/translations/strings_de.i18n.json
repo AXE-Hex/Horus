@@ -134,6 +134,7 @@
       "language": "Sprache",
       "ui_style": "UI-Stil",
       "app_notifications": "App-Benachrichtigungen",
+      "test_notifications": "Benachrichtigungen testen",
       "about_app": "Über die App",
       "privacy_policy": "Datenschutzrichtlinie",
       "logout": "Abmelden"

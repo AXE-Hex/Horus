@@ -15,7 +15,6 @@ class SupportScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
@@ -33,7 +32,7 @@ class SupportScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'الدعم والمساعدة' : 'Support',
+            t.shared.support,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -54,25 +53,25 @@ class SupportScreen extends ConsumerWidget {
             delegate: SliverChildListDelegate([
               _buildSupportCard(
                 context,
-                isArabic ? 'الدعم الفني' : 'IT Support',
+                t.shared.it_support,
                 LucideIcons.monitor,
                 isGlass,
               ),
               _buildSupportCard(
                 context,
-                isArabic ? 'شؤون الطلاب' : 'Student Affairs',
+                t.shared.student_affairs,
                 LucideIcons.users,
                 isGlass,
               ),
               _buildSupportCard(
                 context,
-                isArabic ? 'المساعدات المالية' : 'Financial Aid',
+                t.shared.financial_aid,
                 LucideIcons.helpCircle,
                 isGlass,
               ),
               _buildSupportCard(
                 context,
-                isArabic ? 'المكتبة' : 'Library',
+                t.shared.library,
                 LucideIcons.book,
                 isGlass,
               ),
@@ -88,7 +87,7 @@ class SupportScreen extends ConsumerWidget {
               children: [
                 const SizedBox(height: 20),
                 Text(
-                  isArabic ? 'تواصل معنا' : 'Contact Us',
+                  t.shared.contact_us,
                   style: GoogleFonts.outfit(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -100,7 +99,7 @@ class SupportScreen extends ConsumerWidget {
                 const SizedBox(height: 16),
                 _buildContactTile(
                   context,
-                  isArabic ? 'دعم البريد الإلكتروني' : 'Email Support',
+                  t.shared.email_support,
                   'support@hue.edu.eg',
                   LucideIcons.mail,
                   isGlass,
@@ -108,7 +107,7 @@ class SupportScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _buildContactTile(
                   context,
-                  isArabic ? 'الخط الساخن' : 'Call Hotline',
+                  t.shared.call_hotline,
                   '19XXX',
                   LucideIcons.phone,
                   isGlass,

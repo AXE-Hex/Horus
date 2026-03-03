@@ -34,7 +34,7 @@ class AcademicProgressScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? "التقدم الأكاديمي" : "Academic Progress",
+            t.academic.academic_progress,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -60,7 +60,7 @@ class AcademicProgressScreen extends ConsumerWidget {
               children: [
                 _buildCategoryCard(
                   context,
-                  isArabic ? 'متطلبات الجامعة' : 'University Requirements',
+                  t.academic.university_requirements,
                   12,
                   18,
                   Colors.blueAccent,
@@ -70,7 +70,7 @@ class AcademicProgressScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _buildCategoryCard(
                   context,
-                  isArabic ? 'متطلبات الكلية' : 'Faculty Requirements',
+                  t.academic.faculty_requirements,
                   32,
                   45,
                   Colors.greenAccent,
@@ -80,7 +80,7 @@ class AcademicProgressScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _buildCategoryCard(
                   context,
-                  isArabic ? 'متطلبات التخصص' : 'Major Requirements',
+                  t.academic.major_requirements,
                   50,
                   65,
                   Colors.orangeAccent,
@@ -90,7 +90,7 @@ class AcademicProgressScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 _buildCategoryCard(
                   context,
-                  isArabic ? 'المواد الاختيارية' : 'Electives',
+                  t.academic.electives,
                   6,
                   12,
                   Colors.purpleAccent,
@@ -148,7 +148,7 @@ class AcademicProgressScreen extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    isArabic ? "مكتمل" : "Completed",
+                    t.academic.completed,
                     style: GoogleFonts.inter(
                       fontSize: 10,
                       color: isGlass
@@ -168,13 +168,13 @@ class AcademicProgressScreen extends ConsumerWidget {
               _buildStatItem(
                 context,
                 '100',
-                isArabic ? 'مكتمل' : 'Completed',
+                t.academic.completed,
                 isGlass,
               ),
               _buildStatItem(
                 context,
                 '40',
-                isArabic ? 'متبقي' : 'Remaining',
+                t.academic.remaining,
                 isGlass,
               ),
             ],

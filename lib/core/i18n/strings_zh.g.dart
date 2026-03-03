@@ -1,11 +1,19 @@
+///
+/// Generated file. Do not edit.
+///
+// coverage:ignore-file
+// ignore_for_file: type=lint, unused_import
+// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
+// Path: <root>
 class TranslationsZh extends Translations with BaseTranslations<AppLocale, Translations> {
-
+	/// You can call this constructor and build your own translation instance of this locale.
+	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsZh({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
 		  $meta = meta ?? TranslationMetadata(
@@ -19,8 +27,10 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
+	/// Metadata for the translations of <zh>.
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
+	/// Access flat map
 	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
 
 	late final TranslationsZh _root = this; // ignore: unused_field
@@ -28,6 +38,7 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 	@override 
 	TranslationsZh $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsZh(meta: meta ?? this.$meta);
 
+	// Translations
 	@override late final _TranslationsCommonZh common = _TranslationsCommonZh._(_root);
 	@override late final _TranslationsWelcomeZh welcome = _TranslationsWelcomeZh._(_root);
 	@override late final _TranslationsOnboardingZh onboarding = _TranslationsOnboardingZh._(_root);
@@ -56,11 +67,13 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsAdministrationZh administration = _TranslationsAdministrationZh._(_root);
 }
 
+// Path: common
 class _TranslationsCommonZh extends TranslationsCommonEn {
 	_TranslationsCommonZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get close => '关闭';
 	@override String get cancel => '取消';
 	@override String get confirm => '确认';
@@ -68,72 +81,86 @@ class _TranslationsCommonZh extends TranslationsCommonEn {
 	@override String get back => '返回';
 }
 
+// Path: welcome
 class _TranslationsWelcomeZh extends TranslationsWelcomeEn {
 	_TranslationsWelcomeZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '欢迎来到 Hue';
 	@override String get subtitle => '用有意义的联系点亮你的世界。';
 	@override String get get_started => '开始使用';
 	@override String get have_account => '我已经有账号了';
 }
 
+// Path: onboarding
 class _TranslationsOnboardingZh extends TranslationsOnboardingEn {
 	_TranslationsOnboardingZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsOnboardingLanguageZh language = _TranslationsOnboardingLanguageZh._(_root);
 	@override late final _TranslationsOnboardingFacultiesDirectoryZh faculties_directory = _TranslationsOnboardingFacultiesDirectoryZh._(_root);
 	@override late final _TranslationsOnboardingStyleZh style = _TranslationsOnboardingStyleZh._(_root);
 	@override late final _TranslationsOnboardingThemeZh theme = _TranslationsOnboardingThemeZh._(_root);
 }
 
+// Path: auth
 class _TranslationsAuthZh extends TranslationsAuthEn {
 	_TranslationsAuthZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsAuthLoginZh login = _TranslationsAuthLoginZh._(_root);
 	@override late final _TranslationsAuthForgotPasswordZh forgot_password = _TranslationsAuthForgotPasswordZh._(_root);
 }
 
+// Path: home
 class _TranslationsHomeZh extends TranslationsHomeEn {
 	_TranslationsHomeZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsHomeTabsZh tabs = _TranslationsHomeTabsZh._(_root);
 }
 
+// Path: dashboard
 class _TranslationsDashboardZh extends TranslationsDashboardEn {
 	_TranslationsDashboardZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsDashboardIdCardZh id_card = _TranslationsDashboardIdCardZh._(_root);
 	@override late final _TranslationsDashboardSectionsZh sections = _TranslationsDashboardSectionsZh._(_root);
 	@override late final _TranslationsDashboardItemsZh items = _TranslationsDashboardItemsZh._(_root);
 	@override late final _TranslationsDashboardLabelsZh labels = _TranslationsDashboardLabelsZh._(_root);
 }
 
+// Path: settings
 class _TranslationsSettingsZh extends TranslationsSettingsEn {
 	_TranslationsSettingsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '设置';
 	@override late final _TranslationsSettingsSectionsZh sections = _TranslationsSettingsSectionsZh._(_root);
 	@override late final _TranslationsSettingsTilesZh tiles = _TranslationsSettingsTilesZh._(_root);
 	@override late final _TranslationsSettingsMessagesZh messages = _TranslationsSettingsMessagesZh._(_root);
 }
 
+// Path: colleges
 class _TranslationsCollegesZh extends TranslationsCollegesEn {
 	_TranslationsCollegesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsCollegesDetailsZh details = _TranslationsCollegesDetailsZh._(_root);
 	@override String get applied_health_sciences => '应用健康科学学院';
 	@override String get business_administration => '工商管理学院';
@@ -148,22 +175,26 @@ class _TranslationsCollegesZh extends TranslationsCollegesEn {
 	@override late final _TranslationsCollegesDepartmentsZh departments = _TranslationsCollegesDepartmentsZh._(_root);
 }
 
+// Path: transcript
 class _TranslationsTranscriptZh extends TranslationsTranscriptEn {
 	_TranslationsTranscriptZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '学术成绩单';
 	@override late final _TranslationsTranscriptOverviewZh overview = _TranslationsTranscriptOverviewZh._(_root);
 	@override late final _TranslationsTranscriptSemesterZh semester = _TranslationsTranscriptSemesterZh._(_root);
 	@override late final _TranslationsTranscriptCourseZh course = _TranslationsTranscriptCourseZh._(_root);
 }
 
+// Path: academic_progress
 class _TranslationsAcademicProgressZh extends TranslationsAcademicProgressEn {
 	_TranslationsAcademicProgressZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '学习进度';
 	@override String get completion => '学位完成度';
 	@override String get total_credits => '总学分';
@@ -171,22 +202,26 @@ class _TranslationsAcademicProgressZh extends TranslationsAcademicProgressEn {
 	@override late final _TranslationsAcademicProgressStatusZh status = _TranslationsAcademicProgressStatusZh._(_root);
 }
 
+// Path: grades
 class _TranslationsGradesZh extends TranslationsGradesEn {
 	_TranslationsGradesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '学期成绩';
 	@override String get grade_point => '绩点';
 	@override String get letter_grade => '等第';
 	@override String get gpa => '学期 GPA';
 }
 
+// Path: subject_results
 class _TranslationsSubjectResultsZh extends TranslationsSubjectResultsEn {
 	_TranslationsSubjectResultsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '科目结果';
 	@override String get midterm => '期中';
 	@override String get kFinal => '期末';
@@ -195,11 +230,13 @@ class _TranslationsSubjectResultsZh extends TranslationsSubjectResultsEn {
 	@override String get total => '总分';
 }
 
+// Path: action_plan
 class _TranslationsActionPlanZh extends TranslationsActionPlanEn {
 	_TranslationsActionPlanZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '学位行动计划';
 	@override String get roadmap => '课程路线图';
 	@override String get year_1 => '大一';
@@ -208,11 +245,13 @@ class _TranslationsActionPlanZh extends TranslationsActionPlanEn {
 	@override String get year_4 => '大四';
 }
 
+// Path: courses
 class _TranslationsCoursesZh extends TranslationsCoursesEn {
 	_TranslationsCoursesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '我的课程';
 	@override String get enrolled => '已修';
 	@override String get available => '可选';
@@ -220,11 +259,13 @@ class _TranslationsCoursesZh extends TranslationsCoursesEn {
 	@override String get schedule => '安排';
 }
 
+// Path: schedule
 class _TranslationsScheduleZh extends TranslationsScheduleEn {
 	_TranslationsScheduleZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '课程表';
 	@override String get time => '时间';
 	@override String get room => '教室';
@@ -257,22 +298,26 @@ class _TranslationsScheduleZh extends TranslationsScheduleEn {
 	@override String get no_lectures => '未找到课程';
 }
 
+// Path: exam_schedule
 class _TranslationsExamScheduleZh extends TranslationsExamScheduleEn {
 	_TranslationsExamScheduleZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '考试安排';
 	@override String get date => '日期';
 	@override String get duration => '时长';
 	@override String get seat => '座位号';
 }
 
+// Path: attendance
 class _TranslationsAttendanceZh extends TranslationsAttendanceEn {
 	_TranslationsAttendanceZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '出勤统计';
 	@override String get present => '出勤';
 	@override String get absent => '缺勤';
@@ -280,98 +325,118 @@ class _TranslationsAttendanceZh extends TranslationsAttendanceEn {
 	@override String get ratio => '出勤率';
 }
 
+// Path: registration
 class _TranslationsRegistrationZh extends TranslationsRegistrationEn {
 	_TranslationsRegistrationZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '选课注册';
 	@override String get submit => '提交注册';
 	@override String get enrolled_credits => '已修学分';
 }
 
+// Path: payment
 class _TranslationsPaymentZh extends TranslationsPaymentEn {
 	_TranslationsPaymentZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '学费缴纳';
 	@override String get outstanding => '待缴余额';
 	@override String get pay_now => '立即支付';
 	@override String get methods => '支付方式';
 }
 
+// Path: invoices
 class _TranslationsInvoicesZh extends TranslationsInvoicesEn {
 	_TranslationsInvoicesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '账单';
 	@override String get history => '支付历史';
 	@override String get unpaid => '未付';
 	@override String get paid => '已付';
 }
 
+// Path: notifications
 class _TranslationsNotificationsZh extends TranslationsNotificationsEn {
 	_TranslationsNotificationsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '通知';
 	@override String get empty => '无新通知';
 }
 
+// Path: support
 class _TranslationsSupportZh extends TranslationsSupportEn {
 	_TranslationsSupportZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '支持与帮助';
 	@override String get contact_us => '联系我们';
 }
 
+// Path: security
 class _TranslationsSecurityZh extends TranslationsSecurityEn {
 	_TranslationsSecurityZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '安全';
 	@override String get biometrics => '生物识别';
 	@override String get sessions => '活动会话';
 }
 
+// Path: tutorials
 class _TranslationsTutorialsZh extends TranslationsTutorialsEn {
 	_TranslationsTutorialsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '教程与指南';
 }
 
+// Path: forums
 class _TranslationsForumsZh extends TranslationsForumsEn {
 	_TranslationsForumsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '论坛';
 }
 
+// Path: administration
 class _TranslationsAdministrationZh extends TranslationsAdministrationEn {
 	_TranslationsAdministrationZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '学生管理';
 	@override String get stats => '系统统计';
 	@override String get users => '用户';
 	@override String get reports => '报告';
 }
 
+// Path: onboarding.language
 class _TranslationsOnboardingLanguageZh extends TranslationsOnboardingLanguageEn {
 	_TranslationsOnboardingLanguageZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '选择你的语言';
 	@override String get subtitle => '选择你喜欢的界面语言';
 	@override String get english => '英语';
@@ -381,42 +446,50 @@ class _TranslationsOnboardingLanguageZh extends TranslationsOnboardingLanguageEn
 	@override String get hint => '你以后可以在设置中更改此设置';
 }
 
+// Path: onboarding.faculties_directory
 class _TranslationsOnboardingFacultiesDirectoryZh extends TranslationsOnboardingFacultiesDirectoryEn {
 	_TranslationsOnboardingFacultiesDirectoryZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '我们的学院';
 	@override String get subtitle => '探索我们多样化的学术部门';
 }
 
+// Path: onboarding.style
 class _TranslationsOnboardingStyleZh extends TranslationsOnboardingStyleEn {
 	_TranslationsOnboardingStyleZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '选择你的风格';
 	@override String get subtitle => '选择你喜欢的界面设计';
 	@override late final _TranslationsOnboardingStyleClassicZh classic = _TranslationsOnboardingStyleClassicZh._(_root);
 	@override late final _TranslationsOnboardingStyleGlassZh glass = _TranslationsOnboardingStyleGlassZh._(_root);
 }
 
+// Path: onboarding.theme
 class _TranslationsOnboardingThemeZh extends TranslationsOnboardingThemeEn {
 	_TranslationsOnboardingThemeZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '选择一个主题';
 	@override String get subtitle => '明亮或黑暗，由你选择';
 	@override String get light => '明亮';
 	@override String get dark => '黑暗';
 }
 
+// Path: auth.login
 class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
 	_TranslationsAuthLoginZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get welcome => '欢迎回来';
 	@override String get subtitle => '登录以继续';
 	@override String get email => '电子邮件';
@@ -426,11 +499,13 @@ class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
 	@override String get guest => '作为访客浏览';
 }
 
+// Path: auth.forgot_password
 class _TranslationsAuthForgotPasswordZh extends TranslationsAuthForgotPasswordEn {
 	_TranslationsAuthForgotPasswordZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '忘记密码';
 	@override String get subtitle => '选择恢复方法';
 	@override String get method_admin => '访问管理部门';
@@ -448,22 +523,26 @@ class _TranslationsAuthForgotPasswordZh extends TranslationsAuthForgotPasswordEn
 	@override String get id_uploaded => '证件已上传';
 }
 
+// Path: home.tabs
 class _TranslationsHomeTabsZh extends TranslationsHomeTabsEn {
 	_TranslationsHomeTabsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get home => '首页';
 	@override String get search => '搜索';
 	@override String get notifications => '通知';
 	@override String get profile => '个人资料';
 }
 
+// Path: dashboard.id_card
 class _TranslationsDashboardIdCardZh extends TranslationsDashboardIdCardEn {
 	_TranslationsDashboardIdCardZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get student_name => '学生姓名';
 	@override String get college => '学院';
 	@override String get id => '学号';
@@ -472,21 +551,25 @@ class _TranslationsDashboardIdCardZh extends TranslationsDashboardIdCardEn {
 	@override String get verified => '已认证';
 }
 
+// Path: dashboard.sections
 class _TranslationsDashboardSectionsZh extends TranslationsDashboardSectionsEn {
 	_TranslationsDashboardSectionsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get academic => '学术';
 	@override String get enrollment => '注册';
 	@override String get utilities => '工具';
 }
 
+// Path: dashboard.items
 class _TranslationsDashboardItemsZh extends TranslationsDashboardItemsEn {
 	_TranslationsDashboardItemsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get transcript => '成绩单';
 	@override String get progress => '学习进度';
 	@override String get action_plan => '行动计划';
@@ -504,59 +587,70 @@ class _TranslationsDashboardItemsZh extends TranslationsDashboardItemsEn {
 	@override String get no_lectures => '未找到课程';
 }
 
+// Path: dashboard.labels
 class _TranslationsDashboardLabelsZh extends TranslationsDashboardLabelsEn {
 	_TranslationsDashboardLabelsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get university_name => '休大学 (HUE UNIVERSITY)';
 	@override String get id_short => '学号';
 	@override String get gpa_short => 'GPA';
 	@override String get level_short => '级别';
 }
 
+// Path: settings.sections
 class _TranslationsSettingsSectionsZh extends TranslationsSettingsSectionsEn {
 	_TranslationsSettingsSectionsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get account => '账户';
 	@override String get display => '显示';
 	@override String get notifications => '通知';
 	@override String get about => '关于';
 }
 
+// Path: settings.tiles
 class _TranslationsSettingsTilesZh extends TranslationsSettingsTilesEn {
 	_TranslationsSettingsTilesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get edit_profile => '编辑资料';
 	@override String get change_password => '修改密码';
 	@override String get dark_mode => '深色模式';
 	@override String get language => '语言';
 	@override String get ui_style => '界面风格';
 	@override String get app_notifications => '应用通知';
+	@override String get test_notifications => '测试通知';
 	@override String get about_app => '关于应用';
 	@override String get privacy_policy => '隐私政策';
 	@override String get logout => '退出登录';
 }
 
+// Path: settings.messages
 class _TranslationsSettingsMessagesZh extends TranslationsSettingsMessagesEn {
 	_TranslationsSettingsMessagesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get switching_theme => '正在切换主题...';
 	@override String get changing_language => '正在更改语言...';
 	@override String get rebuilding_design => '正在重建设计系统...';
 }
 
+// Path: colleges.details
 class _TranslationsCollegesDetailsZh extends TranslationsCollegesDetailsEn {
 	_TranslationsCollegesDetailsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get dean => '院長';
 	@override String get staff => '学术人员';
 	@override String get view_all => '查看全部';
@@ -575,11 +669,13 @@ class _TranslationsCollegesDetailsZh extends TranslationsCollegesDetailsEn {
 	@override String get published_articles => '已发表文章';
 }
 
+// Path: colleges.departments
 class _TranslationsCollegesDepartmentsZh extends TranslationsCollegesDepartmentsEn {
 	_TranslationsCollegesDepartmentsZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get medical_laboratories_technology => '医学检验技术';
 	@override String get radiology_and_imaging_technology => '放射与影像技术';
 	@override String get respiratory_care_technology => '呼吸治疗技术';
@@ -644,86 +740,107 @@ class _TranslationsCollegesDepartmentsZh extends TranslationsCollegesDepartments
 	@override String get smart_systems => '智能系统';
 }
 
+// Path: transcript.overview
 class _TranslationsTranscriptOverviewZh extends TranslationsTranscriptOverviewEn {
 	_TranslationsTranscriptOverviewZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get gpa => '累计 GPA';
 	@override String get credits => '已修学分';
 	@override String get standing => '学术状态';
 	@override String get active => '状态良好';
 }
 
+// Path: transcript.semester
 class _TranslationsTranscriptSemesterZh extends TranslationsTranscriptSemesterEn {
 	_TranslationsTranscriptSemesterZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get fall => '秋季学期';
 	@override String get spring => '春季学期';
 	@override String get summer => '夏季学期';
 }
 
+// Path: transcript.course
 class _TranslationsTranscriptCourseZh extends TranslationsTranscriptCourseEn {
 	_TranslationsTranscriptCourseZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get grade => '成绩';
 	@override String get credits => '学分';
 	@override late final _TranslationsTranscriptCourseStatusZh status = _TranslationsTranscriptCourseStatusZh._(_root);
 }
 
+// Path: academic_progress.categories
 class _TranslationsAcademicProgressCategoriesZh extends TranslationsAcademicProgressCategoriesEn {
 	_TranslationsAcademicProgressCategoriesZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get university => '大学要求';
 	@override String get faculty => '学院要求';
 	@override String get major => '专业要求';
 	@override String get electives => '选修课';
 }
 
+// Path: academic_progress.status
 class _TranslationsAcademicProgressStatusZh extends TranslationsAcademicProgressStatusEn {
 	_TranslationsAcademicProgressStatusZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get completed => '已完成';
 	@override String get in_progress => '进行中';
 	@override String get remaining => '剩余';
 	@override String get requirement_met => '要求已满足';
 }
 
+// Path: onboarding.style.classic
 class _TranslationsOnboardingStyleClassicZh extends TranslationsOnboardingStyleClassicEn {
 	_TranslationsOnboardingStyleClassicZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '经典';
 	@override String get desc => '干净、简单且熟悉的 Material 设计';
 }
 
+// Path: onboarding.style.glass
 class _TranslationsOnboardingStyleGlassZh extends TranslationsOnboardingStyleGlassEn {
 	_TranslationsOnboardingStyleGlassZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => '玻璃';
 	@override String get desc => '现代、半透明且充满活力的美学';
 }
 
+// Path: transcript.course.status
 class _TranslationsTranscriptCourseStatusZh extends TranslationsTranscriptCourseStatusEn {
 	_TranslationsTranscriptCourseStatusZh._(TranslationsZh root) : this._root = root, super.internal(root);
 
 	final TranslationsZh _root; // ignore: unused_field
 
+	// Translations
 	@override String get completed => '已完成';
 	@override String get transferred => '转学分';
 }
 
+/// The flat map containing all translations for locale <zh>.
+/// Only for edge cases! For simple maps, use the map function of this library.
+///
+/// The Dart AOT compiler has issues with very large switch statements,
+/// so the map is split into smaller functions (512 entries each).
 extension on TranslationsZh {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
@@ -820,6 +937,7 @@ extension on TranslationsZh {
 			'settings.tiles.language' => '语言',
 			'settings.tiles.ui_style' => '界面风格',
 			'settings.tiles.app_notifications' => '应用通知',
+			'settings.tiles.test_notifications' => '测试通知',
 			'settings.tiles.about_app' => '关于应用',
 			'settings.tiles.privacy_policy' => '隐私政策',
 			'settings.tiles.logout' => '退出登录',

@@ -53,6 +53,20 @@ class InstitutionalRepository {
     await _client.from('departments').delete().eq('id', id);
   }
 
+  // Department Projects
+  Future<List<DepartmentProjectModel>> getDepartmentProjects(
+    String departmentId,
+  ) async {
+    final response = await _client
+        .from('department_projects')
+        .select()
+        .eq('department_id', departmentId)
+        .order('created_at', ascending: false);
+    return (response as List)
+        .map((json) => DepartmentProjectModel.fromJson(json))
+        .toList();
+  }
+
   // Appointments
   Future<List<AppointmentModel>> getAppointments({
     bool activeOnly = true,

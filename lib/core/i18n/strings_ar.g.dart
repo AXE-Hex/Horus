@@ -1,11 +1,19 @@
+///
+/// Generated file. Do not edit.
+///
+// coverage:ignore-file
+// ignore_for_file: type=lint, unused_import
+// dart format off
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
+// Path: <root>
 class TranslationsAr extends Translations with BaseTranslations<AppLocale, Translations> {
-
+	/// You can call this constructor and build your own translation instance of this locale.
+	/// Constructing via the enum [AppLocale.build] is preferred.
 	TranslationsAr({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver, TranslationMetadata<AppLocale, Translations>? meta})
 		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
 		  $meta = meta ?? TranslationMetadata(
@@ -19,8 +27,10 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 		$meta.setFlatMapFunction(_flatMapFunction);
 	}
 
+	/// Metadata for the translations of <ar>.
 	@override final TranslationMetadata<AppLocale, Translations> $meta;
 
+	/// Access flat map
 	@override dynamic operator[](String key) => $meta.getTranslation(key) ?? super.$meta.getTranslation(key);
 
 	late final TranslationsAr _root = this; // ignore: unused_field
@@ -28,6 +38,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override 
 	TranslationsAr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsAr(meta: meta ?? this.$meta);
 
+	// Translations
 	@override late final _TranslationsCommonAr common = _TranslationsCommonAr._(_root);
 	@override late final _TranslationsWelcomeAr welcome = _TranslationsWelcomeAr._(_root);
 	@override late final _TranslationsOnboardingAr onboarding = _TranslationsOnboardingAr._(_root);
@@ -59,11 +70,13 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsRolesAr roles = _TranslationsRolesAr._(_root);
 }
 
+// Path: common
 class _TranslationsCommonAr extends TranslationsCommonEn {
 	_TranslationsCommonAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get close => 'إغلاق';
 	@override String get cancel => 'إلغاء';
 	@override String get confirm => 'تأكيد';
@@ -71,82 +84,98 @@ class _TranslationsCommonAr extends TranslationsCommonEn {
 	@override String get back => 'رجوع';
 }
 
+// Path: welcome
 class _TranslationsWelcomeAr extends TranslationsWelcomeEn {
 	_TranslationsWelcomeAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'مرحبا بك في Hue';
 	@override String get subtitle => 'أنر عالمك باتصالات ذات مغزى.';
 	@override String get get_started => 'ابدأ الآن';
 	@override String get have_account => 'لدي حساب بالفعل';
 }
 
+// Path: onboarding
 class _TranslationsOnboardingAr extends TranslationsOnboardingEn {
 	_TranslationsOnboardingAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsOnboardingLanguageAr language = _TranslationsOnboardingLanguageAr._(_root);
 	@override late final _TranslationsOnboardingFacultiesDirectoryAr faculties_directory = _TranslationsOnboardingFacultiesDirectoryAr._(_root);
 	@override late final _TranslationsOnboardingStyleAr style = _TranslationsOnboardingStyleAr._(_root);
 	@override late final _TranslationsOnboardingThemeAr theme = _TranslationsOnboardingThemeAr._(_root);
 }
 
+// Path: auth
 class _TranslationsAuthAr extends TranslationsAuthEn {
 	_TranslationsAuthAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsAuthLoginAr login = _TranslationsAuthLoginAr._(_root);
 	@override late final _TranslationsAuthForgotPasswordAr forgot_password = _TranslationsAuthForgotPasswordAr._(_root);
 }
 
+// Path: home
 class _TranslationsHomeAr extends TranslationsHomeEn {
 	_TranslationsHomeAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsHomeTabsAr tabs = _TranslationsHomeTabsAr._(_root);
 }
 
+// Path: feed
 class _TranslationsFeedAr extends TranslationsFeedEn {
 	_TranslationsFeedAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get likes => 'إعجابات';
 	@override String get caption_sample => 'هذا مثال لشرح المنشور';
 	@override String get hours_ago => 'منذ ساعتين';
 }
 
+// Path: dashboard
 class _TranslationsDashboardAr extends TranslationsDashboardEn {
 	_TranslationsDashboardAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsDashboardIdCardAr id_card = _TranslationsDashboardIdCardAr._(_root);
 	@override late final _TranslationsDashboardSectionsAr sections = _TranslationsDashboardSectionsAr._(_root);
 	@override late final _TranslationsDashboardItemsAr items = _TranslationsDashboardItemsAr._(_root);
 	@override late final _TranslationsDashboardLabelsAr labels = _TranslationsDashboardLabelsAr._(_root);
 }
 
+// Path: settings
 class _TranslationsSettingsAr extends TranslationsSettingsEn {
 	_TranslationsSettingsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الإعدادات';
 	@override late final _TranslationsSettingsSectionsAr sections = _TranslationsSettingsSectionsAr._(_root);
 	@override late final _TranslationsSettingsTilesAr tiles = _TranslationsSettingsTilesAr._(_root);
 	@override late final _TranslationsSettingsMessagesAr messages = _TranslationsSettingsMessagesAr._(_root);
 }
 
+// Path: colleges
 class _TranslationsCollegesAr extends TranslationsCollegesEn {
 	_TranslationsCollegesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsCollegesDetailsAr details = _TranslationsCollegesDetailsAr._(_root);
 	@override String get applied_health_sciences => 'كلية تكنولوجيا العلوم الصحية التطبيقية';
 	@override String get business_administration => 'كلية إدارة الأعمال';
@@ -161,22 +190,26 @@ class _TranslationsCollegesAr extends TranslationsCollegesEn {
 	@override late final _TranslationsCollegesDepartmentsAr departments = _TranslationsCollegesDepartmentsAr._(_root);
 }
 
+// Path: transcript
 class _TranslationsTranscriptAr extends TranslationsTranscriptEn {
 	_TranslationsTranscriptAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'السجل الأكاديمي';
 	@override late final _TranslationsTranscriptOverviewAr overview = _TranslationsTranscriptOverviewAr._(_root);
 	@override late final _TranslationsTranscriptSemesterAr semester = _TranslationsTranscriptSemesterAr._(_root);
 	@override late final _TranslationsTranscriptCourseAr course = _TranslationsTranscriptCourseAr._(_root);
 }
 
+// Path: academic_progress
 class _TranslationsAcademicProgressAr extends TranslationsAcademicProgressEn {
 	_TranslationsAcademicProgressAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'التقدم الدراسي';
 	@override String get completion => 'نسبة إنجاز الدرجة العلمية';
 	@override String get total_credits => 'إجمالي الساعات';
@@ -184,11 +217,13 @@ class _TranslationsAcademicProgressAr extends TranslationsAcademicProgressEn {
 	@override late final _TranslationsAcademicProgressStatusAr status = _TranslationsAcademicProgressStatusAr._(_root);
 }
 
+// Path: grades
 class _TranslationsGradesAr extends TranslationsGradesEn {
 	_TranslationsGradesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الدرجات';
 	@override String get summary => 'ملخص الدرجات';
 	@override String get cumulative_gpa => 'المعدل التراكمي';
@@ -198,11 +233,13 @@ class _TranslationsGradesAr extends TranslationsGradesEn {
 	@override String get letter_grade => 'التقدير';
 }
 
+// Path: subject_results
 class _TranslationsSubjectResultsAr extends TranslationsSubjectResultsEn {
 	_TranslationsSubjectResultsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'نتائج المواد';
 	@override String get midterm => 'منتصف الفصل';
 	@override String get kFinal => 'الاختبار النهائي';
@@ -211,11 +248,13 @@ class _TranslationsSubjectResultsAr extends TranslationsSubjectResultsEn {
 	@override String get total => 'المجموع الكلي';
 }
 
+// Path: action_plan
 class _TranslationsActionPlanAr extends TranslationsActionPlanEn {
 	_TranslationsActionPlanAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الخطة الدراسية';
 	@override String get roadmap => 'خريطة المقررات';
 	@override String get year_1 => 'السنة الأولى';
@@ -224,11 +263,13 @@ class _TranslationsActionPlanAr extends TranslationsActionPlanEn {
 	@override String get year_4 => 'السنة الرابعة';
 }
 
+// Path: courses
 class _TranslationsCoursesAr extends TranslationsCoursesEn {
 	_TranslationsCoursesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'مقرراتي';
 	@override String get enrolled => 'المسجلة';
 	@override String get available => 'المتاحة';
@@ -236,11 +277,13 @@ class _TranslationsCoursesAr extends TranslationsCoursesEn {
 	@override String get schedule => 'الموعد';
 }
 
+// Path: schedule
 class _TranslationsScheduleAr extends TranslationsScheduleEn {
 	_TranslationsScheduleAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'جدول المحاضرات';
 	@override String get daily_title => 'الجدول اليومي';
 	@override String get no_lectures => 'لا توجد محاضرات اليوم';
@@ -274,22 +317,26 @@ class _TranslationsScheduleAr extends TranslationsScheduleEn {
 	@override String get north => 'شمال';
 }
 
+// Path: exam_schedule
 class _TranslationsExamScheduleAr extends TranslationsExamScheduleEn {
 	_TranslationsExamScheduleAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'جدول الامتحانات';
 	@override String get date => 'التاريخ';
 	@override String get duration => 'المدة';
 	@override String get seat => 'رقم الجلوس';
 }
 
+// Path: attendance
 class _TranslationsAttendanceAr extends TranslationsAttendanceEn {
 	_TranslationsAttendanceAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'إحصائيات الحضور';
 	@override String get present => 'حاضر';
 	@override String get absent => 'غائب';
@@ -298,11 +345,13 @@ class _TranslationsAttendanceAr extends TranslationsAttendanceEn {
 	@override late final _TranslationsAttendanceSubjectsAr subjects = _TranslationsAttendanceSubjectsAr._(_root);
 }
 
+// Path: registration
 class _TranslationsRegistrationAr extends TranslationsRegistrationEn {
 	_TranslationsRegistrationAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'التسجيل الأكاديمي';
 	@override String get submit => 'إرسال طلب التسجيل';
 	@override String get enrolled_credits => 'الساعات المسجلة';
@@ -329,11 +378,13 @@ class _TranslationsRegistrationAr extends TranslationsRegistrationEn {
 	@override String error_loading({required Object error}) => 'خطأ: ${error}\n\nاضغط لإعادة المحاولة';
 }
 
+// Path: payment
 class _TranslationsPaymentAr extends TranslationsPaymentEn {
 	_TranslationsPaymentAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الدفع الإلكتروني';
 	@override String get outstanding => 'المبلغ المستحق';
 	@override String get pay_now => 'سداد الآن';
@@ -345,11 +396,13 @@ class _TranslationsPaymentAr extends TranslationsPaymentEn {
 	@override String currency({required Object amount}) => '${amount} ج.م';
 }
 
+// Path: invoices
 class _TranslationsInvoicesAr extends TranslationsInvoicesEn {
 	_TranslationsInvoicesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الفواتير والمالية';
 	@override String get history => 'سجل الدفع';
 	@override String get unpaid => 'غير مدفوع';
@@ -360,66 +413,80 @@ class _TranslationsInvoicesAr extends TranslationsInvoicesEn {
 	@override String get status => 'الحالة';
 }
 
+// Path: notifications
 class _TranslationsNotificationsAr extends TranslationsNotificationsEn {
 	_TranslationsNotificationsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الإشعارات';
 	@override String get empty => 'لا توجد إشعارات جديدة';
 }
 
+// Path: support
 class _TranslationsSupportAr extends TranslationsSupportEn {
 	_TranslationsSupportAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الدعم والمساعدة';
 	@override String get contact_us => 'اتصل بنا';
 }
 
+// Path: security
 class _TranslationsSecurityAr extends TranslationsSecurityEn {
 	_TranslationsSecurityAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'الأمان';
 	@override String get biometrics => 'البصمة';
 	@override String get sessions => 'الجلسات النشطة';
 }
 
+// Path: tutorials
 class _TranslationsTutorialsAr extends TranslationsTutorialsEn {
 	_TranslationsTutorialsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'التعليمات والدروس';
 }
 
+// Path: forums
 class _TranslationsForumsAr extends TranslationsForumsEn {
 	_TranslationsForumsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'المنتديات';
 }
 
+// Path: administration
 class _TranslationsAdministrationAr extends TranslationsAdministrationEn {
 	_TranslationsAdministrationAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'إدارة الطلاب';
 	@override String get stats => 'إحصائيات النظام';
 	@override String get users => 'المستخدمين';
 	@override String get reports => 'التقارير';
 }
 
+// Path: professor
 class _TranslationsProfessorAr extends TranslationsProfessorEn {
 	_TranslationsProfessorAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get dashboard_title => 'لوحة تحكم الدكتور';
 	@override String welcome_back_name({required Object name}) => 'مرحباً بعودتك، ${name}';
 	@override String active_tas_count({required Object count}) => '${count} معيد حالي';
@@ -452,21 +519,25 @@ class _TranslationsProfessorAr extends TranslationsProfessorEn {
 	@override late final _TranslationsProfessorProfileAr profile = _TranslationsProfessorProfileAr._(_root);
 }
 
+// Path: roles
 class _TranslationsRolesAr extends TranslationsRolesEn {
 	_TranslationsRolesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override late final _TranslationsRolesCategoriesAr categories = _TranslationsRolesCategoriesAr._(_root);
 	@override late final _TranslationsRolesNamesAr names = _TranslationsRolesNamesAr._(_root);
 	@override late final _TranslationsRolesDescriptionsAr descriptions = _TranslationsRolesDescriptionsAr._(_root);
 }
 
+// Path: onboarding.language
 class _TranslationsOnboardingLanguageAr extends TranslationsOnboardingLanguageEn {
 	_TranslationsOnboardingLanguageAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'اختر لغتك';
 	@override String get subtitle => 'اختر لغتك المفضلة';
 	@override String get english => 'الإنجليزية (English)';
@@ -476,42 +547,50 @@ class _TranslationsOnboardingLanguageAr extends TranslationsOnboardingLanguageEn
 	@override String get hint => 'يمكنك تغيير هذا لاحقاً من الإعدادات';
 }
 
+// Path: onboarding.faculties_directory
 class _TranslationsOnboardingFacultiesDirectoryAr extends TranslationsOnboardingFacultiesDirectoryEn {
 	_TranslationsOnboardingFacultiesDirectoryAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'كلياتنا';
 	@override String get subtitle => 'استكشف بوابة جامعة حورس الأكاديمية المتنوعة';
 }
 
+// Path: onboarding.style
 class _TranslationsOnboardingStyleAr extends TranslationsOnboardingStyleEn {
 	_TranslationsOnboardingStyleAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'اختر النمط';
 	@override String get subtitle => 'اختر تصميم الواجهة الذي تفضله';
 	@override late final _TranslationsOnboardingStyleClassicAr classic = _TranslationsOnboardingStyleClassicAr._(_root);
 	@override late final _TranslationsOnboardingStyleGlassAr glass = _TranslationsOnboardingStyleGlassAr._(_root);
 }
 
+// Path: onboarding.theme
 class _TranslationsOnboardingThemeAr extends TranslationsOnboardingThemeEn {
 	_TranslationsOnboardingThemeAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'اختر السمة';
 	@override String get subtitle => 'فاتح أو داكن، الخيار لك';
 	@override String get light => 'فاتح';
 	@override String get dark => 'داكن';
 }
 
+// Path: auth.login
 class _TranslationsAuthLoginAr extends TranslationsAuthLoginEn {
 	_TranslationsAuthLoginAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get welcome => 'مرحباً بعودتك';
 	@override String get subtitle => 'سجل الدخول للمتابعة';
 	@override String get email => 'البريد الإلكتروني';
@@ -521,11 +600,13 @@ class _TranslationsAuthLoginAr extends TranslationsAuthLoginEn {
 	@override String get guest => 'تصفح كزائر';
 }
 
+// Path: auth.forgot_password
 class _TranslationsAuthForgotPasswordAr extends TranslationsAuthForgotPasswordEn {
 	_TranslationsAuthForgotPasswordAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'نسيت كلمة المرور';
 	@override String get subtitle => 'اختر طريقة الاستعادة';
 	@override String get method_admin => 'زيارة الإدارة';
@@ -543,11 +624,13 @@ class _TranslationsAuthForgotPasswordAr extends TranslationsAuthForgotPasswordEn
 	@override String get id_uploaded => 'تم تحميل الهوية';
 }
 
+// Path: home.tabs
 class _TranslationsHomeTabsAr extends TranslationsHomeTabsEn {
 	_TranslationsHomeTabsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get home => 'الرئيسية';
 	@override String get colleges => 'الكليات';
 	@override String get student => 'الطالب';
@@ -557,11 +640,13 @@ class _TranslationsHomeTabsAr extends TranslationsHomeTabsEn {
 	@override String get profile => 'الملف الشخصي';
 }
 
+// Path: dashboard.id_card
 class _TranslationsDashboardIdCardAr extends TranslationsDashboardIdCardEn {
 	_TranslationsDashboardIdCardAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get student_name => 'اسم الطالب';
 	@override String get college => 'الكلية';
 	@override String get id => 'الرقم الجامعي';
@@ -570,21 +655,25 @@ class _TranslationsDashboardIdCardAr extends TranslationsDashboardIdCardEn {
 	@override String get verified => 'موثق';
 }
 
+// Path: dashboard.sections
 class _TranslationsDashboardSectionsAr extends TranslationsDashboardSectionsEn {
 	_TranslationsDashboardSectionsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get academic => 'الأكاديمي';
 	@override String get enrollment => 'التسجيل والمالية';
 	@override String get utilities => 'أدوات أخرى';
 }
 
+// Path: dashboard.items
 class _TranslationsDashboardItemsAr extends TranslationsDashboardItemsEn {
 	_TranslationsDashboardItemsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get digital_id => 'الهوية الرقمية';
 	@override String get transcript => 'السجل الأكاديمي';
 	@override String get progress => 'التقدم الدراسي';
@@ -603,59 +692,70 @@ class _TranslationsDashboardItemsAr extends TranslationsDashboardItemsEn {
 	@override String get no_lectures => 'لا توجد محاضرات';
 }
 
+// Path: dashboard.labels
 class _TranslationsDashboardLabelsAr extends TranslationsDashboardLabelsEn {
 	_TranslationsDashboardLabelsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get university_name => 'جامعة حورس';
 	@override String get id_short => 'كود';
 	@override String get gpa_short => 'معدل';
 	@override String get level_short => 'مستوى';
 }
 
+// Path: settings.sections
 class _TranslationsSettingsSectionsAr extends TranslationsSettingsSectionsEn {
 	_TranslationsSettingsSectionsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get account => 'الحساب';
 	@override String get display => 'العرض';
 	@override String get notifications => 'التنبيهات';
 	@override String get about => 'حول';
 }
 
+// Path: settings.tiles
 class _TranslationsSettingsTilesAr extends TranslationsSettingsTilesEn {
 	_TranslationsSettingsTilesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get edit_profile => 'تعديل الملف الشخصي';
 	@override String get change_password => 'تغيير كلمة المرور';
 	@override String get dark_mode => 'الوضع الليلي';
 	@override String get language => 'اللغة';
 	@override String get ui_style => 'نمط الواجهة';
 	@override String get app_notifications => 'تنبيهات التطبيق';
+	@override String get test_notifications => 'تجربة الإشعارات';
 	@override String get about_app => 'عن التطبيق';
 	@override String get privacy_policy => 'سياسة الخصوصية';
 	@override String get logout => 'تسجيل الخروج';
 }
 
+// Path: settings.messages
 class _TranslationsSettingsMessagesAr extends TranslationsSettingsMessagesEn {
 	_TranslationsSettingsMessagesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get switching_theme => 'جاري تغيير المظهر...';
 	@override String get changing_language => 'جاري تغيير اللغة...';
 	@override String get rebuilding_design => 'جاري إعادة بناء التصميم...';
 }
 
+// Path: colleges.details
 class _TranslationsCollegesDetailsAr extends TranslationsCollegesDetailsEn {
 	_TranslationsCollegesDetailsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get dean => 'عميد الكلية';
 	@override String get staff => 'الهيئة التدريسية';
 	@override String get view_all => 'عرض الكل';
@@ -674,11 +774,13 @@ class _TranslationsCollegesDetailsAr extends TranslationsCollegesDetailsEn {
 	@override String get published_articles => 'الأبحاث المنشورة';
 }
 
+// Path: colleges.departments
 class _TranslationsCollegesDepartmentsAr extends TranslationsCollegesDepartmentsEn {
 	_TranslationsCollegesDepartmentsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get medical_laboratories_technology => 'تكنولوجيا المختبرات الطبية';
 	@override String get radiology_and_imaging_technology => 'تكنولوجيا الأشعة والتصوير الطبي';
 	@override String get respiratory_care_technology => 'تكنولوجيا الرعاية التنفسية';
@@ -743,75 +845,89 @@ class _TranslationsCollegesDepartmentsAr extends TranslationsCollegesDepartments
 	@override String get smart_systems => 'الأنظمة الذكية';
 }
 
+// Path: transcript.overview
 class _TranslationsTranscriptOverviewAr extends TranslationsTranscriptOverviewEn {
 	_TranslationsTranscriptOverviewAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get gpa => 'المعدل التراكمي';
 	@override String get credits => 'الساعات المكتسبة';
 	@override String get standing => 'الحالة الأكاديمية';
 	@override String get active => 'وضع جيد';
 }
 
+// Path: transcript.semester
 class _TranslationsTranscriptSemesterAr extends TranslationsTranscriptSemesterEn {
 	_TranslationsTranscriptSemesterAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get fall => 'الفصل الدراسي الأول';
 	@override String get spring => 'الفصل الدراسي الثاني';
 	@override String get summer => 'فصل دراسي صيفي';
 }
 
+// Path: transcript.course
 class _TranslationsTranscriptCourseAr extends TranslationsTranscriptCourseEn {
 	_TranslationsTranscriptCourseAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get grade => 'الدرجة';
 	@override String get credits => 'ساعة';
 	@override late final _TranslationsTranscriptCourseStatusAr status = _TranslationsTranscriptCourseStatusAr._(_root);
 }
 
+// Path: academic_progress.categories
 class _TranslationsAcademicProgressCategoriesAr extends TranslationsAcademicProgressCategoriesEn {
 	_TranslationsAcademicProgressCategoriesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get university => 'متطلبات جامعة حورس';
 	@override String get faculty => 'متطلبات الكلية';
 	@override String get major => 'متطلبات التخصص';
 	@override String get electives => 'المواد الاختيارية';
 }
 
+// Path: academic_progress.status
 class _TranslationsAcademicProgressStatusAr extends TranslationsAcademicProgressStatusEn {
 	_TranslationsAcademicProgressStatusAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get completed => 'مكتمل';
 	@override String get in_progress => 'قيد الدراسة';
 	@override String get remaining => 'متبقي';
 	@override String get requirement_met => 'تم استيفاء المتطلب';
 }
 
+// Path: attendance.subjects
 class _TranslationsAttendanceSubjectsAr extends TranslationsAttendanceSubjectsEn {
 	_TranslationsAttendanceSubjectsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get ai => 'الذكاء الاصطناعي';
 	@override String get machine_learning => 'تعلم الآلة';
 	@override String get ethics => 'أخلاقيات المهنة';
 	@override String get calculus => 'تفاضل متقدم';
 }
 
+// Path: professor.stats
 class _TranslationsProfessorStatsAr extends TranslationsProfessorStatsEn {
 	_TranslationsProfessorStatsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get groups => 'المجموعات';
 	@override String get students => 'إجمالي الطلاب';
 	@override String get tas => 'المعيدين';
@@ -820,33 +936,39 @@ class _TranslationsProfessorStatsAr extends TranslationsProfessorStatsEn {
 	@override String get office_hours => 'الساعات المكتبية';
 }
 
+// Path: professor.quick_actions
 class _TranslationsProfessorQuickActionsAr extends TranslationsProfessorQuickActionsEn {
 	_TranslationsProfessorQuickActionsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get urgent => 'عاجل';
 	@override String get upload => 'رفع';
 	@override String get message => 'مراسلة';
 	@override String get action_clicked => 'تم النقر';
 }
 
+// Path: professor.profile
 class _TranslationsProfessorProfileAr extends TranslationsProfessorProfileEn {
 	_TranslationsProfessorProfileAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get urgent_announcements => 'التنبيهات العاجلة';
 	@override String get teaching_assistants => 'المعيدين';
 	@override String get shared_resources => 'المصادر المشتركة';
 	@override String get office_hours => 'الساعات المكتبية';
 }
 
+// Path: roles.categories
 class _TranslationsRolesCategoriesAr extends TranslationsRolesCategoriesEn {
 	_TranslationsRolesCategoriesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get admin_it => 'الإدارة والتقنية';
 	@override String get academic_leadership => 'القيادة الأكاديمية';
 	@override String get teaching_staff => 'الكادر التعليمي';
@@ -856,11 +978,13 @@ class _TranslationsRolesCategoriesAr extends TranslationsRolesCategoriesEn {
 	@override String get external_roles => 'الخبراء الخارجيين';
 }
 
+// Path: roles.names
 class _TranslationsRolesNamesAr extends TranslationsRolesNamesEn {
 	_TranslationsRolesNamesAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get super_admin => 'مدير النظام العام';
 	@override String get admin => 'مسؤول نظام';
 	@override String get it_support => 'المسؤول التقني';
@@ -887,11 +1011,13 @@ class _TranslationsRolesNamesAr extends TranslationsRolesNamesEn {
 	@override String get recruiter => 'جهة توظيف';
 }
 
+// Path: roles.descriptions
 class _TranslationsRolesDescriptionsAr extends TranslationsRolesDescriptionsEn {
 	_TranslationsRolesDescriptionsAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get super_admin => 'تحكم كامل في النظام بأكمله';
 	@override String get admin => 'مسؤول نظام بصلاحيات عالية';
 	@override String get it_support => 'دعم وصيانة النظام التقني';
@@ -918,33 +1044,44 @@ class _TranslationsRolesDescriptionsAr extends TranslationsRolesDescriptionsEn {
 	@override String get recruiter => 'جهة توظيف خارجية';
 }
 
+// Path: onboarding.style.classic
 class _TranslationsOnboardingStyleClassicAr extends TranslationsOnboardingStyleClassicEn {
 	_TranslationsOnboardingStyleClassicAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'كلاسيكي';
 	@override String get desc => 'تصميم نظيف، بسيط، ومألوف';
 }
 
+// Path: onboarding.style.glass
 class _TranslationsOnboardingStyleGlassAr extends TranslationsOnboardingStyleGlassEn {
 	_TranslationsOnboardingStyleGlassAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get title => 'زجاجي';
 	@override String get desc => 'جماليات حديثة، شفافة، وحيوية';
 }
 
+// Path: transcript.course.status
 class _TranslationsTranscriptCourseStatusAr extends TranslationsTranscriptCourseStatusEn {
 	_TranslationsTranscriptCourseStatusAr._(TranslationsAr root) : this._root = root, super.internal(root);
 
 	final TranslationsAr _root; // ignore: unused_field
 
+	// Translations
 	@override String get completed => 'مكتمل';
 	@override String get transferred => 'معادلة';
 }
 
+/// The flat map containing all translations for locale <ar>.
+/// Only for edge cases! For simple maps, use the map function of this library.
+///
+/// The Dart AOT compiler has issues with very large switch statements,
+/// so the map is split into smaller functions (512 entries each).
 extension on TranslationsAr {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
@@ -1048,6 +1185,7 @@ extension on TranslationsAr {
 			'settings.tiles.language' => 'اللغة',
 			'settings.tiles.ui_style' => 'نمط الواجهة',
 			'settings.tiles.app_notifications' => 'تنبيهات التطبيق',
+			'settings.tiles.test_notifications' => 'تجربة الإشعارات',
 			'settings.tiles.about_app' => 'عن التطبيق',
 			'settings.tiles.privacy_policy' => 'سياسة الخصوصية',
 			'settings.tiles.logout' => 'تسجيل الخروج',

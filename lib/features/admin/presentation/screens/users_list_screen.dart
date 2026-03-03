@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/auth/roles.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:hue/features/admin/presentation/providers/users_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:hue/core/utils/responsive_helper.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class UsersListScreen extends ConsumerStatefulWidget {
@@ -34,7 +34,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
   String _searchQuery = '';
   String _statusFilter = 'all'; // all, active, deactivated, banned
   String _verifiedFilter = 'all'; // all, verified, unverified
-  int _warningFilter = -1; // -1 for all, 0-4 for specific level
+  final int _warningFilter = -1; // -1 for all, 0-4 for specific level
 
   // Selection Mode
   bool _isSelectionMode = false;
@@ -61,9 +61,9 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
 
     return GlassScaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
           widget.title,
@@ -95,7 +95,10 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
               icon: const Icon(LucideIcons.userPlus),
               onPressed: () => context.push(
                 '/admin/users/new',
-                extra: {'category': _getCurrentCategory(), 'role': widget.role},
+                extra: {
+                  'category': widget.category ?? _getCurrentCategory(),
+                  'role': widget.role,
+                },
               ),
             ),
           ],
@@ -106,8 +109,8 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                 indicatorColor: Theme.of(context).primaryColor,
                 labelStyle: GoogleFonts.outfit(fontWeight: FontWeight.bold),
                 tabs: [
-                  Tab(text: isArabic ? 'الطلاب' : 'Students'),
-                  Tab(text: isArabic ? 'الموظفين' : 'Staff'),
+                  Tab(text: t.admin.students),
+                  Tab(text: t.admin.staff),
                 ],
               )
             : null,
@@ -152,9 +155,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                                 color: Colors.white,
                               ),
                               decoration: InputDecoration(
-                                hintText: isArabic
-                                    ? 'بحث بالاسم، البريد، الهاتف، المعرف...'
-                                    : 'Search by name, email, phone, ID...',
+                                hintText: t.admin.search_by_name_email_phone_id,
                                 hintStyle: GoogleFonts.inter(
                                   fontSize: 14,
                                   color: Colors.white.withValues(alpha: 0.3),
@@ -188,23 +189,13 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                   borderRadius: BorderRadius.circular(20),
                   child: IconButton(
                     icon: const Icon(LucideIcons.filter, size: 20),
-                    onPressed: () => _showFilterSheet(isArabic),
+                    onPressed: () => _showFilterSheet(),
                   ),
                 ),
               ],
             ),
           ),
-          Expanded(
-            child: widget.category != null
-                ? _buildUsersList(widget.category)
-                : TabBarView(
-                    controller: _tabController,
-                    children: [
-                      _buildUsersList(RoleCategory.studentRoles),
-                      _buildUsersList(RoleCategory.teachingStaff),
-                    ],
-                  ),
-          ),
+          Expanded(child: _buildMainContent()),
         ],
       ),
     );
@@ -215,6 +206,17 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
     return _tabController.index == 0
         ? RoleCategory.studentRoles
         : RoleCategory.teachingStaff;
+  }
+
+  Widget _buildMainContent() {
+    if (widget.category != null) return _buildUsersList(widget.category);
+    return TabBarView(
+      controller: _tabController,
+      children: [
+        _buildUsersList(RoleCategory.studentRoles),
+        _buildUsersList(RoleCategory.teachingStaff),
+      ],
+    );
   }
 
   Widget _buildUsersList(RoleCategory? category) {
@@ -253,36 +255,47 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
         }).toList();
 
         if (filteredUsers.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                      LucideIcons.users,
-                      size: 80,
-                      color: Theme.of(
-                        context,
-                      ).primaryColor.withValues(alpha: 0.1),
-                    )
-                    .animate(onPlay: (c) => c.repeat())
-                    .shimmer(duration: 2.seconds)
-                    .scale(
-                      begin: const Offset(0.8, 0.8),
-                      end: const Offset(1, 1),
-                      curve: Curves.easeInOutBack,
-                      duration: 4.seconds,
-                    ),
-                const SizedBox(height: 24),
-                Text(
-                  isArabic ? 'لم نعثر على أي مستخدم' : 'No users found',
-                  style: GoogleFonts.outfit(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white.withValues(alpha: 0.3),
-                  ),
-                ),
-              ],
+          return _buildEmptyState(isArabic);
+        }
+
+        final isDesktop = ResponsiveHelper.isDesktop(context);
+        final isTablet = ResponsiveHelper.isTablet(context);
+
+        if (isDesktop || isTablet) {
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: isDesktop ? 3 : 2,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: isDesktop ? 1.05 : 0.95,
             ),
+            padding: const EdgeInsets.all(24),
+            itemCount: filteredUsers.length,
+            itemBuilder: (context, index) {
+              final user = filteredUsers[index];
+              return _UserTile(
+                user: user,
+                category: category,
+                isSelected: _selectedUserIds.contains(user.id),
+                selectionMode: _isSelectionMode,
+                onToggleSelection: (id) {
+                  setState(() {
+                    if (_selectedUserIds.contains(id)) {
+                      _selectedUserIds.remove(id);
+                      if (_selectedUserIds.isEmpty) _isSelectionMode = false;
+                    } else {
+                      _selectedUserIds.add(id);
+                    }
+                  });
+                },
+                onLongPress: (id) {
+                  setState(() {
+                    _isSelectionMode = true;
+                    _selectedUserIds.add(id);
+                  });
+                },
+              ).animate().fadeIn(delay: (index * 50).ms).slideY(begin: 0.1);
+            },
           );
         }
 
@@ -314,42 +327,50 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                   },
                 )
                 .animate()
-                .fadeIn(delay: (index * 50).ms, duration: 400.ms)
-                .slideX(
-                  begin: 0.1,
-                  end: 0,
-                  delay: (index * 50).ms,
-                  duration: 400.ms,
-                );
+                .fadeIn(delay: (index * 30).ms)
+                .slideX(begin: isArabic ? -0.05 : 0.05);
           },
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (e, s) => Center(child: Text('Error: $e')),
+    );
+  }
+
+  Widget _buildEmptyState(bool isArabic) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            LucideIcons.users,
+            size: 80,
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+          ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 2.seconds),
+          const SizedBox(height: 24),
+          Text(
+            t.admin.no_users_found,
+            style: GoogleFonts.outfit(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.white.withValues(alpha: 0.3),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   void _handleBulkAction(String action) {
-    if (_selectedUserIds.isEmpty) {
-      // Optionally show a message that no users are selected
-      return;
-    }
-
-    // Implement bulk action logic here based on 'action' and '_selectedUserIds'
-    // For example:
-    if (action == 'delete') {
-      // Call a controller method to delete selected users
-      // ref.read(usersControllerProvider.notifier).deleteUsers(_selectedUserIds.toList());
-      debugPrint('Deleting users: $_selectedUserIds');
-    }
-    // After action, exit selection mode
+    if (_selectedUserIds.isEmpty) return;
+    // Implement bulk actions here
     setState(() {
       _isSelectionMode = false;
       _selectedUserIds.clear();
     });
   }
 
-  void _showFilterSheet(bool isArabic) {
+  void _showFilterSheet() {
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
@@ -361,70 +382,54 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              isArabic ? 'فلترة المستخدمين' : 'Filter Users',
+              t.admin.filter_users,
               style: GoogleFonts.outfit(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 24),
-            _buildFilterSection(isArabic ? 'حالة الحساب' : 'Account Status', [
+            _buildFilterSection(t.admin.account_status, [
               _FilterChip(
-                label: isArabic ? 'الكل' : 'All',
+                label: t.admin.all,
                 selected: _statusFilter == 'all',
                 onSelected: (val) => setState(() => _statusFilter = 'all'),
               ),
               _FilterChip(
-                label: isArabic ? 'نشط' : 'Active',
+                label: t.admin.active,
                 selected: _statusFilter == 'active',
                 onSelected: (val) => setState(() => _statusFilter = 'active'),
               ),
               _FilterChip(
-                label: isArabic ? 'معطل' : 'Deactivated',
+                label: t.admin.deactivated,
                 selected: _statusFilter == 'deactivated',
                 onSelected: (val) =>
                     setState(() => _statusFilter = 'deactivated'),
               ),
               _FilterChip(
-                label: isArabic ? 'محظور' : 'Banned',
+                label: t.admin.banned,
                 selected: _statusFilter == 'banned',
                 onSelected: (val) => setState(() => _statusFilter = 'banned'),
               ),
             ]),
             const SizedBox(height: 16),
-            _buildFilterSection(isArabic ? 'التوثيق' : 'Verification', [
+            _buildFilterSection(t.admin.verification, [
               _FilterChip(
-                label: isArabic ? 'الكل' : 'All',
+                label: t.admin.all,
                 selected: _verifiedFilter == 'all',
                 onSelected: (val) => setState(() => _verifiedFilter = 'all'),
               ),
               _FilterChip(
-                label: isArabic ? 'موثق' : 'Verified',
+                label: t.admin.verified,
                 selected: _verifiedFilter == 'verified',
                 onSelected: (val) =>
                     setState(() => _verifiedFilter = 'verified'),
               ),
               _FilterChip(
-                label: isArabic ? 'غير موثق' : 'Unverified',
+                label: t.admin.unverified,
                 selected: _verifiedFilter == 'unverified',
                 onSelected: (val) =>
                     setState(() => _verifiedFilter = 'unverified'),
-              ),
-            ]),
-            const SizedBox(height: 16),
-            _buildFilterSection(isArabic ? 'مستوى الإنذار' : 'Warning Level', [
-              _FilterChip(
-                label: isArabic ? 'الكل' : 'All',
-                selected: _warningFilter == -1,
-                onSelected: (val) => setState(() => _warningFilter = -1),
-              ),
-              ...List.generate(
-                5,
-                (i) => _FilterChip(
-                  label: '$i',
-                  selected: _warningFilter == i,
-                  onSelected: (val) => setState(() => _warningFilter = i),
-                ),
               ),
             ]),
             const SizedBox(height: 32),
@@ -440,7 +445,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                child: Text(isArabic ? 'تطبيق الفلتر' : 'Apply Filters'),
+                child: Text(t.admin.apply_filters),
               ),
             ),
           ],
@@ -483,7 +488,6 @@ class _UserTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final isActive = user.isActive && !user.isBanned;
     final statusColor = user.isBanned
         ? Colors.purple
@@ -493,23 +497,7 @@ class _UserTile extends ConsumerWidget {
       padding: const EdgeInsets.only(bottom: 16),
       child: GlassContainer(
         padding: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(32),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            isSelected
-                ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
-                : Colors.white.withValues(alpha: 0.05),
-            Colors.white.withValues(alpha: 0.01),
-          ],
-        ),
-        border: Border.all(
-          color: isSelected
-              ? Theme.of(context).primaryColor
-              : Colors.white.withValues(alpha: 0.08),
-          width: isSelected ? 2 : 1.2,
-        ),
+        borderRadius: BorderRadius.circular(24),
         onTap: () {
           if (selectionMode) {
             onToggleSelection?.call(user.id);
@@ -517,339 +505,56 @@ class _UserTile extends ConsumerWidget {
             context.push('/admin/users/details', extra: user);
           }
         },
-        onLongPress: () {
-          if (!selectionMode) {
-            onLongPress?.call(user.id);
-          }
-        },
-        child: Stack(
+        onLongPress: () => onLongPress?.call(user.id),
+        border: Border.all(
+          color: isSelected
+              ? Theme.of(context).primaryColor
+              : Colors.white.withValues(alpha: 0.08),
+          width: isSelected ? 2 : 1,
+        ),
+        child: Row(
           children: [
-            // Background Glow (Inspired by Dashboard Stat Cards)
-            Positioned(
-              left: -30,
-              top: -30,
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      statusColor.withValues(alpha: 0.1),
-                      statusColor.withValues(alpha: 0.0),
-                    ],
+            CircleAvatar(
+              radius: 24,
+              backgroundImage: user.avatarUrl != null
+                  ? NetworkImage(user.avatarUrl!)
+                  : null,
+              child: user.avatarUrl == null
+                  ? const Icon(LucideIcons.user)
+                  : null,
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user.fullName,
+                    style: GoogleFonts.outfit(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
+                  Text(
+                    user.email,
+                    style: GoogleFonts.inter(
+                      fontSize: 12,
+                      color: Colors.white.withValues(alpha: 0.4),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Row(
-              children: [
-                if (selectionMode) ...[
-                  Icon(
-                    isSelected ? LucideIcons.checkCircle2 : LucideIcons.circle,
-                    color: isSelected
-                        ? Theme.of(context).primaryColor
-                        : Colors.grey,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 12),
-                ],
-                // Avatar with Status Ring
-                Stack(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(2),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: statusColor.withValues(alpha: 0.3),
-                          width: 2,
-                        ),
-                      ),
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: Theme.of(
-                          context,
-                        ).primaryColor.withValues(alpha: 0.1),
-                        backgroundImage: user.avatarUrl != null
-                            ? NetworkImage(user.avatarUrl!)
-                            : null,
-                        child: user.avatarUrl == null
-                            ? Icon(
-                                LucideIcons.user,
-                                color: Theme.of(context).primaryColor,
-                                size: 28,
-                              )
-                            : null,
-                      ),
-                    ),
-                    Positioned(
-                      right: 2,
-                      bottom: 2,
-                      child: Container(
-                        width: 14,
-                        height: 14,
-                        decoration: BoxDecoration(
-                          color: statusColor,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: const Color(0xFF0F0F0F),
-                            width: 2.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: statusColor.withValues(alpha: 0.6),
-                              blurRadius: 8,
-                              spreadRadius: 1,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              user.fullName,
-                              style: GoogleFonts.outfit(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17,
-                                letterSpacing: -0.4,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          if (user.isVerified) ...[
-                            const SizedBox(width: 6),
-                            const Icon(
-                              Icons.verified,
-                              size: 18,
-                              color: Colors.blueAccent,
-                            ),
-                          ],
-                        ],
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        user.email,
-                        style: GoogleFonts.inter(
-                          fontSize: 12,
-                          color: Colors.white.withValues(alpha: 0.4),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          _buildBadge(
-                            context,
-                            user.role.displayName(isArabic: isArabic),
-                            Theme.of(context).primaryColor,
-                          ),
-                          if (user.studentId != null)
-                            _buildBadge(
-                              context,
-                              'ID: ${user.studentId}',
-                              Colors.blueGrey,
-                            ),
-                          ...user.tags
-                              .take(2)
-                              .map(
-                                (tag) =>
-                                    _buildBadge(context, '#$tag', Colors.grey),
-                              ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                // Actions Column
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    PopupMenuButton<String>(
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        LucideIcons.moreHorizontal,
-                        size: 20,
-                        color: Colors.white.withValues(alpha: 0.3),
-                      ),
-                      onSelected: (value) => _handleAction(context, ref, value),
-                      itemBuilder: (context) => _buildMenuItems(isArabic),
-                    ),
-                    const SizedBox(height: 12),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: statusColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: statusColor.withValues(alpha: 0.2),
-                          width: 1,
-                        ),
-                      ),
-                      child: Text(
-                        user.isBanned
-                            ? (isArabic ? 'محظور' : 'Banned')
-                            : (isActive
-                                  ? (isArabic ? 'نشط' : 'Active')
-                                  : (isArabic ? 'معطل' : 'Off')),
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: statusColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(
+                color: statusColor,
+                shape: BoxShape.circle,
+              ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildBadge(BuildContext context, String text, Color color) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: color.withValues(alpha: 0.15), width: 1),
-      ),
-      child: Text(
-        text,
-        style: GoogleFonts.inter(
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-          color: color.withValues(alpha: 0.8),
-        ),
-      ),
-    );
-  }
-
-  List<PopupMenuEntry<String>> _buildMenuItems(bool isArabic) {
-    return [
-      _buildMenuItem(
-        'verify',
-        user.isVerified ? LucideIcons.userMinus : LucideIcons.userCheck,
-        user.isVerified
-            ? (isArabic ? 'إزالة التوثيق' : 'Unverify')
-            : (isArabic ? 'توثيق الحساب' : 'Verify'),
-      ),
-      _buildMenuItem(
-        'warn',
-        LucideIcons.alertTriangle,
-        isArabic ? 'إضافة إنذار' : 'Add Warning',
-      ),
-      _buildMenuItem(
-        'tags',
-        LucideIcons.tag,
-        isArabic ? 'إدارة التاجات' : 'Manage Tags',
-      ),
-      const PopupMenuDivider(),
-      _buildMenuItem(
-        'ban',
-        LucideIcons.ban,
-        user.isBanned
-            ? (isArabic ? 'فك الحظر' : 'Unban')
-            : (isArabic ? 'حظر نهائي' : 'Permanent Ban'),
-        color: user.isBanned ? Colors.green : Colors.red,
-      ),
-    ];
-  }
-
-  PopupMenuItem<String> _buildMenuItem(
-    String value,
-    IconData icon,
-    String text, {
-    Color? color,
-  }) {
-    return PopupMenuItem(
-      value: value,
-      child: Row(
-        children: [
-          Icon(icon, size: 18, color: color),
-          const SizedBox(width: 12),
-          Text(text, style: TextStyle(color: color, fontSize: 14)),
-        ],
-      ),
-    );
-  }
-
-  void _handleAction(BuildContext context, WidgetRef ref, String action) {
-    final notifier = ref.read(
-      usersControllerProvider(category: user.role.category).notifier,
-    );
-
-    switch (action) {
-      case 'verify':
-        notifier.toggleVerification(user.id, !user.isVerified);
-        break;
-      case 'warn':
-        if (user.warningLevel < 4) {
-          notifier.updateWarningLevel(user.id, user.warningLevel + 1);
-        }
-        break;
-      case 'ban':
-        notifier.toggleBan(user.id, !user.isBanned);
-        break;
-      case 'tags':
-        _showTagsDialog(context, notifier);
-        break;
-    }
-  }
-
-  void _showTagsDialog(BuildContext context, UsersController notifier) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
-    final controller = TextEditingController(text: user.tags.join(', '));
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(isArabic ? 'إدارة التاجات' : 'Manage Tags'),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: isArabic ? 'تاج1, تاج2...' : 'tag1, tag2...',
-            helperText: isArabic
-                ? 'افصل بين التاجات بفاصلة'
-                : 'Separate tags with commas',
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(isArabic ? 'إلغاء' : 'Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              final tags = controller.text
-                  .split(',')
-                  .map((e) => e.trim())
-                  .where((e) => e.isNotEmpty)
-                  .toList();
-              notifier.updateTags(user.id, tags);
-              Navigator.pop(context);
-            },
-            child: Text(isArabic ? 'حفظ' : 'Save'),
-          ),
-        ],
       ),
     );
   }
@@ -874,7 +579,6 @@ class _FilterChip extends StatelessWidget {
       onSelected: onSelected,
       backgroundColor: Colors.transparent,
       selectedColor: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-      checkmarkColor: Theme.of(context).primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(

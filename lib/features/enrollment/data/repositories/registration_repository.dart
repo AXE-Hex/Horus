@@ -1,4 +1,3 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/core/config/supabase_client.dart';
 import 'package:hue/features/enrollment/data/models/registration_models.dart';
@@ -51,6 +50,19 @@ class RegistrationRepository {
     return names;
   }
 
+  Future<List<Map<String, dynamic>>> fetchSectionsByCourse(
+    String courseId,
+    String semester,
+  ) async {
+    final response = await _supabase
+        .from('schedules')
+        .select('*')
+        .eq('course_id', courseId)
+        .eq('semester', semester);
+
+    return List<Map<String, dynamic>>.from(response);
+  }
+
   Future<List<String>> fetchSubSections(
     String semester,
     String sectionName,
@@ -98,6 +110,42 @@ class RegistrationRepository {
     }
   }
 
+  Future<List<Map<String, dynamic>>> getTranscript(String studentId) async {
+    final response = await _supabase
+        .from('grades')
+        .select('*, courses(code)')
+        .eq('student_id', studentId)
+        .eq('is_published', true);
+    return List<Map<String, dynamic>>.from(response);
+  }
+
+  Future<Map<String, bool>> checkPrerequisites(
+    String studentId,
+    List<Course> courses,
+  ) async {
+    final transcript = await getTranscript(studentId);
+    final passedCourseCodes = transcript
+        .where((g) => (g['total_score'] ?? 0) >= 50) // Basic pass threshold
+        .map((g) => g['courses']['code'] as String)
+        .toSet();
+
+    final Map<String, bool> lockedStatus = {};
+
+    for (final course in courses) {
+      if (course.prerequisites.isEmpty) {
+        lockedStatus[course.id] = false;
+        continue;
+      }
+
+      final hasAllPrereqs = course.prerequisites.every(
+        (prereqCode) => passedCourseCodes.contains(prereqCode),
+      );
+      lockedStatus[course.id] = !hasAllPrereqs;
+    }
+
+    return lockedStatus;
+  }
+
   Future<void> registerStudent(
     String studentId,
     String semester,
@@ -111,5 +159,52 @@ class RegistrationRepository {
       'sub_section_name': subSectionName,
       'registered_at': DateTime.now().toIso8601String(),
     }, onConflict: 'student_id, semester');
+  }
+
+  Future<void> registerCourseSections(
+    String studentId,
+    String semester,
+    List<Map<String, dynamic>> registrations,
+  ) async {
+    // Delete existing registrations for this semester first to handle removals
+    await _supabase
+        .from('student_course_registrations')
+        .delete()
+        .eq('student_id', studentId)
+        .eq('semester', semester);
+
+    if (registrations.isEmpty) return;
+
+    await _supabase
+        .from('student_course_registrations')
+        .insert(
+          registrations
+              .map(
+                (r) => {
+                  'student_id': studentId,
+                  'course_id': r['course_id'],
+                  'semester': semester,
+                  'section_name': r['section_name'],
+                  'sub_section_name': r['sub_section_name'],
+                  'registered_at': DateTime.now().toIso8601String(),
+                },
+              )
+              .toList(),
+        );
+  }
+
+  Future<List<StudentCourseRegistration>> getStudentCourseRegistrations(
+    String studentId,
+    String semester,
+  ) async {
+    final response = await _supabase
+        .from('student_course_registrations')
+        .select('*, courses(*)')
+        .eq('student_id', studentId)
+        .eq('semester', semester);
+
+    return (response as List)
+        .map((json) => StudentCourseRegistration.fromJson(json))
+        .toList();
   }
 }

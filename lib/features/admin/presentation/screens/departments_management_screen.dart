@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:hue/features/admin/data/models/institutional_models.dart';
 import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
@@ -20,7 +21,7 @@ class DepartmentsManagementScreen extends ConsumerWidget {
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          isArabic ? 'إدارة الأقسام' : 'Departments Management',
+          t.admin.departments_management,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.transparent,
@@ -48,7 +49,7 @@ class DepartmentsManagementScreen extends ConsumerWidget {
           if (departments.isEmpty) {
             return Center(
               child: Text(
-                isArabic ? 'لا توجد أقسام مضافة' : 'No departments found',
+                t.admin.no_departments_found,
               ),
             );
           }
@@ -61,6 +62,10 @@ class DepartmentsManagementScreen extends ConsumerWidget {
               return Padding(
                     padding: const EdgeInsets.only(bottom: 16),
                     child: GlassContainer(
+                      onTap: () => context.push(
+                        '/admin/departments/details',
+                        extra: dept,
+                      ),
                       padding: const EdgeInsets.all(24),
                       borderRadius: BorderRadius.circular(30),
                       child: Row(

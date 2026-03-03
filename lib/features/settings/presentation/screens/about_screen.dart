@@ -15,7 +15,6 @@ class AboutScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
@@ -32,7 +31,7 @@ class AboutScreen extends ConsumerWidget {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'حول التطبيق' : 'About App',
+            t.settings.about_app,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -86,28 +85,28 @@ class AboutScreen extends ConsumerWidget {
                     _buildInfoRow(
                       context,
                       LucideIcons.building2,
-                      isArabic ? 'الجامعة' : 'University',
-                      isArabic ? 'جامعة حورس' : 'Horus University',
+                      t.settings.university,
+                      t.settings.horus_university,
                     ),
                     const Divider(height: 24),
                     _buildInfoRow(
                       context,
                       LucideIcons.users,
-                      isArabic ? 'المطور' : 'Developer',
+                      t.settings.developer,
                       'GT-AXE Team',
                     ),
                     const Divider(height: 24),
                     _buildInfoRow(
                       context,
                       LucideIcons.smartphone,
-                      isArabic ? 'المنصة' : 'Platform',
+                      t.settings.platform,
                       'Flutter / Dart',
                     ),
                     const Divider(height: 24),
                     _buildInfoRow(
                       context,
                       LucideIcons.database,
-                      isArabic ? 'قاعدة البيانات' : 'Backend',
+                      t.settings.backend,
                       'Supabase',
                     ),
                   ],
@@ -119,9 +118,7 @@ class AboutScreen extends ConsumerWidget {
                 borderRadius: BorderRadius.circular(20),
                 padding: const EdgeInsets.all(20),
                 child: Text(
-                  isArabic
-                      ? 'بوابة HUE هي تطبيق جامعي شامل يتيح للطلاب وأعضاء هيئة التدريس والإداريين إدارة جميع الخدمات الأكاديمية والمالية والإدارية من مكان واحد. يتميز التطبيق بتصميم عصري وتجربة مستخدم سلسة مع دعم اللغة العربية والإنجليزية.'
-                      : 'HUE Portal is a comprehensive university application that enables students, faculty, and administrators to manage all academic, financial, and administrative services from one place. The app features a modern design and smooth user experience with Arabic and English language support.',
+                  t.settings.hue_portal_is_a_comprehensive_,
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     height: 1.6,

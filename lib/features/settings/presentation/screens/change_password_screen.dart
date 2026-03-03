@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -33,29 +32,26 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
   }
 
   Future<void> _changePassword() async {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final newPass = _newPasswordController.text;
     final confirmPass = _confirmPasswordController.text;
 
     if (newPass.isEmpty || confirmPass.isEmpty) {
       _showError(
-        isArabic ? 'الرجاء تعبئة جميع الحقول' : 'Please fill all fields',
+        t.settings.please_fill_all_fields,
       );
       return;
     }
 
     if (newPass.length < 6) {
       _showError(
-        isArabic
-            ? 'كلمة المرور يجب أن تكون 6 أحرف على الأقل'
-            : 'Password must be at least 6 characters',
+        t.settings.password_must_be_at_least_6_ch,
       );
       return;
     }
 
     if (newPass != confirmPass) {
       _showError(
-        isArabic ? 'كلمات المرور غير متطابقة' : 'Passwords do not match',
+        t.settings.passwords_do_not_match,
       );
       return;
     }
@@ -70,9 +66,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              isArabic
-                  ? 'تم تغيير كلمة المرور بنجاح'
-                  : 'Password changed successfully',
+              t.settings.password_changed_successfully,
             ),
             backgroundColor: Colors.green.shade700,
             behavior: SnackBarBehavior.floating,
@@ -106,7 +100,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
@@ -123,7 +116,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
             onPressed: () => context.pop(),
           ),
           title: Text(
-            isArabic ? 'تغيير كلمة المرور' : 'Change Password',
+            t.settings.change_password,
             style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
@@ -142,9 +135,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               ),
               const SizedBox(height: 24),
               Text(
-                isArabic
-                    ? 'أدخل كلمة المرور الجديدة'
-                    : 'Enter your new password',
+                t.settings.enter_your_new_password,
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 14,
@@ -157,7 +148,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                 controller: _newPasswordController,
                 obscureText: _obscureNew,
                 decoration: InputDecoration(
-                  labelText: isArabic ? 'كلمة المرور الجديدة' : 'New Password',
+                  labelText: t.settings.new_password,
                   prefixIcon: const Icon(LucideIcons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -180,9 +171,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirm,
                 decoration: InputDecoration(
-                  labelText: isArabic
-                      ? 'تأكيد كلمة المرور'
-                      : 'Confirm Password',
+                  labelText: t.settings.confirm_password,
                   prefixIcon: const Icon(LucideIcons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
@@ -222,7 +211,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                         ),
                       )
                     : Text(
-                        isArabic ? 'تغيير كلمة المرور' : 'Change Password',
+                        t.settings.change_password,
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -235,6 +224,8 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       ],
     );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+    return isGlass
+        ? GlassScaffold(resizeToAvoidBottomInset: true, body: body)
+        : Scaffold(resizeToAvoidBottomInset: true, body: body);
   }
 }

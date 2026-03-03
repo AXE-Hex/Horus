@@ -37,7 +37,6 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(themeControllerProvider);
-    final isArabic = t.$meta.locale.languageCode == 'ar';
 
     return GlassScaffold(
       body: Stack(
@@ -60,7 +59,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                   const SizedBox(height: 30),
 
                   Text(
-                    isArabic ? "اختر المظهر" : "Choose App Theme",
+                    t.onboarding.choose_app_theme,
                     style: GoogleFonts.outfit(
                       fontSize: 40,
                       fontWeight: FontWeight.w900,
@@ -72,9 +71,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                   const SizedBox(height: 12),
 
                   Text(
-                    isArabic
-                        ? "اختر المظهر الذي يناسبك، يمكنك تغييره لاحقاً"
-                        : "Select the lighting that suits your eyes best",
+                    t.onboarding.select_the_lighting_that_suits,
                     style: GoogleFonts.inter(
                       fontSize: 16,
                       color: Theme.of(
@@ -91,7 +88,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                       Expanded(
                         child:
                             _ThemeCard(
-                                  title: isArabic ? "مضيء" : "Light Mode",
+                                  title: t.onboarding.light_mode,
                                   icon: LucideIcons.sun,
                                   isDark: false,
                                   isActive:
@@ -111,7 +108,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                       Expanded(
                         child:
                             _ThemeCard(
-                                  title: isArabic ? "داكن" : "Dark Mode",
+                                  title: t.onboarding.dark_mode,
                                   icon: LucideIcons.moon,
                                   isDark: true,
                                   isActive:

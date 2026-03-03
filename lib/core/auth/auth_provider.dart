@@ -1,4 +1,3 @@
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hue/core/auth/roles.dart';
@@ -108,7 +107,7 @@ class AuthController extends _$AuthController {
         data: {
           'full_name': fullName,
           'student_id': studentId,
-          'role': 'student',
+          'roles': ['student'],
         },
       );
       if (response.user != null) {
@@ -118,7 +117,7 @@ class AuthController extends _$AuthController {
           'email': email,
           'full_name': fullName,
           'student_id': studentId,
-          'role': 'student',
+          'roles': ['student'],
         });
         await _loadProfile(response.user!);
       }
@@ -154,18 +153,26 @@ class AuthController extends _$AuthController {
           .eq('id', user.id)
           .single();
 
-      final roleStr = data['role'] as String? ?? 'student';
-      final role = UserRoleX.fromDbString(roleStr);
+      List<UserRole> roles;
+      if (data['roles'] != null) {
+        roles = (data['roles'] as List)
+            .map((r) => UserRoleX.fromDbString(r as String))
+            .toList();
+      } else {
+        final roleStr = data['role'] as String? ?? 'student';
+        roles = [UserRoleX.fromDbString(roleStr)];
+      }
+
+      final primaryRole = roles.isNotEmpty ? roles.first : UserRole.guest;
 
       state = AuthState(
         user: user,
-        role: role,
+        role: primaryRole,
         fullName: data['full_name'] as String?,
         avatarUrl: data['avatar_url'] as String?,
         isLoading: false,
       );
     } catch (e) {
-
       final isMissingProfile = e.toString().contains('PGRST116');
 
       state = AuthState(

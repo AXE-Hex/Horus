@@ -29,7 +29,7 @@ class HueApp extends ConsumerWidget {
       locale: TranslationProvider.of(context).locale.flutterLocale,
       builder: (context, child) {
         return Semantics(
-          identifier: AxeFingerprint.identifier,
+          identifier: Axe.identifier,
           container: true,
           child: LiquidToastOverlay(child: child!),
         );

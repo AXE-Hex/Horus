@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,15 +5,16 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 
-class PlaceholderScreen extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class PlaceholderScreen extends ConsumerWidget {
   final String title;
   final String? subtitle;
 
   const PlaceholderScreen({super.key, required this.title, this.subtitle});
 
   @override
-  Widget build(BuildContext context) {
-    final isArabic = LocaleSettings.currentLocale == AppLocale.ar;
+  Widget build(BuildContext context, WidgetRef ref) {
     return GlassScaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -42,7 +42,7 @@ class PlaceholderScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              isArabic ? 'قريباً' : 'Coming Soon',
+              t.shared.coming_soon,
               style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -51,10 +51,7 @@ class PlaceholderScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              subtitle ??
-                  (isArabic
-                      ? 'هذه الميزة قيد التطوير.'
-                      : 'This feature is under development.'),
+              subtitle ?? (t.shared.this_feature_is_under_developm),
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 fontSize: 16,
