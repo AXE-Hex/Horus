@@ -518,7 +518,29 @@
     "title": "Student Management",
     "stats": "System Stats",
     "users": "Users",
-    "reports": "Reports"
+    "reports": "Reports",
+    "audit_logs": {
+      "title": "Audit Logs",
+      "no_logs_found": "No logs found matching the criteria.",
+      "tabs": {
+        "all": "All Logs",
+        "security": "Security",
+        "user_management": "User Management",
+        "data_updates": "Data Updates"
+      },
+      "labels": {
+        "actor": "Actor",
+        "table": "Table",
+        "record": "Record",
+        "action": "Action",
+        "old_data": "Old Data",
+        "new_data": "New Data",
+        "notes": "Notes",
+        "performed_by": "Performed By",
+        "close_details": "Close Details",
+        "view_details": "View Details"
+      }
+    }
   },
   "professor": {
     "dashboard_title": "Professor Dashboard",

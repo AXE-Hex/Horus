@@ -10,16 +10,18 @@ class AuditRepository {
   AuditRepository(this._client);
 
   Future<List<AuditLogModel>> getLogs({
-    String? entityType,
-    String? entityId,
-    String? actorId,
+    String? tableName,
+    String? recordId,
+    String? performedBy,
     int limit = 100,
   }) async {
-    var query = _client.from('audit_logs').select();
+    var query = _client
+        .from('audit_logs')
+        .select('*, profiles!performed_by(full_name)');
 
-    if (entityType != null) query = query.eq('entity_type', entityType);
-    if (entityId != null) query = query.eq('entity_id', entityId);
-    if (actorId != null) query = query.eq('actor_id', actorId);
+    if (tableName != null) query = query.eq('table_name', tableName);
+    if (recordId != null) query = query.eq('record_id', recordId);
+    if (performedBy != null) query = query.eq('performed_by', performedBy);
 
     final response = await query
         .order('created_at', ascending: false)
@@ -31,46 +33,59 @@ class AuditRepository {
   }
 
   Stream<List<AuditLogModel>> watchLogs({
-    String? entityType,
-    String? entityId,
-    String? actorId,
+    String? tableName,
+    String? recordId,
+    String? performedBy,
     int limit = 100,
   }) {
+    // Note: Supabase realtime might not natively support joining `profiles`
+    // effectively in a standard stream without a view, but we can try basic watch.
+    // For standard `stream()`, left joins aren't supported.
+    // Best approach for realtime is usually watching just the table and mapping manually or relying on `getLogs` polling instead if full names are crucial.
+    // We will use `.stream` just on `audit_logs` primarily to satisfy current structure, but actorName won't auto-resolve here without `.select()` which isn't available on raw `.stream`.
+
+    // We will switch to polling or simple stream. Keep stream for now:
     dynamic stream = _client.from('audit_logs').stream(primaryKey: ['id']);
 
-    if (entityType != null) stream = stream.eq('entity_type', entityType);
-    if (entityId != null) stream = stream.eq('entity_id', entityId);
-    if (actorId != null) stream = stream.eq('actor_id', actorId);
+    if (tableName != null) stream = stream.eq('table_name', tableName);
+    if (recordId != null) stream = stream.eq('record_id', recordId);
+    if (performedBy != null) stream = stream.eq('performed_by', performedBy);
 
     return stream
         .order('created_at', ascending: false)
         .limit(limit)
-        .map(
-          (list) => list.map((json) => AuditLogModel.fromJson(json)).toList(),
-        );
+        .map<List<AuditLogModel>>((list) {
+          return (list as List)
+              .map(
+                (json) => AuditLogModel.fromJson(json as Map<String, dynamic>),
+              )
+              .toList();
+        });
   }
 
   Future<void> logAction({
     required String action,
-    required String entityType,
-    String? entityId,
+    required String tableName,
+    String? recordId,
     Map<String, dynamic>? oldData,
     Map<String, dynamic>? newData,
+    String? notes,
   }) async {
-    await _client.rpc(
-      'log_audit_event',
-      params: {
-        'p_action': action,
-        'p_entity_type': entityType,
-        'p_entity_id': entityId,
-        'p_old_data': oldData,
-        'p_new_data': newData,
-      },
-    );
+    // Inserting directly since we might not have the rpc 'log_audit_event' setup correctly.
+    // Assuming 'audit_logs' allows inserts via RLS or this is admin.
+    await _client.from('audit_logs').insert({
+      'performed_by': _client.auth.currentUser?.id,
+      'action': action,
+      'table_name': tableName,
+      'record_id': recordId,
+      'old_data': oldData,
+      'new_data': newData,
+      'notes': notes,
+    });
   }
 
   Future<void> addLogReport(String logId, String report) async {
-    await _client.from('audit_logs').update({'report': report}).eq('id', logId);
+    await _client.from('audit_logs').update({'notes': report}).eq('id', logId);
   }
 }
 

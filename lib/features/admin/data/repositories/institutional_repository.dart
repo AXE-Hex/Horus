@@ -1,4 +1,5 @@
 import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -9,12 +10,22 @@ class InstitutionalRepository {
 
   InstitutionalRepository(this._client);
 
-  // Colleges
+  // ─── Colleges ───────────────────────────────────────────────
+
   Future<List<CollegeModel>> getColleges() async {
-    final response = await _client.from('colleges').select().order('name_en');
+    final response = await _client.from('colleges').select().order('name');
     return (response as List)
         .map((json) => CollegeModel.fromJson(json))
         .toList();
+  }
+
+  Future<CollegeModel> getCollegeById(String id) async {
+    final response = await _client
+        .from('colleges')
+        .select()
+        .eq('id', id)
+        .single();
+    return CollegeModel.fromJson(response);
   }
 
   Future<void> createCollege(Map<String, dynamic> data) async {
@@ -29,7 +40,8 @@ class InstitutionalRepository {
     await _client.from('colleges').delete().eq('id', id);
   }
 
-  // Departments
+  // ─── Departments ────────────────────────────────────────────
+
   Future<List<DepartmentModel>> getDepartments({String? collegeId}) async {
     var query = _client.from('departments').select();
     if (collegeId != null) {
@@ -39,6 +51,15 @@ class InstitutionalRepository {
     return (response as List)
         .map((json) => DepartmentModel.fromJson(json))
         .toList();
+  }
+
+  Future<DepartmentModel> getDepartmentById(String id) async {
+    final response = await _client
+        .from('departments')
+        .select()
+        .eq('id', id)
+        .single();
+    return DepartmentModel.fromJson(response);
   }
 
   Future<void> createDepartment(Map<String, dynamic> data) async {
@@ -53,7 +74,56 @@ class InstitutionalRepository {
     await _client.from('departments').delete().eq('id', id);
   }
 
-  // Department Projects
+  // ─── Staff Management ──────────────────────────────────────
+
+  /// Get all faculty/staff users assigned to a specific department
+  Future<List<UserProfileModel>> getStaffByDepartment(
+    String departmentId,
+  ) async {
+    final response = await _client
+        .from('profiles')
+        .select()
+        .eq('department_id', departmentId)
+        .order('full_name');
+    return (response as List)
+        .map((json) => UserProfileModel.fromJson(json))
+        .toList();
+  }
+
+  /// Get all faculty/staff users assigned to a specific college
+  Future<List<UserProfileModel>> getStaffByCollege(String collegeId) async {
+    final response = await _client
+        .from('profiles')
+        .select()
+        .eq('college_id', collegeId)
+        .order('full_name');
+    return (response as List)
+        .map((json) => UserProfileModel.fromJson(json))
+        .toList();
+  }
+
+  /// Assign a user to a department (and its parent college)
+  Future<void> assignStaffToDepartment(
+    String userId,
+    String departmentId,
+    String collegeId,
+  ) async {
+    await _client
+        .from('profiles')
+        .update({'department_id': departmentId, 'college_id': collegeId})
+        .eq('id', userId);
+  }
+
+  /// Remove a user from their department
+  Future<void> removeStaffFromDepartment(String userId) async {
+    await _client
+        .from('profiles')
+        .update({'department_id': null})
+        .eq('id', userId);
+  }
+
+  // ─── Department Projects ────────────────────────────────────
+
   Future<List<DepartmentProjectModel>> getDepartmentProjects(
     String departmentId,
   ) async {
@@ -67,7 +137,8 @@ class InstitutionalRepository {
         .toList();
   }
 
-  // Appointments
+  // ─── Appointments ───────────────────────────────────────────
+
   Future<List<AppointmentModel>> getAppointments({
     bool activeOnly = true,
   }) async {

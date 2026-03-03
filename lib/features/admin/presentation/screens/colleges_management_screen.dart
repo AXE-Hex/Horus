@@ -44,11 +44,7 @@ class CollegesManagementScreen extends ConsumerWidget {
           final colleges = snapshot.data ?? [];
 
           if (colleges.isEmpty) {
-            return Center(
-              child: Text(
-                t.admin.no_colleges_found,
-              ),
-            );
+            return Center(child: Text(t.admin.no_colleges_found));
           }
 
           return ListView.builder(
@@ -162,6 +158,7 @@ class CollegesManagementScreen extends ConsumerWidget {
   }) {
     final nameEnController = TextEditingController(text: college?.nameEn);
     final nameArController = TextEditingController(text: college?.nameAr);
+    final codeController = TextEditingController(text: college?.code);
     final descEnController = TextEditingController(
       text: college?.descriptionEn,
     );
@@ -184,6 +181,10 @@ class CollegesManagementScreen extends ConsumerWidget {
               TextField(
                 controller: nameArController,
                 decoration: const InputDecoration(labelText: 'Name (AR)'),
+              ),
+              TextField(
+                controller: codeController,
+                decoration: const InputDecoration(labelText: 'Code'),
               ),
               TextField(
                 controller: descEnController,
@@ -209,7 +210,9 @@ class CollegesManagementScreen extends ConsumerWidget {
             onPressed: () async {
               final data = {
                 'name': nameEnController.text,
+                'name_en': nameEnController.text,
                 'name_ar': nameArController.text,
+                'code': codeController.text,
                 'description': descEnController.text,
                 'description_ar': descArController.text,
               };
@@ -221,7 +224,6 @@ class CollegesManagementScreen extends ConsumerWidget {
               }
               if (!context.mounted) return;
               Navigator.pop(context);
-              // Trigger refresh (simple restart for now or use a provider for list)
             },
             child: Text(college == null ? 'Create' : 'Save'),
           ),

@@ -23,7 +23,10 @@ class CollegeDetailsScreen extends ConsumerStatefulWidget {
 }
 
 class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
-  // Simple mapping for themes based on college ID hash
+  late CollegeModel _college;
+  List<DepartmentModel> _departments = [];
+  bool _isLoadingDepts = true;
+
   Color _getCollegeTheme(String id) {
     final colors = [
       Colors.blueAccent,
@@ -39,9 +42,34 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _college = widget.college;
+    _loadDepartments();
+  }
+
+  Future<void> _loadDepartments() async {
+    setState(() => _isLoadingDepts = true);
+    try {
+      final repo = ref.read(institutionalRepositoryProvider);
+      final depts = await repo.getDepartments(collegeId: _college.id);
+      if (mounted) {
+        setState(() {
+          _departments = depts;
+          _isLoadingDepts = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoadingDepts = false);
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    final themeColor = _getCollegeTheme(widget.college.id);
+    final themeColor = _getCollegeTheme(_college.id);
 
     return Theme(
       data: Theme.of(context).copyWith(primaryColor: themeColor),
@@ -54,39 +82,26 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _buildHeader(isArabic, themeColor),
-              const SizedBox(height: 32),
-              _buildDeanSection(isArabic, themeColor),
-              const SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    t.admin.academic_departments_1,
-                    style: GoogleFonts.outfit(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(LucideIcons.plusCircle, color: themeColor),
-                    onPressed: () {
-                      context.push(
-                        '/admin/departments',
-                        extra: {'collegeId': widget.college.id},
-                      );
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              _buildDepartmentsList(isArabic, themeColor),
-            ],
+        body: RefreshIndicator(
+          onRefresh: _loadDepartments,
+          color: themeColor,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _buildHeader(isArabic, themeColor),
+                const SizedBox(height: 32),
+                _buildDeanSection(isArabic, themeColor),
+                const SizedBox(height: 32),
+                _buildFacultyStaffSection(isArabic, themeColor),
+                const SizedBox(height: 32),
+                _buildDepartmentsHeader(isArabic, themeColor),
+                const SizedBox(height: 16),
+                _buildDepartmentsList(isArabic, themeColor),
+              ],
+            ),
           ),
         ),
       ),
@@ -112,39 +127,66 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: themeColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: themeColor.withValues(alpha: 0.2)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      LucideIcons.graduationCap,
-                      size: 16,
-                      color: themeColor,
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
                     ),
+                    decoration: BoxDecoration(
+                      color: themeColor.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: themeColor.withValues(alpha: 0.2),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          LucideIcons.graduationCap,
+                          size: 16,
+                          color: themeColor,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          t.admin.college,
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: themeColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (_college.code != null) ...[
                     const SizedBox(width: 8),
-                    Text(
-                      t.admin.college,
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: themeColor,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        _college.code!,
+                        style: GoogleFonts.firaCode(
+                          fontSize: 11,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],
-                ),
+                ],
               ),
               const SizedBox(height: 20),
               Text(
-                isArabic ? widget.college.nameAr : widget.college.nameEn,
+                isArabic ? _college.nameAr : _college.nameEn,
                 style: GoogleFonts.outfit(
                   fontSize: 28,
                   fontWeight: FontWeight.w800,
@@ -153,15 +195,41 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                (isArabic
-                        ? widget.college.descriptionAr
-                        : widget.college.descriptionEn) ??
+                (isArabic ? _college.descriptionAr : _college.descriptionEn) ??
                     (t.admin.no_description_available),
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   color: Colors.white.withValues(alpha: 0.7),
                   height: 1.5,
                 ),
+              ),
+              const SizedBox(height: 20),
+              // Stats row
+              Row(
+                children: [
+                  _buildStatChip(
+                    LucideIcons.layoutGrid,
+                    '${_departments.length}',
+                    isArabic ? 'أقسام' : 'Departments',
+                    themeColor,
+                  ),
+                  const SizedBox(width: 12),
+                  _buildStatChip(
+                    LucideIcons.users,
+                    '${_college.studentCount}',
+                    isArabic ? 'طلاب' : 'Students',
+                    Colors.cyanAccent,
+                  ),
+                  if (_college.established != null) ...[
+                    const SizedBox(width: 12),
+                    _buildStatChip(
+                      LucideIcons.calendar,
+                      '${_college.established}',
+                      isArabic ? 'تأسيس' : 'Est.',
+                      Colors.amberAccent,
+                    ),
+                  ],
+                ],
               ),
             ],
           ),
@@ -170,8 +238,47 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     ).animate().fadeIn(duration: 600.ms).slideY(begin: -0.05);
   }
 
+  Widget _buildStatChip(
+    IconData icon,
+    String value,
+    String label,
+    Color color,
+  ) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.15)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: color),
+          const SizedBox(width: 6),
+          Text(
+            value,
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              color: color.withValues(alpha: 0.7),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDeanSection(bool isArabic, Color themeColor) {
-    if (widget.college.deanId == null) {
+    if (_college.deanId == null) {
       return GlassContainer(
         padding: const EdgeInsets.all(24),
         borderRadius: BorderRadius.circular(24),
@@ -228,7 +335,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     return usersAsync.when(
       data: (users) {
         final dean = users.firstWhere(
-          (u) => u.id == widget.college.deanId,
+          (u) => u.id == _college.deanId,
           orElse: () => UserProfileModel(
             id: 'unknown',
             email: 'unknown',
@@ -308,11 +415,14 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                               color: Colors.white.withValues(alpha: 0.5),
                             ),
                             const SizedBox(width: 6),
-                            Text(
-                              dean.email,
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                color: Colors.white.withValues(alpha: 0.5),
+                            Expanded(
+                              child: Text(
+                                dean.email,
+                                style: GoogleFonts.inter(
+                                  fontSize: 13,
+                                  color: Colors.white.withValues(alpha: 0.5),
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
@@ -331,121 +441,285 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     );
   }
 
-  Widget _buildDepartmentsList(bool isArabic, Color themeColor) {
-    return FutureBuilder<List<DepartmentModel>>(
+  Widget _buildFacultyStaffSection(bool isArabic, Color themeColor) {
+    return FutureBuilder<List<UserProfileModel>>(
       future: ref
           .read(institutionalRepositoryProvider)
-          .getDepartments(collegeId: widget.college.id),
+          .getStaffByCollege(_college.id),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-        final departments = snapshot.data ?? [];
+        final staffCount =
+            snapshot.connectionState == ConnectionState.done && snapshot.hasData
+            ? snapshot.data!.length
+            : 0;
 
-        if (departments.isEmpty) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: Column(
-                children: [
-                  Icon(
-                    LucideIcons.layoutGrid,
-                    size: 64,
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    t.admin.no_departments_in_this_college,
-                    style: GoogleFonts.inter(
-                      color: Colors.white.withValues(alpha: 0.4),
-                    ),
-                  ),
-                ],
+        return GlassContainer(
+          padding: const EdgeInsets.all(20),
+          borderRadius: BorderRadius.circular(20),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.cyanAccent.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(LucideIcons.users, color: Colors.cyanAccent),
               ),
-            ),
-          );
-        }
-
-        return ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: departments.length,
-          itemBuilder: (context, index) {
-            final dept = departments[index];
-            return Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: GlassContainer(
-                    onTap: () {
-                      context.push('/admin/departments/details', extra: dept);
-                    },
-                    padding: const EdgeInsets.all(20),
-                    borderRadius: BorderRadius.circular(20),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: themeColor.withValues(alpha: 0.1),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(LucideIcons.component, color: themeColor),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                isArabic ? dept.nameAr : dept.nameEn,
-                                style: GoogleFonts.outfit(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                (isArabic
-                                        ? dept.descriptionAr
-                                        : dept.descriptionEn) ??
-                                    '',
-                                style: GoogleFonts.inter(
-                                  fontSize: 13,
-                                  color: Colors.white.withValues(alpha: 0.5),
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Icon(
-                          isArabic
-                              ? LucideIcons.chevronLeft
-                              : LucideIcons.chevronRight,
-                          color: Colors.white.withValues(alpha: 0.3),
-                        ),
-                      ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t.admin.teaching_staff,
+                      style: GoogleFonts.outfit(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '$staffCount ${isArabic ? "عضو هيئة تدريس" : "Faculty Members"}',
+                      style: GoogleFonts.inter(
+                        fontSize: 13,
+                        color: Colors.white.withValues(alpha: 0.5),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.cyanAccent.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  '$staffCount',
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.cyanAccent,
                   ),
-                )
-                .animate()
-                .fadeIn(delay: (400 + index * 100).ms)
-                .slideY(begin: 0.1);
-          },
-        );
+                ),
+              ),
+            ],
+          ),
+        ).animate().fadeIn(delay: 300.ms).slideX(begin: 0.05);
       },
     );
   }
+
+  Widget _buildDepartmentsHeader(bool isArabic, Color themeColor) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          children: [
+            Text(
+              t.admin.academic_departments_1,
+              style: GoogleFonts.outfit(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: themeColor.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                '${_departments.length}',
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.bold,
+                  color: themeColor,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            IconButton(
+              icon: Icon(LucideIcons.plusCircle, color: themeColor),
+              onPressed: () => _showAddDepartmentDialog(isArabic, themeColor),
+              tooltip: isArabic ? 'إضافة قسم' : 'Add Department',
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDepartmentsList(bool isArabic, Color themeColor) {
+    if (_isLoadingDepts) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_departments.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            children: [
+              Icon(
+                LucideIcons.layoutGrid,
+                size: 64,
+                color: Colors.white.withValues(alpha: 0.1),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                t.admin.no_departments_in_this_college,
+                style: GoogleFonts.inter(
+                  color: Colors.white.withValues(alpha: 0.4),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton.icon(
+                onPressed: () => _showAddDepartmentDialog(isArabic, themeColor),
+                icon: const Icon(LucideIcons.plus, size: 18),
+                label: Text(isArabic ? 'إضافة قسم جديد' : 'Add Department'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: themeColor,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: _departments.length,
+      itemBuilder: (context, index) {
+        final dept = _departments[index];
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: GlassContainer(
+            onTap: () {
+              context.push('/admin/departments/details', extra: dept);
+            },
+            padding: const EdgeInsets.all(20),
+            borderRadius: BorderRadius.circular(20),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: themeColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(LucideIcons.component, color: themeColor),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        isArabic ? dept.nameAr : dept.nameEn,
+                        style: GoogleFonts.outfit(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          if (dept.code != null) ...[
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                dept.code!,
+                                style: GoogleFonts.firaCode(
+                                  fontSize: 10,
+                                  color: Colors.white60,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                          ],
+                          Expanded(
+                            child: Text(
+                              (isArabic
+                                      ? dept.descriptionAr
+                                      : dept.descriptionEn) ??
+                                  '',
+                              style: GoogleFonts.inter(
+                                fontSize: 13,
+                                color: Colors.white.withValues(alpha: 0.5),
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (dept.headId != null)
+                      Icon(
+                        LucideIcons.checkCircle2,
+                        size: 16,
+                        color: Colors.greenAccent.withValues(alpha: 0.7),
+                      )
+                    else
+                      Icon(
+                        LucideIcons.alertCircle,
+                        size: 16,
+                        color: Colors.orangeAccent.withValues(alpha: 0.7),
+                      ),
+                    const SizedBox(height: 4),
+                    Icon(
+                      isArabic
+                          ? LucideIcons.chevronLeft
+                          : LucideIcons.chevronRight,
+                      color: Colors.white.withValues(alpha: 0.3),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ).animate().fadeIn(delay: (400 + index * 100).ms).slideY(begin: 0.1);
+      },
+    );
+  }
+
+  // ─── Dialogs ───────────────────────────────────────────────
 
   void _showAssignDeanDialog(bool isArabic, Color themeColor) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1E1E2E), // Example dark modern bg
+          backgroundColor: const Color(0xFF1E1E2E),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
           title: Text(
             t.admin.assign_dean,
             style: GoogleFonts.outfit(color: Colors.white),
@@ -454,16 +728,16 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
             width: double.maxFinite,
             height: 400,
             child: _DeanSelectionList(
-              college: widget.college,
+              college: _college,
               themeColor: themeColor,
               onDeanSelected: (deanId) async {
                 final repo = ref.read(institutionalRepositoryProvider);
-                await repo.updateCollege(widget.college.id, {
-                  'dean_id': deanId,
-                });
+                await repo.updateCollege(_college.id, {'dean_id': deanId});
                 if (!context.mounted) return;
                 Navigator.pop(context);
-                setState(() {}); // Refresh screen to show new dean
+                // Reload college data
+                final updated = await repo.getCollegeById(_college.id);
+                setState(() => _college = updated);
               },
             ),
           ),
@@ -471,7 +745,148 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
       },
     );
   }
+
+  void _showAddDepartmentDialog(bool isArabic, Color themeColor) {
+    final nameEnController = TextEditingController();
+    final nameArController = TextEditingController();
+    final codeController = TextEditingController();
+    final descController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF1E1E2E),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          title: Row(
+            children: [
+              Icon(LucideIcons.layoutGrid, color: themeColor, size: 22),
+              const SizedBox(width: 10),
+              Text(
+                isArabic ? 'إضافة قسم جديد' : 'Add New Department',
+                style: GoogleFonts.outfit(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildTextField(
+                  nameEnController,
+                  isArabic ? 'اسم القسم (إنجليزي)' : 'Department Name (EN)',
+                  LucideIcons.type,
+                  themeColor,
+                ),
+                const SizedBox(height: 12),
+                _buildTextField(
+                  nameArController,
+                  isArabic ? 'اسم القسم (عربي)' : 'Department Name (AR)',
+                  LucideIcons.type,
+                  themeColor,
+                ),
+                const SizedBox(height: 12),
+                _buildTextField(
+                  codeController,
+                  isArabic ? 'رمز القسم' : 'Department Code',
+                  LucideIcons.hash,
+                  themeColor,
+                ),
+                const SizedBox(height: 12),
+                _buildTextField(
+                  descController,
+                  isArabic ? 'الوصف' : 'Description',
+                  LucideIcons.alignLeft,
+                  themeColor,
+                  maxLines: 3,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(
+                isArabic ? 'إلغاء' : 'Cancel',
+                style: const TextStyle(color: Colors.white54),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if (nameEnController.text.isEmpty ||
+                    nameArController.text.isEmpty ||
+                    codeController.text.isEmpty) {
+                  return;
+                }
+                final repo = ref.read(institutionalRepositoryProvider);
+                await repo.createDepartment({
+                  'college_id': _college.id,
+                  'name': nameEnController.text,
+                  'name_en': nameEnController.text,
+                  'name_ar': nameArController.text,
+                  'code': codeController.text,
+                  'description': descController.text,
+                  'description_ar': descController.text,
+                });
+                if (!dialogContext.mounted) return;
+                Navigator.pop(dialogContext);
+                _loadDepartments();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: themeColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(isArabic ? 'إضافة' : 'Add'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label,
+    IconData icon,
+    Color themeColor, {
+    int maxLines = 1,
+  }) {
+    return TextField(
+      controller: controller,
+      maxLines: maxLines,
+      style: GoogleFonts.inter(color: Colors.white),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.inter(color: Colors.white54, fontSize: 13),
+        prefixIcon: Icon(icon, size: 18, color: themeColor),
+        filled: true,
+        fillColor: Colors.white.withValues(alpha: 0.05),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: themeColor),
+        ),
+      ),
+    );
+  }
 }
+
+// ─── Dean Selection List ─────────────────────────────────────
 
 class _DeanSelectionList extends ConsumerWidget {
   final CollegeModel college;
@@ -490,7 +905,6 @@ class _DeanSelectionList extends ConsumerWidget {
 
     return usersAsync.when(
       data: (users) {
-        // Filter users who might be eligible for Dean (simplified logic, usually would check roles)
         final staffUsers = users
             .where((u) => u.isActive && !u.isBanned)
             .toList();

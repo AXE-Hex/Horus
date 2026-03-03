@@ -892,7 +892,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
   Widget _buildAccountInfoCard(
     BuildContext context,
-    dynamic auth,
+    AuthState auth,
     bool isArabic,
     Color primaryColor,
   ) {

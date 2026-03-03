@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-// ignore: unnecessary_import
 import 'package:hue/core/auth/roles.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:hue/features/admin/presentation/providers/users_provider.dart';
 import 'package:hue/features/admin/presentation/providers/admin_stats_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
@@ -23,7 +24,7 @@ class StudentManagementScreen extends ConsumerStatefulWidget {
 class _StudentManagementScreenState
     extends ConsumerState<StudentManagementScreen> {
   final _searchController = TextEditingController();
-  String _levelFilter = 'all'; // all, 1, 2, 3, 4, 5
+  String _levelFilter = 'all';
   String _searchQuery = '';
 
   @override
@@ -35,6 +36,7 @@ class _StudentManagementScreenState
   @override
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
+    final primaryColor = Theme.of(context).primaryColor;
     final totalStudentsAsync = ref.watch(totalStudentCountProvider);
 
     return GlassScaffold(
@@ -42,45 +44,61 @@ class _StudentManagementScreenState
       appBar: AppBar(
         title: Text(
           t.admin.student_management,
-          style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.w900,
+            letterSpacing: -0.5,
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.userPlus),
-            onPressed: () => context.push(
-              '/admin/users/new',
-              extra: {'category': RoleCategory.studentRoles},
+          Container(
+            margin: const EdgeInsets.only(right: 12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [primaryColor, primaryColor.withValues(alpha: 0.7)],
+              ),
+              borderRadius: BorderRadius.circular(14),
+              boxShadow: [
+                BoxShadow(
+                  color: primaryColor.withValues(alpha: 0.3),
+                  blurRadius: 12,
+                  spreadRadius: -2,
+                ),
+              ],
+            ),
+            child: IconButton(
+              icon: const Icon(LucideIcons.userPlus, size: 18),
+              color: Colors.white,
+              onPressed: () => context.push(
+                '/admin/users/new',
+                extra: {'category': RoleCategory.studentRoles},
+              ),
             ),
           ),
-          const SizedBox(width: 8),
         ],
       ),
       body: Column(
         children: [
-          // ── Specialized Stats Section
-          _buildQuickStats(isArabic, totalStudentsAsync),
-
-          // ── Filter Bar
-          _buildFilterBar(isArabic),
-
-          // ── Search Section
+          _buildQuickStats(isArabic, totalStudentsAsync, primaryColor),
+          _buildFilterBar(isArabic, primaryColor),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-            child: _buildSearchBar(isArabic),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            child: _buildSearchBar(isArabic, primaryColor),
           ),
-
-          // ── Students List
-          Expanded(child: _buildStudentsList(isArabic)),
+          Expanded(child: _buildStudentsList(isArabic, primaryColor)),
         ],
       ),
     );
   }
 
-  Widget _buildQuickStats(bool isArabic, AsyncValue<int> total) {
+  Widget _buildQuickStats(
+    bool isArabic,
+    AsyncValue<int> total,
+    Color primaryColor,
+  ) {
     return Container(
-      height: 120,
+      height: 110,
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: ListView(
         scrollDirection: Axis.horizontal,
@@ -95,13 +113,13 @@ class _StudentManagementScreenState
           ),
           _StatMiniCard(
             label: t.admin.academic_warnings,
-            valueAsync: const AsyncValue.data(5), // Mock for now
+            valueAsync: const AsyncValue.data(5),
             icon: LucideIcons.alertTriangle,
             color: Colors.orangeAccent,
           ),
           _StatMiniCard(
             label: t.admin.pending_reg,
-            valueAsync: const AsyncValue.data(12), // Mock for now
+            valueAsync: const AsyncValue.data(12),
             icon: LucideIcons.clipboardList,
             color: const Color(0xFF6366F1),
           ),
@@ -110,23 +128,25 @@ class _StudentManagementScreenState
     );
   }
 
-  Widget _buildFilterBar(bool isArabic) {
+  Widget _buildFilterBar(bool isArabic, Color primaryColor) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
       child: Row(
         children: [
-          _FilterChip(
-            label: t.admin.all_levels,
-            isSelected: _levelFilter == 'all',
-            onTap: () => setState(() => _levelFilter = 'all'),
+          _buildFilterChip(
+            t.admin.all_levels,
+            _levelFilter == 'all',
+            () => setState(() => _levelFilter = 'all'),
+            primaryColor,
           ),
           ...List.generate(5, (index) {
             final level = (index + 1).toString();
-            return _FilterChip(
-              label: t.admin.level_level,
-              isSelected: _levelFilter == level,
-              onTap: () => setState(() => _levelFilter = level),
+            return _buildFilterChip(
+              '${t.admin.level_level} $level',
+              _levelFilter == level,
+              () => setState(() => _levelFilter = level),
+              primaryColor,
             );
           }),
         ],
@@ -134,28 +154,77 @@ class _StudentManagementScreenState
     );
   }
 
-  Widget _buildSearchBar(bool isArabic) {
-    return GlassContainer(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      borderRadius: BorderRadius.circular(24),
-      child: TextField(
-        controller: _searchController,
-        onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
-        style: GoogleFonts.inter(fontSize: 14),
-        decoration: InputDecoration(
-          hintText: t.admin.search_student_or_id,
-          prefixIcon: const Icon(
-            LucideIcons.search,
-            size: 18,
-            color: Colors.white38,
+  Widget _buildFilterChip(
+    String label,
+    bool isSelected,
+    VoidCallback onTap,
+    Color primaryColor,
+  ) {
+    return GestureDetector(
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onTap();
+      },
+      child: AnimatedContainer(
+        duration: 200.ms,
+        margin: const EdgeInsets.only(right: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? primaryColor.withValues(alpha: 0.15)
+              : Colors.white.withValues(alpha: 0.04),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isSelected
+                ? primaryColor.withValues(alpha: 0.4)
+                : Colors.white.withValues(alpha: 0.06),
           ),
-          border: InputBorder.none,
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 13,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+            color: isSelected ? primaryColor : Colors.white60,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildStudentsList(bool isArabic) {
+  Widget _buildSearchBar(bool isArabic, Color primaryColor) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white.withValues(alpha: 0.05),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      ),
+      child: TextField(
+        controller: _searchController,
+        onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
+        style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
+        decoration: InputDecoration(
+          hintText: t.admin.search_student_or_id,
+          hintStyle: GoogleFonts.inter(
+            fontSize: 13,
+            color: Colors.white.withValues(alpha: 0.25),
+          ),
+          prefixIcon: Icon(
+            LucideIcons.search,
+            size: 18,
+            color: Colors.white.withValues(alpha: 0.35),
+          ),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStudentsList(bool isArabic, Color primaryColor) {
     final studentsAsync = ref.watch(
       usersControllerProvider(category: RoleCategory.studentRoles),
     );
@@ -165,21 +234,26 @@ class _StudentManagementScreenState
         final filtered = users.where((u) {
           final matchesSearch =
               u.fullName.toLowerCase().contains(_searchQuery) ||
-              (u.studentId?.toLowerCase().contains(_searchQuery) ?? false);
+              (u.studentId?.toLowerCase().contains(_searchQuery) ?? false) ||
+              u.email.toLowerCase().contains(_searchQuery);
           return matchesSearch;
         }).toList();
 
-        if (filtered.isEmpty) return _buildEmptyState(isArabic);
+        if (filtered.isEmpty) return _buildEmptyState();
 
         return ListView.builder(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
             final student = filtered[index];
-            return _StudentCard(student: student, isArabic: isArabic)
+            return _StudentCard(
+                  student: student,
+                  isArabic: isArabic,
+                  primaryColor: primaryColor,
+                )
                 .animate()
-                .fadeIn(delay: (index * 40).ms)
-                .slideX(begin: isArabic ? -0.05 : 0.05);
+                .fadeIn(delay: (index * 35).ms, duration: 300.ms)
+                .slideX(begin: isArabic ? -0.03 : 0.03, end: 0);
           },
         );
       },
@@ -188,20 +262,33 @@ class _StudentManagementScreenState
     );
   }
 
-  Widget _buildEmptyState(bool isArabic) {
+  Widget _buildEmptyState() {
     return Center(
-      child: Opacity(
-        opacity: 0.5,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(LucideIcons.graduationCap, size: 64),
-            const SizedBox(height: 16),
-            Text(
-              t.admin.no_matching_students_found,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 90,
+            height: 90,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: const Color(0xFF10B981).withValues(alpha: 0.06),
             ),
-          ],
-        ),
+            child: const Icon(
+              LucideIcons.graduationCap,
+              size: 36,
+              color: Color(0xFF10B981),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            t.admin.no_matching_students_found,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              color: Colors.white.withValues(alpha: 0.3),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -223,16 +310,16 @@ class _StatMiniCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassContainer(
-      width: 150,
-      margin: const EdgeInsets.only(right: 12),
-      padding: const EdgeInsets.all(12),
+      width: 145,
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.all(14),
       borderRadius: BorderRadius.circular(20),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withValues(alpha: 0.1),
+              color: color.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, size: 16, color: color),
@@ -247,8 +334,8 @@ class _StatMiniCard extends StatelessWidget {
                   data: (val) => Text(
                     val.toString(),
                     style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 20,
                     ),
                   ),
                   loading: () => const SizedBox(
@@ -262,7 +349,7 @@ class _StatMiniCard extends StatelessWidget {
                   label,
                   style: GoogleFonts.outfit(
                     fontSize: 10,
-                    color: Colors.white60,
+                    color: Colors.white.withValues(alpha: 0.4),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -276,122 +363,170 @@ class _StatMiniCard extends StatelessWidget {
   }
 }
 
-class _FilterChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-  final VoidCallback onTap;
+class _StudentCard extends StatelessWidget {
+  final UserProfileModel student;
+  final bool isArabic;
+  final Color primaryColor;
 
-  const _FilterChip({
-    required this.label,
-    required this.isSelected,
-    required this.onTap,
+  const _StudentCard({
+    required this.student,
+    required this.isArabic,
+    required this.primaryColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    final primary = Theme.of(context).primaryColor;
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(right: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? primary.withValues(alpha: 0.15)
-              : Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected ? primary : Colors.white.withValues(alpha: 0.05),
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.outfit(
-            fontSize: 13,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected ? primary : Colors.white70,
-          ),
-        ),
-      ),
-    );
-  }
-}
+    final statusColor = student.isBanned
+        ? const Color(0xFFEF4444)
+        : (student.isActive
+              ? const Color(0xFF10B981)
+              : const Color(0xFFF59E0B));
 
-class _StudentCard extends StatelessWidget {
-  final dynamic student;
-  final bool isArabic;
-
-  const _StudentCard({required this.student, required this.isArabic});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
       child: GlassContainer(
-        padding: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(24),
+        padding: const EdgeInsets.all(14),
+        borderRadius: BorderRadius.circular(22),
         onTap: () => context.push('/admin/users/details', extra: student),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 26,
-              backgroundImage: student.avatarUrl != null
-                  ? NetworkImage(student.avatarUrl!)
-                  : null,
-              child: student.avatarUrl == null
-                  ? const Icon(LucideIcons.user)
-                  : null,
+            Stack(
+              children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [
+                        const Color(0xFF10B981).withValues(alpha: 0.3),
+                        const Color(0xFF10B981).withValues(alpha: 0.1),
+                      ],
+                    ),
+                  ),
+                  child: student.avatarUrl != null
+                      ? ClipOval(
+                          child: Image.network(
+                            student.avatarUrl!,
+                            fit: BoxFit.cover,
+                            width: 50,
+                            height: 50,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                                  LucideIcons.user,
+                                  size: 22,
+                                  color: Colors.white70,
+                                ),
+                          ),
+                        )
+                      : const Icon(
+                          LucideIcons.user,
+                          size: 22,
+                          color: Colors.white70,
+                        ),
+                ),
+                Positioned(
+                  bottom: 1,
+                  right: 1,
+                  child: Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: statusColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF0A0A1A),
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    student.fullName,
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
                   Row(
                     children: [
-                      Icon(LucideIcons.hash, size: 10, color: Colors.white38),
+                      Flexible(
+                        child: Text(
+                          student.fullName,
+                          style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      if (student.isVerified) ...[
+                        const SizedBox(width: 6),
+                        const Icon(
+                          LucideIcons.badgeCheck,
+                          size: 14,
+                          color: Color(0xFF10B981),
+                        ),
+                      ],
+                      if (student.warningLevel > 0) ...[
+                        const SizedBox(width: 4),
+                        const Icon(
+                          LucideIcons.alertTriangle,
+                          size: 12,
+                          color: Colors.orangeAccent,
+                        ),
+                      ],
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      Icon(
+                        LucideIcons.hash,
+                        size: 10,
+                        color: Colors.white.withValues(alpha: 0.3),
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         student.studentId ?? 'N/A',
                         style: GoogleFonts.shareTechMono(
                           fontSize: 11,
-                          color: Colors.white38,
+                          color: Colors.white.withValues(alpha: 0.35),
                         ),
                       ),
                       const Spacer(),
-                      _buildLevelBadge(context, 'Level 2'), // Mock Level
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: primaryColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: primaryColor.withValues(alpha: 0.2),
+                          ),
+                        ),
+                        child: Text(
+                          student.roles.isNotEmpty
+                              ? student.roles.first.displayName(
+                                  isArabic: isArabic,
+                                )
+                              : '—',
+                          style: GoogleFonts.inter(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: primaryColor,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLevelBadge(BuildContext context, String level) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        level,
-        style: GoogleFonts.outfit(
-          fontSize: 10,
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).primaryColor,
         ),
       ),
     );

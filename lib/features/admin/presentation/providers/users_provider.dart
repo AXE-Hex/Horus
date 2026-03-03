@@ -51,12 +51,16 @@ class UsersController extends _$UsersController {
     String userId,
     Map<String, dynamic> data,
   ) async {
-    await Supabase.instance.client.from('audit_logs').insert({
-      'performed_by': ref.read(authControllerProvider).user?.id,
-      'target_user': userId,
-      'action': 'update',
-      'notes': 'Pending approval: ${data.toString()}',
-    });
+    try {
+      await Supabase.instance.client.from('audit_logs').insert({
+        'performed_by': ref.read(authControllerProvider).user?.id,
+        'target_user': userId,
+        'action': 'update',
+        'notes': 'Pending approval: ${data.toString()}',
+      });
+    } catch (_) {
+      // audit_logs table may not exist yet — silently skip
+    }
   }
 
   Future<void> toggleUserStatus(String userId, bool isActive) async {

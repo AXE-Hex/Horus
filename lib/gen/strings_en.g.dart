@@ -40,45 +40,45 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
-	late final TranslationsCommonEn common = TranslationsCommonEn.internal(_root);
-	late final TranslationsWelcomeEn welcome = TranslationsWelcomeEn.internal(_root);
-	late final TranslationsOnboardingEn onboarding = TranslationsOnboardingEn.internal(_root);
-	late final TranslationsAuthEn auth = TranslationsAuthEn.internal(_root);
-	late final TranslationsHomeEn home = TranslationsHomeEn.internal(_root);
-	late final TranslationsFeedEn feed = TranslationsFeedEn.internal(_root);
-	late final TranslationsDashboardEn dashboard = TranslationsDashboardEn.internal(_root);
-	late final TranslationsSettingsEn settings = TranslationsSettingsEn.internal(_root);
-	late final TranslationsCollegesEn colleges = TranslationsCollegesEn.internal(_root);
-	late final TranslationsTranscriptEn transcript = TranslationsTranscriptEn.internal(_root);
-	late final TranslationsAcademicProgressEn academic_progress = TranslationsAcademicProgressEn.internal(_root);
-	late final TranslationsGradesEn grades = TranslationsGradesEn.internal(_root);
-	late final TranslationsSubjectResultsEn subject_results = TranslationsSubjectResultsEn.internal(_root);
-	late final TranslationsActionPlanEn action_plan = TranslationsActionPlanEn.internal(_root);
-	late final TranslationsCoursesEn courses = TranslationsCoursesEn.internal(_root);
-	late final TranslationsScheduleEn schedule = TranslationsScheduleEn.internal(_root);
-	late final TranslationsExamScheduleEn exam_schedule = TranslationsExamScheduleEn.internal(_root);
-	late final TranslationsAttendanceEn attendance = TranslationsAttendanceEn.internal(_root);
-	late final TranslationsRegistrationEn registration = TranslationsRegistrationEn.internal(_root);
-	late final TranslationsPaymentEn payment = TranslationsPaymentEn.internal(_root);
-	late final TranslationsInvoicesEn invoices = TranslationsInvoicesEn.internal(_root);
-	late final TranslationsNotificationsEn notifications = TranslationsNotificationsEn.internal(_root);
-	late final TranslationsSupportEn support = TranslationsSupportEn.internal(_root);
-	late final TranslationsSecurityEn security = TranslationsSecurityEn.internal(_root);
-	late final TranslationsTutorialsEn tutorials = TranslationsTutorialsEn.internal(_root);
-	late final TranslationsForumsEn forums = TranslationsForumsEn.internal(_root);
-	late final TranslationsAdministrationEn administration = TranslationsAdministrationEn.internal(_root);
-	late final TranslationsProfessorEn professor = TranslationsProfessorEn.internal(_root);
-	late final TranslationsRolesEn roles = TranslationsRolesEn.internal(_root);
-	late final TranslationsAcademicEn academic = TranslationsAcademicEn.internal(_root);
-	late final TranslationsAdminEn admin = TranslationsAdminEn.internal(_root);
-	late final TranslationsEnrollmentEn enrollment = TranslationsEnrollmentEn.internal(_root);
-	late final TranslationsSharedEn shared = TranslationsSharedEn.internal(_root);
-	late final TranslationsStudentsEn students = TranslationsStudentsEn.internal(_root);
+	late final TranslationsCommonEn common = TranslationsCommonEn._(_root);
+	late final TranslationsWelcomeEn welcome = TranslationsWelcomeEn._(_root);
+	late final TranslationsOnboardingEn onboarding = TranslationsOnboardingEn._(_root);
+	late final TranslationsAuthEn auth = TranslationsAuthEn._(_root);
+	late final TranslationsHomeEn home = TranslationsHomeEn._(_root);
+	late final TranslationsFeedEn feed = TranslationsFeedEn._(_root);
+	late final TranslationsDashboardEn dashboard = TranslationsDashboardEn._(_root);
+	late final TranslationsSettingsEn settings = TranslationsSettingsEn._(_root);
+	late final TranslationsCollegesEn colleges = TranslationsCollegesEn._(_root);
+	late final TranslationsTranscriptEn transcript = TranslationsTranscriptEn._(_root);
+	late final TranslationsAcademicProgressEn academic_progress = TranslationsAcademicProgressEn._(_root);
+	late final TranslationsGradesEn grades = TranslationsGradesEn._(_root);
+	late final TranslationsSubjectResultsEn subject_results = TranslationsSubjectResultsEn._(_root);
+	late final TranslationsActionPlanEn action_plan = TranslationsActionPlanEn._(_root);
+	late final TranslationsCoursesEn courses = TranslationsCoursesEn._(_root);
+	late final TranslationsScheduleEn schedule = TranslationsScheduleEn._(_root);
+	late final TranslationsExamScheduleEn exam_schedule = TranslationsExamScheduleEn._(_root);
+	late final TranslationsAttendanceEn attendance = TranslationsAttendanceEn._(_root);
+	late final TranslationsRegistrationEn registration = TranslationsRegistrationEn._(_root);
+	late final TranslationsPaymentEn payment = TranslationsPaymentEn._(_root);
+	late final TranslationsInvoicesEn invoices = TranslationsInvoicesEn._(_root);
+	late final TranslationsNotificationsEn notifications = TranslationsNotificationsEn._(_root);
+	late final TranslationsSupportEn support = TranslationsSupportEn._(_root);
+	late final TranslationsSecurityEn security = TranslationsSecurityEn._(_root);
+	late final TranslationsTutorialsEn tutorials = TranslationsTutorialsEn._(_root);
+	late final TranslationsForumsEn forums = TranslationsForumsEn._(_root);
+	late final TranslationsAdministrationEn administration = TranslationsAdministrationEn._(_root);
+	late final TranslationsProfessorEn professor = TranslationsProfessorEn._(_root);
+	late final TranslationsRolesEn roles = TranslationsRolesEn._(_root);
+	late final TranslationsAcademicEn academic = TranslationsAcademicEn._(_root);
+	late final TranslationsAdminEn admin = TranslationsAdminEn._(_root);
+	late final TranslationsEnrollmentEn enrollment = TranslationsEnrollmentEn._(_root);
+	late final TranslationsSharedEn shared = TranslationsSharedEn._(_root);
+	late final TranslationsStudentsEn students = TranslationsStudentsEn._(_root);
 }
 
 // Path: common
 class TranslationsCommonEn {
-	TranslationsCommonEn.internal(this._root);
+	TranslationsCommonEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -102,7 +102,7 @@ class TranslationsCommonEn {
 
 // Path: welcome
 class TranslationsWelcomeEn {
-	TranslationsWelcomeEn.internal(this._root);
+	TranslationsWelcomeEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -132,7 +132,7 @@ class TranslationsWelcomeEn {
 
 // Path: onboarding
 class TranslationsOnboardingEn {
-	TranslationsOnboardingEn.internal(this._root);
+	TranslationsOnboardingEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -141,7 +141,7 @@ class TranslationsOnboardingEn {
 	/// en: 'Onboarding'
 	String get title => 'Onboarding';
 
-	late final TranslationsOnboardingLanguageEn language = TranslationsOnboardingLanguageEn.internal(_root);
+	late final TranslationsOnboardingLanguageEn language = TranslationsOnboardingLanguageEn._(_root);
 
 	/// en: 'Choose Your Language'
 	String get choose_language => 'Choose Your Language';
@@ -185,20 +185,20 @@ class TranslationsOnboardingEn {
 	/// en: 'Dark Mode'
 	String get dark_mode => 'Dark Mode';
 
-	late final TranslationsOnboardingFacultiesDirectoryEn faculties_directory = TranslationsOnboardingFacultiesDirectoryEn.internal(_root);
-	late final TranslationsOnboardingStyleEn style = TranslationsOnboardingStyleEn.internal(_root);
-	late final TranslationsOnboardingThemeEn theme = TranslationsOnboardingThemeEn.internal(_root);
+	late final TranslationsOnboardingFacultiesDirectoryEn faculties_directory = TranslationsOnboardingFacultiesDirectoryEn._(_root);
+	late final TranslationsOnboardingStyleEn style = TranslationsOnboardingStyleEn._(_root);
+	late final TranslationsOnboardingThemeEn theme = TranslationsOnboardingThemeEn._(_root);
 }
 
 // Path: auth
 class TranslationsAuthEn {
-	TranslationsAuthEn.internal(this._root);
+	TranslationsAuthEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsAuthLoginEn login = TranslationsAuthLoginEn.internal(_root);
-	late final TranslationsAuthForgotPasswordEn forgot_password = TranslationsAuthForgotPasswordEn.internal(_root);
+	late final TranslationsAuthLoginEn login = TranslationsAuthLoginEn._(_root);
+	late final TranslationsAuthForgotPasswordEn forgot_password = TranslationsAuthForgotPasswordEn._(_root);
 
 	/// en: 'Back'
 	String get back => 'Back';
@@ -209,12 +209,12 @@ class TranslationsAuthEn {
 
 // Path: home
 class TranslationsHomeEn {
-	TranslationsHomeEn.internal(this._root);
+	TranslationsHomeEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsHomeTabsEn tabs = TranslationsHomeTabsEn.internal(_root);
+	late final TranslationsHomeTabsEn tabs = TranslationsHomeTabsEn._(_root);
 
 	/// en: 'Home'
 	String get home => 'Home';
@@ -243,7 +243,7 @@ class TranslationsHomeEn {
 
 // Path: feed
 class TranslationsFeedEn {
-	TranslationsFeedEn.internal(this._root);
+	TranslationsFeedEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -261,20 +261,20 @@ class TranslationsFeedEn {
 
 // Path: dashboard
 class TranslationsDashboardEn {
-	TranslationsDashboardEn.internal(this._root);
+	TranslationsDashboardEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsDashboardIdCardEn id_card = TranslationsDashboardIdCardEn.internal(_root);
-	late final TranslationsDashboardSectionsEn sections = TranslationsDashboardSectionsEn.internal(_root);
-	late final TranslationsDashboardItemsEn items = TranslationsDashboardItemsEn.internal(_root);
-	late final TranslationsDashboardLabelsEn labels = TranslationsDashboardLabelsEn.internal(_root);
+	late final TranslationsDashboardIdCardEn id_card = TranslationsDashboardIdCardEn._(_root);
+	late final TranslationsDashboardSectionsEn sections = TranslationsDashboardSectionsEn._(_root);
+	late final TranslationsDashboardItemsEn items = TranslationsDashboardItemsEn._(_root);
+	late final TranslationsDashboardLabelsEn labels = TranslationsDashboardLabelsEn._(_root);
 }
 
 // Path: settings
 class TranslationsSettingsEn {
-	TranslationsSettingsEn.internal(this._root);
+	TranslationsSettingsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -283,9 +283,9 @@ class TranslationsSettingsEn {
 	/// en: 'Settings'
 	String get title => 'Settings';
 
-	late final TranslationsSettingsSectionsEn sections = TranslationsSettingsSectionsEn.internal(_root);
-	late final TranslationsSettingsTilesEn tiles = TranslationsSettingsTilesEn.internal(_root);
-	late final TranslationsSettingsMessagesEn messages = TranslationsSettingsMessagesEn.internal(_root);
+	late final TranslationsSettingsSectionsEn sections = TranslationsSettingsSectionsEn._(_root);
+	late final TranslationsSettingsTilesEn tiles = TranslationsSettingsTilesEn._(_root);
+	late final TranslationsSettingsMessagesEn messages = TranslationsSettingsMessagesEn._(_root);
 
 	/// en: 'User'
 	String get user => 'User';
@@ -431,12 +431,12 @@ class TranslationsSettingsEn {
 
 // Path: colleges
 class TranslationsCollegesEn {
-	TranslationsCollegesEn.internal(this._root);
+	TranslationsCollegesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsCollegesDetailsEn details = TranslationsCollegesDetailsEn.internal(_root);
+	late final TranslationsCollegesDetailsEn details = TranslationsCollegesDetailsEn._(_root);
 
 	/// en: 'Faculty of Applied Health Sciences'
 	String get applied_health_sciences => 'Faculty of Applied Health Sciences';
@@ -468,12 +468,12 @@ class TranslationsCollegesEn {
 	/// en: 'Faculty of Artificial Intelligence'
 	String get ai => 'Faculty of Artificial Intelligence';
 
-	late final TranslationsCollegesDepartmentsEn departments = TranslationsCollegesDepartmentsEn.internal(_root);
+	late final TranslationsCollegesDepartmentsEn departments = TranslationsCollegesDepartmentsEn._(_root);
 }
 
 // Path: transcript
 class TranslationsTranscriptEn {
-	TranslationsTranscriptEn.internal(this._root);
+	TranslationsTranscriptEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -482,14 +482,14 @@ class TranslationsTranscriptEn {
 	/// en: 'Academic Transcript'
 	String get title => 'Academic Transcript';
 
-	late final TranslationsTranscriptOverviewEn overview = TranslationsTranscriptOverviewEn.internal(_root);
-	late final TranslationsTranscriptSemesterEn semester = TranslationsTranscriptSemesterEn.internal(_root);
-	late final TranslationsTranscriptCourseEn course = TranslationsTranscriptCourseEn.internal(_root);
+	late final TranslationsTranscriptOverviewEn overview = TranslationsTranscriptOverviewEn._(_root);
+	late final TranslationsTranscriptSemesterEn semester = TranslationsTranscriptSemesterEn._(_root);
+	late final TranslationsTranscriptCourseEn course = TranslationsTranscriptCourseEn._(_root);
 }
 
 // Path: academic_progress
 class TranslationsAcademicProgressEn {
-	TranslationsAcademicProgressEn.internal(this._root);
+	TranslationsAcademicProgressEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -504,13 +504,13 @@ class TranslationsAcademicProgressEn {
 	/// en: 'Total Credits'
 	String get total_credits => 'Total Credits';
 
-	late final TranslationsAcademicProgressCategoriesEn categories = TranslationsAcademicProgressCategoriesEn.internal(_root);
-	late final TranslationsAcademicProgressStatusEn status = TranslationsAcademicProgressStatusEn.internal(_root);
+	late final TranslationsAcademicProgressCategoriesEn categories = TranslationsAcademicProgressCategoriesEn._(_root);
+	late final TranslationsAcademicProgressStatusEn status = TranslationsAcademicProgressStatusEn._(_root);
 }
 
 // Path: grades
 class TranslationsGradesEn {
-	TranslationsGradesEn.internal(this._root);
+	TranslationsGradesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -540,7 +540,7 @@ class TranslationsGradesEn {
 
 // Path: subject_results
 class TranslationsSubjectResultsEn {
-	TranslationsSubjectResultsEn.internal(this._root);
+	TranslationsSubjectResultsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -567,7 +567,7 @@ class TranslationsSubjectResultsEn {
 
 // Path: action_plan
 class TranslationsActionPlanEn {
-	TranslationsActionPlanEn.internal(this._root);
+	TranslationsActionPlanEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -594,7 +594,7 @@ class TranslationsActionPlanEn {
 
 // Path: courses
 class TranslationsCoursesEn {
-	TranslationsCoursesEn.internal(this._root);
+	TranslationsCoursesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -618,7 +618,7 @@ class TranslationsCoursesEn {
 
 // Path: schedule
 class TranslationsScheduleEn {
-	TranslationsScheduleEn.internal(this._root);
+	TranslationsScheduleEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -720,7 +720,7 @@ class TranslationsScheduleEn {
 
 // Path: exam_schedule
 class TranslationsExamScheduleEn {
-	TranslationsExamScheduleEn.internal(this._root);
+	TranslationsExamScheduleEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -741,7 +741,7 @@ class TranslationsExamScheduleEn {
 
 // Path: attendance
 class TranslationsAttendanceEn {
-	TranslationsAttendanceEn.internal(this._root);
+	TranslationsAttendanceEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -762,12 +762,12 @@ class TranslationsAttendanceEn {
 	/// en: 'Attendance Ratio'
 	String get ratio => 'Attendance Ratio';
 
-	late final TranslationsAttendanceSubjectsEn subjects = TranslationsAttendanceSubjectsEn.internal(_root);
+	late final TranslationsAttendanceSubjectsEn subjects = TranslationsAttendanceSubjectsEn._(_root);
 }
 
 // Path: registration
 class TranslationsRegistrationEn {
-	TranslationsRegistrationEn.internal(this._root);
+	TranslationsRegistrationEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -848,7 +848,7 @@ class TranslationsRegistrationEn {
 
 // Path: payment
 class TranslationsPaymentEn {
-	TranslationsPaymentEn.internal(this._root);
+	TranslationsPaymentEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -884,7 +884,7 @@ class TranslationsPaymentEn {
 
 // Path: invoices
 class TranslationsInvoicesEn {
-	TranslationsInvoicesEn.internal(this._root);
+	TranslationsInvoicesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -917,7 +917,7 @@ class TranslationsInvoicesEn {
 
 // Path: notifications
 class TranslationsNotificationsEn {
-	TranslationsNotificationsEn.internal(this._root);
+	TranslationsNotificationsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -932,7 +932,7 @@ class TranslationsNotificationsEn {
 
 // Path: support
 class TranslationsSupportEn {
-	TranslationsSupportEn.internal(this._root);
+	TranslationsSupportEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -947,7 +947,7 @@ class TranslationsSupportEn {
 
 // Path: security
 class TranslationsSecurityEn {
-	TranslationsSecurityEn.internal(this._root);
+	TranslationsSecurityEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -965,7 +965,7 @@ class TranslationsSecurityEn {
 
 // Path: tutorials
 class TranslationsTutorialsEn {
-	TranslationsTutorialsEn.internal(this._root);
+	TranslationsTutorialsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -977,7 +977,7 @@ class TranslationsTutorialsEn {
 
 // Path: forums
 class TranslationsForumsEn {
-	TranslationsForumsEn.internal(this._root);
+	TranslationsForumsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -989,7 +989,7 @@ class TranslationsForumsEn {
 
 // Path: administration
 class TranslationsAdministrationEn {
-	TranslationsAdministrationEn.internal(this._root);
+	TranslationsAdministrationEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1007,12 +1007,12 @@ class TranslationsAdministrationEn {
 	/// en: 'Reports'
 	String get reports => 'Reports';
 
-	late final TranslationsAdministrationAuditLogsEn audit_logs = TranslationsAdministrationAuditLogsEn.internal(_root);
+	late final TranslationsAdministrationAuditLogsEn audit_logs = TranslationsAdministrationAuditLogsEn._(_root);
 }
 
 // Path: professor
 class TranslationsProfessorEn {
-	TranslationsProfessorEn.internal(this._root);
+	TranslationsProfessorEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1099,26 +1099,26 @@ class TranslationsProfessorEn {
 	/// en: 'Join'
 	String get join => 'Join';
 
-	late final TranslationsProfessorStatsEn stats = TranslationsProfessorStatsEn.internal(_root);
-	late final TranslationsProfessorQuickActionsEn quick_actions = TranslationsProfessorQuickActionsEn.internal(_root);
-	late final TranslationsProfessorProfileEn profile = TranslationsProfessorProfileEn.internal(_root);
+	late final TranslationsProfessorStatsEn stats = TranslationsProfessorStatsEn._(_root);
+	late final TranslationsProfessorQuickActionsEn quick_actions = TranslationsProfessorQuickActionsEn._(_root);
+	late final TranslationsProfessorProfileEn profile = TranslationsProfessorProfileEn._(_root);
 }
 
 // Path: roles
 class TranslationsRolesEn {
-	TranslationsRolesEn.internal(this._root);
+	TranslationsRolesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	late final TranslationsRolesCategoriesEn categories = TranslationsRolesCategoriesEn.internal(_root);
-	late final TranslationsRolesNamesEn names = TranslationsRolesNamesEn.internal(_root);
-	late final TranslationsRolesDescriptionsEn descriptions = TranslationsRolesDescriptionsEn.internal(_root);
+	late final TranslationsRolesCategoriesEn categories = TranslationsRolesCategoriesEn._(_root);
+	late final TranslationsRolesNamesEn names = TranslationsRolesNamesEn._(_root);
+	late final TranslationsRolesDescriptionsEn descriptions = TranslationsRolesDescriptionsEn._(_root);
 }
 
 // Path: academic
 class TranslationsAcademicEn {
-	TranslationsAcademicEn.internal(this._root);
+	TranslationsAcademicEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -1715,7 +1715,7 @@ class TranslationsAcademicEn {
 
 // Path: admin
 class TranslationsAdminEn {
-	TranslationsAdminEn.internal(this._root);
+	TranslationsAdminEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -2414,7 +2414,7 @@ class TranslationsAdminEn {
 
 // Path: enrollment
 class TranslationsEnrollmentEn {
-	TranslationsEnrollmentEn.internal(this._root);
+	TranslationsEnrollmentEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -2807,7 +2807,7 @@ class TranslationsEnrollmentEn {
 
 // Path: shared
 class TranslationsSharedEn {
-	TranslationsSharedEn.internal(this._root);
+	TranslationsSharedEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3047,7 +3047,7 @@ class TranslationsSharedEn {
 
 // Path: students
 class TranslationsStudentsEn {
-	TranslationsStudentsEn.internal(this._root);
+	TranslationsStudentsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3290,7 +3290,7 @@ class TranslationsStudentsEn {
 
 // Path: onboarding.language
 class TranslationsOnboardingLanguageEn {
-	TranslationsOnboardingLanguageEn.internal(this._root);
+	TranslationsOnboardingLanguageEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3320,7 +3320,7 @@ class TranslationsOnboardingLanguageEn {
 
 // Path: onboarding.faculties_directory
 class TranslationsOnboardingFacultiesDirectoryEn {
-	TranslationsOnboardingFacultiesDirectoryEn.internal(this._root);
+	TranslationsOnboardingFacultiesDirectoryEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3335,7 +3335,7 @@ class TranslationsOnboardingFacultiesDirectoryEn {
 
 // Path: onboarding.style
 class TranslationsOnboardingStyleEn {
-	TranslationsOnboardingStyleEn.internal(this._root);
+	TranslationsOnboardingStyleEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3347,13 +3347,13 @@ class TranslationsOnboardingStyleEn {
 	/// en: 'Select the interface design you prefer'
 	String get subtitle => 'Select the interface design you prefer';
 
-	late final TranslationsOnboardingStyleClassicEn classic = TranslationsOnboardingStyleClassicEn.internal(_root);
-	late final TranslationsOnboardingStyleGlassEn glass = TranslationsOnboardingStyleGlassEn.internal(_root);
+	late final TranslationsOnboardingStyleClassicEn classic = TranslationsOnboardingStyleClassicEn._(_root);
+	late final TranslationsOnboardingStyleGlassEn glass = TranslationsOnboardingStyleGlassEn._(_root);
 }
 
 // Path: onboarding.theme
 class TranslationsOnboardingThemeEn {
-	TranslationsOnboardingThemeEn.internal(this._root);
+	TranslationsOnboardingThemeEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3374,7 +3374,7 @@ class TranslationsOnboardingThemeEn {
 
 // Path: auth.login
 class TranslationsAuthLoginEn {
-	TranslationsAuthLoginEn.internal(this._root);
+	TranslationsAuthLoginEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3404,7 +3404,7 @@ class TranslationsAuthLoginEn {
 
 // Path: auth.forgot_password
 class TranslationsAuthForgotPasswordEn {
-	TranslationsAuthForgotPasswordEn.internal(this._root);
+	TranslationsAuthForgotPasswordEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3464,7 +3464,7 @@ class TranslationsAuthForgotPasswordEn {
 
 // Path: home.tabs
 class TranslationsHomeTabsEn {
-	TranslationsHomeTabsEn.internal(this._root);
+	TranslationsHomeTabsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3494,7 +3494,7 @@ class TranslationsHomeTabsEn {
 
 // Path: dashboard.id_card
 class TranslationsDashboardIdCardEn {
-	TranslationsDashboardIdCardEn.internal(this._root);
+	TranslationsDashboardIdCardEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3521,7 +3521,7 @@ class TranslationsDashboardIdCardEn {
 
 // Path: dashboard.sections
 class TranslationsDashboardSectionsEn {
-	TranslationsDashboardSectionsEn.internal(this._root);
+	TranslationsDashboardSectionsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3539,7 +3539,7 @@ class TranslationsDashboardSectionsEn {
 
 // Path: dashboard.items
 class TranslationsDashboardItemsEn {
-	TranslationsDashboardItemsEn.internal(this._root);
+	TranslationsDashboardItemsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3596,7 +3596,7 @@ class TranslationsDashboardItemsEn {
 
 // Path: dashboard.labels
 class TranslationsDashboardLabelsEn {
-	TranslationsDashboardLabelsEn.internal(this._root);
+	TranslationsDashboardLabelsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3617,7 +3617,7 @@ class TranslationsDashboardLabelsEn {
 
 // Path: settings.sections
 class TranslationsSettingsSectionsEn {
-	TranslationsSettingsSectionsEn.internal(this._root);
+	TranslationsSettingsSectionsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3638,7 +3638,7 @@ class TranslationsSettingsSectionsEn {
 
 // Path: settings.tiles
 class TranslationsSettingsTilesEn {
-	TranslationsSettingsTilesEn.internal(this._root);
+	TranslationsSettingsTilesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3677,7 +3677,7 @@ class TranslationsSettingsTilesEn {
 
 // Path: settings.messages
 class TranslationsSettingsMessagesEn {
-	TranslationsSettingsMessagesEn.internal(this._root);
+	TranslationsSettingsMessagesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3695,7 +3695,7 @@ class TranslationsSettingsMessagesEn {
 
 // Path: colleges.details
 class TranslationsCollegesDetailsEn {
-	TranslationsCollegesDetailsEn.internal(this._root);
+	TranslationsCollegesDetailsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3752,7 +3752,7 @@ class TranslationsCollegesDetailsEn {
 
 // Path: colleges.departments
 class TranslationsCollegesDepartmentsEn {
-	TranslationsCollegesDepartmentsEn.internal(this._root);
+	TranslationsCollegesDepartmentsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3947,7 +3947,7 @@ class TranslationsCollegesDepartmentsEn {
 
 // Path: transcript.overview
 class TranslationsTranscriptOverviewEn {
-	TranslationsTranscriptOverviewEn.internal(this._root);
+	TranslationsTranscriptOverviewEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3968,7 +3968,7 @@ class TranslationsTranscriptOverviewEn {
 
 // Path: transcript.semester
 class TranslationsTranscriptSemesterEn {
-	TranslationsTranscriptSemesterEn.internal(this._root);
+	TranslationsTranscriptSemesterEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3986,7 +3986,7 @@ class TranslationsTranscriptSemesterEn {
 
 // Path: transcript.course
 class TranslationsTranscriptCourseEn {
-	TranslationsTranscriptCourseEn.internal(this._root);
+	TranslationsTranscriptCourseEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -3998,12 +3998,12 @@ class TranslationsTranscriptCourseEn {
 	/// en: 'Credits'
 	String get credits => 'Credits';
 
-	late final TranslationsTranscriptCourseStatusEn status = TranslationsTranscriptCourseStatusEn.internal(_root);
+	late final TranslationsTranscriptCourseStatusEn status = TranslationsTranscriptCourseStatusEn._(_root);
 }
 
 // Path: academic_progress.categories
 class TranslationsAcademicProgressCategoriesEn {
-	TranslationsAcademicProgressCategoriesEn.internal(this._root);
+	TranslationsAcademicProgressCategoriesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4024,7 +4024,7 @@ class TranslationsAcademicProgressCategoriesEn {
 
 // Path: academic_progress.status
 class TranslationsAcademicProgressStatusEn {
-	TranslationsAcademicProgressStatusEn.internal(this._root);
+	TranslationsAcademicProgressStatusEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4045,7 +4045,7 @@ class TranslationsAcademicProgressStatusEn {
 
 // Path: attendance.subjects
 class TranslationsAttendanceSubjectsEn {
-	TranslationsAttendanceSubjectsEn.internal(this._root);
+	TranslationsAttendanceSubjectsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4066,7 +4066,7 @@ class TranslationsAttendanceSubjectsEn {
 
 // Path: administration.audit_logs
 class TranslationsAdministrationAuditLogsEn {
-	TranslationsAdministrationAuditLogsEn.internal(this._root);
+	TranslationsAdministrationAuditLogsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4078,13 +4078,13 @@ class TranslationsAdministrationAuditLogsEn {
 	/// en: 'No logs found matching the criteria.'
 	String get no_logs_found => 'No logs found matching the criteria.';
 
-	late final TranslationsAdministrationAuditLogsTabsEn tabs = TranslationsAdministrationAuditLogsTabsEn.internal(_root);
-	late final TranslationsAdministrationAuditLogsLabelsEn labels = TranslationsAdministrationAuditLogsLabelsEn.internal(_root);
+	late final TranslationsAdministrationAuditLogsTabsEn tabs = TranslationsAdministrationAuditLogsTabsEn._(_root);
+	late final TranslationsAdministrationAuditLogsLabelsEn labels = TranslationsAdministrationAuditLogsLabelsEn._(_root);
 }
 
 // Path: professor.stats
 class TranslationsProfessorStatsEn {
-	TranslationsProfessorStatsEn.internal(this._root);
+	TranslationsProfessorStatsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4111,7 +4111,7 @@ class TranslationsProfessorStatsEn {
 
 // Path: professor.quick_actions
 class TranslationsProfessorQuickActionsEn {
-	TranslationsProfessorQuickActionsEn.internal(this._root);
+	TranslationsProfessorQuickActionsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4132,7 +4132,7 @@ class TranslationsProfessorQuickActionsEn {
 
 // Path: professor.profile
 class TranslationsProfessorProfileEn {
-	TranslationsProfessorProfileEn.internal(this._root);
+	TranslationsProfessorProfileEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4153,7 +4153,7 @@ class TranslationsProfessorProfileEn {
 
 // Path: roles.categories
 class TranslationsRolesCategoriesEn {
-	TranslationsRolesCategoriesEn.internal(this._root);
+	TranslationsRolesCategoriesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4183,7 +4183,7 @@ class TranslationsRolesCategoriesEn {
 
 // Path: roles.names
 class TranslationsRolesNamesEn {
-	TranslationsRolesNamesEn.internal(this._root);
+	TranslationsRolesNamesEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4264,7 +4264,7 @@ class TranslationsRolesNamesEn {
 
 // Path: roles.descriptions
 class TranslationsRolesDescriptionsEn {
-	TranslationsRolesDescriptionsEn.internal(this._root);
+	TranslationsRolesDescriptionsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4345,7 +4345,7 @@ class TranslationsRolesDescriptionsEn {
 
 // Path: onboarding.style.classic
 class TranslationsOnboardingStyleClassicEn {
-	TranslationsOnboardingStyleClassicEn.internal(this._root);
+	TranslationsOnboardingStyleClassicEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4360,7 +4360,7 @@ class TranslationsOnboardingStyleClassicEn {
 
 // Path: onboarding.style.glass
 class TranslationsOnboardingStyleGlassEn {
-	TranslationsOnboardingStyleGlassEn.internal(this._root);
+	TranslationsOnboardingStyleGlassEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4375,7 +4375,7 @@ class TranslationsOnboardingStyleGlassEn {
 
 // Path: transcript.course.status
 class TranslationsTranscriptCourseStatusEn {
-	TranslationsTranscriptCourseStatusEn.internal(this._root);
+	TranslationsTranscriptCourseStatusEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4390,7 +4390,7 @@ class TranslationsTranscriptCourseStatusEn {
 
 // Path: administration.audit_logs.tabs
 class TranslationsAdministrationAuditLogsTabsEn {
-	TranslationsAdministrationAuditLogsTabsEn.internal(this._root);
+	TranslationsAdministrationAuditLogsTabsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 
@@ -4411,7 +4411,7 @@ class TranslationsAdministrationAuditLogsTabsEn {
 
 // Path: administration.audit_logs.labels
 class TranslationsAdministrationAuditLogsLabelsEn {
-	TranslationsAdministrationAuditLogsLabelsEn.internal(this._root);
+	TranslationsAdministrationAuditLogsLabelsEn._(this._root);
 
 	final Translations _root; // ignore: unused_field
 

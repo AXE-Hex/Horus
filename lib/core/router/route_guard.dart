@@ -67,12 +67,20 @@ const Map<String, Set<RoleCategory>> routePermissions = {
   '/admin/users': {RoleCategory.adminIT},
   '/admin/users/new': {RoleCategory.adminIT},
   '/admin/users/details': {RoleCategory.adminIT},
+  '/admin/users/edit': {RoleCategory.adminIT},
   '/admin/colleges': {RoleCategory.adminIT},
   '/admin/departments': {RoleCategory.adminIT},
   '/admin/audit-logs': {RoleCategory.adminIT},
   '/admin/roles': {RoleCategory.adminIT},
   '/admin/monitor': {RoleCategory.adminIT},
-  '/students-mgmt': {RoleCategory.adminIT, RoleCategory.studentAffairs},
+  '/admin/management/students': {
+    RoleCategory.adminIT,
+    RoleCategory.studentAffairs,
+  },
+  '/admin/management/staff': {RoleCategory.adminIT},
+  '/admin/management/faculty': {RoleCategory.adminIT},
+  '/admin/management/leadership': {RoleCategory.adminIT},
+  '/admin/management/admin-it': {RoleCategory.adminIT},
 };
 
 bool canAccessRoute(String path, UserRole role) {

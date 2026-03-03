@@ -50,7 +50,7 @@ final class UsersControllerProvider
   }
 }
 
-String _$usersControllerHash() => r'3fd104c9fc9c1d0fc310526bfd349e696ab941ae';
+String _$usersControllerHash() => r'3d4d8af532ee56881bb98cadbaa5edf9dccfc67e';
 
 final class UsersControllerFamily extends $Family
     with

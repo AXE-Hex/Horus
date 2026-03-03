@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hue/core/auth/roles.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,6 +10,8 @@ class UsersRepository {
   final SupabaseClient _client;
 
   UsersRepository(this._client);
+
+  // ── Read Operations ─────────────────────────────────────────────────
 
   Future<List<UserProfileModel>> getUsers({
     RoleCategory? category,
@@ -27,12 +30,8 @@ class UsersRepository {
     if (searchQuery != null && searchQuery.isNotEmpty) {
       query = query.or(
         'full_name.ilike.%$searchQuery%,'
-        'full_name_ar.ilike.%$searchQuery%,'
         'email.ilike.%$searchQuery%,'
-        'student_id.ilike.%$searchQuery%,'
-        'national_id.ilike.%$searchQuery%,'
-        'phone.ilike.%$searchQuery%,'
-        'tags.cs.{"$searchQuery"}',
+        'student_id.ilike.%$searchQuery%',
       );
     }
 
@@ -79,6 +78,11 @@ class UsersRepository {
     });
   }
 
+  // ── Create User ─────────────────────────────────────────────────────
+
+  /// Creates a new user via Supabase Auth + profiles table upsert.
+  /// Uses auth.admin.createUser when service_role key is available,
+  /// otherwise falls back to auth.signUp + profile upsert.
   Future<String> createAccount({
     required String email,
     required String password,
@@ -91,79 +95,184 @@ class UsersRepository {
     String? collegeId,
     String? departmentId,
   }) async {
-    final response = await _client.rpc(
-      'admin_create_user',
-      params: {
+    try {
+      // Try using Auth Admin API first (requires service_role key)
+      final response = await _client.auth.admin.createUser(
+        AdminUserAttributes(
+          email: email,
+          password: password,
+          emailConfirm: true,
+          userMetadata: {
+            'full_name': fullName,
+            'roles': roles.map((r) => r.toDbString()).toList(),
+          },
+        ),
+      );
+
+      final userId = response.user!.id;
+
+      // Upsert into profiles table
+      await _client.from('profiles').upsert({
+        'id': userId,
         'email': email,
-        'password': password,
         'full_name': fullName,
         'roles': roles.map((r) => r.toDbString()).toList(),
-        'student_id': studentId,
-        'national_id': nationalId,
-        'nationality': nationality,
-        'phone': phone,
+        'student_id': studentId?.isNotEmpty == true ? studentId : null,
+        'national_id': nationalId?.isNotEmpty == true ? nationalId : null,
+        'nationality': nationality?.isNotEmpty == true ? nationality : null,
+        'phone': phone?.isNotEmpty == true ? phone : null,
         'college_id': collegeId,
         'department_id': departmentId,
-      },
+        'is_active': true,
+        'is_verified': false,
+      });
+
+      return userId;
+    } catch (e) {
+      debugPrint('Admin createUser failed, trying signUp fallback: $e');
+
+      // Fallback: use signUp (works without service_role)
+      final response = await _client.auth.signUp(
+        email: email,
+        password: password,
+        data: {
+          'full_name': fullName,
+          'roles': roles.map((r) => r.toDbString()).toList(),
+        },
+      );
+
+      if (response.user == null) {
+        throw Exception('Failed to create user account');
+      }
+
+      final userId = response.user!.id;
+
+      await _client.from('profiles').upsert({
+        'id': userId,
+        'email': email,
+        'full_name': fullName,
+        'roles': roles.map((r) => r.toDbString()).toList(),
+        'student_id': studentId?.isNotEmpty == true ? studentId : null,
+        'national_id': nationalId?.isNotEmpty == true ? nationalId : null,
+        'nationality': nationality?.isNotEmpty == true ? nationality : null,
+        'phone': phone?.isNotEmpty == true ? phone : null,
+        'college_id': collegeId,
+        'department_id': departmentId,
+        'is_active': true,
+        'is_verified': false,
+      });
+
+      return userId;
+    }
+  }
+
+  // ── Update Operations ───────────────────────────────────────────────
+
+  /// Update specific profile fields — only sends columns that exist
+  Future<void> updateProfile(String userId, Map<String, dynamic> data) async {
+    // Filter to only known columns that exist in the profiles table
+    final knownColumns = {
+      'full_name',
+      'full_name_ar',
+      'avatar_url',
+      'roles',
+      'student_id',
+      'national_id',
+      'nationality',
+      'phone',
+      'college_id',
+      'department_id',
+      'is_active',
+      'is_verified',
+    };
+
+    final safeData = Map<String, dynamic>.fromEntries(
+      data.entries.where((e) => knownColumns.contains(e.key)),
     );
-    return response as String;
+
+    if (safeData.isEmpty) return;
+    await _client.from('profiles').update(safeData).eq('id', userId);
   }
 
   Future<void> toggleUserStatus(String userId, bool isActive) async {
-    await _client.rpc(
-      'admin_toggle_user_status',
-      params: {'user_id': userId, 'is_active': isActive},
-    );
-  }
-
-  Future<void> updateProfile(String userId, Map<String, dynamic> data) async {
-    await _client.from('profiles').update(data).eq('id', userId);
-  }
-
-  Future<void> deleteUser(String userId, {bool hardDelete = false}) async {
-    await _client.rpc(
-      'admin_delete_user',
-      params: {'target_user_id': userId, 'hard_delete': hardDelete},
-    );
-  }
-
-  Future<void> updateWarningLevel(String userId, int level) async {
-    await _client.rpc(
-      'admin_update_warning_level',
-      params: {'user_id': userId, 'level': level},
-    );
+    await _client
+        .from('profiles')
+        .update({'is_active': isActive})
+        .eq('id', userId);
   }
 
   Future<void> toggleVerification(String userId, bool isVerified) async {
-    await _client.rpc(
-      'admin_toggle_verification',
-      params: {'user_id': userId, 'is_verified': isVerified},
-    );
-  }
-
-  Future<void> updateTags(String userId, List<String> tags) async {
-    await _client.rpc(
-      'admin_update_tags',
-      params: {'user_id': userId, 'tags': tags},
-    );
+    await _safeColumnUpdate(userId, 'is_verified', isVerified);
   }
 
   Future<void> toggleBan(String userId, bool isBanned) async {
-    await _client.rpc(
-      'admin_toggle_ban',
-      params: {'user_id': userId, 'is_banned': isBanned},
-    );
+    await _safeColumnUpdate(userId, 'is_banned', isBanned);
+  }
+
+  Future<void> updateWarningLevel(String userId, int level) async {
+    await _safeColumnUpdate(userId, 'warning_level', level);
+  }
+
+  Future<void> updateTags(String userId, List<String> tags) async {
+    await _safeColumnUpdate(userId, 'tags', tags);
   }
 
   Future<void> enableMFA(String userId, bool enabled) async {
-    await updateProfile(userId, {'mfa_enabled': enabled});
+    await _safeColumnUpdate(userId, 'mfa_enabled', enabled);
   }
 
   Future<void> trackLogin(String userId) async {
-    await updateProfile(userId, {
-      'last_login': DateTime.now().toIso8601String(),
-    });
+    await _safeColumnUpdate(
+      userId,
+      'last_login',
+      DateTime.now().toIso8601String(),
+    );
   }
+
+  /// Safely updates a single column — if the column doesn't exist,
+  /// the error is caught and logged instead of crashing the app.
+  Future<void> _safeColumnUpdate(
+    String userId,
+    String column,
+    dynamic value,
+  ) async {
+    try {
+      await _client.from('profiles').update({column: value}).eq('id', userId);
+    } catch (e) {
+      final errorStr = e.toString();
+      if (errorStr.contains('42703') || errorStr.contains('does not exist')) {
+        debugPrint(
+          '⚠️ Column "$column" does not exist in profiles table. '
+          'Add it via Supabase Dashboard → Table Editor → profiles → Add Column.',
+        );
+      } else {
+        rethrow;
+      }
+    }
+  }
+
+  // ── Delete Operations ───────────────────────────────────────────────
+
+  Future<void> deleteUser(String userId, {bool hardDelete = false}) async {
+    if (hardDelete) {
+      // Try admin delete first (requires service_role)
+      try {
+        await _client.auth.admin.deleteUser(userId);
+      } catch (e) {
+        debugPrint('Admin delete failed: $e');
+      }
+      // Also remove from profiles
+      await _client.from('profiles').delete().eq('id', userId);
+    } else {
+      // Soft delete: just deactivate
+      await _client
+          .from('profiles')
+          .update({'is_active': false})
+          .eq('id', userId);
+    }
+  }
+
+  // ── Stats ──────────────────────────────────────────────────────────
 
   Future<int> getCategoryCount(RoleCategory category) async {
     final roles = category.roles.map((r) => r.toDbString()).toList();

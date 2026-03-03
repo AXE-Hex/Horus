@@ -40,7 +40,7 @@ import 'package:hue/features/shared/presentation/screens/security_screen.dart';
 import 'package:hue/features/shared/presentation/screens/sessions_screen.dart';
 import 'package:hue/features/shared/presentation/screens/tutorials_screen.dart';
 import 'package:hue/features/shared/presentation/screens/forums_screen.dart';
-import 'package:hue/features/shared/presentation/screens/placeholder_screen.dart';
+
 import 'package:hue/features/shared/presentation/screens/transition_screen.dart';
 import 'package:hue/features/academic/presentation/screens/professor_profile_screen.dart';
 import 'package:hue/features/academic/presentation/screens/professor_dashboard_screen.dart';
@@ -59,11 +59,13 @@ import 'package:hue/features/admin/presentation/screens/staff_management_screen.
 import 'package:hue/features/admin/presentation/screens/faculty_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/leadership_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/admin_it_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/user_details_screen.dart';
 import 'package:hue/features/admin/presentation/screens/college_details_screen.dart'
     as admin_screens;
 import 'package:hue/features/admin/presentation/screens/colleges_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/departments_management_screen.dart';
 import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/presentation/screens/department_details_screen.dart';
 import 'package:hue/features/admin/presentation/screens/audit_logs_screen.dart';
 import 'package:hue/features/admin/presentation/screens/roles_management_screen.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
@@ -198,11 +200,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SupportScreen(),
       ),
       GoRoute(
-        path: '/students-mgmt',
-        builder: (context, state) =>
-            const PlaceholderScreen(title: 'Students Management'),
-      ),
-      GoRoute(
         path: '/tutorials',
         builder: (context, state) => const TutorialsScreen(),
       ),
@@ -261,6 +258,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/admin/users/details',
         builder: (context, state) {
           final user = state.extra as UserProfileModel;
+          return UserDetailsScreen(user: user);
+        },
+      ),
+      GoRoute(
+        path: '/admin/users/edit',
+        builder: (context, state) {
+          final user = state.extra as UserProfileModel;
           return UserFormScreen(user: user);
         },
       ),
@@ -271,6 +275,13 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/departments',
         builder: (context, state) => const DepartmentsManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/departments/details',
+        builder: (context, state) {
+          final dept = state.extra as DepartmentModel;
+          return DepartmentDetailsScreen(department: dept);
+        },
       ),
       GoRoute(
         path: '/admin/audit-logs',
@@ -287,12 +298,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/dean-assignment',
         builder: (context, state) => const DeanAdvisorAssignmentScreen(),
-      ),
-      GoRoute(
-        path: '/admin/monitor',
-        builder: (context, state) {
-          return const PlaceholderScreen(title: 'System Monitor');
-        },
       ),
       GoRoute(path: '/', builder: (context, state) => const WelcomeScreen()),
       GoRoute(
