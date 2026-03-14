@@ -1,4 +1,3 @@
-
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,25 +9,29 @@ import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
 
 class CollegeDepartmentsScreen extends ConsumerWidget {
-  final Map<String, dynamic> collegeData;
+  final CollegeModel college;
+  final Color color;
 
-  const CollegeDepartmentsScreen({super.key, required this.collegeData});
+  const CollegeDepartmentsScreen({
+    super.key,
+    required this.college,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
-    final color = collegeData['color'] as Color;
-    final departments = collegeData['departments'] as List<dynamic>? ?? [];
-    final collegeTitle =
-        (collegeData['title'] as String Function(Translations))(t);
+    final isArabic = t.$meta.locale.languageCode == 'ar';
+    final collegeTitle = isArabic ? college.nameAr : college.nameEn;
 
     Widget content = SafeArea(
       child: Column(
         children: [
-
           Padding(
             padding: const EdgeInsets.all(24),
             child: Row(
@@ -50,7 +53,7 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        '${departments.length} ${t.colleges.details.majors}',
+                        '${college.studentCount} ${t.extracted.students}', // Or other stat
                         style: GoogleFonts.inter(
                           fontSize: 13,
                           color: isGlass
@@ -66,20 +69,50 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
           ),
 
           Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
-              itemCount: departments.length,
-              physics: const BouncingScrollPhysics(),
-              separatorBuilder: (c, i) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                final deptKey = departments[index] as String;
-                final deptName = t['colleges.departments.$deptKey'] as String;
+            child: FutureBuilder<List<DepartmentModel>>(
+              future: ref
+                  .read(institutionalRepositoryProvider)
+                  .getDepartments(collegeId: college.id),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
 
-                return _DepartmentCard(
-                  name: deptName,
-                  color: color,
-                  index: index,
-                  isGlass: isGlass,
+                final departments = snapshot.data ?? [];
+
+                if (departments.isEmpty) {
+                  return Center(
+                    child: Text(
+                      t.admin.no_departments_in_this_college,
+                      style: GoogleFonts.inter(
+                        color: isGlass
+                            ? Colors.white70
+                            : Theme.of(context).hintColor,
+                      ),
+                    ),
+                  );
+                }
+
+                return ListView.separated(
+                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
+                  itemCount: departments.length,
+                  physics: const BouncingScrollPhysics(),
+                  separatorBuilder: (c, i) => const SizedBox(height: 16),
+                  itemBuilder: (context, index) {
+                    final dept = departments[index];
+                    final deptName = isArabic ? dept.nameAr : dept.nameEn;
+
+                    return _DepartmentCard(
+                      name: deptName,
+                      color: color,
+                      index: index,
+                      isGlass: isGlass,
+                      department: dept,
+                    );
+                  },
                 );
               },
             ),
@@ -123,12 +156,14 @@ class _DepartmentCard extends StatelessWidget {
   final Color color;
   final int index;
   final bool isGlass;
+  final DepartmentModel department;
 
   const _DepartmentCard({
     required this.name,
     required this.color,
     required this.index,
     required this.isGlass,
+    required this.department,
   });
 
   @override
@@ -138,14 +173,7 @@ class _DepartmentCard extends StatelessWidget {
         HapticFeedback.mediumImpact();
         context.push(
           '/department-detail',
-          extra: {
-            'name': name,
-            'color': color,
-            'key': name.toLowerCase().replaceAll(
-              ' ',
-              '_',
-            ),
-          },
+          extra: {'department': department, 'color': color},
         );
       },
       borderRadius: BorderRadius.circular(20),
@@ -203,7 +231,9 @@ class _DepartmentCard extends StatelessWidget {
               ),
             ),
             Icon(
-              LucideIcons.chevronRight,
+              Directionality.of(context) == TextDirection.rtl
+                  ? LucideIcons.chevronLeft
+                  : LucideIcons.chevronRight,
               size: 16,
               color: isGlass ? Colors.white38 : Theme.of(context).hintColor,
             ),

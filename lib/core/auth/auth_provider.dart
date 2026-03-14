@@ -111,7 +111,6 @@ class AuthController extends _$AuthController {
         },
       );
       if (response.user != null) {
-
         await _client.from('profiles').upsert({
           'id': response.user!.id,
           'email': email,

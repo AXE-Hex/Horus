@@ -12,7 +12,7 @@ import 'core/security/branding_verifier.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  debugPrint('🚀 HUE Traceability Key: ${BuildConfig.traceabilityKey}');
+  debugPrint('HUE Traceability Key: ${BuildConfig.traceabilityKey}');
 
   if (!BrandingVerifier.verify() || Axe.axeSignature == 'INVALID') {}
 

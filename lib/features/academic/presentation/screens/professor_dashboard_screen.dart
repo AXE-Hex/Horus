@@ -467,7 +467,7 @@ class _QuickActionsPanel extends HookConsumerWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E2E).withValues(alpha: 0.9),
+        backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.white10),
           borderRadius: BorderRadius.circular(24),
@@ -533,9 +533,7 @@ class _QuickActionsPanel extends HookConsumerWidget {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   backgroundColor: const Color(0xFF6366F1),
-                  content: Text(
-                    t.academic.uploaded_successfully,
-                  ),
+                  content: Text(t.academic.uploaded_successfully),
                 ),
               );
             },

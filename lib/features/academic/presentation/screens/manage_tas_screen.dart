@@ -196,7 +196,7 @@ class ManageTasScreen extends HookConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E2E),
+        backgroundColor: null,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           t.academic.confirm_removal,
@@ -443,10 +443,7 @@ class _TACard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFF10B981),
                       shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFF1E1E2E),
-                        width: 2,
-                      ),
+                      border: Border.all(color: Colors.transparent, width: 2),
                     ),
                   ),
                 ),

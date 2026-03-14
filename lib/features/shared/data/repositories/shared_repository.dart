@@ -1,4 +1,3 @@
-
 import 'package:hue/core/data/base_repository.dart';
 
 class SharedRepository extends BaseRepository {
@@ -126,7 +125,6 @@ class SharedRepository extends BaseRepository {
   ) => insert('shared_files', metadata);
 
   Future<void> incrementDownloadCount(String fileId) async {
-
     final current = await fetchById('shared_files', fileId);
     final count = (current['download_count'] as int? ?? 0) + 1;
     await update('shared_files', fileId, {'download_count': count});

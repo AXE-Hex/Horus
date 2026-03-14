@@ -9,7 +9,10 @@ import 'package:hue/features/admin/presentation/providers/users_provider.dart';
 import 'package:hue/features/admin/data/repositories/users_repository.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'dart:math';
 import 'package:hue/core/i18n/strings.g.dart';
+import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -43,7 +46,21 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
   List<UserRole> _selectedRoles = [];
   bool _isSaving = false;
   bool _isActive = true;
+  String _selectedGender = 'male'; // male / female
   late AnimationController _glowController;
+
+  // Password strength
+  double _passwordStrength = 0;
+  String _passwordStrengthLabel = '';
+  Color _passwordStrengthColor = Colors.grey;
+
+  // Institution Selection
+  String? _selectedCollegeId;
+  String? _selectedDepartmentId;
+  List<CollegeModel> _colleges = [];
+  List<DepartmentModel> _departments = [];
+  bool _isLoadingColleges = true;
+  bool _isLoadingDepartments = false;
 
   @override
   void initState() {
@@ -53,8 +70,16 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
 
-    _emailController = TextEditingController(text: widget.user?.email ?? '');
-    _passwordController = TextEditingController();
+    String initialEmail = widget.user?.email ?? '';
+    if (initialEmail.endsWith('@horus.edu.eg')) {
+      initialEmail = initialEmail.substring(
+        0,
+        initialEmail.length - '@horus.edu.eg'.length,
+      );
+    }
+    _emailController = TextEditingController(text: initialEmail);
+    _passwordController = TextEditingController()
+      ..addListener(_checkPasswordStrength);
     _nameController = TextEditingController(text: widget.user?.fullName ?? '');
     _studentIdController = TextEditingController(
       text: widget.user?.studentId ?? '',
@@ -83,6 +108,99 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       }
     } else {
       _selectedRoles = [UserRole.student];
+    }
+
+    if (widget.user != null) {
+      _selectedCollegeId = widget.user!.collegeId;
+      _selectedDepartmentId = widget.user!.departmentId;
+    }
+
+    _loadInstitutions();
+  }
+
+  Future<void> _loadInstitutions() async {
+    try {
+      final repo = ref.read(institutionalRepositoryProvider);
+      final colleges = await repo.getColleges();
+      if (mounted) {
+        setState(() {
+          _colleges = colleges;
+          _isLoadingColleges = false;
+        });
+        if (_selectedCollegeId != null) {
+          _loadDepartments(_selectedCollegeId!);
+        }
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isLoadingColleges = false);
+    }
+  }
+
+  void _checkPasswordStrength() {
+    final password = _passwordController.text;
+    double strength = 0;
+    if (password.length >= 8) strength += 0.25;
+    if (password.contains(RegExp(r'[A-Z]'))) strength += 0.25;
+    if (password.contains(RegExp(r'[0-9]'))) strength += 0.25;
+    if (password.contains(RegExp(r'[!@#\$&*~]'))) strength += 0.25;
+
+    setState(() {
+      _passwordStrength = strength;
+      if (strength <= 0.25) {
+        _passwordStrengthLabel = t.$meta.locale.languageCode == 'ar'
+            ? 'ضعيف'
+            : 'Weak';
+        _passwordStrengthColor = Colors.red;
+      } else if (strength <= 0.5) {
+        _passwordStrengthLabel = t.$meta.locale.languageCode == 'ar'
+            ? 'متوسط'
+            : 'Fair';
+        _passwordStrengthColor = Colors.orange;
+      } else if (strength <= 0.75) {
+        _passwordStrengthLabel = t.$meta.locale.languageCode == 'ar'
+            ? 'جيد'
+            : 'Good';
+        _passwordStrengthColor = Colors.amber;
+      } else {
+        _passwordStrengthLabel = t.$meta.locale.languageCode == 'ar'
+            ? 'قوي'
+            : 'Strong';
+        _passwordStrengthColor = Colors.green;
+      }
+    });
+  }
+
+  void _generatePassword() {
+    const length = 12;
+    const chars =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#\$&*~';
+    final random = Random.secure();
+    final password = List.generate(
+      length,
+      (index) => chars[random.nextInt(chars.length)],
+    ).join();
+    _passwordController.text = password;
+  }
+
+  Future<void> _loadDepartments(String collegeId) async {
+    if (!mounted) return;
+    setState(() => _isLoadingDepartments = true);
+    try {
+      final repo = ref.read(institutionalRepositoryProvider);
+      final deps = await repo.getDepartments(collegeId: collegeId);
+      if (mounted) {
+        setState(() {
+          _departments = deps;
+          _isLoadingDepartments = false;
+          // Ensure selected department is valid
+          if (_selectedDepartmentId != null &&
+              !deps.any((d) => d.id == _selectedDepartmentId)) {
+            _selectedDepartmentId = null;
+          }
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isLoadingDepartments = false);
     }
   }
 
@@ -113,26 +231,35 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         ).notifier,
       );
 
+      // Build full email with domain suffix
+      final fullEmail = '${_emailController.text.trim()}@horus.edu.eg';
+
       if (widget.user == null) {
         await controller.createUser(
-          email: _emailController.text.trim(),
+          email: fullEmail,
           password: _passwordController.text.trim(),
           fullName: _nameController.text.trim(),
           roles: _selectedRoles,
+          gender: _selectedGender,
           studentId: _studentIdController.text.trim(),
           nationalId: _nationalIdController.text.trim(),
           nationality: _nationalityController.text.trim(),
           phone: _phoneController.text.trim(),
+          collegeId: _selectedCollegeId,
+          departmentId: _selectedDepartmentId,
         );
       } else {
         await ref.read(usersRepositoryProvider).updateProfile(widget.user!.id, {
           'full_name': _nameController.text.trim(),
           'roles': _selectedRoles.map((r) => r.toDbString()).toList(),
+          'gender': _selectedGender,
           'student_id': _studentIdController.text.trim(),
           'national_id': _nationalIdController.text.trim(),
           'nationality': _nationalityController.text.trim(),
           'phone': _phoneController.text.trim(),
           'is_active': _isActive,
+          'college_id': _selectedCollegeId,
+          'department_id': _selectedDepartmentId,
         });
         await controller.refresh();
       }
@@ -143,12 +270,15 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           SnackBar(
             content: Row(
               children: [
-                const Icon(LucideIcons.checkCircle, color: Colors.white),
-                const SizedBox(width: 12),
+                Icon(
+                  LucideIcons.checkCircle,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                SizedBox(width: 12),
                 Text(t.admin.changes_saved_successfully),
               ],
             ),
-            backgroundColor: const Color(0xFF10B981),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
@@ -163,7 +293,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Error: $e'),
-            backgroundColor: const Color(0xFFEF4444),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
@@ -196,7 +326,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         elevation: 0,
       ),
       body: CustomScrollView(
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         slivers: [
           SliverPadding(
             padding: const EdgeInsets.all(20),
@@ -210,8 +340,10 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                       // ── Section: Personal Info
                       _buildSectionHeader(
                         icon: LucideIcons.user,
-                        title: isArabic ? 'المعلومات الشخصية' : 'Personal Info',
-                        color: const Color(0xFF6366F1),
+                        title: t.extracted.personal_info,
+                        color:
+                            (Theme.of(context).cardTheme.color ??
+                            Theme.of(context).cardColor),
                       ),
                       const SizedBox(height: 16),
 
@@ -247,6 +379,10 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                                   icon: LucideIcons.creditCard,
                                   iconColor: Colors.amberAccent,
                                   keyboardType: TextInputType.number,
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.digitsOnly,
+                                  ],
+                                  maxLength: 16,
                                 ),
                               ),
                             ],
@@ -263,6 +399,10 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                             icon: LucideIcons.phone,
                             iconColor: Colors.greenAccent,
                             keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            maxLength: 11,
                           )
                           .animate()
                           .fadeIn(delay: 180.ms)
@@ -277,6 +417,11 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                               controller: _studentIdController,
                               icon: LucideIcons.hash,
                               iconColor: const Color(0xFFF59E0B),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              maxLength: 16,
                             )
                             .animate()
                             .fadeIn(delay: 190.ms)
@@ -288,26 +433,31 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                       // ── Section: Account
                       _buildSectionHeader(
                         icon: LucideIcons.mail,
-                        title: isArabic ? 'بيانات الحساب' : 'Account',
+                        title: t.extracted.account,
                         color: Colors.tealAccent,
                       ),
                       const SizedBox(height: 16),
 
                       _buildPremiumField(
-                            label: t.admin.email_address,
-                            controller: _emailController,
-                            icon: LucideIcons.mail,
-                            iconColor: Colors.tealAccent,
-                            keyboardType: TextInputType.emailAddress,
-                            enabled: !isEdit,
-                            validator: (val) =>
-                                val == null || !val.contains('@')
-                                ? 'Invalid email'
-                                : null,
-                          )
-                          .animate()
-                          .fadeIn(delay: 200.ms)
-                          .slideY(begin: 0.08, end: 0),
+                        label: t.admin.email_address,
+                        controller: _emailController,
+                        icon: LucideIcons.mail,
+                        iconColor: Colors.tealAccent,
+                        keyboardType: TextInputType.emailAddress,
+                        enabled: !isEdit,
+                        suffixText: '@horus.edu.eg',
+                        validator: (val) {
+                          if (val == null || val.trim().isEmpty) {
+                            return isArabic ? 'مطلوب' : 'Required';
+                          }
+                          if (val.contains('@')) {
+                            return isArabic
+                                ? 'الرجاء إدخال الجزء الأول فقط بدون @horus.edu.eg'
+                                : 'Please enter prefix only (no @horus.edu.eg)';
+                          }
+                          return null;
+                        },
+                      ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.08, end: 0),
 
                       if (!isEdit) ...[
                         const SizedBox(height: 14),
@@ -317,13 +467,55 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                               icon: LucideIcons.lock,
                               iconColor: Colors.pinkAccent,
                               obscureText: true,
-                              validator: (val) => val == null || val.length < 6
-                                  ? (t.admin.min_6_chars)
+                              suffix: IconButton(
+                                icon: Icon(
+                                  LucideIcons.refreshCw,
+                                  size: 16,
+                                  color: Colors.white54,
+                                ),
+                                onPressed: _generatePassword,
+                                tooltip: isArabic
+                                    ? 'توليد عشوائي'
+                                    : 'Auto Generate',
+                              ),
+                              validator: (val) => val == null || val.length < 8
+                                  ? (isArabic
+                                        ? 'يجب أن يكون 8 الأقل'
+                                        : 'Min 8 chars required')
                                   : null,
                             )
                             .animate()
                             .fadeIn(delay: 250.ms)
                             .slideY(begin: 0.08, end: 0),
+                        const SizedBox(height: 8),
+                        if (_passwordController.text.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: LinearProgressIndicator(
+                                      value: _passwordStrength,
+                                      backgroundColor: Colors.white10,
+                                      color: _passwordStrengthColor,
+                                      minHeight: 4,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  _passwordStrengthLabel,
+                                  style: GoogleFonts.inter(
+                                    color: _passwordStrengthColor,
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                       ],
 
                       const SizedBox(height: 28),
@@ -341,6 +533,13 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                       _buildRoleSelector(isArabic, primaryColor)
                           .animate()
                           .fadeIn(delay: 300.ms)
+                          .slideY(begin: 0.08, end: 0),
+
+                      const SizedBox(height: 28),
+
+                      _buildInstitutionSelectors(isArabic, primaryColor)
+                          .animate()
+                          .fadeIn(delay: 320.ms)
                           .slideY(begin: 0.08, end: 0),
 
                       const SizedBox(height: 28),
@@ -389,13 +588,13 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           ),
           child: Icon(icon, size: 16, color: color),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12),
         Text(
           title,
           style: GoogleFonts.outfit(
             fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
             letterSpacing: 0.3,
           ),
         ),
@@ -411,21 +610,31 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     bool obscureText = false,
     bool enabled = true,
     TextInputType? keyboardType,
+    int? maxLength,
+    List<TextInputFormatter>? inputFormatters,
     String? Function(String?)? validator,
+    Widget? suffix,
+    String? suffixText,
   }) {
     final primaryColor = Theme.of(context).primaryColor;
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        color: Colors.white.withValues(alpha: enabled ? 0.04 : 0.02),
+        color: Theme.of(
+          context,
+        ).colorScheme.onSurface.withValues(alpha: enabled ? 0.04 : 0.02),
         border: Border.all(
-          color: Colors.white.withValues(alpha: enabled ? 0.08 : 0.04),
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withValues(alpha: enabled ? 0.08 : 0.04),
         ),
       ),
       child: TextFormField(
         controller: controller,
         obscureText: obscureText,
         enabled: enabled,
+        maxLength: maxLength,
+        inputFormatters: inputFormatters,
         keyboardType: keyboardType,
         validator: validator,
         style: GoogleFonts.inter(
@@ -435,7 +644,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         decoration: InputDecoration(
           labelText: label,
           labelStyle: GoogleFonts.inter(
-            color: Colors.white.withValues(alpha: 0.4),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.4),
             fontSize: 13,
           ),
           prefixIcon: Container(
@@ -447,13 +658,28 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
             ),
             child: Icon(icon, color: iconColor, size: 16),
           ),
-          suffixIcon: !enabled
-              ? Icon(
-                  LucideIcons.lock,
-                  size: 14,
-                  color: Colors.white.withValues(alpha: 0.2),
+          suffixText: suffixText,
+          suffixStyle: suffixText != null
+              ? GoogleFonts.inter(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
                 )
               : null,
+          suffixIcon:
+              suffix ??
+              (!enabled
+                  ? Icon(
+                      LucideIcons.lock,
+                      size: 14,
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.2),
+                    )
+                  : null),
+          counterText: '',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(18),
             borderSide: BorderSide.none,
@@ -504,6 +730,55 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(LucideIcons.users, size: 16, color: primaryColor),
+                  SizedBox(width: 8),
+                  Text(
+                    isArabic ? 'الجنس' : 'Gender',
+                    style: GoogleFonts.inter(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white70,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  ChoiceChip(
+                    label: Text(isArabic ? 'ذكر' : 'Male'),
+                    selected: _selectedGender == 'male',
+                    onSelected: (val) =>
+                        setState(() => _selectedGender = 'male'),
+                    backgroundColor: Colors.transparent,
+                    selectedColor: primaryColor.withValues(alpha: 0.2),
+                    labelStyle: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(width: 8),
+                  ChoiceChip(
+                    label: Text(isArabic ? 'أنثى' : 'Female'),
+                    selected: _selectedGender == 'female',
+                    onSelected: (val) =>
+                        setState(() => _selectedGender = 'female'),
+                    backgroundColor: Colors.transparent,
+                    selectedColor: primaryColor.withValues(alpha: 0.2),
+                    labelStyle: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
           // Status toggle
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -511,7 +786,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               Row(
                 children: [
                   Icon(LucideIcons.userCheck, size: 16, color: primaryColor),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8),
                   Text(
                     t.admin.account_status,
                     style: GoogleFonts.inter(
@@ -527,15 +802,18 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                 child: Switch(
                   value: _isActive,
                   onChanged: (val) => setState(() => _isActive = val),
-                  activeThumbColor: const Color(0xFF10B981),
-                  activeTrackColor: const Color(
-                    0xFF10B981,
-                  ).withValues(alpha: 0.3),
+                  activeThumbColor: Color(0xFF10B981),
+                  activeTrackColor: Color(0xFF10B981).withValues(alpha: 0.3),
                 ),
               ),
             ],
           ),
-          Divider(height: 24, color: Colors.white.withValues(alpha: 0.06)),
+          Divider(
+            height: 24,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
           // Role chips
           ...grouped.entries.map((entry) {
             return Column(
@@ -547,7 +825,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                     style: GoogleFonts.inter(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white.withValues(alpha: 0.3),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.3),
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -637,6 +917,154 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     );
   }
 
+  Widget _buildInstitutionSelectors(bool isArabic, Color primaryColor) {
+    if (_isLoadingColleges) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final requiresCollege = _selectedRoles.any(
+      (r) =>
+          r.category != RoleCategory.adminIT &&
+          r.category != RoleCategory.externalRoles,
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _buildSectionHeader(
+          icon: LucideIcons.building,
+          title: t.extracted.institution,
+          color:
+              (Theme.of(context).cardTheme.color ??
+              Theme.of(context).cardColor),
+        ),
+        SizedBox(height: 16),
+        GlassContainer(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withValues(alpha: 0.03),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.1),
+          ),
+          child: DropdownButtonHideUnderline(
+            child: DropdownButtonFormField<String>(
+              dropdownColor: Color(0xFF1E1E3A),
+              decoration: InputDecoration(border: InputBorder.none),
+              icon: Icon(
+                LucideIcons.chevronDown,
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
+              ),
+              initialValue: _selectedCollegeId,
+              hint: Text(
+                t.extracted.select_college,
+                style: GoogleFonts.outfit(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+                ),
+              ),
+              items: _colleges.map((college) {
+                return DropdownMenuItem<String>(
+                  value: college.id,
+                  child: Text(
+                    isArabic && college.nameAr.isNotEmpty
+                        ? college.nameAr
+                        : college.nameEn,
+                    style: GoogleFonts.outfit(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                );
+              }).toList(),
+              validator: requiresCollege
+                  ? (val) => val == null || val.isEmpty
+                        ? (t.extracted.college_is_required)
+                        : null
+                  : null,
+              onChanged: (val) {
+                setState(() {
+                  _selectedCollegeId = val;
+                  _selectedDepartmentId = null;
+                });
+                if (val != null) {
+                  _loadDepartments(val);
+                }
+              },
+            ),
+          ),
+        ),
+        if (_selectedCollegeId != null) ...[
+          SizedBox(height: 14),
+          if (_isLoadingDepartments)
+            Center(child: CircularProgressIndicator())
+          else
+            GlassContainer(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.03),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButtonFormField<String>(
+                  dropdownColor: Color(0xFF1E1E3A),
+                  decoration: InputDecoration(border: InputBorder.none),
+                  icon: Icon(
+                    LucideIcons.chevronDown,
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  ),
+                  initialValue: _selectedDepartmentId,
+                  hint: Text(
+                    t.extracted.select_department,
+                    style: GoogleFonts.outfit(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.5),
+                    ),
+                  ),
+                  items: _departments.map((dept) {
+                    return DropdownMenuItem<String>(
+                      value: dept.id,
+                      child: Text(
+                        isArabic && dept.nameAr.isNotEmpty
+                            ? dept.nameAr
+                            : dept.nameEn,
+                        style: GoogleFonts.outfit(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  validator: requiresCollege && _departments.isNotEmpty
+                      ? (val) => val == null || val.isEmpty
+                            ? (t.extracted.department_is_required)
+                            : null
+                      : null,
+                  onChanged: (val) {
+                    setState(() {
+                      _selectedDepartmentId = val;
+                    });
+                  },
+                ),
+              ),
+            ),
+        ],
+      ],
+    );
+  }
+
   Widget _buildManagementZone(bool isArabic, Color primaryColor) {
     return GlassContainer(
       padding: const EdgeInsets.all(20),
@@ -657,14 +1085,23 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   )
                   .toggleVerification(widget.user!.id, val);
             },
-            color: const Color(0xFF10B981),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
           ),
-          Divider(height: 28, color: Colors.white.withValues(alpha: 0.06)),
+          Divider(
+            height: 28,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
           _buildManageRow(
             icon: LucideIcons.ban,
             label: t.admin.ban_user,
             value: widget.user!.isBanned,
-            color: const Color(0xFFEF4444),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
             onChanged: (val) {
               ref
                   .read(
@@ -676,7 +1113,12 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   .toggleBan(widget.user!.id, val);
             },
           ),
-          Divider(height: 28, color: Colors.white.withValues(alpha: 0.06)),
+          Divider(
+            height: 28,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
           // Tags
           SizedBox(
             width: double.infinity,
@@ -704,7 +1146,12 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               ),
             ),
           ),
-          Divider(height: 28, color: Colors.white.withValues(alpha: 0.06)),
+          Divider(
+            height: 28,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
           // Warning level
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -763,7 +1210,12 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               ),
             ],
           ),
-          Divider(height: 28, color: Colors.white.withValues(alpha: 0.06)),
+          Divider(
+            height: 28,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.06),
+          ),
           // Delete button
           SizedBox(
             width: double.infinity,
@@ -848,7 +1300,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               height: 58,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [primaryColor, const Color(0xFF10B981)],
+                  colors: [primaryColor, Color(0xFF10B981)],
                   begin: Alignment.centerLeft,
                   end: Alignment.centerRight,
                 ),
@@ -865,29 +1317,29 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               ),
               child: Center(
                 child: _isSaving
-                    ? const SizedBox(
+                    ? SizedBox(
                         width: 22,
                         height: 22,
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       )
                     : Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             LucideIcons.save,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 18,
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 10),
                           Text(
                             t.admin.save_changes,
                             style: GoogleFonts.outfit(
                               fontSize: 16,
                               fontWeight: FontWeight.w800,
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               letterSpacing: 0.5,
                             ),
                           ),
@@ -906,7 +1358,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
@@ -957,12 +1409,12 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
             Icon(LucideIcons.tag, color: Theme.of(context).primaryColor),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Text(
               t.admin.manage_tags,
               style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
@@ -971,25 +1423,33 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         ),
         content: TextField(
           controller: controller,
-          style: GoogleFonts.inter(color: Colors.white),
+          style: GoogleFonts.inter(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           decoration: InputDecoration(
             hintText: t.admin.tag1_tag2,
             hintStyle: GoogleFonts.inter(color: Colors.white30),
             helperText: t.admin.separate_tags_with_commas,
             helperStyle: GoogleFonts.inter(
-              color: Colors.white.withValues(alpha: 0.3),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.3),
               fontSize: 11,
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
               ),
             ),
           ),

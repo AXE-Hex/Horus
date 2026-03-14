@@ -88,6 +88,7 @@ class UsersRepository {
     required String password,
     required String fullName,
     required List<UserRole> roles,
+    String? gender,
     String? studentId,
     String? nationalId,
     String? nationality,
@@ -96,73 +97,34 @@ class UsersRepository {
     String? departmentId,
   }) async {
     try {
-      // Try using Auth Admin API first (requires service_role key)
-      final response = await _client.auth.admin.createUser(
-        AdminUserAttributes(
-          email: email,
-          password: password,
-          emailConfirm: true,
-          userMetadata: {
-            'full_name': fullName,
-            'roles': roles.map((r) => r.toDbString()).toList(),
-          },
-        ),
-      );
-
-      final userId = response.user!.id;
-
-      // Upsert into profiles table
-      await _client.from('profiles').upsert({
-        'id': userId,
-        'email': email,
-        'full_name': fullName,
-        'roles': roles.map((r) => r.toDbString()).toList(),
-        'student_id': studentId?.isNotEmpty == true ? studentId : null,
-        'national_id': nationalId?.isNotEmpty == true ? nationalId : null,
-        'nationality': nationality?.isNotEmpty == true ? nationality : null,
-        'phone': phone?.isNotEmpty == true ? phone : null,
-        'college_id': collegeId,
-        'department_id': departmentId,
-        'is_active': true,
-        'is_verified': false,
-      });
-
-      return userId;
-    } catch (e) {
-      debugPrint('Admin createUser failed, trying signUp fallback: $e');
-
-      // Fallback: use signUp (works without service_role)
-      final response = await _client.auth.signUp(
-        email: email,
-        password: password,
-        data: {
+      final String newUserId = await _client.rpc(
+        'admin_create_user',
+        params: {
+          'email': email,
+          'password': password,
           'full_name': fullName,
           'roles': roles.map((r) => r.toDbString()).toList(),
+          'student_id': studentId?.isNotEmpty == true ? studentId : null,
+          'national_id': nationalId?.isNotEmpty == true ? nationalId : null,
+          'nationality': nationality?.isNotEmpty == true ? nationality : null,
+          'phone': phone?.isNotEmpty == true ? phone : null,
+          'college_id': collegeId,
+          'department_id': departmentId,
         },
       );
 
-      if (response.user == null) {
-        throw Exception('Failed to create user account');
+      // Gender field was added after the RPC was defined, update separately
+      if (gender != null && gender.isNotEmpty) {
+        await _client
+            .from('profiles')
+            .update({'gender': gender})
+            .eq('id', newUserId);
       }
 
-      final userId = response.user!.id;
-
-      await _client.from('profiles').upsert({
-        'id': userId,
-        'email': email,
-        'full_name': fullName,
-        'roles': roles.map((r) => r.toDbString()).toList(),
-        'student_id': studentId?.isNotEmpty == true ? studentId : null,
-        'national_id': nationalId?.isNotEmpty == true ? nationalId : null,
-        'nationality': nationality?.isNotEmpty == true ? nationality : null,
-        'phone': phone?.isNotEmpty == true ? phone : null,
-        'college_id': collegeId,
-        'department_id': departmentId,
-        'is_active': true,
-        'is_verified': false,
-      });
-
-      return userId;
+      return newUserId;
+    } catch (e) {
+      debugPrint('Admin createUser RPC failed: $e');
+      throw Exception('Failed to create user account: $e');
     }
   }
 
@@ -176,6 +138,7 @@ class UsersRepository {
       'full_name_ar',
       'avatar_url',
       'roles',
+      'gender',
       'student_id',
       'national_id',
       'nationality',

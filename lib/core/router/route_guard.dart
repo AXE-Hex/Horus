@@ -1,4 +1,5 @@
 import 'package:hue/core/auth/roles.dart';
+import 'package:hue/core/auth/permission_matrix.dart';
 
 const Set<String> publicRoutes = {
   '/splash',
@@ -12,8 +13,55 @@ const Set<String> publicRoutes = {
   '/transition',
 };
 
+/// Global permission matrix used for fine-grained route access checks.
+final PermissionMatrix _permissionMatrix = PermissionMatrix.initial();
+
+/// Required permissions for restricted admin routes.
+///
+/// A user may access the route if they have **any** of the listed permissions.
+const Map<String, Set<RolePermission>> adminRoutePermissions = {
+  '/admin': {
+    RolePermission.manageSystem,
+    RolePermission.manageUsers,
+    RolePermission.manageColleges,
+    RolePermission.manageDepartments,
+    RolePermission.viewAuditLogs,
+  },
+  '/admin/users': {RolePermission.manageUsers},
+  '/admin/users/new': {RolePermission.manageUsers},
+  '/admin/users/details': {RolePermission.manageUsers},
+  '/admin/users/edit': {RolePermission.manageUsers},
+  '/admin/colleges': {RolePermission.manageColleges},
+  '/admin/departments': {RolePermission.manageDepartments},
+  '/admin/audit-logs': {RolePermission.viewAuditLogs},
+  '/admin/roles': {
+    RolePermission.manageSystem,
+    RolePermission.manageUsers,
+  },
+  '/admin/monitor': {RolePermission.manageSystem},
+  '/admin/management/students': {
+    RolePermission.manageEnrollments,
+    RolePermission.adviseStudents,
+  },
+  '/admin/management/staff': {RolePermission.manageUsers},
+  '/admin/management/faculty': {RolePermission.manageUsers},
+  '/admin/management/leadership': {
+    RolePermission.manageColleges,
+    RolePermission.manageDepartments,
+  },
+  '/admin/management/admin-it': {RolePermission.manageSystem},
+};
+
 const Map<String, Set<RoleCategory>> routePermissions = {
-  '/students': {RoleCategory.studentRoles, RoleCategory.adminIT},
+  '/dashboard': {
+    RoleCategory.studentRoles,
+    RoleCategory.teachingStaff,
+    RoleCategory.academicLeadership,
+    RoleCategory.studentAffairs,
+    RoleCategory.adminIT,
+    RoleCategory.facilitiesSecurity,
+    RoleCategory.externalRoles,
+  },
   '/grades': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,
@@ -86,6 +134,19 @@ const Map<String, Set<RoleCategory>> routePermissions = {
 bool canAccessRoute(String path, UserRole role) {
   if (role == UserRole.superAdmin) return true;
 
+  // 1) Fine-grained admin routes based on RolePermission.
+  final requiredPermissions = adminRoutePermissions[path];
+  if (requiredPermissions != null) {
+    for (final permission in requiredPermissions) {
+      if (_permissionMatrix.checkAccess(role, permission)) {
+        return true;
+      }
+    }
+    // Route is protected by permissions and none matched.
+    return false;
+  }
+
+  // 2) Legacy category-based restrictions for non-admin routes.
   final allowed = routePermissions[path];
   if (allowed == null) return true;
 

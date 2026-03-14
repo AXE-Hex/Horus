@@ -40,6 +40,8 @@ import 'package:hue/features/shared/presentation/screens/security_screen.dart';
 import 'package:hue/features/shared/presentation/screens/sessions_screen.dart';
 import 'package:hue/features/shared/presentation/screens/tutorials_screen.dart';
 import 'package:hue/features/shared/presentation/screens/forums_screen.dart';
+import 'package:hue/features/feed/presentation/screens/create_post_screen.dart';
+import 'package:hue/features/feed/domain/models/post_model.dart';
 
 import 'package:hue/features/shared/presentation/screens/transition_screen.dart';
 import 'package:hue/features/academic/presentation/screens/professor_profile_screen.dart';
@@ -56,7 +58,6 @@ import 'package:hue/features/admin/presentation/screens/users_list_screen.dart';
 import 'package:hue/features/admin/presentation/screens/user_form_screen.dart';
 import 'package:hue/features/admin/presentation/screens/student_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/staff_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/faculty_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/leadership_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/admin_it_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/user_details_screen.dart';
@@ -65,12 +66,16 @@ import 'package:hue/features/admin/presentation/screens/college_details_screen.d
 import 'package:hue/features/admin/presentation/screens/colleges_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/departments_management_screen.dart';
 import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/presentation/screens/add_college_screen.dart';
+import 'package:hue/features/admin/presentation/screens/add_department_screen.dart';
 import 'package:hue/features/admin/presentation/screens/department_details_screen.dart';
 import 'package:hue/features/admin/presentation/screens/audit_logs_screen.dart';
 import 'package:hue/features/admin/presentation/screens/roles_management_screen.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:hue/features/enrollment/presentation/screens/advisor_approval_screen.dart';
 import 'package:hue/features/enrollment/presentation/screens/dean_advisor_assignment_screen.dart';
+import 'package:hue/features/colleges/presentation/screens/college_portal_screen.dart';
+import 'package:hue/core/constants/colleges_data.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authNotifier = ValueNotifier<AuthState>(
@@ -128,8 +133,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CollegesScreen(),
       ),
       GoRoute(
-        path: '/students',
-        builder: (context, state) => const StudentDashboardScreen(),
+        path: '/dashboard',
+        builder: (context, state) => const DashboardScreen(),
       ),
       GoRoute(
         path: '/grades',
@@ -206,6 +211,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
+        path: '/create-post',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          final initialType = extras['type'] as PostType? ?? PostType.text;
+          return CreatePostScreen(initialType: initialType);
+        },
+      ),
+      GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
       ),
@@ -220,10 +233,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/management/staff',
         builder: (context, state) => const StaffManagementScreen(),
-      ),
-      GoRoute(
-        path: '/admin/management/faculty',
-        builder: (context, state) => const FacultyManagementScreen(),
       ),
       GoRoute(
         path: '/admin/management/leadership',
@@ -273,8 +282,25 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CollegesManagementScreen(),
       ),
       GoRoute(
+        path: '/admin/colleges/form',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          return AddCollegeScreen(college: extras['college'] as CollegeModel?);
+        },
+      ),
+      GoRoute(
         path: '/admin/departments',
         builder: (context, state) => const DepartmentsManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/departments/form',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          return AddDepartmentScreen(
+            department: extras['department'] as DepartmentModel?,
+            inputCollegeId: extras['collegeId'] as String?,
+          );
+        },
       ),
       GoRoute(
         path: '/admin/departments/details',
@@ -334,8 +360,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/department-detail',
         builder: (context, state) {
-          final departmentData = state.extra as Map<String, dynamic>;
-          return DepartmentDetailScreen(departmentData: departmentData);
+          final extra = state.extra as Map<String, dynamic>;
+          final department = extra['department'] as DepartmentModel;
+          final color = extra['color'] as Color;
+          return DepartmentDetailScreen(department: department, color: color);
         },
       ),
       GoRoute(
@@ -353,6 +381,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         },
       ),
       GoRoute(
+        path: '/college-portal',
+        builder: (context, state) {
+          final college = state.extra as StaticCollegeData;
+          return CollegePortalScreen(college: college);
+        },
+      ),
+      GoRoute(
         path: '/college-details',
         builder: (context, state) {
           final collegeData = state.extra as Map<String, dynamic>;
@@ -362,8 +397,10 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/college-departments',
         builder: (context, state) {
-          final collegeData = state.extra as Map<String, dynamic>;
-          return CollegeDepartmentsScreen(collegeData: collegeData);
+          final extra = state.extra as Map<String, dynamic>;
+          final college = extra['college'] as CollegeModel;
+          final color = extra['color'] as Color;
+          return CollegeDepartmentsScreen(college: college, color: color);
         },
       ),
       GoRoute(
@@ -380,35 +417,60 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/professor-profile',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ProfessorProfileScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/professor-dashboard',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ProfessorDashboardScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/manage-tas',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ManageTasScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/manage-groups',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ManageGroupsScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/professor-chat',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ProfessorChatScreen(profile: profile);
         },
       ),
