@@ -504,7 +504,7 @@ class _DigitalIDScreenState extends ConsumerState<DigitalIDScreen> {
             scrollDirection: Axis.horizontal,
             itemCount: _collegesData.length,
             physics: const BouncingScrollPhysics(),
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
+            separatorBuilder: (_, _) => const SizedBox(width: 10),
             itemBuilder: (context, index) {
               final college = _collegesData[index];
               final isSelected = selectedCollegeId == college['id'];
@@ -592,7 +592,7 @@ class _DigitalIDScreenState extends ConsumerState<DigitalIDScreen> {
           scrollDirection: Axis.horizontal,
           itemCount: (selectedCollege['departments'] as List).length,
           physics: const BouncingScrollPhysics(),
-          separatorBuilder: (context, index) => const SizedBox(width: 8),
+          separatorBuilder: (_, _) => const SizedBox(width: 8),
           itemBuilder: (context, index) {
             final dept = (selectedCollege['departments'] as List)[index];
             final isSelected =

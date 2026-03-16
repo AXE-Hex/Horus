@@ -1,3 +1,4 @@
+
 import 'package:hue/core/data/base_repository.dart';
 
 class EnrollmentRepository extends BaseRepository {

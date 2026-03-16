@@ -149,7 +149,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                           size: 16,
                           color: themeColor,
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
                           t.admin.college,
                           style: GoogleFonts.inter(
@@ -162,16 +162,14 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                     ),
                   ),
                   if (_college.code != null) ...[
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.1),
+                        color: Colors.white.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -186,7 +184,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                   ],
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text(
                 isArabic ? _college.nameAr : _college.nameEn,
                 style: GoogleFonts.outfit(
@@ -195,15 +193,13 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                   height: 1.2,
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               Text(
                 (isArabic ? _college.descriptionAr : _college.descriptionEn) ??
                     (t.admin.no_description_available),
                 style: GoogleFonts.inter(
                   fontSize: 15,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                  color: Colors.white.withValues(alpha: 0.7),
                   height: 1.5,
                 ),
               ),
@@ -214,14 +210,14 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                   _buildStatChip(
                     LucideIcons.layoutGrid,
                     '${_departments.length}',
-                    t.extracted.departments,
+                    isArabic ? 'أقسام' : 'Departments',
                     themeColor,
                   ),
                   const SizedBox(width: 12),
                   _buildStatChip(
                     LucideIcons.users,
                     '${_college.studentCount}',
-                    t.extracted.students,
+                    isArabic ? 'طلاب' : 'Students',
                     Colors.cyanAccent,
                   ),
                   if (_college.established != null) ...[
@@ -229,7 +225,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                     _buildStatChip(
                       LucideIcons.calendar,
                       '${_college.established}',
-                      t.extracted.est,
+                      isArabic ? 'تأسيس' : 'Est.',
                       Colors.amberAccent,
                     ),
                   ],
@@ -294,9 +290,9 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                 color: Colors.orangeAccent.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(LucideIcons.userX, color: Colors.orangeAccent),
+              child: const Icon(LucideIcons.userX, color: Colors.orangeAccent),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,9 +308,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                     t.admin.please_assign_a_dean_for_the_c,
                     style: GoogleFonts.inter(
                       fontSize: 13,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                     ),
                   ),
                 ],
@@ -387,7 +381,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   CircleAvatar(
@@ -400,7 +394,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                         ? Icon(LucideIcons.user, color: themeColor, size: 30)
                         : null,
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,24 +406,21 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Row(
                           children: [
                             Icon(
                               LucideIcons.mail,
                               size: 14,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurface.withValues(alpha: 0.5),
+                              color: Colors.white.withValues(alpha: 0.5),
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Expanded(
                               child: Text(
                                 dean.email,
                                 style: GoogleFonts.inter(
                                   fontSize: 13,
-                                  color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.5),
+                                  color: Colors.white.withValues(alpha: 0.5),
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -488,12 +479,10 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '$staffCount ${t.extracted.faculty_members}',
+                      '$staffCount ${isArabic ? "عضو هيئة تدريس" : "Faculty Members"}',
                       style: GoogleFonts.inter(
                         fontSize: 13,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.5),
+                        color: Colors.white.withValues(alpha: 0.5),
                       ),
                     ),
                   ],
@@ -560,7 +549,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
             IconButton(
               icon: Icon(LucideIcons.plusCircle, color: themeColor),
               onPressed: () => _showAddDepartmentDialog(isArabic, themeColor),
-              tooltip: t.extracted.add_department,
+              tooltip: isArabic ? 'إضافة قسم' : 'Add Department',
             ),
           ],
         ),
@@ -582,24 +571,20 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
               Icon(
                 LucideIcons.layoutGrid,
                 size: 64,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.1),
+                color: Colors.white.withValues(alpha: 0.1),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 t.admin.no_departments_in_this_college,
                 style: GoogleFonts.inter(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.4),
+                  color: Colors.white.withValues(alpha: 0.4),
                 ),
               ),
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () => _showAddDepartmentDialog(isArabic, themeColor),
                 icon: const Icon(LucideIcons.plus, size: 18),
-                label: Text(t.extracted.add_department),
+                label: Text(isArabic ? 'إضافة قسم جديد' : 'Add Department'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: themeColor,
                   foregroundColor: Colors.white,
@@ -638,7 +623,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                   ),
                   child: Icon(LucideIcons.component, color: themeColor),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -650,7 +635,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Row(
                         children: [
                           if (dept.code != null) ...[
@@ -660,9 +645,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.1),
+                                color: Colors.white.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(
@@ -673,7 +656,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                           ],
                           Expanded(
                             child: Text(
@@ -683,9 +666,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                                   '',
                               style: GoogleFonts.inter(
                                 fontSize: 13,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.5),
+                                color: Colors.white.withValues(alpha: 0.5),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -711,14 +692,12 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                         size: 16,
                         color: Colors.orangeAccent.withValues(alpha: 0.7),
                       ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Icon(
                       isArabic
                           ? LucideIcons.chevronLeft
                           : LucideIcons.chevronRight,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.3),
+                      color: Colors.white.withValues(alpha: 0.3),
                     ),
                   ],
                 ),
@@ -737,15 +716,13 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: const Color(0xFF1E1E2E),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           title: Text(
             t.admin.assign_dean,
-            style: GoogleFonts.outfit(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            style: GoogleFonts.outfit(color: Colors.white),
           ),
           content: SizedBox(
             width: double.maxFinite,
@@ -779,18 +756,18 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: const Color(0xFF1E1E2E),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           title: Row(
             children: [
               Icon(LucideIcons.layoutGrid, color: themeColor, size: 22),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
-                t.extracted.add_new_department,
+                isArabic ? 'إضافة قسم جديد' : 'Add New Department',
                 style: GoogleFonts.outfit(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -802,28 +779,28 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
               children: [
                 _buildTextField(
                   nameEnController,
-                  t.extracted.department_name_en,
+                  isArabic ? 'اسم القسم (إنجليزي)' : 'Department Name (EN)',
                   LucideIcons.type,
                   themeColor,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   nameArController,
-                  t.extracted.department_name_ar,
+                  isArabic ? 'اسم القسم (عربي)' : 'Department Name (AR)',
                   LucideIcons.type,
                   themeColor,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   codeController,
-                  t.extracted.department_code,
+                  isArabic ? 'رمز القسم' : 'Department Code',
                   LucideIcons.hash,
                   themeColor,
                 ),
                 const SizedBox(height: 12),
                 _buildTextField(
                   descController,
-                  t.extracted.description,
+                  isArabic ? 'الوصف' : 'Description',
                   LucideIcons.alignLeft,
                   themeColor,
                   maxLines: 3,
@@ -835,7 +812,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
               child: Text(
-                t.extracted.cancel,
+                isArabic ? 'إلغاء' : 'Cancel',
                 style: const TextStyle(color: Colors.white54),
               ),
             ),
@@ -867,7 +844,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Text(t.extracted.add),
+              child: Text(isArabic ? 'إضافة' : 'Add'),
             ),
           ],
         );
@@ -885,7 +862,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     return TextField(
       controller: controller,
       maxLines: maxLines,
-      style: GoogleFonts.inter(color: Theme.of(context).colorScheme.onSurface),
+      style: GoogleFonts.inter(color: Colors.white),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: GoogleFonts.inter(color: Colors.white54, fontSize: 13),
@@ -894,19 +871,11 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
         fillColor: Colors.white.withValues(alpha: 0.05),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.1),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.1),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -952,21 +921,17 @@ class _DeanSelectionList extends ConsumerWidget {
                     ? NetworkImage(user.avatarUrl!)
                     : null,
                 child: user.avatarUrl == null
-                    ? Icon(LucideIcons.user, size: 20)
+                    ? const Icon(LucideIcons.user, size: 20)
                     : null,
               ),
               title: Text(
                 user.fullName,
-                style: GoogleFonts.outfit(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                style: GoogleFonts.outfit(color: Colors.white),
               ),
               subtitle: Text(
                 user.email,
                 style: GoogleFonts.inter(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  color: Colors.white.withValues(alpha: 0.5),
                   fontSize: 12,
                 ),
               ),

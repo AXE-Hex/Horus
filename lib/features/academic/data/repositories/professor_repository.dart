@@ -35,66 +35,8 @@ final professorProfileProvider = FutureProvider<ProfessorProfile?>((ref) async {
 
 final professorProfileByIdProvider =
     FutureProvider.family<ProfessorProfile?, String>((ref, id) async {
-  return ref.watch(professorRepositoryProvider).getFullProfessorProfile(id);
-});
-
-final availableTAsProvider =
-    FutureProvider<List<TeachingAssistant>>((ref) async {
-  return ref.watch(professorRepositoryProvider).getAvailableTAs();
-});
-
-class AcademicSummary {
-  final double gpa;
-  final int completedCredits;
-  final int remainingCredits;
-  final Map<String, double> categoryCompletion; // name -> progress (0-1)
-
-  AcademicSummary({
-    required this.gpa,
-    required this.completedCredits,
-    required this.remainingCredits,
-    required this.categoryCompletion,
-  });
-}
-
-final academicSummaryProvider = FutureProvider<AcademicSummary>((ref) async {
-  final auth = ref.watch(authControllerProvider);
-  if (auth.user == null) {
-     return AcademicSummary(gpa: 0, completedCredits: 0, remainingCredits: 140, categoryCompletion: {});
-  }
-  
-  final repo = ref.watch(academicRepositoryProvider);
-  final grades = await repo.getStudentGrades(auth.user!.id);
-  
-  double totalPoints = 0;
-  int totalCredits = 0;
-  int completedCredits = 0;
-  
-  for (final grade in grades) {
-    if (grade['is_published'] == true) {
-      final credits = grade['courses']?['credits'] ?? 3;
-      final points = (grade['gpa_points'] as num?)?.toDouble() ?? 0.0;
-      totalPoints += points * credits;
-      totalCredits += credits as int;
-      if (points > 0) completedCredits += credits as int;
-    }
-  }
-  
-  final gpa = totalCredits > 0 ? totalPoints / totalCredits : 0.0;
-  
-  // Mock categories for now as we don't have them in courses table yet
-  return AcademicSummary(
-    gpa: gpa,
-    completedCredits: completedCredits,
-    remainingCredits: 140 - completedCredits, // Assuming 140 total
-    categoryCompletion: {
-      'University': 0.66,
-      'Faculty': 0.71,
-      'Major': 0.76,
-      'Electives': 0.50,
-    },
-  );
-});
+      return ref.watch(professorRepositoryProvider).getFullProfessorProfile(id);
+    });
 
 class ProfessorRepository extends BaseRepository {
   ProfessorRepository(super.client);
@@ -263,22 +205,6 @@ class ProfessorRepository extends BaseRepository {
         .eq('professor_id', professorId)
         .eq('is_active', true);
     return List<Map<String, dynamic>>.from(result);
-  }
-
-  Future<List<TeachingAssistant>> getAvailableTAs() async {
-    final result = await client
-        .from('profiles')
-        .select('id, full_name, email')
-        .contains('roles', ['teaching_assistant']);
-
-    return (result as List).map((row) {
-      return TeachingAssistant(
-        id: row['id'] as String,
-        name: row['full_name'] as String? ?? 'Unknown',
-        email: row['email'] as String? ?? '',
-        role: 'teaching_assistant',
-      );
-    }).toList();
   }
 
   Future<Map<String, dynamic>> addTA(Map<String, dynamic> data) =>

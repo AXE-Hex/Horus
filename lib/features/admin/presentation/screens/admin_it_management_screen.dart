@@ -56,8 +56,8 @@ class _AdminITManagementScreenState
               ],
             ),
             child: IconButton(
-              icon: Icon(LucideIcons.userPlus, size: 18),
-              color: Theme.of(context).colorScheme.onSurface,
+              icon: const Icon(LucideIcons.userPlus, size: 18),
+              color: Colors.white,
               onPressed: () => context.push(
                 '/admin/users/new',
                 extra: {'category': RoleCategory.adminIT},
@@ -90,25 +90,23 @@ class _AdminITManagementScreenState
                                 fontSize: 17,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 4),
                             Row(
                               children: [
                                 Container(
                                   width: 8,
                                   height: 8,
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color(0xFF10B981),
                                     shape: BoxShape.circle,
                                   ),
                                 ),
-                                SizedBox(width: 8),
+                                const SizedBox(width: 8),
                                 Text(
                                   t.admin.all_systems_operational,
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
-                                    color:
-                                        (Theme.of(context).cardTheme.color ??
-                                        Theme.of(context).cardColor),
+                                    color: const Color(0xFF10B981),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -128,7 +126,7 @@ class _AdminITManagementScreenState
                           ),
                           borderRadius: BorderRadius.circular(18),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           LucideIcons.cpu,
                           size: 28,
                           color: Colors.blueAccent,
@@ -136,12 +134,8 @@ class _AdminITManagementScreenState
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
-                  Divider(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.06),
-                  ),
+                  const SizedBox(height: 20),
+                  Divider(color: Colors.white.withValues(alpha: 0.06)),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -196,7 +190,7 @@ class _AdminITManagementScreenState
           ),
           child: Icon(icon, size: 18, color: color),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         value.when(
           data: (val) => Text(
             val.toString(),
@@ -206,16 +200,14 @@ class _AdminITManagementScreenState
               color: color,
             ),
           ),
-          loading: () => Text('...'),
-          error: (err, stack) => Text('?'),
+          loading: () => const Text('...'),
+          error: (err, stack) => const Text('?'),
         ),
         Text(
           label,
           style: GoogleFonts.outfit(
             fontSize: 10,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.35),
+            color: Colors.white.withValues(alpha: 0.35),
           ),
         ),
       ],
@@ -241,20 +233,18 @@ class _AdminITManagementScreenState
                     shape: BoxShape.circle,
                     color: Colors.blueAccent.withValues(alpha: 0.06),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     LucideIcons.terminal,
                     size: 36,
                     color: Colors.blueAccent,
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
                   'No admins found',
                   style: GoogleFonts.outfit(
                     fontSize: 14,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.3),
+                    color: Colors.white.withValues(alpha: 0.3),
                   ),
                 ),
               ],
@@ -314,15 +304,13 @@ class _AdminTile extends StatelessWidget {
               height: 50,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [Colors.blueAccent, Colors.purpleAccent],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 border: Border.all(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.15),
+                  color: Colors.white.withValues(alpha: 0.15),
                   width: 1.5,
                 ),
               ),
@@ -333,18 +321,15 @@ class _AdminTile extends StatelessWidget {
                         fit: BoxFit.cover,
                         width: 50,
                         height: 50,
-                        errorBuilder: (context, error, stackTrace) => Icon(
-                          LucideIcons.user,
-                          size: 22,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
+                              LucideIcons.user,
+                              size: 22,
+                              color: Colors.white,
+                            ),
                       ),
                     )
-                  : Icon(
-                      LucideIcons.user,
-                      size: 22,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                  : const Icon(LucideIcons.user, size: 22, color: Colors.white),
             ),
             const SizedBox(width: 14),
             Expanded(

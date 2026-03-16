@@ -32,7 +32,11 @@ class SystemSettingsScreen extends ConsumerWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text(t.admin.error_snapshoterror));
+            return Center(
+              child: Text(
+                t.admin.error_snapshoterror,
+              ),
+            );
           }
 
           final data = snapshot.data ?? [];
@@ -145,13 +149,11 @@ class SystemSettingsScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Icon(
                   LucideIcons.edit2,
                   size: 16,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+                  color: Colors.white.withValues(alpha: 0.5),
                 ),
               ],
             ),

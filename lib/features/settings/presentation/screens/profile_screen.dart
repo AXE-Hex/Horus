@@ -86,6 +86,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   Future<void> _pickImage(BuildContext context) async {
+    final isArabic = t.$meta.locale.languageCode == 'ar';
     HapticFeedback.mediumImpact();
 
     showModalBottomSheet(
@@ -93,17 +94,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
+          gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          border: Border.all(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.1),
-          ),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
         ),
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 40),
         child: Column(
@@ -113,42 +110,36 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               width: 48,
               height: 5,
               decoration: BoxDecoration(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             Text(
-              t.extracted.change_profile_photo,
+              isArabic ? 'تغيير الصورة الشخصية' : 'Change Profile Photo',
               style: GoogleFonts.outfit(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: Colors.white,
               ),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             _imagePickerOption(
               ctx,
               icon: LucideIcons.camera,
-              label: t.extracted.take_photo,
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                  Theme.of(context).cardColor),
+              label: isArabic ? 'التقاط صورة' : 'Take Photo',
+              color: const Color(0xFF6366F1),
               onTap: () async {
                 Navigator.pop(ctx);
                 await _pickFromSource(ImageSource.camera);
               },
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             _imagePickerOption(
               ctx,
               icon: LucideIcons.image,
-              label: t.extracted.choose_from_gallery,
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                  Theme.of(context).cardColor),
+              label: isArabic ? 'اختيار من المعرض' : 'Choose from Gallery',
+              color: const Color(0xFF10B981),
               onTap: () async {
                 Navigator.pop(ctx);
                 await _pickFromSource(ImageSource.gallery);
@@ -160,7 +151,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               _imagePickerOption(
                 ctx,
                 icon: LucideIcons.trash2,
-                label: t.extracted.remove_photo,
+                label: isArabic ? 'حذف الصورة' : 'Remove Photo',
                 color: Colors.redAccent,
                 onTap: () {
                   Navigator.pop(ctx);
@@ -203,13 +194,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 ),
                 child: Icon(icon, color: color, size: 22),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Text(
                 label,
                 style: GoogleFonts.outfit(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -270,7 +261,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   ? 'تم تحديث الصورة الشخصية'
                   : 'Profile photo updated!',
             ),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: const Color(0xFF10B981),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -318,12 +309,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           SnackBar(
             content: Row(
               children: [
-                Icon(
+                const Icon(
                   LucideIcons.checkCircle2,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Colors.white,
                   size: 20,
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Text(
                   t.$meta.locale.languageCode == 'ar'
                       ? 'تم حفظ الملف الشخصي بنجاح'
@@ -332,7 +323,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 ),
               ],
             ),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: const Color(0xFF10B981),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(14),
@@ -373,7 +364,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     }
 
     final body = CustomScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
         // ── Immersive Hero Header ──
         SliverAppBar(
@@ -390,10 +381,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                icon: Icon(
-                  LucideIcons.arrowLeft,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
                 onPressed: () => context.pop(),
               ),
             ),
@@ -425,18 +413,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   child: TextButton(
                     onPressed: _isSaving ? null : _saveProfile,
                     child: _isSaving
-                        ? SizedBox(
+                        ? const SizedBox(
                             width: 18,
                             height: 18,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: Colors.white,
                             ),
                           )
                         : Text(
-                            t.extracted.save,
+                            isArabic ? 'حفظ' : 'Save',
                             style: GoogleFonts.outfit(
-                              color: Theme.of(context).colorScheme.onSurface,
+                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -461,9 +449,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                       colors: [
-                        Color(0xFF1A0533),
+                        const Color(0xFF1A0533),
                         primaryColor.withValues(alpha: 0.8),
-                        Color(0xFF0D1B2A),
+                        const Color(0xFF0D1B2A),
                       ],
                       stops: const [0.0, 0.45, 1.0],
                     ),
@@ -476,7 +464,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     child: Icon(
                       LucideIcons.userCircle2,
                       size: 260,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -522,7 +510,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: LinearGradient(
-                                    colors: [primaryColor, Color(0xFF10B981)],
+                                    colors: [
+                                      primaryColor,
+                                      const Color(0xFF10B981),
+                                    ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
@@ -539,12 +530,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(0xFF0D1B2A),
                                   ),
                                   child: _isUploadingAvatar
-                                      ? SizedBox(
+                                      ? const SizedBox(
                                           width: 120,
                                           height: 120,
                                           child: Center(
@@ -559,13 +550,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                               .withValues(alpha: 0.08),
                                           backgroundImage: avatarProvider,
                                           child: avatarProvider == null
-                                              ? Icon(
+                                              ? const Icon(
                                                   LucideIcons.userCircle2,
                                                   size: 55,
-                                                  color: Theme.of(context)
-                                                      .colorScheme
-                                                      .onSurface
-                                                      .withValues(alpha: 0.7),
+                                                  color: Colors.white70,
                                                 )
                                               : null,
                                         ),
@@ -592,9 +580,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     ),
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color:
-                                          (Theme.of(context).cardTheme.color ??
-                                          Theme.of(context).cardColor),
+                                      color: const Color(0xFF0D1B2A),
                                       width: 3,
                                     ),
                                     boxShadow: [
@@ -606,12 +592,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       ),
                                     ],
                                   ),
-                                  child: Icon(
+                                  child: const Icon(
                                     LucideIcons.camera,
                                     size: 18,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onSurface,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ),
@@ -619,27 +603,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                           ],
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Text(
-                        auth.fullName ?? (t.extracted.user),
+                        auth.fullName ?? (isArabic ? 'المستخدم' : 'User'),
                         style: GoogleFonts.outfit(
                           fontSize: 26,
                           fontWeight: FontWeight.w900,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.white,
                           letterSpacing: -0.5,
                         ),
                       ).animate().fadeIn(delay: 200.ms),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         auth.user?.email ?? '',
                         style: GoogleFonts.inter(
                           fontSize: 13,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.55),
+                          color: Colors.white.withValues(alpha: 0.55),
                         ),
                       ).animate().fadeIn(delay: 300.ms),
-                      SizedBox(height: 12),
+                      const SizedBox(height: 12),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -655,17 +637,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(
+                            const Icon(
                               LucideIcons.shield,
                               size: 13,
                               color: Colors.greenAccent,
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Text(
                               auth.role.displayName(isArabic: isArabic),
                               style: GoogleFonts.outfit(
                                 fontSize: 12,
-                                color: Theme.of(context).colorScheme.onSurface,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.8,
                               ),
@@ -694,7 +676,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                   children: [
                     // Section header
                     _sectionLabel(
-                      t.extracted.personal_info,
+                      isArabic ? 'المعلومات الشخصية' : 'Personal Info',
                       LucideIcons.user,
                       primaryColor,
                     ),
@@ -703,13 +685,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     // Full Name
                     _buildPremiumField(
                       context: context,
-                      label: t.extracted.full_name,
+                      label: isArabic ? 'الاسم الكامل' : 'Full Name',
                       controller: _nameController,
                       icon: LucideIcons.user,
                       iconColor: const Color(0xFF6366F1),
                       isGlass: isGlass,
                       validator: (v) => (v == null || v.trim().isEmpty)
-                          ? (t.extracted.required)
+                          ? (isArabic ? 'مطلوب' : 'Required')
                           : null,
                     ),
                     const SizedBox(height: 14),
@@ -717,7 +699,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     // Email (read-only)
                     _buildPremiumField(
                       context: context,
-                      label: t.extracted.email,
+                      label: isArabic ? 'البريد الإلكتروني' : 'Email',
                       controller: TextEditingController(
                         text: auth.user?.email ?? '',
                       ),
@@ -731,7 +713,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     // Phone
                     _buildPremiumField(
                       context: context,
-                      label: t.extracted.phone_number,
+                      label: isArabic ? 'رقم الجوال' : 'Phone Number',
                       controller: _phoneController,
                       icon: LucideIcons.phone,
                       iconColor: Colors.greenAccent,
@@ -743,7 +725,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     // National ID
                     _buildPremiumField(
                       context: context,
-                      label: t.extracted.national_id,
+                      label: isArabic ? 'رقم الهوية الوطنية' : 'National ID',
                       controller: _nationalIdController,
                       icon: LucideIcons.creditCard,
                       iconColor: Colors.amberAccent,
@@ -753,7 +735,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     const SizedBox(height: 28),
 
                     _sectionLabel(
-                      t.extracted.about_me,
+                      isArabic ? 'نبذة شخصية' : 'About Me',
                       LucideIcons.fileText,
                       primaryColor,
                     ),
@@ -762,7 +744,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     // Bio
                     _buildPremiumField(
                       context: context,
-                      label: t.extracted.write_something_about_yourself,
+                      label: isArabic
+                          ? 'اكتب نبذة عن نفسك...'
+                          : 'Write something about yourself...',
                       controller: _bioController,
                       icon: LucideIcons.pencil,
                       iconColor: Colors.pinkAccent,
@@ -773,7 +757,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
 
                     // Role badge card
                     _sectionLabel(
-                      t.extracted.account_info,
+                      isArabic ? 'معلومات الحساب' : 'Account Info',
                       LucideIcons.shield,
                       primaryColor,
                     ),
@@ -801,7 +785,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     return isGlass
         ? GlassScaffold(resizeToAvoidBottomInset: true, body: body)
         : Scaffold(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: const Color(0xFF0A0A1A),
             resizeToAvoidBottomInset: true,
             body: body,
           );
@@ -818,13 +802,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
           child: Icon(icon, size: 16, color: color),
         ),
-        SizedBox(width: 12),
+        const SizedBox(width: 12),
         Text(
           title,
           style: GoogleFonts.outfit(
             fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Colors.white,
             letterSpacing: 0.5,
           ),
         ),
@@ -848,12 +832,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.04),
-        border: Border.all(
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withValues(alpha: 0.08),
-        ),
+        color: Colors.white.withValues(alpha: 0.04),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: TextFormField(
         controller: controller,
@@ -861,16 +841,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
         keyboardType: keyboardType,
         maxLines: maxLines,
         validator: validator,
-        style: GoogleFonts.inter(
-          color: Theme.of(context).colorScheme.onSurface,
-          fontSize: 15,
-        ),
+        style: GoogleFonts.inter(color: Colors.white, fontSize: 15),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: GoogleFonts.inter(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.5),
+            color: Colors.white.withValues(alpha: 0.5),
             fontSize: 14,
           ),
           prefixIcon: Container(
@@ -886,9 +861,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               ? Icon(
                   LucideIcons.lock,
                   size: 16,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.25),
+                  color: Colors.white.withValues(alpha: 0.25),
                 )
               : null,
           border: OutlineInputBorder(
@@ -931,32 +904,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           _infoRow(
             icon: LucideIcons.shield,
             iconColor: Colors.greenAccent,
-            label: t.extracted.role,
+            label: isArabic ? 'الدور' : 'Role',
             value: auth.role.displayName(isArabic: isArabic),
           ),
-          Divider(
-            height: 24,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.08),
-          ),
+          Divider(height: 24, color: Colors.white.withValues(alpha: 0.08)),
           _infoRow(
             icon: LucideIcons.mail,
             iconColor: Colors.blueAccent,
-            label: t.extracted.email,
+            label: isArabic ? 'البريد الإلكتروني' : 'Email',
             value: auth.user?.email ?? '—',
           ),
-          Divider(
-            height: 24,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.08),
-          ),
+          Divider(height: 24, color: Colors.white.withValues(alpha: 0.08)),
           _infoRow(
             icon: LucideIcons.checkCircle2,
             iconColor: primaryColor,
-            label: t.extracted.account_status,
-            value: t.extracted.active,
+            label: isArabic ? 'حالة الحساب' : 'Account Status',
+            value: isArabic ? 'نشط' : 'Active',
           ),
         ],
       ),
@@ -979,7 +942,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
           child: Icon(icon, size: 16, color: iconColor),
         ),
-        SizedBox(width: 14),
+        const SizedBox(width: 14),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -988,19 +951,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 label,
                 style: GoogleFonts.inter(
                   fontSize: 11,
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.4),
+                  color: Colors.white.withValues(alpha: 0.4),
                   letterSpacing: 0.5,
                 ),
               ),
-              SizedBox(height: 2),
+              const SizedBox(height: 2),
               Text(
                 value,
                 style: GoogleFonts.outfit(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -1024,7 +985,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           height: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [primaryColor, Color(0xFF10B981)],
+              colors: [primaryColor, const Color(0xFF10B981)],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
@@ -1041,29 +1002,29 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
           child: Center(
             child: _isSaving
-                ? SizedBox(
+                ? const SizedBox(
                     width: 24,
                     height: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.5,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: Colors.white,
                     ),
                   )
                 : Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
+                      const Icon(
                         LucideIcons.save,
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: Colors.white,
                         size: 20,
                       ),
-                      SizedBox(width: 12),
+                      const SizedBox(width: 12),
                       Text(
-                        t.extracted.save_changes,
+                        isArabic ? 'حفظ التغييرات' : 'Save Changes',
                         style: GoogleFonts.outfit(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.white,
                           letterSpacing: 0.5,
                         ),
                       ),

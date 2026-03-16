@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hue/core/auth/roles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
-import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
 import 'package:hue/features/admin/presentation/providers/users_provider.dart';
 import 'package:hue/features/admin/presentation/providers/admin_stats_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
@@ -28,30 +26,6 @@ class _StudentManagementScreenState
   final _searchController = TextEditingController();
   String _levelFilter = 'all';
   String _searchQuery = '';
-  String _collegeFilter = 'all';
-  List<CollegeModel> _colleges = [];
-  bool _isLoadingColleges = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadColleges();
-  }
-
-  Future<void> _loadColleges() async {
-    try {
-      final repo = ref.read(institutionalRepositoryProvider);
-      final colleges = await repo.getColleges();
-      if (mounted) {
-        setState(() {
-          _colleges = colleges;
-          _isLoadingColleges = false;
-        });
-      }
-    } catch (_) {
-      if (mounted) setState(() => _isLoadingColleges = false);
-    }
-  }
 
   @override
   void dispose() {
@@ -94,8 +68,8 @@ class _StudentManagementScreenState
               ],
             ),
             child: IconButton(
-              icon: Icon(LucideIcons.userPlus, size: 18),
-              color: Theme.of(context).colorScheme.onSurface,
+              icon: const Icon(LucideIcons.userPlus, size: 18),
+              color: Colors.white,
               onPressed: () => context.push(
                 '/admin/users/new',
                 extra: {'category': RoleCategory.studentRoles},
@@ -110,13 +84,7 @@ class _StudentManagementScreenState
           _buildFilterBar(isArabic, primaryColor),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: Row(
-              children: [
-                Expanded(child: _buildSearchBar(isArabic, primaryColor)),
-                const SizedBox(width: 10),
-                _buildCollegeFilterButton(primaryColor, isArabic),
-              ],
-            ),
+            child: _buildSearchBar(isArabic, primaryColor),
           ),
           Expanded(child: _buildStudentsList(isArabic, primaryColor)),
         ],
@@ -135,15 +103,13 @@ class _StudentManagementScreenState
       child: ListView(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: [
           _StatMiniCard(
             label: t.admin.total_students,
             valueAsync: total,
             icon: LucideIcons.graduationCap,
-            color:
-                (Theme.of(context).cardTheme.color ??
-                Theme.of(context).cardColor),
+            color: const Color(0xFF10B981),
           ),
           _StatMiniCard(
             label: t.admin.academic_warnings,
@@ -155,9 +121,7 @@ class _StudentManagementScreenState
             label: t.admin.pending_reg,
             valueAsync: const AsyncValue.data(12),
             icon: LucideIcons.clipboardList,
-            color:
-                (Theme.of(context).cardTheme.color ??
-                Theme.of(context).cardColor),
+            color: const Color(0xFF6366F1),
           ),
         ],
       ),
@@ -232,189 +196,28 @@ class _StudentManagementScreenState
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
-        border: Border.all(
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withValues(alpha: 0.08),
-        ),
+        color: Colors.white.withValues(alpha: 0.05),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: TextField(
         controller: _searchController,
         onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
-        style: GoogleFonts.inter(
-          fontSize: 14,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+        style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
         decoration: InputDecoration(
           hintText: t.admin.search_student_or_id,
           hintStyle: GoogleFonts.inter(
             fontSize: 13,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.25),
+            color: Colors.white.withValues(alpha: 0.25),
           ),
           prefixIcon: Icon(
             LucideIcons.search,
             size: 18,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.35),
+            color: Colors.white.withValues(alpha: 0.35),
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 14,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCollegeFilterButton(Color primaryColor, bool isArabic) {
-    final hasActiveFilter = _collegeFilter != 'all';
-    return GlassContainer(
-      borderRadius: BorderRadius.circular(16),
-      child: Stack(
-        children: [
-          IconButton(
-            icon: Icon(
-              LucideIcons.building,
-              size: 18,
-              color: hasActiveFilter ? primaryColor : Colors.white70,
-            ),
-            onPressed: () => _showCollegeFilterSheet(primaryColor, isArabic),
-          ),
-          if (hasActiveFilter)
-            Positioned(
-              top: 8,
-              right: 8,
-              child: Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  void _showCollegeFilterSheet(Color primaryColor, bool isArabic) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setSheetState) => GlassContainer(
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              Row(
-                children: [
-                  Icon(LucideIcons.building, size: 18, color: primaryColor),
-                  const SizedBox(width: 10),
-                  Text(
-                    t.admin.colleges,
-                    style: GoogleFonts.outfit(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              if (_isLoadingColleges)
-                const Center(child: CircularProgressIndicator())
-              else if (_colleges.isEmpty)
-                Text(t.admin.no_colleges_found)
-              else
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    _buildFilterSheetChip(
-                      t.admin.all,
-                      _collegeFilter == 'all',
-                      () {
-                        setSheetState(() => _collegeFilter = 'all');
-                        setState(() => _collegeFilter = 'all');
-                      },
-                      primaryColor,
-                    ),
-                    ..._colleges.map((college) {
-                      final name = isArabic ? college.nameAr : college.nameEn;
-                      return _buildFilterSheetChip(
-                        name,
-                        _collegeFilter == college.id,
-                        () {
-                          setSheetState(() => _collegeFilter = college.id);
-                          setState(() => _collegeFilter = college.id);
-                        },
-                        primaryColor,
-                      );
-                    }),
-                  ],
-                ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFilterSheetChip(
-    String label,
-    bool isSelected,
-    VoidCallback onTap,
-    Color primaryColor,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: 200.ms,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? primaryColor.withValues(alpha: 0.15)
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected
-                ? primaryColor
-                : Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.2),
-          ),
-        ),
-        child: Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 13,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-            color: isSelected
-                ? primaryColor
-                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),
@@ -433,13 +236,7 @@ class _StudentManagementScreenState
               u.fullName.toLowerCase().contains(_searchQuery) ||
               (u.studentId?.toLowerCase().contains(_searchQuery) ?? false) ||
               u.email.toLowerCase().contains(_searchQuery);
-          if (!matchesSearch) return false;
-
-          if (_collegeFilter != 'all' && u.collegeId != _collegeFilter) {
-            return false;
-          }
-
-          return true;
+          return matchesSearch;
         }).toList();
 
         if (filtered.isEmpty) return _buildEmptyState();
@@ -475,25 +272,20 @@ class _StudentManagementScreenState
             height: 90,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                          Theme.of(context).cardColor)
-                      .withValues(alpha: 0.06),
+              color: const Color(0xFF10B981).withValues(alpha: 0.06),
             ),
-            child: Icon(
+            child: const Icon(
               LucideIcons.graduationCap,
               size: 36,
               color: Color(0xFF10B981),
             ),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             t.admin.no_matching_students_found,
             style: GoogleFonts.outfit(
               fontSize: 14,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.3),
+              color: Colors.white.withValues(alpha: 0.3),
             ),
           ),
         ],
@@ -532,7 +324,7 @@ class _StatMiniCard extends StatelessWidget {
             ),
             child: Icon(icon, size: 16, color: color),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -546,20 +338,18 @@ class _StatMiniCard extends StatelessWidget {
                       fontSize: 20,
                     ),
                   ),
-                  loading: () => SizedBox(
+                  loading: () => const SizedBox(
                     height: 18,
                     width: 20,
                     child: LinearProgressIndicator(),
                   ),
-                  error: (err, stack) => Text('?'),
+                  error: (err, stack) => const Text('?'),
                 ),
                 Text(
                   label,
                   style: GoogleFonts.outfit(
                     fontSize: 10,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.4),
+                    color: Colors.white.withValues(alpha: 0.4),
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -609,8 +399,8 @@ class _StudentCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFF10B981).withValues(alpha: 0.3),
-                        Color(0xFF10B981).withValues(alpha: 0.1),
+                        const Color(0xFF10B981).withValues(alpha: 0.3),
+                        const Color(0xFF10B981).withValues(alpha: 0.1),
                       ],
                     ),
                   ),
@@ -621,14 +411,19 @@ class _StudentCard extends StatelessWidget {
                             fit: BoxFit.cover,
                             width: 50,
                             height: 50,
-                            errorBuilder: (context, error, stackTrace) => Icon(
-                              LucideIcons.user,
-                              size: 22,
-                              color: Colors.white70,
-                            ),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(
+                                  LucideIcons.user,
+                                  size: 22,
+                                  color: Colors.white70,
+                                ),
                           ),
                         )
-                      : Icon(LucideIcons.user, size: 22, color: Colors.white70),
+                      : const Icon(
+                          LucideIcons.user,
+                          size: 22,
+                          color: Colors.white70,
+                        ),
                 ),
                 Positioned(
                   bottom: 1,
@@ -640,9 +435,7 @@ class _StudentCard extends StatelessWidget {
                       color: statusColor,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color:
-                            (Theme.of(context).cardTheme.color ??
-                            Theme.of(context).cardColor),
+                        color: const Color(0xFF0A0A1A),
                         width: 2,
                       ),
                     ),
@@ -650,7 +443,7 @@ class _StudentCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -669,16 +462,16 @@ class _StudentCard extends StatelessWidget {
                         ),
                       ),
                       if (student.isVerified) ...[
-                        SizedBox(width: 6),
-                        Icon(
+                        const SizedBox(width: 6),
+                        const Icon(
                           LucideIcons.badgeCheck,
                           size: 14,
                           color: Color(0xFF10B981),
                         ),
                       ],
                       if (student.warningLevel > 0) ...[
-                        SizedBox(width: 4),
-                        Icon(
+                        const SizedBox(width: 4),
+                        const Icon(
                           LucideIcons.alertTriangle,
                           size: 12,
                           color: Colors.orangeAccent,
@@ -692,18 +485,14 @@ class _StudentCard extends StatelessWidget {
                       Icon(
                         LucideIcons.hash,
                         size: 10,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         student.studentId ?? 'N/A',
                         style: GoogleFonts.shareTechMono(
                           fontSize: 11,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.35),
+                          color: Colors.white.withValues(alpha: 0.35),
                         ),
                       ),
                       const Spacer(),

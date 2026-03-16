@@ -1,3 +1,4 @@
+
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -252,6 +253,7 @@ class AcademicStaffScreen extends ConsumerWidget {
         HapticFeedback.mediumImpact();
 
         if (member['name'] == 'Prof. Sarah Miller') {
+
           showDialog(
             context: context,
             barrierDismissible: false,
@@ -259,6 +261,7 @@ class AcademicStaffScreen extends ConsumerWidget {
           );
 
           try {
+
             final profile = await ref
                 .read(professorRepositoryProvider)
                 .getFullProfessorProfile('dr_sarah_101');

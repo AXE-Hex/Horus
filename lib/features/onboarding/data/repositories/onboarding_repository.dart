@@ -1,3 +1,4 @@
+
 import 'package:hue/core/data/base_repository.dart';
 
 class OnboardingRepository extends BaseRepository {
@@ -47,9 +48,7 @@ class OnboardingRepository extends BaseRepository {
   ) async {
     final result = await client
         .from('professor_details')
-        .select(
-          '*, profiles(full_name, full_name_ar, email, avatar_url, roles)',
-        )
+        .select('*, profiles(full_name, full_name_ar, email, avatar_url, role)')
         .eq('department_id', departmentId)
         .order('created_at');
     return List<Map<String, dynamic>>.from(result);

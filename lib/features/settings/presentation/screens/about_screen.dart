@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -42,6 +43,7 @@ class AboutScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
+
               Center(
                 child: Image.asset(
                   Theme.of(context).brightness == Brightness.dark

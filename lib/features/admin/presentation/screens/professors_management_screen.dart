@@ -37,7 +37,11 @@ class ProfessorsManagementScreen extends ConsumerWidget {
           final professors = snapshot.data ?? [];
 
           if (professors.isEmpty) {
-            return Center(child: Text(t.admin.no_faculty_records_found));
+            return Center(
+              child: Text(
+                t.admin.no_faculty_records_found,
+              ),
+            );
           }
 
           return ListView.builder(
@@ -97,10 +101,7 @@ class ProfessorsManagementScreen extends ConsumerWidget {
                                   '${t.admin.office}: ${doc['office_symbol'] ?? "-"}',
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface
-                                        .withValues(alpha: 0.4),
+                                    color: Colors.white.withValues(alpha: 0.4),
                                   ),
                                 ),
                               ],

@@ -176,77 +176,75 @@ class GlassContainer extends ConsumerWidget {
     final isMobile = ResponsiveHelper.isMobile(context);
     final responsivePadding = padding ?? EdgeInsets.all(isMobile ? 16 : 24);
 
-    return RepaintBoundary(
-      child: Container(
-        width: width,
-        height: height,
-        margin: margin,
-        decoration: BoxDecoration(
-          borderRadius: radius,
-          boxShadow:
-              boxShadow ??
-              [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
-                  blurRadius: 30,
-                  offset: const Offset(0, 15),
-                  spreadRadius: -5,
+    return Container(
+      width: width,
+      height: height,
+      margin: margin,
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        boxShadow:
+            boxShadow ??
+            [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.08),
+                blurRadius: 30,
+                offset: const Offset(0, 15),
+                spreadRadius: -5,
+              ),
+            ],
+      ),
+      child: ClipRRect(
+        borderRadius: radius,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: baseColor,
+                  borderRadius: radius,
                 ),
-              ],
-        ),
-        child: ClipRRect(
-          borderRadius: radius,
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: baseColor,
-                    borderRadius: radius,
-                  ),
-                ),
+              ),
 
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: glassGradient,
-                    borderRadius: radius,
-                  ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: glassGradient,
+                  borderRadius: radius,
                 ),
+              ),
 
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: radius,
-                    border:
-                        border ??
-                        Border.all(
-                          color: Colors.white.withValues(
-                            alpha: isDark ? 0.12 : 0.2,
-                          ),
-                          width: 1.5,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: radius,
+                  border:
+                      border ??
+                      Border.all(
+                        color: Colors.white.withValues(
+                          alpha: isDark ? 0.12 : 0.2,
                         ),
-                  ),
-                ),
-
-                _buildInnerGlow(radius, isDark),
-
-                Padding(padding: responsivePadding, child: child),
-
-                if (onTap != null)
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: radius,
-                        onTap: onTap,
-                        onLongPress: onLongPress,
-                        splashColor: Colors.white.withValues(alpha: 0.1),
-                        highlightColor: Colors.white.withValues(alpha: 0.05),
+                        width: 1.5,
                       ),
+                ),
+              ),
+
+              _buildInnerGlow(radius, isDark),
+
+              Padding(padding: responsivePadding, child: child),
+
+              if (onTap != null)
+                Positioned.fill(
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: radius,
+                      onTap: onTap,
+                      onLongPress: onLongPress,
+                      splashColor: Colors.white.withValues(alpha: 0.1),
+                      highlightColor: Colors.white.withValues(alpha: 0.05),
                     ),
                   ),
-              ],
-            ),
+                ),
+            ],
           ),
         ),
       ),

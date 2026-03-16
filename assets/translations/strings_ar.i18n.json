@@ -1,0 +1,580 @@
+{
+  "common": {
+    "close": "إغلاق",
+    "cancel": "إلغاء",
+    "confirm": "تأكيد",
+    "save": "حفظ",
+    "back": "رجوع"
+  },
+  "welcome": {
+    "title": "مرحبا بك في Hue",
+    "subtitle": "أنر عالمك باتصالات ذات مغزى.",
+    "get_started": "ابدأ الآن",
+    "have_account": "لدي حساب بالفعل"
+  },
+  "onboarding": {
+    "language": {
+      "title": "اختر لغتك",
+      "subtitle": "اختر لغتك المفضلة",
+      "english": "الإنجليزية (English)",
+      "arabic": "العربية",
+      "german": "الألمانية (Deutsch)",
+      "chinese": "الصينية (中文)",
+      "hint": "يمكنك تغيير هذا لاحقاً من الإعدادات"
+    },
+    "faculties_directory": {
+      "title": "كلياتنا",
+      "subtitle": "استكشف بوابة جامعة حورس الأكاديمية المتنوعة"
+    },
+    "style": {
+      "title": "اختر النمط",
+      "subtitle": "اختر تصميم الواجهة الذي تفضله",
+      "classic": {
+        "title": "كلاسيكي",
+        "desc": "تصميم نظيف، بسيط، ومألوف"
+      },
+      "glass": {
+        "title": "زجاجي",
+        "desc": "جماليات حديثة، شفافة، وحيوية"
+      }
+    },
+    "theme": {
+      "title": "اختر السمة",
+      "subtitle": "فاتح أو داكن، الخيار لك",
+      "light": "فاتح",
+      "dark": "داكن"
+    }
+  },
+  "auth": {
+    "login": {
+      "welcome": "مرحباً بعودتك",
+      "subtitle": "سجل الدخول للمتابعة",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "forgot_password": "نسيت كلمة المرور؟",
+      "submit": "تسجيل الدخول",
+      "guest": "تصفح كزائر"
+    },
+    "forgot_password": {
+      "title": "نسيت كلمة المرور",
+      "subtitle": "اختر طريقة الاستعادة",
+      "method_admin": "زيارة الإدارة",
+      "method_online": "طلب إلكتروني",
+      "admin_instructions": "يرجى زيارة مكتب شؤون الطلاب لإعادة تعيين كلمة المرور. احضر بطاقتك الجامعية سارية المفعول.",
+      "phone_label": "رقم الهاتف",
+      "upload_id": "رفع صورة الهوية",
+      "upload_id_hint": "اضغط لرفع صورة واضحة لهويتك الجامعية",
+      "submit": "إرسال الطلب",
+      "back": "العودة لتسجيل الدخول",
+      "error_empty_phone": "الرجاء إدخال رقم الهاتف",
+      "error_empty_email": "الرجاء إدخال البريد الإلكتروني",
+      "error_no_id": "يرجى تحميل صورة الهوية",
+      "success": "تم تقديم الطلب بنجاح",
+      "id_uploaded": "تم تحميل الهوية"
+    }
+  },
+  "home": {
+    "tabs": {
+      "home": "الرئيسية",
+      "colleges": "الكليات",
+      "student": "الطالب",
+      "admin": "الإدارة",
+      "search": "بحث",
+      "notifications": "الإشعارات",
+      "profile": "الملف الشخصي"
+    }
+  },
+  "feed": {
+    "likes": "إعجابات",
+    "caption_sample": "هذا مثال لشرح المنشور",
+    "hours_ago": "منذ ساعتين"
+  },
+  "dashboard": {
+    "id_card": {
+      "student_name": "اسم الطالب",
+      "college": "الكلية",
+      "id": "الرقم الجامعي",
+      "gpa": "المعدل التراكمي",
+      "level": "المستوى",
+      "verified": "موثق"
+    },
+    "sections": {
+      "academic": "الأكاديمي",
+      "enrollment": "التسجيل والمالية",
+      "utilities": "أدوات أخرى"
+    },
+    "items": {
+      "digital_id": "الهوية الرقمية",
+      "transcript": "السجل الأكاديمي",
+      "progress": "التقدم الدراسي",
+      "action_plan": "الخطة الدراسية",
+      "subject_result": "نتائج المواد",
+      "grades": "الدرجات",
+      "courses": "المقررات",
+      "registration": "التسجيل",
+      "invoices": "فواتير غير مدفوعة",
+      "payment": "الدفع",
+      "tutorials": "شروحات",
+      "security": "الأمان",
+      "forums": "المنتديات",
+      "support": "الدعم الفني",
+      "notifications": "الإشعارات",
+      "no_lectures": "لا توجد محاضرات"
+    },
+    "labels": {
+      "university_name": "جامعة حورس",
+      "id_short": "كود",
+      "gpa_short": "معدل",
+      "level_short": "مستوى"
+    }
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "sections": {
+      "account": "الحساب",
+      "display": "العرض",
+      "notifications": "التنبيهات",
+      "about": "حول"
+    },
+    "tiles": {
+      "edit_profile": "تعديل الملف الشخصي",
+      "change_password": "تغيير كلمة المرور",
+      "dark_mode": "الوضع الليلي",
+      "language": "اللغة",
+      "ui_style": "نمط الواجهة",
+      "app_notifications": "تنبيهات التطبيق",
+      "test_notifications": "تجربة الإشعارات",
+      "about_app": "عن التطبيق",
+      "privacy_policy": "سياسة الخصوصية",
+      "logout": "تسجيل الخروج"
+    },
+    "messages": {
+      "switching_theme": "جاري تغيير المظهر...",
+      "changing_language": "جاري تغيير اللغة...",
+      "rebuilding_design": "جاري إعادة بناء التصميم..."
+    }
+  },
+  "colleges": {
+    "details": {
+      "dean": "عميد الكلية",
+      "staff": "الهيئة التدريسية",
+      "view_all": "عرض الكل",
+      "departments": "الأقسام العلمية",
+      "explore_majors": "استكشف التخصصات المتاحة",
+      "majors": "تخصص",
+      "dean_title": "العميد",
+      "staff_member": "عضو هيئة تدريس",
+      "vice_dean": "وكيل الكلية",
+      "head_of_dept": "رئيس قسم",
+      "assoc_prof": "أستاذ مشارك",
+      "academic_statistics": "الإحصائيات الأكاديمية",
+      "students": "الطلاب",
+      "academic_staff": "أعضاء هيئة التدريس",
+      "teaching_assistants": "الهيئة المعاونة",
+      "published_articles": "الأبحاث المنشورة"
+    },
+    "applied_health_sciences": "كلية تكنولوجيا العلوم الصحية التطبيقية",
+    "business_administration": "كلية إدارة الأعمال",
+    "dentistry": "كلية طب الفم والأسنان",
+    "engineering": "كلية الهندسة",
+    "fine_arts": "كلية الفنون الجميلة",
+    "human_medicine": "كلية الطب البشري",
+    "linguistics": "كلية الألسن والترجمة",
+    "pharmacy": "كلية الصيدلة",
+    "physical_therapy": "كلية العلاج الطبيعي",
+    "ai": "كلية الذكاء الاصطناعي",
+    "departments": {
+      "medical_laboratories_technology": "تكنولوجيا المختبرات الطبية",
+      "radiology_and_imaging_technology": "تكنولوجيا الأشعة والتصوير الطبي",
+      "respiratory_care_technology": "تكنولوجيا الرعاية التنفسية",
+      "dental_prosthetics_technology": "تكنولوجيا تركيبات الأسنان",
+      "health_administration_and_informatics_technology": "تكنولوجيا الإدارة والمعلوماتية الصحية",
+      "accounting": "المحاسبة",
+      "business_management": "إدارة الأعمال",
+      "economics": "الاقتصاد",
+      "marketing": "التسويق",
+      "accounting_program_english": "برنامج المحاسبة باللغة الإنجليزية",
+      "business_administration_program_english": "برنامج إدارة الأعمال باللغة الإنجليزية",
+      "basic_sciences_in_dentistry": "قسم العلوم الاساسية فى طب الاسنان",
+      "basic_medical_and_clinical_sciences": "قسم العلوم الطبية الاساسية و السريرية",
+      "oral_and_maxillofacial_surgery": "قسم جراحة الفم و الوجه و الفكين",
+      "orthodontics_and_pediatric_dentistry": "قسم التقويم و طب اسنان الاطفال",
+      "periodontics_and_oral_medicine": "قسم امراض اللثة وطب الفم",
+      "prosthodontics": "قسم الاستعاضة الصناعية",
+      "conservative_dentistry_and_endodontics": "قسم العلاج التحفظى وترميم الاسنان",
+      "architectural_engineering": "قسم الهندسة المعمارية",
+      "basic_sciences": "قسم العلوم الأساسية",
+      "civil_engineering": "قسم الهندسة المدنية",
+      "mechanical_engineering": "قسم الهندسة الميكانيكية",
+      "electrical_engineering": "قسم الهندسة الكهربائية",
+      "artificial_intelligence_engineering": "قسم هندسة الذكاء الاصطناعي",
+      "interior_design_and_architecture": "برنامج التصميم والعمارة الداخلية",
+      "furniture_design_and_production_technology": "برنامج تكنولوجيا تصميم وانتاج الاثاث",
+      "graphics_and_digital_arts": "برنامج الجرافيك والفنون الرقمية",
+      "animation_and_multimedia": "برنامج الرسوم المتحركة والوسائط المتعددة",
+      "medical_education": "قسم التعليم الطبي",
+      "histology_and_cell_biology": "قسم علم الأنسجة وبيولوجيا الخلية",
+      "clinical_pharmacy": "قسم الصيدلة السريرية",
+      "human_anatomy_and_embryology": "قسم التشريح البشري وعلم الأجنة",
+      "medical_physiology": "قسم علم وظائف الأعضاء الطبية",
+      "medical_microbiology_and_immunology": "قسم علم الأحياء الدقيقة الطبية وعلم المناعة",
+      "forensic_medicine_and_toxicology": "قسم الطب الشرعي وعلم السموم السريري",
+      "community_medicine_and_public_health": "قسم الطب المجتمعي والصحة العامة",
+      "biochemistry": "قسم الكيمياء الحيوية",
+      "pathology": "قسم علم الأمراض",
+      "english_language_program": "برنامج اللغة الإنجليزية",
+      "german_language_program": "برنامج اللغة الألمانية",
+      "chinese_language_program": "برنامج اللغة الصينية",
+      "french_department": "قسم اللغة الفرنسية",
+      "translation_department": "قسم الترجمة",
+      "pharmaceutical_chemistry": "الكيمياء الصيدلية",
+      "pharmacology_and_biochemistry": "الأدوية و الكيمياء الحيوية",
+      "pharmacognosy": "العقاقير",
+      "microbiology_and_immunology": "الميكروبيولوجي والمناعة",
+      "pharmaceutical_technology": "التكنولوجيا الصيدلية",
+      "pharmacy_practice": "الممارسة الصيدلية",
+      "basic_sciences_pt": "قسم العلوم الاساسية",
+      "biomechanics": "قسم الميكانيكا الحيوية",
+      "pt_internal_medicine_and_geriatrics": "قسم العلاج الطبيعي للأمراض الباطنية والمسنين",
+      "pt_womens_health": "قسم العلاج الطبيعي لصحة المرأة",
+      "pt_surgery_and_integumentary": "قسم العلاج الطبيعي للجراحة والأغشية",
+      "pt_orthopedics": "قسم العلاج الطبيعي لأمراض العظام وجراحتها",
+      "pt_neurology": "قسم العلاج الطبيعي لأمراض الأعصاب وجراحتها",
+      "pt_pediatrics": "قسم العلاج الطبيعي لأمراض الأطفال",
+      "artificial_biomedical_computing": "الحوسبة الطبية الحيوية الاصطناعية",
+      "artificial_cybersecurity": "الأمن السيبراني",
+      "ai_and_data_science": "الذكاء الاصطناعي وعلوم البيانات",
+      "ai_for_robotics": "الذكاء الاصطناعي للروبوتات",
+      "smart_systems": "الأنظمة الذكية"
+    }
+  },
+  "transcript": {
+    "title": "السجل الأكاديمي",
+    "overview": {
+      "gpa": "المعدل التراكمي",
+      "credits": "الساعات المكتسبة",
+      "standing": "الحالة الأكاديمية",
+      "active": "وضع جيد"
+    },
+    "semester": {
+      "fall": "الفصل الدراسي الأول",
+      "spring": "الفصل الدراسي الثاني",
+      "summer": "فصل دراسي صيفي"
+    },
+    "course": {
+      "grade": "الدرجة",
+      "credits": "ساعة",
+      "status": {
+        "completed": "مكتمل",
+        "transferred": "معادلة"
+      }
+    }
+  },
+  "academic_progress": {
+    "title": "التقدم الدراسي",
+    "completion": "نسبة إنجاز الدرجة العلمية",
+    "total_credits": "إجمالي الساعات",
+    "categories": {
+      "university": "متطلبات جامعة حورس",
+      "faculty": "متطلبات الكلية",
+      "major": "متطلبات التخصص",
+      "electives": "المواد الاختيارية"
+    },
+    "status": {
+      "completed": "مكتمل",
+      "in_progress": "قيد الدراسة",
+      "remaining": "متبقي",
+      "requirement_met": "تم استيفاء المتطلب"
+    }
+  },
+  "grades": {
+    "title": "الدرجات",
+    "summary": "ملخص الدرجات",
+    "cumulative_gpa": "المعدل التراكمي",
+    "gpa": "المعدل الفصلي",
+    "credits": "ساعات",
+    "grade_point": "النقاط",
+    "letter_grade": "التقدير"
+  },
+  "subject_results": {
+    "title": "نتائج المواد",
+    "midterm": "منتصف الفصل",
+    "final": "الاختبار النهائي",
+    "practical": "العملي",
+    "activities": "أعمال الفصل",
+    "total": "المجموع الكلي"
+  },
+  "action_plan": {
+    "title": "الخطة الدراسية",
+    "roadmap": "خريطة المقررات",
+    "year_1": "السنة الأولى",
+    "year_2": "السنة الثانية",
+    "year_3": "السنة الثالثة",
+    "year_4": "السنة الرابعة"
+  },
+  "courses": {
+    "title": "مقرراتي",
+    "enrolled": "المسجلة",
+    "available": "المتاحة",
+    "instructor": "المحاضر",
+    "schedule": "الموعد"
+  },
+  "schedule": {
+    "title": "جدول المحاضرات",
+    "daily_title": "الجدول اليومي",
+    "no_lectures": "لا توجد محاضرات اليوم",
+    "time": "الوقت",
+    "room": "القاعة",
+    "monday": "الاثنين",
+    "tuesday": "الثلاثاء",
+    "wednesday": "الأربعاء",
+    "thursday": "الخميس",
+    "friday": "الجمعة",
+    "saturday": "السبت",
+    "sunday": "الأحد",
+    "instructor": "المحاضر",
+    "doctor": "د.",
+    "type_lecture": "محاضرة",
+    "type_section": "سكشن",
+    "status_active": "قادمة",
+    "status_started": "بدأت",
+    "status_cancelled": "ملغاة",
+    "status_online": "أونلاين",
+    "status_substitute": "دكتور بديل",
+    "morning": "صباحي",
+    "afternoon": "مسائي",
+    "evening": "ليلي",
+    "all_periods": "كل الفترات",
+    "floor": "الدور",
+    "direction": "الاتجاه",
+    "east": "شرق",
+    "west": "غرب",
+    "south": "جنوب",
+    "north": "شمال"
+  },
+  "exam_schedule": {
+    "title": "جدول الامتحانات",
+    "date": "التاريخ",
+    "duration": "المدة",
+    "seat": "رقم الجلوس"
+  },
+  "attendance": {
+    "title": "إحصائيات الحضور",
+    "present": "حاضر",
+    "absent": "غائب",
+    "late": "متأخر",
+    "ratio": "نسبة الحضور",
+    "subjects": {
+      "ai": "الذكاء الاصطناعي",
+      "machine_learning": "تعلم الآلة",
+      "ethics": "أخلاقيات المهنة",
+      "calculus": "تفاضل متقدم"
+    }
+  },
+  "registration": {
+    "title": "التسجيل الأكاديمي",
+    "submit": "إرسال طلب التسجيل",
+    "enrolled_credits": "الساعات المسجلة",
+    "step1_title": "الخطوة ١: اختر المجموعة الرئيسية",
+    "step1_subtitle": "اختر المجموعة التي ترغب بالتسجيل فيها لهذا الفصل الدراسي.",
+    "group_label": "المجموعة ${group}",
+    "main_cohort": "تسجيل المجموعة الرئيسية",
+    "step2_title": "الخطوة ٢: اختر القسم الفرعي (السكشن)",
+    "step2_subtitle": "المجموعة المختارة: ${group}. الآن اختر السكشن العملي والتطبيقي.",
+    "section_label": "سكشن ${section}",
+    "labs_sessions": "المعامل والدروس العملية",
+    "step3_title": "الخطوة ٣: تأكيد التسجيل",
+    "review": "مراجعة خياراتك",
+    "semester": "الفصل",
+    "group": "المجموعة",
+    "section": "السكشن",
+    "auto_registered": "المقررات التي سيتم تسجيلها تلقائياً:",
+    "credits_count": "${credits} ساعات",
+    "confirm_final": "تأكيد التسجيل النهائي",
+    "already_registered_title": "مسجل بالفعل!",
+    "success_message": "لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: ${group} | السكشن: ${section}",
+    "back_home": "العودة للرئيسية",
+    "registration_success": "تم التسجيل بنجاح!",
+    "error_loading": "خطأ: ${error}\n\nاضغط لإعادة المحاولة"
+  },
+  "payment": {
+    "title": "الدفع الإلكتروني",
+    "outstanding": "المبلغ المستحق",
+    "pay_now": "سداد الآن",
+    "methods": "طرق الدفع",
+    "university_guaranteed": "طرق الدفع بضمان الجامعة",
+    "credit_debit": "بطاقة ائتمان / خصم مباشر",
+    "fawry": "فوري / دفع إلكتروني",
+    "bank_transfer": "تحويل بنكي",
+    "currency": "${amount} ج.م"
+  },
+  "invoices": {
+    "title": "الفواتير والمالية",
+    "history": "سجل الدفع",
+    "unpaid": "غير مدفوع",
+    "paid": "تم الدفع",
+    "id": "رقم الفاتورة",
+    "date": "التاريخ",
+    "amount": "المبلغ",
+    "status": "الحالة"
+  },
+  "notifications": {
+    "title": "الإشعارات",
+    "empty": "لا توجد إشعارات جديدة"
+  },
+  "support": {
+    "title": "الدعم والمساعدة",
+    "contact_us": "اتصل بنا"
+  },
+  "security": {
+    "title": "الأمان",
+    "biometrics": "البصمة",
+    "sessions": "الجلسات النشطة"
+  },
+  "tutorials": {
+    "title": "التعليمات والدروس"
+  },
+  "forums": {
+    "title": "المنتديات"
+  },
+  "administration": {
+    "title": "إدارة الطلاب",
+    "stats": "إحصائيات النظام",
+    "users": "المستخدمين",
+    "reports": "التقارير",
+    "audit_logs": {
+      "title": "سجلات النظام",
+      "no_logs_found": "لم يتم العثور على سجلات تطابق المعايير.",
+      "tabs": {
+        "all": "سجل العمليات الكامل",
+        "security": "الأمان والدخول",
+        "user_management": "إدارة المستخدمين",
+        "data_updates": "تحديثات البيانات"
+      },
+      "labels": {
+        "actor": "الفاعل",
+        "table": "الجدول",
+        "record": "السجل",
+        "action": "الإجراء",
+        "old_data": "البيانات القديمة",
+        "new_data": "البيانات الجديدة",
+        "notes": "ملاحظات",
+        "performed_by": "تم بواسطة",
+        "close_details": "إغلاق التفاصيل",
+        "view_details": "عرض التفاصيل"
+      }
+    }
+  },
+  "professor": {
+    "dashboard_title": "لوحة تحكم الدكتور",
+    "welcome_back_name": "مرحباً بعودتك، ${name}",
+    "active_tas_count": "${count} معيد حالي",
+    "total_students_count": "${count} إجمالي الطلاب",
+    "uploaded_files_count": "${count} ملف مرفوع",
+    "weekly_slots_count": "${count} مواعيد أسبوعية",
+    "announcement_to": "إرسال إعلان لـ ${count}",
+    "preparing_announcement": "جاري تجهيز الإعلان...",
+    "no_groups": "لا توجد مجموعات",
+    "select_all": "تحديد الكل",
+    "deselect_all": "إلغاء التحديد",
+    "selected_count": "${count} محدد",
+    "action_clicked": "تم النقر: ${action}",
+    "activating": "تفعيل: ${target}",
+    "add_new_ta": "إضافة معيد جديد",
+    "no_available_tas": "لا يوجد معيدون متاحون",
+    "no_active_tas": "لا يوجد معيدون حالياً",
+    "added": "تم إضافة: ${name}",
+    "removed": "تم إزالة: ${name}",
+    "add": "إضافة",
+    "urgent": "عاجل",
+    "upload": "رفع",
+    "message": "مراسلة",
+    "downloading": "جاري التحميل...",
+    "walk_in": "بدون موعد",
+    "joined": "تم الانضمام: ${name}",
+    "join": "انضمام",
+    "stats": {
+      "groups": "المجموعات",
+      "students": "إجمالي الطلاب",
+      "tas": "المعيدين",
+      "rating": "التقييم",
+      "shared_files": "الملفات المشتركة",
+      "office_hours": "الساعات المكتبية"
+    },
+    "quick_actions": {
+      "urgent": "عاجل",
+      "upload": "رفع",
+      "message": "مراسلة",
+      "action_clicked": "تم النقر"
+    },
+    "profile": {
+      "urgent_announcements": "التنبيهات العاجلة",
+      "teaching_assistants": "المعيدين",
+      "shared_resources": "المصادر المشتركة",
+      "office_hours": "الساعات المكتبية"
+    }
+  },
+  "roles": {
+    "categories": {
+      "admin_it": "الإدارة والتقنية",
+      "academic_leadership": "القيادة الأكاديمية",
+      "teaching_staff": "الكادر التعليمي",
+      "student_affairs": "الخدمات الطلابية",
+      "student_roles": "رتب الطلاب",
+      "facilities_security": "المرافق والأمن",
+      "external_roles": "الخبراء الخارجيين"
+    },
+    "names": {
+      "super_admin": "مدير النظام العام",
+      "admin": "مسؤول نظام",
+      "it_support": "المسؤول التقني",
+      "financial_auditor": "المراقب المالي",
+      "rector": "مدير الجامعة",
+      "dean": "عميد الكلية",
+      "department_head": "رئيس القسم",
+      "academic_coordinator": "المنسق الأكاديمي",
+      "professor": "عضو هيئة تدريس",
+      "lecturer": "محاضر",
+      "teaching_assistant": "معيد / مساعد باحث",
+      "registrar_officer": "مشرف القبول والتسجيل",
+      "academic_advisor": "المرشد الأكاديمي",
+      "librarian": "أمين المكتبة",
+      "freshman": "طالب مستجد",
+      "regular_student": "طالب منتظم",
+      "student": "طالب",
+      "class_representative": "رئيس الدفعة",
+      "alumni": "خريج",
+      "dorm_supervisor": "مشرف السكن",
+      "security_officer": "مسؤول الأمن",
+      "guest": "زائر",
+      "parent": "ولي الأمر",
+      "recruiter": "جهة توظيف"
+    },
+    "descriptions": {
+      "super_admin": "تحكم كامل في النظام بأكمله",
+      "admin": "مسؤول نظام بصلاحيات عالية",
+      "it_support": "دعم وصيانة النظام التقني",
+      "financial_auditor": "مراقبة السجلات المالية والفواتير",
+      "rector": "مدير الجامعة مع إشراف أكاديمي كامل",
+      "dean": "رئيس كلية أو مجمع أكاديمي",
+      "department_head": "رئيس قسم أكاديمي",
+      "academic_coordinator": "تنسيق البرامج الأكاديمية والجداول",
+      "professor": "عضو هيئة تدريس يقوم بالتدريس وإدارة المقررات",
+      "lecturer": "يقوم بالتدريس بدون صلاحيات الأستاذ الكاملة",
+      "teaching_assistant": "يساعد الأساتذة في التصحيح والمعامل والتمارين",
+      "registrar_officer": "إدارة قبول وتسجيل الطلاب",
+      "academic_advisor": "يرشد الطلاب خلال التخطيط الأكاديمي",
+      "librarian": "إدارة الموارد والمواد المكتبية",
+      "freshman": "طالب في السنة الأولى مع صلاحيات محدودة",
+      "regular_student": "طالب منتظم مع جميع الصلاحيات الأكاديمية المعتادة",
+      "student": "طالب عام",
+      "class_representative": "قائد طلابي يمثل مجموعته الدراسية",
+      "alumni": "طالب خريج مع صلاحيات محدودة",
+      "dorm_supervisor": "إدارة عمليات السكن الطلابي",
+      "security_officer": "أمن الحرم الجامعي والتحكم في الدخول",
+      "guest": "زائر مؤقت مع صلاحيات محدودة",
+      "parent": "يمكنه متابعة تقدم الطالب المرتبط ودرجاته",
+      "recruiter": "جهة توظيف خارجية"
+    }
+  }
+}

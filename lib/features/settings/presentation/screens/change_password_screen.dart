@@ -36,17 +36,23 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     final confirmPass = _confirmPasswordController.text;
 
     if (newPass.isEmpty || confirmPass.isEmpty) {
-      _showError(t.settings.please_fill_all_fields);
+      _showError(
+        t.settings.please_fill_all_fields,
+      );
       return;
     }
 
     if (newPass.length < 6) {
-      _showError(t.settings.password_must_be_at_least_6_ch);
+      _showError(
+        t.settings.password_must_be_at_least_6_ch,
+      );
       return;
     }
 
     if (newPass != confirmPass) {
-      _showError(t.settings.passwords_do_not_match);
+      _showError(
+        t.settings.passwords_do_not_match,
+      );
       return;
     }
 
@@ -59,7 +65,9 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(t.settings.password_changed_successfully),
+            content: Text(
+              t.settings.password_changed_successfully,
+            ),
             backgroundColor: Colors.green.shade700,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
@@ -96,7 +104,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
     final isGlass = appStyle.value == AppStyle.glass;
 
     final body = CustomScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       slivers: [
         GlassSliverAppBar(
           expandedHeight: 120,
@@ -104,7 +112,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(LucideIcons.arrowLeft),
+            icon: const Icon(LucideIcons.arrowLeft),
             onPressed: () => context.pop(),
           ),
           title: Text(
@@ -125,7 +133,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                 size: 60,
                 color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Text(
                 t.settings.enter_your_new_password,
                 textAlign: TextAlign.center,
@@ -134,14 +142,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                   color: Theme.of(context).hintColor,
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               TextFormField(
                 controller: _newPasswordController,
                 obscureText: _obscureNew,
                 decoration: InputDecoration(
                   labelText: t.settings.new_password,
-                  prefixIcon: Icon(LucideIcons.lock),
+                  prefixIcon: const Icon(LucideIcons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureNew ? LucideIcons.eye : LucideIcons.eyeOff,
@@ -157,14 +165,14 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                       : null,
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
 
               TextFormField(
                 controller: _confirmPasswordController,
                 obscureText: _obscureConfirm,
                 decoration: InputDecoration(
                   labelText: t.settings.confirm_password,
-                  prefixIcon: Icon(LucideIcons.lock),
+                  prefixIcon: const Icon(LucideIcons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(
                       _obscureConfirm ? LucideIcons.eye : LucideIcons.eyeOff,
@@ -181,7 +189,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                       : null,
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
 
               ElevatedButton(
                 onPressed: _isLoading ? null : _changePassword,
@@ -194,11 +202,11 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                   ),
                 ),
                 child: _isLoading
-                    ? SizedBox(
+                    ? const SizedBox(
                         width: 24,
                         height: 24,
                         child: CircularProgressIndicator(
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.white,
                           strokeWidth: 2.5,
                         ),
                       )

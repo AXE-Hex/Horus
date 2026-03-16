@@ -52,7 +52,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text(
-          t.extracted.roles_management,
+          isArabic ? 'إدارة الرتب' : 'Roles Management',
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.w900,
             letterSpacing: -0.5,
@@ -65,18 +65,13 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           Container(
             margin: const EdgeInsets.only(right: 4),
             decoration: BoxDecoration(
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                          Theme.of(context).cardColor)
-                      .withValues(alpha: 0.12),
+              color: const Color(0xFF6366F1).withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: Icon(LucideIcons.merge, size: 18),
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                  Theme.of(context).cardColor),
-              tooltip: t.extracted.merge_roles,
+              icon: const Icon(LucideIcons.merge, size: 18),
+              color: const Color(0xFF6366F1),
+              tooltip: isArabic ? 'دمج رتبتين' : 'Merge Roles',
               onPressed: () => _showMergeDialog(isArabic),
             ),
           ),
@@ -97,9 +92,9 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               ],
             ),
             child: IconButton(
-              icon: Icon(LucideIcons.plus, size: 18),
-              color: Theme.of(context).colorScheme.onSurface,
-              tooltip: t.extracted.create_role,
+              icon: const Icon(LucideIcons.plus, size: 18),
+              color: Colors.white,
+              tooltip: isArabic ? 'إنشاء رتبة جديدة' : 'Create Role',
               onPressed: () => _showCreateRoleDialog(isArabic),
             ),
           ),
@@ -116,18 +111,14 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               child: TextField(
                 controller: _searchController,
                 onChanged: (v) => setState(() => _searchQuery = v),
-                style: GoogleFonts.inter(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                style: GoogleFonts.inter(color: Colors.white),
                 decoration: InputDecoration(
-                  hintText: t.extracted.search_roles,
+                  hintText: isArabic ? 'بحث عن رتبة...' : 'Search roles...',
                   hintStyle: GoogleFonts.inter(color: Colors.white30),
                   icon: Icon(
                     LucideIcons.search,
                     size: 18,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.3),
+                    color: Colors.white.withValues(alpha: 0.3),
                   ),
                   border: InputBorder.none,
                   suffixIcon: _searchQuery.isNotEmpty
@@ -180,7 +171,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                     children: [
                       const Icon(LucideIcons.sparkles, size: 14),
                       const SizedBox(width: 6),
-                      Text(t.extracted.custom),
+                      Text(isArabic ? 'مخصصة' : 'Custom'),
                     ],
                   ),
                 ),
@@ -235,19 +226,15 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
             Icon(
               _getCategoryIcon(category),
               size: 40,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.1),
+              color: Colors.white.withValues(alpha: 0.1),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
               _searchQuery.isNotEmpty
-                  ? (t.extracted.no_results)
-                  : (t.extracted.no_roles),
+                  ? (isArabic ? 'لا توجد نتائج' : 'No results')
+                  : (isArabic ? 'لا توجد رتب' : 'No roles'),
               style: GoogleFonts.inter(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.25),
+                color: Colors.white.withValues(alpha: 0.25),
               ),
             ),
           ],
@@ -309,12 +296,10 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                     ),
                   ),
                   Text(
-                    '$count ${t.extracted.roles}',
+                    '$count ${isArabic ? "رتبة" : "roles"}',
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.4),
+                      color: Colors.white.withValues(alpha: 0.4),
                     ),
                   ),
                 ],
@@ -368,54 +353,47 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:
-                        (Theme.of(context).cardTheme.color ??
-                                Theme.of(context).cardColor)
-                            .withValues(alpha: 0.06),
+                    color: const Color(0xFF6366F1).withValues(alpha: 0.06),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     LucideIcons.sparkles,
                     size: 40,
                     color: Color(0xFF6366F1),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Text(
-                  t.extracted.no_custom_roles_yet,
+                  isArabic ? 'لا توجد رتب مخصصة بعد' : 'No custom roles yet',
                   style: GoogleFonts.outfit(
                     fontSize: 15,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.3),
+                    color: Colors.white.withValues(alpha: 0.3),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
-                  t.extracted.create_a_new_role_or_merge_two_roles,
+                  isArabic
+                      ? 'أنشئ رتبة جديدة أو ادمج رتبتين'
+                      : 'Create a new role or merge two roles',
                   style: GoogleFonts.inter(
                     fontSize: 12,
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _buildSmallButton(
                       icon: LucideIcons.plus,
-                      label: t.extracted.create,
+                      label: isArabic ? 'إنشاء' : 'Create',
                       color: primaryColor,
                       onTap: () => _showCreateRoleDialog(isArabic),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     _buildSmallButton(
                       icon: LucideIcons.merge,
-                      label: t.extracted.merge,
-                      color:
-                          (Theme.of(context).cardTheme.color ??
-                          Theme.of(context).cardColor),
+                      label: isArabic ? 'دمج' : 'Merge',
+                      color: const Color(0xFF6366F1),
                       onTap: () => _showMergeDialog(isArabic),
                     ),
                   ],
@@ -442,7 +420,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           },
         );
       },
-      loading: () => Center(child: CircularProgressIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -452,23 +430,23 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               size: 32,
               color: Colors.orangeAccent.withValues(alpha: 0.5),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
-              t.extracted.could_not_load_custom_roles,
+              isArabic
+                  ? 'لا يمكن تحميل الرتب المخصصة'
+                  : 'Could not load custom roles',
               style: GoogleFonts.inter(
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.4),
+                color: Colors.white.withValues(alpha: 0.4),
               ),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
-              t.extracted.make_sure_roles_table_exists_in_supabase,
+              isArabic
+                  ? 'تأكد من وجود جدول "roles" في Supabase'
+                  : 'Make sure "roles" table exists in Supabase',
               style: GoogleFonts.inter(
                 fontSize: 11,
-                color: Theme.of(
-                  context,
-                ).colorScheme.onSurface.withValues(alpha: 0.2),
+                color: Colors.white.withValues(alpha: 0.2),
               ),
             ),
           ],
@@ -525,7 +503,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       context: context,
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) => AlertDialog(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: const Color(0xFF151528),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(28),
           ),
@@ -536,9 +514,9 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                 size: 20,
                 color: Theme.of(context).primaryColor,
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Text(
-                t.extracted.create_new_role,
+                isArabic ? 'إنشاء رتبة جديدة' : 'Create New Role',
                 style: GoogleFonts.outfit(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
@@ -555,46 +533,42 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                 children: [
                   _buildDialogField(
                     nameEnCtrl,
-                    t.extracted.name_english,
+                    isArabic ? 'الاسم بالإنجليزية' : 'Name (English)',
                     LucideIcons.type,
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   _buildDialogField(
                     nameArCtrl,
-                    t.extracted.name_arabic,
+                    isArabic ? 'الاسم بالعربية' : 'Name (Arabic)',
                     LucideIcons.languages,
                   ),
-                  SizedBox(height: 14),
+                  const SizedBox(height: 14),
                   Text(
-                    t.extracted.category,
+                    isArabic ? 'القسم' : 'Category',
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                     ),
                   ),
-                  SizedBox(height: 6),
+                  const SizedBox(height: 6),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 14),
                     decoration: BoxDecoration(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.04),
+                      color: Colors.white.withValues(alpha: 0.04),
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.08),
+                        color: Colors.white.withValues(alpha: 0.08),
                       ),
                     ),
                     child: DropdownButtonFormField<RoleCategory>(
                       initialValue: selectedCategory,
-                      decoration: InputDecoration(border: InputBorder.none),
-                      dropdownColor: Color(0xFF1E1E38),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                      dropdownColor: const Color(0xFF1E1E38),
                       style: GoogleFonts.inter(
                         fontSize: 13,
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: Colors.white,
                       ),
                       items: RoleCategory.values
                           .map(
@@ -607,7 +581,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                                     size: 16,
                                     color: _getCategoryColor(c),
                                   ),
-                                  SizedBox(width: 10),
+                                  const SizedBox(width: 10),
                                   Text(_getCategoryName(c, isArabic)),
                                 ],
                               ),
@@ -618,29 +592,27 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                           setDialogState(() => selectedCategory = v!),
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   _buildDialogField(
                     descEnCtrl,
-                    t.extracted.description_english,
+                    isArabic ? 'الوصف بالإنجليزية' : 'Description (English)',
                     LucideIcons.fileText,
                     maxLines: 2,
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   _buildDialogField(
                     descArCtrl,
-                    t.extracted.description_arabic,
+                    isArabic ? 'الوصف بالعربية' : 'Description (Arabic)',
                     LucideIcons.fileText,
                     maxLines: 2,
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
-                    t.extracted.permissions,
+                    isArabic ? 'الصلاحيات' : 'Permissions',
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.5),
+                      color: Colors.white.withValues(alpha: 0.5),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -653,7 +625,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
             TextButton(
               onPressed: () => Navigator.pop(ctx),
               child: Text(
-                t.extracted.cancel,
+                isArabic ? 'إلغاء' : 'Cancel',
                 style: GoogleFonts.inter(color: Colors.white60),
               ),
             ),
@@ -673,7 +645,9 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                 );
                 ref.read(rolesControllerProvider.notifier).addRole(role);
                 Navigator.pop(ctx);
-                _showSuccessSnackBar(t.extracted.role_created);
+                _showSuccessSnackBar(
+                  isArabic ? 'تم إنشاء الرتبة بنجاح' : 'Role created',
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).primaryColor,
@@ -687,7 +661,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                 ),
               ),
               child: Text(
-                t.extracted.create,
+                isArabic ? 'إنشاء' : 'Create',
                 style: GoogleFonts.inter(fontWeight: FontWeight.w700),
               ),
             ),
@@ -718,16 +692,20 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           }
 
           return AlertDialog(
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: const Color(0xFF151528),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(28),
             ),
             title: Row(
               children: [
-                Icon(LucideIcons.merge, size: 20, color: Color(0xFF6366F1)),
-                SizedBox(width: 10),
+                const Icon(
+                  LucideIcons.merge,
+                  size: 20,
+                  color: Color(0xFF6366F1),
+                ),
+                const SizedBox(width: 10),
                 Text(
-                  t.extracted.merge_two_roles,
+                  isArabic ? 'دمج رتبتين' : 'Merge Two Roles',
                   style: GoogleFonts.outfit(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
@@ -743,102 +721,99 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      t.extracted.select_two_roles_to_combine_their_permis,
+                      isArabic
+                          ? 'اختر رتبتين لدمجهما وإنشاء رتبة مدمجة جديدة'
+                          : 'Select two roles to combine their permissions',
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.4),
+                        color: Colors.white.withValues(alpha: 0.4),
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Role A
                     _buildRoleSelector(
-                      label: t.extracted.first_role,
+                      label: isArabic ? 'الرتبة الأولى' : 'First Role',
                       value: roleA,
                       excludeRole: roleB,
                       isArabic: isArabic,
                       onChanged: (v) => setDialogState(() => roleA = v),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Center(
                       child: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color:
-                              (Theme.of(context).cardTheme.color ??
-                                      Theme.of(context).cardColor)
-                                  .withValues(alpha: 0.1),
+                          color: const Color(0xFF6366F1).withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(
+                        child: const Icon(
                           LucideIcons.plus,
                           size: 16,
                           color: Color(0xFF6366F1),
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     // Role B
                     _buildRoleSelector(
-                      label: t.extracted.second_role,
+                      label: isArabic ? 'الرتبة الثانية' : 'Second Role',
                       value: roleB,
                       excludeRole: roleA,
                       isArabic: isArabic,
                       onChanged: (v) => setDialogState(() => roleB = v),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 16),
                     // Merged name
                     _buildDialogField(
                       mergedNameCtrl,
-                      t.extracted.merged_role_name_english,
+                      isArabic
+                          ? 'اسم الرتبة المدمجة (إنجليزي)'
+                          : 'Merged Role Name (English)',
                       LucideIcons.tag,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     _buildDialogField(
                       mergedNameArCtrl,
-                      t.extracted.merged_role_name_arabic,
+                      isArabic
+                          ? 'اسم الرتبة المدمجة (عربي)'
+                          : 'Merged Role Name (Arabic)',
                       LucideIcons.languages,
                     ),
                     // Preview
                     if (roleA != null && roleB != null) ...[
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          color:
-                              (Theme.of(context).cardTheme.color ??
-                                      Theme.of(context).cardColor)
-                                  .withValues(alpha: 0.06),
+                          color: const Color(
+                            0xFF6366F1,
+                          ).withValues(alpha: 0.06),
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color:
-                                (Theme.of(context).cardTheme.color ??
-                                        Theme.of(context).cardColor)
-                                    .withValues(alpha: 0.15),
+                            color: const Color(
+                              0xFF6366F1,
+                            ).withValues(alpha: 0.15),
                           ),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              t.extracted.merged_permissions_preview,
+                              isArabic
+                                  ? 'معاينة الصلاحيات المدمجة'
+                                  : 'Merged Permissions Preview',
                               style: GoogleFonts.outfit(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color:
-                                    (Theme.of(context).cardTheme.color ??
-                                    Theme.of(context).cardColor),
+                                color: const Color(0xFF6366F1),
                               ),
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              '${mergedPerms.length} ${t.extracted.permissions_2}',
+                              '${mergedPerms.length} ${isArabic ? "صلاحية" : "permissions"}',
                               style: GoogleFonts.shareTechMono(
                                 fontSize: 12,
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.5),
+                                color: Colors.white.withValues(alpha: 0.5),
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -852,19 +827,16 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                                     vertical: 2,
                                   ),
                                   decoration: BoxDecoration(
-                                    color:
-                                        (Theme.of(context).cardTheme.color ??
-                                                Theme.of(context).cardColor)
-                                            .withValues(alpha: 0.1),
+                                    color: const Color(
+                                      0xFF6366F1,
+                                    ).withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(6),
                                   ),
                                   child: Text(
                                     p.name,
                                     style: GoogleFonts.shareTechMono(
                                       fontSize: 9,
-                                      color:
-                                          (Theme.of(context).cardTheme.color ??
-                                          Theme.of(context).cardColor),
+                                      color: const Color(0xFF6366F1),
                                     ),
                                   ),
                                 );
@@ -882,7 +854,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
                 child: Text(
-                  t.extracted.cancel,
+                  isArabic ? 'إلغاء' : 'Cancel',
                   style: GoogleFonts.inter(color: Colors.white60),
                 ),
               ),
@@ -919,12 +891,14 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                             .addRole(merged);
                         Navigator.pop(ctx);
                         _showSuccessSnackBar(
-                          t.extracted.roles_merged_successfully,
+                          isArabic
+                              ? 'تم دمج الرتبتين بنجاح'
+                              : 'Roles merged successfully',
                         );
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  backgroundColor: const Color(0xFF6366F1),
                   foregroundColor: Colors.white,
                   disabledBackgroundColor: Colors.white.withValues(alpha: 0.06),
                   shape: RoundedRectangleBorder(
@@ -936,7 +910,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                   ),
                 ),
                 child: Text(
-                  t.extracted.merge,
+                  isArabic ? 'دمج' : 'Merge',
                   style: GoogleFonts.inter(fontWeight: FontWeight.w700),
                 ),
               ),
@@ -957,13 +931,9 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.04),
+        color: Colors.white.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: Theme.of(
-            context,
-          ).colorScheme.onSurface.withValues(alpha: 0.08),
-        ),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
       ),
       child: DropdownButtonFormField<UserRole>(
         initialValue: value,
@@ -973,16 +943,11 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           labelText: label,
           labelStyle: GoogleFonts.inter(
             fontSize: 12,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.4),
+            color: Colors.white.withValues(alpha: 0.4),
           ),
         ),
-        dropdownColor: Color(0xFF1E1E38),
-        style: GoogleFonts.inter(
-          fontSize: 13,
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
+        dropdownColor: const Color(0xFF1E1E38),
+        style: GoogleFonts.inter(fontSize: 13, color: Colors.white),
         items: UserRole.values
             .where((r) => r != excludeRole && roleRegistry.containsKey(r))
             .map(
@@ -1010,10 +975,10 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: const Color(0xFF151528),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         title: Text(
-          t.extracted.edit_role,
+          isArabic ? 'تعديل الرتبة' : 'Edit Role',
           style: GoogleFonts.outfit(fontWeight: FontWeight.w800),
         ),
         content: SingleChildScrollView(
@@ -1048,7 +1013,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
-              t.extracted.cancel,
+              isArabic ? 'إلغاء' : 'Cancel',
               style: GoogleFonts.inter(color: Colors.white60),
             ),
           ),
@@ -1061,7 +1026,9 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                 'description_ar': descArCtrl.text,
               });
               Navigator.pop(ctx);
-              _showSuccessSnackBar(t.extracted.role_updated);
+              _showSuccessSnackBar(
+                isArabic ? 'تم تحديث الرتبة' : 'Role updated',
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Theme.of(context).primaryColor,
@@ -1071,7 +1038,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               ),
             ),
             child: Text(
-              t.extracted.save,
+              isArabic ? 'حفظ' : 'Save',
               style: GoogleFonts.inter(fontWeight: FontWeight.w700),
             ),
           ),
@@ -1085,25 +1052,23 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: const Color(0xFF151528),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
-          t.extracted.delete_role,
+          isArabic ? 'حذف الرتبة' : 'Delete Role',
           style: GoogleFonts.outfit(fontWeight: FontWeight.w800),
         ),
         content: Text(
-          t.extracted.delete_role_rolenameen_this_cannot_be_undone,
-          style: GoogleFonts.inter(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.6),
-          ),
+          isArabic
+              ? 'هل تريد حذف "${role.nameAr}"؟ لا يمكن التراجع.'
+              : 'Delete "${role.nameEn}"? This cannot be undone.',
+          style: GoogleFonts.inter(color: Colors.white.withValues(alpha: 0.6)),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
-              t.extracted.cancel,
+              isArabic ? 'إلغاء' : 'Cancel',
               style: GoogleFonts.inter(color: Colors.white60),
             ),
           ),
@@ -1113,14 +1078,14 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               Navigator.pop(ctx);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              backgroundColor: const Color(0xFFEF4444),
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),
             ),
             child: Text(
-              t.extracted.delete,
+              isArabic ? 'حذف' : 'Delete',
               style: GoogleFonts.inter(fontWeight: FontWeight.w700),
             ),
           ),
@@ -1140,34 +1105,23 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     return TextField(
       controller: ctrl,
       maxLines: maxLines,
-      style: GoogleFonts.inter(
-        color: Theme.of(context).colorScheme.onSurface,
-        fontSize: 13,
-      ),
+      style: GoogleFonts.inter(color: Colors.white, fontSize: 13),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: GoogleFonts.inter(
           fontSize: 12,
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
+          color: Colors.white.withValues(alpha: 0.4),
         ),
         prefixIcon: Icon(icon, size: 16, color: Colors.white30),
         filled: true,
         fillColor: Colors.white.withValues(alpha: 0.04),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.08),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.08),
-          ),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -1235,12 +1189,8 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       SnackBar(
         content: Row(
           children: [
-            Icon(
-              LucideIcons.checkCircle,
-              color: Theme.of(context).colorScheme.onSurface,
-              size: 18,
-            ),
-            SizedBox(width: 10),
+            const Icon(LucideIcons.checkCircle, color: Colors.white, size: 18),
+            const SizedBox(width: 10),
             Flexible(
               child: Text(
                 message,
@@ -1249,7 +1199,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
             ),
           ],
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: const Color(0xFF10B981),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         margin: const EdgeInsets.all(16),
@@ -1300,19 +1250,19 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
   static String _getCategoryName(RoleCategory c, bool isArabic) {
     switch (c) {
       case RoleCategory.adminIT:
-        return t.extracted.admin_it;
+        return isArabic ? 'الإدارة والتقنية' : 'Admin & IT';
       case RoleCategory.academicLeadership:
-        return t.extracted.leadership;
+        return isArabic ? 'القيادة الأكاديمية' : 'Leadership';
       case RoleCategory.teachingStaff:
-        return t.extracted.teaching;
+        return isArabic ? 'الهيئة التدريسية' : 'Teaching';
       case RoleCategory.studentAffairs:
-        return t.extracted.student_affairs;
+        return isArabic ? 'شؤون الطلاب' : 'Student Affairs';
       case RoleCategory.studentRoles:
-        return t.extracted.students;
+        return isArabic ? 'الطلاب' : 'Students';
       case RoleCategory.facilitiesSecurity:
-        return t.extracted.facilities;
+        return isArabic ? 'المرافق والأمن' : 'Facilities';
       case RoleCategory.externalRoles:
-        return t.extracted.external;
+        return isArabic ? 'خارجي' : 'External';
     }
   }
 }
@@ -1368,7 +1318,7 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 14),
+                  const SizedBox(width: 14),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1384,9 +1334,7 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
                           widget.roleInfo.nameAr,
                           style: GoogleFonts.inter(
                             fontSize: 12,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.4),
+                            color: Colors.white.withValues(alpha: 0.4),
                           ),
                         ),
                       ],
@@ -1410,16 +1358,14 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   AnimatedRotation(
                     duration: 200.ms,
                     turns: _expanded ? 0.5 : 0,
                     child: Icon(
                       LucideIcons.chevronDown,
                       size: 16,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                     ),
                   ),
                 ],
@@ -1431,32 +1377,24 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Divider(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.05),
-                    ),
-                    SizedBox(height: 8),
+                    Divider(color: Colors.white.withValues(alpha: 0.05)),
+                    const SizedBox(height: 8),
                     Text(
                       widget.isArabic
                           ? widget.roleInfo.descriptionAr
                           : widget.roleInfo.descriptionEn,
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.4),
+                        color: Colors.white.withValues(alpha: 0.4),
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     Text(
-                      t.extracted.permissions_1,
+                      widget.isArabic ? 'الصلاحيات:' : 'Permissions:',
                       style: GoogleFonts.inter(
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.35),
+                        color: Colors.white.withValues(alpha: 0.35),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -1518,12 +1456,7 @@ class _DynamicRoleTile extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         borderRadius: BorderRadius.circular(20),
         border: isMerged
-            ? Border.all(
-                color:
-                    (Theme.of(context).cardTheme.color ??
-                            Theme.of(context).cardColor)
-                        .withValues(alpha: 0.2),
-              )
+            ? Border.all(color: const Color(0xFF6366F1).withValues(alpha: 0.2))
             : null,
         child: Row(
           children: [
@@ -1535,22 +1468,24 @@ class _DynamicRoleTile extends StatelessWidget {
                 gradient: isMerged
                     ? LinearGradient(
                         colors: [
-                          Color(0xFF6366F1).withValues(alpha: 0.2),
+                          const Color(0xFF6366F1).withValues(alpha: 0.2),
                           Colors.purpleAccent.withValues(alpha: 0.1),
                         ],
                       )
                     : null,
                 color: isMerged
                     ? null
-                    : Color(0xFF10B981).withValues(alpha: 0.12),
+                    : const Color(0xFF10B981).withValues(alpha: 0.12),
               ),
               child: Icon(
                 isMerged ? LucideIcons.merge : LucideIcons.sparkles,
                 size: 18,
-                color: isMerged ? Color(0xFF6366F1) : Color(0xFF10B981),
+                color: isMerged
+                    ? const Color(0xFF6366F1)
+                    : const Color(0xFF10B981),
               ),
             ),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1576,20 +1511,17 @@ class _DynamicRoleTile extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color:
-                                (Theme.of(context).cardTheme.color ??
-                                        Theme.of(context).cardColor)
-                                    .withValues(alpha: 0.1),
+                            color: const Color(
+                              0xFF6366F1,
+                            ).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
-                            t.extracted.merged,
+                            isArabic ? 'مدمجة' : 'MERGED',
                             style: GoogleFonts.inter(
                               fontSize: 8,
                               fontWeight: FontWeight.w800,
-                              color:
-                                  (Theme.of(context).cardTheme.color ??
-                                  Theme.of(context).cardColor),
+                              color: const Color(0xFF6366F1),
                               letterSpacing: 0.5,
                             ),
                           ),
@@ -1601,25 +1533,20 @@ class _DynamicRoleTile extends StatelessWidget {
                     role.nameAr,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.4),
+                      color: Colors.white.withValues(alpha: 0.4),
                     ),
                   ),
                 ],
               ),
             ),
             IconButton(
-              icon: Icon(LucideIcons.pencil, size: 16),
+              icon: const Icon(LucideIcons.pencil, size: 16),
               color: Colors.white30,
               onPressed: onEdit,
             ),
             IconButton(
-              icon: Icon(LucideIcons.trash2, size: 16),
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                          Theme.of(context).cardColor)
-                      .withValues(alpha: 0.5),
+              icon: const Icon(LucideIcons.trash2, size: 16),
+              color: const Color(0xFFEF4444).withValues(alpha: 0.5),
               onPressed: onDelete,
             ),
           ],

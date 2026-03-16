@@ -1,3 +1,4 @@
+
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -46,41 +47,51 @@ class SecurityScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildSecuritySection(context, t.shared.authentication, [
-                  _buildSwitchTile(
-                    context,
-                    t.shared.biometric_login,
-                    t.shared.use_fingerprint_or_face_id,
-                    true,
-                    isGlass,
-                  ),
-                  _buildSwitchTile(
-                    context,
-                    t.shared.twofactor_auth,
-                    t.shared.protect_account_with_2fa,
-                    false,
-                    isGlass,
-                  ),
-                ], isGlass),
+                _buildSecuritySection(
+                  context,
+                  t.shared.authentication,
+                  [
+                    _buildSwitchTile(
+                      context,
+                      t.shared.biometric_login,
+                      t.shared.use_fingerprint_or_face_id,
+                      true,
+                      isGlass,
+                    ),
+                    _buildSwitchTile(
+                      context,
+                      t.shared.twofactor_auth,
+                      t.shared.protect_account_with_2fa,
+                      false,
+                      isGlass,
+                    ),
+                  ],
+                  isGlass,
+                ),
                 const SizedBox(height: 24),
-                _buildSecuritySection(context, t.shared.device_management, [
-                  _buildActionTile(
-                    context,
-                    t.shared.view_active_sessions,
-                    t.shared.manage_logged_in_devices,
-                    LucideIcons.monitor,
-                    () => context.push('/sessions'),
-                    isGlass,
-                  ),
-                  _buildActionTile(
-                    context,
-                    t.shared.change_password,
-                    t.shared.update_your_login_credentials,
-                    LucideIcons.key,
-                    () {},
-                    isGlass,
-                  ),
-                ], isGlass),
+                _buildSecuritySection(
+                  context,
+                  t.shared.device_management,
+                  [
+                    _buildActionTile(
+                      context,
+                      t.shared.view_active_sessions,
+                      t.shared.manage_logged_in_devices,
+                      LucideIcons.monitor,
+                      () => context.push('/sessions'),
+                      isGlass,
+                    ),
+                    _buildActionTile(
+                      context,
+                      t.shared.change_password,
+                      t.shared.update_your_login_credentials,
+                      LucideIcons.key,
+                      () {},
+                      isGlass,
+                    ),
+                  ],
+                  isGlass,
+                ),
               ],
             ),
           ),

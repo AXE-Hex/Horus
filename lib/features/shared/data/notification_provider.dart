@@ -1,3 +1,4 @@
+
 import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/core/config/supabase_client.dart';
 import 'package:flutter/foundation.dart';
@@ -77,6 +78,7 @@ class NotificationController extends _$NotificationController {
 
       final List<AppNotification> notes = [];
       for (final row in response) {
+
         NotificationCategory category;
         final typeStr = row['type'] as String?;
         switch (typeStr) {
@@ -112,6 +114,7 @@ class NotificationController extends _$NotificationController {
   }
 
   Future<void> addNotification(AppNotification note) async {
+
     final current = state.value ?? [];
     state = AsyncValue.data([note, ...current]);
   }

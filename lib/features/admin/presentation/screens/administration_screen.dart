@@ -1,3 +1,4 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +10,6 @@ import 'package:hue/core/utils/responsive_helper.dart';
 import 'package:hue/features/admin/presentation/providers/admin_stats_provider.dart';
 import 'package:hue/features/admin/presentation/providers/performance_provider.dart';
 import 'package:hue/features/admin/presentation/widgets/admin_widgets.dart';
-import 'package:hue/features/admin/presentation/widgets/admin_dashboard_components.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
@@ -38,11 +38,11 @@ class AdministrationScreen extends ConsumerWidget {
       body: Stack(
         children: [
           // ── Animated dark background gradient
-          AdminBackground(),
+          _AdminBackground(),
 
           // ── Holographic grid overlay
           Positioned.fill(
-            child: CustomPaint(painter: HolographicGridPainter()),
+            child: CustomPaint(painter: _HolographicGridPainter()),
           ),
 
           // ── Main scrollable content
@@ -108,10 +108,84 @@ class AdministrationScreen extends ConsumerWidget {
 // ──────────────────────────────────────────────────────────────────────────────
 // Background — animated gradient layers
 // ──────────────────────────────────────────────────────────────────────────────
+class _AdminBackground extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFF0A0E1A), Color(0xFF0D1627), Color(0xFF08122B)],
+          stops: [0.0, 0.5, 1.0],
+        ),
+      ),
+      child: Stack(
+        children: [
+          // Top-left orb
+          Positioned(
+            left: -100,
+            top: -100,
+            child: Container(
+              width: 350,
+              height: 350,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    const Color(0xFF6366F1).withValues(alpha: 0.12),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // Bottom-right orb
+          Positioned(
+            right: -80,
+            bottom: 200,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    const Color(0xFF0EA5E9).withValues(alpha: 0.1),
+                    Colors.transparent,
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Holographic Grid Painter
 // ──────────────────────────────────────────────────────────────────────────────
+class _HolographicGridPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.025)
+      ..strokeWidth = 0.5;
+
+    const spacing = 40.0;
+    for (double i = 0; i < size.width; i += spacing) {
+      canvas.drawLine(Offset(i, 0), Offset(i, size.height), paint);
+    }
+    for (double i = 0; i < size.height; i += spacing) {
+      canvas.drawLine(Offset(0, i), Offset(size.width, i), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
 
 // ──────────────────────────────────────────────────────────────────────────────
 // 1. Sliver App Bar — Immersive header
@@ -139,7 +213,7 @@ class _AdminSliverHeader extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 240,
       pinned: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: const Color(0xFF0A0E1A),
       elevation: 0,
       leading: isStandalone
           ? IconButton(
@@ -159,7 +233,7 @@ class _AdminSliverHeader extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             // Diagonal scanline
-            Positioned.fill(child: CustomPaint(painter: ScanlinePainter())),
+            Positioned.fill(child: CustomPaint(painter: _ScanlinePainter())),
             // Content
             SafeArea(
               child: Padding(
@@ -189,12 +263,12 @@ class _AdminSliverHeader extends StatelessWidget {
                           Container(
                             width: 6,
                             height: 6,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Colors.greenAccent,
                               shape: BoxShape.circle,
                             ),
                           ),
-                          SizedBox(width: 6),
+                          const SizedBox(width: 6),
                           Text(
                             t.admin.system_online,
                             style: GoogleFonts.shareTechMono(
@@ -206,7 +280,7 @@ class _AdminSliverHeader extends StatelessWidget {
                         ],
                       ),
                     ).animate().fadeIn().slideX(begin: isArabic ? 0.1 : -0.1),
-                    SizedBox(height: 14),
+                    const SizedBox(height: 14),
 
                     // Title
                     Text(
@@ -214,31 +288,26 @@ class _AdminSliverHeader extends StatelessWidget {
                       style: GoogleFonts.outfit(
                         fontSize: 32,
                         fontWeight: FontWeight.w900,
-                        color: Theme.of(context).colorScheme.onSurface,
+                        color: Colors.white,
                         letterSpacing: -0.5,
                         height: 1.1,
                       ),
                     ).animate(delay: 100.ms).fadeIn().slideY(begin: 0.2),
 
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
 
                     // Subtitle with admin name
-                    Wrap(
-                      alignment: isArabic
-                          ? WrapAlignment.end
-                          : WrapAlignment.start,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: 8,
-                      runSpacing: 4,
+                    Row(
+                      mainAxisAlignment: isArabic
+                          ? MainAxisAlignment.end
+                          : MainAxisAlignment.start,
                       children: [
                         Icon(
                           LucideIcons.shieldCheck,
                           size: 13,
-                          color:
-                              (Theme.of(context).cardTheme.color ??
-                              Theme.of(context).cardColor),
+                          color: const Color(0xFF6366F1),
                         ),
-                        SizedBox(width: 6),
+                        const SizedBox(width: 6),
                         Text(
                           auth.fullName ?? (t.admin.admin),
                           style: GoogleFonts.outfit(
@@ -246,13 +315,11 @@ class _AdminSliverHeader extends StatelessWidget {
                             color: Colors.white60,
                           ),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Container(
                           width: 1,
                           height: 12,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.2),
+                          color: Colors.white.withValues(alpha: 0.2),
                         ),
                         const SizedBox(width: 12),
                         Text(
@@ -273,6 +340,21 @@ class _AdminSliverHeader extends StatelessWidget {
       ),
     );
   }
+}
+
+class _ScanlinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.015)
+      ..strokeWidth = 1;
+    for (double y = 0; y < size.height; y += 4) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter old) => false;
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -299,65 +381,163 @@ class _LiveStatCards extends ConsumerWidget {
           ? CrossAxisAlignment.end
           : CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 8),
-        SectionLabel(
+        const SizedBox(height: 8),
+        _SectionLabel(
           label: t.admin.live_statistics,
           icon: LucideIcons.activity,
-          color:
-              (Theme.of(context).cardTheme.color ??
-              Theme.of(context).cardColor),
+          color: const Color(0xFF6366F1),
         ),
-        SizedBox(height: 16),
-        Wrap(
-          spacing: 14,
-          runSpacing: 14,
-          children: [
-            // Students
-            LiveCard(
-              label: t.admin.students,
-              icon: LucideIcons.graduationCap,
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                  Theme.of(context).cardColor),
-              valueAsync: totalStudentsAsync,
-              onTap: () => context.push('/admin/management/students'),
-            ),
-            // Staff
-            LiveCard(
-              label: t.admin.staff,
-              icon: LucideIcons.users,
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                  Theme.of(context).cardColor),
-              valueAsync: totalStaffAsync,
-              onTap: () => context.push('/admin/management/staff'),
-            ),
-            // Leadership
-            LiveCard(
-              label: t.admin.leadership,
-              icon: LucideIcons.crown,
-              color:
-                  (Theme.of(context).cardTheme.color ??
-                  Theme.of(context).cardColor),
-              valueAsync: statsAsync.whenData(
-                (s) => s[RoleCategory.academicLeadership] ?? 0,
+        const SizedBox(height: 16),
+        SizedBox(
+          height: 140,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            children: [
+              // Students
+              _LiveCard(
+                label: t.admin.students,
+                icon: LucideIcons.graduationCap,
+                color: const Color(0xFF10B981),
+                valueAsync: totalStudentsAsync,
+                onTap: () => context.push('/admin/management/students'),
               ),
-              onTap: () => context.push('/admin/management/leadership'),
-            ),
-            // Admin IT
-            LiveCard(
-              label: t.admin.admin_it,
-              icon: LucideIcons.server,
-              color: Colors.redAccent,
-              valueAsync: statsAsync.whenData(
-                (s) => s[RoleCategory.adminIT] ?? 0,
+              const SizedBox(width: 14),
+              // Staff
+              _LiveCard(
+                label: t.admin.staff,
+                icon: LucideIcons.users,
+                color: const Color(0xFF6366F1),
+                valueAsync: totalStaffAsync,
+                onTap: () => context.push('/admin/management/staff'),
               ),
-              onTap: () => context.push('/admin/management/admin-it'),
-            ),
-          ],
+              const SizedBox(width: 14),
+              // Academic Staff
+              _LiveCard(
+                label: t.admin.faculty,
+                icon: LucideIcons.bookOpen,
+                color: const Color(0xFF0EA5E9),
+                valueAsync: statsAsync.whenData(
+                  (s) => s[RoleCategory.teachingStaff] ?? 0,
+                ),
+                onTap: () => context.push('/admin/management/faculty'),
+              ),
+              const SizedBox(width: 14),
+              // Leadership
+              _LiveCard(
+                label: t.admin.leadership,
+                icon: LucideIcons.crown,
+                color: const Color(0xFFF59E0B),
+                valueAsync: statsAsync.whenData(
+                  (s) => s[RoleCategory.academicLeadership] ?? 0,
+                ),
+                onTap: () => context.push('/admin/management/leadership'),
+              ),
+              const SizedBox(width: 14),
+              // Admin IT
+              _LiveCard(
+                label: t.admin.admin_it,
+                icon: LucideIcons.server,
+                color: Colors.redAccent,
+                valueAsync: statsAsync.whenData(
+                  (s) => s[RoleCategory.adminIT] ?? 0,
+                ),
+                onTap: () => context.push('/admin/management/admin-it'),
+              ),
+            ],
+          ),
         ),
       ],
     ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.08, end: 0);
+  }
+}
+
+class _LiveCard extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final AsyncValue<int> valueAsync;
+  final VoidCallback onTap;
+
+  const _LiveCard({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.valueAsync,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 155,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              color.withValues(alpha: 0.08),
+              color.withValues(alpha: 0.03),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: color.withValues(alpha: 0.18)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: color.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(icon, color: color, size: 18),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                valueAsync.when(
+                  data: (val) => Text(
+                    NumberFormat('#,###').format(val),
+                    style: GoogleFonts.shareTechMono(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
+                  loading: () => const SizedBox(
+                    width: 50,
+                    height: 28,
+                    child: Center(
+                      child: CircularProgressIndicator(color: Colors.white),
+                    ),
+                  ),
+                  error: (_, _) => Text(
+                    '—',
+                    style: GoogleFonts.outfit(fontSize: 26, color: Colors.red),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  label,
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    color: Colors.white54,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -370,50 +550,61 @@ class _SystemModulesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDesktop = ResponsiveHelper.isDesktop(context);
+    final isTablet = ResponsiveHelper.isTablet(context);
+    final crossAxisCount = isDesktop ? 4 : (isTablet ? 3 : 2);
+
     final modules = [
-      AdminModule(
+      _Module(
         LucideIcons.users,
         t.admin.users,
         t.admin.manage_all_accounts,
         const Color(0xFF6366F1),
         '/admin/users',
       ),
-      AdminModule(
+      _Module(
         LucideIcons.building2,
         t.admin.colleges,
         t.admin.manage_faculties,
         const Color(0xFF0EA5E9),
         '/admin/colleges',
       ),
-      AdminModule(
+      _Module(
         LucideIcons.layoutGrid,
         t.admin.departments,
         t.admin.academic_departments,
         const Color(0xFF10B981),
         '/admin/departments',
       ),
-      AdminModule(
+      _Module(
+        LucideIcons.graduationCap,
+        t.admin.professors,
+        t.admin.faculty_members,
+        const Color(0xFFF59E0B),
+        '/admin/professors',
+      ),
+      _Module(
         LucideIcons.shieldAlert,
         t.admin.roles,
         t.admin.permission_management,
         const Color(0xFF8B5CF6),
         '/admin/roles',
       ),
-      AdminModule(
+      _Module(
         LucideIcons.fileSearch,
         t.admin.audit_logs,
         t.admin.system_activity_log,
         const Color(0xFF06B6D4),
         '/admin/audit-logs',
       ),
-      AdminModule(
+      _Module(
         LucideIcons.settings2,
         t.admin.system_settings,
         t.admin.platform_configuration,
         Colors.orangeAccent,
         '/admin/system-settings',
       ),
-      AdminModule(
+      _Module(
         LucideIcons.activity,
         t.admin.performance,
         t.admin.server_health_metrics,
@@ -427,33 +618,125 @@ class _SystemModulesGrid extends StatelessWidget {
           ? CrossAxisAlignment.end
           : CrossAxisAlignment.start,
       children: [
-        SectionLabel(
+        _SectionLabel(
           label: t.admin.system_modules,
           icon: LucideIcons.layoutGrid,
-          color:
-              (Theme.of(context).cardTheme.color ??
-              Theme.of(context).cardColor),
+          color: const Color(0xFF0EA5E9),
         ),
         const SizedBox(height: 16),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 260,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
             mainAxisSpacing: 14,
             crossAxisSpacing: 14,
-            childAspectRatio: 1.5,
+            childAspectRatio: isDesktop ? 1.8 : 1.3,
           ),
           itemCount: modules.length,
           itemBuilder: (context, index) {
             final m = modules[index];
-            return AdminModuleCard(module: m)
+            return _ModuleCard(module: m)
                 .animate(delay: (index * 60).ms)
                 .fadeIn()
                 .slideY(begin: 0.06, end: 0);
           },
         ),
       ],
+    );
+  }
+}
+
+class _Module {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final Color color;
+  final String route;
+  _Module(this.icon, this.title, this.subtitle, this.color, this.route);
+}
+
+class _ModuleCard extends StatelessWidget {
+  final _Module module;
+  const _ModuleCard({required this.module});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => context.push(module.route),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              module.color.withValues(alpha: 0.1),
+              module.color.withValues(alpha: 0.03),
+            ],
+          ),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: module.color.withValues(alpha: 0.2)),
+          boxShadow: [
+            BoxShadow(
+              color: module.color.withValues(alpha: 0.07),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: module.color.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(module.icon, color: module.color, size: 18),
+                ),
+                Icon(
+                  Directionality.of(context) == ui.TextDirection.rtl
+                      ? LucideIcons.chevronLeft
+                      : LucideIcons.chevronRight,
+                  size: 14,
+                  color: Colors.white.withValues(alpha: 0.2),
+                ),
+              ],
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  module.title,
+                  style: GoogleFonts.outfit(
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  module.subtitle,
+                  style: GoogleFonts.outfit(
+                    fontSize: 10,
+                    color: Colors.white38,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -480,7 +763,7 @@ class _SystemPulseSection extends StatelessWidget {
           ? CrossAxisAlignment.end
           : CrossAxisAlignment.start,
       children: [
-        SectionLabel(
+        _SectionLabel(
           label: t.admin.system_pulse,
           icon: LucideIcons.heartPulse,
           color: Colors.greenAccent,
@@ -508,24 +791,22 @@ class _SystemPulseSection extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  PulseMetric(
+                  _PulseMetric(
                     label: t.admin.server,
                     value: t.admin.online,
                     color: Colors.greenAccent,
                   ),
-                  PulseMetric(
+                  _PulseMetric(
                     label: t.admin.latency,
                     value: '${perfState.latestLatency.toInt()}ms',
                     color: _latencyColor,
                   ),
-                  PulseMetric(
+                  _PulseMetric(
                     label: t.admin.database,
                     value: t.admin.active,
-                    color:
-                        (Theme.of(context).cardTheme.color ??
-                        Theme.of(context).cardColor),
+                    color: const Color(0xFF06B6D4),
                   ),
-                  PulseMetric(
+                  _PulseMetric(
                     label: t.admin.status,
                     value: perfState.latestLatency < 300 ? '✓' : '⚠',
                     color: _latencyColor,
@@ -559,6 +840,39 @@ class _SystemPulseSection extends StatelessWidget {
   }
 }
 
+class _PulseMetric extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color color;
+
+  const _PulseMetric({
+    required this.label,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: GoogleFonts.shareTechMono(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: color,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: GoogleFonts.outfit(fontSize: 10, color: Colors.white38),
+        ),
+      ],
+    );
+  }
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 // 6. Role Breakdown Section — visual breakdown of user categories
 // ──────────────────────────────────────────────────────────────────────────────
@@ -578,12 +892,10 @@ class _RoleBreakdownSection extends ConsumerWidget {
           ? CrossAxisAlignment.end
           : CrossAxisAlignment.start,
       children: [
-        SectionLabel(
+        _SectionLabel(
           label: t.admin.role_breakdown,
           icon: LucideIcons.pieChart,
-          color:
-              (Theme.of(context).cardTheme.color ??
-              Theme.of(context).cardColor),
+          color: const Color(0xFF8B5CF6),
         ),
         const SizedBox(height: 16),
         statsAsync.when(
@@ -593,40 +905,32 @@ class _RoleBreakdownSection extends ConsumerWidget {
               child: CircularProgressIndicator(),
             ),
           ),
-          error: (e, _) => ErrorCard(isArabic: isArabic, error: e.toString()),
+          error: (e, _) => _ErrorCard(isArabic: isArabic, error: e.toString()),
           data: (stats) {
             final total = stats.values.fold(0, (a, b) => a + b);
             final categories = [
               (
                 category: RoleCategory.studentRoles,
                 label: t.admin.students,
-                color:
-                    (Theme.of(context).cardTheme.color ??
-                    Theme.of(context).cardColor),
+                color: const Color(0xFF10B981),
                 icon: LucideIcons.graduationCap,
               ),
               (
                 category: RoleCategory.teachingStaff,
                 label: t.admin.teaching_staff,
-                color:
-                    (Theme.of(context).cardTheme.color ??
-                    Theme.of(context).cardColor),
+                color: const Color(0xFF0EA5E9),
                 icon: LucideIcons.bookOpen,
               ),
               (
                 category: RoleCategory.academicLeadership,
                 label: t.admin.academic_leadership,
-                color:
-                    (Theme.of(context).cardTheme.color ??
-                    Theme.of(context).cardColor),
+                color: const Color(0xFFF59E0B),
                 icon: LucideIcons.crown,
               ),
               (
                 category: RoleCategory.studentAffairs,
                 label: t.admin.student_affairs,
-                color:
-                    (Theme.of(context).cardTheme.color ??
-                    Theme.of(context).cardColor),
+                color: const Color(0xFF8B5CF6),
                 icon: LucideIcons.clipboardList,
               ),
               (
@@ -644,16 +948,13 @@ class _RoleBreakdownSection extends ConsumerWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF8B5CF6).withValues(alpha: 0.06),
+                    const Color(0xFF8B5CF6).withValues(alpha: 0.06),
                     Colors.transparent,
                   ],
                 ),
                 borderRadius: BorderRadius.circular(28),
                 border: Border.all(
-                  color:
-                      (Theme.of(context).cardTheme.color ??
-                              Theme.of(context).cardColor)
-                          .withValues(alpha: 0.15),
+                  color: const Color(0xFF8B5CF6).withValues(alpha: 0.15),
                 ),
               ),
               child: Column(
@@ -663,7 +964,7 @@ class _RoleBreakdownSection extends ConsumerWidget {
                     final pct = total > 0 ? count / total : 0.0;
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
-                      child: RoleBar(
+                      child: _RoleBar(
                         label: cat.label,
                         icon: cat.icon,
                         color: cat.color,
@@ -689,7 +990,7 @@ class _RoleBreakdownSection extends ConsumerWidget {
                         style: GoogleFonts.shareTechMono(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -704,11 +1005,151 @@ class _RoleBreakdownSection extends ConsumerWidget {
   }
 }
 
+class _RoleBar extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
+  final int count;
+  final double percentage;
+  final bool isArabic;
 
+  const _RoleBar({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.count,
+    required this.percentage,
+    required this.isArabic,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Icon(icon, size: 14, color: color),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                label,
+                style: GoogleFonts.outfit(
+                  fontSize: 12,
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            Text(
+              NumberFormat('#,###').format(count),
+              style: GoogleFonts.shareTechMono(
+                fontSize: 12,
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              '${(percentage * 100).toStringAsFixed(1)}%',
+              style: GoogleFonts.outfit(fontSize: 11, color: Colors.white38),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(4),
+          child: LinearProgressIndicator(
+            value: percentage,
+            backgroundColor: Colors.white10,
+            valueColor: AlwaysStoppedAnimation<Color>(color),
+            minHeight: 5,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ──────────────────────────────────────────────────────────────────────────────
+class _SectionLabel extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color color;
 
+  const _SectionLabel({
+    required this.label,
+    required this.icon,
+    required this.color,
+  });
 
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(7),
+          decoration: BoxDecoration(
+            color: color.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, size: 14, color: color),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+            letterSpacing: -0.3,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
+class _ErrorCard extends StatelessWidget {
+  final bool isArabic;
+  final String error;
+
+  const _ErrorCard({required this.isArabic, required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.red.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
+      ),
+      child: Column(
+        children: [
+          const Icon(
+            LucideIcons.serverCrash,
+            color: Colors.redAccent,
+            size: 40,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            t.admin.failed_to_load_data,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              color: Colors.redAccent,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            error,
+            style: GoogleFonts.outfit(fontSize: 11, color: Colors.white38),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}

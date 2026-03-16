@@ -1,3 +1,4 @@
+
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
@@ -52,7 +53,6 @@ class _LiquidBackgroundState extends State<LiquidBackground>
               secondary: secondary,
               tertiary: tertiary,
               isDark: theme.brightness == Brightness.dark,
-              backgroundColor: theme.scaffoldBackgroundColor,
             ),
             child: widget.showParticles ? const _LiquidParticles() : null,
           );
@@ -68,7 +68,6 @@ class _LiquidPainter extends CustomPainter {
   final Color secondary;
   final Color tertiary;
   final bool isDark;
-  final Color backgroundColor;
 
   _LiquidPainter({
     required this.animation,
@@ -76,14 +75,14 @@ class _LiquidPainter extends CustomPainter {
     required this.secondary,
     required this.tertiary,
     required this.isDark,
-    required this.backgroundColor,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
 
-    final bgPaint = Paint()..color = backgroundColor;
+    final bgPaint = Paint()
+      ..color = isDark ? const Color(0xFF020617) : const Color(0xFFF8FAFC);
     canvas.drawRect(rect, bgPaint);
 
     _drawBlob(canvas, size, primary, 0.4, 0.3, 0.6, 1.2, 0.0);

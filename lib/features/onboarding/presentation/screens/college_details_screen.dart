@@ -1,3 +1,4 @@
+
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
     Widget content = CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
+
         GlassSliverAppBar(
           expandedHeight: 210,
           pinned: true,
@@ -51,6 +53,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
             background: Stack(
               fit: StackFit.expand,
               children: [
+
                 Positioned.fill(
                   child: Image.asset(
                     collegeData['image'] as String,
@@ -135,6 +138,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+
                 _buildSectionHeader(context, t.colleges.details.dean, color),
                 const SizedBox(height: 12),
                 _buildDeanCard(context, color, isGlass),
@@ -539,6 +543,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
       ),
       child: Stack(
         children: [
+
           Positioned(
             right: -8,
             bottom: -8,

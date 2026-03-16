@@ -196,7 +196,7 @@ class ManageTasScreen extends HookConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: null,
+        backgroundColor: const Color(0xFF1E1E2E),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           t.academic.confirm_removal,
@@ -249,159 +249,147 @@ class ManageTasScreen extends HookConsumerWidget {
 
   void _showAddTaBottomSheet(
     BuildContext context,
-    WidgetRef parentRef,
+    WidgetRef ref,
     bool isGlass,
     Color color,
     bool isArabic,
     List<TeachingAssistant> currentTAs,
     ProfessorProfile? profile,
   ) {
+    final availableTAs = globalFacultyTAs
+        .where((ta) => !currentTAs.any((c) => c.id == ta.id))
+        .toList();
+
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => Consumer(
-        builder: (context, ref, child) {
-          final taAsync = ref.watch(availableTAsProvider);
-          
-          return GlassContainer(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.white24,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
+      builder: (context) => GlassContainer(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.7,
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.white24,
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  const SizedBox(height: 24),
-                  Text(
-                    t.academic.add_new_ta,
-                    style: GoogleFonts.outfit(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    t.academic.select_a_ta_from_the_list_to_a,
-                    style: GoogleFonts.outfit(fontSize: 14, color: Colors.white38),
-                  ),
-                  const SizedBox(height: 24),
-                  Expanded(
-                    child: taAsync.when(
-                      data: (tas) {
-                        final availableTAs = tas
-                            .where((ta) => !currentTAs.any((c) => c.id == ta.id))
-                            .toList();
-                            
-                        if (availableTAs.isEmpty) {
-                          return Center(
-                            child: Text(
-                              t.academic.no_available_tas_currently,
-                              style: const TextStyle(color: Colors.white38),
-                            ),
-                          );
-                        }
-                        return ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: availableTAs.length,
-                          itemBuilder: (context, index) {
-                            final ta = availableTAs[index];
-                            return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
-                                  child: GlassContainer(
-                                    padding: const EdgeInsets.all(12),
-                                    child: ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: color.withValues(
-                                          alpha: 0.1,
-                                        ),
-                                        child: Icon(
-                                          LucideIcons.userPlus,
-                                          color: color,
-                                          size: 20,
-                                        ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                t.academic.add_new_ta,
+                style: GoogleFonts.outfit(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                t.academic.select_a_ta_from_the_list_to_a,
+                style: GoogleFonts.outfit(fontSize: 14, color: Colors.white38),
+              ),
+              const SizedBox(height: 24),
+              Expanded(
+                child: availableTAs.isEmpty
+                    ? Center(
+                        child: Text(
+                          t.academic.no_available_tas_currently,
+                          style: const TextStyle(color: Colors.white38),
+                        ),
+                      )
+                    : ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: availableTAs.length,
+                        itemBuilder: (context, index) {
+                          final ta = availableTAs[index];
+                          return Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: GlassContainer(
+                                  padding: const EdgeInsets.all(12),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: color.withValues(
+                                        alpha: 0.1,
                                       ),
-                                      title: Text(
-                                        ta.name,
-                                        style: GoogleFonts.outfit(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        ta.email,
-                                        style: GoogleFonts.inter(
-                                          fontSize: 12,
-                                          color: Colors.white38,
-                                        ),
-                                      ),
-                                      trailing: ElevatedButton(
-                                        onPressed: () async {
-                                          if (profile != null) {
-                                            await ref
-                                                .read(professorRepositoryProvider)
-                                                .addTA({
-                                                  'professor_id': profile.id,
-                                                  'profile_id': ta.id,
-                                                  'ta_role': ta.role,
-                                                  'is_active': true,
-                                                });
-                                            if (!context.mounted) return;
-                                            ref.invalidate(
-                                              professorProfileProvider,
-                                            );
-                                            Navigator.pop(context);
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              SnackBar(
-                                                backgroundColor: color,
-                                                content: Text(
-                                                  t.academic.added_successfully,
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: color,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              12,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Text(t.academic.add),
+                                      child: Icon(
+                                        LucideIcons.userPlus,
+                                        color: color,
+                                        size: 20,
                                       ),
                                     ),
+                                    title: Text(
+                                      ta.name,
+                                      style: GoogleFonts.outfit(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    subtitle: Text(
+                                      ta.email,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 12,
+                                        color: Colors.white38,
+                                      ),
+                                    ),
+                                    trailing: ElevatedButton(
+                                      onPressed: () async {
+                                        if (profile != null) {
+                                          await ref
+                                              .read(professorRepositoryProvider)
+                                              .addTA({
+                                                'professor_id': profile.id,
+                                                'profile_id': ta
+                                                    .id, // Assuming ta.id here is profile_id in globalFacultyTAs mock
+                                                'ta_role': ta.role,
+                                                'is_active': true,
+                                              });
+                                          if (!context.mounted) return;
+                                          ref.invalidate(
+                                            professorProfileProvider,
+                                          );
+                                          Navigator.pop(context);
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              backgroundColor: color,
+                                              content: Text(
+                                                t.academic.added_successfully,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: color,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            12,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Text(t.academic.add),
+                                    ),
                                   ),
-                                )
-                                .animate()
-                                .fadeIn(delay: (50 * index).ms)
-                                .slideY(begin: 0.1, end: 0);
-                          },
-                        );
-                      },
-                      loading: () => const Center(child: CircularProgressIndicator()),
-                      error: (err, stack) => Center(child: Text('Error: $err')),
-                    ),
-                  ),
-                ],
+                                ),
+                              )
+                              .animate()
+                              .fadeIn(delay: (50 * index).ms)
+                              .slideY(begin: 0.1, end: 0);
+                        },
+                      ),
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -455,7 +443,10 @@ class _TACard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFF10B981),
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.transparent, width: 2),
+                      border: Border.all(
+                        color: const Color(0xFF1E1E2E),
+                        width: 2,
+                      ),
                     ),
                   ),
                 ),

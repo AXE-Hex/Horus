@@ -1,28 +1,23 @@
+
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/features/shared/presentation/widgets/animated_mesh_background.dart';
+import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
+import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:flutter/services.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final primary = Theme.of(context).primaryColor;
-
-    return Scaffold(
+    return GlassScaffold(
       body: Stack(
         children: [
-          // 1. Dynamic Background
-          const AnimatedMeshBackground(),
-
-          // 2. Main Content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -30,29 +25,29 @@ class WelcomeScreen extends ConsumerWidget {
                 children: [
                   const Spacer(flex: 3),
 
-                  // Logo Centerpiece
-                  _buildLogoCenterpiece(context, isDark)
+                  _buildHolographicCenterpiece(context)
                       .animate()
-                      .fadeIn(duration: 1000.ms, curve: Curves.easeOut)
-                      .slideY(begin: 0.2, end: 0, curve: Curves.easeOutBack),
+                      .fadeIn(duration: 800.ms, curve: Curves.easeOut)
+                      .scale(
+                        begin: const Offset(0.8, 0.8),
+                        curve: Curves.easeOutBack,
+                      ),
 
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 40),
 
-                  // Typography Hero
-                  _buildHeroText(context, primary)
+                  _buildHeroText(context)
                       .animate()
-                      .fadeIn(delay: 500.ms, duration: 800.ms)
-                      .slideY(begin: 0.3, end: 0, curve: Curves.easeOutQuart),
+                      .fadeIn(delay: 400.ms, duration: 800.ms)
+                      .moveY(begin: 30, end: 0, curve: Curves.easeOutQuart),
 
                   const Spacer(flex: 4),
 
-                  // Action Buttons
-                  _buildActionButtons(context, primary)
+                  _buildActionButtons(context)
                       .animate()
-                      .fadeIn(delay: 900.ms, duration: 800.ms)
-                      .slideY(begin: 0.4, end: 0, curve: Curves.easeOutQuart),
+                      .fadeIn(delay: 800.ms, duration: 800.ms)
+                      .moveY(begin: 50, end: 0, curve: Curves.easeOutQuart),
 
-                  const SizedBox(height: 48),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
@@ -62,91 +57,105 @@ class WelcomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildLogoCenterpiece(BuildContext context, bool isDark) {
+  Widget _buildHolographicCenterpiece(BuildContext context) {
     return Center(
-      child:
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
           Container(
-                width: 180,
-                height: 180,
+                width: 200,
+                height: 200,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(
-                        context,
-                      ).primaryColor.withValues(alpha: 0.25),
-                      blurRadius: 50,
-                      spreadRadius: 10,
-                    ),
-                    if (!isDark)
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.8),
-                        blurRadius: 30,
-                        spreadRadius: 5,
-                      ),
-                  ],
-                ),
-                child: Image.asset(
-                  isDark
-                      ? 'assets/images/Logo_dark.png'
-                      : 'assets/images/Logo_light.png',
-                  width: 160,
-                  height: 160,
-                  fit: BoxFit.contain,
+                  gradient: RadialGradient(
+                    colors: [
+                      Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                      Theme.of(context).primaryColor.withValues(alpha: 0.0),
+                    ],
+                  ),
                 ),
               )
-              .animate(onPlay: (c) => c.repeat(reverse: true))
-              .moveY(
-                begin: -10,
-                end: 10,
-                duration: 3.seconds,
-                curve: Curves.easeInOutSine,
+              .animate(onPlay: (c) => c.repeat())
+              .scale(
+                begin: const Offset(1, 1),
+                end: const Offset(1.5, 1.5),
+                duration: 4.seconds,
+                curve: Curves.easeInOut,
               ),
+
+          GlassContainer(
+            width: 160,
+            height: 160,
+            borderRadius: BorderRadius.circular(40),
+            blur: 20,
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.2),
+              width: 2,
+            ),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Colors.white.withValues(alpha: 0.15),
+                Colors.white.withValues(alpha: 0.05),
+              ],
+            ),
+            child: Center(
+              child:
+                  Image.asset(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? 'assets/images/Logo_dark.png'
+                            : 'assets/images/Logo_light.png',
+                        width: 100,
+                        height: 100,
+                        fit: BoxFit.contain,
+                      )
+                      .animate(onPlay: (c) => c.repeat(reverse: true))
+                      .moveY(
+                        begin: 0,
+                        end: -10,
+                        duration: 2.seconds,
+                        curve: Curves.easeInOut,
+                      ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildHeroText(BuildContext context, Color primary) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
+  Widget _buildHeroText(BuildContext context) {
     return Column(
       children: [
-        ShaderMask(
-          shaderCallback: (bounds) => LinearGradient(
-            colors: [isDark ? Colors.white : Colors.black87, primary],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ).createShader(bounds),
-          child: Text(
-            t.welcome.student_portal,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(
-              fontSize: 56,
-              fontWeight: FontWeight.w900,
-              color: Colors.white, // Required for ShaderMask
-              letterSpacing: -1.5,
-              height: 1.0,
-            ),
+        Text(
+          t.welcome.student_portal,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.outfit(
+            fontSize: 48,
+            fontWeight: FontWeight.w900,
+            color: Theme.of(context).colorScheme.onSurface,
+            letterSpacing: -1,
+            height: 0.9,
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
         Text(
           t.welcome.welcome_to_the_smart_universit,
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(
-            fontSize: 18,
+            fontSize: 16,
             color: Theme.of(
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.7),
             fontWeight: FontWeight.w500,
             height: 1.5,
-            letterSpacing: 0.2,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildActionButtons(BuildContext context, Color primary) {
+  Widget _buildActionButtons(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
@@ -155,28 +164,23 @@ class WelcomeScreen extends ConsumerWidget {
                 context.go('/language-selection');
               },
               child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 20,
+                  horizontal: 32,
+                ),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(24),
                   gradient: LinearGradient(
                     colors: [
-                      primary,
-                      Color.fromRGBO(
-                        (primary.r * 255.0).round(),
-                        (primary.g * 255.0).round(),
-                        ((primary.b * 255.0).round() < 200)
-                            ? (primary.b * 255.0).round() + 50
-                            : 255,
-                        primary.a,
-                      ),
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor.withBlue(255),
                     ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: primary.withValues(alpha: 0.4),
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.4),
                       blurRadius: 24,
                       offset: const Offset(0, 8),
                     ),
@@ -191,7 +195,7 @@ class WelcomeScreen extends ConsumerWidget {
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
-                        letterSpacing: 1,
+                        letterSpacing: 0.5,
                       ),
                     ),
                     const SizedBox(width: 12),
@@ -209,10 +213,10 @@ class WelcomeScreen extends ConsumerWidget {
               begin: const Offset(1, 1),
               end: const Offset(1.02, 1.02),
               duration: 2.seconds,
-              curve: Curves.easeInOutSine,
+              curve: Curves.easeInOut,
             ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
 
         TextButton(
           onPressed: () {
@@ -222,7 +226,7 @@ class WelcomeScreen extends ConsumerWidget {
           style: TextButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(24),
             ),
           ),
           child: Text(
@@ -233,7 +237,6 @@ class WelcomeScreen extends ConsumerWidget {
               color: Theme.of(
                 context,
               ).colorScheme.onSurface.withValues(alpha: 0.8),
-              letterSpacing: 0.5,
             ),
           ),
         ),

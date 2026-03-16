@@ -28,12 +28,10 @@ class HueApp extends ConsumerWidget {
       supportedLocales: AppLocaleUtils.supportedLocales,
       locale: TranslationProvider.of(context).locale.flutterLocale,
       builder: (context, child) {
-        if (child == null) return const SizedBox.shrink();
-
         return Semantics(
           identifier: Axe.identifier,
           container: true,
-          child: LiquidToastOverlay(child: child),
+          child: LiquidToastOverlay(child: child!),
         );
       },
     );

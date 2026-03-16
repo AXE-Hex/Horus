@@ -72,14 +72,3 @@ final collegeStudentsProvider =
     FutureProvider.family<List<Map<String, dynamic>>, String>((ref, collegeId) {
       return ref.read(advisorRepositoryProvider).getCollegeStudents(collegeId);
     });
-
-// ── Provider for dean: unassigned students count
-final unassignedStudentsCountProvider =
-    FutureProvider.family<int, String>((ref, collegeId) async {
-  final students = await ref.read(advisorRepositoryProvider).getCollegeStudents(
-    collegeId,
-    unassignedOnly: true,
-  );
-  return students.length;
-});
-

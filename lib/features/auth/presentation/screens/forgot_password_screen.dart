@@ -34,20 +34,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
   void _submit() {
     try {
-      String email = _emailController.text.trim();
-      if (email.isEmpty) {
+      if (_emailController.text.isEmpty) {
         throw ValidationException(code: '001', message: t.auth.login.email);
       }
-
-      if (email.contains('@')) {
-        throw ValidationException(
-          code: '004',
-          message: t.$meta.locale.languageCode == 'ar'
-              ? 'الرجاء إدخال الجزء الأول فقط بدون @horus.edu.eg'
-              : 'Please enter prefix only (no @horus.edu.eg)',
-        );
-      }
-      email = '$email@horus.edu.eg';
 
       if (_phoneController.text.isEmpty) {
         throw ValidationException(
@@ -249,14 +238,6 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           decoration: InputDecoration(
             labelText: t.auth.login.email,
             prefixIcon: const Icon(LucideIcons.mail),
-            suffixText: '@horus.edu.eg',
-            suffixStyle: GoogleFonts.inter(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.5),
-              fontSize: 15,
-              fontWeight: FontWeight.w500,
-            ),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
             filled: isGlass,
             fillColor: isGlass ? Colors.white.withValues(alpha: 0.4) : null,

@@ -1,7 +1,4 @@
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
-import 'package:hue/features/admin/data/models/user_management_models.dart';
-import 'package:hue/features/admin/presentation/providers/users_provider.dart';
+
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,28 +7,23 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class DepartmentDetailScreen extends ConsumerWidget {
-  final DepartmentModel department;
-  final Color color;
+  final Map<String, dynamic> departmentData;
 
-  const DepartmentDetailScreen({
-    super.key,
-    required this.department,
-    required this.color,
-  });
+  const DepartmentDetailScreen({super.key, required this.departmentData});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
-    final isArabic = t.$meta.locale.languageCode == 'ar';
-    final name = isArabic ? department.nameAr : department.nameEn;
-    final bio =
-        (isArabic ? department.descriptionAr : department.descriptionEn) ??
-        t.admin.no_about_text_available;
+    final color = departmentData['color'] as Color? ?? Colors.blue;
+    final name = departmentData['name'] as String;
+    final deptKey = departmentData['key'] as String;
+
+    final bio = _getDepartmentBio(deptKey);
+    final hod = _getMockHoD(deptKey);
 
     Widget content = CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -99,21 +91,17 @@ class DepartmentDetailScreen extends ConsumerWidget {
           padding: const EdgeInsets.all(24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              _buildSectionHeader(
-                t.admin.department_details,
-                LucideIcons.info,
-                isGlass,
-              ),
+              _buildSectionHeader('Overview', LucideIcons.info, isGlass),
               const SizedBox(height: 10),
               _buildBioText(bio, isGlass),
               const SizedBox(height: 24),
               _buildSectionHeader(
-                t.admin.head_of_department,
+                'Head of Department',
                 LucideIcons.award,
                 isGlass,
               ),
               const SizedBox(height: 12),
-              _buildHodSection(ref, color, isGlass),
+              _HoDIdentityCard(hod: hod, color: color, isGlass: isGlass),
               const SizedBox(height: 80),
             ]),
           ),
@@ -122,62 +110,6 @@ class DepartmentDetailScreen extends ConsumerWidget {
     );
 
     return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
-  }
-
-  Widget _buildHodSection(WidgetRef ref, Color themeColor, bool isGlass) {
-    if (department.headId == null) {
-      return GlassContainer(
-        padding: const EdgeInsets.all(24),
-        borderRadius: BorderRadius.circular(24),
-        child: Center(
-          child: Column(
-            children: [
-              Icon(LucideIcons.userX, color: Colors.orangeAccent, size: 40),
-              SizedBox(height: 12),
-              Text(
-                t.admin.no_head_assigned,
-                style: GoogleFonts.outfit(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: isGlass ? Colors.white : Colors.black87,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ).animate().fadeIn(delay: 200.ms).slideX(begin: 0.05);
-    }
-
-    final usersAsync = ref.watch(usersControllerProvider());
-
-    return usersAsync.when(
-      data: (users) {
-        final hod = users.firstWhere(
-          (u) => u.id == department.headId,
-          orElse: () => UserProfileModel(
-            id: 'unknown',
-            email: 'unknown',
-            fullName: 'Unknown',
-            isActive: false,
-            isBanned: false,
-            isVerified: false,
-            roles: [],
-            createdAt: DateTime.now(),
-          ),
-        );
-
-        if (hod.id == 'unknown') return const SizedBox();
-
-        return _HoDIdentityCard(
-          hod: hod,
-          color: themeColor,
-          isGlass: isGlass,
-          department: department,
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, s) => const SizedBox(),
-    );
   }
 
   Widget _buildSectionHeader(String title, IconData icon, bool isGlass) {
@@ -208,17 +140,38 @@ class DepartmentDetailScreen extends ConsumerWidget {
       ),
     ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1, end: 0);
   }
+
+  String _getDepartmentBio(String key) {
+    if (key.contains('ai')) {
+      return 'The AI department leads the digital frontier, focusing on machine learning, robotics, and neural networks. Students engage in deep-tech research to solve global challenges through intelligent automation.';
+    } else if (key.contains('medical')) {
+      return 'Dedicated to excellence in clinical diagnostics and healthcare innovation. Our laboratories provide state-of-the-art facilities for training the next generation of medical technologists and researchers.';
+    } else if (key.contains('engineering')) {
+      return 'A hub of technical innovation where theory meets practice. Our programs cover mechanical, electrical, and systems engineering, preparing students to design and build the infrastructure of tomorrow.';
+    }
+    return 'Ensuring academic excellence through a rigorous curriculum and practical engagement. This department is committed to fostering innovation, critical thinking, and professional development in its specialized field.';
+  }
+
+  Map<String, dynamic> _getMockHoD(String key) {
+    return {
+      'name': 'Prof. Julian Sterling',
+      'subject': 'Quantum Computing & Algorithms',
+      'office_no': 'H-302',
+      'floor': '3rd Floor',
+      'direction': 'North-East Wing',
+      'symbol': 'θ-4',
+      'rating': 4.9,
+    };
+  }
 }
 
 class _HoDIdentityCard extends StatelessWidget {
-  final UserProfileModel hod;
-  final DepartmentModel department;
+  final Map<String, dynamic> hod;
   final Color color;
   final bool isGlass;
 
   const _HoDIdentityCard({
     required this.hod,
-    required this.department,
     required this.color,
     required this.isGlass,
   });
@@ -240,6 +193,7 @@ class _HoDIdentityCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(28),
         child: Stack(
           children: [
+
             Positioned.fill(
               child: CustomPaint(painter: _HoloLinesPainter(color: color)),
             ),
@@ -251,39 +205,32 @@ class _HoDIdentityCard extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundImage: hod.avatarUrl != null
-                            ? NetworkImage(hod.avatarUrl!)
-                            : null,
-                        backgroundColor: color.withValues(alpha: 0.2),
-                        child: hod.avatarUrl == null
-                            ? Icon(LucideIcons.user, color: color, size: 28)
-                            : null,
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(child: _buildProfileSection()),
-                      if (department.officeSymbol != null)
-                        _buildChip('ID: ${department.officeSymbol}', color),
+                      _buildProfileSection(),
+                      const Spacer(),
+                      _buildChip('ID: ${hod['symbol']}', color),
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _buildDetailRow(LucideIcons.mail, 'Email', hod.email),
+                  _buildDetailRow(
+                    LucideIcons.bookOpen,
+                    'Discipline',
+                    hod['subject'],
+                  ),
                   const Divider(height: 24, color: Colors.white10),
                   Row(
                     children: [
                       Expanded(
                         child: _buildLocationStat(
                           'Office',
-                          department.code ?? '---',
+                          hod['office_no'],
                           LucideIcons.mapPin,
                         ),
                       ),
                       Expanded(
                         child: _buildLocationStat(
-                          t.extracted.building,
-                          department.building ?? '---',
-                          LucideIcons.building,
+                          'Floor',
+                          hod['floor'],
+                          LucideIcons.layers,
                         ),
                       ),
                     ],
@@ -293,14 +240,12 @@ class _HoDIdentityCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _buildLocationStat(
-                          'Floor',
-                          department.floor?.toString() ?? '---',
-                          LucideIcons.layers,
+                          'Direction',
+                          hod['direction'],
+                          LucideIcons.compass,
                         ),
                       ),
-                      Expanded(
-                        child: _buildRatingStat(4.9),
-                      ), // Keep mock rating for now
+                      Expanded(child: _buildRatingStat(hod['rating'])),
                     ],
                   ),
                 ],
@@ -317,16 +262,15 @@ class _HoDIdentityCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          hod.fullName,
+          hod['name'],
           style: GoogleFonts.outfit(
-            fontSize: 20,
+            fontSize: 22,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
-          overflow: TextOverflow.ellipsis,
         ),
         Text(
-          t.admin.head_of_department,
+          'Head of Department',
           style: GoogleFonts.inter(
             fontSize: 12,
             fontWeight: FontWeight.w600,
@@ -362,25 +306,22 @@ class _HoDIdentityCard extends StatelessWidget {
       children: [
         Icon(icon, size: 16, color: color),
         const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: GoogleFonts.inter(fontSize: 10, color: Colors.white38),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.inter(fontSize: 10, color: Colors.white38),
+            ),
+            Text(
+              value,
+              style: GoogleFonts.outfit(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
-              Text(
-                value,
-                style: GoogleFonts.outfit(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
@@ -391,25 +332,22 @@ class _HoDIdentityCard extends StatelessWidget {
       children: [
         Icon(icon, size: 14, color: Colors.white38),
         const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: GoogleFonts.inter(fontSize: 10, color: Colors.white30),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: GoogleFonts.inter(fontSize: 10, color: Colors.white30),
+            ),
+            Text(
+              value,
+              style: GoogleFonts.outfit(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
-              Text(
-                value,
-                style: GoogleFonts.outfit(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

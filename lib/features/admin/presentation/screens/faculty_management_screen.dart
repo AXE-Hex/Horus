@@ -12,15 +12,16 @@ import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-class StaffManagementScreen extends ConsumerStatefulWidget {
-  const StaffManagementScreen({super.key});
+class FacultyManagementScreen extends ConsumerStatefulWidget {
+  const FacultyManagementScreen({super.key});
 
   @override
-  ConsumerState<StaffManagementScreen> createState() =>
-      _StaffManagementScreenState();
+  ConsumerState<FacultyManagementScreen> createState() =>
+      _FacultyManagementScreenState();
 }
 
-class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
+class _FacultyManagementScreenState
+    extends ConsumerState<FacultyManagementScreen> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
 
@@ -34,12 +35,12 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final primaryColor = Theme.of(context).primaryColor;
-    final staffCountAsync = ref.watch(totalStaffCountProvider);
+    final statsAsync = ref.watch(adminStatsProvider);
 
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          t.admin.staff_management,
+          t.admin.faculty_management,
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.w900,
             letterSpacing: -0.5,
@@ -68,7 +69,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               color: Colors.white,
               onPressed: () => context.push(
                 '/admin/users/new',
-                extra: {'category': RoleCategory.studentAffairs},
+                extra: {'category': RoleCategory.teachingStaff},
               ),
             ),
           ),
@@ -76,18 +77,21 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       ),
       body: Column(
         children: [
-          _buildQuickStats(isArabic, staffCountAsync),
+          _buildQuickStats(isArabic, statsAsync),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: _buildSearchBar(isArabic, primaryColor),
           ),
-          Expanded(child: _buildStaffList(isArabic, primaryColor)),
+          Expanded(child: _buildFacultyList(isArabic, primaryColor)),
         ],
       ),
     );
   }
 
-  Widget _buildQuickStats(bool isArabic, AsyncValue<int> total) {
+  Widget _buildQuickStats(
+    bool isArabic,
+    AsyncValue<Map<RoleCategory, int>> stats,
+  ) {
     return Container(
       height: 110,
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -96,15 +100,17 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
         physics: const BouncingScrollPhysics(),
         children: [
           _StatCard(
-            label: t.admin.total_staff,
-            valueAsync: total,
-            icon: LucideIcons.users,
-            color: const Color(0xFF6366F1),
+            label: t.admin.faculty_members_1,
+            valueAsync: stats.whenData(
+              (s) => s[RoleCategory.teachingStaff] ?? 0,
+            ),
+            icon: LucideIcons.graduationCap,
+            color: const Color(0xFFF59E0B),
           ),
           _StatCard(
-            label: t.admin.student_affairs,
-            valueAsync: const AsyncValue.data(8),
-            icon: LucideIcons.graduationCap,
+            label: t.admin.teaching_assistants,
+            valueAsync: const AsyncValue.data(15),
+            icon: LucideIcons.bookOpen,
             color: const Color(0xFF10B981),
           ),
         ],
@@ -124,7 +130,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
         onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
         style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
         decoration: InputDecoration(
-          hintText: t.admin.search_staff_member,
+          hintText: t.admin.search_doctor_name,
           hintStyle: GoogleFonts.inter(
             fontSize: 13,
             color: Colors.white.withValues(alpha: 0.25),
@@ -144,12 +150,12 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     );
   }
 
-  Widget _buildStaffList(bool isArabic, Color primaryColor) {
-    final staffAsync = ref.watch(
-      usersControllerProvider(category: RoleCategory.studentAffairs),
+  Widget _buildFacultyList(bool isArabic, Color primaryColor) {
+    final facultyAsync = ref.watch(
+      usersControllerProvider(category: RoleCategory.teachingStaff),
     );
 
-    return staffAsync.when(
+    return facultyAsync.when(
       data: (users) {
         final filtered = users
             .where(
@@ -168,17 +174,17 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                   height: 90,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFF6366F1).withValues(alpha: 0.06),
+                    color: const Color(0xFFF59E0B).withValues(alpha: 0.06),
                   ),
                   child: const Icon(
-                    LucideIcons.users,
+                    LucideIcons.graduationCap,
                     size: 36,
-                    color: Color(0xFF6366F1),
+                    color: Color(0xFFF59E0B),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'No staff found',
+                  'No faculty found',
                   style: GoogleFonts.outfit(
                     fontSize: 14,
                     color: Colors.white.withValues(alpha: 0.3),
@@ -193,20 +199,20 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
           padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
           itemCount: filtered.length,
           itemBuilder: (context, index) {
-            final member = filtered[index];
-            return _StaffTile(
-                  member: member,
+            final doctor = filtered[index];
+            return _FacultyTile(
+                  member: doctor,
                   isArabic: isArabic,
                   primaryColor: primaryColor,
                 )
                 .animate()
                 .fadeIn(delay: (index * 35).ms, duration: 300.ms)
-                .slideY(begin: 0.04, end: 0);
+                .slideX(begin: 0.03, end: 0);
           },
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (e, _) => Center(child: Text('Error: $e')),
     );
   }
 }
@@ -227,7 +233,7 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassContainer(
-      width: 155,
+      width: 165,
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(14),
       borderRadius: BorderRadius.circular(22),
@@ -268,12 +274,12 @@ class _StatCard extends StatelessWidget {
   }
 }
 
-class _StaffTile extends StatelessWidget {
+class _FacultyTile extends StatelessWidget {
   final UserProfileModel member;
   final bool isArabic;
   final Color primaryColor;
 
-  const _StaffTile({
+  const _FacultyTile({
     required this.member,
     required this.isArabic,
     required this.primaryColor,
@@ -281,9 +287,9 @@ class _StaffTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final roleName = member.roles.isNotEmpty
-        ? member.roles.first.displayName(isArabic: isArabic)
-        : '—';
+    final UserRole role = member.roles.isNotEmpty
+        ? member.roles.first
+        : UserRole.professor;
     final statusColor = member.isBanned
         ? const Color(0xFFEF4444)
         : (member.isActive ? const Color(0xFF10B981) : const Color(0xFFF59E0B));
@@ -299,14 +305,14 @@ class _StaffTile extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  width: 48,
-                  height: 48,
+                  width: 50,
+                  height: 50,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF6366F1).withValues(alpha: 0.3),
-                        const Color(0xFF6366F1).withValues(alpha: 0.1),
+                        const Color(0xFFF59E0B).withValues(alpha: 0.3),
+                        const Color(0xFFF59E0B).withValues(alpha: 0.1),
                       ],
                     ),
                   ),
@@ -315,25 +321,25 @@ class _StaffTile extends StatelessWidget {
                           child: Image.network(
                             member.avatarUrl!,
                             fit: BoxFit.cover,
-                            width: 48,
-                            height: 48,
+                            width: 50,
+                            height: 50,
                             errorBuilder: (context, error, stackTrace) =>
                                 const Icon(
                                   LucideIcons.user,
-                                  size: 20,
+                                  size: 22,
                                   color: Colors.white70,
                                 ),
                           ),
                         )
                       : const Icon(
                           LucideIcons.user,
-                          size: 20,
+                          size: 22,
                           color: Colors.white70,
                         ),
                 ),
                 Positioned(
-                  bottom: 0,
-                  right: 0,
+                  bottom: 1,
+                  right: 1,
                   child: Container(
                     width: 12,
                     height: 12,
@@ -363,34 +369,25 @@ class _StaffTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    member.email,
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      color: Colors.white.withValues(alpha: 0.3),
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
                   const SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
-                      vertical: 2,
+                      vertical: 3,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+                      color: const Color(0xFFF59E0B).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: const Color(0xFF6366F1).withValues(alpha: 0.2),
+                        color: const Color(0xFFF59E0B).withValues(alpha: 0.2),
                       ),
                     ),
                     child: Text(
-                      roleName,
+                      role.displayName(isArabic: isArabic),
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF6366F1),
+                        color: const Color(0xFFF59E0B),
                       ),
                     ),
                   ),

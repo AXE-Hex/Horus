@@ -172,17 +172,9 @@ extension RegistrationStatusX on RegistrationStatus {
   String label({bool isArabic = false}) {
     switch (this) {
       case RegistrationStatus.pending:
-        return LocaleSettings
-            .instance
-            .currentTranslations
-            .enrollment
-            .pending_review;
+        return LocaleSettings.instance.currentTranslations.enrollment.pending_review;
       case RegistrationStatus.approved:
-        return LocaleSettings
-            .instance
-            .currentTranslations
-            .enrollment
-            .approved_1;
+        return LocaleSettings.instance.currentTranslations.enrollment.approved_1;
       case RegistrationStatus.rejected:
         return LocaleSettings.instance.currentTranslations.enrollment.rejected;
       case RegistrationStatus.withdrawn:
