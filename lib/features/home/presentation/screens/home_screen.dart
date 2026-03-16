@@ -15,6 +15,7 @@ import 'package:hue/features/feed/domain/models/post_model.dart';
 import 'package:hue/features/onboarding/presentation/screens/colleges_screen.dart';
 import 'package:hue/features/students/presentation/screens/student_dashboard_screen.dart';
 import 'package:hue/features/admin/presentation/screens/administration_screen.dart';
+import 'package:hue/features/admin/presentation/screens/staff_dashboard_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -68,23 +69,32 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
     );
 
-    // 3. Dashboard — available to students, teaching, leadership, admin, and student affairs roles
-    final hasDashboard =
-        role.isStudent ||
+    // 3. Student Dashboard
+    if (role.isStudent) {
+      items.add(
+        _TabItem(
+          icon: LucideIcons.layoutDashboard,
+          label: t.extracted.dashboard,
+          screen: const DashboardScreen(),
+        ),
+      );
+    }
+
+    // 4. Staff Dashboard (Teaching, Leadership, Advisors, Librarians, Registrars, Super Admin)
+    final hasStaffDashboard =
         role.isTeachingStaff ||
         role.isLeadership ||
-        role.isAdmin ||
         role == UserRole.superAdmin ||
         role == UserRole.registrarOfficer ||
         role == UserRole.academicAdvisor ||
         role == UserRole.librarian;
 
-    if (hasDashboard) {
+    if (hasStaffDashboard) {
       items.add(
         _TabItem(
-          icon: LucideIcons.layoutDashboard,
-          label: isArabic ? 'لوحة التحكم' : 'Dashboard',
-          screen: const DashboardScreen(),
+          icon: LucideIcons.presentation,
+          label: t.extracted.dashboard,
+          screen: const StaffDashboardScreen(),
         ),
       );
     }
@@ -132,12 +142,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           children: items.map((e) => e.screen).toList(),
         ),
         bottomNavigationBar: _buildModernBottomNav(theme, isDark, items),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton:
-            (_currentIndex == 0 &&
-                role.hasPermission(RolePermission.createPost))
-            ? _buildCreatePostFab(theme, isDark)
-            : null,
+        floatingActionButton: null,
       ),
     );
   }
@@ -145,30 +150,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   // ═══════════════════════════════════════════════════════════════════════════
   //  MODERN FAB
   // ═══════════════════════════════════════════════════════════════════════════
-  Widget _buildCreatePostFab(ThemeData theme, bool isDark) {
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: theme.primaryColor.withValues(alpha: 0.4),
-            blurRadius: 20,
-            spreadRadius: 2,
-            offset: const Offset(0, 8),
-          ),
-        ],
-      ),
-      child: FloatingActionButton(
-        onPressed: () => _showCreatePostMenu(context, theme, isDark),
-        backgroundColor: theme.primaryColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        shape: const CircleBorder(),
-        child: const Icon(LucideIcons.plus, size: 28),
-      ).animate().scale(curve: Curves.easeOutBack, duration: 400.ms),
-    );
-  }
 
   void _showCreatePostMenu(BuildContext context, ThemeData theme, bool isDark) {
     showModalBottomSheet(
@@ -366,6 +347,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
         ],
       ),
       actions: [
+        if (_currentIndex == 0)
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: theme.primaryColor.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IconButton(
+              icon: Icon(
+                LucideIcons.plus,
+                size: 20,
+                color: theme.primaryColor,
+              ),
+              onPressed: () => _showCreatePostMenu(context, theme, isDark),
+              splashRadius: 22,
+            ),
+          ),
         Container(
           margin: const EdgeInsets.only(right: 12),
           decoration: BoxDecoration(

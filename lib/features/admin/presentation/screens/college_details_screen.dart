@@ -488,7 +488,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '$staffCount ${isArabic ? "عضو هيئة تدريس" : "Faculty Members"}',
+                      '$staffCount ${t.extracted.faculty_members}',
                       style: GoogleFonts.inter(
                         fontSize: 13,
                         color: Theme.of(

@@ -22,6 +22,7 @@ import 'package:hue/features/students/presentation/screens/digital_id_screen.dar
 import 'package:hue/features/students/presentation/screens/student_dashboard_screen.dart';
 import 'package:hue/features/settings/presentation/screens/settings_screen.dart';
 import 'package:hue/features/admin/presentation/screens/administration_screen.dart';
+import 'package:hue/features/admin/presentation/screens/staff_dashboard_screen.dart';
 import 'package:hue/features/academic/presentation/screens/transcript_screen.dart';
 import 'package:hue/features/academic/presentation/screens/academic_progress_screen.dart';
 import 'package:hue/features/academic/presentation/screens/grades_screen.dart';
@@ -42,6 +43,7 @@ import 'package:hue/features/shared/presentation/screens/tutorials_screen.dart';
 import 'package:hue/features/shared/presentation/screens/forums_screen.dart';
 import 'package:hue/features/feed/presentation/screens/create_post_screen.dart';
 import 'package:hue/features/feed/domain/models/post_model.dart';
+import 'package:hue/features/academic/presentation/screens/specialization_projects_screen.dart';
 
 import 'package:hue/features/shared/presentation/screens/transition_screen.dart';
 import 'package:hue/features/academic/presentation/screens/professor_profile_screen.dart';
@@ -137,6 +139,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const DashboardScreen(),
       ),
       GoRoute(
+        path: '/staff-dashboard',
+        builder: (context, state) => const StaffDashboardScreen(),
+      ),
+      GoRoute(
         path: '/grades',
         builder: (context, state) => const GradesScreen(),
       ),
@@ -153,8 +159,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SubjectResultsScreen(),
       ),
       GoRoute(
+        path: '/specialization-projects',
+        builder: (context, state) => const SpecializationProjectsScreen(),
+      ),
+      GoRoute(
         path: '/action-plan',
-        builder: (context, state) => const ActionPlanScreen(),
+        builder: (context, state) => ActionPlanScreen(),
       ),
       GoRoute(
         path: '/schedule',
@@ -162,7 +172,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/exam-schedule',
-        builder: (context, state) => const ExamScheduleScreen(),
+        builder: (context, state) => ExamScheduleScreen(),
       ),
       GoRoute(
         path: '/attendance',
@@ -266,14 +276,34 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/users/details',
         builder: (context, state) {
-          final user = state.extra as UserProfileModel;
+          final user = state.extra as UserProfileModel?;
+
+          if (user == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return UserDetailsScreen(user: user);
         },
       ),
       GoRoute(
         path: '/admin/users/edit',
         builder: (context, state) {
-          final user = state.extra as UserProfileModel;
+          final user = state.extra as UserProfileModel?;
+
+          if (user == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return UserFormScreen(user: user);
         },
       ),
@@ -305,7 +335,17 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/departments/details',
         builder: (context, state) {
-          final dept = state.extra as DepartmentModel;
+          final dept = state.extra as DepartmentModel?;
+
+          if (dept == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return DepartmentDetailsScreen(department: dept);
         },
       ),
@@ -346,21 +386,51 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/staff-rating-detail',
         builder: (context, state) {
-          final staffMember = state.extra as Map<String, dynamic>;
+          final staffMember = state.extra as Map<String, dynamic>?;
+
+          if (staffMember == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return StaffRatingDetailScreen(staffMember: staffMember);
         },
       ),
       GoRoute(
         path: '/submit-rating',
         builder: (context, state) {
-          final staffMember = state.extra as Map<String, dynamic>;
+          final staffMember = state.extra as Map<String, dynamic>?;
+
+          if (staffMember == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return SubmitRatingScreen(staffMember: staffMember);
         },
       ),
       GoRoute(
         path: '/department-detail',
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
+          final extra = state.extra as Map<String, dynamic>?;
+
+          if (extra == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           final department = extra['department'] as DepartmentModel;
           final color = extra['color'] as Color;
           return DepartmentDetailScreen(department: department, color: color);
@@ -369,35 +439,85 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/academic-staff',
         builder: (context, state) {
-          final collegeData = state.extra as Map<String, dynamic>;
+          final collegeData = state.extra as Map<String, dynamic>?;
+
+          if (collegeData == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return AcademicStaffScreen(collegeData: collegeData);
         },
       ),
       GoRoute(
         path: '/admin/colleges/details',
         builder: (context, state) {
-          final college = state.extra as CollegeModel;
+          final college = state.extra as CollegeModel?;
+
+          if (college == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return admin_screens.CollegeDetailsScreen(college: college);
         },
       ),
       GoRoute(
         path: '/college-portal',
         builder: (context, state) {
-          final college = state.extra as StaticCollegeData;
+          final college = state.extra as StaticCollegeData?;
+
+          if (college == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return CollegePortalScreen(college: college);
         },
       ),
       GoRoute(
         path: '/college-details',
         builder: (context, state) {
-          final collegeData = state.extra as Map<String, dynamic>;
+          final collegeData = state.extra as Map<String, dynamic>?;
+
+          if (collegeData == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           return CollegeDetailsScreen(collegeData: collegeData);
         },
       ),
       GoRoute(
         path: '/college-departments',
         builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
+          final extra = state.extra as Map<String, dynamic>?;
+
+          if (extra == null) {
+
+            return const Scaffold(
+
+              body: Center(child: Text('Navigation error: missing data')),
+
+            );
+
+          }
           final college = extra['college'] as CollegeModel;
           final color = extra['color'] as Color;
           return CollegeDepartmentsScreen(college: college, color: color);

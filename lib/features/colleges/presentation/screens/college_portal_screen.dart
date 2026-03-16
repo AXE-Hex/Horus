@@ -355,7 +355,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
             Icon(LucideIcons.info, color: color, size: 24),
             const SizedBox(width: 12),
             Text(
-              isArabic ? 'نبذة عن الكلية' : 'About College',
+              t.extracted.about_college,
               style: GoogleFonts.outfit(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -366,7 +366,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
         ),
         const SizedBox(height: 16),
         _buildExpandableCard(
-          isArabic ? 'النشأة والجذور' : 'Origins & Roots',
+          t.extracted.origins_roots,
           isArabic ? college.about.originsAr : college.about.originsEn,
           color,
           isGlass,
@@ -374,7 +374,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
         ),
         const SizedBox(height: 12),
         _buildExpandableCard(
-          isArabic ? 'الرؤية والرسالة' : 'Vision & Mission',
+          t.extracted.vision_mission,
           '${isArabic ? college.about.visionAr : college.about.visionEn}\n\n${isArabic ? college.about.missionAr : college.about.missionEn}',
           color,
           isGlass,
@@ -382,7 +382,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
         ),
         const SizedBox(height: 12),
         _buildExpandableCard(
-          isArabic ? 'الغايات الإستراتيجية' : 'Strategic Goals',
+          t.extracted.strategic_goals,
           (isArabic ? college.about.goalsAr : college.about.goalsEn).join(
             '\n• ',
           ),
@@ -526,7 +526,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
             Icon(LucideIcons.award, color: color, size: 24),
             const SizedBox(width: 12),
             Text(
-              isArabic ? 'إدارة الكلية' : 'Faculty Management',
+              t.extracted.faculty_management,
               style: GoogleFonts.outfit(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -563,7 +563,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
             Icon(LucideIcons.users, color: color, size: 24),
             const SizedBox(width: 12),
             Text(
-              isArabic ? 'هيئة التدريس والمعاونين' : 'Faculty & Staff',
+              t.extracted.faculty_staff,
               style: GoogleFonts.outfit(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -578,9 +578,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
             if (staff.isEmpty) {
               return Center(
                 child: Text(
-                  isArabic
-                      ? 'لا يوجد أعضاء مسجلين حالياً'
-                      : 'No staff registered yet',
+                  t.extracted.no_staff_registered_yet,
                   style: GoogleFonts.outfit(color: Colors.grey),
                 ),
               );
@@ -681,7 +679,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
             Icon(LucideIcons.grid, color: color, size: 24),
             const SizedBox(width: 12),
             Text(
-              isArabic ? 'الأقسام العلمية' : 'Scientific Departments',
+              t.extracted.scientific_departments,
               style: GoogleFonts.outfit(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,

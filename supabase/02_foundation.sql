@@ -21,37 +21,73 @@ CREATE EXTENSION IF NOT EXISTS "moddatetime";  -- automatic updated_at maintenan
 -- ════════════════════════════════════════════════════════════════════════════
 
 -- User roles — ordered from most-privileged to least-privileged.
-CREATE TYPE public.user_role AS ENUM (
-  'super_admin', 'admin', 'it_support', 'financial_auditor',
-  'rector', 'dean', 'department_head', 'assistant_hod', 'academic_coordinator',
-  'professor', 'lecturer', 'teaching_assistant',
-  'registrar_officer', 'academic_advisor', 'librarian',
-  'freshman', 'regular_student', 'student', 'class_representative', 'alumni',
-  'dorm_supervisor', 'security_officer', 'guest', 'parent', 'recruiter'
-);
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'user_role') THEN
+    CREATE TYPE public.user_role AS ENUM (
+      'super_admin', 'admin', 'it_support', 'financial_auditor',
+      'rector', 'dean', 'department_head', 'assistant_hod', 'academic_coordinator',
+      'professor', 'lecturer', 'teaching_assistant',
+      'registrar_officer', 'academic_advisor', 'librarian',
+      'freshman', 'regular_student', 'student', 'class_representative', 'alumni',
+      'dorm_supervisor', 'security_officer', 'guest', 'parent', 'recruiter'
+    );
+  END IF;
+END $$;
 
 -- Content & communication
-CREATE TYPE public.announcement_priority AS ENUM ('normal', 'important', 'urgent');
-CREATE TYPE public.forum_category        AS ENUM ('general', 'academic', 'social', 'feedback');
-CREATE TYPE public.notification_type     AS ENUM ('info', 'warning', 'success', 'error');
-CREATE TYPE public.file_type             AS ENUM ('pdf', 'docx', 'pptx', 'xlsx', 'image', 'video', 'other');
-CREATE TYPE public.post_type             AS ENUM ('text', 'image', 'video', 'link', 'announcement');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'announcement_priority') THEN
+    CREATE TYPE public.announcement_priority AS ENUM ('normal', 'important', 'urgent');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'forum_category') THEN
+    CREATE TYPE public.forum_category AS ENUM ('general', 'academic', 'social', 'feedback');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notification_type') THEN
+    CREATE TYPE public.notification_type AS ENUM ('info', 'warning', 'success', 'error');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'file_type') THEN
+    CREATE TYPE public.file_type AS ENUM ('pdf', 'docx', 'pptx', 'xlsx', 'image', 'video', 'other');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'post_type') THEN
+    CREATE TYPE public.post_type AS ENUM ('text', 'image', 'video', 'link', 'announcement');
+  END IF;
+END $$;
 
 -- Academic workflow
-CREATE TYPE public.enrollment_status     AS ENUM ('pending', 'approved', 'rejected', 'withdrawn', 'cancelled');
-CREATE TYPE public.attendance_status     AS ENUM ('present', 'absent', 'late', 'excused');
-CREATE TYPE public.day_of_week           AS ENUM ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'enrollment_status') THEN
+    CREATE TYPE public.enrollment_status AS ENUM ('pending', 'approved', 'rejected', 'withdrawn', 'cancelled');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'attendance_status') THEN
+    CREATE TYPE public.attendance_status AS ENUM ('present', 'absent', 'late', 'excused');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'day_of_week') THEN
+    CREATE TYPE public.day_of_week AS ENUM ('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday');
+  END IF;
+END $$;
 
 -- Finance & operations
-CREATE TYPE public.payment_status        AS ENUM ('pending', 'paid', 'overdue', 'refunded');
-CREATE TYPE public.support_ticket_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
-CREATE TYPE public.session_device        AS ENUM ('mobile', 'desktop', 'tablet', 'unknown');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payment_status') THEN
+    CREATE TYPE public.payment_status AS ENUM ('pending', 'paid', 'overdue', 'refunded');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'support_ticket_status') THEN
+    CREATE TYPE public.support_ticket_status AS ENUM ('open', 'in_progress', 'resolved', 'closed');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'session_device') THEN
+    CREATE TYPE public.session_device AS ENUM ('mobile', 'desktop', 'tablet', 'unknown');
+  END IF;
+END $$;
 
 -- Audit trail
-CREATE TYPE public.audit_action AS ENUM (
-  'create', 'update', 'delete', 'login', 'logout',
-  'toggle_status', 'role_change', 'password_reset', 'view'
-);
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'audit_action') THEN
+    CREATE TYPE public.audit_action AS ENUM (
+      'create', 'update', 'delete', 'login', 'logout',
+      'toggle_status', 'role_change', 'password_reset', 'view'
+    );
+  END IF;
+END $$;
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- 3. CORE IDENTITY TABLES
@@ -60,7 +96,7 @@ CREATE TYPE public.audit_action AS ENUM (
 -- ── profiles ─────────────────────────────────────────────────────────────────
 -- Central user table. Every authenticated user has exactly one profile row.
 -- college_id and department_id FKs are added after those tables are created.
-CREATE TABLE public.profiles (
+CREATE TABLE IF NOT EXISTS public.profiles (
   id            UUID        PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email         TEXT        NOT NULL UNIQUE,
   full_name     TEXT        NOT NULL,
@@ -94,7 +130,7 @@ CREATE TRIGGER profiles_updated_at
   FOR EACH ROW EXECUTE FUNCTION moddatetime(updated_at);
 
 -- ── colleges ─────────────────────────────────────────────────────────────────
-CREATE TABLE public.colleges (
+CREATE TABLE IF NOT EXISTS public.colleges (
   id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   name_en        TEXT        NOT NULL,
   name_ar        TEXT        NOT NULL,
@@ -118,7 +154,7 @@ CREATE TRIGGER colleges_updated_at
   FOR EACH ROW EXECUTE FUNCTION moddatetime(updated_at);
 
 -- ── departments ───────────────────────────────────────────────────────────────
-CREATE TABLE public.departments (
+CREATE TABLE IF NOT EXISTS public.departments (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   college_id       UUID        NOT NULL REFERENCES public.colleges(id) ON DELETE CASCADE,
   name_en          TEXT        NOT NULL,
@@ -145,11 +181,14 @@ CREATE TRIGGER departments_updated_at
   FOR EACH ROW EXECUTE FUNCTION moddatetime(updated_at);
 
 -- ── Deferred FKs: profiles → colleges / departments ──────────────────────────
-ALTER TABLE public.profiles
-  ADD CONSTRAINT profiles_college_id_fkey
-    FOREIGN KEY (college_id)    REFERENCES public.colleges(id)    ON DELETE SET NULL,
-  ADD CONSTRAINT profiles_department_id_fkey
-    FOREIGN KEY (department_id) REFERENCES public.departments(id) ON DELETE SET NULL;
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'profiles_college_id_fkey' AND table_name = 'profiles' AND table_schema = 'public') THEN
+    ALTER TABLE public.profiles ADD CONSTRAINT profiles_college_id_fkey FOREIGN KEY (college_id) REFERENCES public.colleges(id) ON DELETE SET NULL;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'profiles_department_id_fkey' AND table_name = 'profiles' AND table_schema = 'public') THEN
+    ALTER TABLE public.profiles ADD CONSTRAINT profiles_department_id_fkey FOREIGN KEY (department_id) REFERENCES public.departments(id) ON DELETE SET NULL;
+  END IF;
+END $$;
 
 -- ════════════════════════════════════════════════════════════════════════════
 -- 4. CORE INDEXES

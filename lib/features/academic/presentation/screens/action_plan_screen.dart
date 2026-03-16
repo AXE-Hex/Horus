@@ -10,8 +10,14 @@ import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
+import 'package:hue/core/data/supabase_providers.dart';
+import 'package:hue/core/auth/auth_provider.dart';
+
+final actionPlanProvider = FutureProvider.family<List<Map<String, dynamic>>, String>((ref, studentId) async {
+  return await ref.read(academicRepositoryProvider).getActionPlan(studentId);
+});
+
 class ActionPlanScreen extends ConsumerWidget {
-  const ActionPlanScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,81 +25,61 @@ class ActionPlanScreen extends ConsumerWidget {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
-    final List<Map<String, dynamic>> timelineData = [
-      {
-        'title': t.academic.year_1,
-        'subtitle': t.academic.foundational_skills,
-        'status': 'completed',
-        'progress': 1.0,
-        'icon': LucideIcons.bookOpen,
-        'color': const Color(0xFF10B981),
-        'tasks': [
-          {
-            'label': t.academic.programming_basics,
-            'done': true,
-          },
-          {
-            'label': t.academic.intro_to_ai,
-            'done': true,
-          },
-        ],
-      },
-      {
-        'title': t.academic.year_2,
-        'subtitle': t.academic.advanced_learning,
-        'status': 'completed',
-        'progress': 1.0,
-        'icon': LucideIcons.code,
-        'color': const Color(0xFF10B981),
-        'tasks': [
-          {
-            'label': t.academic.data_structures,
-            'done': true,
-          },
-          {'label': t.academic.algorithms, 'done': true},
-        ],
-      },
-      {
-        'title': t.academic.year_3,
-        'subtitle': t.academic.specialization_projects,
-        'status': 'in_progress',
-        'progress': 0.65,
-        'icon': LucideIcons.layers,
-        'color': const Color(0xFF6366F1),
-        'tasks': [
-          {
-            'label': t.academic.track_project_i,
-            'done': true,
-          },
-          {
-            'label': t.academic.deep_learning,
-            'done': false,
-          },
-        ],
-      },
-      {
-        'title': t.academic.year_4,
-        'subtitle': t.academic.graduation_mastery,
-        'status': 'remaining',
-        'progress': 0.0,
-        'icon': LucideIcons.graduationCap,
-        'color': Colors.white24,
-        'tasks': [
-          {
-            'label': t.academic.graduation_project,
-            'done': false,
-          },
-          {
-            'label': t.academic.field_internship,
-            'done': false,
-          },
-        ],
-      },
-    ];
+    final auth = ref.watch(authControllerProvider);
+    final studentId = auth.user?.id;
+    
+    if (studentId == null) {
+      return const Scaffold(body: Center(child: Text('User not signed in')));
+    }
 
-    final body = CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
+    final actionPlanAsync = ref.watch(actionPlanProvider(studentId));
+
+    return actionPlanAsync.when(
+      data: (rawData) {
+        
+        // Ensure we group data logically by year if needed, or map directly
+        final List<Map<String, dynamic>> timelineData = rawData.map((item) {
+          final isCompleted = item['status'] == 'completed';
+          final isInProgress = item['status'] == 'in_progress';
+          Color color = Colors.white24;
+          IconData icon = LucideIcons.circle;
+
+          if (isCompleted) {
+            color = const Color(0xFF10B981);
+            icon = LucideIcons.checkCircle;
+          } else if (isInProgress) {
+            color = const Color(0xFF6366F1);
+            icon = LucideIcons.playCircle;
+          }
+
+          return {
+            'title': 'Year ${item['year'] ?? 1}',
+            'subtitle': item['title'] ?? t.academic.foundational_skills,
+            'status': item['status'] ?? 'remaining',
+            'progress': isCompleted ? 1.0 : (isInProgress ? 0.5 : 0.0),
+            'icon': icon,
+            'color': color,
+            'tasks': (item['tasks'] as List<dynamic>?)?.map((t) => {
+              'label': t['label']?.toString() ?? 'Task',
+              'done': t['done'] == true,
+            }).toList() ?? [],
+          };
+        }).toList();
+
+        int totalTasks = 0;
+        int completedTasks = 0;
+        for (final year in timelineData) {
+          final tasks = year['tasks'] as List;
+          totalTasks += tasks.length;
+          completedTasks += tasks.where((t) => t['done'] == true).length;
+        }
+        
+        final double overallProgress = totalTasks > 0 ? (completedTasks / totalTasks) : 0.0;
+        final int progressPercentage = (overallProgress * 100).toInt();
+
+        final body = CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
         GlassSliverAppBar(
           expandedHeight: 120,
           floating: true,
@@ -118,7 +104,17 @@ class ActionPlanScreen extends ConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: _buildProgressHeader(isArabic),
+            child: timelineData.isEmpty 
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 40),
+                    child: Text(
+                      t.academic.no_data, // Fallback string assuming it might exist or generic text
+                      style: GoogleFonts.outfit(color: Colors.white60, fontSize: 16),
+                    ),
+                  ),
+                )
+              : _buildProgressHeader(isArabic, progressPercentage, overallProgress),
           ),
         ),
         SliverPadding(
@@ -140,9 +136,13 @@ class ActionPlanScreen extends ConsumerWidget {
     );
 
     return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error: $err')),
+    );
   }
 
-  Widget _buildProgressHeader(bool isArabic) {
+  Widget _buildProgressHeader(bool isArabic, int progressPercentage, double overallProgress) {
     return GlassContainer(
       borderRadius: BorderRadius.circular(32),
       padding: const EdgeInsets.all(24),
@@ -166,7 +166,7 @@ class ActionPlanScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '68%',
+                    '$progressPercentage%',
                     style: GoogleFonts.outfit(
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
@@ -192,7 +192,7 @@ class ActionPlanScreen extends ConsumerWidget {
               child: Stack(
                 children: [
                   Container(
-                    width: 300 * 0.68,
+                    width: 300 * overallProgress,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Color(0xFF6366F1), Color(0xFF10B981)],

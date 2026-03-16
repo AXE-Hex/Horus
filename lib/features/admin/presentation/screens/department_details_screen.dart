@@ -982,9 +982,7 @@ class _DepartmentDetailsScreenState
             ),
           ),
           content: Text(
-            isArabic
-                ? 'إزالة ${staff.fullName} من هذا القسم؟'
-                : 'Remove ${staff.fullName} from this department?',
+            t.extracted.remove_stafffullname_from_this_department,
             style: GoogleFonts.inter(color: Colors.white70),
           ),
           actions: [

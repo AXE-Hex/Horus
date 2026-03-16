@@ -14,7 +14,7 @@
 -- ════════════════════════════════════════════════════════════════════════════
 
 -- ── courses ───────────────────────────────────────────────────────────────────
-CREATE TABLE public.courses (
+CREATE TABLE IF NOT EXISTS public.courses (
   id            UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   department_id UUID        NOT NULL REFERENCES public.departments(id) ON DELETE CASCADE,
   code          TEXT        NOT NULL UNIQUE,

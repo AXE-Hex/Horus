@@ -55,6 +55,9 @@ const Map<String, Set<RolePermission>> adminRoutePermissions = {
 const Map<String, Set<RoleCategory>> routePermissions = {
   '/dashboard': {
     RoleCategory.studentRoles,
+    RoleCategory.adminIT,
+  },
+  '/staff-dashboard': {
     RoleCategory.teachingStaff,
     RoleCategory.academicLeadership,
     RoleCategory.studentAffairs,

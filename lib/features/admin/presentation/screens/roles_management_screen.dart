@@ -309,7 +309,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                     ),
                   ),
                   Text(
-                    '$count ${isArabic ? "رتبة" : "roles"}',
+                    '$count ${t.extracted.roles}',
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       color: Theme.of(
@@ -833,7 +833,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              '${mergedPerms.length} ${isArabic ? "صلاحية" : "permissions"}',
+                              '${mergedPerms.length} ${t.extracted.permissions_2}',
                               style: GoogleFonts.shareTechMono(
                                 fontSize: 12,
                                 color: Theme.of(
@@ -1092,9 +1092,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           style: GoogleFonts.outfit(fontWeight: FontWeight.w800),
         ),
         content: Text(
-          isArabic
-              ? 'حذف دور ${role.nameAr}؟ لا يمكن التراجع عن هذا.'
-              : 'Delete role ${role.nameEn}? This cannot be undone.',
+          t.extracted.delete_role_rolenameen_this_cannot_be_undone,
           style: GoogleFonts.inter(
             color: Theme.of(
               context,

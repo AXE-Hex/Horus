@@ -997,3 +997,45 @@ DROP POLICY IF EXISTS "post_media_delete" ON storage.objects;
 CREATE POLICY "post_media_delete"
   ON storage.objects FOR DELETE
   USING (bucket_id = 'post_media' AND auth.uid() = owner);
+
+-- ════════════════════════════════════════════════════════════════════════════
+-- I. TABLE-LEVEL GRANTS
+-- ════════════════════════════════════════════════════════════════════════════
+-- RLS policies control row-level access, but the PostgreSQL roles also need
+-- table-level GRANT permissions. Without these, queries fail with:
+--   "permission denied for table <name>" (42501)
+--
+-- Supabase uses two key roles:
+--   • authenticated — logged-in users (JWT with sub claim)
+--   • anon          — unauthenticated / public access
+
+-- Grant usage on the public schema
+GRANT USAGE ON SCHEMA public TO authenticated, anon;
+
+-- Grant all DML operations on ALL current and future tables in public schema
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO authenticated;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon;
+
+-- Ensure future tables also get the same grants automatically
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT ON TABLES TO anon;
+
+-- Grant usage on all sequences (needed for serial/auto-increment columns)
+GRANT USAGE ON ALL SEQUENCES IN SCHEMA public TO authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT USAGE ON SEQUENCES TO authenticated;
+
+-- Grant execute on all functions
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO authenticated;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT EXECUTE ON FUNCTIONS TO authenticated;
+
+-- ════════════════════════════════════════════════════════════════════════════
+-- J. SUPABASE REALTIME — enable change events for key tables
+-- ════════════════════════════════════════════════════════════════════════════
+-- The supabase_realtime publication must include any table the client listens
+-- to via .onPostgresChanges(). Without this, Realtime silently ignores changes.
+
+ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;

@@ -3863,6 +3863,237 @@ class TranslationsExtractedEn {
 
 	/// en: 'Grade'
 	String get grade => 'Grade';
+
+	/// en: 'Dashboard'
+	String get dashboard => 'Dashboard';
+
+	/// en: 'en'
+	String get en => 'en';
+
+	/// en: 'News'
+	String get news => 'News';
+
+	/// en: 'Edit Post'
+	String get edit_post => 'Edit Post';
+
+	/// en: 'Write something...'
+	String get write_something => 'Write something...';
+
+	/// en: 'Posted Successfully'
+	String get posted_successfully => 'Posted Successfully';
+
+	/// en: 'Your post is now live on the feed'
+	String get your_post_is_now_live_on_the_feed => 'Your post is now live on the feed';
+
+	/// en: 'Create Post'
+	String get create_post => 'Create Post';
+
+	/// en: 'Post'
+	String get post => 'Post';
+
+	/// en: 'As College'
+	String get as_college => 'As College';
+
+	/// en: 'Public'
+	String get public => 'Public';
+
+	/// en: 'Mention College/Dept'
+	String get mention_collegedept => 'Mention College/Dept';
+
+	/// en: 'Dept'
+	String get dept => 'Dept';
+
+	/// en: 'What's on your mind?'
+	String get whats_on_your_mind => 'What\'s on your mind?';
+
+	/// en: 'Paste link here...'
+	String get paste_link_here => 'Paste link here...';
+
+	/// en: 'Add to your post'
+	String get add_to_your_post => 'Add to your post';
+
+	/// en: 'You do not have permission to access this section'
+	String get you_do_not_have_permission_to_access_this_section => 'You do not have permission to access this section';
+
+	/// en: '+20 10 0000 0000'
+	String get k201000000000 => '+20 10 0000 0000';
+
+	/// en: 'Faculty Members'
+	String get faculty_members => 'Faculty Members';
+
+	/// en: 'Remove ${staff.fullName} from this department?'
+	String remove_stafffullname_from_this_department({required Object staff.fullName}) => 'Remove ${staff.fullName} from this department?';
+
+	/// en: 'roles'
+	String get roles => 'roles';
+
+	/// en: 'permissions'
+	String get permissions_2 => 'permissions';
+
+	/// en: 'Delete role ${role.nameEn}? This cannot be undone.'
+	String delete_role_rolenameen_this_cannot_be_undone({required Object role.nameEn}) => 'Delete role ${role.nameEn}? This cannot be undone.';
+
+	/// en: 'Verify ${_user.fullName}\'
+	String verify__userfullname({required Object _user.fullName}) => 'Verify ${_user.fullName}\';
+
+	/// en: 'Remove verification from ${_user.fullName}?'
+	String remove_verification_from__userfullname({required Object _user.fullName}) => 'Remove verification from ${_user.fullName}?';
+
+	/// en: 'Ban ${_user.fullName}? (They will lose system access)'
+	String ban__userfullname_they_will_lose_system_access({required Object _user.fullName}) => 'Ban ${_user.fullName}? (They will lose system access)';
+
+	/// en: 'Unban ${_user.fullName}?'
+	String unban__userfullname({required Object _user.fullName}) => 'Unban ${_user.fullName}?';
+
+	/// en: 'Permanently delete ${_user.fullName}? This cannot be undone.'
+	String permanently_delete__userfullname_this_cannot_be_undone({required Object _user.fullName}) => 'Permanently delete ${_user.fullName}? This cannot be undone.';
+
+	/// en: 'Deactivate ${_user.fullName}\'
+	String deactivate__userfullname({required Object _user.fullName}) => 'Deactivate ${_user.fullName}\';
+
+	/// en: 'Personal Details'
+	String get personal_details => 'Personal Details';
+
+	/// en: 'Account Credentials'
+	String get account_credentials => 'Account Credentials';
+
+	/// en: 'Roles & Permissions'
+	String get roles_permissions => 'Roles & Permissions';
+
+	/// en: 'Academic Affiliation'
+	String get academic_affiliation => 'Academic Affiliation';
+
+	/// en: 'Gender'
+	String get gender => 'Gender';
+
+	/// en: 'Male'
+	String get male => 'Male';
+
+	/// en: 'Female'
+	String get female => 'Female';
+
+	/// en: 'Enter prefix only'
+	String get enter_prefix_only => 'Enter prefix only';
+
+	/// en: 'Previous'
+	String get previous => 'Previous';
+
+	/// en: 'Create Account'
+	String get create_account => 'Create Account';
+
+	/// en: 'Next'
+	String get next => 'Next';
+
+	/// en: 'Academic Leadership'
+	String get academic_leadership => 'Academic Leadership';
+
+	/// en: 'Administration'
+	String get administration => 'Administration';
+
+	/// en: 'Manage Grades'
+	String get manage_grades => 'Manage Grades';
+
+	/// en: 'Manage Attendance'
+	String get manage_attendance => 'Manage Attendance';
+
+	/// en: 'Manage TAs'
+	String get manage_tas => 'Manage TAs';
+
+	/// en: 'Loading profile...'
+	String get loading_profile => 'Loading profile...';
+
+	/// en: 'Manage Groups'
+	String get manage_groups => 'Manage Groups';
+
+	/// en: 'Upload Materials'
+	String get upload_materials => 'Upload Materials';
+
+	/// en: 'Professor Chat'
+	String get professor_chat => 'Professor Chat';
+
+	/// en: 'Manage Courses'
+	String get manage_courses => 'Manage Courses';
+
+	/// en: 'Manage Schedules'
+	String get manage_schedules => 'Manage Schedules';
+
+	/// en: 'Approve Enrollments'
+	String get approve_enrollments => 'Approve Enrollments';
+
+	/// en: 'Announcements'
+	String get announcements => 'Announcements';
+
+	/// en: 'Manage Enrollments'
+	String get manage_enrollments => 'Manage Enrollments';
+
+	/// en: 'Academic Advising'
+	String get academic_advising => 'Academic Advising';
+
+	/// en: 'Manage Library'
+	String get manage_library => 'Manage Library';
+
+	/// en: 'Student Records'
+	String get student_records => 'Student Records';
+
+	/// en: 'Manage Users'
+	String get manage_users => 'Manage Users';
+
+	/// en: 'Manage Colleges'
+	String get manage_colleges => 'Manage Colleges';
+
+	/// en: 'Manage Departments'
+	String get manage_departments => 'Manage Departments';
+
+	/// en: 'Audit Logs'
+	String get audit_logs => 'Audit Logs';
+
+	/// en: 'Manage Roles'
+	String get manage_roles => 'Manage Roles';
+
+	/// en: 'Finances'
+	String get finances => 'Finances';
+
+	/// en: 'MMM dd, yyyy'
+	String get mmm_dd_yyyy => 'MMM dd, yyyy';
+
+	/// en: 'No projects available yet'
+	String get no_projects_available_yet => 'No projects available yet';
+
+	/// en: 'Details'
+	String get details => 'Details';
+
+	/// en: 'Completed'
+	String get completed => 'Completed';
+
+	/// en: 'Paused'
+	String get paused => 'Paused';
+
+	/// en: 'Cancelled'
+	String get cancelled => 'Cancelled';
+
+	/// en: 'About College'
+	String get about_college => 'About College';
+
+	/// en: 'Origins & Roots'
+	String get origins_roots => 'Origins & Roots';
+
+	/// en: 'Vision & Mission'
+	String get vision_mission => 'Vision & Mission';
+
+	/// en: 'Strategic Goals'
+	String get strategic_goals => 'Strategic Goals';
+
+	/// en: 'Faculty Management'
+	String get faculty_management => 'Faculty Management';
+
+	/// en: 'Faculty & Staff'
+	String get faculty_staff => 'Faculty & Staff';
+
+	/// en: 'No staff registered yet'
+	String get no_staff_registered_yet => 'No staff registered yet';
+
+	/// en: 'Scientific Departments'
+	String get scientific_departments => 'Scientific Departments';
 }
 
 // Path: onboarding.language
@@ -6464,6 +6695,83 @@ extension on Translations {
 			'extracted.top_5' => 'Top 5%',
 			'extracted.total' => 'Total',
 			'extracted.grade' => 'Grade',
+			'extracted.dashboard' => 'Dashboard',
+			'extracted.en' => 'en',
+			'extracted.news' => 'News',
+			'extracted.edit_post' => 'Edit Post',
+			'extracted.write_something' => 'Write something...',
+			'extracted.posted_successfully' => 'Posted Successfully',
+			'extracted.your_post_is_now_live_on_the_feed' => 'Your post is now live on the feed',
+			'extracted.create_post' => 'Create Post',
+			'extracted.post' => 'Post',
+			'extracted.as_college' => 'As College',
+			'extracted.public' => 'Public',
+			'extracted.mention_collegedept' => 'Mention College/Dept',
+			'extracted.dept' => 'Dept',
+			'extracted.whats_on_your_mind' => 'What\'s on your mind?',
+			'extracted.paste_link_here' => 'Paste link here...',
+			'extracted.add_to_your_post' => 'Add to your post',
+			'extracted.you_do_not_have_permission_to_access_this_section' => 'You do not have permission to access this section',
+			'extracted.k201000000000' => '+20 10 0000 0000',
+			'extracted.faculty_members' => 'Faculty Members',
+			'extracted.remove_stafffullname_from_this_department' => ({required Object staff.fullName}) => 'Remove ${staff.fullName} from this department?',
+			'extracted.roles' => 'roles',
+			'extracted.permissions_2' => 'permissions',
+			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role.nameEn}) => 'Delete role ${role.nameEn}? This cannot be undone.',
+			'extracted.verify__userfullname' => ({required Object _user.fullName}) => 'Verify ${_user.fullName}\',
+			'extracted.remove_verification_from__userfullname' => ({required Object _user.fullName}) => 'Remove verification from ${_user.fullName}?',
+			'extracted.ban__userfullname_they_will_lose_system_access' => ({required Object _user.fullName}) => 'Ban ${_user.fullName}? (They will lose system access)',
+			'extracted.unban__userfullname' => ({required Object _user.fullName}) => 'Unban ${_user.fullName}?',
+			'extracted.permanently_delete__userfullname_this_cannot_be_undone' => ({required Object _user.fullName}) => 'Permanently delete ${_user.fullName}? This cannot be undone.',
+			'extracted.deactivate__userfullname' => ({required Object _user.fullName}) => 'Deactivate ${_user.fullName}\',
+			'extracted.personal_details' => 'Personal Details',
+			'extracted.account_credentials' => 'Account Credentials',
+			'extracted.roles_permissions' => 'Roles & Permissions',
+			'extracted.academic_affiliation' => 'Academic Affiliation',
+			'extracted.gender' => 'Gender',
+			'extracted.male' => 'Male',
+			'extracted.female' => 'Female',
+			'extracted.enter_prefix_only' => 'Enter prefix only',
+			'extracted.previous' => 'Previous',
+			'extracted.create_account' => 'Create Account',
+			'extracted.next' => 'Next',
+			'extracted.academic_leadership' => 'Academic Leadership',
+			'extracted.administration' => 'Administration',
+			'extracted.manage_grades' => 'Manage Grades',
+			'extracted.manage_attendance' => 'Manage Attendance',
+			'extracted.manage_tas' => 'Manage TAs',
+			'extracted.loading_profile' => 'Loading profile...',
+			'extracted.manage_groups' => 'Manage Groups',
+			'extracted.upload_materials' => 'Upload Materials',
+			'extracted.professor_chat' => 'Professor Chat',
+			'extracted.manage_courses' => 'Manage Courses',
+			'extracted.manage_schedules' => 'Manage Schedules',
+			'extracted.approve_enrollments' => 'Approve Enrollments',
+			'extracted.announcements' => 'Announcements',
+			'extracted.manage_enrollments' => 'Manage Enrollments',
+			'extracted.academic_advising' => 'Academic Advising',
+			'extracted.manage_library' => 'Manage Library',
+			'extracted.student_records' => 'Student Records',
+			'extracted.manage_users' => 'Manage Users',
+			'extracted.manage_colleges' => 'Manage Colleges',
+			'extracted.manage_departments' => 'Manage Departments',
+			'extracted.audit_logs' => 'Audit Logs',
+			'extracted.manage_roles' => 'Manage Roles',
+			'extracted.finances' => 'Finances',
+			'extracted.mmm_dd_yyyy' => 'MMM dd, yyyy',
+			'extracted.no_projects_available_yet' => 'No projects available yet',
+			'extracted.details' => 'Details',
+			'extracted.completed' => 'Completed',
+			'extracted.paused' => 'Paused',
+			'extracted.cancelled' => 'Cancelled',
+			'extracted.about_college' => 'About College',
+			'extracted.origins_roots' => 'Origins & Roots',
+			'extracted.vision_mission' => 'Vision & Mission',
+			'extracted.strategic_goals' => 'Strategic Goals',
+			'extracted.faculty_management' => 'Faculty Management',
+			'extracted.faculty_staff' => 'Faculty & Staff',
+			'extracted.no_staff_registered_yet' => 'No staff registered yet',
+			'extracted.scientific_departments' => 'Scientific Departments',
 			_ => null,
 		};
 	}

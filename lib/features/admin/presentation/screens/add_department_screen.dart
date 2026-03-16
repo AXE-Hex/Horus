@@ -9,6 +9,7 @@ import 'package:hue/features/admin/data/repositories/institutional_repository.da
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hue/features/shared/presentation/widgets/premium_success_overlay.dart';
 
 class AddDepartmentScreen extends ConsumerStatefulWidget {
   final DepartmentModel? department;
@@ -119,25 +120,12 @@ class _AddDepartmentScreenState extends ConsumerState<AddDepartmentScreen> {
 
       HapticFeedback.heavyImpact();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(
-                  LucideIcons.checkCircle,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                SizedBox(width: 12),
-                Text(t.admin.changes_saved_successfully),
-              ],
-            ),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            margin: const EdgeInsets.all(16),
-          ),
+        PremiumSuccessOverlay.show(
+          context,
+          title: t.admin.changes_saved_successfully,
+          message: widget.department == null
+              ? (t.$meta.locale.languageCode == 'ar' ? 'تمت إضافة القسم بنجاح' : 'Department added successfully')
+              : (t.$meta.locale.languageCode == 'ar' ? 'تم تحديث بيانات القسم' : 'Department details updated'),
         );
         context.pop();
       }

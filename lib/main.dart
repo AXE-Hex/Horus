@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,7 +13,11 @@ import 'core/security/branding_verifier.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  debugPrint('HUE Traceability Key: ${BuildConfig.traceabilityKey}');
+  EnvConfig.validate();
+
+  if (kDebugMode) {
+    debugPrint('HUE Traceability Key: ${BuildConfig.traceabilityKey}');
+  }
 
   if (!BrandingVerifier.verify() || Axe.axeSignature == 'INVALID') {}
 

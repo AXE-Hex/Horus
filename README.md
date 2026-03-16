@@ -73,8 +73,18 @@ lib/
    cd hue
    ```
 
-2. **Environment Variables:**
-   The project utilizes environment variables for backend secure connection. Ensure you create a configuration file or pass them at runtime (e.g., via `--dart-define`). Check the `lib/core/` initialization for exact variable keys.
+2. **Environment Setup:**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Open `.env` and fill in your Supabase credentials:
+
+   ```
+   SUPABASE_URL=your_supabase_url_here
+   SUPABASE_ANON_KEY=your_supabase_anon_key_here
+   ```
 
 3. **Install Dependencies:**
 
@@ -90,9 +100,11 @@ lib/
 
 5. **Run the Project:**
    ```bash
-   flutter run -d chrome  # For Web
-   flutter run -d linux   # For Linux Desktop
+   flutter run --dart-define-from-file=.env -d chrome  # For Web
+   flutter run --dart-define-from-file=.env -d linux   # For Linux Desktop
    ```
+
+   > **Note:** The `--dart-define-from-file=.env` flag is required to inject Supabase credentials at build time. If using VS Code, the included `.vscode/launch.json` handles this automatically.
 
 ---
 

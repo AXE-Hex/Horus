@@ -175,18 +175,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
             ),
 
             // ── 2. Animated gradient orbs ──
-            AnimatedBuilder(
-              animation: _orbController,
-              builder: (context, child) {
-                return CustomPaint(
-                  size: size,
-                  painter: _OrbsPainter(
-                    t: _orbController.value,
-                    primary: theme.primaryColor,
-                    isDark: isDark,
-                  ),
-                );
-              },
+            RepaintBoundary(
+              child: AnimatedBuilder(
+                animation: _orbController,
+                builder: (context, child) {
+                  return CustomPaint(
+                    size: size,
+                    painter: _OrbsPainter(
+                      t: _orbController.value,
+                      primary: theme.primaryColor,
+                      isDark: isDark,
+                    ),
+                  );
+                },
+              ),
             ),
 
             // ── 3. Noise + blur overlay ──

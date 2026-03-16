@@ -36,20 +36,50 @@
 -- BLOCK 0 — NEW ENUM TYPES
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TYPE public.message_status        AS ENUM ('sent','delivered','read','deleted');
-CREATE TYPE public.exam_status           AS ENUM ('draft','published','in_progress','completed','cancelled');
-CREATE TYPE public.question_type         AS ENUM ('mcq','true_false','short_answer','essay','file_upload');
-CREATE TYPE public.library_item_type     AS ENUM ('book','journal','thesis','research_paper','e_resource','video');
-CREATE TYPE public.borrow_status         AS ENUM ('reserved','borrowed','returned','overdue','lost');
-CREATE TYPE public.payment_method        AS ENUM ('cash','card','bank_transfer','paymob','stripe','wallet');
-CREATE TYPE public.payment_gateway_type  AS ENUM ('paymob','stripe','cash','bank_transfer','wallet');
-CREATE TYPE public.notif_channel         AS ENUM ('in_app','email','sms','push');
-CREATE TYPE public.notif_delivery_status AS ENUM ('pending','sent','delivered','failed','bounced');
-CREATE TYPE public.ai_model_type         AS ENUM ('gpa_predictor','cheat_detector','course_recommender','dropout_risk','grade_forecast');
-CREATE TYPE public.sync_status           AS ENUM ('pending','synced','failed','skipped','retry');
-CREATE TYPE public.virtual_class_status  AS ENUM ('scheduled','live','ended','cancelled');
-CREATE TYPE public.scholarship_status    AS ENUM ('open','applied','under_review','awarded','rejected','expired');
-CREATE TYPE public.encryption_context    AS ENUM ('national_id','bank_account','medical','grade','financial');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'message_status') THEN
+    CREATE TYPE public.message_status AS ENUM ('sent','delivered','read','deleted');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'exam_status') THEN
+    CREATE TYPE public.exam_status AS ENUM ('draft','published','in_progress','completed','cancelled');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'question_type') THEN
+    CREATE TYPE public.question_type AS ENUM ('mcq','true_false','short_answer','essay','file_upload');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'library_item_type') THEN
+    CREATE TYPE public.library_item_type AS ENUM ('book','journal','thesis','research_paper','e_resource','video');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'borrow_status') THEN
+    CREATE TYPE public.borrow_status AS ENUM ('reserved','borrowed','returned','overdue','lost');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payment_method') THEN
+    CREATE TYPE public.payment_method AS ENUM ('cash','card','bank_transfer','paymob','stripe','wallet');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'payment_gateway_type') THEN
+    CREATE TYPE public.payment_gateway_type AS ENUM ('paymob','stripe','cash','bank_transfer','wallet');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notif_channel') THEN
+    CREATE TYPE public.notif_channel AS ENUM ('in_app','email','sms','push');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'notif_delivery_status') THEN
+    CREATE TYPE public.notif_delivery_status AS ENUM ('pending','sent','delivered','failed','bounced');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'ai_model_type') THEN
+    CREATE TYPE public.ai_model_type AS ENUM ('gpa_predictor','cheat_detector','course_recommender','dropout_risk','grade_forecast');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'sync_status') THEN
+    CREATE TYPE public.sync_status AS ENUM ('pending','synced','failed','skipped','retry');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'virtual_class_status') THEN
+    CREATE TYPE public.virtual_class_status AS ENUM ('scheduled','live','ended','cancelled');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'scholarship_status') THEN
+    CREATE TYPE public.scholarship_status AS ENUM ('open','applied','under_review','awarded','rejected','expired');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'encryption_context') THEN
+    CREATE TYPE public.encryption_context AS ENUM ('national_id','bank_account','medical','grade','financial');
+  END IF;
+END $$;
 
 
 -- ═══════════════════════════════════════════════════════════════════════════
@@ -58,7 +88,7 @@ CREATE TYPE public.encryption_context    AS ENUM ('national_id','bank_account','
 --   Scale: messages partitioned by quarter for 200k+ write throughput.
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.conversations (
+CREATE TABLE IF NOT EXISTS public.conversations (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   is_group     BOOLEAN     NOT NULL DEFAULT FALSE,
   name         TEXT,
@@ -79,7 +109,7 @@ CREATE TRIGGER conversations_updated_at
   BEFORE UPDATE ON public.conversations
   FOR EACH ROW EXECUTE FUNCTION moddatetime(updated_at);
 
-CREATE TABLE public.conversation_members (
+CREATE TABLE IF NOT EXISTS public.conversation_members (
   id              UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   conversation_id UUID        NOT NULL REFERENCES public.conversations(id) ON DELETE CASCADE,
   user_id         UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -93,7 +123,7 @@ CREATE TABLE public.conversation_members (
 ALTER TABLE public.conversation_members ENABLE ROW LEVEL SECURITY;
 
 -- Partitioned by quarter — add partitions each year via pg_cron or manually
-CREATE TABLE public.messages (
+CREATE TABLE IF NOT EXISTS public.messages (
   id              UUID           DEFAULT gen_random_uuid(),
   conversation_id UUID           NOT NULL REFERENCES public.conversations(id) ON DELETE CASCADE,
   sender_id       UUID           NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -109,18 +139,38 @@ CREATE TABLE public.messages (
   PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
-CREATE TABLE public.messages_default  PARTITION OF public.messages DEFAULT;
-CREATE TABLE public.messages_2025_q1  PARTITION OF public.messages FOR VALUES FROM ('2025-01-01') TO ('2025-04-01');
-CREATE TABLE public.messages_2025_q2  PARTITION OF public.messages FOR VALUES FROM ('2025-04-01') TO ('2025-07-01');
-CREATE TABLE public.messages_2025_q3  PARTITION OF public.messages FOR VALUES FROM ('2025-07-01') TO ('2025-10-01');
-CREATE TABLE public.messages_2025_q4  PARTITION OF public.messages FOR VALUES FROM ('2025-10-01') TO ('2026-01-01');
-CREATE TABLE public.messages_2026_q1  PARTITION OF public.messages FOR VALUES FROM ('2026-01-01') TO ('2026-04-01');
-CREATE TABLE public.messages_2026_q2  PARTITION OF public.messages FOR VALUES FROM ('2026-04-01') TO ('2026-07-01');
-CREATE TABLE public.messages_2026_q3  PARTITION OF public.messages FOR VALUES FROM ('2026-07-01') TO ('2026-10-01');
-CREATE TABLE public.messages_2026_q4  PARTITION OF public.messages FOR VALUES FROM ('2026-10-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_default') THEN
+    CREATE TABLE public.messages_default PARTITION OF public.messages DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2025_q1') THEN
+    CREATE TABLE public.messages_2025_q1 PARTITION OF public.messages FOR VALUES FROM ('2025-01-01') TO ('2025-04-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2025_q2') THEN
+    CREATE TABLE public.messages_2025_q2 PARTITION OF public.messages FOR VALUES FROM ('2025-04-01') TO ('2025-07-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2025_q3') THEN
+    CREATE TABLE public.messages_2025_q3 PARTITION OF public.messages FOR VALUES FROM ('2025-07-01') TO ('2025-10-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2025_q4') THEN
+    CREATE TABLE public.messages_2025_q4 PARTITION OF public.messages FOR VALUES FROM ('2025-10-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2026_q1') THEN
+    CREATE TABLE public.messages_2026_q1 PARTITION OF public.messages FOR VALUES FROM ('2026-01-01') TO ('2026-04-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2026_q2') THEN
+    CREATE TABLE public.messages_2026_q2 PARTITION OF public.messages FOR VALUES FROM ('2026-04-01') TO ('2026-07-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2026_q3') THEN
+    CREATE TABLE public.messages_2026_q3 PARTITION OF public.messages FOR VALUES FROM ('2026-07-01') TO ('2026-10-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'messages_2026_q4') THEN
+    CREATE TABLE public.messages_2026_q4 PARTITION OF public.messages FOR VALUES FROM ('2026-10-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.message_reactions (
+CREATE TABLE IF NOT EXISTS public.message_reactions (
   id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   message_id  UUID        NOT NULL,
   user_id     UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -138,7 +188,7 @@ INSERT INTO storage.buckets (id, name, public) VALUES ('chat_media','chat_media'
 --   Priority answers: نظام امتحانات إلكترونية + كشف الغش في الامتحانات
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.online_exams (
+CREATE TABLE IF NOT EXISTS public.online_exams (
   id                  UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id           UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
   title               TEXT        NOT NULL,
@@ -169,7 +219,7 @@ CREATE TABLE public.online_exams (
 );
 ALTER TABLE public.online_exams ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.exam_questions (
+CREATE TABLE IF NOT EXISTS public.exam_questions (
   id            UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
   exam_id       UUID          NOT NULL REFERENCES public.online_exams(id) ON DELETE CASCADE,
   question_text TEXT          NOT NULL,
@@ -184,7 +234,7 @@ CREATE TABLE public.exam_questions (
 );
 ALTER TABLE public.exam_questions ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.question_options (
+CREATE TABLE IF NOT EXISTS public.question_options (
   id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   question_id UUID        NOT NULL REFERENCES public.exam_questions(id) ON DELETE CASCADE,
   option_text TEXT        NOT NULL,
@@ -194,7 +244,7 @@ CREATE TABLE public.question_options (
 );
 ALTER TABLE public.question_options ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.exam_attempts (
+CREATE TABLE IF NOT EXISTS public.exam_attempts (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   exam_id          UUID        NOT NULL REFERENCES public.online_exams(id) ON DELETE CASCADE,
   student_id       UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -217,7 +267,7 @@ CREATE TABLE public.exam_attempts (
 );
 ALTER TABLE public.exam_attempts ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.attempt_answers (
+CREATE TABLE IF NOT EXISTS public.attempt_answers (
   id                 UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   attempt_id         UUID        NOT NULL REFERENCES public.exam_attempts(id) ON DELETE CASCADE,
   question_id        UUID        NOT NULL REFERENCES public.exam_questions(id) ON DELETE CASCADE,
@@ -234,7 +284,7 @@ CREATE TABLE public.attempt_answers (
 ALTER TABLE public.attempt_answers ENABLE ROW LEVEL SECURITY;
 
 -- Anti-cheat event stream — partitioned (high-frequency writes during exams)
-CREATE TABLE public.exam_cheat_events (
+CREATE TABLE IF NOT EXISTS public.exam_cheat_events (
   id           UUID        DEFAULT gen_random_uuid(),
   attempt_id   UUID        NOT NULL REFERENCES public.exam_attempts(id) ON DELETE CASCADE,
   event_type   TEXT        NOT NULL CHECK (event_type IN (
@@ -248,15 +298,21 @@ CREATE TABLE public.exam_cheat_events (
   PRIMARY KEY (id, occurred_at)
 ) PARTITION BY RANGE (occurred_at);
 
-CREATE TABLE public.exam_cheat_events_default PARTITION OF public.exam_cheat_events DEFAULT;
-CREATE TABLE public.exam_cheat_events_2025 PARTITION OF public.exam_cheat_events
-  FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
-CREATE TABLE public.exam_cheat_events_2026 PARTITION OF public.exam_cheat_events
-  FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'exam_cheat_events_default') THEN
+    CREATE TABLE public.exam_cheat_events_default PARTITION OF public.exam_cheat_events DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'exam_cheat_events_2025') THEN
+    CREATE TABLE public.exam_cheat_events_2025 PARTITION OF public.exam_cheat_events FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'exam_cheat_events_2026') THEN
+    CREATE TABLE public.exam_cheat_events_2026 PARTITION OF public.exam_cheat_events FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.exam_cheat_events ENABLE ROW LEVEL SECURITY;
 
 -- AI cross-student answer similarity report
-CREATE TABLE public.exam_similarity_reports (
+CREATE TABLE IF NOT EXISTS public.exam_similarity_reports (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   exam_id          UUID        NOT NULL REFERENCES public.online_exams(id) ON DELETE CASCADE,
   student_a_id     UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -275,7 +331,7 @@ ALTER TABLE public.exam_similarity_reports ENABLE ROW LEVEL SECURITY;
 --   Priority answer: نظام مكتبة رقمية
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.library_items (
+CREATE TABLE IF NOT EXISTS public.library_items (
   id               UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
   title            TEXT              NOT NULL,
   title_ar         TEXT,
@@ -308,14 +364,14 @@ CREATE TABLE public.library_items (
 ALTER TABLE public.library_items ENABLE ROW LEVEL SECURITY;
 
 -- Full-text search (Arabic + English)
-CREATE INDEX idx_lib_fts_ar ON public.library_items USING GIN (
+CREATE INDEX IF NOT EXISTS idx_lib_fts_ar ON public.library_items USING GIN (
   to_tsvector('arabic', COALESCE(title_ar,'') || ' ' || COALESCE(author_ar,'') || ' ' || COALESCE(description,''))
 );
-CREATE INDEX idx_lib_fts_en ON public.library_items USING GIN (
+CREATE INDEX IF NOT EXISTS idx_lib_fts_en ON public.library_items USING GIN (
   to_tsvector('english', COALESCE(title,'') || ' ' || COALESCE(author,'') || ' ' || COALESCE(description,''))
 );
 
-CREATE TABLE public.library_borrows (
+CREATE TABLE IF NOT EXISTS public.library_borrows (
   id           UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
   item_id      UUID          NOT NULL REFERENCES public.library_items(id) ON DELETE CASCADE,
   user_id      UUID          NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -331,7 +387,7 @@ CREATE TABLE public.library_borrows (
 );
 ALTER TABLE public.library_borrows ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.library_reservations (
+CREATE TABLE IF NOT EXISTS public.library_reservations (
   id            UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   item_id       UUID        NOT NULL REFERENCES public.library_items(id) ON DELETE CASCADE,
   user_id       UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -344,7 +400,7 @@ CREATE TABLE public.library_reservations (
 );
 ALTER TABLE public.library_reservations ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.library_reading_history (
+CREATE TABLE IF NOT EXISTS public.library_reading_history (
   id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id        UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   item_id        UUID        NOT NULL REFERENCES public.library_items(id) ON DELETE CASCADE,
@@ -360,7 +416,7 @@ ALTER TABLE public.library_reading_history ENABLE ROW LEVEL SECURITY;
 --   Priority answer: نظام تتبع التقدم الأكاديمي (GPA تراكمي)
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.semester_gpa (
+CREATE TABLE IF NOT EXISTS public.semester_gpa (
   id                UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id        UUID         NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   semester          TEXT         NOT NULL,
@@ -455,7 +511,7 @@ WHERE g.is_published = TRUE;
 -- ═══════════════════════════════════════════════════════════════════════════
 
 -- Per-user preferences per channel
-CREATE TABLE public.notification_preferences (
+CREATE TABLE IF NOT EXISTS public.notification_preferences (
   user_id           UUID    PRIMARY KEY REFERENCES public.profiles(id) ON DELETE CASCADE,
   in_app_enabled    BOOLEAN NOT NULL DEFAULT TRUE,
   email_enabled     BOOLEAN NOT NULL DEFAULT TRUE,
@@ -470,7 +526,7 @@ CREATE TABLE public.notification_preferences (
 ALTER TABLE public.notification_preferences ENABLE ROW LEVEL SECURITY;
 
 -- Delivery log partitioned (very high-volume for 200k+ users)
-CREATE TABLE public.notification_deliveries (
+CREATE TABLE IF NOT EXISTS public.notification_deliveries (
   id              UUID                  DEFAULT gen_random_uuid(),
   notification_id UUID                  NOT NULL REFERENCES public.notifications(id) ON DELETE CASCADE,
   user_id         UUID                  NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -490,15 +546,21 @@ CREATE TABLE public.notification_deliveries (
   PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
-CREATE TABLE public.notification_deliveries_default PARTITION OF public.notification_deliveries DEFAULT;
-CREATE TABLE public.notification_deliveries_2025 PARTITION OF public.notification_deliveries
-  FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
-CREATE TABLE public.notification_deliveries_2026 PARTITION OF public.notification_deliveries
-  FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'notification_deliveries_default') THEN
+    CREATE TABLE public.notification_deliveries_default PARTITION OF public.notification_deliveries DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'notification_deliveries_2025') THEN
+    CREATE TABLE public.notification_deliveries_2025 PARTITION OF public.notification_deliveries FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'notification_deliveries_2026') THEN
+    CREATE TABLE public.notification_deliveries_2026 PARTITION OF public.notification_deliveries FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.notification_deliveries ENABLE ROW LEVEL SECURITY;
 
 -- SMS log (compliance + cost tracking)
-CREATE TABLE public.sms_log (
+CREATE TABLE IF NOT EXISTS public.sms_log (
   id           UUID                  DEFAULT gen_random_uuid(),
   user_id      UUID                  REFERENCES public.profiles(id) ON DELETE SET NULL,
   phone        TEXT                  NOT NULL,
@@ -513,13 +575,21 @@ CREATE TABLE public.sms_log (
   PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
-CREATE TABLE public.sms_log_default PARTITION OF public.sms_log DEFAULT;
-CREATE TABLE public.sms_log_2025    PARTITION OF public.sms_log FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
-CREATE TABLE public.sms_log_2026    PARTITION OF public.sms_log FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'sms_log_default') THEN
+    CREATE TABLE public.sms_log_default PARTITION OF public.sms_log DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'sms_log_2025') THEN
+    CREATE TABLE public.sms_log_2025 PARTITION OF public.sms_log FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'sms_log_2026') THEN
+    CREATE TABLE public.sms_log_2026 PARTITION OF public.sms_log FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.sms_log ENABLE ROW LEVEL SECURITY;
 
 -- Email queue (bulk sends, processed by Edge Function / pg_cron)
-CREATE TABLE public.email_queue (
+CREATE TABLE IF NOT EXISTS public.email_queue (
   id             UUID                  DEFAULT gen_random_uuid(),
   user_id        UUID                  REFERENCES public.profiles(id) ON DELETE SET NULL,
   to_email       TEXT                  NOT NULL,
@@ -540,7 +610,7 @@ CREATE TABLE public.email_queue (
 ALTER TABLE public.email_queue ENABLE ROW LEVEL SECURITY;
 
 -- Mobile push device tokens
-CREATE TABLE public.device_push_tokens (
+CREATE TABLE IF NOT EXISTS public.device_push_tokens (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id      UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   token        TEXT        NOT NULL UNIQUE,
@@ -560,7 +630,7 @@ ALTER TABLE public.device_push_tokens ENABLE ROW LEVEL SECURITY;
 -- ═══════════════════════════════════════════════════════════════════════════
 
 -- Key registry (holds reference names only — real keys live in Vault/Secrets)
-CREATE TABLE public.encryption_keys (
+CREATE TABLE IF NOT EXISTS public.encryption_keys (
   id          UUID               PRIMARY KEY DEFAULT gen_random_uuid(),
   context     encryption_context NOT NULL UNIQUE,
   key_ref     TEXT               NOT NULL,   -- name of Vault secret
@@ -571,7 +641,7 @@ CREATE TABLE public.encryption_keys (
 ALTER TABLE public.encryption_keys ENABLE ROW LEVEL SECURITY;
 
 -- Encrypted blobs store
-CREATE TABLE public.encrypted_data (
+CREATE TABLE IF NOT EXISTS public.encrypted_data (
   id          UUID               PRIMARY KEY DEFAULT gen_random_uuid(),
   owner_id    UUID               NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   context     encryption_context NOT NULL,
@@ -627,7 +697,7 @@ $$;
 --   Answer 5: بوابة دفع (Stripe/Paymob) + فواتير تلقائية + تقارير مالية
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.payment_transactions (
+CREATE TABLE IF NOT EXISTS public.payment_transactions (
   id                UUID                PRIMARY KEY DEFAULT gen_random_uuid(),
   invoice_id        UUID                NOT NULL REFERENCES public.invoices(id) ON DELETE CASCADE,
   student_id        UUID                NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -648,8 +718,14 @@ CREATE TABLE public.payment_transactions (
   refund_reason     TEXT
 );
 ALTER TABLE public.payment_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.payment_transactions ADD COLUMN IF NOT EXISTS status payment_status NOT NULL DEFAULT 'pending';
+ALTER TABLE public.payment_transactions ADD COLUMN IF NOT EXISTS gateway payment_gateway_type NOT NULL DEFAULT 'cash';
+ALTER TABLE public.payment_transactions ADD COLUMN IF NOT EXISTS currency TEXT NOT NULL DEFAULT 'EGP';
+ALTER TABLE public.payment_transactions ADD COLUMN IF NOT EXISTS amount NUMERIC(10,2) NOT NULL DEFAULT 0;
+ALTER TABLE public.payment_transactions ADD COLUMN IF NOT EXISTS initiated_at TIMESTAMPTZ NOT NULL DEFAULT now();
+ALTER TABLE public.payment_transactions ADD COLUMN IF NOT EXISTS refund_amount NUMERIC(10,2);
 
-CREATE TABLE public.invoice_schedules (
+CREATE TABLE IF NOT EXISTS public.invoice_schedules (
   id              UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   name            TEXT        NOT NULL,
   description     TEXT,
@@ -670,7 +746,7 @@ CREATE TABLE public.invoice_schedules (
 );
 ALTER TABLE public.invoice_schedules ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.scholarships (
+CREATE TABLE IF NOT EXISTS public.scholarships (
   id               UUID               PRIMARY KEY DEFAULT gen_random_uuid(),
   name             TEXT               NOT NULL,
   name_ar          TEXT,
@@ -689,7 +765,7 @@ CREATE TABLE public.scholarships (
 );
 ALTER TABLE public.scholarships ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.scholarship_applications (
+CREATE TABLE IF NOT EXISTS public.scholarship_applications (
   id             UUID               PRIMARY KEY DEFAULT gen_random_uuid(),
   scholarship_id UUID               NOT NULL REFERENCES public.scholarships(id) ON DELETE CASCADE,
   student_id     UUID               NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -706,6 +782,7 @@ CREATE TABLE public.scholarship_applications (
 ALTER TABLE public.scholarship_applications ENABLE ROW LEVEL SECURITY;
 
 -- Materialised view: daily financial summary
+DROP MATERIALIZED VIEW IF EXISTS public.mv_financial_daily;
 CREATE MATERIALIZED VIEW public.mv_financial_daily AS
 SELECT
   DATE_TRUNC('day', pt.initiated_at)::DATE              AS report_date,
@@ -727,6 +804,7 @@ WITH NO DATA;
 --   $$REFRESH MATERIALIZED VIEW CONCURRENTLY public.mv_financial_daily$$);
 
 -- Materialised view: monthly revenue
+DROP MATERIALIZED VIEW IF EXISTS public.mv_revenue_monthly;
 CREATE MATERIALIZED VIEW public.mv_revenue_monthly AS
 SELECT
   DATE_TRUNC('month', pt.initiated_at)::DATE AS month,
@@ -749,7 +827,7 @@ WITH NO DATA;
 --   Answer 6: واجهة متعددة اللغات مع ترجمة تلقائية
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.supported_locales (
+CREATE TABLE IF NOT EXISTS public.supported_locales (
   code       TEXT     PRIMARY KEY,
   name_en    TEXT     NOT NULL,
   name_local TEXT     NOT NULL,
@@ -764,9 +842,9 @@ INSERT INTO public.supported_locales (code, name_en, name_local, direction, sort
   ('fr','French',  'Français', 'ltr', 3),
   ('de','German',  'Deutsch',  'ltr', 4),
   ('zh','Chinese', '中文',      'ltr', 5)
-ON CONFLICT DO NOTHING;
+ON CONFLICT (code) DO NOTHING;
 
-CREATE TABLE public.translations (
+CREATE TABLE IF NOT EXISTS public.translations (
   id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   locale     TEXT        NOT NULL REFERENCES public.supported_locales(code) ON DELETE CASCADE,
   namespace  TEXT        NOT NULL DEFAULT 'common',
@@ -781,7 +859,7 @@ CREATE TABLE public.translations (
 ALTER TABLE public.translations ENABLE ROW LEVEL SECURITY;
 
 -- Auto-translation queue (consumed by Edge Function → OpenAI / DeepL / Google)
-CREATE TABLE public.translation_requests (
+CREATE TABLE IF NOT EXISTS public.translation_requests (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   source_text  TEXT        NOT NULL,
   source_lang  TEXT        NOT NULL DEFAULT 'ar',
@@ -799,7 +877,7 @@ CREATE TABLE public.translation_requests (
 );
 ALTER TABLE public.translation_requests ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.user_preferences (
+CREATE TABLE IF NOT EXISTS public.user_preferences (
   user_id           UUID    PRIMARY KEY REFERENCES public.profiles(id) ON DELETE CASCADE,
   locale            TEXT    NOT NULL DEFAULT 'ar' REFERENCES public.supported_locales(code),
   theme             TEXT    NOT NULL DEFAULT 'system' CHECK (theme IN ('light','dark','system')),
@@ -818,7 +896,7 @@ ALTER TABLE public.user_preferences ENABLE ROW LEVEL SECURITY;
 --   Answer 8: لوحة تحليلات + توقع أداء الطالب بالـ AI + كشف الغش
 -- ═══════════════════════════════════════════════════════════════════════════
 
-CREATE TABLE public.ai_predictions (
+CREATE TABLE IF NOT EXISTS public.ai_predictions (
   id               UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id       UUID          NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   model_type       ai_model_type NOT NULL,
@@ -836,7 +914,7 @@ CREATE TABLE public.ai_predictions (
 );
 ALTER TABLE public.ai_predictions ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.course_recommendations (
+CREATE TABLE IF NOT EXISTS public.course_recommendations (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id   UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id    UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
@@ -851,7 +929,7 @@ CREATE TABLE public.course_recommendations (
 ALTER TABLE public.course_recommendations ENABLE ROW LEVEL SECURITY;
 
 -- Analytics event stream (partitioned)
-CREATE TABLE public.analytics_events (
+CREATE TABLE IF NOT EXISTS public.analytics_events (
   id         UUID        DEFAULT gen_random_uuid(),
   user_id    UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   event_name TEXT        NOT NULL,
@@ -861,14 +939,21 @@ CREATE TABLE public.analytics_events (
   PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
-CREATE TABLE public.analytics_events_default PARTITION OF public.analytics_events DEFAULT;
-CREATE TABLE public.analytics_events_2025 PARTITION OF public.analytics_events
-  FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
-CREATE TABLE public.analytics_events_2026 PARTITION OF public.analytics_events
-  FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'analytics_events_default') THEN
+    CREATE TABLE public.analytics_events_default PARTITION OF public.analytics_events DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'analytics_events_2025') THEN
+    CREATE TABLE public.analytics_events_2025 PARTITION OF public.analytics_events FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'analytics_events_2026') THEN
+    CREATE TABLE public.analytics_events_2026 PARTITION OF public.analytics_events FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.analytics_events ENABLE ROW LEVEL SECURITY;
 
 -- Admin dashboard MV: full student academic snapshot
+DROP MATERIALIZED VIEW IF EXISTS public.mv_student_academic_summary;
 CREATE MATERIALIZED VIEW public.mv_student_academic_summary AS
 SELECT
   p.id AS student_id, p.full_name, p.full_name_ar,
@@ -911,7 +996,7 @@ WITH NO DATA;
 -- ═══════════════════════════════════════════════════════════════════════════
 
 -- Virtual classrooms (Zoom / Google Meet)
-CREATE TABLE public.virtual_classes (
+CREATE TABLE IF NOT EXISTS public.virtual_classes (
   id               UUID                 PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id        UUID                 NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
   title            TEXT                 NOT NULL,
@@ -938,7 +1023,7 @@ CREATE TABLE public.virtual_classes (
 );
 ALTER TABLE public.virtual_classes ENABLE ROW LEVEL SECURITY;
 
-CREATE TABLE public.virtual_class_attendance (
+CREATE TABLE IF NOT EXISTS public.virtual_class_attendance (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   virtual_class_id UUID        NOT NULL REFERENCES public.virtual_classes(id) ON DELETE CASCADE,
   student_id       UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -950,7 +1035,7 @@ CREATE TABLE public.virtual_class_attendance (
 ALTER TABLE public.virtual_class_attendance ENABLE ROW LEVEL SECURITY;
 
 -- Ministry of Education sync log (partitioned)
-CREATE TABLE public.ministry_sync_logs (
+CREATE TABLE IF NOT EXISTS public.ministry_sync_logs (
   id               UUID        DEFAULT gen_random_uuid(),
   entity_type      TEXT        NOT NULL
                                CHECK (entity_type IN ('student','grade','enrollment','course','graduate')),
@@ -968,15 +1053,21 @@ CREATE TABLE public.ministry_sync_logs (
   PRIMARY KEY (id, created_at)
 ) PARTITION BY RANGE (created_at);
 
-CREATE TABLE public.ministry_sync_logs_default PARTITION OF public.ministry_sync_logs DEFAULT;
-CREATE TABLE public.ministry_sync_logs_2025 PARTITION OF public.ministry_sync_logs
-  FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
-CREATE TABLE public.ministry_sync_logs_2026 PARTITION OF public.ministry_sync_logs
-  FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'ministry_sync_logs_default') THEN
+    CREATE TABLE public.ministry_sync_logs_default PARTITION OF public.ministry_sync_logs DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'ministry_sync_logs_2025') THEN
+    CREATE TABLE public.ministry_sync_logs_2025 PARTITION OF public.ministry_sync_logs FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'ministry_sync_logs_2026') THEN
+    CREATE TABLE public.ministry_sync_logs_2026 PARTITION OF public.ministry_sync_logs FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.ministry_sync_logs ENABLE ROW LEVEL SECURITY;
 
 -- Login attempt throttle (partitioned)
-CREATE TABLE public.login_attempts (
+CREATE TABLE IF NOT EXISTS public.login_attempts (
   id             UUID        DEFAULT gen_random_uuid(),
   email          TEXT        NOT NULL,
   ip_address     INET        NOT NULL,
@@ -988,15 +1079,21 @@ CREATE TABLE public.login_attempts (
   PRIMARY KEY (id, attempted_at)
 ) PARTITION BY RANGE (attempted_at);
 
-CREATE TABLE public.login_attempts_default PARTITION OF public.login_attempts DEFAULT;
-CREATE TABLE public.login_attempts_2025 PARTITION OF public.login_attempts
-  FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
-CREATE TABLE public.login_attempts_2026 PARTITION OF public.login_attempts
-  FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'login_attempts_default') THEN
+    CREATE TABLE public.login_attempts_default PARTITION OF public.login_attempts DEFAULT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'login_attempts_2025') THEN
+    CREATE TABLE public.login_attempts_2025 PARTITION OF public.login_attempts FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace WHERE n.nspname = 'public' AND c.relname = 'login_attempts_2026') THEN
+    CREATE TABLE public.login_attempts_2026 PARTITION OF public.login_attempts FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+  END IF;
+END $$;
 ALTER TABLE public.login_attempts ENABLE ROW LEVEL SECURITY;
 
 -- Mobile app version management (force-update support)
-CREATE TABLE public.app_versions (
+CREATE TABLE IF NOT EXISTS public.app_versions (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   platform         TEXT        NOT NULL CHECK (platform IN ('ios','android')),
   version_code     TEXT        NOT NULL,
@@ -1017,62 +1114,62 @@ ALTER TABLE public.app_versions ENABLE ROW LEVEL SECURITY;
 -- ═══════════════════════════════════════════════════════════════════════════
 
 -- Chat
-CREATE INDEX idx_conv_created_by        ON public.conversations(created_by);
-CREATE INDEX idx_conv_course            ON public.conversations(course_id);
-CREATE INDEX idx_conv_members_user      ON public.conversation_members(user_id);
-CREATE INDEX idx_conv_members_conv      ON public.conversation_members(conversation_id);
-CREATE INDEX idx_messages_conv_time     ON public.messages(conversation_id, created_at DESC);
-CREATE INDEX idx_messages_sender        ON public.messages(sender_id);
+CREATE INDEX IF NOT EXISTS idx_conv_created_by        ON public.conversations(created_by);
+CREATE INDEX IF NOT EXISTS idx_conv_course            ON public.conversations(course_id);
+CREATE INDEX IF NOT EXISTS idx_conv_members_user      ON public.conversation_members(user_id);
+CREATE INDEX IF NOT EXISTS idx_conv_members_conv      ON public.conversation_members(conversation_id);
+CREATE INDEX IF NOT EXISTS idx_messages_conv_time     ON public.messages(conversation_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_messages_sender        ON public.messages(sender_id);
 
 -- Exams
-CREATE INDEX idx_online_exams_course    ON public.online_exams(course_id);
-CREATE INDEX idx_online_exams_status    ON public.online_exams(status);
-CREATE INDEX idx_exam_questions_exam    ON public.exam_questions(exam_id);
-CREATE INDEX idx_exam_attempts_exam     ON public.exam_attempts(exam_id);
-CREATE INDEX idx_exam_attempts_student  ON public.exam_attempts(student_id);
-CREATE INDEX idx_cheat_events_attempt   ON public.exam_cheat_events(attempt_id);
-CREATE INDEX idx_cheat_events_type_sev  ON public.exam_cheat_events(event_type, severity);
-CREATE INDEX idx_similarity_exam_score  ON public.exam_similarity_reports(exam_id, similarity_score DESC);
+CREATE INDEX IF NOT EXISTS idx_online_exams_course    ON public.online_exams(course_id);
+CREATE INDEX IF NOT EXISTS idx_online_exams_status    ON public.online_exams(status);
+CREATE INDEX IF NOT EXISTS idx_exam_questions_exam    ON public.exam_questions(exam_id);
+CREATE INDEX IF NOT EXISTS idx_exam_attempts_exam     ON public.exam_attempts(exam_id);
+CREATE INDEX IF NOT EXISTS idx_exam_attempts_student  ON public.exam_attempts(student_id);
+CREATE INDEX IF NOT EXISTS idx_cheat_events_attempt   ON public.exam_cheat_events(attempt_id);
+CREATE INDEX IF NOT EXISTS idx_cheat_events_type_sev  ON public.exam_cheat_events(event_type, severity);
+CREATE INDEX IF NOT EXISTS idx_similarity_exam_score  ON public.exam_similarity_reports(exam_id, similarity_score DESC);
 
 -- Library
-CREATE INDEX idx_lib_type               ON public.library_items(type);
-CREATE INDEX idx_lib_available          ON public.library_items(available_copies) WHERE available_copies > 0;
-CREATE INDEX idx_lib_borrows_user       ON public.library_borrows(user_id);
-CREATE INDEX idx_lib_borrows_due        ON public.library_borrows(due_date) WHERE status = 'borrowed';
-CREATE INDEX idx_lib_res_item           ON public.library_reservations(item_id);
+CREATE INDEX IF NOT EXISTS idx_lib_type               ON public.library_items(type);
+CREATE INDEX IF NOT EXISTS idx_lib_available          ON public.library_items(available_copies) WHERE available_copies > 0;
+CREATE INDEX IF NOT EXISTS idx_lib_borrows_user       ON public.library_borrows(user_id);
+CREATE INDEX IF NOT EXISTS idx_lib_borrows_due        ON public.library_borrows(due_date) WHERE status = 'borrowed';
+CREATE INDEX IF NOT EXISTS idx_lib_res_item           ON public.library_reservations(item_id);
 
 -- GPA
-CREATE INDEX idx_sgpa_student           ON public.semester_gpa(student_id);
-CREATE INDEX idx_sgpa_standing          ON public.semester_gpa(standing);
-CREATE INDEX idx_sgpa_cgpa_desc         ON public.semester_gpa(cumulative_gpa DESC);
+CREATE INDEX IF NOT EXISTS idx_sgpa_student           ON public.semester_gpa(student_id);
+CREATE INDEX IF NOT EXISTS idx_sgpa_standing          ON public.semester_gpa(standing);
+CREATE INDEX IF NOT EXISTS idx_sgpa_cgpa_desc         ON public.semester_gpa(cumulative_gpa DESC);
 
 -- Notifications
-CREATE INDEX idx_notif_del_user_status  ON public.notification_deliveries(user_id, status);
-CREATE INDEX idx_notif_del_channel      ON public.notification_deliveries(channel, status);
-CREATE INDEX idx_sms_log_phone          ON public.sms_log(phone);
-CREATE INDEX idx_email_queue_pending    ON public.email_queue(status, scheduled_at) WHERE status = 'pending';
-CREATE INDEX idx_push_tokens_user       ON public.device_push_tokens(user_id, is_active);
+CREATE INDEX IF NOT EXISTS idx_notif_del_user_status  ON public.notification_deliveries(user_id, status);
+CREATE INDEX IF NOT EXISTS idx_notif_del_channel      ON public.notification_deliveries(channel, status);
+CREATE INDEX IF NOT EXISTS idx_sms_log_phone          ON public.sms_log(phone);
+CREATE INDEX IF NOT EXISTS idx_email_queue_pending    ON public.email_queue(status, scheduled_at) WHERE status = 'pending';
+CREATE INDEX IF NOT EXISTS idx_push_tokens_user       ON public.device_push_tokens(user_id, is_active);
 
 -- Financial
-CREATE INDEX idx_pay_txn_student        ON public.payment_transactions(student_id);
-CREATE INDEX idx_pay_txn_status         ON public.payment_transactions(status);
-CREATE INDEX idx_pay_txn_gateway        ON public.payment_transactions(gateway);
-CREATE INDEX idx_scholarship_app_stu    ON public.scholarship_applications(student_id, status);
+CREATE INDEX IF NOT EXISTS idx_pay_txn_student        ON public.payment_transactions(student_id);
+CREATE INDEX IF NOT EXISTS idx_pay_txn_status         ON public.payment_transactions(status);
+CREATE INDEX IF NOT EXISTS idx_pay_txn_gateway        ON public.payment_transactions(gateway);
+CREATE INDEX IF NOT EXISTS idx_scholarship_app_stu    ON public.scholarship_applications(student_id, status);
 
 -- i18n
-CREATE INDEX idx_translations_lns       ON public.translations(locale, namespace, key);
-CREATE INDEX idx_trans_req_pending      ON public.translation_requests(status) WHERE status = 'pending';
+CREATE INDEX IF NOT EXISTS idx_translations_lns       ON public.translations(locale, namespace, key);
+CREATE INDEX IF NOT EXISTS idx_trans_req_pending      ON public.translation_requests(status) WHERE status = 'pending';
 
 -- AI
-CREATE INDEX idx_ai_pred_stu_type       ON public.ai_predictions(student_id, model_type);
-CREATE INDEX idx_ai_pred_risk_desc      ON public.ai_predictions(risk_score DESC) WHERE risk_score IS NOT NULL;
-CREATE INDEX idx_course_recs_student    ON public.course_recommendations(student_id, semester);
+CREATE INDEX IF NOT EXISTS idx_ai_pred_stu_type       ON public.ai_predictions(student_id, model_type);
+CREATE INDEX IF NOT EXISTS idx_ai_pred_risk_desc      ON public.ai_predictions(risk_score DESC) WHERE risk_score IS NOT NULL;
+CREATE INDEX IF NOT EXISTS idx_course_recs_student    ON public.course_recommendations(student_id, semester);
 
 -- Integrations
-CREATE INDEX idx_vclass_course_sched    ON public.virtual_classes(course_id, scheduled_at);
-CREATE INDEX idx_ministry_status        ON public.ministry_sync_logs(status, created_at);
-CREATE INDEX idx_login_email_time       ON public.login_attempts(email, attempted_at DESC);
-CREATE INDEX idx_login_ip_time          ON public.login_attempts(ip_address, attempted_at DESC);
+CREATE INDEX IF NOT EXISTS idx_vclass_course_sched    ON public.virtual_classes(course_id, scheduled_at);
+CREATE INDEX IF NOT EXISTS idx_ministry_status        ON public.ministry_sync_logs(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_login_email_time       ON public.login_attempts(email, attempted_at DESC);
+CREATE INDEX IF NOT EXISTS idx_login_ip_time          ON public.login_attempts(ip_address, attempted_at DESC);
 
 
 -- ═══════════════════════════════════════════════════════════════════════════

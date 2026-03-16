@@ -7,16 +7,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/features/students/data/digital_id_theme_repository.dart';
+import 'package:hue/features/academic/data/repositories/professor_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 // ──────────────────────────────────────────────────────────────────────────────
-// StudentDashboardScreen — Student-Only Dashboard
-// Shows academic, enrollment, and utility sections for student roles.
+// StaffDashboardScreen — Dashboard for Admin, Professors, TAs, and Leadership
+// Separated from the student dashboard for a cleaner role-based experience.
 // ──────────────────────────────────────────────────────────────────────────────
 
-class DashboardScreen extends ConsumerWidget {
-  const DashboardScreen({super.key});
+class StaffDashboardScreen extends ConsumerWidget {
+  const StaffDashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,55 +33,100 @@ class DashboardScreen extends ConsumerWidget {
           children: [
             const SizedBox(height: 10),
 
-            // ── Header: Digital ID Card ──
-            _buildDigitalIDCard(context, isArabic, auth)
+            // ── Header: Role Badge ──
+            _buildRoleBadge(context, isArabic, auth)
                 .animate()
                 .fadeIn(duration: 600.ms, curve: Curves.easeOut)
-                .slideY(begin: 0.2, end: 0, curve: Curves.easeOut)
-                .shimmer(
-                  duration: 1200.ms,
-                  color: Colors.white.withValues(alpha: 0.2),
-                ),
+                .slideY(begin: 0.2, end: 0, curve: Curves.easeOut),
 
             const SizedBox(height: 32),
 
-            // ═══════════════ ACADEMIC ═══════════════
-            _buildSectionHeader(context, t.students.academic)
-                .animate()
-                .fadeIn(delay: d)
-                .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
-            const SizedBox(height: 12),
-            _buildAcademicGrid(
-              context,
-              role,
-              isArabic,
-            ).animate().fadeIn(delay: d * 2).slideY(begin: 0.2, end: 0),
-            const SizedBox(height: 24),
+            // ═══════════════ TEACHING STAFF SECTIONS ═══════════════
+            if (role.isTeachingStaff ||
+                role.isLeadership ||
+                role == UserRole.superAdmin) ...[
+              _buildSectionHeader(context, t.extracted.teaching)
+                  .animate()
+                  .fadeIn(delay: d)
+                  .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
+              const SizedBox(height: 12),
+              _buildTeachingGrid(
+                context,
+                ref,
+                role,
+                isArabic,
+              ).animate().fadeIn(delay: d * 2).slideY(begin: 0.2, end: 0),
+              const SizedBox(height: 24),
+            ],
 
-            // ═══════════════ ENROLLMENT & FINANCE ═══════════════
-            _buildSectionHeader(context, t.students.enrollment_finance)
-                .animate()
-                .fadeIn(delay: d * 3)
-                .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
-            const SizedBox(height: 12),
-            _buildEnrollmentGrid(
-              context,
-              role,
-              isArabic,
-            ).animate().fadeIn(delay: d * 4).slideY(begin: 0.2, end: 0),
-            const SizedBox(height: 24),
+            // ═══════════════ LEADERSHIP SECTIONS ═══════════════
+            if (role.isLeadership || role == UserRole.superAdmin) ...[
+              _buildSectionHeader(
+                    context,
+                    t.extracted.academic_leadership,
+                  )
+                  .animate()
+                  .fadeIn(delay: d * 3)
+                  .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
+              const SizedBox(height: 12),
+              _buildLeadershipGrid(
+                context,
+                role,
+                isArabic,
+              ).animate().fadeIn(delay: d * 4).slideY(begin: 0.2, end: 0),
+              const SizedBox(height: 24),
+            ],
 
-            // ═══════════════ UTILITIES ═══════════════
+            // ═══════════════ STUDENT AFFAIRS (registrar, advisor, librarian) ═══
+            if (role == UserRole.registrarOfficer ||
+                role == UserRole.academicAdvisor ||
+                role == UserRole.librarian ||
+                role == UserRole.superAdmin) ...[
+              _buildSectionHeader(
+                    context,
+                    t.extracted.student_affairs,
+                  )
+                  .animate()
+                  .fadeIn(delay: d * 5)
+                  .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
+              const SizedBox(height: 12),
+              _buildStudentAffairsGrid(
+                context,
+                role,
+                isArabic,
+              ).animate().fadeIn(delay: d * 6).slideY(begin: 0.2, end: 0),
+              const SizedBox(height: 24),
+            ],
+
+            // ═══════════════ ADMIN SECTION ═══════════════
+            if (role.isAdmin || role == UserRole.superAdmin) ...[
+              _buildSectionHeader(
+                    context,
+                    t.extracted.administration,
+                  )
+                  .animate()
+                  .fadeIn(delay: d * 7)
+                  .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
+              const SizedBox(height: 12),
+              _buildAdminGrid(
+                context,
+                role,
+                isArabic,
+              ).animate().fadeIn(delay: d * 8).slideY(begin: 0.2, end: 0),
+              const SizedBox(height: 24),
+            ],
+
+            // ═══════════════ UTILITIES (everyone) ═══════════════
             _buildSectionHeader(context, t.students.utilities)
                 .animate()
-                .fadeIn(delay: d * 5)
+                .fadeIn(delay: d * 9)
                 .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
             const SizedBox(height: 12),
             _buildUtilitiesRow(
               context,
               role,
               isArabic,
-            ).animate().fadeIn(delay: d * 6).slideX(begin: 0.2, end: 0),
+            ).animate().fadeIn(delay: d * 10).slideX(begin: 0.2, end: 0),
 
             const SizedBox(height: 150),
           ],
@@ -94,11 +139,15 @@ class DashboardScreen extends ConsumerWidget {
   //  SECTION BUILDERS
   // ═══════════════════════════════════════════════════════════════════════════
 
-  Widget _buildAcademicGrid(
+  Widget _buildTeachingGrid(
     BuildContext context,
+    WidgetRef ref,
     UserRole role,
     bool isArabic,
   ) {
+    final profileAsync = ref.watch(professorProfileProvider);
+    final profile = profileAsync.value;
+
     return GridView.count(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -111,80 +160,89 @@ class DashboardScreen extends ConsumerWidget {
         _gatedGrid(
           context,
           role: role,
-          permission: RolePermission.viewGrades,
-          icon: LucideIcons.fileText,
-          title: t.students.transcript,
-          onTap: () => context.push('/transcript'),
-          color: Colors.blueAccent,
+          permission: RolePermission.manageGrades,
+          icon: LucideIcons.clipboardList,
+          title: t.extracted.manage_grades,
+          onTap: () => context.push('/grades'),
+          color: const Color(0xFF6366F1),
         ),
         _gatedGrid(
           context,
           role: role,
-          permission: RolePermission.viewGrades,
-          icon: LucideIcons.trendingUp,
-          title: t.students.courses,
-          onTap: () => context.push('/progress'),
-          color: Colors.greenAccent,
-        ),
-        _gatedGrid(
-          context,
-          role: role,
-          permission: RolePermission.viewGrades,
-          icon: LucideIcons.target,
-          title: t.students.action_plan,
-          onTap: () => context.push('/action-plan'),
-          color: Colors.purpleAccent,
-        ),
-        _gatedGrid(
-          context,
-          role: role,
-          permission: RolePermission.viewGrades,
-          icon: LucideIcons.award,
-          title: t.students.subject_results,
-          onTap: () => context.push('/subject-result'),
-          color: Colors.orangeAccent,
-        ),
-        _gatedGrid(
-          context,
-          role: role,
-          permission: RolePermission.viewProfile,
-          icon: LucideIcons.graduationCap,
-          title: t.students.digital_id,
-          onTap: () => context.push('/digital-id'),
-          color: Colors.indigoAccent,
-        ),
-        _gatedGrid(
-          context,
-          role: role,
-          permission: RolePermission.viewSchedule,
-          icon: LucideIcons.calendar,
-          title: t.students.daily_schedule,
-          onTap: () => context.push('/schedule'),
-          color: Colors.deepPurpleAccent,
-        ),
-        _gatedGrid(
-          context,
-          role: role,
-          permission: RolePermission.viewAttendance,
-          icon: LucideIcons.clipboardCheck,
-          title: t.students.attendance,
+          permission: RolePermission.manageAttendance,
+          icon: LucideIcons.userCheck,
+          title: t.extracted.manage_attendance,
           onTap: () => context.push('/attendance'),
-          color: Colors.redAccent,
+          color: const Color(0xFF10B981),
         ),
         _gatedGrid(
           context,
           role: role,
-          permission: RolePermission.viewSchedule,
-          icon: LucideIcons.fileSpreadsheet,
-          title: t.students.exam_schedule,
-          onTap: () => context.push('/exam-schedule'),
-          color: Colors.amberAccent,
+          permission: RolePermission.manageTAs,
+          icon: LucideIcons.users,
+          title: t.extracted.manage_tas,
+          onTap: () {
+            if (profile != null) {
+              context.push('/manage-tas', extra: profile);
+            } else {
+              _showAccessDenied(
+                context,
+                t.extracted.loading_profile,
+              );
+            }
+          },
+          color: const Color(0xFF8B5CF6),
+        ),
+        _gatedGrid(
+          context,
+          role: role,
+          permission: RolePermission.manageGroups,
+          icon: LucideIcons.layoutGrid,
+          title: t.extracted.manage_groups,
+          onTap: () {
+            if (profile != null) {
+              context.push('/manage-groups', extra: profile);
+            } else {
+              _showAccessDenied(
+                context,
+                t.extracted.loading_profile,
+              );
+            }
+          },
+          color: const Color(0xFF0EA5E9),
+        ),
+        _gatedGrid(
+          context,
+          role: role,
+          permission: RolePermission.uploadMaterials,
+          icon: LucideIcons.upload,
+          title: t.extracted.upload_materials,
+          onTap: () {},
+          color: const Color(0xFFF59E0B),
+        ),
+        _gatedGrid(
+          context,
+          role: role,
+          permission: RolePermission.accessForums,
+          icon: LucideIcons.messageCircle,
+          title: t.extracted.professor_chat,
+          onTap: () {
+            if (profile != null) {
+              context.push('/professor-chat', extra: profile);
+            } else {
+              _showAccessDenied(
+                context,
+                t.extracted.loading_profile,
+              );
+            }
+          },
+          color: const Color(0xFFEC4899),
         ),
       ],
     );
   }
 
-  Widget _buildEnrollmentGrid(
+  Widget _buildLeadershipGrid(
     BuildContext context,
     UserRole role,
     bool isArabic,
@@ -201,28 +259,159 @@ class DashboardScreen extends ConsumerWidget {
         _gatedHorizontal(
           context,
           role: role,
-          permission: RolePermission.enrollCourses,
+          permission: RolePermission.manageCourses,
+          icon: LucideIcons.bookOpen,
+          title: t.extracted.manage_courses,
+          onTap: () => context.push('/courses'),
+          color: const Color(0xFF6366F1),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageSchedules,
+          icon: LucideIcons.calendarClock,
+          title: t.extracted.manage_schedules,
+          onTap: () => context.push('/schedule'),
+          color: const Color(0xFF0EA5E9),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.approveEnrollments,
+          icon: LucideIcons.checkSquare,
+          title: t.extracted.approve_enrollments,
+          onTap: () => context.push('/advisor-approval'),
+          color: const Color(0xFF10B981),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.createAnnouncements,
+          icon: LucideIcons.megaphone,
+          title: t.extracted.announcements,
+          onTap: () {},
+          color: const Color(0xFFF59E0B),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStudentAffairsGrid(
+    BuildContext context,
+    UserRole role,
+    bool isArabic,
+  ) {
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      childAspectRatio: 2.5,
+      padding: EdgeInsets.zero,
+      children: [
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageEnrollments,
           icon: LucideIcons.fileText,
-          title: t.students.registration,
+          title: t.extracted.manage_enrollments,
           onTap: () => context.push('/registration'),
           color: Colors.tealAccent,
         ),
         _gatedHorizontal(
           context,
           role: role,
-          permission: RolePermission.viewGrades,
-          icon: LucideIcons.alertCircle,
-          title: t.students.invoices,
-          onTap: () => context.push('/invoices'),
-          color: Colors.deepOrangeAccent,
+          permission: RolePermission.adviseStudents,
+          icon: LucideIcons.compass,
+          title: t.extracted.academic_advising,
+          onTap: () => context.push('/advisor-approval'),
+          color: const Color(0xFF6366F1),
         ),
         _gatedHorizontal(
           context,
           role: role,
-          permission: RolePermission.enrollCourses,
-          icon: LucideIcons.creditCard,
-          title: t.students.payment,
-          onTap: () => context.push('/payment'),
+          permission: RolePermission.manageLibrary,
+          icon: LucideIcons.bookMarked,
+          title: t.extracted.manage_library,
+          onTap: () {},
+          color: const Color(0xFF10B981),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.viewGrades,
+          icon: LucideIcons.barChart2,
+          title: t.extracted.student_records,
+          onTap: () => context.push('/transcript'),
+          color: Colors.orangeAccent,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAdminGrid(BuildContext context, UserRole role, bool isArabic) {
+    return GridView.count(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 2,
+      mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      childAspectRatio: 2.5,
+      padding: EdgeInsets.zero,
+      children: [
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageUsers,
+          icon: LucideIcons.users,
+          title: t.extracted.manage_users,
+          onTap: () => context.push('/admin/users'),
+          color: const Color(0xFF6366F1),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageColleges,
+          icon: LucideIcons.building2,
+          title: t.extracted.manage_colleges,
+          onTap: () => context.push('/admin/colleges'),
+          color: const Color(0xFF0EA5E9),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageDepartments,
+          icon: LucideIcons.layers,
+          title: t.extracted.manage_departments,
+          onTap: () => context.push('/admin/departments'),
+          color: const Color(0xFF10B981),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.viewAuditLogs,
+          icon: LucideIcons.fileSearch,
+          title: t.extracted.audit_logs,
+          onTap: () => context.push('/admin/audit-logs'),
+          color: const Color(0xFFF59E0B),
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageUsers,
+          icon: LucideIcons.shield,
+          title: t.extracted.manage_roles,
+          onTap: () => context.push('/admin/roles'),
+          color: Colors.redAccent,
+        ),
+        _gatedHorizontal(
+          context,
+          role: role,
+          permission: RolePermission.manageFinances,
+          icon: LucideIcons.wallet,
+          title: t.extracted.finances,
+          onTap: () => context.push('/invoices'),
           color: Colors.pinkAccent,
         ),
       ],
@@ -293,7 +482,7 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  //  GATED CARD HELPERS — shorthand for permission-checked cards
+  //  GATED CARD HELPERS
   // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _gatedGrid(
@@ -330,198 +519,91 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
-  //  HEADER WIDGETS
+  //  HEADER WIDGET — Role Badge
   // ═══════════════════════════════════════════════════════════════════════════
 
-  Widget _buildDigitalIDCard(
+  Widget _buildRoleBadge(BuildContext context, bool isArabic, AuthState auth) {
+    final role = auth.role;
+    final roleColor = _getRoleColor(role);
 
-    BuildContext context,
-    bool isArabic,
-    AuthState auth,
-  ) {
-    final theme = DigitalIDThemeRepository.getTheme(
-      collegeId: 'ai',
-      specializationId: 'artificial_cybersecurity',
-    );
-
-    return GestureDetector(
-      onTap: () {
-        context.push(
-          '/digital-id',
-          extra: {
-            'name': auth.fullName ?? t.students.student,
-            'id': auth.user?.id ?? '',
-            'college': 'ai',
-            'specialization': 'artificial_cybersecurity',
-            'gpa': '—',
-            'level': '—',
-          },
-        );
-      },
-      child: Hero(
-        tag: 'digital_id_card',
-        child: GlassContainer(
-          height: 260,
-          borderRadius: BorderRadius.circular(32),
-          padding: const EdgeInsets.all(28),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        LucideIcons.graduationCap,
-                        color: Colors.white.withValues(alpha: 0.8),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(
-                        t.students.horus_university,
-                        style: GoogleFonts.cinzel(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                          letterSpacing: 2.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      theme.patternIcon,
-                      color: theme.secondaryColor,
-                      size: 16,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: LinearGradient(
-                        colors: [theme.primaryColor, theme.secondaryColor],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: theme.primaryColor.withValues(alpha: 0.5),
-                          blurRadius: 20,
-                        ),
-                      ],
-                    ),
-                    child: const CircleAvatar(
-                      radius: 38,
-                      backgroundColor: Color(0xFF0F172A),
-                      child: Icon(
-                        LucideIcons.user,
-                        size: 40,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          auth.fullName ?? t.students.student,
-                          style: GoogleFonts.outfit(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w900,
-                            color: Colors.white,
-                            height: 1.1,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            color: theme.secondaryColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: theme.secondaryColor.withValues(
-                                alpha: 0.4,
-                              ),
-                            ),
-                          ),
-                          child: Text(
-                            t.students.artificial_intelligence,
-                            style: GoogleFonts.outfit(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.2,
-                              color: theme.secondaryColor,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _buildCardStat(
-                    'ID',
-                    auth.user?.email?.split('@').first ?? '—',
-                  ),
-                  _buildCardStat('GPA', '—'),
-                  _buildCardStat('TERM', '—'),
-                  _buildCardStat('EXPIRY', '—'),
-                ],
-              ),
-            ],
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(32),
+      padding: const EdgeInsets.all(28),
+      border: Border.all(color: roleColor.withValues(alpha: 0.3)),
+      gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          roleColor.withValues(alpha: 0.15),
+          roleColor.withValues(alpha: 0.05),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: roleColor.withValues(alpha: 0.2),
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: roleColor.withValues(alpha: 0.3),
+                  blurRadius: 20,
+                ),
+              ],
+            ),
+            child: Icon(_getRoleIcon(role), color: roleColor, size: 28),
           ),
-        ),
+          const SizedBox(width: 20),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  auth.fullName ?? '—',
+                  style: GoogleFonts.outfit(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white,
+                    height: 1.1,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 5,
+                  ),
+                  decoration: BoxDecoration(
+                    color: roleColor.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: roleColor.withValues(alpha: 0.4)),
+                  ),
+                  child: Text(
+                    role.displayName(isArabic: isArabic),
+                    style: GoogleFonts.outfit(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.2,
+                      color: roleColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Icon(
+            LucideIcons.shieldCheck,
+            color: Colors.greenAccent.withValues(alpha: 0.6),
+            size: 24,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildCardStat(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.inter(
-            fontSize: 9,
-            fontWeight: FontWeight.w500,
-            color: Colors.white.withValues(alpha: 0.4),
-            letterSpacing: 0.5,
-          ),
-        ),
-        const SizedBox(height: 2),
-        Text(
-          value,
-          style: GoogleFonts.outfit(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
-
   // ═══════════════════════════════════════════════════════════════════════════
-  //  CARD WIDGETS
+  //  SECTION HEADER
   // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildSectionHeader(BuildContext context, String title) {
@@ -537,6 +619,10 @@ class DashboardScreen extends ConsumerWidget {
       ),
     );
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  CARD WIDGETS
+  // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildGridItem(
     BuildContext context,
@@ -829,7 +915,31 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  HELPERS
+  // ═══════════════════════════════════════════════════════════════════════════
 
+  Color _getRoleColor(UserRole role) {
+    if (role.isAdmin) return const Color(0xFFEF4444);
+    if (role.isLeadership) return const Color(0xFFF59E0B);
+    if (role.isTeachingStaff) return const Color(0xFF6366F1);
+    if (role == UserRole.registrarOfficer ||
+        role == UserRole.academicAdvisor ||
+        role == UserRole.librarian) {
+      return const Color(0xFF10B981);
+    }
+    return const Color(0xFF0EA5E9);
+  }
+
+  IconData _getRoleIcon(UserRole role) {
+    if (role.isAdmin) return LucideIcons.shield;
+    if (role.isLeadership) return LucideIcons.crown;
+    if (role.isTeachingStaff) return LucideIcons.presentation;
+    if (role == UserRole.registrarOfficer) return LucideIcons.clipboardList;
+    if (role == UserRole.academicAdvisor) return LucideIcons.compass;
+    if (role == UserRole.librarian) return LucideIcons.bookMarked;
+    return LucideIcons.user;
+  }
 
   void _showAccessDenied(BuildContext context, [String? message]) {
     final isArabic = t.$meta.locale.languageCode == 'ar';

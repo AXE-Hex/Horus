@@ -15,6 +15,7 @@ import 'package:hue/features/admin/data/models/institutional_models.dart';
 import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hue/features/shared/presentation/widgets/premium_success_overlay.dart';
 
 class UserFormScreen extends ConsumerStatefulWidget {
   final UserProfileModel? user;
@@ -47,7 +48,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
   bool _isSaving = false;
   bool _isActive = true;
   String _selectedGender = 'male'; // male / female
-  late AnimationController _glowController;
 
   // Password strength
   double _passwordStrength = 0;
@@ -61,14 +61,13 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
   List<DepartmentModel> _departments = [];
   bool _isLoadingColleges = true;
   bool _isLoadingDepartments = false;
+  int _currentStep = 0;
+  late final PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _glowController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
+    _pageController = PageController();
 
     String initialEmail = widget.user?.email ?? '';
     if (initialEmail.endsWith('@horus.edu.eg')) {
@@ -206,15 +205,60 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
 
   @override
   void dispose() {
-    _glowController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _nameController.dispose();
-    _studentIdController.dispose();
-    _nationalIdController.dispose();
-    _nationalityController.dispose();
-    _phoneController.dispose();
+    _pageController.dispose();
     super.dispose();
+  }
+
+  void _nextStep() {
+    if (_currentStep < 3) {
+      if (_validateCurrentStep()) {
+        setState(() => _currentStep++);
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
+      }
+    } else {
+      _handleSave();
+    }
+  }
+
+  void _prevStep() {
+    if (_currentStep > 0) {
+      setState(() => _currentStep--);
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  bool _validateCurrentStep() {
+    // We could add more granular validation here if needed
+    // For now, most fields are optional except Name and Email
+    if (_currentStep == 0) {
+      if (_nameController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.$meta.locale.languageCode == 'ar' ? 'الاسم مطلوب' : 'Name is required')),
+        );
+        return false;
+      }
+    }
+    if (_currentStep == 1 && widget.user == null) {
+      if (_emailController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.$meta.locale.languageCode == 'ar' ? 'البريد مطلوب' : 'Email is required')),
+        );
+        return false;
+      }
+      if (_passwordController.text.length < 8) {
+         ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(t.$meta.locale.languageCode == 'ar' ? 'كلمة المرور قصيرة' : 'Password is too short')),
+        );
+        return false;
+      }
+    }
+    return true;
   }
 
   Future<void> _handleSave() async {
@@ -266,25 +310,12 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
 
       HapticFeedback.heavyImpact();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                Icon(
-                  LucideIcons.checkCircle,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                SizedBox(width: 12),
-                Text(t.admin.changes_saved_successfully),
-              ],
-            ),
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14),
-            ),
-            margin: const EdgeInsets.all(16),
-          ),
+        PremiumSuccessOverlay.show(
+          context,
+          title: t.admin.changes_saved_successfully,
+          message: widget.user == null 
+              ? (t.$meta.locale.languageCode == 'ar' ? 'تم إنشاء الحساب بنجاح' : 'User account created successfully')
+              : (t.$meta.locale.languageCode == 'ar' ? 'تم تحديث البيانات بنجاح' : 'Profile updated successfully'),
         );
         context.pop();
       }
@@ -315,260 +346,117 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     return GlassScaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text(
-          isEdit ? t.admin.edit_user : t.admin.add_new_user,
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w900,
-            letterSpacing: -0.5,
-          ),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              isEdit ? t.admin.edit_user : t.admin.add_new_user,
+              style: GoogleFonts.outfit(
+                fontWeight: FontWeight.w900,
+                fontSize: 18,
+                letterSpacing: -0.5,
+              ),
+            ),
+            Text(
+              _getStepTitle(_currentStep, isArabic),
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                color: Colors.white54,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: CustomScrollView(
-        physics: BouncingScrollPhysics(),
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.all(20),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // ── Section: Personal Info
-                      _buildSectionHeader(
-                        icon: LucideIcons.user,
-                        title: t.extracted.personal_info,
-                        color:
-                            (Theme.of(context).cardTheme.color ??
-                            Theme.of(context).cardColor),
-                      ),
-                      const SizedBox(height: 16),
-
-                      _buildPremiumField(
-                            label: t.admin.full_name,
-                            controller: _nameController,
-                            icon: LucideIcons.user,
-                            iconColor: const Color(0xFF6366F1),
-                            validator: (val) =>
-                                val == null || val.isEmpty ? 'Required' : null,
-                          )
-                          .animate()
-                          .fadeIn(delay: 100.ms)
-                          .slideY(begin: 0.08, end: 0),
-
-                      const SizedBox(height: 14),
-
-                      Row(
-                            children: [
-                              Expanded(
-                                child: _buildPremiumField(
-                                  label: t.admin.nationality,
-                                  controller: _nationalityController,
-                                  icon: LucideIcons.globe,
-                                  iconColor: const Color(0xFF10B981),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: _buildPremiumField(
-                                  label: t.admin.national_id,
-                                  controller: _nationalIdController,
-                                  icon: LucideIcons.creditCard,
-                                  iconColor: Colors.amberAccent,
-                                  keyboardType: TextInputType.number,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  maxLength: 16,
-                                ),
-                              ),
-                            ],
-                          )
-                          .animate()
-                          .fadeIn(delay: 150.ms)
-                          .slideY(begin: 0.08, end: 0),
-
-                      const SizedBox(height: 14),
-
-                      _buildPremiumField(
-                            label: t.admin.phone_number,
-                            controller: _phoneController,
-                            icon: LucideIcons.phone,
-                            iconColor: Colors.greenAccent,
-                            keyboardType: TextInputType.phone,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly,
-                            ],
-                            maxLength: 11,
-                          )
-                          .animate()
-                          .fadeIn(delay: 180.ms)
-                          .slideY(begin: 0.08, end: 0),
-
-                      if (_selectedRoles.any(
-                        (r) => r.category == RoleCategory.studentRoles,
-                      )) ...[
-                        const SizedBox(height: 14),
-                        _buildPremiumField(
-                              label: t.admin.student_id,
-                              controller: _studentIdController,
-                              icon: LucideIcons.hash,
-                              iconColor: const Color(0xFFF59E0B),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              maxLength: 16,
-                            )
-                            .animate()
-                            .fadeIn(delay: 190.ms)
-                            .slideY(begin: 0.08, end: 0),
-                      ],
-
-                      const SizedBox(height: 28),
-
-                      // ── Section: Account
-                      _buildSectionHeader(
-                        icon: LucideIcons.mail,
-                        title: t.extracted.account,
-                        color: Colors.tealAccent,
-                      ),
-                      const SizedBox(height: 16),
-
-                      _buildPremiumField(
-                        label: t.admin.email_address,
-                        controller: _emailController,
-                        icon: LucideIcons.mail,
-                        iconColor: Colors.tealAccent,
-                        keyboardType: TextInputType.emailAddress,
-                        enabled: !isEdit,
-                        suffixText: '@horus.edu.eg',
-                        validator: (val) {
-                          if (val == null || val.trim().isEmpty) {
-                            return isArabic ? 'مطلوب' : 'Required';
-                          }
-                          if (val.contains('@')) {
-                            return isArabic
-                                ? 'الرجاء إدخال الجزء الأول فقط بدون @horus.edu.eg'
-                                : 'Please enter prefix only (no @horus.edu.eg)';
-                          }
-                          return null;
-                        },
-                      ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.08, end: 0),
-
-                      if (!isEdit) ...[
-                        const SizedBox(height: 14),
-                        _buildPremiumField(
-                              label: t.admin.password,
-                              controller: _passwordController,
-                              icon: LucideIcons.lock,
-                              iconColor: Colors.pinkAccent,
-                              obscureText: true,
-                              suffix: IconButton(
-                                icon: Icon(
-                                  LucideIcons.refreshCw,
-                                  size: 16,
-                                  color: Colors.white54,
-                                ),
-                                onPressed: _generatePassword,
-                                tooltip: isArabic
-                                    ? 'توليد عشوائي'
-                                    : 'Auto Generate',
-                              ),
-                              validator: (val) => val == null || val.length < 8
-                                  ? (isArabic
-                                        ? 'يجب أن يكون 8 الأقل'
-                                        : 'Min 8 chars required')
-                                  : null,
-                            )
-                            .animate()
-                            .fadeIn(delay: 250.ms)
-                            .slideY(begin: 0.08, end: 0),
-                        const SizedBox(height: 8),
-                        if (_passwordController.text.isNotEmpty)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: LinearProgressIndicator(
-                                      value: _passwordStrength,
-                                      backgroundColor: Colors.white10,
-                                      color: _passwordStrengthColor,
-                                      minHeight: 4,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  _passwordStrengthLabel,
-                                  style: GoogleFonts.inter(
-                                    color: _passwordStrengthColor,
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-
-                      const SizedBox(height: 28),
-
-                      // ── Section: Roles
-                      _buildSectionHeader(
-                        icon: LucideIcons.shield,
-                        title: widget.initialCategory != null
-                            ? t.admin.select_role_in_widgetinitialca
-                            : t.admin.select_role_permission,
-                        color: primaryColor,
-                      ),
-                      const SizedBox(height: 16),
-
-                      _buildRoleSelector(isArabic, primaryColor)
-                          .animate()
-                          .fadeIn(delay: 300.ms)
-                          .slideY(begin: 0.08, end: 0),
-
-                      const SizedBox(height: 28),
-
-                      _buildInstitutionSelectors(isArabic, primaryColor)
-                          .animate()
-                          .fadeIn(delay: 320.ms)
-                          .slideY(begin: 0.08, end: 0),
-
-                      const SizedBox(height: 28),
-
-                      // ── Section: Management (edit only)
-                      if (isEdit) ...[
-                        _buildSectionHeader(
-                          icon: LucideIcons.settings,
-                          title: t.admin.advanced_management,
-                          color: Colors.orangeAccent,
-                        ),
-                        const SizedBox(height: 16),
-                        _buildManagementZone(isArabic, primaryColor)
-                            .animate()
-                            .fadeIn(delay: 350.ms)
-                            .slideY(begin: 0.08, end: 0),
-                        const SizedBox(height: 28),
-                      ],
-
-                      // ── Save Button
-                      _buildSaveButton(primaryColor, isArabic),
-                      const SizedBox(height: 40),
-                    ],
-                  ),
-                ),
-              ]),
+      body: Column(
+        children: [
+          _buildStepIndicator(primaryColor),
+          Expanded(
+            child: Form(
+              key: _formKey,
+              child: PageView(
+                controller: _pageController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  _buildPersonalStep(isArabic, primaryColor),
+                  _buildAccountStep(isArabic, isEdit, primaryColor),
+                  _buildRolesStep(isArabic, primaryColor),
+                  _buildAffiliationStep(isArabic, primaryColor, isEdit),
+                ],
+              ),
             ),
           ),
+          _buildNavigationButtons(primaryColor, isArabic),
         ],
+      ),
+    );
+  }
+
+  String _getStepTitle(int step, bool isArabic) {
+    switch (step) {
+      case 0: return t.extracted.personal_details;
+      case 1: return t.extracted.account_credentials;
+      case 2: return t.extracted.roles_permissions;
+      case 3: return t.extracted.academic_affiliation;
+      default: return '';
+    }
+  }
+
+  Widget _buildStepIndicator(Color primaryColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Row(
+        children: List.generate(4, (index) {
+          final isActive = index <= _currentStep;
+          return Expanded(
+            child: Row(
+              children: [
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  width: 28,
+                  height: 28,
+                  decoration: BoxDecoration(
+                    color: isActive ? primaryColor : Colors.white10,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isActive ? primaryColor : Colors.white24,
+                      width: 2,
+                    ),
+                    boxShadow: isActive ? [
+                      BoxShadow(
+                        color: primaryColor.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                      )
+                    ] : null,
+                  ),
+                  child: Center(
+                    child: index < _currentStep 
+                      ? const Icon(Icons.check, size: 16, color: Colors.white)
+                      : Text(
+                        '${index + 1}',
+                        style: GoogleFonts.outfit(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: isActive ? Colors.white : Colors.white30,
+                        ),
+                      ),
+                  ),
+                ),
+                if (index < 3)
+                  Expanded(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 300),
+                      height: 2,
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      color: index < _currentStep ? primaryColor : Colors.white10,
+                    ),
+                  ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
@@ -713,209 +601,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     );
   }
 
-  Widget _buildRoleSelector(bool isArabic, Color primaryColor) {
-    final rolesToShow = widget.initialCategory != null
-        ? widget.initialCategory!.roles
-        : UserRole.values.where((r) => r != UserRole.guest).toList();
-
-    // Group by category
-    final grouped = <RoleCategory, List<UserRole>>{};
-    for (final role in rolesToShow) {
-      grouped.putIfAbsent(role.category, () => []).add(role);
-    }
-
-    return GlassContainer(
-      borderRadius: BorderRadius.circular(22),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(LucideIcons.users, size: 16, color: primaryColor),
-                  SizedBox(width: 8),
-                  Text(
-                    isArabic ? 'الجنس' : 'Gender',
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white70,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  ChoiceChip(
-                    label: Text(isArabic ? 'ذكر' : 'Male'),
-                    selected: _selectedGender == 'male',
-                    onSelected: (val) =>
-                        setState(() => _selectedGender = 'male'),
-                    backgroundColor: Colors.transparent,
-                    selectedColor: primaryColor.withValues(alpha: 0.2),
-                    labelStyle: GoogleFonts.inter(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 12,
-                    ),
-                  ),
-                  SizedBox(width: 8),
-                  ChoiceChip(
-                    label: Text(isArabic ? 'أنثى' : 'Female'),
-                    selected: _selectedGender == 'female',
-                    onSelected: (val) =>
-                        setState(() => _selectedGender = 'female'),
-                    backgroundColor: Colors.transparent,
-                    selectedColor: primaryColor.withValues(alpha: 0.2),
-                    labelStyle: GoogleFonts.inter(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          // Status toggle
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(LucideIcons.userCheck, size: 16, color: primaryColor),
-                  SizedBox(width: 8),
-                  Text(
-                    t.admin.account_status,
-                    style: GoogleFonts.inter(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white70,
-                    ),
-                  ),
-                ],
-              ),
-              Transform.scale(
-                scale: 0.75,
-                child: Switch(
-                  value: _isActive,
-                  onChanged: (val) => setState(() => _isActive = val),
-                  activeThumbColor: Color(0xFF10B981),
-                  activeTrackColor: Color(0xFF10B981).withValues(alpha: 0.3),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            height: 24,
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.06),
-          ),
-          // Role chips
-          ...grouped.entries.map((entry) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (grouped.length > 1) ...[
-                  Text(
-                    entry.key.displayName(isArabic: isArabic),
-                    style: GoogleFonts.inter(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w700,
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.3),
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ],
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: entry.value.map((role) {
-                    final isSelected = _selectedRoles.contains(role);
-                    return GestureDetector(
-                      onTap: () {
-                        HapticFeedback.selectionClick();
-                        setState(() {
-                          if (isSelected) {
-                            if (_selectedRoles.length > 1) {
-                              _selectedRoles.remove(role);
-                            }
-                          } else {
-                            _selectedRoles.add(role);
-                          }
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: 200.ms,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected
-                              ? primaryColor.withValues(alpha: 0.15)
-                              : Colors.white.withValues(alpha: 0.03),
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(
-                            color: isSelected
-                                ? primaryColor.withValues(alpha: 0.5)
-                                : Colors.white.withValues(alpha: 0.06),
-                            width: isSelected ? 1.5 : 1,
-                          ),
-                          boxShadow: isSelected
-                              ? [
-                                  BoxShadow(
-                                    color: primaryColor.withValues(alpha: 0.15),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ]
-                              : null,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (isSelected)
-                              Padding(
-                                padding: const EdgeInsets.only(right: 6),
-                                child: Icon(
-                                  LucideIcons.check,
-                                  size: 12,
-                                  color: primaryColor,
-                                ),
-                              ),
-                            Text(
-                              role.displayName(isArabic: isArabic),
-                              style: GoogleFonts.inter(
-                                fontSize: 13,
-                                fontWeight: isSelected
-                                    ? FontWeight.w700
-                                    : FontWeight.w500,
-                                color: isSelected
-                                    ? primaryColor
-                                    : Colors.white.withValues(alpha: 0.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                const SizedBox(height: 12),
-              ],
-            );
-          }),
-        ],
-      ),
-    );
-  }
 
   Widget _buildInstitutionSelectors(bool isArabic, Color primaryColor) {
     if (_isLoadingColleges) {
@@ -1290,69 +975,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     );
   }
 
-  Widget _buildSaveButton(Color primaryColor, bool isArabic) {
-    return AnimatedBuilder(
-          animation: _glowController,
-          builder: (context, child) => GestureDetector(
-            onTap: _isSaving ? null : _handleSave,
-            child: Container(
-              width: double.infinity,
-              height: 58,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [primaryColor, Color(0xFF10B981)],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: primaryColor.withValues(
-                      alpha: 0.25 + 0.15 * _glowController.value,
-                    ),
-                    blurRadius: 20,
-                    spreadRadius: -4,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: _isSaving
-                    ? SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      )
-                    : Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            LucideIcons.save,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 18,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            t.admin.save_changes,
-                            style: GoogleFonts.outfit(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w800,
-                              color: Theme.of(context).colorScheme.onSurface,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
-            ),
-          ),
-        )
-        .animate()
-        .fadeIn(delay: 400.ms)
-        .scale(begin: const Offset(0.96, 0.96), end: const Offset(1, 1));
-  }
 
   void _showDeleteConfirmation(BuildContext context, UsersController notifier) {
     showDialog(
@@ -1481,6 +1103,380 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPersonalStep(bool isArabic, Color primaryColor) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildSectionHeader(
+            icon: LucideIcons.user,
+            title: t.extracted.personal_info,
+            color: (Theme.of(context).cardTheme.color ?? Theme.of(context).cardColor),
+          ),
+          const SizedBox(height: 16),
+          _buildPremiumField(
+            label: t.admin.full_name,
+            controller: _nameController,
+            icon: LucideIcons.user,
+            iconColor: const Color(0xFF6366F1),
+            validator: (val) => val == null || val.isEmpty ? 'Required' : null,
+          ),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: _buildPremiumField(
+                  label: t.admin.nationality,
+                  controller: _nationalityController,
+                  icon: LucideIcons.globe,
+                  iconColor: const Color(0xFF10B981),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildPremiumField(
+                  label: t.admin.national_id,
+                  controller: _nationalIdController,
+                  icon: LucideIcons.creditCard,
+                  iconColor: Colors.amberAccent,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  maxLength: 16,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 14),
+          _buildPremiumField(
+            label: t.admin.phone_number,
+            controller: _phoneController,
+            icon: LucideIcons.phone,
+            iconColor: Colors.greenAccent,
+            keyboardType: TextInputType.phone,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            maxLength: 11,
+          ),
+          if (_selectedRoles.any((r) => r.category == RoleCategory.studentRoles)) ...[
+            const SizedBox(height: 14),
+            _buildPremiumField(
+              label: t.admin.student_id,
+              controller: _studentIdController,
+              icon: LucideIcons.hash,
+              iconColor: const Color(0xFFF59E0B),
+              keyboardType: TextInputType.number,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              maxLength: 16,
+            ),
+          ],
+          const SizedBox(height: 14),
+           _buildGenderSelectorInternal(isArabic, primaryColor),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGenderSelectorInternal(bool isArabic, Color primaryColor) {
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(18),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(LucideIcons.users, size: 16, color: primaryColor),
+              const SizedBox(width: 12),
+              Text(
+                t.extracted.gender,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white70,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              ChoiceChip(
+                label: Text(t.extracted.male),
+                selected: _selectedGender == 'male',
+                onSelected: (val) => setState(() => _selectedGender = 'male'),
+                backgroundColor: Colors.transparent,
+                selectedColor: primaryColor.withValues(alpha: 0.2),
+                labelStyle: GoogleFonts.inter(
+                  color: _selectedGender == 'male' ? primaryColor : Colors.white54,
+                  fontSize: 12,
+                ),
+              ),
+              const SizedBox(width: 8),
+              ChoiceChip(
+                label: Text(t.extracted.female),
+                selected: _selectedGender == 'female',
+                onSelected: (val) => setState(() => _selectedGender = 'female'),
+                backgroundColor: Colors.transparent,
+                selectedColor: primaryColor.withValues(alpha: 0.2),
+                labelStyle: GoogleFonts.inter(
+                  color: _selectedGender == 'female' ? primaryColor : Colors.white54,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAccountStep(bool isArabic, bool isEdit, Color primaryColor) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildSectionHeader(
+            icon: LucideIcons.mail,
+            title: t.extracted.account,
+            color: Colors.tealAccent,
+          ),
+          const SizedBox(height: 16),
+          _buildPremiumField(
+            label: t.admin.email_address,
+            controller: _emailController,
+            icon: LucideIcons.mail,
+            iconColor: Colors.tealAccent,
+            keyboardType: TextInputType.emailAddress,
+            enabled: !isEdit,
+            suffixText: '@horus.edu.eg',
+            validator: (val) {
+              if (val == null || val.trim().isEmpty) return t.extracted.required;
+              if (val.contains('@')) return t.extracted.enter_prefix_only;
+              return null;
+            },
+          ),
+          if (!isEdit) ...[
+            const SizedBox(height: 14),
+            _buildPremiumField(
+              label: t.admin.password,
+              controller: _passwordController,
+              icon: LucideIcons.lock,
+              iconColor: Colors.pinkAccent,
+              obscureText: true,
+              suffix: IconButton(
+                icon: const Icon(LucideIcons.refreshCw, size: 16, color: Colors.white54),
+                onPressed: _generatePassword,
+              ),
+            ),
+            const SizedBox(height: 8),
+            if (_passwordController.text.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: LinearProgressIndicator(
+                        value: _passwordStrength,
+                        backgroundColor: Colors.white10,
+                        color: _passwordStrengthColor,
+                        minHeight: 4,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Text(_passwordStrengthLabel, style: GoogleFonts.inter(color: _passwordStrengthColor, fontSize: 11)),
+                  ],
+                ),
+              ),
+          ],
+           const SizedBox(height: 14),
+           _buildStatusToggleInternal(isArabic, primaryColor),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusToggleInternal(bool isArabic, Color primaryColor) {
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(18),
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(LucideIcons.userCheck, size: 16, color: primaryColor),
+              const SizedBox(width: 12),
+              Text(
+                t.admin.account_status,
+                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white70),
+              ),
+            ],
+          ),
+          Switch(
+            value: _isActive,
+            onChanged: (val) => setState(() => _isActive = val),
+            activeColor: const Color(0xFF10B981),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRolesStep(bool isArabic, Color primaryColor) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _buildSectionHeader(
+            icon: LucideIcons.shield,
+            title: widget.initialCategory != null ? t.admin.select_role_in_widgetinitialca : t.admin.select_role_permission,
+            color: primaryColor,
+          ),
+          const SizedBox(height: 16),
+          _buildRoleSelectorInsideStep(isArabic, primaryColor),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRoleSelectorInsideStep(bool isArabic, Color primaryColor) {
+    final rolesToShow = widget.initialCategory != null
+        ? widget.initialCategory!.roles
+        : UserRole.values.where((r) => r != UserRole.guest).toList();
+
+    final grouped = <RoleCategory, List<UserRole>>{};
+    for (final role in rolesToShow) {
+      grouped.putIfAbsent(role.category, () => []).add(role);
+    }
+
+    return Column(
+      children: grouped.entries.map((entry) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (grouped.length > 1) ...[
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0, top: 4.0),
+                child: Text(
+                  entry.key.displayName(isArabic: isArabic),
+                  style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white30),
+                ),
+              ),
+            ],
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: entry.value.map((role) {
+                final isSelected = _selectedRoles.contains(role);
+                return FilterChip(
+                  label: Text(role.displayName(isArabic: isArabic)),
+                  selected: isSelected,
+                  onSelected: (val) {
+                    setState(() {
+                      if (isSelected) {
+                        if (_selectedRoles.length > 1) _selectedRoles.remove(role);
+                      } else {
+                        _selectedRoles.add(role);
+                      }
+                    });
+                  },
+                  selectedColor: primaryColor.withValues(alpha: 0.2),
+                  checkmarkColor: primaryColor,
+                  labelStyle: GoogleFonts.inter(
+                    color: isSelected ? primaryColor : Colors.white54,
+                    fontSize: 12,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 16),
+          ],
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildAffiliationStep(bool isArabic, Color primaryColor, bool isEdit) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+           _buildInstitutionSelectors(isArabic, primaryColor),
+           if (isEdit) ...[
+             const SizedBox(height: 32),
+             _buildSectionHeader(
+              icon: LucideIcons.settings,
+              title: t.admin.advanced_management,
+              color: Colors.orangeAccent,
+            ),
+            const SizedBox(height: 16),
+            _buildManagementZone(isArabic, primaryColor),
+           ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavigationButtons(Color primaryColor, bool isArabic) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+      decoration: BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
+        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Row(
+          children: [
+            if (_currentStep > 0)
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: _isSaving ? null : _prevStep,
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    side: const BorderSide(color: Colors.white10),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  ),
+                  child: Text(t.extracted.previous, style: GoogleFonts.inter(color: Colors.white70)),
+                ),
+              ),
+            if (_currentStep > 0) const SizedBox(width: 12),
+            Expanded(
+              flex: 2,
+              child: ElevatedButton(
+                onPressed: _isSaving ? null : _nextStep,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _currentStep == 3 ? const Color(0xFF10B981) : primaryColor,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  elevation: 4,
+                ),
+                child: _isSaving
+                  ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                  : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _currentStep == 3 
+                          ? (widget.user != null ? t.admin.save_changes : (t.extracted.create_account))
+                          : (t.extracted.next),
+                        style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(width: 8),
+                      Icon(_currentStep == 3 ? LucideIcons.check : LucideIcons.arrowRight, size: 18),
+                    ],
+                  ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

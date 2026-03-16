@@ -1041,12 +1041,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.verify_account)
           : (t.extracted.remove_verification),
       message: newVal
-          ? (isArabic
-                ? 'توثيق حساب ${_user.fullName}؟'
-                : 'Verify ${_user.fullName}\'s account?')
-          : (isArabic
-                ? 'إزالة التوثيق من ${_user.fullName}؟'
-                : 'Remove verification from ${_user.fullName}?'),
+          ? (t.extracted.verify__userfullnames account?')
+          : (t.extracted.remove_verification_from__userfullname),
       confirmColor: const Color(0xFF10B981),
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
@@ -1069,12 +1065,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     _showConfirmDialog(
       title: newVal ? (t.extracted.ban_user) : (t.extracted.unban_user),
       message: newVal
-          ? (isArabic
-                ? 'حظر ${_user.fullName}؟ (سيفقدون الوصول للنظام)'
-                : 'Ban ${_user.fullName}? (They will lose system access)')
-          : (isArabic
-                ? 'إلغاء حظر ${_user.fullName}؟'
-                : 'Unban ${_user.fullName}?'),
+          ? (t.extracted.ban__userfullname_they_will_lose_system_access)
+          : (t.extracted.unban__userfullname),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.toggleBan(_user.id, newVal);
@@ -1206,12 +1198,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.permanent_delete)
           : (t.extracted.soft_delete),
       message: hardDelete
-          ? (isArabic
-                ? 'حذف ${_user.fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.'
-                : 'Permanently delete ${_user.fullName}? This cannot be undone.')
-          : (isArabic
-                ? 'إلغاء تنشيط حساب ${_user.fullName}؟'
-                : 'Deactivate ${_user.fullName}\'s account?'),
+          ? (t.extracted.permanently_delete__userfullname_this_cannot_be_undone)
+          : (t.extracted.deactivate__userfullnames account?'),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);
