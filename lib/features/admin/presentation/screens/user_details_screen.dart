@@ -1041,8 +1041,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.verify_account)
           : (t.extracted.remove_verification),
       message: newVal
-          ? (t.extracted.verify__userfullnames account?')
-          : (t.extracted.remove_verification_from__userfullname),
+          ? (t.extracted.verify__userfullname(___________a__: _user.fullName)s account?')
+          : (t.extracted.remove_verification_from__userfullname(___________a__: _user.fullName)),
       confirmColor: const Color(0xFF10B981),
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
@@ -1065,8 +1065,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     _showConfirmDialog(
       title: newVal ? (t.extracted.ban_user) : (t.extracted.unban_user),
       message: newVal
-          ? (t.extracted.ban__userfullname_they_will_lose_system_access)
-          : (t.extracted.unban__userfullname),
+          ? (t.extracted.ban__userfullname_they_will_lose_system_access(___________a__: _user.fullName))
+          : (t.extracted.unban__userfullname(___________a__: _user.fullName)),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.toggleBan(_user.id, newVal);
@@ -1198,8 +1198,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.permanent_delete)
           : (t.extracted.soft_delete),
       message: hardDelete
-          ? (t.extracted.permanently_delete__userfullname_this_cannot_be_undone)
-          : (t.extracted.deactivate__userfullnames account?'),
+          ? (t.extracted.permanently_delete__userfullname_this_cannot_be_undone(___________a__: _user.fullName))
+          : (t.extracted.deactivate__userfullname(___________a__: _user.fullName)s account?'),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);
