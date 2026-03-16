@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const Color primaryLight = Color(0xFF06B6D4); // Electric Cyan 500
-  static const Color primaryDark = Color(0xFF22D3EE); // Electric Cyan 400
+  static const Color primaryLight = Color(0xFF0EA5E9); // Sky Blue 500
+  static const Color primaryDark = Color(0xFF38BDF8); // Sky Blue 400
   static const Color secondaryColor = Color(0xFF8B5CF6); // Vivid Violet 500
 
-  static const Color bgLight = Color(0xFFF8FAFC);
-  static const Color bgDark = Color(0xFF020617); // Obsidian Space
+  static const Color bgLight = Color(
+    0xFFE2E8F0,
+  ); // Slate 200 (Slightly darker light bg)
+  static const Color bgDark = Color(0xFF0A0A1A); // Deep Navy Space
   static const Color surfaceLight = Colors.white;
-  static const Color surfaceDark = Color(0xFF0F172A); // Deep Slate
+  static const Color surfaceDark = Color(0xFF1E1E3A); // Glass surface dark
 
   static ThemeData get lightTheme {
     final base = ThemeData.light();
@@ -57,14 +59,14 @@ class AppTheme {
       textTheme: GoogleFonts.tajawalTextTheme(base.textTheme).copyWith(
         displayLarge: GoogleFonts.outfit(
           fontWeight: FontWeight.bold,
-          color: const Color(0xFF020617),
+          color: const Color(0xFF0F172A),
         ),
         titleLarge: GoogleFonts.outfit(
           fontWeight: FontWeight.w600,
-          color: const Color(0xFF020617),
+          color: const Color(0xFF0F172A),
         ),
-        bodyMedium: const TextStyle(color: Color(0xFF1E293B)),
-        bodySmall: const TextStyle(color: Color(0xFF475569)),
+        bodyMedium: const TextStyle(color: Color(0xFF334155)),
+        bodySmall: const TextStyle(color: Color(0xFF64748B)),
       ),
     );
   }

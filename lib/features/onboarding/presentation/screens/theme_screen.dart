@@ -1,13 +1,13 @@
-
-import 'package:hue/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:hue/core/theme/theme_provider.dart';
+import 'package:hue/features/shared/presentation/widgets/animated_mesh_background.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class ThemeScreen extends ConsumerStatefulWidget {
@@ -19,28 +19,26 @@ class ThemeScreen extends ConsumerStatefulWidget {
 
 class _ThemeScreenState extends ConsumerState<ThemeScreen> {
   Future<void> _selectTheme(ThemeMode mode, String message) async {
-
     await ref.read(themeControllerProvider.notifier).setTheme(mode);
 
     if (!mounted) return;
 
     context.go(
       '/transition',
-      extra: {
-        'nextPath': '/login',
-        'message': message,
-        'onComplete': null,
-      },
+      extra: {'nextPath': '/login', 'message': message, 'onComplete': null},
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(themeControllerProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = Theme.of(context).primaryColor;
 
-    return GlassScaffold(
+    return Scaffold(
       body: Stack(
         children: [
+          const AnimatedMeshBackground(),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -48,27 +46,49 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  IconButton(
-                    icon: const Icon(
-                      LucideIcons.arrowLeft,
-                      color: Colors.white,
+                  GestureDetector(
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      context.go('/ui-style-selection');
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.1),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.2),
+                        ),
+                      ),
+                      child: const Icon(
+                        LucideIcons.arrowLeft,
+                        color: Colors.white,
+                        size: 24,
+                      ),
                     ),
-                    onPressed: () => context.go('/ui-style-selection'),
                   ).animate().fadeIn().slideX(begin: -0.5, end: 0),
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 48),
 
-                  Text(
-                    t.onboarding.choose_app_theme,
-                    style: GoogleFonts.outfit(
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context).colorScheme.onSurface,
-                      height: 1.1,
+                  ShaderMask(
+                    shaderCallback: (bounds) => LinearGradient(
+                      colors: [isDark ? Colors.white : Colors.black87, primary],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds),
+                    child: Text(
+                      t.onboarding.choose_app_theme,
+                      style: GoogleFonts.outfit(
+                        fontSize: 48,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                        height: 1.1,
+                        letterSpacing: -1,
+                      ),
                     ),
                   ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2, end: 0),
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
 
                   Text(
                     t.onboarding.select_the_lighting_that_suits,
@@ -76,8 +96,9 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                       fontSize: 16,
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.6),
-                      height: 1.5,
+                      ).colorScheme.onSurface.withValues(alpha: 0.7),
+                      height: 1.4,
+                      fontWeight: FontWeight.w500,
                     ),
                   ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
 
@@ -94,6 +115,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                                   isActive:
                                       currentTheme.value == ThemeMode.light,
                                   onTap: () async {
+                                    HapticFeedback.selectionClick();
                                     await _selectTheme(
                                       ThemeMode.light,
                                       'Applying Light Theme...',
@@ -102,9 +124,9 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                                 )
                                 .animate()
                                 .fadeIn(delay: 600.ms)
-                                .scale(begin: const Offset(0.8, 0.8)),
+                                .scale(begin: const Offset(0.9, 0.9)),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 20),
                       Expanded(
                         child:
                             _ThemeCard(
@@ -114,6 +136,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                                   isActive:
                                       currentTheme.value == ThemeMode.dark,
                                   onTap: () async {
+                                    HapticFeedback.selectionClick();
                                     await _selectTheme(
                                       ThemeMode.dark,
                                       'Applying Dark Theme...',
@@ -122,7 +145,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                                 )
                                 .animate()
                                 .fadeIn(delay: 800.ms)
-                                .scale(begin: const Offset(0.8, 0.8)),
+                                .scale(begin: const Offset(0.9, 0.9)),
                       ),
                     ],
                   ),
@@ -131,30 +154,41 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
 
                   Center(
                     child: Container(
-                      padding: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: List.generate(
                           3,
                           (index) => Container(
-                            width: index == 2 ? 24 : 8,
+                            width: index == 2 ? 30 : 8,
                             height: 8,
                             margin: const EdgeInsets.all(4),
                             decoration: BoxDecoration(
                               color: index == 2
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(4),
+                                  ? primary
+                                  : Colors.white.withValues(alpha: 0.3),
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: index == 2
+                                  ? [
+                                      BoxShadow(
+                                        color: primary.withValues(alpha: 0.5),
+                                        blurRadius: 10,
+                                      ),
+                                    ]
+                                  : null,
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ).animate().fadeIn(delay: 1.seconds),
+                  ).animate().fadeIn(delay: 1.2.seconds),
 
                   const SizedBox(height: 32),
                 ],
@@ -186,108 +220,143 @@ class _ThemeCard extends StatefulWidget {
   State<_ThemeCard> createState() => _ThemeCardState();
 }
 
-class _ThemeCardState extends State<_ThemeCard> {
+class _ThemeCardState extends State<_ThemeCard>
+    with SingleTickerProviderStateMixin {
   bool _isLoading = false;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+      lowerBound: 0.96,
+      upperBound: 1.0,
+    );
+    _animationController.value = 1.0;
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final primary = Theme.of(context).primaryColor;
+
     return GestureDetector(
-      onTap: _isLoading
-          ? null
-          : () async {
-              setState(() => _isLoading = true);
-              try {
-                await widget.onTap();
-              } finally {
-                if (mounted) setState(() => _isLoading = false);
-              }
-            },
-      child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
-        blur: 15,
-        border: Border.all(
-          color: widget.isActive
-              ? Theme.of(context).primaryColor.withValues(alpha: 0.5)
-              : Colors.white.withValues(alpha: 0.1),
-          width: widget.isActive ? 2 : 1.5,
-        ),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            widget.isDark
-                ? Colors.black.withValues(alpha: 0.4)
+      onTapDown: (_) => _animationController.reverse(),
+      onTapUp: (_) async {
+        _animationController.forward();
+        if (_isLoading) return;
+
+        setState(() => _isLoading = true);
+        try {
+          await widget.onTap();
+        } finally {
+          if (mounted) setState(() => _isLoading = false);
+        }
+      },
+      onTapCancel: () => _animationController.forward(),
+      child: ScaleTransition(
+        scale: _animationController,
+        child: GlassContainer(
+          borderRadius: BorderRadius.circular(28),
+          blur: 20,
+          border: Border.all(
+            color: widget.isActive
+                ? primary.withValues(alpha: 0.5)
                 : Colors.white.withValues(alpha: 0.1),
-            widget.isDark
-                ? Colors.black.withValues(alpha: 0.1)
-                : Colors.white.withValues(alpha: 0.05),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: widget.isActive
-                      ? Theme.of(context).primaryColor.withValues(alpha: 0.2)
-                      : widget.isDark
-                      ? Colors.white.withValues(alpha: 0.05)
-                      : Colors.black.withValues(alpha: 0.05),
-                  shape: BoxShape.circle,
-                  boxShadow: widget.isActive
-                      ? [
-                          BoxShadow(
-                            color: Theme.of(
-                              context,
-                            ).primaryColor.withValues(alpha: 0.3),
-                            blurRadius: 20,
-                          ),
-                        ]
-                      : null,
-                ),
-                child: _isLoading
-                    ? SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Theme.of(context).primaryColor,
-                          ),
-                        ),
-                      )
-                    : Icon(
-                        widget.icon,
-                        size: 32,
-                        color: widget.isActive
-                            ? Colors.white
-                            : Colors.white.withValues(alpha: 0.5),
-                      ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                widget.title,
-                style: GoogleFonts.outfit(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
-              if (widget.isActive && !_isLoading) ...[
-                const SizedBox(height: 8),
-                Container(
-                  width: 6,
-                  height: 6,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                ).animate().scale().shake(),
-              ],
+            width: widget.isActive ? 2 : 1.5,
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              widget.isDark
+                  ? Colors.black.withValues(alpha: 0.5)
+                  : Colors.white.withValues(alpha: 0.15),
+              widget.isDark
+                  ? Colors.black.withValues(alpha: 0.2)
+                  : Colors.white.withValues(alpha: 0.05),
             ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: widget.isActive
+                        ? primary.withValues(alpha: 0.25)
+                        : widget.isDark
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : Colors.black.withValues(alpha: 0.05),
+                    shape: BoxShape.circle,
+                    boxShadow: widget.isActive
+                        ? [
+                            BoxShadow(
+                              color: primary.withValues(alpha: 0.3),
+                              blurRadius: 25,
+                              spreadRadius: 2,
+                            ),
+                          ]
+                        : null,
+                  ),
+                  child: _isLoading
+                      ? SizedBox(
+                          width: 32,
+                          height: 32,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            valueColor: AlwaysStoppedAnimation<Color>(primary),
+                          ),
+                        )
+                      : Icon(
+                          widget.icon,
+                          size: 36,
+                          color: widget.isActive
+                              ? Colors.white
+                              : Colors.white.withValues(alpha: 0.5),
+                        ),
+                ),
+                const SizedBox(height: 24),
+                Text(
+                  widget.title,
+                  style: GoogleFonts.outfit(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+                if (widget.isActive && !_isLoading) ...[
+                  const SizedBox(height: 12),
+                  Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: primary,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: primary.withValues(alpha: 0.8),
+                          blurRadius: 10,
+                        ),
+                      ],
+                    ),
+                  ).animate().scale(
+                    curve: Curves.easeOutBack,
+                    duration: 400.ms,
+                  ),
+                ],
+              ],
+            ),
           ),
         ),
       ),

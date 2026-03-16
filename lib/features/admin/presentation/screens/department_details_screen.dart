@@ -159,7 +159,7 @@ class _DepartmentDetailsScreenState
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(LucideIcons.network, size: 16, color: themeColor),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8),
                         Text(
                           t.admin.academic_department,
                           style: GoogleFonts.inter(
@@ -172,14 +172,16 @@ class _DepartmentDetailsScreenState
                     ),
                   ),
                   if (_department.code != null) ...[
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 10,
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -194,7 +196,7 @@ class _DepartmentDetailsScreenState
                   ],
                 ],
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
               Text(
                 isArabic ? _department.nameAr : _department.nameEn,
                 style: GoogleFonts.outfit(
@@ -203,7 +205,7 @@ class _DepartmentDetailsScreenState
                   height: 1.2,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Text(
                 (isArabic
                         ? _department.descriptionAr
@@ -211,7 +213,9 @@ class _DepartmentDetailsScreenState
                     (t.admin.no_about_text_available),
                 style: GoogleFonts.inter(
                   fontSize: 15,
-                  color: Colors.white.withValues(alpha: 0.7),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
                   height: 1.5,
                 ),
               ),
@@ -221,14 +225,14 @@ class _DepartmentDetailsScreenState
                   _buildStatChip(
                     LucideIcons.users,
                     '${_staffList.length}',
-                    isArabic ? 'أعضاء' : 'Staff',
+                    t.extracted.staff,
                     themeColor,
                   ),
                   const SizedBox(width: 12),
                   _buildStatChip(
                     LucideIcons.graduationCap,
                     '${_department.studentCount}',
-                    isArabic ? 'طلاب' : 'Students',
+                    t.extracted.students,
                     Colors.cyanAccent,
                   ),
                   if (_department.building != null) ...[
@@ -236,7 +240,7 @@ class _DepartmentDetailsScreenState
                     _buildStatChip(
                       LucideIcons.building,
                       _department.building!,
-                      isArabic ? 'مبنى' : 'Building',
+                      t.extracted.building,
                       Colors.amberAccent,
                     ),
                   ],
@@ -313,11 +317,9 @@ class _DepartmentDetailsScreenState
 
   Widget _buildAssistantHeadSection(bool isArabic, Color themeColor) {
     return _buildLeaderCard(
-      title: isArabic ? 'مساعد رئيس القسم' : 'Assistant Head',
-      emptyTitle: isArabic ? 'لم يتم تعيين مساعد' : 'No Assistant Assigned',
-      emptySubtitle: isArabic
-          ? 'يرجى تعيين مساعد لرئيس القسم'
-          : 'Please assign an assistant head for the department',
+      title: t.extracted.assistant_head,
+      emptyTitle: t.extracted.no_assistant_assigned,
+      emptySubtitle: t.extracted.please_assign_an_assistant_head_for_the_,
       assignLabel: t.admin.assign,
       changeLabel: t.admin.change,
       userId: _department.assistantHeadId,
@@ -359,9 +361,9 @@ class _DepartmentDetailsScreenState
                 color: Colors.orangeAccent.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(LucideIcons.userX, color: Colors.orangeAccent),
+              child: Icon(LucideIcons.userX, color: Colors.orangeAccent),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -377,7 +379,9 @@ class _DepartmentDetailsScreenState
                     emptySubtitle,
                     style: GoogleFonts.inter(
                       fontSize: 13,
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   ),
                 ],
@@ -435,7 +439,7 @@ class _DepartmentDetailsScreenState
                   Row(
                     children: [
                       Icon(icon, size: 16, color: themeColor),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Text(
                         title,
                         style: GoogleFonts.inter(
@@ -465,7 +469,7 @@ class _DepartmentDetailsScreenState
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Row(
                 children: [
                   CircleAvatar(
@@ -478,7 +482,7 @@ class _DepartmentDetailsScreenState
                         ? Icon(LucideIcons.user, color: themeColor, size: 28)
                         : null,
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -490,21 +494,24 @@ class _DepartmentDetailsScreenState
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4),
                         Row(
                           children: [
                             Icon(
                               LucideIcons.mail,
                               size: 13,
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.5),
                             ),
-                            const SizedBox(width: 6),
+                            SizedBox(width: 6),
                             Expanded(
                               child: Text(
                                 leader.email,
                                 style: GoogleFonts.inter(
                                   fontSize: 12,
-                                  color: Colors.white.withValues(alpha: 0.5),
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.5),
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -567,13 +574,13 @@ class _DepartmentDetailsScreenState
             IconButton(
               icon: Icon(LucideIcons.userPlus, color: themeColor),
               onPressed: () => _showAddStaffDialog(themeColor),
-              tooltip: isArabic ? 'إضافة عضو' : 'Add Staff',
+              tooltip: t.extracted.add_staff,
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        SizedBox(height: 16),
         if (_isLoadingStaff)
-          const Center(child: CircularProgressIndicator())
+          Center(child: CircularProgressIndicator())
         else if (_staffList.isEmpty)
           GlassContainer(
             padding: const EdgeInsets.all(32),
@@ -583,24 +590,24 @@ class _DepartmentDetailsScreenState
                   Icon(
                     LucideIcons.users,
                     size: 48,
-                    color: Colors.white.withValues(alpha: 0.1),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.1),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   Text(
-                    isArabic
-                        ? 'لا يوجد أعضاء هيئة تدريس'
-                        : 'No faculty members assigned',
+                    t.extracted.no_faculty_members_assigned,
                     style: GoogleFonts.inter(
-                      color: Colors.white.withValues(alpha: 0.4),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.4),
                     ),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton.icon(
                     onPressed: () => _showAddStaffDialog(themeColor),
                     icon: const Icon(LucideIcons.plus, size: 16),
-                    label: Text(
-                      isArabic ? 'إضافة عضو هيئة تدريس' : 'Add Faculty',
-                    ),
+                    label: Text(t.extracted.add_faculty),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: themeColor,
                       foregroundColor: Colors.white,
@@ -647,7 +654,7 @@ class _DepartmentDetailsScreenState
                                   )
                                 : null,
                           ),
-                          const SizedBox(width: 14),
+                          SizedBox(width: 14),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -665,27 +672,30 @@ class _DepartmentDetailsScreenState
                                       ),
                                     ),
                                     if (isHead) ...[
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: 8),
                                       _buildRoleBadge(
-                                        isArabic ? 'رئيس' : 'Head',
+                                        t.extracted.head,
                                         themeColor,
                                       ),
                                     ],
                                     if (isAssistant) ...[
-                                      const SizedBox(width: 8),
+                                      SizedBox(width: 8),
                                       _buildRoleBadge(
-                                        isArabic ? 'مساعد' : 'Asst.',
+                                        t.extracted.asst,
                                         Colors.tealAccent,
                                       ),
                                     ],
                                   ],
                                 ),
-                                const SizedBox(height: 2),
+                                SizedBox(height: 2),
                                 Text(
                                   staff.email,
                                   style: GoogleFonts.inter(
                                     fontSize: 12,
-                                    color: Colors.white.withValues(alpha: 0.5),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.5),
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -701,7 +711,7 @@ class _DepartmentDetailsScreenState
                               ),
                               onPressed: () =>
                                   _confirmRemoveStaff(staff, themeColor),
-                              tooltip: isArabic ? 'إزالة' : 'Remove',
+                              tooltip: t.extracted.remove,
                             ),
                         ],
                       ),
@@ -766,7 +776,9 @@ class _DepartmentDetailsScreenState
                   child: Text(
                     t.admin.no_projects_added_yet,
                     style: GoogleFonts.inter(
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   ),
                 ),
@@ -815,7 +827,9 @@ class _DepartmentDetailsScreenState
                                 vertical: 4,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.1),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(
@@ -823,7 +837,8 @@ class _DepartmentDetailsScreenState
                                 style: GoogleFonts.inter(
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white.withValues(alpha: 0.7),
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.7),
                                 ),
                               ),
                             ),
@@ -837,14 +852,16 @@ class _DepartmentDetailsScreenState
                                     ? project.descriptionAr
                                     : project.descriptionEn)!
                                 .isNotEmpty) ...[
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Text(
                             (isArabic
                                 ? project.descriptionAr
                                 : project.descriptionEn)!,
                             style: GoogleFonts.inter(
                               fontSize: 13,
-                              color: Colors.white.withValues(alpha: 0.6),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.6),
                               height: 1.4,
                             ),
                           ),
@@ -873,11 +890,16 @@ class _DepartmentDetailsScreenState
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1E1E2E),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
-          title: Text(title, style: GoogleFonts.outfit(color: Colors.white)),
+          title: Text(
+            title,
+            style: GoogleFonts.outfit(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
           content: SizedBox(
             width: double.maxFinite,
             height: 400,
@@ -897,23 +919,22 @@ class _DepartmentDetailsScreenState
   }
 
   void _showAddStaffDialog(Color themeColor) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     showDialog(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1E1E2E),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           title: Row(
             children: [
               Icon(LucideIcons.userPlus, color: themeColor, size: 22),
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
               Text(
-                isArabic ? 'إضافة عضو هيئة تدريس' : 'Add Faculty Member',
+                t.extracted.add_faculty_member,
                 style: GoogleFonts.outfit(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -950,25 +971,25 @@ class _DepartmentDetailsScreenState
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1E1E2E),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(24),
           ),
           title: Text(
-            isArabic ? 'تأكيد الإزالة' : 'Confirm Removal',
-            style: GoogleFonts.outfit(color: Colors.white),
+            t.extracted.confirm_removal,
+            style: GoogleFonts.outfit(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           content: Text(
-            isArabic
-                ? 'هل تريد إزالة ${staff.fullName} من هذا القسم؟'
-                : 'Remove ${staff.fullName} from this department?',
+            t.extracted.remove_stafffullname_from_this_department,
             style: GoogleFonts.inter(color: Colors.white70),
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
               child: Text(
-                isArabic ? 'إلغاء' : 'Cancel',
+                t.extracted.cancel,
                 style: const TextStyle(color: Colors.white54),
               ),
             ),
@@ -987,7 +1008,7 @@ class _DepartmentDetailsScreenState
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: Text(isArabic ? 'إزالة' : 'Remove'),
+              child: Text(t.extracted.remove),
             ),
           ],
         );
@@ -1046,17 +1067,21 @@ class _UserSelectionList extends ConsumerWidget {
                     ? NetworkImage(user.avatarUrl!)
                     : null,
                 child: user.avatarUrl == null
-                    ? const Icon(LucideIcons.user, size: 20)
+                    ? Icon(LucideIcons.user, size: 20)
                     : null,
               ),
               title: Text(
                 user.fullName,
-                style: GoogleFonts.outfit(color: Colors.white),
+                style: GoogleFonts.outfit(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
               subtitle: Text(
                 user.email,
                 style: GoogleFonts.inter(
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
                   fontSize: 12,
                 ),
               ),

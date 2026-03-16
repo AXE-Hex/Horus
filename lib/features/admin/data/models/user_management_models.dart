@@ -7,6 +7,7 @@ class UserProfileModel {
   final String? fullNameAr;
   final String? avatarUrl;
   final List<UserRole> roles;
+  final String? gender;
   final String? studentId;
   final String? nationalId;
   final String? nationality;
@@ -30,6 +31,7 @@ class UserProfileModel {
     this.fullNameAr,
     this.avatarUrl,
     required this.roles,
+    this.gender,
     this.studentId,
     this.nationalId,
     this.nationality,
@@ -56,6 +58,7 @@ class UserProfileModel {
       fullNameAr: json['full_name_ar'] as String?,
       avatarUrl: json['avatar_url'] as String?,
       roles: _parseRoles(json),
+      gender: json['gender'] as String?,
       studentId: json['student_id'] as String?,
       nationalId: json['national_id'] as String?,
       nationality: json['nationality'] as String?,
@@ -137,6 +140,7 @@ class UserProfileModel {
     String? fullNameAr,
     String? avatarUrl,
     List<UserRole>? roles,
+    String? gender,
     String? studentId,
     String? nationalId,
     String? nationality,
@@ -160,6 +164,7 @@ class UserProfileModel {
       fullNameAr: fullNameAr ?? this.fullNameAr,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       roles: roles ?? this.roles,
+      gender: gender ?? this.gender,
       studentId: studentId ?? this.studentId,
       nationalId: nationalId ?? this.nationalId,
       nationality: nationality ?? this.nationality,

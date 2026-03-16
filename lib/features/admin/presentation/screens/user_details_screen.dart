@@ -59,7 +59,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     return GlassScaffold(
       appBar: AppBar(
         title: Text(
-          isArabic ? 'تفاصيل المستخدم' : 'User Details',
+          t.extracted.user_details,
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.w900,
             letterSpacing: -0.5,
@@ -101,7 +101,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Quick Actions
                 _buildSectionTitle(
                   LucideIcons.zap,
-                  isArabic ? 'إجراءات سريعة' : 'Quick Actions',
+                  t.extracted.quick_actions,
                   Colors.amberAccent,
                 ),
                 const SizedBox(height: 14),
@@ -111,7 +111,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Verification
                 _buildSectionTitle(
                   LucideIcons.shieldCheck,
-                  isArabic ? 'التوثيق' : 'Verification',
+                  t.extracted.verification,
                   const Color(0xFF10B981),
                 ),
                 const SizedBox(height: 14),
@@ -121,7 +121,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Ban Management
                 _buildSectionTitle(
                   LucideIcons.ban,
-                  isArabic ? 'الحظر' : 'Ban Management',
+                  t.extracted.ban_management,
                   const Color(0xFFEF4444),
                 ),
                 const SizedBox(height: 14),
@@ -131,7 +131,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Tags
                 _buildSectionTitle(
                   LucideIcons.tag,
-                  isArabic ? 'العلامات' : 'Tags',
+                  t.extracted.tags,
                   const Color(0xFF6366F1),
                 ),
                 const SizedBox(height: 14),
@@ -141,7 +141,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Warning Level
                 _buildSectionTitle(
                   LucideIcons.alertTriangle,
-                  isArabic ? 'مستوى التحذير' : 'Warning Level',
+                  t.extracted.warning_level,
                   Colors.orangeAccent,
                 ),
                 const SizedBox(height: 14),
@@ -151,7 +151,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Account Status
                 _buildSectionTitle(
                   LucideIcons.power,
-                  isArabic ? 'حالة الحساب' : 'Account Status',
+                  t.extracted.account_status,
                   const Color(0xFFF59E0B),
                 ),
                 const SizedBox(height: 14),
@@ -161,7 +161,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 // ── Danger Zone
                 _buildSectionTitle(
                   LucideIcons.alertOctagon,
-                  isArabic ? 'منطقة الخطر' : 'Danger Zone',
+                  t.extracted.danger_zone,
                   const Color(0xFFEF4444),
                 ),
                 const SizedBox(height: 14),
@@ -225,7 +225,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                     ],
                   ),
                   border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.15),
                     width: 3,
                   ),
                 ),
@@ -239,30 +241,37 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                           errorBuilder: (context, error, stackTrace) => Icon(
                             LucideIcons.user,
                             size: 36,
-                            color: Colors.white.withValues(alpha: 0.6),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                         ),
                       )
                     : Icon(
                         LucideIcons.user,
                         size: 36,
-                        color: Colors.white.withValues(alpha: 0.6),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
               ),
               Container(
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: _user.isActive
-                      ? const Color(0xFF10B981)
-                      : const Color(0xFFEF4444),
+                  color: _user.isActive ? Color(0xFF10B981) : Color(0xFFEF4444),
                   shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFF0A0A1A), width: 3),
+                  border: Border.all(
+                    color:
+                        (Theme.of(context).cardTheme.color ??
+                        Theme.of(context).cardColor),
+                    width: 3,
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           // Name
           Text(
             _user.fullName,
@@ -273,22 +282,26 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             textAlign: TextAlign.center,
           ),
           if (_user.fullNameAr != null && _user.fullNameAr!.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               _user.fullNameAr!,
               style: GoogleFonts.inter(
                 fontSize: 14,
-                color: Colors.white.withValues(alpha: 0.5),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.5),
               ),
             ),
           ],
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           // Email
           Text(
             _user.email,
             style: GoogleFonts.shareTechMono(
               fontSize: 13,
-              color: Colors.white.withValues(alpha: 0.4),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.4),
             ),
           ),
           const SizedBox(height: 14),
@@ -318,13 +331,13 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               if (_user.isVerified)
                 _buildBadge(
                   LucideIcons.badgeCheck,
-                  isArabic ? 'موثق' : 'Verified',
+                  t.extracted.verified,
                   const Color(0xFF10B981),
                 ),
               if (_user.isBanned)
                 _buildBadge(
                   LucideIcons.ban,
-                  isArabic ? 'محظور' : 'Banned',
+                  t.extracted.banned,
                   const Color(0xFFEF4444),
                 ),
               if (_user.mfaEnabled)
@@ -403,7 +416,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(icon, size: 16, color: color),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           Text(
             value,
             style: GoogleFonts.shareTechMono(
@@ -417,7 +430,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             label,
             style: GoogleFonts.outfit(
               fontSize: 10,
-              color: Colors.white.withValues(alpha: 0.35),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.35),
             ),
           ),
         ],
@@ -432,35 +447,35 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           child: _buildActionCard(
             icon: LucideIcons.power,
             label: _user.isActive
-                ? (isArabic ? 'تعطيل' : 'Deactivate')
-                : (isArabic ? 'تفعيل' : 'Activate'),
-            color: _user.isActive
-                ? const Color(0xFFF59E0B)
-                : const Color(0xFF10B981),
+                ? (t.extracted.deactivate)
+                : (t.extracted.activate),
+            color: _user.isActive ? Color(0xFFF59E0B) : Color(0xFF10B981),
             onTap: () => _toggleStatus(isArabic),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
         Expanded(
           child: _buildActionCard(
             icon: _user.isVerified
                 ? LucideIcons.shieldOff
                 : LucideIcons.shieldCheck,
             label: _user.isVerified
-                ? (isArabic ? 'إلغاء التوثيق' : 'Unverify')
-                : (isArabic ? 'توثيق' : 'Verify'),
-            color: const Color(0xFF10B981),
+                ? (t.extracted.unverify)
+                : (t.extracted.verify),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
             onTap: () => _toggleVerification(isArabic),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
         Expanded(
           child: _buildActionCard(
             icon: _user.isBanned ? LucideIcons.unlock : LucideIcons.ban,
-            label: _user.isBanned
-                ? (isArabic ? 'إلغاء الحظر' : 'Unban')
-                : (isArabic ? 'حظر' : 'Ban'),
-            color: const Color(0xFFEF4444),
+            label: _user.isBanned ? (t.extracted.unban) : (t.extracted.ban),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
             onTap: () => _toggleBan(isArabic),
           ),
         ),
@@ -519,43 +534,41 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _user.isVerified
-                  ? const Color(0xFF10B981).withValues(alpha: 0.15)
+                  ? Color(0xFF10B981).withValues(alpha: 0.15)
                   : Colors.white.withValues(alpha: 0.05),
             ),
             child: Icon(
               _user.isVerified ? LucideIcons.badgeCheck : LucideIcons.shieldOff,
               size: 22,
               color: _user.isVerified
-                  ? const Color(0xFF10B981)
+                  ? Color(0xFF10B981)
                   : Colors.white.withValues(alpha: 0.3),
             ),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   _user.isVerified
-                      ? (isArabic ? 'الحساب موثق' : 'Account Verified')
-                      : (isArabic ? 'الحساب غير موثق' : 'Not Verified'),
+                      ? (t.extracted.account_verified)
+                      : (t.extracted.not_verified),
                   style: GoogleFonts.outfit(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   _user.isVerified
-                      ? (isArabic
-                            ? 'تم التحقق من هوية المستخدم'
-                            : 'User identity has been verified')
-                      : (isArabic
-                            ? 'لم يتم التحقق بعد'
-                            : 'Identity not yet verified'),
+                      ? (t.extracted.user_identity_has_been_verified)
+                      : (t.extracted.identity_not_yet_verified),
                   style: GoogleFonts.inter(
                     fontSize: 12,
-                    color: Colors.white.withValues(alpha: 0.4),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
                 ),
               ],
@@ -578,7 +591,10 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       borderRadius: BorderRadius.circular(22),
       border: _user.isBanned
           ? Border.all(
-              color: const Color(0xFFEF4444).withValues(alpha: 0.3),
+              color:
+                  (Theme.of(context).cardTheme.color ??
+                          Theme.of(context).cardColor)
+                      .withValues(alpha: 0.3),
               width: 1.5,
             )
           : null,
@@ -590,46 +606,42 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _user.isBanned
-                  ? const Color(0xFFEF4444).withValues(alpha: 0.15)
+                  ? Color(0xFFEF4444).withValues(alpha: 0.15)
                   : Colors.white.withValues(alpha: 0.05),
             ),
             child: Icon(
               _user.isBanned ? LucideIcons.ban : LucideIcons.checkCircle2,
               size: 22,
               color: _user.isBanned
-                  ? const Color(0xFFEF4444)
+                  ? Color(0xFFEF4444)
                   : Colors.white.withValues(alpha: 0.3),
             ),
           ),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   _user.isBanned
-                      ? (isArabic ? 'المستخدم محظور' : 'User Banned')
-                      : (isArabic ? 'غير محظور' : 'Not Banned'),
+                      ? (t.extracted.user_banned)
+                      : (t.extracted.not_banned),
                   style: GoogleFonts.outfit(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: _user.isBanned
-                        ? const Color(0xFFEF4444)
-                        : Colors.white,
+                    color: _user.isBanned ? Color(0xFFEF4444) : Colors.white,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   _user.isBanned
-                      ? (isArabic
-                            ? 'المستخدم لا يمكنه الوصول للنظام'
-                            : 'User cannot access the system')
-                      : (isArabic
-                            ? 'المستخدم يمكنه الوصول بشكل طبيعي'
-                            : 'User has normal access'),
+                      ? (t.extracted.user_cannot_access_the_system)
+                      : (t.extracted.user_has_normal_access),
                   style: GoogleFonts.inter(
                     fontSize: 12,
-                    color: Colors.white.withValues(alpha: 0.4),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
                 ),
               ],
@@ -658,10 +670,12 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  isArabic ? 'لا توجد علامات' : 'No tags assigned',
+                  t.extracted.no_tags_assigned,
                   style: GoogleFonts.inter(
                     fontSize: 13,
-                    color: Colors.white.withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.3),
                   ),
                 ),
               ),
@@ -677,10 +691,16 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF6366F1).withValues(alpha: 0.12),
+                    color:
+                        (Theme.of(context).cardTheme.color ??
+                                Theme.of(context).cardColor)
+                            .withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: const Color(0xFF6366F1).withValues(alpha: 0.25),
+                      color:
+                          (Theme.of(context).cardTheme.color ??
+                                  Theme.of(context).cardColor)
+                              .withValues(alpha: 0.25),
                     ),
                   ),
                   child: Row(
@@ -689,24 +709,31 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                       Icon(
                         LucideIcons.tag,
                         size: 12,
-                        color: const Color(0xFF6366F1),
+                        color:
+                            (Theme.of(context).cardTheme.color ??
+                            Theme.of(context).cardColor),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       Text(
                         tag,
                         style: GoogleFonts.inter(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          color: const Color(0xFF6366F1),
+                          color:
+                              (Theme.of(context).cardTheme.color ??
+                              Theme.of(context).cardColor),
                         ),
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6),
                       GestureDetector(
                         onTap: () => _removeTag(tag, isArabic),
                         child: Icon(
                           LucideIcons.x,
                           size: 12,
-                          color: const Color(0xFF6366F1).withValues(alpha: 0.6),
+                          color:
+                              (Theme.of(context).cardTheme.color ??
+                                      Theme.of(context).cardColor)
+                                  .withValues(alpha: 0.6),
                         ),
                       ),
                     ],
@@ -714,20 +741,23 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 );
               }).toList(),
             ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () => _showAddTagDialog(isArabic),
-              icon: const Icon(LucideIcons.plus, size: 16),
+              icon: Icon(LucideIcons.plus, size: 16),
               label: Text(
-                isArabic ? 'إضافة علامة' : 'Add Tag',
+                t.extracted.add_tag,
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFF6366F1),
+                foregroundColor: Color(0xFF6366F1),
                 side: BorderSide(
-                  color: const Color(0xFF6366F1).withValues(alpha: 0.3),
+                  color:
+                      (Theme.of(context).cardTheme.color ??
+                              Theme.of(context).cardColor)
+                          .withValues(alpha: 0.3),
                 ),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
@@ -752,10 +782,12 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                isArabic ? 'المستوى الحالي' : 'Current Level',
+                t.extracted.current_level,
                 style: GoogleFonts.inter(
                   fontSize: 13,
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ),
               Text(
@@ -838,23 +870,23 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         children: [
           _buildDetailRow(
             LucideIcons.calendar,
-            isArabic ? 'تاريخ الإنشاء' : 'Created',
+            t.extracted.created,
             _formatDate(_user.createdAt),
           ),
           if (_user.lastLogin != null)
             _buildDetailRow(
               LucideIcons.logIn,
-              isArabic ? 'آخر تسجيل دخول' : 'Last Login',
+              t.extracted.last_login,
               _formatDate(_user.lastLogin!),
             ),
           _buildDetailRow(
             LucideIcons.globe,
-            isArabic ? 'الجنسية' : 'Nationality',
+            t.extracted.nationality,
             _user.nationality ?? '—',
           ),
           _buildDetailRow(
             LucideIcons.creditCard,
-            isArabic ? 'رقم الهوية' : 'National ID',
+            t.extracted.national_id,
             _user.nationalId ?? '—',
           ),
         ],
@@ -867,13 +899,21 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: Colors.white.withValues(alpha: 0.3)),
-          const SizedBox(width: 12),
+          Icon(
+            icon,
+            size: 16,
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.3),
+          ),
+          SizedBox(width: 12),
           Text(
             label,
             style: GoogleFonts.inter(
               fontSize: 13,
-              color: Colors.white.withValues(alpha: 0.5),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.5),
             ),
           ),
           const Spacer(),
@@ -891,16 +931,20 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: const Color(0xFFEF4444).withValues(alpha: 0.2)),
+      border: Border.all(
+        color:
+            (Theme.of(context).cardTheme.color ?? Theme.of(context).cardColor)
+                .withValues(alpha: 0.2),
+      ),
       child: Column(
         children: [
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: () => _confirmDeleteUser(isArabic, hardDelete: false),
-              icon: const Icon(LucideIcons.userX, size: 16),
+              icon: Icon(LucideIcons.userX, size: 16),
               label: Text(
-                isArabic ? 'تعطيل الحساب' : 'Soft Delete (Deactivate)',
+                t.extracted.soft_delete_deactivate,
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               style: OutlinedButton.styleFrom(
@@ -915,20 +959,20 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () => _confirmDeleteUser(isArabic, hardDelete: true),
-              icon: const Icon(LucideIcons.trash2, size: 16),
+              icon: Icon(LucideIcons.trash2, size: 16),
               label: Text(
-                isArabic ? 'حذف نهائي' : 'Permanently Delete',
+                t.extracted.permanently_delete,
                 style: GoogleFonts.inter(fontWeight: FontWeight.w700),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(
-                  0xFFEF4444,
-                ).withValues(alpha: 0.15),
+                backgroundColor: Theme.of(
+                  context,
+                ).scaffoldBackgroundColor.withValues(alpha: 0.15),
                 foregroundColor: const Color(0xFFEF4444),
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -994,15 +1038,11 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     final newVal = !_user.isVerified;
     _showConfirmDialog(
       title: newVal
-          ? (isArabic ? 'توثيق الحساب' : 'Verify Account')
-          : (isArabic ? 'إلغاء التوثيق' : 'Remove Verification'),
+          ? (t.extracted.verify_account)
+          : (t.extracted.remove_verification),
       message: newVal
-          ? (isArabic
-                ? 'هل تريد توثيق حساب ${_user.fullName}؟'
-                : 'Verify ${_user.fullName}\'s account?')
-          : (isArabic
-                ? 'هل تريد إلغاء توثيق حساب ${_user.fullName}؟'
-                : 'Remove verification from ${_user.fullName}?'),
+          ? (t.extracted.verify__userfullnames account?')
+          : (t.extracted.remove_verification_from__userfullname),
       confirmColor: const Color(0xFF10B981),
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
@@ -1023,16 +1063,10 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
   void _toggleBan(bool isArabic) {
     final newVal = !_user.isBanned;
     _showConfirmDialog(
-      title: newVal
-          ? (isArabic ? 'حظر المستخدم' : 'Ban User')
-          : (isArabic ? 'إلغاء الحظر' : 'Unban User'),
+      title: newVal ? (t.extracted.ban_user) : (t.extracted.unban_user),
       message: newVal
-          ? (isArabic
-                ? 'هل تريد حظر ${_user.fullName}؟ لن يتمكن من الوصول للنظام.'
-                : 'Ban ${_user.fullName}? They will lose system access.')
-          : (isArabic
-                ? 'هل تريد إلغاء حظر ${_user.fullName}؟'
-                : 'Unban ${_user.fullName}?'),
+          ? (t.extracted.ban__userfullname_they_will_lose_system_access)
+          : (t.extracted.unban__userfullname),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.toggleBan(_user.id, newVal);
@@ -1073,18 +1107,14 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       'Warning Level Changed',
       '${_user.fullName} warning level set to $level.',
     );
-    _showSuccessSnackBar(
-      isArabic
-          ? 'تم تحديث مستوى التحذير إلى $level'
-          : 'Warning level set to $level',
-    );
+    _showSuccessSnackBar(t.extracted.warning_level_set_to_level(level: level));
   }
 
   void _removeTag(String tag, bool isArabic) {
     final newTags = List<String>.from(_user.tags)..remove(tag);
     _controller.updateTags(_user.id, newTags);
     setState(() => _user = _user.copyWith(tags: newTags));
-    _showSuccessSnackBar(isArabic ? 'تم إزالة العلامة' : 'Tag removed');
+    _showSuccessSnackBar(t.extracted.tag_removed);
   }
 
   void _showAddTagDialog(bool isArabic) {
@@ -1092,29 +1122,35 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
-          isArabic ? 'إضافة علامة' : 'Add Tag',
+          t.extracted.add_tag,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
         ),
         content: TextField(
           controller: tagController,
           autofocus: true,
-          style: GoogleFonts.inter(color: Colors.white),
+          style: GoogleFonts.inter(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
           decoration: InputDecoration(
-            hintText: isArabic ? 'اسم العلامة' : 'Tag name',
+            hintText: t.extracted.tag_name,
             hintStyle: GoogleFonts.inter(color: Colors.white30),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(
-                color: Colors.white.withValues(alpha: 0.1),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
               ),
             ),
           ),
@@ -1123,7 +1159,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
-              isArabic ? 'إلغاء' : 'Cancel',
+              t.extracted.cancel,
               style: GoogleFonts.inter(color: Colors.white60),
             ),
           ),
@@ -1142,9 +1178,11 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               Navigator.pop(ctx);
             },
             child: Text(
-              isArabic ? 'إضافة' : 'Add',
+              t.extracted.add,
               style: GoogleFonts.inter(
-                color: const Color(0xFF6366F1),
+                color:
+                    (Theme.of(context).cardTheme.color ??
+                    Theme.of(context).cardColor),
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1157,15 +1195,11 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
   void _confirmDeleteUser(bool isArabic, {required bool hardDelete}) {
     _showConfirmDialog(
       title: hardDelete
-          ? (isArabic ? 'حذف نهائي' : 'Permanent Delete')
-          : (isArabic ? 'تعطيل الحساب' : 'Soft Delete'),
+          ? (t.extracted.permanent_delete)
+          : (t.extracted.soft_delete),
       message: hardDelete
-          ? (isArabic
-                ? 'هل أنت متأكد من حذف ${_user.fullName} نهائياً؟ لا يمكن التراجع!'
-                : 'Permanently delete ${_user.fullName}? This cannot be undone!')
-          : (isArabic
-                ? 'هل تريد تعطيل حساب ${_user.fullName}؟'
-                : 'Deactivate ${_user.fullName}\'s account?'),
+          ? (t.extracted.permanently_delete__userfullname_this_cannot_be_undone)
+          : (t.extracted.deactivate__userfullnames account?'),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);
@@ -1188,7 +1222,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           title,
@@ -1197,7 +1231,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         content: Text(
           message,
           style: GoogleFonts.inter(
-            color: Colors.white.withValues(alpha: 0.7),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.7),
             fontSize: 14,
           ),
         ),
@@ -1238,8 +1274,12 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       SnackBar(
         content: Row(
           children: [
-            const Icon(LucideIcons.checkCircle, color: Colors.white, size: 18),
-            const SizedBox(width: 10),
+            Icon(
+              LucideIcons.checkCircle,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: 18,
+            ),
+            SizedBox(width: 10),
             Flexible(
               child: Text(
                 message,
@@ -1248,7 +1288,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             ),
           ],
         ),
-        backgroundColor: const Color(0xFF10B981),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         margin: const EdgeInsets.all(16),

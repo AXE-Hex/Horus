@@ -11,7 +11,12 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:hue/core/data/supabase_providers.dart';
 import 'package:intl/intl.dart';
+
+final examScheduleProvider = FutureProvider.family<List<Map<String, dynamic>>, String>((ref, semester) async {
+  return await ref.read(academicRepositoryProvider).getExamSchedule(semester: semester);
+});
 
 class ExamScheduleScreen extends HookConsumerWidget {
   const ExamScheduleScreen({super.key});
@@ -22,46 +27,38 @@ class ExamScheduleScreen extends HookConsumerWidget {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
     final selectedDate = useState<DateTime?>(null);
+    final examsAsync = ref.watch(examScheduleProvider('Fall 2024')); // In a real app, 'Fall 2024' would come from user settings or active semester
 
-    // Dummy exam data
-    final exams = [
-      {
-        'id': 'CS402',
-        'subject': t.academic.artificial_intelligence,
-        'dateTime': DateTime.now().add(const Duration(days: 2, hours: 3)),
-        'seat': 'A-102',
-        'room': t.academic.hall_4,
-        'color': const Color(0xFF6366F1),
-        'icon': LucideIcons.brain,
-      },
-      {
-        'id': 'CS405',
-        'subject': t.academic.machine_learning,
-        'dateTime': DateTime.now().add(const Duration(days: 5, hours: 1)),
-        'seat': 'B-205',
-        'room': t.academic.lab_12,
-        'color': const Color(0xFF10B981),
-        'icon': LucideIcons.cpu,
-      },
-      {
-        'id': 'HU201',
-        'subject': t.academic.ethics_in_it,
-        'dateTime': DateTime.now().add(const Duration(days: 5, hours: 4)),
-        'seat': 'C-301',
-        'room': t.academic.lecture_hall_2,
-        'color': const Color(0xFFF59E0B),
-        'icon': LucideIcons.shieldCheck,
-      },
-      {
-        'id': 'MA101',
-        'subject': t.academic.mathematics,
-        'dateTime': DateTime.now().add(const Duration(days: 10, hours: 2)),
-        'seat': 'D-101',
-        'room': t.academic.hall_1,
-        'color': const Color(0xFFEC4899),
-        'icon': LucideIcons.functionSquare,
-      },
-    ];
+    return examsAsync.when(
+      data: (rawData) {
+        // Map backend data to local view format, assigning colors and icons based on subject/ID
+        final exams = rawData.map((e) {
+          final id = e['course_id'] as String? ?? 'N/A';
+          Color color = const Color(0xFF6366F1);
+          IconData icon = LucideIcons.book;
+          
+          if (id.startsWith('CS')) {
+            color = const Color(0xFF10B981);
+            icon = LucideIcons.cpu;
+          } else if (id.startsWith('HU')) {
+            color = const Color(0xFFF59E0B);
+            icon = LucideIcons.shieldCheck;
+          } else if (id.startsWith('MA')) {
+            color = const Color(0xFFEC4899);
+            icon = LucideIcons.functionSquare;
+          }
+
+          return {
+            'id': id,
+            'subject': e['subject'] as String? ?? t.academic.artificial_intelligence, // Ideally subject name is fetched, using fallback for now
+            'dateTime': DateTime.tryParse(e['exam_date']?.toString() ?? '') ?? DateTime.now(),
+            'seat': e['seat'] as String? ?? 'TBD',
+            'room': e['room'] as String? ?? 'TBD',
+            'color': color,
+            'icon': icon,
+          };
+        }).toList();
+
 
     final filteredExams = exams.where((exam) {
       if (selectedDate.value == null) return true;
@@ -106,10 +103,12 @@ class ExamScheduleScreen extends HookConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: _ExamCountdown(
-              nextExam: exams.first['dateTime'] as DateTime,
-              isArabic: isArabic,
-            ),
+            child: exams.isEmpty 
+              ? const SizedBox.shrink()
+              : _ExamCountdown(
+                  nextExam: exams.first['dateTime'] as DateTime,
+                  isArabic: isArabic,
+                ),
           ),
         ),
         SliverToBoxAdapter(
@@ -161,6 +160,10 @@ class ExamScheduleScreen extends HookConsumerWidget {
     );
 
     return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, stack) => Center(child: Text('Error loading exams: $err')),
+    );
   }
 }
 

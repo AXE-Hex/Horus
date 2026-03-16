@@ -28,7 +28,7 @@ class CollegesManagementScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.plus),
-            onPressed: () => _showAddCollegeDialog(context, ref),
+            onPressed: () => context.push('/admin/colleges/form'),
           ),
         ],
       ),
@@ -63,35 +63,21 @@ class CollegesManagementScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(30),
                       child: Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Theme.of(
-                                    context,
-                                  ).primaryColor.withValues(alpha: 0.2),
-                                  Theme.of(
-                                    context,
-                                  ).primaryColor.withValues(alpha: 0.05),
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(18),
-                              border: Border.all(
-                                color: Theme.of(
-                                  context,
-                                ).primaryColor.withValues(alpha: 0.1),
-                              ),
-                            ),
-                            child: Icon(
-                              LucideIcons.building,
-                              color: Theme.of(context).primaryColor,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
+                          college.imageUrl != null &&
+                                  college.imageUrl!.isNotEmpty
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(18),
+                                  child: Image.network(
+                                    college.imageUrl!,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (ctx, err, stack) =>
+                                        _buildFallbackIcon(context),
+                                  ),
+                                )
+                              : _buildFallbackIcon(context),
+                          SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +90,7 @@ class CollegesManagementScreen extends ConsumerWidget {
                                     letterSpacing: -0.4,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   (isArabic
                                           ? college.descriptionAr
@@ -112,12 +98,25 @@ class CollegesManagementScreen extends ConsumerWidget {
                                       '',
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
-                                    color: Colors.white.withValues(alpha: 0.4),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.4),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          _buildCircleButton(
+                            context,
+                            LucideIcons.edit2,
+                            Colors.white.withValues(alpha: 0.1),
+                            () => context.push(
+                              '/admin/colleges/form',
+                              extra: {'college': college},
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -143,91 +142,6 @@ class CollegesManagementScreen extends ConsumerWidget {
             },
           );
         },
-      ),
-    );
-  }
-
-  void _showAddCollegeDialog(BuildContext context, WidgetRef ref) {
-    _showCollegeFormDialog(context, ref);
-  }
-
-  void _showCollegeFormDialog(
-    BuildContext context,
-    WidgetRef ref, {
-    CollegeModel? college,
-  }) {
-    final nameEnController = TextEditingController(text: college?.nameEn);
-    final nameArController = TextEditingController(text: college?.nameAr);
-    final codeController = TextEditingController(text: college?.code);
-    final descEnController = TextEditingController(
-      text: college?.descriptionEn,
-    );
-    final descArController = TextEditingController(
-      text: college?.descriptionAr,
-    );
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(college == null ? 'Add College' : 'Edit College'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameEnController,
-                decoration: const InputDecoration(labelText: 'Name (EN)'),
-              ),
-              TextField(
-                controller: nameArController,
-                decoration: const InputDecoration(labelText: 'Name (AR)'),
-              ),
-              TextField(
-                controller: codeController,
-                decoration: const InputDecoration(labelText: 'Code'),
-              ),
-              TextField(
-                controller: descEnController,
-                decoration: const InputDecoration(
-                  labelText: 'Description (EN)',
-                ),
-              ),
-              TextField(
-                controller: descArController,
-                decoration: const InputDecoration(
-                  labelText: 'Description (AR)',
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final data = {
-                'name': nameEnController.text,
-                'name_en': nameEnController.text,
-                'name_ar': nameArController.text,
-                'code': codeController.text,
-                'description': descEnController.text,
-                'description_ar': descArController.text,
-              };
-              final repo = ref.read(institutionalRepositoryProvider);
-              if (college == null) {
-                await repo.createCollege(data);
-              } else {
-                await repo.updateCollege(college.id, data);
-              }
-              if (!context.mounted) return;
-              Navigator.pop(context);
-            },
-            child: Text(college == null ? 'Create' : 'Save'),
-          ),
-        ],
       ),
     );
   }
@@ -286,6 +200,34 @@ class CollegesManagementScreen extends ConsumerWidget {
             size: 18,
             color: iconColor ?? Colors.white.withValues(alpha: 0.7),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFallbackIcon(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Theme.of(context).primaryColor.withValues(alpha: 0.2),
+            Theme.of(context).primaryColor.withValues(alpha: 0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          LucideIcons.building,
+          color: Theme.of(context).primaryColor,
+          size: 28,
         ),
       ),
     );

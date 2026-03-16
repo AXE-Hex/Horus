@@ -443,9 +443,7 @@ class _QuickActionsRow extends ConsumerWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: const Color(0xFF10B981),
-        content: Text(
-          t.enrollment.preparing_pdf_statement,
-        ),
+        content: Text(t.enrollment.preparing_pdf_statement),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
@@ -524,8 +522,8 @@ class _FilterTabBar extends ConsumerWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: tabs.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
-        itemBuilder: (_, i) {
+        separatorBuilder: (context, index) => const SizedBox(width: 8),
+        itemBuilder: (context, i) {
           final tab = tabs[i];
           final isActive = selected == tab.value;
           return GestureDetector(
@@ -689,9 +687,7 @@ class _InvoiceCard extends ConsumerWidget {
       t.enrollment.mmm_dd_yyyy,
     ).format(invoice.createdAt);
     final dueDateStr = invoice.dueDate != null
-        ? DateFormat(
-            t.enrollment.mmm_dd_yyyy,
-          ).format(invoice.dueDate!)
+        ? DateFormat(t.enrollment.mmm_dd_yyyy).format(invoice.dueDate!)
         : null;
 
     final content = Padding(

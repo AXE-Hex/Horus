@@ -1,20 +1,21 @@
-import 'package:hue/core/i18n/strings.g.dart';
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+
+import 'package:hue/core/i18n/strings.g.dart';
 import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/features/feed/presentation/screens/feed_screen.dart';
+import 'package:hue/features/feed/domain/models/post_model.dart';
 import 'package:hue/features/onboarding/presentation/screens/colleges_screen.dart';
 import 'package:hue/features/students/presentation/screens/student_dashboard_screen.dart';
 import 'package:hue/features/admin/presentation/screens/administration_screen.dart';
-import 'package:hue/features/academic/presentation/screens/professor_dashboard_screen.dart';
-import 'package:hue/features/academic/data/repositories/professor_repository.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hue/features/admin/presentation/screens/staff_dashboard_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -23,287 +24,501 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen>
+    with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
+  late final AnimationController _navAnimController;
 
-  List<Widget> _buildTabs(UserRole role) {
-    final tabs = <Widget>[
-      const FeedScreen(),
-      const CollegesScreen(isOnboarding: false),
-    ];
-
-    if (role.isStudent || role == UserRole.superAdmin) {
-      tabs.add(const StudentDashboardScreen());
-    }
-
-    if (role.isTeachingStaff ||
-        role.isLeadership ||
-        role == UserRole.superAdmin) {
-      tabs.add(
-        Consumer(
-          builder: (context, ref, child) {
-            final profileAsync = ref.watch(professorProfileProvider);
-            return profileAsync.when(
-              data: (profile) => profile != null
-                  ? ProfessorDashboardScreen(profile: profile)
-                  : const Center(child: Text('Professor profile not found')),
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, st) =>
-                  Center(child: Text('Error loading profile: $e')),
-            );
-          },
-        ),
-      );
-    }
-
-    if (role.isAdmin) {
-      tabs.add(const AdministrationScreen(isStandalone: false));
-    }
-
-    return tabs;
-  }
-
-  List<NavigationDestination> _buildDestinations(bool isArabic, UserRole role) {
-    final destinations = <NavigationDestination>[
-      NavigationDestination(
-        icon: const Icon(LucideIcons.home),
-        label: t.home.home,
-      ),
-      NavigationDestination(
-        icon: const Icon(LucideIcons.graduationCap),
-        label: t.home.colleges,
-      ),
-    ];
-
-    if (role.isStudent || role == UserRole.superAdmin) {
-      destinations.add(
-        NavigationDestination(
-          icon: const Icon(LucideIcons.layoutDashboard),
-          label: t.home.student,
-        ),
-      );
-    }
-
-    if (role.isTeachingStaff ||
-        role.isLeadership ||
-        role == UserRole.superAdmin) {
-      destinations.add(
-        NavigationDestination(
-          icon: const Icon(LucideIcons.presentation),
-          label: t.home.prof,
-        ),
-      );
-    }
-
-    if (role.isAdmin) {
-      destinations.add(
-        NavigationDestination(
-          icon: const Icon(LucideIcons.shield),
-          label: t.home.admin,
-        ),
-      );
-    }
-
-    return destinations;
+  @override
+  void initState() {
+    super.initState();
+    _navAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    )..forward();
   }
 
   @override
-  Widget build(BuildContext context) {
+  void dispose() {
+    _navAnimController.dispose();
+    super.dispose();
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  TAB BUILDER  — builds the list of tabs per role
+  // ═══════════════════════════════════════════════════════════════════════════
+  List<_TabItem> _buildTabItems(UserRole role) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
+    final items = <_TabItem>[];
+
+    // 1. Feed — everyone
+    items.add(
+      _TabItem(
+        icon: LucideIcons.home,
+        label: t.home.home,
+        screen: const FeedScreen(),
+      ),
+    );
+
+    // 2. Colleges — everyone
+    items.add(
+      _TabItem(
+        icon: LucideIcons.graduationCap,
+        label: t.home.colleges,
+        screen: const CollegesScreen(isOnboarding: false),
+      ),
+    );
+
+    // 3. Student Dashboard
+    if (role.isStudent) {
+      items.add(
+        _TabItem(
+          icon: LucideIcons.layoutDashboard,
+          label: t.extracted.dashboard,
+          screen: const DashboardScreen(),
+        ),
+      );
+    }
+
+    // 4. Staff Dashboard (Teaching, Leadership, Advisors, Librarians, Registrars, Super Admin)
+    final hasStaffDashboard =
+        role.isTeachingStaff ||
+        role.isLeadership ||
+        role == UserRole.superAdmin ||
+        role == UserRole.registrarOfficer ||
+        role == UserRole.academicAdvisor ||
+        role == UserRole.librarian;
+
+    if (hasStaffDashboard) {
+      items.add(
+        _TabItem(
+          icon: LucideIcons.presentation,
+          label: t.extracted.dashboard,
+          screen: const StaffDashboardScreen(),
+        ),
+      );
+    }
+
+    // 4. Admin panel — admin and leadership roles
+    if (role.isAdmin || role.isLeadership) {
+      items.add(
+        _TabItem(
+          icon: LucideIcons.shield,
+          label: t.home.admin,
+          screen: const AdministrationScreen(isStandalone: false),
+        ),
+      );
+    }
+
+    return items;
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  BUILD
+  // ═══════════════════════════════════════════════════════════════════════════
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
     final authState = ref.watch(authControllerProvider);
     final role = authState.role;
-    final tabs = _buildTabs(role);
-    final destinations = _buildDestinations(isArabic, role);
+    final items = _buildTabItems(role);
 
-    if (_currentIndex >= tabs.length) {
-      _currentIndex = tabs.length - 1;
+    // Clamp index
+    if (_currentIndex >= items.length) {
+      _currentIndex = items.length - 1;
     }
 
-    final scaffold = GlassScaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text(
-          role.isAdmin
-              ? (t.home.admin_portal)
-              : (role.isTeachingStaff || role.isLeadership)
-              ? (t.home.faculty_portal)
-              : (t.home.student_portal),
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: Theme.of(context).primaryColor,
-          ),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        extendBody: isGlass,
+        backgroundColor: isGlass ? Colors.transparent : null,
+        appBar: _buildAppBar(theme, isDark, isGlass, role, items),
+        body: IndexedStack(
+          index: _currentIndex,
+          children: items.map((e) => e.screen).toList(),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(LucideIcons.settings),
-            onPressed: () => context.push('/settings'),
-          ),
-        ],
-        centerTitle: false,
-        elevation: 0,
-        backgroundColor: isGlass
-            ? Colors.transparent
-            : Theme.of(context).scaffoldBackgroundColor,
-        flexibleSpace: isGlass
-            ? GlassContainer(
-                borderRadius: BorderRadius.circular(0),
-                child: Container(),
-              )
-            : null,
+        bottomNavigationBar: _buildModernBottomNav(theme, isDark, items),
+        floatingActionButton: null,
       ),
-      body: IndexedStack(index: _currentIndex, children: tabs),
-      bottomNavigationBar: isGlass
-          ? null
-          : _buildNavigationBar(context, destinations, transparent: false),
-      floatingActionButton: _currentIndex == 0
-          ? FloatingActionButton(
-              onPressed: () {},
-              child: const Icon(LucideIcons.plus),
-            )
-          : null,
-    );
-
-    if (!isGlass) return scaffold;
-
-    return Stack(
-      children: [
-        scaffold,
-        Positioned(
-          bottom: 24,
-          left: 24,
-          right: 24,
-          child: _buildGlassDock(context, destinations),
-        ),
-      ],
     );
   }
 
-  Widget _buildGlassDock(
-    BuildContext context,
-    List<NavigationDestination> destinations,
-  ) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final itemWidth = constraints.maxWidth / destinations.length;
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  MODERN FAB
+  // ═══════════════════════════════════════════════════════════════════════════
 
-        return GlassContainer(
-          height: 70,
-          borderRadius: BorderRadius.circular(35),
-          blur: 35,
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.15),
-            width: 1.2,
-          ),
-          padding: EdgeInsets.zero,
-          child: Stack(
-            children: [
-              AnimatedPositionedDirectional(
-                duration: const Duration(milliseconds: 400),
-                curve: Curves.easeOutBack,
-                start: _currentIndex * itemWidth + 8,
-                top: 8,
-                bottom: 8,
-                width: itemWidth - 16,
-                child: Container(
+  void _showCreatePostMenu(BuildContext context, ThemeData theme, bool isDark) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: (isDark ? const Color(0xFF1E293B) : Colors.white)
+                  .withValues(alpha: 0.9),
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(28),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.12),
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.white.withValues(alpha: 0.05),
-                        blurRadius: 15,
-                        spreadRadius: -2,
-                      ),
-                    ],
+                    color: Colors.grey.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(destinations.length, (index) {
-                  final isSelected = _currentIndex == index;
-                  final item = destinations[index];
-                  final iconData = (item.icon as Icon).icon;
-
-                  return Expanded(
-                    child: GestureDetector(
-                      onTap: () => setState(() => _currentIndex = index),
-                      behavior: HitTestBehavior.opaque,
-                      child: Center(
-                        child: AnimatedScale(
-                          duration: const Duration(milliseconds: 300),
-                          scale: isSelected ? 1.0 : 0.9,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                    iconData,
-                                    color: isSelected
-                                        ? Colors.white
-                                        : Colors.white.withValues(alpha: 0.45),
-                                    size: isSelected ? 24 : 22,
-                                  )
-                                  .animate(target: isSelected ? 1 : 0)
-                                  .shimmer(
-                                    delay: 400.ms,
-                                    duration: 1200.ms,
-                                    color: Colors.white24,
-                                  ),
-                              if (isSelected)
-                                Text(
-                                      item.label,
-                                      style: GoogleFonts.outfit(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        fontSize: 10,
-                                      ),
-                                    )
-                                    .animate()
-                                    .fadeIn(duration: 200.ms)
-                                    .scale(
-                                      begin: const Offset(0.8, 0.8),
-                                      end: const Offset(1, 1),
-                                    ),
-                            ],
-                          ),
-                        ),
-                      ),
+                const SizedBox(height: 24),
+                Text(
+                  t.$meta.locale.languageCode == 'ar'
+                      ? 'إنشاء منشور جديد'
+                      : 'Create New Post',
+                  style: GoogleFonts.outfit(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildPostOption(
+                      icon: LucideIcons.type,
+                      label: t.$meta.locale.languageCode == 'ar'
+                          ? 'نص'
+                          : 'Text',
+                      color: Colors.blue,
+                      theme: theme,
+                      onTap: () {
+                        Navigator.pop(context);
+                        context.push(
+                          '/create-post',
+                          extra: {'type': PostType.text},
+                        );
+                      },
                     ),
-                  );
-                }),
-              ),
-            ],
+                    _buildPostOption(
+                      icon: LucideIcons.image,
+                      label: t.$meta.locale.languageCode == 'ar'
+                          ? 'صورة'
+                          : 'Image',
+                      color: Colors.purple,
+                      theme: theme,
+                      onTap: () {
+                        Navigator.pop(context);
+                        context.push(
+                          '/create-post',
+                          extra: {'type': PostType.image},
+                        );
+                      },
+                    ),
+                    _buildPostOption(
+                      icon: LucideIcons.megaphone,
+                      label: t.$meta.locale.languageCode == 'ar'
+                          ? 'إعلان'
+                          : 'Announcement',
+                      color: Colors.orange,
+                      theme: theme,
+                      onTap: () {
+                        Navigator.pop(context);
+                        context.push(
+                          '/create-post',
+                          extra: {'type': PostType.announcement},
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
-        ).animate().slideY(
-          begin: 1.5,
-          end: 0,
-          duration: 800.ms,
-          curve: Curves.easeOutQuart,
         );
       },
     );
   }
 
-  Widget _buildNavigationBar(
-    BuildContext context,
-    List<NavigationDestination> destinations, {
-    required bool transparent,
+  Widget _buildPostOption({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required ThemeData theme,
+    required VoidCallback onTap,
   }) {
-    return NavigationBar(
-      backgroundColor: transparent ? Colors.transparent : null,
-      indicatorColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
-      elevation: transparent ? 0 : 3,
-      selectedIndex: _currentIndex,
-      onDestinationSelected: (index) {
-        setState(() {
-          _currentIndex = index;
-        });
-      },
-      destinations: destinations,
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.1),
+              shape: BoxShape.circle,
+              border: Border.all(color: color.withValues(alpha: 0.3)),
+            ),
+            child: Icon(icon, color: color, size: 28),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w600),
+          ),
+        ],
+      ).animate().fadeIn().scale(),
     );
   }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  APP BAR
+  // ═══════════════════════════════════════════════════════════════════════════
+  PreferredSizeWidget _buildAppBar(
+    ThemeData theme,
+    bool isDark,
+    bool isGlass,
+    UserRole role,
+    List<_TabItem> items,
+  ) {
+    final portalTitle = items.isNotEmpty && _currentIndex < items.length
+        ? items[_currentIndex].label
+        : t.home.home;
+
+    return AppBar(
+      automaticallyImplyLeading: false,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      backgroundColor: isGlass
+          ? Colors.transparent
+          : theme.scaffoldBackgroundColor,
+      flexibleSpace: isGlass
+          ? ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+                child: Container(
+                  color: theme.scaffoldBackgroundColor.withValues(
+                    alpha: isDark ? 0.5 : 0.7,
+                  ),
+                ),
+              ),
+            )
+          : null,
+      title: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  theme.primaryColor.withValues(alpha: 0.15),
+                  theme.primaryColor.withValues(alpha: 0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              items.isNotEmpty && _currentIndex < items.length
+                  ? items[_currentIndex].icon
+                  : LucideIcons.home,
+              color: theme.primaryColor,
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              portalTitle,
+              style: GoogleFonts.outfit(
+                fontWeight: FontWeight.w800,
+                fontSize: 20,
+                color: theme.textTheme.bodyLarge?.color,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        if (_currentIndex == 0)
+          Container(
+            margin: const EdgeInsets.only(right: 8),
+            decoration: BoxDecoration(
+              color: theme.primaryColor.withValues(alpha: 0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IconButton(
+              icon: Icon(
+                LucideIcons.plus,
+                size: 20,
+                color: theme.primaryColor,
+              ),
+              onPressed: () => _showCreatePostMenu(context, theme, isDark),
+              splashRadius: 22,
+            ),
+          ),
+        Container(
+          margin: const EdgeInsets.only(right: 12),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.05),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            icon: Icon(
+              LucideIcons.settings,
+              size: 20,
+              color: theme.iconTheme.color?.withValues(alpha: 0.7),
+            ),
+            onPressed: () => context.push('/settings'),
+            splashRadius: 22,
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  //  MODERN BOTTOM NAVIGATION (TASKBAR)
+  // ═══════════════════════════════════════════════════════════════════════════
+  Widget _buildModernBottomNav(
+    ThemeData theme,
+    bool isDark,
+    List<_TabItem> items,
+  ) {
+    return Container(
+          margin: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
+          decoration: BoxDecoration(
+            color: (isDark ? const Color(0xFF1E293B) : Colors.white).withValues(
+              alpha: 0.85,
+            ),
+            borderRadius: BorderRadius.circular(32),
+            border: Border.all(
+              color: (isDark ? Colors.white : Colors.black).withValues(
+                alpha: 0.1,
+              ),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.1),
+                blurRadius: 30,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: SafeArea(
+                top: false,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List.generate(items.length, (i) {
+                      final isSelected = _currentIndex == i;
+                      final item = items[i];
+
+                      // If we have a FAB in the middle and enough items to surround it
+                      // we can add a spacer here if we wanted a notched look,
+                      // but floating taskbars often just distribute items evenly.
+
+                      return GestureDetector(
+                        onTap: () {
+                          if (_currentIndex != i) {
+                            HapticFeedback.selectionClick();
+                            setState(() => _currentIndex = i);
+                          }
+                        },
+                        behavior: HitTestBehavior.opaque,
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeOutCubic,
+                          padding: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: isSelected ? 20 : 16,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? theme.primaryColor.withValues(alpha: 0.15)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AnimatedScale(
+                                scale: isSelected ? 1.1 : 1.0,
+                                duration: const Duration(milliseconds: 250),
+                                curve: Curves.easeOutBack,
+                                child: Icon(
+                                  item.icon,
+                                  size: 22,
+                                  color: isSelected
+                                      ? theme.primaryColor
+                                      : theme.iconTheme.color?.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                ),
+                              ),
+                              if (isSelected) ...[
+                                const SizedBox(width: 8),
+                                AnimatedOpacity(
+                                  opacity: isSelected ? 1.0 : 0.0,
+                                  duration: const Duration(milliseconds: 200),
+                                  child: Text(
+                                    item.label,
+                                    style: GoogleFonts.outfit(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w700,
+                                      color: theme.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        )
+        .animate()
+        .slideY(
+          begin: 1.0,
+          end: 0,
+          duration: 800.ms,
+          curve: Curves.easeOutQuart,
+        )
+        .fadeIn(duration: 500.ms);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+//  TAB ITEM MODEL
+// ═══════════════════════════════════════════════════════════════════════════════
+class _TabItem {
+  final IconData icon;
+  final String label;
+  final Widget screen;
+
+  const _TabItem({
+    required this.icon,
+    required this.label,
+    required this.screen,
+  });
 }

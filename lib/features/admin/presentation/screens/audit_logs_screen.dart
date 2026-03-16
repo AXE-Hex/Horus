@@ -153,12 +153,14 @@ class _AuditLogCard extends StatelessWidget {
                           dateFormat.format(log.createdAt),
                           style: GoogleFonts.inter(
                             fontSize: 12,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.5),
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     _InfoRow(
                       icon: LucideIcons.user,
@@ -173,10 +175,13 @@ class _AuditLogCard extends StatelessWidget {
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.15),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.15),
                                 borderRadius: BorderRadius.circular(4),
                                 border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.05),
+                                  color: Theme.of(context).colorScheme.onSurface
+                                      .withValues(alpha: 0.05),
                                 ),
                               ),
                               child: Text(
@@ -192,7 +197,7 @@ class _AuditLogCard extends StatelessWidget {
                     ),
 
                     if (log.tableName != null) ...[
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       _InfoRow(
                         icon: LucideIcons.database,
                         label: t.administration.audit_logs.labels.table,
@@ -201,7 +206,7 @@ class _AuditLogCard extends StatelessWidget {
                     ],
 
                     if (log.recordId != null) ...[
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       _InfoRow(
                         icon: LucideIcons.fileKey2,
                         label: t.administration.audit_logs.labels.record,
@@ -210,15 +215,19 @@ class _AuditLogCard extends StatelessWidget {
                     ],
 
                     if (log.notes != null && log.notes!.isNotEmpty) ...[
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.05),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.1),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.1),
                           ),
                         ),
                         child: Column(
@@ -232,12 +241,12 @@ class _AuditLogCard extends StatelessWidget {
                                 color: Colors.white70,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Text(
                               log.notes!,
                               style: GoogleFonts.inter(
                                 fontSize: 14,
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                             ),
                           ],
@@ -246,12 +255,12 @@ class _AuditLogCard extends StatelessWidget {
                     ],
 
                     if (log.oldData != null || log.newData != null) ...[
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton.icon(
                           onPressed: () => _showDataDialog(context, log),
-                          icon: const Icon(LucideIcons.fileJson, size: 16),
+                          icon: Icon(LucideIcons.fileJson, size: 16),
                           label: Text(
                             t.administration.audit_logs.labels.view_details,
                           ),
@@ -274,10 +283,10 @@ class _AuditLogCard extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E2C),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: Text(
           t.administration.audit_logs.labels.view_details,
-          style: const TextStyle(color: Colors.white),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
         content: SizedBox(
           width: double.maxFinite,
@@ -391,7 +400,7 @@ class _InfoRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(icon, size: 16, color: Colors.white54),
-        const SizedBox(width: 8),
+        SizedBox(width: 8),
         Expanded(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -399,7 +408,10 @@ class _InfoRow extends StatelessWidget {
               Flexible(
                 child: RichText(
                   text: TextSpan(
-                    style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                     children: [
                       TextSpan(
                         text: '$label: ',

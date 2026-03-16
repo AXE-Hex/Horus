@@ -68,7 +68,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return isGlass
         ? GlassScaffold(body: _buildBody(context, isArabic, isGlass))
         : Scaffold(
-            backgroundColor: const Color(0xFF0A0A1A),
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             body: _buildBody(context, isArabic, isGlass),
           );
   }
@@ -83,24 +83,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               // ── Account Section ──
-              _buildSectionHeader(
-                isArabic ? 'الحساب الشخصي' : 'Account',
-                LucideIcons.userCircle,
-              ),
+              _buildSectionHeader(t.extracted.account, LucideIcons.userCircle),
               _buildAccountSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
               // ── Appearance Section ──
-              _buildSectionHeader(
-                isArabic ? 'المظهر' : 'Appearance',
-                LucideIcons.palette,
-              ),
+              _buildSectionHeader(t.extracted.appearance, LucideIcons.palette),
               _buildAppearanceSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
               // ── Notifications Section ──
               _buildSectionHeader(
-                isArabic ? 'الإشعارات' : 'Notifications',
+                t.extracted.notifications,
                 LucideIcons.bellRing,
               ),
               _buildNotificationsSection(context, isArabic, isGlass),
@@ -108,7 +102,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
               // ── Language Section ──
               _buildSectionHeader(
-                isArabic ? 'اللغة والمنطقة' : 'Language & Region',
+                t.extracted.language_region,
                 LucideIcons.globe,
               ),
               _buildLanguageSection(context, isArabic, isGlass),
@@ -116,17 +110,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
 
               // ── Support & Feedback Section ──
               _buildSectionHeader(
-                isArabic ? 'الدعم والتواصل' : 'Support & Feedback',
+                t.extracted.support_feedback,
                 LucideIcons.lifeBuoy,
               ),
               _buildSupportSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
               // ── About Section ──
-              _buildSectionHeader(
-                isArabic ? 'حول التطبيق' : 'About',
-                LucideIcons.info,
-              ),
+              _buildSectionHeader(t.extracted.about, LucideIcons.info),
               _buildAboutSection(context, isArabic, isGlass),
               const SizedBox(height: 40),
 
@@ -162,8 +153,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
           child: IconButton(
             icon: const Icon(LucideIcons.arrowLeft),
-            color: Colors.white,
-            onPressed: () => context.pop(),
+            color: Theme.of(context).colorScheme.onSurface,
+            onPressed: () {
+              context.go('/home');
+            },
           ),
         ),
       ),
@@ -181,35 +174,41 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF1A0533),
+                    Color(0xFF1A0533),
                     themeColor.withValues(alpha: 0.8),
-                    const Color(0xFF0D1B2A),
+                    Color(0xFF0D1B2A),
                   ],
                   stops: const [0.0, 0.5, 1.0],
                 ),
               ),
             ),
             if (isGlass)
-              Positioned.fill(child: CustomPaint(painter: _ParticlesPainter())),
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: CustomPaint(painter: _ParticlesPainter()),
+                ),
+              ),
             // animated glow
             Positioned(
               right: isArabic ? null : -60,
               left: isArabic ? -60 : null,
               top: -60,
-              child: AnimatedBuilder(
-                animation: _glowController,
-                builder: (_, __) => Container(
-                  width: 250,
-                  height: 250,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        themeColor.withValues(
-                          alpha: 0.15 + 0.1 * _glowController.value,
-                        ),
-                        Colors.transparent,
-                      ],
+              child: IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: _glowController,
+                  builder: (_, __) => Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          themeColor.withValues(
+                            alpha: 0.15 + 0.1 * _glowController.value,
+                          ),
+                          Colors.transparent,
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -219,18 +218,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               right: isArabic ? null : -40,
               left: isArabic ? -40 : null,
               top: -40,
-              child: Opacity(
-                opacity: 0.07,
-                child: Icon(
-                  LucideIcons.settings,
-                  size: 260,
-                  color: Colors.white,
-                ),
-              ).animate().rotate(duration: 20.seconds, curve: Curves.linear),
+              child: IgnorePointer(
+                child: Opacity(
+                  opacity: 0.07,
+                  child: Icon(
+                    LucideIcons.settings,
+                    size: 260,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ).animate().rotate(duration: 20.seconds, curve: Curves.linear),
+              ),
             ),
             SafeArea(
               child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: NeverScrollableScrollPhysics(),
                 reverse: true,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -247,7 +248,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: LinearGradient(
-                                  colors: [themeColor, const Color(0xFF10B981)],
+                                  colors: [themeColor, Color(0xFF10B981)],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
@@ -261,7 +262,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                               ),
                               child: Container(
                                 padding: const EdgeInsets.all(3),
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Color(0xFF0D1B2A),
                                 ),
@@ -274,10 +275,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                                       ? NetworkImage(auth.avatarUrl!)
                                       : null,
                                   child: auth.avatarUrl == null
-                                      ? const Icon(
+                                      ? Icon(
                                           LucideIcons.userCircle2,
                                           size: 55,
-                                          color: Colors.white70,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface
+                                              .withValues(alpha: 0.7),
                                         )
                                       : null,
                                 ),
@@ -296,14 +300,18 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                                   color: themeColor,
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: const Color(0xFF0D1B2A),
+                                    color:
+                                        (Theme.of(context).cardTheme.color ??
+                                        Theme.of(context).cardColor),
                                     width: 2.5,
                                   ),
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   LucideIcons.camera,
                                   size: 16,
-                                  color: Colors.white,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                 ),
                               ),
                             ),
@@ -311,31 +319,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                         ),
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
                     Text(
                           auth.fullName ?? t.settings.user,
                           style: GoogleFonts.outfit(
                             fontSize: 26,
                             fontWeight: FontWeight.w900,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                             letterSpacing: -0.5,
                           ),
                         )
                         .animate()
                         .fadeIn(delay: 200.ms)
                         .slideY(begin: 0.2, end: 0),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                           auth.user?.email ?? '',
                           style: GoogleFonts.inter(
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.55),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.55),
                           ),
                         )
                         .animate()
                         .fadeIn(delay: 300.ms)
                         .slideY(begin: 0.2, end: 0),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
@@ -351,12 +361,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             LucideIcons.shield,
                             size: 13,
                             color: Colors.greenAccent,
                           ),
-                          const SizedBox(width: 7),
+                          SizedBox(width: 7),
                           Text(
                             auth.role.displayName(
                               isArabic:
@@ -364,7 +374,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                             ),
                             style: GoogleFonts.outfit(
                               fontSize: 12,
-                              color: Colors.white,
+                              color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.w600,
                               letterSpacing: 0.8,
                             ),
@@ -397,7 +407,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             ),
             child: Icon(icon, size: 16, color: primaryColor),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Text(
             title,
             style: GoogleFonts.outfit(
@@ -420,17 +430,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return GlassContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+      ),
       child: Column(
         children: [
           _buildSettingItem(
             context: context,
             icon: LucideIcons.userCog,
             iconColor: const Color(0xFF6366F1),
-            title: isArabic ? 'تعديل الملف الشخصي' : 'Edit Profile',
-            subtitle: isArabic
-                ? 'تحديث معلوماتك وبياناتك الشخصية'
-                : 'Update your personal info and photo',
+            title: t.extracted.edit_profile,
+            subtitle: t.extracted.update_your_personal_info_and_photo,
             isGlass: isGlass,
             onTap: () => context.push('/profile'),
           ),
@@ -439,10 +449,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.unlock,
             iconColor: Colors.orangeAccent,
-            title: isArabic ? 'استعادة كلمة المرور' : 'Password Recovery',
-            subtitle: isArabic
-                ? 'إرسال رابط استعادة كلمة المرور لبريدك الإلكتروني'
-                : 'Send password recovery link to your email',
+            title: t.extracted.password_recovery,
+            subtitle: t.extracted.send_password_recovery_link_to_your_emai,
             isGlass: isGlass,
             onTap: () => context.push('/forgot-password'),
           ),
@@ -459,17 +467,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return GlassContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+      ),
       child: Column(
         children: [
           _buildSettingItem(
             context: context,
             icon: LucideIcons.moonStar,
             iconColor: const Color(0xFF7C3AED),
-            title: isArabic ? 'الوضع المظلم' : 'Dark Mode',
-            subtitle: isArabic
-                ? 'التبديل بين الوضع الداكن والفاتح'
-                : 'Toggle between dark and light mode',
+            title: t.extracted.dark_mode,
+            subtitle: t.extracted.toggle_between_dark_and_light_mode,
             isGlass: isGlass,
             trailing: Consumer(
               builder: (context, ref, _) {
@@ -491,12 +499,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.sparkles,
             iconColor: Colors.pinkAccent,
-            title: isArabic ? 'نمط الواجهة' : 'UI Style',
+            title: t.extracted.ui_style,
             subtitle: isGlass
-                ? (isArabic ? 'الحالي: تصميم الزجاج' : 'Current: Glass Design')
-                : (isArabic
-                      ? 'الحالي: التصميم الكلاسيكي'
-                      : 'Current: Classic Design'),
+                ? (t.extracted.current_glass_design)
+                : (t.extracted.current_classic_design),
             isGlass: isGlass,
             onTap: _handleStyleSwitch,
             trailing: Container(
@@ -509,7 +515,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
               ),
               child: Text(
-                isArabic ? 'تبديل' : 'Switch',
+                t.extracted.kSwitch,
                 style: GoogleFonts.outfit(
                   fontSize: 11,
                   fontWeight: FontWeight.bold,
@@ -524,10 +530,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               context: context,
               icon: LucideIcons.batteryCharging,
               iconColor: Colors.greenAccent,
-              title: isArabic ? 'وضع توفير البطارية' : 'Battery Saver Mode',
-              subtitle: isArabic
-                  ? 'تعطيل التأثيرات البصرية لأداء أفضل'
-                  : 'Disable complex visual effects',
+              title: t.extracted.battery_saver_mode,
+              subtitle: t.extracted.disable_complex_visual_effects,
               isGlass: isGlass,
               trailing: Consumer(
                 builder: (context, ref, _) {
@@ -559,17 +563,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return GlassContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+      ),
       child: Column(
         children: [
           _buildSettingItem(
             context: context,
             icon: LucideIcons.bellRing,
             iconColor: Colors.redAccent,
-            title: isArabic ? 'إشعارات التطبيق' : 'App Notifications',
+            title: t.extracted.app_notifications,
             subtitle: _notificationsEnabled
-                ? (isArabic ? 'الإشعارات مفعّلة' : 'Notifications are active')
-                : (isArabic ? 'الإشعارات موقوفة' : 'Notifications are off'),
+                ? (t.extracted.notifications_are_active)
+                : (t.extracted.notifications_are_off),
             isGlass: isGlass,
             trailing: _buildSwitch(
               value: _notificationsEnabled,
@@ -582,10 +588,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.bell,
             iconColor: Colors.amberAccent,
-            title: isArabic ? 'مركز الإشعارات' : 'Notification Center',
-            subtitle: isArabic
-                ? 'عرض جميع الإشعارات والتنبيهات'
-                : 'View all your notifications',
+            title: t.extracted.notification_center,
+            subtitle: t.extracted.view_all_your_notifications,
             isGlass: isGlass,
             onTap: () => context.push('/notifications'),
           ),
@@ -594,10 +598,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.bellDot,
             iconColor: Colors.orangeAccent,
-            title: isArabic ? 'اختبار الإشعارات' : 'Test Notification',
-            subtitle: isArabic
-                ? 'إرسال إشعار تجريبي'
-                : 'Send a test notification',
+            title: t.extracted.test_notification,
+            subtitle: t.extracted.send_a_test_notification,
             isGlass: isGlass,
             onTap: () {
               HapticFeedback.lightImpact();
@@ -605,21 +607,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(
+                      Icon(
                         LucideIcons.bellRing,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurface,
                         size: 18,
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
                       Text(
-                        isArabic
-                            ? 'تم إرسال الإشعار بنجاح!'
-                            : 'Test notification sent!',
+                        t.extracted.test_notification_sent,
                         style: GoogleFonts.outfit(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
-                  backgroundColor: const Color(0xFF6366F1),
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
@@ -642,12 +642,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return GlassContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+      ),
       child: _buildSettingItem(
         context: context,
         icon: LucideIcons.languages,
         iconColor: Colors.tealAccent,
-        title: isArabic ? 'لغة التطبيق' : 'App Language',
+        title: t.extracted.app_language,
         subtitle: _getLanguageName(LocaleSettings.currentLocale.languageCode),
         isGlass: isGlass,
         onTap: () => _showLanguageSelector(context, ref),
@@ -663,7 +665,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return GlassContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+      ),
       child: Column(
         children: [
           // Support Center
@@ -671,10 +675,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.lifeBuoy,
             iconColor: Colors.cyanAccent,
-            title: isArabic ? 'مركز الدعم والمساعدة' : 'Support Center',
-            subtitle: isArabic
-                ? 'تواصل معنا لحل أي مشكلة'
-                : 'Get help and resolve any issues',
+            title: t.extracted.support_center,
+            subtitle: t.extracted.get_help_and_resolve_any_issues,
             isGlass: isGlass,
             onTap: () => _showSupportDialog(context, isArabic),
           ),
@@ -684,10 +686,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.messageSquare,
             iconColor: const Color(0xFF8B5CF6),
-            title: isArabic ? 'إرسال ملاحظة' : 'Send Feedback',
-            subtitle: isArabic
-                ? 'شاركنا رأيك لتحسين التطبيق'
-                : 'Share your thoughts to help improve the app',
+            title: t.extracted.send_feedback,
+            subtitle: t.extracted.share_your_thoughts_to_help_improve_the_,
             isGlass: isGlass,
             onTap: () => _showFeedbackDialog(context, isArabic, isGlass),
           ),
@@ -697,18 +697,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.star,
             iconColor: Colors.amberAccent,
-            title: isArabic ? 'تقييم التطبيق' : 'Rate the App',
-            subtitle: isArabic ? '⭐ دعمك يهمنا' : '⭐ Your support matters',
+            title: t.extracted.rate_the_app,
+            subtitle: t.extracted.your_support_matters,
             isGlass: isGlass,
             onTap: () {
               HapticFeedback.lightImpact();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(
-                    isArabic
-                        ? 'شكراً على دعمك! 🎉'
-                        : 'Thank you for your support! 🎉',
-                  ),
+                  content: Text(t.extracted.thank_you_for_your_support),
                   backgroundColor: Colors.amberAccent.shade700,
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
@@ -728,17 +724,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return GlassContainer(
       padding: EdgeInsets.zero,
       borderRadius: BorderRadius.circular(22),
-      border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+      border: Border.all(
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
+      ),
       child: Column(
         children: [
           _buildSettingItem(
             context: context,
             icon: LucideIcons.info,
             iconColor: const Color(0xFF4F46E5),
-            title: isArabic ? 'حول التطبيق' : 'About App',
-            subtitle: isArabic
-                ? 'تفاصيل الإصدار والمطورين'
-                : 'Version details and developer info',
+            title: t.extracted.about_app,
+            subtitle: t.extracted.version_details_and_developer_info,
             isGlass: isGlass,
             onTap: () => context.push('/about'),
           ),
@@ -747,10 +743,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             context: context,
             icon: LucideIcons.shieldAlert,
             iconColor: Colors.grey,
-            title: isArabic ? 'سياسة الخصوصية' : 'Privacy Policy',
-            subtitle: isArabic
-                ? 'شروط وقواعد استخدام بياناتك'
-                : 'Terms and rules for data usage',
+            title: t.extracted.privacy_policy,
+            subtitle: t.extracted.terms_and_rules_for_data_usage,
             isGlass: isGlass,
             onTap: () => context.push('/privacy-policy'),
           ),
@@ -789,7 +783,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  isArabic ? 'تسجيل الخروج' : 'Log Out',
+                  t.extracted.log_out,
                   style: GoogleFonts.outfit(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -839,7 +833,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
                 child: Icon(icon, color: iconColor, size: 22),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -853,7 +847,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       ),
                     ),
                     if (subtitle != null) ...[
-                      const SizedBox(height: 3),
+                      SizedBox(height: 3),
                       Text(
                         subtitle,
                         style: GoogleFonts.inter(
@@ -867,14 +861,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
               if (trailing != null)
                 trailing
               else if (onTap != null)
                 Container(
                   padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.05),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -919,13 +915,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       backgroundColor: Colors.transparent,
       builder: (ctx) => Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          border: Border.all(
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.1),
+          ),
         ),
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 48),
         child: Column(
@@ -935,11 +935,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               width: 48,
               height: 5,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             Row(
               children: [
                 Container(
@@ -948,60 +950,66 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     color: Colors.cyanAccent.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     LucideIcons.lifeBuoy,
                     color: Colors.cyanAccent,
                     size: 26,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 16),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isArabic ? 'مركز الدعم' : 'Support Center',
+                      t.extracted.support_center,
                       style: GoogleFonts.outfit(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     Text(
-                      isArabic ? 'كيف يمكننا مساعدتك؟' : 'How can we help you?',
+                      t.extracted.how_can_we_help_you,
                       style: GoogleFonts.inter(
                         fontSize: 13,
-                        color: Colors.white.withValues(alpha: 0.5),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.5),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
             _supportOption(
               ctx,
               icon: LucideIcons.mail,
-              color: const Color(0xFF6366F1),
-              title: isArabic ? 'البريد الإلكتروني' : 'Email Support',
+              color:
+                  (Theme.of(context).cardTheme.color ??
+                  Theme.of(context).cardColor),
+              title: t.extracted.email_support,
               subtitle: 'support@hue.university',
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             _supportOption(
               ctx,
               icon: LucideIcons.phone,
-              color: const Color(0xFF10B981),
-              title: isArabic ? 'خط الدعم الساخن' : 'Call Hotline',
-              subtitle: isArabic ? '+20 10 0000 0000' : '+20 10 0000 0000',
+              color:
+                  (Theme.of(context).cardTheme.color ??
+                  Theme.of(context).cardColor),
+              title: t.extracted.call_hotline,
+              subtitle: t.extracted.20_10_0000_0000,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             _supportOption(
               ctx,
               icon: LucideIcons.messageCircle,
-              color: const Color(0xFF25D366),
+              color:
+                  (Theme.of(context).cardTheme.color ??
+                  Theme.of(context).cardColor),
               title: 'WhatsApp',
-              subtitle: isArabic
-                  ? 'تواصل معنا عبر واتساب'
-                  : 'Chat with us on WhatsApp',
+              subtitle: t.extracted.chat_with_us_on_whatsapp,
             ),
           ],
         ),
@@ -1041,7 +1049,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 ),
                 child: Icon(icon, color: color, size: 20),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: 14),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1050,14 +1058,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     style: GoogleFonts.outfit(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   Text(
                     subtitle,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: Colors.white.withValues(alpha: 0.5),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.5),
                     ),
                   ),
                 ],
@@ -1087,7 +1097,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           ),
           child: Container(
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
@@ -1095,7 +1105,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(28),
               ),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+              border: Border.all(
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.1),
+              ),
             ),
             padding: const EdgeInsets.fromLTRB(24, 12, 24, 48),
             child: Column(
@@ -1105,44 +1119,49 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   width: 48,
                   height: 5,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Row(
                   children: [
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF8B5CF6).withValues(alpha: 0.12),
+                        color:
+                            (Theme.of(context).cardTheme.color ??
+                                    Theme.of(context).cardColor)
+                                .withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(14),
                       ),
-                      child: const Icon(
+                      child: Icon(
                         LucideIcons.messageSquare,
                         color: Color(0xFF8B5CF6),
                         size: 26,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          isArabic ? 'إرسال ملاحظة' : 'Send Feedback',
+                          t.extracted.send_feedback,
                           style: GoogleFonts.outfit(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         Text(
-                          isArabic
-                              ? 'رأيك يساعدنا على التطوير'
-                              : 'Your opinion helps us improve',
+                          t.extracted.your_opinion_helps_us_improve,
                           style: GoogleFonts.inter(
                             fontSize: 13,
-                            color: Colors.white.withValues(alpha: 0.5),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.5),
                           ),
                         ),
                       ],
@@ -1175,26 +1194,33 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     );
                   }),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 // Text field
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(18),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.1),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.1),
                     ),
                   ),
                   child: TextField(
                     controller: feedbackController,
                     maxLines: 4,
-                    style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+                    style: GoogleFonts.inter(
+                      color: Theme.of(context).colorScheme.onSurface,
+                      fontSize: 14,
+                    ),
                     decoration: InputDecoration(
-                      hintText: isArabic
-                          ? 'اكتب ملاحظتك هنا...'
-                          : 'Write your feedback here...',
+                      hintText: t.extracted.write_your_feedback_here,
                       hintStyle: GoogleFonts.inter(
-                        color: Colors.white.withValues(alpha: 0.35),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.35),
                         fontSize: 14,
                       ),
                       border: InputBorder.none,
@@ -1209,12 +1235,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     Navigator.pop(ctx);
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
-                          isArabic
-                              ? '✅ شكراً! تم إرسال ملاحظتك بنجاح'
-                              : '✅ Thank you! Feedback submitted.',
-                        ),
-                        backgroundColor: const Color(0xFF8B5CF6),
+                        content: Text(t.extracted.thank_you_feedback_submitted),
+                        backgroundColor: Theme.of(
+                          context,
+                        ).scaffoldBackgroundColor,
                         behavior: SnackBarBehavior.floating,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -1227,7 +1251,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     width: double.infinity,
                     height: 54,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         colors: [Color(0xFF7C3AED), Color(0xFF8B5CF6)],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
@@ -1235,9 +1259,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       borderRadius: BorderRadius.circular(18),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(
-                            0xFF7C3AED,
-                          ).withValues(alpha: 0.35),
+                          color:
+                              (Theme.of(context).cardTheme.color ??
+                                      Theme.of(context).cardColor)
+                                  .withValues(alpha: 0.35),
                           blurRadius: 14,
                           spreadRadius: -2,
                         ),
@@ -1245,11 +1270,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     ),
                     child: Center(
                       child: Text(
-                        isArabic ? 'إرسال الملاحظة' : 'Submit Feedback',
+                        t.extracted.submit_feedback,
                         style: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -1312,13 +1337,17 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       backgroundColor: Colors.transparent,
       builder: (context) => Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          border: Border.all(
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.1),
+          ),
         ),
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 48),
         child: Column(
@@ -1328,17 +1357,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               width: 48,
               height: 5,
               decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onSurface.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Text(
               t.settings.select_app_language,
               style: GoogleFonts.outfit(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 20),
@@ -1405,16 +1436,13 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           _handleLanguageSwitch(context, locale);
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        leading: Text(
-          emoji,
-          style: const TextStyle(fontSize: 22, fontFamily: null),
-        ),
+        leading: Text(emoji, style: TextStyle(fontSize: 22, fontFamily: null)),
         title: Text(
           label,
           style: GoogleFonts.outfit(
             fontSize: 17,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         trailing: isSelected

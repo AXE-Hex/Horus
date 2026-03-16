@@ -130,4 +130,24 @@ class AcademicRepository extends BaseRepository {
 
     return allSchedules;
   }
+
+  Future<List<Map<String, dynamic>>> getColleges() async {
+    return fetchAll('colleges', orderBy: 'name_en');
+  }
+
+  Future<List<Map<String, dynamic>>> getDepartments({String? collegeId}) async {
+    if (collegeId != null) {
+      return fetchWhere('departments', 'college_id', collegeId,
+          orderBy: 'name_en');
+    }
+    return fetchAll('departments', orderBy: 'name_en');
+  }
+
+  Future<List<Map<String, dynamic>>> getDepartmentProjects(
+    String departmentId,
+  ) async {
+    return fetchWhere('department_projects', 'department_id', departmentId,
+        orderBy: 'created_at', ascending: false);
+  }
 }
+

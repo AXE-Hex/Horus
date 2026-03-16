@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:hue/core/auth/roles.dart';
@@ -50,22 +51,31 @@ class AuthState {
 @Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
   SupabaseClient get _client => Supabase.instance.client;
+  RealtimeChannel? _profileChannel;
+  StreamSubscription? _authSub;
 
   @override
   AuthState build() {
+    // Clean up the realtime channel when the provider is disposed.
+    ref.onDispose(() {
+      _authSub?.cancel();
+      _unsubscribeFromProfile();
+    });
+
     final currentUser = _client.auth.currentUser;
     if (currentUser != null) {
       _loadProfile(currentUser);
       return AuthState(user: currentUser, isLoading: true);
     }
 
-    _client.auth.onAuthStateChange.listen((data) {
+    _authSub = _client.auth.onAuthStateChange.listen((data) {
       final event = data.event;
       final session = data.session;
 
       if (event == AuthChangeEvent.signedIn && session?.user != null) {
         _loadProfile(session!.user);
       } else if (event == AuthChangeEvent.signedOut) {
+        _unsubscribeFromProfile();
         state = const AuthState();
       } else if (event == AuthChangeEvent.tokenRefreshed &&
           session?.user != null) {
@@ -111,7 +121,6 @@ class AuthController extends _$AuthController {
         },
       );
       if (response.user != null) {
-
         await _client.from('profiles').upsert({
           'id': response.user!.id,
           'email': email,
@@ -129,6 +138,7 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> signOut() async {
+    _unsubscribeFromProfile();
     try {
       await _client.auth.signOut();
     } catch (_) {}
@@ -172,6 +182,9 @@ class AuthController extends _$AuthController {
         avatarUrl: data['avatar_url'] as String?,
         isLoading: false,
       );
+
+      // Start listening for real-time profile changes
+      _subscribeToProfileChanges(user.id);
     } catch (e) {
       final isMissingProfile = e.toString().contains('PGRST116');
 
@@ -181,6 +194,65 @@ class AuthController extends _$AuthController {
         isLoading: false,
         error: isMissingProfile ? null : e.toString(),
       );
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  REALTIME: Listen for profile changes (role, name, avatar, etc.)
+  // ════════════════════════════════════════════════════════════════════════════
+
+  void _subscribeToProfileChanges(String userId) {
+    // Avoid duplicate subscriptions
+    _unsubscribeFromProfile();
+
+    _profileChannel = _client
+        .channel('profile_changes_$userId')
+        .onPostgresChanges(
+          event: PostgresChangeEvent.update,
+          schema: 'public',
+          table: 'profiles',
+          filter: PostgresChangeFilter(
+            type: PostgresChangeFilterType.eq,
+            column: 'id',
+            value: userId,
+          ),
+          callback: (payload) {
+            _handleProfileChange(payload.newRecord);
+          },
+        )
+        .subscribe();
+  }
+
+  void _handleProfileChange(Map<String, dynamic> newData) {
+    if (state.user == null) return;
+
+    // Parse updated roles
+    List<UserRole> roles;
+    if (newData['roles'] != null) {
+      roles = (newData['roles'] as List)
+          .map((r) => UserRoleX.fromDbString(r.toString()))
+          .toList();
+    } else {
+      final roleStr = newData['role'] as String? ?? 'student';
+      roles = [UserRoleX.fromDbString(roleStr)];
+    }
+
+    final primaryRole = roles.isNotEmpty ? roles.first : UserRole.guest;
+
+    // Update state — this triggers a rebuild of all listening widgets
+    state = AuthState(
+      user: state.user,
+      role: primaryRole,
+      fullName: newData['full_name'] as String? ?? state.fullName,
+      avatarUrl: newData['avatar_url'] as String? ?? state.avatarUrl,
+      isLoading: false,
+    );
+  }
+
+  void _unsubscribeFromProfile() {
+    if (_profileChannel != null) {
+      _client.removeChannel(_profileChannel!);
+      _profileChannel = null;
     }
   }
 }

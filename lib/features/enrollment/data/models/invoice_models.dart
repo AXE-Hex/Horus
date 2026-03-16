@@ -37,15 +37,31 @@ extension InvoiceTypeX on InvoiceType {
   String label({bool isArabic = false}) {
     switch (this) {
       case InvoiceType.tuition:
-        return LocaleSettings.instance.currentTranslations.enrollment.tuition_fee;
+        return LocaleSettings
+            .instance
+            .currentTranslations
+            .enrollment
+            .tuition_fee;
       case InvoiceType.registration:
-        return LocaleSettings.instance.currentTranslations.enrollment.registration_fee;
+        return LocaleSettings
+            .instance
+            .currentTranslations
+            .enrollment
+            .registration_fee;
       case InvoiceType.library:
-        return LocaleSettings.instance.currentTranslations.enrollment.library_fee;
+        return LocaleSettings
+            .instance
+            .currentTranslations
+            .enrollment
+            .library_fee;
       case InvoiceType.exam:
         return LocaleSettings.instance.currentTranslations.enrollment.exam_fee;
       case InvoiceType.dormitory:
-        return LocaleSettings.instance.currentTranslations.enrollment.dormitory_fee;
+        return LocaleSettings
+            .instance
+            .currentTranslations
+            .enrollment
+            .dormitory_fee;
       case InvoiceType.other:
         return LocaleSettings.instance.currentTranslations.enrollment.other;
     }
