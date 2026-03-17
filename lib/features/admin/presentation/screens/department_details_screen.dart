@@ -319,7 +319,7 @@ class _DepartmentDetailsScreenState
     return _buildLeaderCard(
       title: t.extracted.assistant_head,
       emptyTitle: t.extracted.no_assistant_assigned,
-      emptySubtitle: t.extracted.please_assign_an_assistant_head_for_the_,
+      emptySubtitle: t.extracted.please_assign_an_assistant_head_for_the,
       assignLabel: t.admin.assign,
       changeLabel: t.admin.change,
       userId: _department.assistantHeadId,

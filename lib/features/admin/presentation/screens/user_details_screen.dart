@@ -1041,8 +1041,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.verify_account)
           : (t.extracted.remove_verification),
       message: newVal
-          ? (t.extracted.verify__userfullname(user_fullName: _user.fullName)s account?')
-          : (t.extracted.remove_verification_from__userfullname(user_fullName: _user.fullName)),
+          ? (t.extracted.verify_userfullname(user_fullName: _user.fullName) + "'s account?")
+          : (t.extracted.remove_verification_from_userfullname(user_fullName: _user.fullName)),
       confirmColor: const Color(0xFF10B981),
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
@@ -1065,8 +1065,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     _showConfirmDialog(
       title: newVal ? (t.extracted.ban_user) : (t.extracted.unban_user),
       message: newVal
-          ? (t.extracted.ban__userfullname_they_will_lose_system_access(user_fullName: _user.fullName))
-          : (t.extracted.unban__userfullname(user_fullName: _user.fullName)),
+          ? (t.extracted.ban_userfullname_they_will_lose_system_access(user_fullName: _user.fullName))
+          : (t.extracted.unban_userfullname(user_fullName: _user.fullName)),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.toggleBan(_user.id, newVal);
@@ -1198,8 +1198,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.permanent_delete)
           : (t.extracted.soft_delete),
       message: hardDelete
-          ? (t.extracted.permanently_delete__userfullname_this_cannot_be_undone(user_fullName: _user.fullName))
-          : (t.extracted.deactivate__userfullname(user_fullName: _user.fullName)s account?'),
+          ? (t.extracted.permanently_delete_userfullname_this_cannot_be_undone(user_fullName: _user.fullName))
+          : (t.extracted.deactivate_userfullname(user_fullName: _user.fullName) + "'s account?",
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);

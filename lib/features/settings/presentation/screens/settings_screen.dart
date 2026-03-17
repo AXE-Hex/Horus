@@ -687,7 +687,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             icon: LucideIcons.messageSquare,
             iconColor: const Color(0xFF8B5CF6),
             title: t.extracted.send_feedback,
-            subtitle: t.extracted.share_your_thoughts_to_help_improve_the_,
+            subtitle: t.extracted.share_your_thoughts_to_help_improve_the,
             isGlass: isGlass,
             onTap: () => _showFeedbackDialog(context, isArabic, isGlass),
           ),

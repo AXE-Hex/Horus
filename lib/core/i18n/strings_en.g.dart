@@ -789,8 +789,8 @@ class TranslationsRegistrationEn {
 	/// en: 'Select the main group you wish to register for this semester.'
 	String get step1_subtitle => 'Select the main group you wish to register for this semester.';
 
-	/// en: 'Group ${group}'
-	String group_label({required Object group}) => 'Group ${group}';
+	/// en: 'Group {_____}'
+	String get group_label => 'Group {_____}';
 
 	/// en: 'Main cohort registration'
 	String get main_cohort => 'Main cohort registration';
@@ -798,11 +798,11 @@ class TranslationsRegistrationEn {
 	/// en: 'Step 2: Choose Sub-section'
 	String get step2_title => 'Step 2: Choose Sub-section';
 
-	/// en: 'Selected Group: ${group}. Now select your practical sub-section.'
-	String step2_subtitle({required Object group}) => 'Selected Group: ${group}. Now select your practical sub-section.';
+	/// en: 'Selected Group: {_____}. Now select your practical sub-section.'
+	String get step2_subtitle => 'Selected Group: {_____}. Now select your practical sub-section.';
 
-	/// en: 'Section ${section}'
-	String section_label({required Object section}) => 'Section ${section}';
+	/// en: 'Section {_______}'
+	String get section_label => 'Section {_______}';
 
 	/// en: 'Labs and practical sessions'
 	String get labs_sessions => 'Labs and practical sessions';
@@ -825,8 +825,8 @@ class TranslationsRegistrationEn {
 	/// en: 'Courses to be automatically registered:'
 	String get auto_registered => 'Courses to be automatically registered:';
 
-	/// en: '${credits} CR'
-	String credits_count({required Object credits}) => '${credits} CR';
+	/// en: '{_______} CR'
+	String get credits_count => '{_______} CR';
 
 	/// en: 'Confirm Final Registration'
 	String get confirm_final => 'Confirm Final Registration';
@@ -834,8 +834,8 @@ class TranslationsRegistrationEn {
 	/// en: 'Already Registered!'
 	String get already_registered_title => 'Already Registered!';
 
-	/// en: 'You have successfully registered for this semester. Group: ${group} | Section: ${section}'
-	String success_message({required Object group, required Object section}) => 'You have successfully registered for this semester.\nGroup: ${group} | Section: ${section}';
+	/// en: 'You have successfully registered for this semester. Group: {_____} | Section: {_______}'
+	String get success_message => 'You have successfully registered for this semester.\nGroup: {_____} | Section: {_______}';
 
 	/// en: 'Back to Home'
 	String get back_home => 'Back to Home';
@@ -843,8 +843,8 @@ class TranslationsRegistrationEn {
 	/// en: 'Registration Successful!'
 	String get registration_success => 'Registration Successful!';
 
-	/// en: 'Error: ${error} Tap to retry'
-	String error_loading({required Object error}) => 'Error: ${error}\n\nTap to retry';
+	/// en: 'Error: {_____} Tap to retry'
+	String get error_loading => 'Error: {_____}\n\nTap to retry';
 }
 
 // Path: payment
@@ -879,8 +879,8 @@ class TranslationsPaymentEn {
 	/// en: 'Bank Transfer'
 	String get bank_transfer => 'Bank Transfer';
 
-	/// en: '${amount} EGP'
-	String currency({required Object amount}) => '${amount} EGP';
+	/// en: '{a_____} EGP'
+	String get currency => '{a_____} EGP';
 }
 
 // Path: invoices
@@ -1022,23 +1022,23 @@ class TranslationsProfessorEn {
 	/// en: 'Professor Dashboard'
 	String get dashboard_title => 'Professor Dashboard';
 
-	/// en: 'Welcome back, ${name}'
-	String welcome_back_name({required Object name}) => 'Welcome back, ${name}';
+	/// en: 'Welcome back, {_a__}'
+	String get welcome_back_name => 'Welcome back, {_a__}';
 
-	/// en: '${count} Active TAs'
-	String active_tas_count({required Object count}) => '${count} Active TAs';
+	/// en: '{_____} Active TAs'
+	String get active_tas_count => '{_____} Active TAs';
 
-	/// en: '${count} Total Students'
-	String total_students_count({required Object count}) => '${count} Total Students';
+	/// en: '{_____} Total Students'
+	String get total_students_count => '{_____} Total Students';
 
-	/// en: '${count} Uploaded Files'
-	String uploaded_files_count({required Object count}) => '${count} Uploaded Files';
+	/// en: '{_____} Uploaded Files'
+	String get uploaded_files_count => '{_____} Uploaded Files';
 
-	/// en: '${count} Weekly Slots'
-	String weekly_slots_count({required Object count}) => '${count} Weekly Slots';
+	/// en: '{_____} Weekly Slots'
+	String get weekly_slots_count => '{_____} Weekly Slots';
 
-	/// en: 'Announce to ${count}'
-	String announcement_to({required Object count}) => 'Announce to ${count}';
+	/// en: 'Announce to {_____}'
+	String get announcement_to => 'Announce to {_____}';
 
 	/// en: 'Preparing Announcement...'
 	String get preparing_announcement => 'Preparing Announcement...';
@@ -1052,14 +1052,14 @@ class TranslationsProfessorEn {
 	/// en: 'Deselect All'
 	String get deselect_all => 'Deselect All';
 
-	/// en: '${count} Selected'
-	String selected_count({required Object count}) => '${count} Selected';
+	/// en: '{_____} Selected'
+	String get selected_count => '{_____} Selected';
 
-	/// en: 'Clicked: ${action}'
-	String action_clicked({required Object action}) => 'Clicked: ${action}';
+	/// en: 'Clicked: {a_____}'
+	String get action_clicked => 'Clicked: {a_____}';
 
-	/// en: 'Activating: ${target}'
-	String activating({required Object target}) => 'Activating: ${target}';
+	/// en: 'Activating: {_a____}'
+	String get activating => 'Activating: {_a____}';
 
 	/// en: 'Add New TA'
 	String get add_new_ta => 'Add New TA';
@@ -1070,11 +1070,11 @@ class TranslationsProfessorEn {
 	/// en: 'No Active TAs'
 	String get no_active_tas => 'No Active TAs';
 
-	/// en: 'Added: ${name}'
-	String added({required Object name}) => 'Added: ${name}';
+	/// en: 'Added: {_a__}'
+	String get added => 'Added: {_a__}';
 
-	/// en: 'Removed: ${name}'
-	String removed({required Object name}) => 'Removed: ${name}';
+	/// en: 'Removed: {_a__}'
+	String get removed => 'Removed: {_a__}';
 
 	/// en: 'Add'
 	String get add => 'Add';
@@ -1094,8 +1094,8 @@ class TranslationsProfessorEn {
 	/// en: 'Walk-in'
 	String get walk_in => 'Walk-in';
 
-	/// en: 'Joined: ${name}'
-	String joined({required Object name}) => 'Joined: ${name}';
+	/// en: 'Joined: {_a__}'
+	String get joined => 'Joined: {_a__}';
 
 	/// en: 'Join'
 	String get join => 'Join';
@@ -1890,8 +1890,8 @@ class TranslationsAdminEn {
 	/// en: 'No users found'
 	String get no_users => 'No users found';
 
-	/// en: '${count} users'
-	String user_count({required Object count}) => '${count} users';
+	/// en: '{_____} users'
+	String get user_count => '{_____} users';
 
 	/// en: 'Student Management'
 	String get student_management => 'Student Management';
@@ -2604,8 +2604,8 @@ class TranslationsEnrollmentEn {
 	/// en: 'Total'
 	String get total => 'Total';
 
-	/// en: 'Semester ${semester}'
-	String semester_label({required Object semester}) => 'Semester ${semester}';
+	/// en: 'Semester {________}'
+	String get semester_label => 'Semester {________}';
 
 	/// en: 'Academic Year'
 	String get academic_year => 'Academic Year';
@@ -3445,7 +3445,7 @@ class TranslationsExtractedEn {
 	String get send_feedback => 'Send Feedback';
 
 	/// en: 'Share your thoughts to help improve the app'
-	String get share_your_thoughts_to_help_improve_the_ => 'Share your thoughts to help improve the app';
+	String get share_your_thoughts_to_help_improve_the => 'Share your thoughts to help improve the app';
 
 	/// en: 'Rate the App'
 	String get rate_the_app => 'Rate the App';
@@ -3541,7 +3541,7 @@ class TranslationsExtractedEn {
 	String get no_assistant_assigned => 'No Assistant Assigned';
 
 	/// en: 'Please assign an assistant head for the department'
-	String get please_assign_an_assistant_head_for_the_ => 'Please assign an assistant head for the department';
+	String get please_assign_an_assistant_head_for_the => 'Please assign an assistant head for the department';
 
 	/// en: 'Add Staff'
 	String get add_staff => 'Add Staff';
@@ -3567,8 +3567,8 @@ class TranslationsExtractedEn {
 	/// en: 'Confirm Removal'
 	String get confirm_removal => 'Confirm Removal';
 
-	/// en: 'Remove ${staffFullName} from this department?'
-	String remove_staff_fullname_from_this_departme({required Object staffFullName}) => 'Remove ${staffFullName} from this department?';
+	/// en: 'Remove ${__a_______a__} from this department?'
+	String remove_staff_fullname_from_this_departme({required Object __a_______a__}) => 'Remove ${__a_______a__} from this department?';
 
 	/// en: 'Roles Management'
 	String get roles_management => 'Roles Management';
@@ -3666,8 +3666,8 @@ class TranslationsExtractedEn {
 	/// en: 'Delete Role'
 	String get delete_role => 'Delete Role';
 
-	/// en: 'Delete "${roleNameEn}"? This cannot be undone.'
-	String delete_role_nameen_this_cannot_be_undone({required Object roleNameEn}) => 'Delete "${roleNameEn}"? This cannot be undone.';
+	/// en: 'Delete "${_____a____}"? This cannot be undone.'
+	String delete_role_nameen_this_cannot_be_undone({required Object _____a____}) => 'Delete "${_____a____}"? This cannot be undone.';
 
 	/// en: 'Delete'
 	String get delete => 'Delete';
@@ -3795,11 +3795,11 @@ class TranslationsExtractedEn {
 	/// en: 'Remove Verification'
 	String get remove_verification => 'Remove Verification';
 
-	/// en: 'Verify ${userFullName}'
-	String verify_user_fullname({required Object userFullName}) => 'Verify ${userFullName}';
+	/// en: 'Verify ${user_fullName}'
+	String verify_userfullname({required Object user_fullName}) => 'Verify ${user_fullName}';
 
-	/// en: 'Remove verification from ${userFullName}?'
-	String remove_verification_from_user_fullname({required Object userFullName}) => 'Remove verification from ${userFullName}?';
+	/// en: 'Remove verification from ${user_fullName}?'
+	String remove_verification_from_userfullname({required Object user_fullName}) => 'Remove verification from ${user_fullName}?';
 
 	/// en: 'Ban User'
 	String get ban_user => 'Ban User';
@@ -3807,13 +3807,13 @@ class TranslationsExtractedEn {
 	/// en: 'Unban User'
 	String get unban_user => 'Unban User';
 
-	/// en: 'Ban ${userFullName}? They will lose system access.'
-	String ban_user_fullname_they_will_lose_system_({required Object userFullName}) => 'Ban ${userFullName}? They will lose system access.';
+	/// en: 'Ban ${_________a__}? They will lose system access.'
+	String ban_user_fullname_they_will_lose_system({required Object _________a__}) => 'Ban ${_________a__}? They will lose system access.';
 
-	/// en: 'Unban ${userFullName}?'
-	String unban_user_fullname({required Object userFullName}) => 'Unban ${userFullName}?';
+	/// en: 'Unban ${user_fullName}?'
+	String unban_userfullname({required Object user_fullName}) => 'Unban ${user_fullName}?';
 
-	/// en: 'Warning level set to $level'
+	/// en: 'Warning level set to ${level}'
 	String warning_level_set_to_level({required Object level}) => 'Warning level set to ${level}';
 
 	/// en: 'Tag removed'
@@ -3828,11 +3828,11 @@ class TranslationsExtractedEn {
 	/// en: 'Soft Delete'
 	String get soft_delete => 'Soft Delete';
 
-	/// en: 'Permanently delete ${userFullName}? This cannot be undone!'
-	String permanently_delete_user_fullname_this_ca({required Object userFullName}) => 'Permanently delete ${userFullName}? This cannot be undone!';
+	/// en: 'Permanently delete ${_________a__}? This cannot be undone!'
+	String permanently_delete_user_fullname_this_ca({required Object _________a__}) => 'Permanently delete ${_________a__}? This cannot be undone!';
 
-	/// en: 'Deactivate ${userFullName}'
-	String deactivate_user_fullname({required Object userFullName}) => 'Deactivate ${userFullName}';
+	/// en: 'Deactivate ${user_fullName}'
+	String deactivate_userfullname({required Object user_fullName}) => 'Deactivate ${user_fullName}';
 
 	/// en: 'Institution'
 	String get institution => 'Institution';
@@ -3849,8 +3849,8 @@ class TranslationsExtractedEn {
 	/// en: 'Department is required'
 	String get department_is_required => 'Department is required';
 
-	/// en: 'OUT OF $max'
-	String out_of_max({required Object max}) => 'OUT OF ${max}';
+	/// en: 'OUT OF ${_a_}'
+	String out_of_max({required Object _a_}) => 'OUT OF ${_a_}';
 
 	/// en: 'Exceeding'
 	String get exceeding => 'Exceeding';
@@ -3921,8 +3921,8 @@ class TranslationsExtractedEn {
 	/// en: 'Faculty Members'
 	String get faculty_members => 'Faculty Members';
 
-	/// en: 'Remove ${staff.fullName} from this department?'
-	String remove_stafffullname_from_this_department({required Object staff.fullName}) => 'Remove ${staff.fullName} from this department?';
+	/// en: 'Remove ${staff_fullName} from this department?'
+	String remove_stafffullname_from_this_department({required Object staff_fullName}) => 'Remove ${staff_fullName} from this department?';
 
 	/// en: 'roles'
 	String get roles => 'roles';
@@ -3930,26 +3930,14 @@ class TranslationsExtractedEn {
 	/// en: 'permissions'
 	String get permissions_2 => 'permissions';
 
-	/// en: 'Delete role ${role.nameEn}? This cannot be undone.'
-	String delete_role_rolenameen_this_cannot_be_undone({required Object role.nameEn}) => 'Delete role ${role.nameEn}? This cannot be undone.';
+	/// en: 'Delete role ${role_nameEn}? This cannot be undone.'
+	String delete_role_rolenameen_this_cannot_be_undone({required Object role_nameEn}) => 'Delete role ${role_nameEn}? This cannot be undone.';
 
-	/// en: 'Verify ${_user.fullName}\'
-	String verify__userfullname({required Object _user.fullName}) => 'Verify ${_user.fullName}\';
+	/// en: 'Ban ${user_fullName}? (They will lose system access)'
+	String ban_userfullname_they_will_lose_system_access({required Object user_fullName}) => 'Ban ${user_fullName}? (They will lose system access)';
 
-	/// en: 'Remove verification from ${_user.fullName}?'
-	String remove_verification_from__userfullname({required Object _user.fullName}) => 'Remove verification from ${_user.fullName}?';
-
-	/// en: 'Ban ${_user.fullName}? (They will lose system access)'
-	String ban__userfullname_they_will_lose_system_access({required Object _user.fullName}) => 'Ban ${_user.fullName}? (They will lose system access)';
-
-	/// en: 'Unban ${_user.fullName}?'
-	String unban__userfullname({required Object _user.fullName}) => 'Unban ${_user.fullName}?';
-
-	/// en: 'Permanently delete ${_user.fullName}? This cannot be undone.'
-	String permanently_delete__userfullname_this_cannot_be_undone({required Object _user.fullName}) => 'Permanently delete ${_user.fullName}? This cannot be undone.';
-
-	/// en: 'Deactivate ${_user.fullName}\'
-	String deactivate__userfullname({required Object _user.fullName}) => 'Deactivate ${_user.fullName}\';
+	/// en: 'Permanently delete ${user_fullName}? This cannot be undone.'
+	String permanently_delete_userfullname_this_cannot_be_undone({required Object user_fullName}) => 'Permanently delete ${user_fullName}? This cannot be undone.';
 
 	/// en: 'Personal Details'
 	String get personal_details => 'Personal Details';
@@ -5632,11 +5620,11 @@ extension on Translations {
 			'registration.enrolled_credits' => 'Enrolled Credits',
 			'registration.step1_title' => 'Step 1: Choose Main Group',
 			'registration.step1_subtitle' => 'Select the main group you wish to register for this semester.',
-			'registration.group_label' => ({required Object group}) => 'Group ${group}',
+			'registration.group_label' => 'Group {_____}',
 			'registration.main_cohort' => 'Main cohort registration',
 			'registration.step2_title' => 'Step 2: Choose Sub-section',
-			'registration.step2_subtitle' => ({required Object group}) => 'Selected Group: ${group}. Now select your practical sub-section.',
-			'registration.section_label' => ({required Object section}) => 'Section ${section}',
+			'registration.step2_subtitle' => 'Selected Group: {_____}. Now select your practical sub-section.',
+			'registration.section_label' => 'Section {_______}',
 			'registration.labs_sessions' => 'Labs and practical sessions',
 			'registration.step3_title' => 'Step 3: Confirm Registration',
 			'registration.review' => 'Review Selections',
@@ -5644,13 +5632,13 @@ extension on Translations {
 			'registration.group' => 'Group',
 			'registration.section' => 'Section',
 			'registration.auto_registered' => 'Courses to be automatically registered:',
-			'registration.credits_count' => ({required Object credits}) => '${credits} CR',
+			'registration.credits_count' => '{_______} CR',
 			'registration.confirm_final' => 'Confirm Final Registration',
 			'registration.already_registered_title' => 'Already Registered!',
-			'registration.success_message' => ({required Object group, required Object section}) => 'You have successfully registered for this semester.\nGroup: ${group} | Section: ${section}',
+			'registration.success_message' => 'You have successfully registered for this semester.\nGroup: {_____} | Section: {_______}',
 			'registration.back_home' => 'Back to Home',
 			'registration.registration_success' => 'Registration Successful!',
-			'registration.error_loading' => ({required Object error}) => 'Error: ${error}\n\nTap to retry',
+			'registration.error_loading' => 'Error: {_____}\n\nTap to retry',
 			'payment.title' => 'Tuition Payment',
 			'payment.outstanding' => 'Outstanding Balance',
 			'payment.pay_now' => 'Pay Now',
@@ -5659,7 +5647,7 @@ extension on Translations {
 			'payment.credit_debit' => 'Credit / Debit Card',
 			'payment.fawry' => 'Fawry / E-Payment',
 			'payment.bank_transfer' => 'Bank Transfer',
-			'payment.currency' => ({required Object amount}) => '${amount} EGP',
+			'payment.currency' => '{a_____} EGP',
 			'invoices.title' => 'Financial Invoices',
 			'invoices.history' => 'Payment History',
 			'invoices.unpaid' => 'Unpaid',
@@ -5698,31 +5686,31 @@ extension on Translations {
 			'administration.audit_logs.labels.close_details' => 'Close Details',
 			'administration.audit_logs.labels.view_details' => 'View Details',
 			'professor.dashboard_title' => 'Professor Dashboard',
-			'professor.welcome_back_name' => ({required Object name}) => 'Welcome back, ${name}',
-			'professor.active_tas_count' => ({required Object count}) => '${count} Active TAs',
-			'professor.total_students_count' => ({required Object count}) => '${count} Total Students',
-			'professor.uploaded_files_count' => ({required Object count}) => '${count} Uploaded Files',
-			'professor.weekly_slots_count' => ({required Object count}) => '${count} Weekly Slots',
-			'professor.announcement_to' => ({required Object count}) => 'Announce to ${count}',
+			'professor.welcome_back_name' => 'Welcome back, {_a__}',
+			'professor.active_tas_count' => '{_____} Active TAs',
+			'professor.total_students_count' => '{_____} Total Students',
+			'professor.uploaded_files_count' => '{_____} Uploaded Files',
+			'professor.weekly_slots_count' => '{_____} Weekly Slots',
+			'professor.announcement_to' => 'Announce to {_____}',
 			'professor.preparing_announcement' => 'Preparing Announcement...',
 			'professor.no_groups' => 'No Groups Available',
 			'professor.select_all' => 'Select All',
 			'professor.deselect_all' => 'Deselect All',
-			'professor.selected_count' => ({required Object count}) => '${count} Selected',
-			'professor.action_clicked' => ({required Object action}) => 'Clicked: ${action}',
-			'professor.activating' => ({required Object target}) => 'Activating: ${target}',
+			'professor.selected_count' => '{_____} Selected',
+			'professor.action_clicked' => 'Clicked: {a_____}',
+			'professor.activating' => 'Activating: {_a____}',
 			'professor.add_new_ta' => 'Add New TA',
 			'professor.no_available_tas' => 'No available TAs',
 			'professor.no_active_tas' => 'No Active TAs',
-			'professor.added' => ({required Object name}) => 'Added: ${name}',
-			'professor.removed' => ({required Object name}) => 'Removed: ${name}',
+			'professor.added' => 'Added: {_a__}',
+			'professor.removed' => 'Removed: {_a__}',
 			'professor.add' => 'Add',
 			'professor.urgent' => 'Urgent',
 			'professor.upload' => 'Upload',
 			'professor.message' => 'Message',
 			'professor.downloading' => 'Downloading...',
 			'professor.walk_in' => 'Walk-in',
-			'professor.joined' => ({required Object name}) => 'Joined: ${name}',
+			'professor.joined' => 'Joined: {_a__}',
 			'professor.join' => 'Join',
 			'professor.stats.groups' => 'Groups',
 			'professor.stats.students' => 'Total Students',
@@ -6047,7 +6035,7 @@ extension on Translations {
 			'admin.filter_admin' => 'Admin',
 			'admin.search_users' => 'Search users...',
 			'admin.no_users' => 'No users found',
-			'admin.user_count' => ({required Object count}) => '${count} users',
+			'admin.user_count' => '{_____} users',
 			'admin.student_management' => 'Student Management',
 			'admin.staff_management' => 'Staff Management',
 			'admin.faculty_management' => 'Faculty Management',
@@ -6282,7 +6270,7 @@ extension on Translations {
 			'enrollment.registration_fee' => 'Registration Fee',
 			'enrollment.late_fee' => 'Late Fee',
 			'enrollment.total' => 'Total',
-			'enrollment.semester_label' => ({required Object semester}) => 'Semester ${semester}',
+			'enrollment.semester_label' => 'Semester {________}',
 			'enrollment.academic_year' => 'Academic Year',
 			'enrollment.submit_request' => 'Submit Request',
 			'enrollment.request_submitted' => 'Request submitted successfully',
@@ -6555,7 +6543,7 @@ extension on Translations {
 			'extracted.support_center' => 'Support Center',
 			'extracted.get_help_and_resolve_any_issues' => 'Get help and resolve any issues',
 			'extracted.send_feedback' => 'Send Feedback',
-			'extracted.share_your_thoughts_to_help_improve_the_' => 'Share your thoughts to help improve the app',
+			'extracted.share_your_thoughts_to_help_improve_the' => 'Share your thoughts to help improve the app',
 			'extracted.rate_the_app' => 'Rate the App',
 			'extracted.your_support_matters' => '⭐ Your support matters',
 			'extracted.thank_you_for_your_support' => 'Thank you for your support! 🎉',
@@ -6587,7 +6575,7 @@ extension on Translations {
 			'extracted.building' => 'Building',
 			'extracted.assistant_head' => 'Assistant Head',
 			'extracted.no_assistant_assigned' => 'No Assistant Assigned',
-			'extracted.please_assign_an_assistant_head_for_the_' => 'Please assign an assistant head for the department',
+			'extracted.please_assign_an_assistant_head_for_the' => 'Please assign an assistant head for the department',
 			'extracted.add_staff' => 'Add Staff',
 			'extracted.no_faculty_members_assigned' => 'No faculty members assigned',
 			'extracted.add_faculty' => 'Add Faculty',
@@ -6596,7 +6584,7 @@ extension on Translations {
 			'extracted.remove' => 'Remove',
 			'extracted.add_faculty_member' => 'Add Faculty Member',
 			'extracted.confirm_removal' => 'Confirm Removal',
-			'extracted.remove_staff_fullname_from_this_departme' => ({required Object staffFullName}) => 'Remove ${staffFullName} from this department?',
+			'extracted.remove_staff_fullname_from_this_departme' => ({required Object __a_______a__}) => 'Remove ${__a_______a__} from this department?',
 			'extracted.roles_management' => 'Roles Management',
 			'extracted.merge_roles' => 'Merge Roles',
 			'extracted.create_role' => 'Create Role',
@@ -6629,7 +6617,7 @@ extension on Translations {
 			'extracted.edit_role' => 'Edit Role',
 			'extracted.role_updated' => 'Role updated',
 			'extracted.delete_role' => 'Delete Role',
-			'extracted.delete_role_nameen_this_cannot_be_undone' => ({required Object roleNameEn}) => 'Delete "${roleNameEn}"? This cannot be undone.',
+			'extracted.delete_role_nameen_this_cannot_be_undone' => ({required Object _____a____}) => 'Delete "${_____a____}"? This cannot be undone.',
 			'extracted.delete' => 'Delete',
 			'extracted.admin_it' => 'Admin & IT',
 			'extracted.leadership' => 'Leadership',
@@ -6672,25 +6660,25 @@ extension on Translations {
 			'extracted.permanently_delete' => 'Permanently Delete',
 			'extracted.verify_account' => 'Verify Account',
 			'extracted.remove_verification' => 'Remove Verification',
-			'extracted.verify_user_fullname' => ({required Object userFullName}) => 'Verify ${userFullName}',
-			'extracted.remove_verification_from_user_fullname' => ({required Object userFullName}) => 'Remove verification from ${userFullName}?',
+			'extracted.verify_userfullname' => ({required Object user_fullName}) => 'Verify ${user_fullName}',
+			'extracted.remove_verification_from_userfullname' => ({required Object user_fullName}) => 'Remove verification from ${user_fullName}?',
 			'extracted.ban_user' => 'Ban User',
 			'extracted.unban_user' => 'Unban User',
-			'extracted.ban_user_fullname_they_will_lose_system_' => ({required Object userFullName}) => 'Ban ${userFullName}? They will lose system access.',
-			'extracted.unban_user_fullname' => ({required Object userFullName}) => 'Unban ${userFullName}?',
+			'extracted.ban_user_fullname_they_will_lose_system' => ({required Object _________a__}) => 'Ban ${_________a__}? They will lose system access.',
+			'extracted.unban_userfullname' => ({required Object user_fullName}) => 'Unban ${user_fullName}?',
 			'extracted.warning_level_set_to_level' => ({required Object level}) => 'Warning level set to ${level}',
 			'extracted.tag_removed' => 'Tag removed',
 			'extracted.tag_name' => 'Tag name',
 			'extracted.permanent_delete' => 'Permanent Delete',
 			'extracted.soft_delete' => 'Soft Delete',
-			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object userFullName}) => 'Permanently delete ${userFullName}? This cannot be undone!',
-			'extracted.deactivate_user_fullname' => ({required Object userFullName}) => 'Deactivate ${userFullName}',
+			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object _________a__}) => 'Permanently delete ${_________a__}? This cannot be undone!',
+			'extracted.deactivate_userfullname' => ({required Object user_fullName}) => 'Deactivate ${user_fullName}',
 			'extracted.institution' => 'Institution',
 			'extracted.select_college' => 'Select College',
 			'extracted.college_is_required' => 'College is required',
 			'extracted.select_department' => 'Select Department',
 			'extracted.department_is_required' => 'Department is required',
-			'extracted.out_of_max' => ({required Object max}) => 'OUT OF ${max}',
+			'extracted.out_of_max' => ({required Object _a_}) => 'OUT OF ${_a_}',
 			'extracted.exceeding' => 'Exceeding',
 			'extracted.top_5' => 'Top 5%',
 			'extracted.total' => 'Total',
@@ -6714,16 +6702,12 @@ extension on Translations {
 			'extracted.you_do_not_have_permission_to_access_this_section' => 'You do not have permission to access this section',
 			'extracted.k201000000000' => '+20 10 0000 0000',
 			'extracted.faculty_members' => 'Faculty Members',
-			'extracted.remove_stafffullname_from_this_department' => ({required Object staff.fullName}) => 'Remove ${staff.fullName} from this department?',
+			'extracted.remove_stafffullname_from_this_department' => ({required Object staff_fullName}) => 'Remove ${staff_fullName} from this department?',
 			'extracted.roles' => 'roles',
 			'extracted.permissions_2' => 'permissions',
-			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role.nameEn}) => 'Delete role ${role.nameEn}? This cannot be undone.',
-			'extracted.verify__userfullname' => ({required Object _user.fullName}) => 'Verify ${_user.fullName}\',
-			'extracted.remove_verification_from__userfullname' => ({required Object _user.fullName}) => 'Remove verification from ${_user.fullName}?',
-			'extracted.ban__userfullname_they_will_lose_system_access' => ({required Object _user.fullName}) => 'Ban ${_user.fullName}? (They will lose system access)',
-			'extracted.unban__userfullname' => ({required Object _user.fullName}) => 'Unban ${_user.fullName}?',
-			'extracted.permanently_delete__userfullname_this_cannot_be_undone' => ({required Object _user.fullName}) => 'Permanently delete ${_user.fullName}? This cannot be undone.',
-			'extracted.deactivate__userfullname' => ({required Object _user.fullName}) => 'Deactivate ${_user.fullName}\',
+			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role_nameEn}) => 'Delete role ${role_nameEn}? This cannot be undone.',
+			'extracted.ban_userfullname_they_will_lose_system_access' => ({required Object user_fullName}) => 'Ban ${user_fullName}? (They will lose system access)',
+			'extracted.permanently_delete_userfullname_this_cannot_be_undone' => ({required Object user_fullName}) => 'Permanently delete ${user_fullName}? This cannot be undone.',
 			'extracted.personal_details' => 'Personal Details',
 			'extracted.account_credentials' => 'Account Credentials',
 			'extracted.roles_permissions' => 'Roles & Permissions',

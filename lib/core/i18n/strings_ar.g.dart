@@ -438,11 +438,11 @@ class _TranslationsRegistrationAr extends TranslationsRegistrationEn {
 	@override String get enrolled_credits => 'الساعات المسجلة';
 	@override String get step1_title => 'الخطوة ١: اختر المجموعة الرئيسية';
 	@override String get step1_subtitle => 'اختر المجموعة التي ترغب بالتسجيل فيها لهذا الفصل الدراسي.';
-	@override String group_label({required Object group}) => 'المجموعة ${group}';
+	@override String get group_label => 'المجموعة {_____}';
 	@override String get main_cohort => 'تسجيل المجموعة الرئيسية';
 	@override String get step2_title => 'الخطوة ٢: اختر القسم الفرعي (السكشن)';
-	@override String step2_subtitle({required Object group}) => 'المجموعة المختارة: ${group}. الآن اختر السكشن العملي والتطبيقي.';
-	@override String section_label({required Object section}) => 'سكشن ${section}';
+	@override String get step2_subtitle => 'المجموعة المختارة: {_____}. الآن اختر السكشن العملي والتطبيقي.';
+	@override String get section_label => 'سكشن {_______}';
 	@override String get labs_sessions => 'المعامل والدروس العملية';
 	@override String get step3_title => 'الخطوة ٣: تأكيد التسجيل';
 	@override String get review => 'مراجعة خياراتك';
@@ -450,13 +450,13 @@ class _TranslationsRegistrationAr extends TranslationsRegistrationEn {
 	@override String get group => 'المجموعة';
 	@override String get section => 'السكشن';
 	@override String get auto_registered => 'المقررات التي سيتم تسجيلها تلقائياً:';
-	@override String credits_count({required Object credits}) => '${credits} ساعات';
+	@override String get credits_count => '{_______} ساعات';
 	@override String get confirm_final => 'تأكيد التسجيل النهائي';
 	@override String get already_registered_title => 'مسجل بالفعل!';
-	@override String success_message({required Object group, required Object section}) => 'لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: ${group} | السكشن: ${section}';
+	@override String get success_message => 'لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: {_____} | السكشن: {_______}';
 	@override String get back_home => 'العودة للرئيسية';
 	@override String get registration_success => 'تم التسجيل بنجاح!';
-	@override String error_loading({required Object error}) => 'خطأ: ${error}\n\nاضغط لإعادة المحاولة';
+	@override String get error_loading => 'خطأ: {_____}\n\nاضغط لإعادة المحاولة';
 }
 
 // Path: payment
@@ -474,7 +474,7 @@ class _TranslationsPaymentAr extends TranslationsPaymentEn {
 	@override String get credit_debit => 'بطاقة ائتمان / خصم مباشر';
 	@override String get fawry => 'فوري / دفع إلكتروني';
 	@override String get bank_transfer => 'تحويل بنكي';
-	@override String currency({required Object amount}) => '${amount} ج.م';
+	@override String get currency => '{a_____} ج.م';
 }
 
 // Path: invoices
@@ -570,31 +570,31 @@ class _TranslationsProfessorAr extends TranslationsProfessorEn {
 
 	// Translations
 	@override String get dashboard_title => 'لوحة تحكم الدكتور';
-	@override String welcome_back_name({required Object name}) => 'مرحباً بعودتك، ${name}';
-	@override String active_tas_count({required Object count}) => '${count} معيد حالي';
-	@override String total_students_count({required Object count}) => '${count} إجمالي الطلاب';
-	@override String uploaded_files_count({required Object count}) => '${count} ملف مرفوع';
-	@override String weekly_slots_count({required Object count}) => '${count} مواعيد أسبوعية';
-	@override String announcement_to({required Object count}) => 'إرسال إعلان لـ ${count}';
+	@override String get welcome_back_name => 'مرحباً بعودتك، {_a__}';
+	@override String get active_tas_count => '{_____} معيد حالي';
+	@override String get total_students_count => '{_____} إجمالي الطلاب';
+	@override String get uploaded_files_count => '{_____} ملف مرفوع';
+	@override String get weekly_slots_count => '{_____} مواعيد أسبوعية';
+	@override String get announcement_to => 'إرسال إعلان لـ {_____}';
 	@override String get preparing_announcement => 'جاري تجهيز الإعلان...';
 	@override String get no_groups => 'لا توجد مجموعات';
 	@override String get select_all => 'تحديد الكل';
 	@override String get deselect_all => 'إلغاء التحديد';
-	@override String selected_count({required Object count}) => '${count} محدد';
-	@override String action_clicked({required Object action}) => 'تم النقر: ${action}';
-	@override String activating({required Object target}) => 'تفعيل: ${target}';
+	@override String get selected_count => '{_____} محدد';
+	@override String get action_clicked => 'تم النقر: {a_____}';
+	@override String get activating => 'تفعيل: {_a____}';
 	@override String get add_new_ta => 'إضافة معيد جديد';
 	@override String get no_available_tas => 'لا يوجد معيدون متاحون';
 	@override String get no_active_tas => 'لا يوجد معيدون حالياً';
-	@override String added({required Object name}) => 'تم إضافة: ${name}';
-	@override String removed({required Object name}) => 'تم إزالة: ${name}';
+	@override String get added => 'تم إضافة: {_a__}';
+	@override String get removed => 'تم إزالة: {_a__}';
 	@override String get add => 'إضافة';
 	@override String get urgent => 'عاجل';
 	@override String get upload => 'رفع';
 	@override String get message => 'مراسلة';
 	@override String get downloading => 'جاري التحميل...';
 	@override String get walk_in => 'بدون موعد';
-	@override String joined({required Object name}) => 'تم الانضمام: ${name}';
+	@override String get joined => 'تم الانضمام: {_a__}';
 	@override String get join => 'انضمام';
 	@override late final _TranslationsProfessorStatsAr stats = _TranslationsProfessorStatsAr._(_root);
 	@override late final _TranslationsProfessorQuickActionsAr quick_actions = _TranslationsProfessorQuickActionsAr._(_root);
@@ -669,7 +669,7 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get support_center => 'مركز الدعم';
 	@override String get get_help_and_resolve_any_issues => 'تواصل معنا لحل أي مشكلة';
 	@override String get send_feedback => 'إرسال ملاحظة';
-	@override String get share_your_thoughts_to_help_improve_the_ => 'شاركنا رأيك لتحسين التطبيق';
+	@override String get share_your_thoughts_to_help_improve_the => 'شاركنا رأيك لتحسين التطبيق';
 	@override String get rate_the_app => 'تقييم التطبيق';
 	@override String get your_support_matters => '⭐ دعمك يهمنا';
 	@override String get thank_you_for_your_support => 'شكراً على دعمك! 🎉';
@@ -701,7 +701,7 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get building => 'مبنى';
 	@override String get assistant_head => 'مساعد رئيس القسم';
 	@override String get no_assistant_assigned => 'لم يتم تعيين مساعد';
-	@override String get please_assign_an_assistant_head_for_the_ => 'يرجى تعيين مساعد لرئيس القسم';
+	@override String get please_assign_an_assistant_head_for_the => 'يرجى تعيين مساعد لرئيس القسم';
 	@override String get add_staff => 'إضافة عضو';
 	@override String get no_faculty_members_assigned => 'لا يوجد أعضاء هيئة تدريس';
 	@override String get add_faculty => 'إضافة عضو هيئة تدريس';
@@ -710,7 +710,7 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get remove => 'إزالة';
 	@override String get add_faculty_member => 'إضافة عضو هيئة تدريس';
 	@override String get confirm_removal => 'تأكيد الإزالة';
-	@override String remove_staff_fullname_from_this_departme({required Object staffFullName}) => 'هل تريد إزالة ${staffFullName} من هذا القسم؟';
+	@override String remove_staff_fullname_from_this_departme({required Object __a_______a__}) => 'هل تريد إزالة ${__a_______a__} من هذا القسم؟';
 	@override String get roles_management => 'إدارة الرتب';
 	@override String get merge_roles => 'دمج رتبتين';
 	@override String get create_role => 'إنشاء رتبة جديدة';
@@ -743,7 +743,7 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get edit_role => 'تعديل الرتبة';
 	@override String get role_updated => 'تم تحديث الرتبة';
 	@override String get delete_role => 'حذف الرتبة';
-	@override String delete_role_nameen_this_cannot_be_undone({required Object roleNameEn}) => 'هل تريد حذف "${roleNameEn}"؟ لا يمكن التراجع.';
+	@override String delete_role_nameen_this_cannot_be_undone({required Object _____a____}) => 'هل تريد حذف "${_____a____}"؟ لا يمكن التراجع.';
 	@override String get delete => 'حذف';
 	@override String get admin_it => 'الإدارة والتقنية';
 	@override String get leadership => 'القيادة الأكاديمية';
@@ -786,25 +786,25 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get permanently_delete => 'حذف نهائي';
 	@override String get verify_account => 'توثيق الحساب';
 	@override String get remove_verification => 'إلغاء التوثيق';
-	@override String verify_user_fullname({required Object userFullName}) => 'هل تريد توثيق حساب ${userFullName}؟';
-	@override String remove_verification_from_user_fullname({required Object userFullName}) => 'هل تريد إلغاء توثيق حساب ${userFullName}؟';
+	@override String verify_userfullname({required Object user_fullName}) => 'توثيق حساب ${user_fullName}؟';
+	@override String remove_verification_from_userfullname({required Object user_fullName}) => 'إزالة التوثيق من ${user_fullName}؟';
 	@override String get ban_user => 'حظر المستخدم';
 	@override String get unban_user => 'إلغاء الحظر';
-	@override String ban_user_fullname_they_will_lose_system_({required Object userFullName}) => 'هل تريد حظر ${userFullName}؟ لن يتمكن من الوصول للنظام.';
-	@override String unban_user_fullname({required Object userFullName}) => 'هل تريد إلغاء حظر ${userFullName}؟';
+	@override String ban_user_fullname_they_will_lose_system({required Object _________a__}) => 'هل تريد حظر ${_________a__}؟ لن يتمكن من الوصول للنظام.';
+	@override String unban_userfullname({required Object user_fullName}) => 'إلغاء حظر ${user_fullName}؟';
 	@override String warning_level_set_to_level({required Object level}) => 'تم تحديث مستوى التحذير إلى ${level}';
 	@override String get tag_removed => 'تم إزالة العلامة';
 	@override String get tag_name => 'اسم العلامة';
 	@override String get permanent_delete => 'حذف نهائي';
 	@override String get soft_delete => 'تعطيل الحساب';
-	@override String permanently_delete_user_fullname_this_ca({required Object userFullName}) => 'هل أنت متأكد من حذف ${userFullName} نهائياً؟ لا يمكن التراجع!';
-	@override String deactivate_user_fullname({required Object userFullName}) => 'هل تريد تعطيل حساب ${userFullName}؟';
+	@override String permanently_delete_user_fullname_this_ca({required Object _________a__}) => 'هل أنت متأكد من حذف ${_________a__} نهائياً؟ لا يمكن التراجع!';
+	@override String deactivate_userfullname({required Object user_fullName}) => 'إلغاء تنشيط حساب ${user_fullName}؟';
 	@override String get institution => 'الكلية والقسم';
 	@override String get select_college => 'اختر الكلية';
 	@override String get college_is_required => 'الكلية مطلوبة';
 	@override String get select_department => 'اختر القسم';
 	@override String get department_is_required => 'القسم مطلوب';
-	@override String out_of_max({required Object max}) => 'من ${max}';
+	@override String out_of_max({required Object _a_}) => 'من ${_a_}';
 	@override String get exceeding => 'متفوق';
 	@override String get top_5 => 'أفضل 5%';
 	@override String get total => 'المجموع';
@@ -828,16 +828,12 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get you_do_not_have_permission_to_access_this_section => 'ليس لديك صلاحية للوصول إلى هذا القسم';
 	@override String get k201000000000 => '+20 10 0000 0000';
 	@override String get faculty_members => 'عضو هيئة تدريس';
-	@override String remove_stafffullname_from_this_department({required Object staff.fullName}) => 'إزالة ${staff.fullName} من هذا القسم؟';
+	@override String remove_stafffullname_from_this_department({required Object staff_fullName}) => 'إزالة ${staff_fullName} من هذا القسم؟';
 	@override String get roles => 'رتبة';
 	@override String get permissions_2 => 'صلاحية';
-	@override String delete_role_rolenameen_this_cannot_be_undone({required Object role.nameAr}) => 'حذف دور ${role.nameAr}؟ لا يمكن التراجع عن هذا.';
-	@override String verify__userfullname({required Object _user.fullName}) => 'توثيق حساب ${_user.fullName}؟';
-	@override String remove_verification_from__userfullname({required Object _user.fullName}) => 'إزالة التوثيق من ${_user.fullName}؟';
-	@override String ban__userfullname_they_will_lose_system_access({required Object _user.fullName}) => 'حظر ${_user.fullName}؟ (سيفقدون الوصول للنظام)';
-	@override String unban__userfullname({required Object _user.fullName}) => 'إلغاء حظر ${_user.fullName}؟';
-	@override String permanently_delete__userfullname_this_cannot_be_undone({required Object _user.fullName}) => 'حذف ${_user.fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.';
-	@override String deactivate__userfullname({required Object _user.fullName}) => 'إلغاء تنشيط حساب ${_user.fullName}؟';
+	@override String delete_role_rolenameen_this_cannot_be_undone({required Object role_nameEn}) => 'حذف دور ${role_nameEn}؟ لا يمكن التراجع عن هذا.';
+	@override String ban_userfullname_they_will_lose_system_access({required Object user_fullName}) => 'حظر ${user_fullName}؟ (سيفقدون الوصول للنظام)';
+	@override String permanently_delete_userfullname_this_cannot_be_undone({required Object user_fullName}) => 'حذف ${user_fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.';
 	@override String get personal_details => 'البيانات الشخصية';
 	@override String get account_credentials => 'بيانات الحساب';
 	@override String get roles_permissions => 'الصلاحيات والأدوار';
@@ -1156,7 +1152,7 @@ class _TranslationsAdminAr extends TranslationsAdminEn {
 	@override String get filter_staff => 'طاقم عمل';
 	@override String get filter_admin => 'مسؤل';
 	@override String get no_users => 'لم يتم العثور على مستخدمين';
-	@override String user_count({required Object count}) => 'مستخدمي${count}';
+	@override String get user_count => 'مستخدمي{_____}';
 	@override String get student_management => 'إدارة الطلاب';
 	@override String get faculty_management => 'إدارة الكلية';
 	@override String get leadership_management => 'إدارة القيادة';
@@ -1399,7 +1395,7 @@ class _TranslationsEnrollmentAr extends TranslationsEnrollmentEn {
 	@override String get late_fee => 'الرسوم المتأخرة';
 	@override String get registration_fee => 'رسوم التسجيل';
 	@override String get academic_year => 'العام الدراسي';
-	@override String semester_label({required Object semester}) => 'الفصل الدراسي${semester}';
+	@override String get semester_label => 'الفصل الدراسي{________}';
 	@override String get total => 'المجموع';
 	@override String get submit_request => 'إرسال الطلب';
 	@override String get all => 'الجميع';
@@ -2613,11 +2609,11 @@ extension on TranslationsAr {
 			'registration.enrolled_credits' => 'الساعات المسجلة',
 			'registration.step1_title' => 'الخطوة ١: اختر المجموعة الرئيسية',
 			'registration.step1_subtitle' => 'اختر المجموعة التي ترغب بالتسجيل فيها لهذا الفصل الدراسي.',
-			'registration.group_label' => ({required Object group}) => 'المجموعة ${group}',
+			'registration.group_label' => 'المجموعة {_____}',
 			'registration.main_cohort' => 'تسجيل المجموعة الرئيسية',
 			'registration.step2_title' => 'الخطوة ٢: اختر القسم الفرعي (السكشن)',
-			'registration.step2_subtitle' => ({required Object group}) => 'المجموعة المختارة: ${group}. الآن اختر السكشن العملي والتطبيقي.',
-			'registration.section_label' => ({required Object section}) => 'سكشن ${section}',
+			'registration.step2_subtitle' => 'المجموعة المختارة: {_____}. الآن اختر السكشن العملي والتطبيقي.',
+			'registration.section_label' => 'سكشن {_______}',
 			'registration.labs_sessions' => 'المعامل والدروس العملية',
 			'registration.step3_title' => 'الخطوة ٣: تأكيد التسجيل',
 			'registration.review' => 'مراجعة خياراتك',
@@ -2625,13 +2621,13 @@ extension on TranslationsAr {
 			'registration.group' => 'المجموعة',
 			'registration.section' => 'السكشن',
 			'registration.auto_registered' => 'المقررات التي سيتم تسجيلها تلقائياً:',
-			'registration.credits_count' => ({required Object credits}) => '${credits} ساعات',
+			'registration.credits_count' => '{_______} ساعات',
 			'registration.confirm_final' => 'تأكيد التسجيل النهائي',
 			'registration.already_registered_title' => 'مسجل بالفعل!',
-			'registration.success_message' => ({required Object group, required Object section}) => 'لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: ${group} | السكشن: ${section}',
+			'registration.success_message' => 'لقد قمت بالتسجيل المسبق بنجاح في هذا الفصل.\nالمجموعة: {_____} | السكشن: {_______}',
 			'registration.back_home' => 'العودة للرئيسية',
 			'registration.registration_success' => 'تم التسجيل بنجاح!',
-			'registration.error_loading' => ({required Object error}) => 'خطأ: ${error}\n\nاضغط لإعادة المحاولة',
+			'registration.error_loading' => 'خطأ: {_____}\n\nاضغط لإعادة المحاولة',
 			'payment.title' => 'الدفع الإلكتروني',
 			'payment.outstanding' => 'المبلغ المستحق',
 			'payment.pay_now' => 'سداد الآن',
@@ -2640,7 +2636,7 @@ extension on TranslationsAr {
 			'payment.credit_debit' => 'بطاقة ائتمان / خصم مباشر',
 			'payment.fawry' => 'فوري / دفع إلكتروني',
 			'payment.bank_transfer' => 'تحويل بنكي',
-			'payment.currency' => ({required Object amount}) => '${amount} ج.م',
+			'payment.currency' => '{a_____} ج.م',
 			'invoices.title' => 'الفواتير والمالية',
 			'invoices.history' => 'سجل الدفع',
 			'invoices.unpaid' => 'غير مدفوع',
@@ -2679,31 +2675,31 @@ extension on TranslationsAr {
 			'administration.audit_logs.labels.close_details' => 'إغلاق التفاصيل',
 			'administration.audit_logs.labels.view_details' => 'عرض التفاصيل',
 			'professor.dashboard_title' => 'لوحة تحكم الدكتور',
-			'professor.welcome_back_name' => ({required Object name}) => 'مرحباً بعودتك، ${name}',
-			'professor.active_tas_count' => ({required Object count}) => '${count} معيد حالي',
-			'professor.total_students_count' => ({required Object count}) => '${count} إجمالي الطلاب',
-			'professor.uploaded_files_count' => ({required Object count}) => '${count} ملف مرفوع',
-			'professor.weekly_slots_count' => ({required Object count}) => '${count} مواعيد أسبوعية',
-			'professor.announcement_to' => ({required Object count}) => 'إرسال إعلان لـ ${count}',
+			'professor.welcome_back_name' => 'مرحباً بعودتك، {_a__}',
+			'professor.active_tas_count' => '{_____} معيد حالي',
+			'professor.total_students_count' => '{_____} إجمالي الطلاب',
+			'professor.uploaded_files_count' => '{_____} ملف مرفوع',
+			'professor.weekly_slots_count' => '{_____} مواعيد أسبوعية',
+			'professor.announcement_to' => 'إرسال إعلان لـ {_____}',
 			'professor.preparing_announcement' => 'جاري تجهيز الإعلان...',
 			'professor.no_groups' => 'لا توجد مجموعات',
 			'professor.select_all' => 'تحديد الكل',
 			'professor.deselect_all' => 'إلغاء التحديد',
-			'professor.selected_count' => ({required Object count}) => '${count} محدد',
-			'professor.action_clicked' => ({required Object action}) => 'تم النقر: ${action}',
-			'professor.activating' => ({required Object target}) => 'تفعيل: ${target}',
+			'professor.selected_count' => '{_____} محدد',
+			'professor.action_clicked' => 'تم النقر: {a_____}',
+			'professor.activating' => 'تفعيل: {_a____}',
 			'professor.add_new_ta' => 'إضافة معيد جديد',
 			'professor.no_available_tas' => 'لا يوجد معيدون متاحون',
 			'professor.no_active_tas' => 'لا يوجد معيدون حالياً',
-			'professor.added' => ({required Object name}) => 'تم إضافة: ${name}',
-			'professor.removed' => ({required Object name}) => 'تم إزالة: ${name}',
+			'professor.added' => 'تم إضافة: {_a__}',
+			'professor.removed' => 'تم إزالة: {_a__}',
 			'professor.add' => 'إضافة',
 			'professor.urgent' => 'عاجل',
 			'professor.upload' => 'رفع',
 			'professor.message' => 'مراسلة',
 			'professor.downloading' => 'جاري التحميل...',
 			'professor.walk_in' => 'بدون موعد',
-			'professor.joined' => ({required Object name}) => 'تم الانضمام: ${name}',
+			'professor.joined' => 'تم الانضمام: {_a__}',
 			'professor.join' => 'انضمام',
 			'professor.stats.groups' => 'المجموعات',
 			'professor.stats.students' => 'إجمالي الطلاب',
@@ -2825,7 +2821,7 @@ extension on TranslationsAr {
 			'extracted.support_center' => 'مركز الدعم',
 			'extracted.get_help_and_resolve_any_issues' => 'تواصل معنا لحل أي مشكلة',
 			'extracted.send_feedback' => 'إرسال ملاحظة',
-			'extracted.share_your_thoughts_to_help_improve_the_' => 'شاركنا رأيك لتحسين التطبيق',
+			'extracted.share_your_thoughts_to_help_improve_the' => 'شاركنا رأيك لتحسين التطبيق',
 			'extracted.rate_the_app' => 'تقييم التطبيق',
 			'extracted.your_support_matters' => '⭐ دعمك يهمنا',
 			'extracted.thank_you_for_your_support' => 'شكراً على دعمك! 🎉',
@@ -2857,7 +2853,7 @@ extension on TranslationsAr {
 			'extracted.building' => 'مبنى',
 			'extracted.assistant_head' => 'مساعد رئيس القسم',
 			'extracted.no_assistant_assigned' => 'لم يتم تعيين مساعد',
-			'extracted.please_assign_an_assistant_head_for_the_' => 'يرجى تعيين مساعد لرئيس القسم',
+			'extracted.please_assign_an_assistant_head_for_the' => 'يرجى تعيين مساعد لرئيس القسم',
 			'extracted.add_staff' => 'إضافة عضو',
 			'extracted.no_faculty_members_assigned' => 'لا يوجد أعضاء هيئة تدريس',
 			'extracted.add_faculty' => 'إضافة عضو هيئة تدريس',
@@ -2866,7 +2862,7 @@ extension on TranslationsAr {
 			'extracted.remove' => 'إزالة',
 			'extracted.add_faculty_member' => 'إضافة عضو هيئة تدريس',
 			'extracted.confirm_removal' => 'تأكيد الإزالة',
-			'extracted.remove_staff_fullname_from_this_departme' => ({required Object staffFullName}) => 'هل تريد إزالة ${staffFullName} من هذا القسم؟',
+			'extracted.remove_staff_fullname_from_this_departme' => ({required Object __a_______a__}) => 'هل تريد إزالة ${__a_______a__} من هذا القسم؟',
 			'extracted.roles_management' => 'إدارة الرتب',
 			'extracted.merge_roles' => 'دمج رتبتين',
 			'extracted.create_role' => 'إنشاء رتبة جديدة',
@@ -2899,7 +2895,7 @@ extension on TranslationsAr {
 			'extracted.edit_role' => 'تعديل الرتبة',
 			'extracted.role_updated' => 'تم تحديث الرتبة',
 			'extracted.delete_role' => 'حذف الرتبة',
-			'extracted.delete_role_nameen_this_cannot_be_undone' => ({required Object roleNameEn}) => 'هل تريد حذف "${roleNameEn}"؟ لا يمكن التراجع.',
+			'extracted.delete_role_nameen_this_cannot_be_undone' => ({required Object _____a____}) => 'هل تريد حذف "${_____a____}"؟ لا يمكن التراجع.',
 			'extracted.delete' => 'حذف',
 			'extracted.admin_it' => 'الإدارة والتقنية',
 			'extracted.leadership' => 'القيادة الأكاديمية',
@@ -2942,25 +2938,25 @@ extension on TranslationsAr {
 			'extracted.permanently_delete' => 'حذف نهائي',
 			'extracted.verify_account' => 'توثيق الحساب',
 			'extracted.remove_verification' => 'إلغاء التوثيق',
-			'extracted.verify_user_fullname' => ({required Object userFullName}) => 'هل تريد توثيق حساب ${userFullName}؟',
-			'extracted.remove_verification_from_user_fullname' => ({required Object userFullName}) => 'هل تريد إلغاء توثيق حساب ${userFullName}؟',
+			'extracted.verify_userfullname' => ({required Object user_fullName}) => 'توثيق حساب ${user_fullName}؟',
+			'extracted.remove_verification_from_userfullname' => ({required Object user_fullName}) => 'إزالة التوثيق من ${user_fullName}؟',
 			'extracted.ban_user' => 'حظر المستخدم',
 			'extracted.unban_user' => 'إلغاء الحظر',
-			'extracted.ban_user_fullname_they_will_lose_system_' => ({required Object userFullName}) => 'هل تريد حظر ${userFullName}؟ لن يتمكن من الوصول للنظام.',
-			'extracted.unban_user_fullname' => ({required Object userFullName}) => 'هل تريد إلغاء حظر ${userFullName}؟',
+			'extracted.ban_user_fullname_they_will_lose_system' => ({required Object _________a__}) => 'هل تريد حظر ${_________a__}؟ لن يتمكن من الوصول للنظام.',
+			'extracted.unban_userfullname' => ({required Object user_fullName}) => 'إلغاء حظر ${user_fullName}؟',
 			'extracted.warning_level_set_to_level' => ({required Object level}) => 'تم تحديث مستوى التحذير إلى ${level}',
 			'extracted.tag_removed' => 'تم إزالة العلامة',
 			'extracted.tag_name' => 'اسم العلامة',
 			'extracted.permanent_delete' => 'حذف نهائي',
 			'extracted.soft_delete' => 'تعطيل الحساب',
-			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object userFullName}) => 'هل أنت متأكد من حذف ${userFullName} نهائياً؟ لا يمكن التراجع!',
-			'extracted.deactivate_user_fullname' => ({required Object userFullName}) => 'هل تريد تعطيل حساب ${userFullName}؟',
+			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object _________a__}) => 'هل أنت متأكد من حذف ${_________a__} نهائياً؟ لا يمكن التراجع!',
+			'extracted.deactivate_userfullname' => ({required Object user_fullName}) => 'إلغاء تنشيط حساب ${user_fullName}؟',
 			'extracted.institution' => 'الكلية والقسم',
 			'extracted.select_college' => 'اختر الكلية',
 			'extracted.college_is_required' => 'الكلية مطلوبة',
 			'extracted.select_department' => 'اختر القسم',
 			'extracted.department_is_required' => 'القسم مطلوب',
-			'extracted.out_of_max' => ({required Object max}) => 'من ${max}',
+			'extracted.out_of_max' => ({required Object _a_}) => 'من ${_a_}',
 			'extracted.exceeding' => 'متفوق',
 			'extracted.top_5' => 'أفضل 5%',
 			'extracted.total' => 'المجموع',
@@ -2984,16 +2980,12 @@ extension on TranslationsAr {
 			'extracted.you_do_not_have_permission_to_access_this_section' => 'ليس لديك صلاحية للوصول إلى هذا القسم',
 			'extracted.k201000000000' => '+20 10 0000 0000',
 			'extracted.faculty_members' => 'عضو هيئة تدريس',
-			'extracted.remove_stafffullname_from_this_department' => ({required Object staff.fullName}) => 'إزالة ${staff.fullName} من هذا القسم؟',
+			'extracted.remove_stafffullname_from_this_department' => ({required Object staff_fullName}) => 'إزالة ${staff_fullName} من هذا القسم؟',
 			'extracted.roles' => 'رتبة',
 			'extracted.permissions_2' => 'صلاحية',
-			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role.nameAr}) => 'حذف دور ${role.nameAr}؟ لا يمكن التراجع عن هذا.',
-			'extracted.verify__userfullname' => ({required Object _user.fullName}) => 'توثيق حساب ${_user.fullName}؟',
-			'extracted.remove_verification_from__userfullname' => ({required Object _user.fullName}) => 'إزالة التوثيق من ${_user.fullName}؟',
-			'extracted.ban__userfullname_they_will_lose_system_access' => ({required Object _user.fullName}) => 'حظر ${_user.fullName}؟ (سيفقدون الوصول للنظام)',
-			'extracted.unban__userfullname' => ({required Object _user.fullName}) => 'إلغاء حظر ${_user.fullName}؟',
-			'extracted.permanently_delete__userfullname_this_cannot_be_undone' => ({required Object _user.fullName}) => 'حذف ${_user.fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.',
-			'extracted.deactivate__userfullname' => ({required Object _user.fullName}) => 'إلغاء تنشيط حساب ${_user.fullName}؟',
+			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role_nameEn}) => 'حذف دور ${role_nameEn}؟ لا يمكن التراجع عن هذا.',
+			'extracted.ban_userfullname_they_will_lose_system_access' => ({required Object user_fullName}) => 'حظر ${user_fullName}؟ (سيفقدون الوصول للنظام)',
+			'extracted.permanently_delete_userfullname_this_cannot_be_undone' => ({required Object user_fullName}) => 'حذف ${user_fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.',
 			'extracted.personal_details' => 'البيانات الشخصية',
 			'extracted.account_credentials' => 'بيانات الحساب',
 			'extracted.roles_permissions' => 'الصلاحيات والأدوار',
@@ -3270,12 +3262,12 @@ extension on TranslationsAr {
 			'admin.server' => 'الخادم',
 			'admin.latency' => 'كمون',
 			'admin.online' => 'متصل',
-			_ => null,
-		} ?? switch (path) {
 			'admin.status' => 'حالة',
 			'admin.database' => 'قاعدة البيانات',
 			'admin.active' => 'نشيط',
 			'admin.realtime_latency_ms' => 'الكمون في الوقت الحقيقي (مللي ثانية)',
+			_ => null,
+		} ?? switch (path) {
 			'admin.role_breakdown' => 'انهيار الدور',
 			'admin.teaching_staff' => 'أعضاء هيئة التدريس',
 			'admin.student_affairs' => 'شؤون الطلاب',
@@ -3296,7 +3288,7 @@ extension on TranslationsAr {
 			'admin.filter_staff' => 'طاقم عمل',
 			'admin.filter_admin' => 'مسؤل',
 			'admin.no_users' => 'لم يتم العثور على مستخدمين',
-			'admin.user_count' => ({required Object count}) => 'مستخدمي${count}',
+			'admin.user_count' => 'مستخدمي{_____}',
 			'admin.student_management' => 'إدارة الطلاب',
 			'admin.faculty_management' => 'إدارة الكلية',
 			'admin.leadership_management' => 'إدارة القيادة',
@@ -3530,7 +3522,7 @@ extension on TranslationsAr {
 			'enrollment.late_fee' => 'الرسوم المتأخرة',
 			'enrollment.registration_fee' => 'رسوم التسجيل',
 			'enrollment.academic_year' => 'العام الدراسي',
-			'enrollment.semester_label' => ({required Object semester}) => 'الفصل الدراسي${semester}',
+			'enrollment.semester_label' => 'الفصل الدراسي{________}',
 			'enrollment.total' => 'المجموع',
 			'enrollment.submit_request' => 'إرسال الطلب',
 			'enrollment.all' => 'الجميع',
