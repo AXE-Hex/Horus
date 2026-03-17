@@ -1041,8 +1041,13 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ? (t.extracted.verify_account)
           : (t.extracted.remove_verification),
       message: newVal
+<<<<<<< HEAD
           ? (t.extracted.verify_userfullname(user_fullName: _user.fullName) + "'s account?")
           : (t.extracted.remove_verification_from_userfullname(user_fullName: _user.fullName)),
+=======
+          ? (t.extracted.verify__userfullname(___________a__: _user.fullName)s account?')
+          : (t.extracted.remove_verification_from__userfullname(___________a__: _user.fullName)),
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
       confirmColor: const Color(0xFF10B981),
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
@@ -1065,8 +1070,13 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     _showConfirmDialog(
       title: newVal ? (t.extracted.ban_user) : (t.extracted.unban_user),
       message: newVal
+<<<<<<< HEAD
           ? (t.extracted.ban_userfullname_they_will_lose_system_access(user_fullName: _user.fullName))
           : (t.extracted.unban_userfullname(user_fullName: _user.fullName)),
+=======
+          ? (t.extracted.ban__userfullname_they_will_lose_system_access(___________a__: _user.fullName))
+          : (t.extracted.unban__userfullname(___________a__: _user.fullName)),
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.toggleBan(_user.id, newVal);
@@ -1205,8 +1215,17 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         : '${t.extracted.deactivate_userfullname(user_fullName: _user.fullName)}\'s account?';
 
     _showConfirmDialog(
+<<<<<<< HEAD
       title: title,
       message: message,
+=======
+      title: hardDelete
+          ? (t.extracted.permanent_delete)
+          : (t.extracted.soft_delete),
+      message: hardDelete
+          ? (t.extracted.permanently_delete__userfullname_this_cannot_be_undone(___________a__: _user.fullName))
+          : (t.extracted.deactivate__userfullname(___________a__: _user.fullName)s account?'),
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);

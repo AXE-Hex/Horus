@@ -1092,7 +1092,11 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           style: GoogleFonts.outfit(fontWeight: FontWeight.w800),
         ),
         content: Text(
+<<<<<<< HEAD
           t.extracted.delete_role_rolenameen_this_cannot_be_undone(role_nameEn: role.nameEn),
+=======
+          t.extracted.delete_role_rolenameen_this_cannot_be_undone(______a____: role.nameEn),
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
           style: GoogleFonts.inter(
             color: Theme.of(
               context,

@@ -1464,7 +1464,11 @@
     "remove": "Remove",
     "add_faculty_member": "Add Faculty Member",
     "confirm_removal": "Confirm Removal",
+<<<<<<< HEAD
     "remove_staff_fullname_from_this_departme": "Remove ${__a_______a__} from this department?",
+=======
+    "remove_staff_fullname_from_this_departme": "Remove {__a_______a__} from this department?",
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
     "roles_management": "Roles Management",
     "merge_roles": "Merge Roles",
     "create_role": "Create Role",
@@ -1497,7 +1501,11 @@
     "edit_role": "Edit Role",
     "role_updated": "Role updated",
     "delete_role": "Delete Role",
+<<<<<<< HEAD
     "delete_role_nameen_this_cannot_be_undone": "Delete \"${_____a____}\"? This cannot be undone.",
+=======
+    "delete_role_nameen_this_cannot_be_undone": "Delete \"{_____a____}\"? This cannot be undone.",
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
     "delete": "Delete",
     "admin_it": "Admin & IT",
     "leadership": "Leadership",
@@ -1540,6 +1548,7 @@
     "permanently_delete": "Permanently Delete",
     "verify_account": "Verify Account",
     "remove_verification": "Remove Verification",
+<<<<<<< HEAD
     "verify_userfullname": "Verify ${user_fullName}",
     "remove_verification_from_userfullname": "Remove verification from ${user_fullName}?",
     "ban_user": "Ban User",
@@ -1547,18 +1556,36 @@
     "ban_user_fullname_they_will_lose_system": "Ban ${_________a__}? They will lose system access.",
     "unban_userfullname": "Unban ${user_fullName}?",
     "warning_level_set_to_level": "Warning level set to ${level}",
+=======
+    "verify_user_fullname": "Verify {_________a__}",
+    "remove_verification_from_user_fullname": "Remove verification from {_________a__}?",
+    "ban_user": "Ban User",
+    "unban_user": "Unban User",
+    "ban_user_fullname_they_will_lose_system_": "Ban {_________a__}? They will lose system access.",
+    "unban_user_fullname": "Unban {_________a__}?",
+    "warning_level_set_to_level": "Warning level set to {_____}",
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
     "tag_removed": "Tag removed",
     "tag_name": "Tag name",
     "permanent_delete": "Permanent Delete",
     "soft_delete": "Soft Delete",
+<<<<<<< HEAD
     "permanently_delete_user_fullname_this_ca": "Permanently delete ${_________a__}? This cannot be undone!",
     "deactivate_userfullname": "Deactivate ${user_fullName}",
+=======
+    "permanently_delete_user_fullname_this_ca": "Permanently delete {_________a__}? This cannot be undone!",
+    "deactivate_user_fullname": "Deactivate {_________a__}",
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
     "institution": "Institution",
     "select_college": "Select College",
     "college_is_required": "College is required",
     "select_department": "Select Department",
     "department_is_required": "Department is required",
+<<<<<<< HEAD
     "out_of_max": "OUT OF ${_a_}",
+=======
+    "out_of_max": "OUT OF {_a_}",
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
     "exceeding": "Exceeding",
     "top_5": "Top 5%",
     "total": "Total",
@@ -1582,12 +1609,25 @@
     "you_do_not_have_permission_to_access_this_section": "You do not have permission to access this section",
     "20_10_0000_0000": "+20 10 0000 0000",
     "faculty_members": "Faculty Members",
+<<<<<<< HEAD
     "remove_stafffullname_from_this_department": "Remove ${staff_fullName} from this department?",
     "roles": "roles",
     "permissions_2": "permissions",
     "delete_role_rolenameen_this_cannot_be_undone": "Delete role ${role_nameEn}? This cannot be undone.",
     "ban_userfullname_they_will_lose_system_access": "Ban ${user_fullName}? (They will lose system access)",
     "permanently_delete_userfullname_this_cannot_be_undone": "Permanently delete ${user_fullName}? This cannot be undone.",
+=======
+    "remove_stafffullname_from_this_department": "Remove {__a________a__} from this department?",
+    "roles": "roles",
+    "permissions_2": "permissions",
+    "delete_role_rolenameen_this_cannot_be_undone": "Delete role {______a____}? This cannot be undone.",
+    "verify__userfullname": "Verify {___________a__}\\",
+    "remove_verification_from__userfullname": "Remove verification from {___________a__}?",
+    "ban__userfullname_they_will_lose_system_access": "Ban {___________a__}? (They will lose system access)",
+    "unban__userfullname": "Unban {___________a__}?",
+    "permanently_delete__userfullname_this_cannot_be_undone": "Permanently delete {___________a__}? This cannot be undone.",
+    "deactivate__userfullname": "Deactivate {___________a__}\\",
+>>>>>>> f29febc6c2601dcf99a1375e4a425e08782e6021
     "personal_details": "Personal Details",
     "account_credentials": "Account Credentials",
     "roles_permissions": "Roles & Permissions",
