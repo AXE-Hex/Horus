@@ -179,9 +179,7 @@ class _ImmersiveHeader extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      t.professor.welcome_back_name(
-                        name: profile.name.split(' ').first,
-                      ),
+                      'Welcome back, ${profile.name.split(' ').first}',
                       style: GoogleFonts.outfit(
                         fontSize: 32,
                         fontWeight: FontWeight.w900,

@@ -103,7 +103,7 @@ class PaymentScreen extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            t.payment.currency(amount: '12,450'),
+            '12,450 EGP',
             style: GoogleFonts.shareTechMono(
               fontSize: 32,
               fontWeight: FontWeight.bold,

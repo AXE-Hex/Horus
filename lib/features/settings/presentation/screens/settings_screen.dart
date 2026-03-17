@@ -989,7 +989,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   (Theme.of(context).cardTheme.color ??
                   Theme.of(context).cardColor),
               title: t.extracted.email_support,
-              subtitle: 'support@hue.university',
+              subtitle: 'support@horus.edu.eg',
             ),
             SizedBox(height: 12),
             _supportOption(
@@ -999,7 +999,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   (Theme.of(context).cardTheme.color ??
                   Theme.of(context).cardColor),
               title: t.extracted.call_hotline,
-              subtitle: t.extracted.20_10_0000_0000,
+              subtitle: '20 10 0000 0000',
             ),
             SizedBox(height: 12),
             _supportOption(

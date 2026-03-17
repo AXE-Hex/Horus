@@ -208,7 +208,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     } else if (_error != null) {
       body = Center(
         child: Text(
-          t.registration.error_loading(error: _error!),
+          'Error loading registration: $_error',
           textAlign: TextAlign.center,
         ),
       );

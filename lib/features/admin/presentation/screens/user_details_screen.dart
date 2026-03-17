@@ -1193,13 +1193,20 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
   }
 
   void _confirmDeleteUser(bool isArabic, {required bool hardDelete}) {
+    final title = hardDelete
+        ? t.extracted.permanent_delete
+        : t.extracted.soft_delete;
+
+    final message = hardDelete
+        ? t.extracted
+            .permanently_delete_userfullname_this_cannot_be_undone(
+              user_fullName: _user.fullName,
+            )
+        : '${t.extracted.deactivate_userfullname(user_fullName: _user.fullName)}\'s account?';
+
     _showConfirmDialog(
-      title: hardDelete
-          ? (t.extracted.permanent_delete)
-          : (t.extracted.soft_delete),
-      message: hardDelete
-          ? (t.extracted.permanently_delete_userfullname_this_cannot_be_undone(user_fullName: _user.fullName))
-          : (t.extracted.deactivate_userfullname(user_fullName: _user.fullName) + "'s account?",
+      title: title,
+      message: message,
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);
