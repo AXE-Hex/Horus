@@ -72,11 +72,11 @@ final academicSummaryProvider = FutureProvider<AcademicSummary>((ref) async {
   
   for (final grade in grades) {
     if (grade['is_published'] == true) {
-      final credits = grade['courses']?['credits'] ?? 3;
+      final int credits = (grade['courses']?['credits'] as num?)?.toInt() ?? 3;
       final points = (grade['gpa_points'] as num?)?.toDouble() ?? 0.0;
       totalPoints += points * credits;
-      totalCredits += credits as int;
-      if (points > 0) completedCredits += credits as int;
+      totalCredits += credits;
+      if (points > 0) completedCredits += credits;
     }
   }
   

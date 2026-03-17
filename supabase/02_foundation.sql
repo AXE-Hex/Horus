@@ -194,9 +194,9 @@ END $$;
 -- 4. CORE INDEXES
 -- ════════════════════════════════════════════════════════════════════════════
 
-CREATE INDEX idx_profiles_roles      ON public.profiles USING GIN(roles);
-CREATE INDEX idx_profiles_email      ON public.profiles(email);
-CREATE INDEX idx_profiles_college    ON public.profiles(college_id);
-CREATE INDEX idx_profiles_department ON public.profiles(department_id);
-CREATE INDEX idx_colleges_code       ON public.colleges(code);
-CREATE INDEX idx_departments_college ON public.departments(college_id);
+CREATE INDEX IF NOT EXISTS idx_profiles_roles      ON public.profiles USING GIN(roles);
+CREATE INDEX IF NOT EXISTS idx_profiles_email      ON public.profiles(email);
+CREATE INDEX IF NOT EXISTS idx_profiles_college    ON public.profiles(college_id);
+CREATE INDEX IF NOT EXISTS idx_profiles_department ON public.profiles(department_id);
+CREATE INDEX IF NOT EXISTS idx_colleges_code       ON public.colleges(code);
+CREATE INDEX IF NOT EXISTS idx_departments_college ON public.departments(college_id);

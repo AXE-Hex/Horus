@@ -832,7 +832,6 @@ class DashboardScreen extends ConsumerWidget {
 
 
   void _showAccessDenied(BuildContext context, [String? message]) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(

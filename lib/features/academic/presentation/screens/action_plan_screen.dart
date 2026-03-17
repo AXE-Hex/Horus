@@ -18,6 +18,7 @@ final actionPlanProvider = FutureProvider.family<List<Map<String, dynamic>>, Str
 });
 
 class ActionPlanScreen extends ConsumerWidget {
+  const ActionPlanScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

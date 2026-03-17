@@ -1038,4 +1038,14 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public
 -- The supabase_realtime publication must include any table the client listens
 -- to via .onPostgresChanges(). Without this, Realtime silently ignores changes.
 
-ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_publication_tables 
+    WHERE pubname = 'supabase_realtime' 
+    AND schemaname = 'public' 
+    AND tablename = 'profiles'
+  ) THEN
+    ALTER PUBLICATION supabase_realtime ADD TABLE public.profiles;
+  END IF;
+END $$;

@@ -1319,7 +1319,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           Switch(
             value: _isActive,
             onChanged: (val) => setState(() => _isActive = val),
-            activeColor: const Color(0xFF10B981),
+            activeThumbColor: const Color(0xFF10B981),
           ),
         ],
       ),
