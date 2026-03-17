@@ -982,7 +982,7 @@ class _DepartmentDetailsScreenState
             ),
           ),
           content: Text(
-            t.extracted.remove_stafffullname_from_this_department(__a________a__: staff.fullName),
+            t.extracted.remove_stafffullname_from_this_department(staff_fullName: staff.fullName),
             style: GoogleFonts.inter(color: Colors.white70),
           ),
           actions: [

@@ -56,7 +56,6 @@ class AuthController extends _$AuthController {
 
   @override
   AuthState build() {
-    // Clean up the realtime channel when the provider is disposed.
     ref.onDispose(() {
       _authSub?.cancel();
       _unsubscribeFromProfile();
@@ -65,7 +64,6 @@ class AuthController extends _$AuthController {
     final currentUser = _client.auth.currentUser;
     if (currentUser != null) {
       _loadProfile(currentUser);
-      return AuthState(user: currentUser, isLoading: true);
     }
 
     _authSub = _client.auth.onAuthStateChange.listen((data) {

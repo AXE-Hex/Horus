@@ -19,7 +19,9 @@ def sanitize_param(p):
     return p
 
 def fix_json(path):
-    if not os.path.exists(path): return {}
+    if not os.path.exists(path): 
+        print(f"File not found: {path}")
+        return {}
     with open(path, 'r', encoding='utf-8') as f:
         data = json.load(f)
     
@@ -74,8 +76,11 @@ for root, _, files in os.walk(LIB_DIR):
                 content = f.read()
             
             orig_content = content
-            for key, params in all_params.items():
-                dart_key = "t." + key
+            # Process in reverse length order of keys to avoid partial replacements
+            sorted_keys = sorted(all_params.keys(), key=len, reverse=True)
+            for key in sorted_keys:
+                params = all_params[key]
+                dart_key = f"t.{key}"
                 if dart_key in content:
                     args = []
                     seen_sanitized = set()
@@ -86,7 +91,7 @@ for root, _, files in os.walk(LIB_DIR):
                         args.append(f"{sanitized}: {expr}")
                     
                     arg_str = ", ".join(args)
-                    # Replace t.key with t.key(args) only if not already called
+                    # Replace t.key with t.key(args) only if not already called with parens
                     pattern = re.compile(re.escape(dart_key) + r'(?!\()')
                     content = pattern.sub(f"{dart_key}({arg_str})", content)
 
