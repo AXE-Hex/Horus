@@ -123,8 +123,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         if (url != null) uploadedUrls.add(url);
       }
 
-      // If posting as college (Dean/Rector only)
-      String? collegeId = _selectedCollegeId;
+      // Determine collegeId for this post.
+      // - When posting as a college: derive the college from the current dean/rector account only.
+      // - Otherwise: use the explicitly mentioned college (if any).
+      String? collegeId;
       if (_postAsCollege) {
         final res = await repository.supabase
             .from('colleges')
@@ -134,6 +136,8 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         if (res != null) {
           collegeId = res['id'] as String;
         }
+      } else {
+        collegeId = _selectedCollegeId;
       }
 
       final post = await repository.createPost(
