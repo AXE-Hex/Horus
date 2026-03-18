@@ -38,7 +38,6 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
   String _verifiedFilter = 'all';
   bool _isSearchFocused = false;
 
-  // Selection Mode
   bool _isSelectionMode = false;
   final Set<String> _selectedUserIds = {};
 
@@ -113,8 +112,8 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                 ],
               ),
               child: IconButton(
-                icon: const Icon(LucideIcons.userPlus, size: 18),
-                color: Colors.white,
+                icon: Icon(LucideIcons.userPlus, size: 18),
+                color: Theme.of(context).colorScheme.onSurface,
                 onPressed: () => context.push(
                   '/admin/users/new',
                   extra: {
@@ -168,7 +167,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
       body: Column(
         children: [
           const SizedBox(height: 12),
-          // ── Search Bar
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Row(
@@ -179,11 +178,11 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
               ],
             ),
           ),
-          // ── Active Filters
+
           if (_statusFilter != 'all' || _verifiedFilter != 'all')
             _buildActiveFilters(primaryColor),
           const SizedBox(height: 4),
-          // ── User List
+
           Expanded(child: _buildMainContent()),
         ],
       ),
@@ -209,7 +208,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
       duration: 300.ms,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white.withValues(alpha: 0.05),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
         border: Border.all(
           color: _isSearchFocused
               ? primaryColor.withValues(alpha: 0.5)
@@ -231,12 +230,17 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
         onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
         onTap: () => setState(() => _isSearchFocused = true),
         onEditingComplete: () => setState(() => _isSearchFocused = false),
-        style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
+        style: GoogleFonts.inter(
+          fontSize: 14,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         decoration: InputDecoration(
           hintText: t.admin.search_by_name_email_phone_id,
           hintStyle: GoogleFonts.inter(
             fontSize: 13,
-            color: Colors.white.withValues(alpha: 0.25),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.25),
           ),
           prefixIcon: Icon(
             LucideIcons.search,
@@ -250,7 +254,9 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                   icon: Icon(
                     LucideIcons.x,
                     size: 14,
-                    color: Colors.white.withValues(alpha: 0.4),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.4),
                   ),
                   onPressed: () {
                     _searchController.clear();
@@ -491,7 +497,6 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
             ),
             child: Row(
               children: [
-                // ── Avatar
                 Stack(
                   children: [
                     Container(
@@ -508,7 +513,9 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                           end: Alignment.bottomRight,
                         ),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.1),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.1),
                           width: 1.5,
                         ),
                       ),
@@ -523,19 +530,22 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                                     Icon(
                                       LucideIcons.user,
                                       size: 22,
-                                      color: Colors.white.withValues(
-                                        alpha: 0.6,
-                                      ),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withValues(alpha: 0.6),
                                     ),
                               ),
                             )
                           : Icon(
                               LucideIcons.user,
                               size: 22,
-                              color: Colors.white.withValues(alpha: 0.6),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                     ),
-                    // Status dot
+
                     Positioned(
                       bottom: 1,
                       right: 1,
@@ -546,13 +556,15 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                           color: statusColor,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xFF0A0A1A),
+                            color:
+                                (Theme.of(context).cardTheme.color ??
+                                Theme.of(context).cardColor),
                             width: 2,
                           ),
                         ),
                       ),
                     ),
-                    // Selection indicator
+
                     if (_isSelectionMode)
                       Positioned(
                         top: -2,
@@ -573,18 +585,20 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                             ),
                           ),
                           child: isSelected
-                              ? const Icon(
+                              ? Icon(
                                   LucideIcons.check,
                                   size: 12,
-                                  color: Colors.white,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                 )
                               : null,
                         ),
                       ),
                   ],
                 ),
-                const SizedBox(width: 14),
-                // ── User Info
+                SizedBox(width: 14),
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -597,22 +611,24 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                               style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.onSurface,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           if (user.isVerified) ...[
-                            const SizedBox(width: 6),
+                            SizedBox(width: 6),
                             Icon(
                               LucideIcons.badgeCheck,
                               size: 14,
-                              color: const Color(0xFF10B981),
+                              color:
+                                  (Theme.of(context).cardTheme.color ??
+                                  Theme.of(context).cardColor),
                             ),
                           ],
                           if (user.warningLevel > 0) ...[
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4),
                             Icon(
                               LucideIcons.alertTriangle,
                               size: 12,
@@ -621,18 +637,20 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                           ],
                         ],
                       ),
-                      const SizedBox(height: 3),
+                      SizedBox(height: 3),
                       Text(
                         user.email,
                         style: GoogleFonts.inter(
                           fontSize: 11,
-                          color: Colors.white.withValues(alpha: 0.35),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.35),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 6),
-                      // ── Role Badge
+                      SizedBox(height: 6),
+
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -658,11 +676,13 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     ],
                   ),
                 ),
-                // ── Chevron
+
                 Icon(
                   isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
                   size: 16,
-                  color: Colors.white.withValues(alpha: 0.15),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.15),
                 ),
               ],
             ),
@@ -693,17 +713,19 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
               )
               .animate(onPlay: (c) => c.repeat(reverse: true))
               .scale(
-                begin: const Offset(0.95, 0.95),
-                end: const Offset(1.05, 1.05),
+                begin: Offset(0.95, 0.95),
+                end: Offset(1.05, 1.05),
                 duration: 2.seconds,
               ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Text(
             t.admin.no_users_found,
             style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w600,
-              color: Colors.white.withValues(alpha: 0.25),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.25),
             ),
           ),
         ],
@@ -733,14 +755,15 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Handle bar
               Center(
                 child: Container(
                   width: 40,
                   height: 4,
                   margin: const EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.15),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -881,7 +904,9 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
           style: GoogleFonts.inter(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: Colors.white.withValues(alpha: 0.5),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.5),
             letterSpacing: 0.5,
           ),
         ),

@@ -1,13 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'performance_provider.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
-
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(Performance)
 final performanceProvider = PerformanceProvider._();
@@ -32,7 +23,6 @@ final class PerformanceProvider
   @override
   Performance create() => Performance();
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(PerformanceState value) {
     return $ProviderOverride(
       origin: this,

@@ -13,7 +13,6 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-/// Screen for Deans to assign Academic Advisors to students in their college.
 class DeanAdvisorAssignmentScreen extends ConsumerStatefulWidget {
   const DeanAdvisorAssignmentScreen({super.key});
 
@@ -33,7 +32,6 @@ class _DeanAdvisorAssignmentScreenState
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
 
-    // Get current dean's college from auth profile
     final auth = ref.watch(authControllerProvider);
     final collegeId = auth.user?.userMetadata?['college_id'] as String? ?? '';
 
@@ -60,13 +58,12 @@ class _DeanAdvisorAssignmentScreenState
           ),
           centerTitle: true,
         ),
-        // Controls
+
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: Column(
               children: [
-                // Search bar
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.08),
@@ -100,7 +97,7 @@ class _DeanAdvisorAssignmentScreenState
                   ),
                 ),
                 const SizedBox(height: 8),
-                // Filter toggle
+
                 GestureDetector(
                   onTap: () =>
                       setState(() => _onlyUnassigned = !_onlyUnassigned),
@@ -150,7 +147,7 @@ class _DeanAdvisorAssignmentScreenState
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 8)),
-        // Students List
+
         advisorsAsync.when(
           loading: () => const SliverFillRemaining(
             child: Center(child: CircularProgressIndicator()),
@@ -260,7 +257,6 @@ class _DeanAdvisorAssignmentScreenState
                     children: [
                       Row(
                         children: [
-                          // Student avatar
                           CircleAvatar(
                             radius: 22,
                             backgroundColor: Colors.indigoAccent.withValues(
@@ -301,7 +297,7 @@ class _DeanAdvisorAssignmentScreenState
                               ],
                             ),
                           ),
-                          // Assignment status badge
+
                           Container(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 10,
@@ -331,7 +327,7 @@ class _DeanAdvisorAssignmentScreenState
                       const SizedBox(height: 12),
                       const Divider(color: Colors.white10, height: 1),
                       const SizedBox(height: 12),
-                      // Advisor dropdown
+
                       DropdownButtonFormField<String?>(
                         initialValue: currentAdvisorId,
                         decoration: InputDecoration(
@@ -394,7 +390,7 @@ class _DeanAdvisorAssignmentScreenState
                               advisorId: newAdvisorId,
                             );
                           }
-                          // Refresh
+
                           ref.invalidate(collegeStudentsProvider);
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(

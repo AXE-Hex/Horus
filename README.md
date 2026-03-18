@@ -1,160 +1,136 @@
-# <p align="center"> HUE : THE GLASS HARMONY HUB </p>
+# 🎓 Hue - Enterprise University Portal
 
-<p align="center">
-  <b>Elevating Academic Excellence through Immersive Translucent Intelligence</b>
-  <br>
-  <b>الارتقاء بالتميز الأكاديمي من خلال الذكاء الانسيابي الغامر</b>
-</p>
+<div align="center">
+  <img src="assets/images/Logo_light.png" width="150" alt="HUE Logo">
+  <h3>Next-Generation Academic Management & Social Platform</h3>
+  <p>Available in English & Arabic (متوفر باللغتين الإنجليزية والعربية)</p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Flutter-3.x-027DFD?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter">
-  <img src="https://img.shields.io/badge/Bento_Grid-Layout-7B61FF?style=for-the-badge" alt="Bento">
-  <img src="https://img.shields.io/badge/Glassmorphism-Enabled-00CFE8?style=for-the-badge" alt="Glass">
-  <img src="https://img.shields.io/badge/Architecture-Feature_Driven-FF4081?style=for-the-badge" alt="Architecture">
-  <img src="https://img.shields.io/badge/Riverpod-State_MGMT-000000?style=for-the-badge&logo=dart" alt="Riverpod">
-  <img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=for-the-badge&logo=supabase" alt="Supabase">
-</p>
+  [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+  [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
+  [![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+</div>
 
 ---
 
-## 💎 THE VISION | الرؤية
-
-**HUE** is a state-of-the-art enterprise academic management ecosystem designed to dissolve the barrier between complex institutional data and user experience. By leveraging cutting-edge UI paradigms, strict typing, and high-performance cross-platform rendering, HUE delivers a zero-latency command center customized for every academic role.
-
-**HUE** هو نظام أكاديمي متطور على مستوى المؤسسات صُمم ليذيب الحواجز بين البيانات المؤسسية المعقدة وتجربة المستخدم. بالاستفادة من أحدث نماذج واجهات المستخدم، والأنواع الصارمة، والعرض عالي الأداء عبر المنصات، يوفر HUE مركز قيادة فوري مخصص لكل دور أكاديمي.
+## 🛑 Notice / تنبيه هام
+> [!IMPORTANT]
+> **This is a private, closed-source project.** Unauthorized copying, distribution, modification, or use of this software, via any medium, is strictly prohibited.
+> 
+> **هذا المشروع خاص ومغلق المصدر.** يُمنع منعاً باتاً النسخ أو التوزيع أو التعديل أو الاستخدام غير المصرح به لهذا البرنامج عبر أي وسيلة كانت.
 
 ---
 
-## 🏛️ CORE ARCHITECTURE | الهيكل التقني
+## 📖 Project Overview (نظرة عامة على المشروع)
 
-HUE utilizes a strictly isolated Feature-Driven Architecture (FDA) decoupled by robust routing and dependency injection layers.
+**Hue** is a robust, enterprise-grade university portal application built entirely in Flutter. It functions as a centralized ecosystem connecting students, teaching staff, academic leadership, and administration. By integrating a seamless social feed with powerful academic management tools, Hue redefines the modern university experience.
 
-```mermaid
-graph TD
-    classDef core fill:#1E293B,stroke:#38BDF8,stroke-width:2px,color:#fff
-    classDef feature fill:#0F172A,stroke:#10B981,stroke-width:2px,color:#fff
-    classDef data fill:#334155,stroke:#F59E0B,stroke-width:2px,color:#fff
+**Hue (هيو)** هو تطبيق بوابة جامعية متكامل وموجه للمؤسسات مبني باستخدام إطار عمل Flutter. يعمل كبيئة مركزية تربط بين الطلاب وأعضاء هيئة التدريس والقيادات الأكاديمية والإدارة. يدمج النظام بين أدوات التواصل الاجتماعي الأكاديمي وإدارة شؤون الطلاب بشكل عصري، مما يعيد تعريف التجربة الجامعية الرقمية.
 
-    subgraph "Presentation Layer (Flutter/Riverpod)"
-        A[GoRouter \n Guarded Routes]:::core --> B[Authentication \n & RBAC State]:::core
-        B --> C[Theme Engine \n Glass Shaders]:::core
+---
 
-        C -.-> D1[Admin Specialized \n Command Centers]:::feature
-        C -.-> D2[Academic & \n Professor Dashboards]:::feature
-        C -.-> D3[Student \n Digital ID]:::feature
-    end
+## 🌟 Main Features (الميزات الرئيسية)
 
-    subgraph "Domain & Data Layer (Supabase/PostgreSQL)"
-        D1 --> E1[Admin Stats Repository \n RPC Calls]:::data
-        D2 --> E2[Grades & Schedules \n Sync Layer]:::data
-        D3 --> E3[User Profiles \n Caching Layer]:::data
-    end
+### 🔐 Security & Access Control
+- **Role-Based Access Control (RBAC):** Highly granular permission system supporting over 10 distinct roles (e.g., Rector, Dean, Professor, Student, Admin).
+- **Row Level Security (RLS):** All data access is strictly controlled at the PostgreSQL database level via Supabase RLS policies.
 
-    E1 -.-> F[(Supabase \n RLS Enforced SQL)]:::data
-    E2 -.-> F
-    E3 -.-> F
+### 🎨 User Experience
+- **Glassmorphism UI:** Stunning, modern, and adaptive UI supporting both Light and Dark themes natively.
+- **Bilingual Support:** Full i18n localization (English and Arabic) using the `slang` package.
+
+### ⚙️ Functionality
+- **Real-time Synchronization:** Powered by Supabase for instant database updates, real-time posts, and academic notifications.
+- **Academic Dashboard:** Dedicated secure views for schedules, grades, attendance, and faculty management.
+- **Social Feed:** Interactive community feed allowing authorized users to create posts and university-wide announcements.
+
+---
+
+## 🏗️ System Architecture (هيكلية النظام)
+
+Hue strictly follows modular and clean architecture-inspired principles to ensure absolute scalability, testing compatibility, and maintainability.
+
+### Technology Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Framework** | **Flutter** | Cross-platform support: Web, Linux, Windows, iOS, Android |
+| **Backend** | **Supabase** | PostgreSQL, Authentication, Realtime, Storage |
+| **State Mgt.** | **Riverpod** | Declarative, safe, and reactive state caching |
+| **Routing** | **GoRouter** | Deep linking capable, fully typed routing |
+| **Localization** | **Slang** | Type-safe i18n generation |
+| **Animations** | **Flutter Animate** | Smooth and high-performance UI transitions |
+
+### Core Folder Structure
+
+```text
+lib/
+├── core/             # Core utilities (auth, router, theme, i18n, core data access)
+├── features/         # Feature-first modular design
+│   ├── academic/     # Academic management (Professor, Deans, etc.)
+│   ├── admin/        # System administration & user management portal
+│   ├── auth/         # Login, registration, and session flow
+│   ├── colleges/     # College portals and details
+│   ├── enrollment/   # Registration, scheduling, and invoices
+│   ├── feed/         # Social community, announcements, and posts
+│   ├── home/         # Main taskbar and navigation host
+│   ├── settings/     # App settings, theme, and language preferences
+│   └── students/     # Student-specific academic dashboards
+└── main.dart         # System entry point and top-level provider scope
 ```
 
 ---
 
-## 🛠️ TECHNOLOGY STACK | الحزمة التقنية
+## 🚀 Installation & Environment Setup (التثبيت وإعداد البيئة)
 
-| Domain            | Core Component    | Strategic Role                                                                                |
-| :---------------- | :---------------- | :-------------------------------------------------------------------------------------------- |
-| **Orchestration** | `Flutter 3.x`     | Cross-platform UI compilation engine utilizing Impeller.                                      |
-| **State Nexus**   | `Riverpod`        | Unidirectional reactive state harmonizer using `AsyncNotifier` patterns.                      |
-| **Navigation**    | `GoRouter`        | Imperative/Declarative routing with deep linking and RBAC (Role-Based Access Control) guards. |
-| **Data Memory**   | `Supabase`        | Enterprise-grade backend for PostgreSQL, Edge Functions, and Row Level Security (RLS).        |
-| **Localization**  | `Slang`           | Ultra-fast compile-time i18n engine with strict type checking.                                |
-| **Aesthetics**    | `Glassmorphism`   | Complex `BackdropFilter` shaders and synchronized animations (`flutter_animate`).             |
-| **Security**      | `AXE Fingerprint` | Proprietary compile-time security tracking and access validation.                             |
+### Prerequisites (المتطلبات الأساسية)
 
----
+- **Flutter SDK** (Stable channel)
+- **Supabase Project** (Database, Auth, and Storage configured)
 
-## 🏗️ COMPREHENSIVE SYSTEM MODULES | وحدات النظام الشاملة
+### Workflow Instructions (خطوات التشغيل)
 
-HUE encompasses a wide range of specialized modules built to empower every member of an academic institution:
-يتضمن HUE مجموعة واسعة من الوحدات المتخصصة المصممة لتمكين كل فرد في المؤسسة الأكاديمية:
-
-### 🛡️ Administration Command Centers (إدارة النظام)
-
-Completely rebuilt with isolated, highly-specialized screens for granular control:
-
-- **Student Management**: Advanced filtering by GPA, warnings, and real-time status.
-- **Staff & Faculty Management**: Real-time quota monitoring, performance, and role assignment targeting.
-- **Academic Leadership**: Dedicated portal for Deans and Department Heads with structural hierarchy mapping.
-- **Admin & IT**: Server health metrics, internal audit logs, roles management, and infrastructure monitoring.
-- **Structure Management**: Specialized dashboards for Colleges and Departments.
-
-### 📚 Academic Ecosystem (النظام الأكاديمي الشامل)
-
-- **Professor Dashboards**: Complete class overview, real-time subject results, scheduling, and direct chat.
-- **Student Academic Progress**: Detailed GPA tracking, action plans, and complete transcript integration.
-- **Courses & Grades**: Manage and track all subjects, grades, and continuous assessments seamlessly.
-- **Attendance & Scheduling**: Real-time class attendance logging, comprehensive daily schedules, and exam timetables.
-- **TA Management**: Manage teaching assistants and their associated groups.
-
-### 🪪 Digital Identification & Students (الهوية الرقمية والطلاب)
-
-- **3D Interactive NFC Cards**: Gyroscope-driven holographic passes generated uniquely per student via hardware orientation sensors.
-- **Real-time Access Control**: Offline/Online hybrid verification for campus entry.
-- **Onboarding & Welcome Flow**: Engaging and smooth initial setup for new users.
-
-### ⚙️ User Settings & Profiling (إعدادات المستخدم والملف الشخصي)
-
-- **Glassmorphic Profile Management**: High-end user profile editing with floating components.
-- **Modular Theming**: Dynamic App Styles with built-in Light/Dark mode and structural RTL/LTR adaptations natively.
-- **Privacy & Security**: Native password management and strict privacy policies enforcement.
-
----
-
-## 🚀 ROADMAP: FUTURE IMPROVEMENTS | التحسينات المستقبلية
-
-We are continually expanding HUE to support high-performance media, physical infrastructure integration, and real-time interaction:
-نحن نعمل باستمرار على توسيع HUE لدعم الوسائط عالية الأداء، وتكامل البنية التحتية، والتفاعل في الوقت الفعلي:
-
-### 📹 Edge Media & Broadcasting | الوسائط الذكية والبث
-
-- **Video Recording & Telemetry**: High-quality local/cloud recording of active sessions with spatial audio.
-- **Live Streaming (بث مباشر)**: WebRTC-powered real-time broadcasting capabilities for keynote events.
-- **Online Lectures (محاضرات أونلاين)**: Dedicated low-latency virtual classroom environment with interactive whiteboarding.
-
-### 🔐 Physical Security & Infrastructure | الأمان المادي والبنية التحتية
-
-- **NFC/RFID Turnstile Integration**: Direct handshake protocols from the HUE Digital ID to campus gates.
-- **IoT Classrooms**: Automated environmental controls in lecture halls via instructor dashboards.
-
-### 🤖 Advanced AI Features | ميزات الذكاء الاصطناعي المتقدمة
-
-- **Predictive Academic Analytics**: AI models to predict student performance drops and suggest preemptive action plans.
-- **Automated Scheduling**: AI-driven conflict-free timetable generation tailored for faculty availability and room capacities.
-
----
-
-## 🏁 IGNITION SEQUENCE | بداية التشغيل
-
-To initialize the development environment locally:
-
-1. **Clone Repository**:
+1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/hue-org/hue.git
+   git clone <repository_url>
+   cd hue
    ```
-2. **Synchronize Dependencies**:
+
+2. **Environment Setup:**
+   ```bash
+   cp .env.example .env
+   ```
+   *Open `.env` and fill in your Supabase `SUPABASE_URL` and `SUPABASE_ANON_KEY`.*
+
+3. **Install Dependencies:**
    ```bash
    flutter pub get
    ```
-3. **Synthesize Code Generation** (Crucial for Riverpod & Slang):
+
+4. **Generate Code & Translations (i18n):**
    ```bash
-   dart run build_runner build --delete-conflicting-outputs
+   dart run build_runner build -d
+   dart run slang
    ```
-4. **Execute Engine**:
+
+5. **Run the Project:**
    ```bash
-   flutter run
+   # Run with specific environment variables
+   flutter run --dart-define-from-file=.env
    ```
+   *(For VS Code users: The `.vscode/launch.json` is already configured to use the `.env` file).*
 
 ---
 
-<p align="center">
-  <b>Architected for Excellence</b><br>
-  🎨 Developed by <b>GT Team</b> | © 2025 HUE Academic Systems
-</p>
+## 🛤️ Roadmap (خارطة الطريق)
+
+- [ ] Advanced analytics dashboard for Rectors and Deans.
+- [ ] Integration of AI-driven tools for academic scheduling.
+- [ ] Comprehensive internal messaging and forum subsystems.
+- [ ] Financial payment gateway integration (Stripe/Paymob).
+
+---
+
+<div align="center">
+  <p><i>Maintained by the Elite Software Engineering Team.</i></p>
+  <p><b>Proprietary and Confidential</b></p>
+</div>

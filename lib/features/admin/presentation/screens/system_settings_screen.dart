@@ -34,7 +34,9 @@ class SystemSettingsScreen extends ConsumerWidget {
           if (snapshot.hasError) {
             return Center(
               child: Text(
-                t.admin.error_snapshoterror,
+                t.admin.error_snapshoterror(
+                  error: snapshot.error ?? 'Unknown error',
+                ),
               ),
             );
           }
@@ -49,7 +51,6 @@ class SystemSettingsScreen extends ConsumerWidget {
             );
           }
 
-          // Group by category
           final Map<String, List<Map<String, dynamic>>> groupedSettings = {};
           for (var item in data) {
             final cat = isArabic
@@ -149,11 +150,13 @@ class SystemSettingsScreen extends ConsumerWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
                 Icon(
                   LucideIcons.edit2,
                   size: 16,
-                  color: Colors.white.withValues(alpha: 0.5),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
                 ),
               ],
             ),

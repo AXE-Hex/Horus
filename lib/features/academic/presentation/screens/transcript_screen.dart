@@ -236,15 +236,9 @@ class _AcademicSummary extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildLargeStat(
-                cumulativeGpa.toStringAsFixed(2),
-                t.academic.gpa,
-              ),
+              _buildLargeStat(cumulativeGpa.toStringAsFixed(2), t.academic.gpa),
               Container(width: 1, height: 40, color: Colors.white10),
-              _buildLargeStat(
-                earnedCredits.toString(),
-                t.academic.credits_1,
-              ),
+              _buildLargeStat(earnedCredits.toString(), t.academic.credits_1),
               Container(width: 1, height: 40, color: Colors.white10),
               _buildLargeStat(
                 '${(progress * 100).toInt()}%',

@@ -373,7 +373,6 @@ class _SparklinePainter extends CustomPainter {
       }
     }
 
-    // Draw shadow/gradient under sparkline
     final fillPath = Path.from(path)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height)

@@ -1,13 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'auth_provider.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
-
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AuthController)
 final authControllerProvider = AuthControllerProvider._();
@@ -32,7 +23,6 @@ final class AuthControllerProvider
   @override
   AuthController create() => AuthController();
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(AuthState value) {
     return $ProviderOverride(
       origin: this,
@@ -41,7 +31,7 @@ final class AuthControllerProvider
   }
 }
 
-String _$authControllerHash() => r'1c51561b329b9ae8802b57ea5890b19ebe040b4a';
+String _$authControllerHash() => r'f9b715d46a463867914dbb9fd80e36767fb3de1c';
 
 abstract class _$AuthController extends $Notifier<AuthState> {
   AuthState build();

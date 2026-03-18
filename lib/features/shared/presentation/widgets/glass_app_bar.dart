@@ -1,4 +1,3 @@
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +5,6 @@ import 'package:hue/core/theme/style_provider.dart';
 import 'package:hue/core/theme/low_performance_provider.dart';
 
 abstract final class _GlassConfig {
-
   static const double blurSigma = 24.0;
 
   static const double darkTintOpacity = 0.40;
@@ -24,7 +22,6 @@ abstract final class _GlassConfig {
 }
 
 class GlassSliverAppBar extends ConsumerWidget {
-
   final Widget? title;
   final Widget? leading;
   final List<Widget>? actions;
@@ -109,10 +106,8 @@ class GlassSliverAppBar extends ConsumerWidget {
     final Widget glassBackground;
 
     if (isLowPerf) {
-
       glassBackground = _LowPerfBackground(color: tintColor, isDark: isDark);
     } else {
-
       glassBackground = _FrostedGlassBackground(
         tintColor: tintColor,
         isDark: isDark,
@@ -134,7 +129,6 @@ class GlassSliverAppBar extends ConsumerWidget {
     Widget? flexibleSpace,
   }) {
     return SliverAppBar(
-
       title: title,
       leading: leading,
       actions: actions,
@@ -190,7 +184,6 @@ class _FrostedGlassBackground extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-
             color: tintColor.withValues(alpha: tintOpacity),
 
             gradient: LinearGradient(

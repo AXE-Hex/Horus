@@ -1,13 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'users_repository.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
-
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(usersRepository)
 final usersRepositoryProvider = UsersRepositoryProvider._();
@@ -40,7 +31,6 @@ final class UsersRepositoryProvider
     return usersRepository(ref);
   }
 
-  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(UsersRepository value) {
     return $ProviderOverride(
       origin: this,

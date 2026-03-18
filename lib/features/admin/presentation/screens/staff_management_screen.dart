@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hue/core/auth/roles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
+import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
 import 'package:hue/features/admin/presentation/providers/users_provider.dart';
 import 'package:hue/features/admin/presentation/providers/admin_stats_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
@@ -23,6 +25,30 @@ class StaffManagementScreen extends ConsumerStatefulWidget {
 class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   final _searchController = TextEditingController();
   String _searchQuery = '';
+  String _collegeFilter = 'all';
+  List<CollegeModel> _colleges = [];
+  bool _isLoadingColleges = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadColleges();
+  }
+
+  Future<void> _loadColleges() async {
+    try {
+      final repo = ref.read(institutionalRepositoryProvider);
+      final colleges = await repo.getColleges();
+      if (mounted) {
+        setState(() {
+          _colleges = colleges;
+          _isLoadingColleges = false;
+        });
+      }
+    } catch (_) {
+      if (mounted) setState(() => _isLoadingColleges = false);
+    }
+  }
 
   @override
   void dispose() {
@@ -64,8 +90,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               ],
             ),
             child: IconButton(
-              icon: const Icon(LucideIcons.userPlus, size: 18),
-              color: Colors.white,
+              icon: Icon(LucideIcons.userPlus, size: 18),
+              color: Theme.of(context).colorScheme.onSurface,
               onPressed: () => context.push(
                 '/admin/users/new',
                 extra: {'category': RoleCategory.studentAffairs},
@@ -79,7 +105,13 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
           _buildQuickStats(isArabic, staffCountAsync),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-            child: _buildSearchBar(isArabic, primaryColor),
+            child: Row(
+              children: [
+                Expanded(child: _buildSearchBar(isArabic, primaryColor)),
+                const SizedBox(width: 10),
+                _buildCollegeFilterButton(primaryColor, isArabic),
+              ],
+            ),
           ),
           Expanded(child: _buildStaffList(isArabic, primaryColor)),
         ],
@@ -93,19 +125,23 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ListView(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         children: [
           _StatCard(
             label: t.admin.total_staff,
             valueAsync: total,
             icon: LucideIcons.users,
-            color: const Color(0xFF6366F1),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
           ),
           _StatCard(
             label: t.admin.student_affairs,
             valueAsync: const AsyncValue.data(8),
             icon: LucideIcons.graduationCap,
-            color: const Color(0xFF10B981),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
           ),
         ],
       ),
@@ -116,28 +152,189 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white.withValues(alpha: 0.05),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
+        border: Border.all(
+          color: Theme.of(
+            context,
+          ).colorScheme.onSurface.withValues(alpha: 0.08),
+        ),
       ),
       child: TextField(
         controller: _searchController,
         onChanged: (val) => setState(() => _searchQuery = val.toLowerCase()),
-        style: GoogleFonts.inter(fontSize: 14, color: Colors.white),
+        style: GoogleFonts.inter(
+          fontSize: 14,
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
         decoration: InputDecoration(
           hintText: t.admin.search_staff_member,
           hintStyle: GoogleFonts.inter(
             fontSize: 13,
-            color: Colors.white.withValues(alpha: 0.25),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.25),
           ),
           prefixIcon: Icon(
             LucideIcons.search,
             size: 18,
-            color: Colors.white.withValues(alpha: 0.35),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurface.withValues(alpha: 0.35),
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 16,
             vertical: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCollegeFilterButton(Color primaryColor, bool isArabic) {
+    final hasActiveFilter = _collegeFilter != 'all';
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(16),
+      child: Stack(
+        children: [
+          IconButton(
+            icon: Icon(
+              LucideIcons.building,
+              size: 18,
+              color: hasActiveFilter ? primaryColor : Colors.white70,
+            ),
+            onPressed: () => _showCollegeFilterSheet(primaryColor, isArabic),
+          ),
+          if (hasActiveFilter)
+            Positioned(
+              top: 8,
+              right: 8,
+              child: Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  void _showCollegeFilterSheet(Color primaryColor, bool isArabic) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setSheetState) => GlassContainer(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Icon(LucideIcons.building, size: 18, color: primaryColor),
+                  const SizedBox(width: 10),
+                  Text(
+                    t.admin.colleges,
+                    style: GoogleFonts.outfit(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              if (_isLoadingColleges)
+                const Center(child: CircularProgressIndicator())
+              else if (_colleges.isEmpty)
+                Text(t.admin.no_colleges_found)
+              else
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    _buildFilterSheetChip(
+                      t.admin.all,
+                      _collegeFilter == 'all',
+                      () {
+                        setSheetState(() => _collegeFilter = 'all');
+                        setState(() => _collegeFilter = 'all');
+                      },
+                      primaryColor,
+                    ),
+                    ..._colleges.map((college) {
+                      final name = isArabic ? college.nameAr : college.nameEn;
+                      return _buildFilterSheetChip(
+                        name,
+                        _collegeFilter == college.id,
+                        () {
+                          setSheetState(() => _collegeFilter = college.id);
+                          setState(() => _collegeFilter = college.id);
+                        },
+                        primaryColor,
+                      );
+                    }),
+                  ],
+                ),
+              const SizedBox(height: 16),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterSheetChip(
+    String label,
+    bool isSelected,
+    VoidCallback onTap,
+    Color primaryColor,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: 200.ms,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? primaryColor.withValues(alpha: 0.15)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected
+                ? primaryColor
+                : Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.2),
+          ),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.inter(
+            fontSize: 13,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            color: isSelected
+                ? primaryColor
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
       ),
@@ -151,13 +348,18 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
     return staffAsync.when(
       data: (users) {
-        final filtered = users
-            .where(
-              (u) =>
-                  u.fullName.toLowerCase().contains(_searchQuery) ||
-                  u.email.toLowerCase().contains(_searchQuery),
-            )
-            .toList();
+        final filtered = users.where((u) {
+          final matchesSearch =
+              u.fullName.toLowerCase().contains(_searchQuery) ||
+              u.email.toLowerCase().contains(_searchQuery);
+          if (!matchesSearch) return false;
+
+          if (_collegeFilter != 'all' && u.collegeId != _collegeFilter) {
+            return false;
+          }
+
+          return true;
+        }).toList();
         if (filtered.isEmpty) {
           return Center(
             child: Column(
@@ -168,20 +370,25 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                   height: 90,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFF6366F1).withValues(alpha: 0.06),
+                    color:
+                        (Theme.of(context).cardTheme.color ??
+                                Theme.of(context).cardColor)
+                            .withValues(alpha: 0.06),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     LucideIcons.users,
                     size: 36,
                     color: Color(0xFF6366F1),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 Text(
                   'No staff found',
                   style: GoogleFonts.outfit(
                     fontSize: 14,
-                    color: Colors.white.withValues(alpha: 0.3),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.3),
                   ),
                 ),
               ],
@@ -243,7 +450,7 @@ class _StatCard extends StatelessWidget {
             ),
             child: Icon(icon, size: 16, color: color),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
           valueAsync.when(
             data: (val) => Text(
               val.toString(),
@@ -252,14 +459,16 @@ class _StatCard extends StatelessWidget {
                 fontWeight: FontWeight.w900,
               ),
             ),
-            loading: () => const LinearProgressIndicator(),
-            error: (err, stack) => const Text('?'),
+            loading: () => LinearProgressIndicator(),
+            error: (err, stack) => Text('?'),
           ),
           Text(
             label,
             style: GoogleFonts.outfit(
               fontSize: 10,
-              color: Colors.white.withValues(alpha: 0.4),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.4),
             ),
           ),
         ],
@@ -305,8 +514,8 @@ class _StaffTile extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF6366F1).withValues(alpha: 0.3),
-                        const Color(0xFF6366F1).withValues(alpha: 0.1),
+                        Color(0xFF6366F1).withValues(alpha: 0.3),
+                        Color(0xFF6366F1).withValues(alpha: 0.1),
                       ],
                     ),
                   ),
@@ -317,19 +526,14 @@ class _StaffTile extends StatelessWidget {
                             fit: BoxFit.cover,
                             width: 48,
                             height: 48,
-                            errorBuilder: (context, error, stackTrace) =>
-                                const Icon(
-                                  LucideIcons.user,
-                                  size: 20,
-                                  color: Colors.white70,
-                                ),
+                            errorBuilder: (context, error, stackTrace) => Icon(
+                              LucideIcons.user,
+                              size: 20,
+                              color: Colors.white70,
+                            ),
                           ),
                         )
-                      : const Icon(
-                          LucideIcons.user,
-                          size: 20,
-                          color: Colors.white70,
-                        ),
+                      : Icon(LucideIcons.user, size: 20, color: Colors.white70),
                 ),
                 Positioned(
                   bottom: 0,
@@ -341,7 +545,9 @@ class _StaffTile extends StatelessWidget {
                       color: statusColor,
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: const Color(0xFF0A0A1A),
+                        color:
+                            (Theme.of(context).cardTheme.color ??
+                            Theme.of(context).cardColor),
                         width: 2,
                       ),
                     ),
@@ -349,7 +555,7 @@ class _StaffTile extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 14),
+            SizedBox(width: 14),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -363,26 +569,34 @@ class _StaffTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 3),
+                  SizedBox(height: 3),
                   Text(
                     member.email,
                     style: GoogleFonts.inter(
                       fontSize: 11,
-                      color: Colors.white.withValues(alpha: 0.3),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.3),
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
                       vertical: 2,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF6366F1).withValues(alpha: 0.1),
+                      color:
+                          (Theme.of(context).cardTheme.color ??
+                                  Theme.of(context).cardColor)
+                              .withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: const Color(0xFF6366F1).withValues(alpha: 0.2),
+                        color:
+                            (Theme.of(context).cardTheme.color ??
+                                    Theme.of(context).cardColor)
+                                .withValues(alpha: 0.2),
                       ),
                     ),
                     child: Text(
@@ -390,7 +604,9 @@ class _StaffTile extends StatelessWidget {
                       style: GoogleFonts.inter(
                         fontSize: 10,
                         fontWeight: FontWeight.w700,
-                        color: const Color(0xFF6366F1),
+                        color:
+                            (Theme.of(context).cardTheme.color ??
+                            Theme.of(context).cardColor),
                       ),
                     ),
                   ),
@@ -400,7 +616,9 @@ class _StaffTile extends StatelessWidget {
             Icon(
               isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
               size: 16,
-              color: Colors.white.withValues(alpha: 0.15),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurface.withValues(alpha: 0.15),
             ),
           ],
         ),

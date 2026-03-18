@@ -26,8 +26,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
   int _currentStep = 0;
   final List<Course> _selectedCourses = [];
-  final Map<String, Map<String, dynamic>> _selectedSections =
-      {}; // courseId -> {section, subSection}
+  final Map<String, Map<String, dynamic>> _selectedSections = {};
 
   bool _isLoading = true;
   bool _isRegistering = false;
@@ -36,11 +35,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   List<Course> _semesterCourses = [];
   Map<String, bool> _lockedCourses = {};
 
-  // Cache for sections per course to avoid redundant fetches
   final Map<String, List<Map<String, dynamic>>> _courseSchedulesCache = {};
 
   bool _alreadyRegistered = false;
-  RegistrationRequest? _existingRequest; // pending or approved request
+  RegistrationRequest? _existingRequest;
 
   @override
   void initState() {
@@ -61,7 +59,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
 
       if (studentId == null) throw Exception("User not logged in");
 
-      // 1. Check for an existing registration request (pending/approved/rejected)
       final request = await advisorRepo.getMyRegistrationRequest(
         currentSemester,
       );
@@ -74,7 +71,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         return;
       }
 
-      // 2. Check for already registered courses (direct, legacy)
       final regs = await repo.getStudentCourseRegistrations(
         studentId,
         currentSemester,
@@ -87,7 +83,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         return;
       }
 
-      // 3. Fetch available courses for the semester
       _semesterCourses = await repo.fetchCoursesBySemester(currentSemester);
       _lockedCourses = await repo.checkPrerequisites(
         studentId,
@@ -137,7 +132,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }
 
   Future<void> _confirmRegistration() async {
-    // Validate that all selected courses have a section picked
     for (final course in _selectedCourses) {
       if (!_selectedSections.containsKey(course.id)) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -165,7 +159,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         };
       }).toList();
 
-      // Submit for advisor approval (not direct DB write)
       final request = await advisorRepo.submitRegistrationRequest(
         semester: currentSemester,
         courses: courses,
@@ -208,12 +201,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     } else if (_error != null) {
       body = Center(
         child: Text(
-          t.registration.error_loading(error: _error!),
+          'Error loading registration: $_error',
           textAlign: TextAlign.center,
         ),
       );
     } else if (_existingRequest != null) {
-      // Show request status (pending / approved / rejected)
       body = _buildRequestStatusCard(_existingRequest!, isArabic, isGlass);
     } else if (_alreadyRegistered) {
       body = _buildSuccessState(isArabic, isGlass);
@@ -473,7 +465,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      t.enrollment.no_schedules_available_for_thi,
+                      t.enrollment.no_schedules_available,
                       style: TextStyle(
                         color: isGlass ? Colors.white38 : Colors.black38,
                       ),
@@ -753,7 +745,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         Stack(
           alignment: Alignment.center,
           children: [
-            // Celebration circles
             ...List.generate(
               3,
               (i) =>
@@ -813,7 +804,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           padding: const EdgeInsets.all(20),
           borderRadius: BorderRadius.circular(24),
           child: Text(
-            t.enrollment.you_have_successfully_register,
+            t.enrollment.registration_success_message,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: isGlass ? Colors.white70 : Colors.black54,
@@ -966,7 +957,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Status Banner
         GlassContainer(
           borderRadius: BorderRadius.circular(20),
           child: Padding(
@@ -987,7 +977,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 if (request.advisor != null) ...[
                   const SizedBox(height: 12),
                   Text(
-                    t.enrollment.advisor_requestadvisorfullname,
+                    t.enrollment.advisor_name_label(
+                      name: request.advisor?.fullName ?? '',
+                    ),
                     style: GoogleFonts.outfit(
                       fontSize: 14,
                       color: Colors.white70,
@@ -1020,7 +1012,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 ],
                 const SizedBox(height: 8),
                 Text(
-                  t.enrollment.semester_requestsemester,
+                  t.enrollment.semester_label_with_value(
+                    semester: request.semester,
+                  ),
                   style: GoogleFonts.outfit(
                     fontSize: 12,
                     color: Colors.white38,
@@ -1031,7 +1025,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           ),
         ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.1),
         const SizedBox(height: 16),
-        // Courses List
+
         GlassContainer(
           borderRadius: BorderRadius.circular(20),
           child: Padding(

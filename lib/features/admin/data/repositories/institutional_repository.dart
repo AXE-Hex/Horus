@@ -1,16 +1,14 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/features/admin/data/models/institutional_models.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-part 'institutional_repository.g.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class InstitutionalRepository {
   final SupabaseClient _client;
 
   InstitutionalRepository(this._client);
-
-  // ─── Colleges ───────────────────────────────────────────────
 
   Future<List<CollegeModel>> getColleges() async {
     final response = await _client.from('colleges').select().order('name');
@@ -39,8 +37,6 @@ class InstitutionalRepository {
   Future<void> deleteCollege(String id) async {
     await _client.from('colleges').delete().eq('id', id);
   }
-
-  // ─── Departments ────────────────────────────────────────────
 
   Future<List<DepartmentModel>> getDepartments({String? collegeId}) async {
     var query = _client.from('departments').select();
@@ -74,9 +70,6 @@ class InstitutionalRepository {
     await _client.from('departments').delete().eq('id', id);
   }
 
-  // ─── Staff Management ──────────────────────────────────────
-
-  /// Get all faculty/staff users assigned to a specific department
   Future<List<UserProfileModel>> getStaffByDepartment(
     String departmentId,
   ) async {
@@ -90,7 +83,6 @@ class InstitutionalRepository {
         .toList();
   }
 
-  /// Get all faculty/staff users assigned to a specific college
   Future<List<UserProfileModel>> getStaffByCollege(String collegeId) async {
     final response = await _client
         .from('profiles')
@@ -102,7 +94,6 @@ class InstitutionalRepository {
         .toList();
   }
 
-  /// Assign a user to a department (and its parent college)
   Future<void> assignStaffToDepartment(
     String userId,
     String departmentId,
@@ -114,15 +105,12 @@ class InstitutionalRepository {
         .eq('id', userId);
   }
 
-  /// Remove a user from their department
   Future<void> removeStaffFromDepartment(String userId) async {
     await _client
         .from('profiles')
         .update({'department_id': null})
         .eq('id', userId);
   }
-
-  // ─── Department Projects ────────────────────────────────────
 
   Future<List<DepartmentProjectModel>> getDepartmentProjects(
     String departmentId,
@@ -136,8 +124,6 @@ class InstitutionalRepository {
         .map((json) => DepartmentProjectModel.fromJson(json))
         .toList();
   }
-
-  // ─── Appointments ───────────────────────────────────────────
 
   Future<List<AppointmentModel>> getAppointments({
     bool activeOnly = true,
@@ -165,9 +151,83 @@ class InstitutionalRepository {
         })
         .eq('id', id);
   }
+
+  Future<Map<String, int>> getCollegeRealTimeStats(String collegeId) async {
+    try {
+      final studentsResponse = await _client
+          .from('profiles')
+          .select('id')
+          .eq('college_id', collegeId)
+          .contains('roles', ['student']);
+      final studentsCount = (studentsResponse as List).length;
+
+      final facultyResponse = await _client
+          .from('profiles')
+          .select('id')
+          .eq('college_id', collegeId)
+          .or('roles.cs.{"professor"},roles.cs.{"lecturer"}');
+      final facultyCount = (facultyResponse as List).length;
+
+      final assistantsResponse = await _client
+          .from('profiles')
+          .select('id')
+          .eq('college_id', collegeId)
+          .contains('roles', ['teaching_assistant']);
+      final assistantsCount = (assistantsResponse as List).length;
+
+      final researchResponse = await _client
+          .from('shared_files')
+          .select('id')
+          .eq('college_id', collegeId);
+      final researchCount = (researchResponse as List).length;
+
+      return {
+        'students': studentsCount,
+        'faculty': facultyCount,
+        'assistants': assistantsCount,
+        'research': researchCount,
+      };
+    } catch (e) {
+      debugPrint('Error fetching college stats: $e');
+      return {'students': 0, 'faculty': 0, 'assistants': 0, 'research': 0};
+    }
+  }
+
+  Future<List<UserProfileModel>> getCollegeStaffList(String collegeId) async {
+    final response = await _client
+        .from('profiles')
+        .select()
+        .eq('college_id', collegeId)
+        .or(
+          'roles.cs.{"professor"},roles.cs.{"lecturer"},roles.cs.{"teaching_assistant"}',
+        )
+        .order('full_name');
+
+    return (response as List)
+        .map((json) => UserProfileModel.fromJson(json))
+        .toList();
+  }
 }
 
-@Riverpod(keepAlive: true)
-InstitutionalRepository institutionalRepository(Ref ref) {
+final institutionalRepositoryProvider = Provider<InstitutionalRepository>((
+  ref,
+) {
   return InstitutionalRepository(Supabase.instance.client);
-}
+});
+
+final collegeRealTimeStatsProvider =
+    FutureProvider.family<Map<String, int>, String>((ref, collegeId) async {
+      return ref
+          .watch(institutionalRepositoryProvider)
+          .getCollegeRealTimeStats(collegeId);
+    });
+
+final collegeStaffListProvider =
+    FutureProvider.family<List<UserProfileModel>, String>((
+      ref,
+      collegeId,
+    ) async {
+      return ref
+          .watch(institutionalRepositoryProvider)
+          .getCollegeStaffList(collegeId);
+    });

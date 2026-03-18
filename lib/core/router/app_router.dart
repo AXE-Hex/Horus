@@ -22,6 +22,7 @@ import 'package:hue/features/students/presentation/screens/digital_id_screen.dar
 import 'package:hue/features/students/presentation/screens/student_dashboard_screen.dart';
 import 'package:hue/features/settings/presentation/screens/settings_screen.dart';
 import 'package:hue/features/admin/presentation/screens/administration_screen.dart';
+import 'package:hue/features/admin/presentation/screens/staff_dashboard_screen.dart';
 import 'package:hue/features/academic/presentation/screens/transcript_screen.dart';
 import 'package:hue/features/academic/presentation/screens/academic_progress_screen.dart';
 import 'package:hue/features/academic/presentation/screens/grades_screen.dart';
@@ -40,6 +41,9 @@ import 'package:hue/features/shared/presentation/screens/security_screen.dart';
 import 'package:hue/features/shared/presentation/screens/sessions_screen.dart';
 import 'package:hue/features/shared/presentation/screens/tutorials_screen.dart';
 import 'package:hue/features/shared/presentation/screens/forums_screen.dart';
+import 'package:hue/features/feed/presentation/screens/create_post_screen.dart';
+import 'package:hue/features/feed/domain/models/post_model.dart';
+import 'package:hue/features/academic/presentation/screens/specialization_projects_screen.dart';
 
 import 'package:hue/features/shared/presentation/screens/transition_screen.dart';
 import 'package:hue/features/academic/presentation/screens/professor_profile_screen.dart';
@@ -56,21 +60,27 @@ import 'package:hue/features/admin/presentation/screens/users_list_screen.dart';
 import 'package:hue/features/admin/presentation/screens/user_form_screen.dart';
 import 'package:hue/features/admin/presentation/screens/student_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/staff_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/faculty_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/leadership_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/admin_it_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/professors_management_screen.dart';
+import 'package:hue/features/admin/presentation/screens/system_settings_screen.dart';
+import 'package:hue/features/feed/presentation/screens/feed_screen.dart';
 import 'package:hue/features/admin/presentation/screens/user_details_screen.dart';
 import 'package:hue/features/admin/presentation/screens/college_details_screen.dart'
     as admin_screens;
 import 'package:hue/features/admin/presentation/screens/colleges_management_screen.dart';
 import 'package:hue/features/admin/presentation/screens/departments_management_screen.dart';
 import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:hue/features/admin/presentation/screens/add_college_screen.dart';
+import 'package:hue/features/admin/presentation/screens/add_department_screen.dart';
 import 'package:hue/features/admin/presentation/screens/department_details_screen.dart';
 import 'package:hue/features/admin/presentation/screens/audit_logs_screen.dart';
 import 'package:hue/features/admin/presentation/screens/roles_management_screen.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:hue/features/enrollment/presentation/screens/advisor_approval_screen.dart';
 import 'package:hue/features/enrollment/presentation/screens/dean_advisor_assignment_screen.dart';
+import 'package:hue/features/colleges/presentation/screens/college_portal_screen.dart';
+import 'package:hue/core/constants/colleges_data.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authNotifier = ValueNotifier<AuthState>(
@@ -128,8 +138,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CollegesScreen(),
       ),
       GoRoute(
-        path: '/students',
-        builder: (context, state) => const StudentDashboardScreen(),
+        path: '/dashboard',
+        builder: (context, state) => const DashboardScreen(),
+      ),
+      GoRoute(
+        path: '/staff-dashboard',
+        builder: (context, state) => const StaffDashboardScreen(),
       ),
       GoRoute(
         path: '/grades',
@@ -148,8 +162,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const SubjectResultsScreen(),
       ),
       GoRoute(
+        path: '/specialization-projects',
+        builder: (context, state) => const SpecializationProjectsScreen(),
+      ),
+      GoRoute(
         path: '/action-plan',
-        builder: (context, state) => const ActionPlanScreen(),
+        builder: (context, state) => ActionPlanScreen(),
       ),
       GoRoute(
         path: '/schedule',
@@ -157,7 +175,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/exam-schedule',
-        builder: (context, state) => const ExamScheduleScreen(),
+        builder: (context, state) => ExamScheduleScreen(),
       ),
       GoRoute(
         path: '/attendance',
@@ -206,6 +224,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       GoRoute(path: '/home', builder: (context, state) => const HomeScreen()),
       GoRoute(
+        path: '/create-post',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          final initialType = extras['type'] as PostType? ?? PostType.text;
+          return CreatePostScreen(initialType: initialType);
+        },
+      ),
+      GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
       ),
@@ -222,10 +248,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const StaffManagementScreen(),
       ),
       GoRoute(
-        path: '/admin/management/faculty',
-        builder: (context, state) => const FacultyManagementScreen(),
-      ),
-      GoRoute(
         path: '/admin/management/leadership',
         builder: (context, state) => const LeadershipManagementScreen(),
       ),
@@ -233,6 +255,15 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/admin/management/admin-it',
         builder: (context, state) => const AdminITManagementScreen(),
       ),
+      GoRoute(
+        path: '/admin/management/professors',
+        builder: (context, state) => const ProfessorsManagementScreen(),
+      ),
+      GoRoute(
+        path: '/admin/settings',
+        builder: (context, state) => const SystemSettingsScreen(),
+      ),
+      GoRoute(path: '/feed', builder: (context, state) => const FeedScreen()),
       GoRoute(
         path: '/admin/users',
         builder: (context, state) {
@@ -257,14 +288,26 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/admin/users/details',
         builder: (context, state) {
-          final user = state.extra as UserProfileModel;
+          final user = state.extra as UserProfileModel?;
+
+          if (user == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return UserDetailsScreen(user: user);
         },
       ),
       GoRoute(
         path: '/admin/users/edit',
         builder: (context, state) {
-          final user = state.extra as UserProfileModel;
+          final user = state.extra as UserProfileModel?;
+
+          if (user == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return UserFormScreen(user: user);
         },
       ),
@@ -273,13 +316,36 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const CollegesManagementScreen(),
       ),
       GoRoute(
+        path: '/admin/colleges/form',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          return AddCollegeScreen(college: extras['college'] as CollegeModel?);
+        },
+      ),
+      GoRoute(
         path: '/admin/departments',
         builder: (context, state) => const DepartmentsManagementScreen(),
       ),
       GoRoute(
+        path: '/admin/departments/form',
+        builder: (context, state) {
+          final extras = state.extra as Map<String, dynamic>? ?? {};
+          return AddDepartmentScreen(
+            department: extras['department'] as DepartmentModel?,
+            inputCollegeId: extras['collegeId'] as String?,
+          );
+        },
+      ),
+      GoRoute(
         path: '/admin/departments/details',
         builder: (context, state) {
-          final dept = state.extra as DepartmentModel;
+          final dept = state.extra as DepartmentModel?;
+
+          if (dept == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return DepartmentDetailsScreen(department: dept);
         },
       ),
@@ -320,50 +386,109 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/staff-rating-detail',
         builder: (context, state) {
-          final staffMember = state.extra as Map<String, dynamic>;
+          final staffMember = state.extra as Map<String, dynamic>?;
+
+          if (staffMember == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return StaffRatingDetailScreen(staffMember: staffMember);
         },
       ),
       GoRoute(
         path: '/submit-rating',
         builder: (context, state) {
-          final staffMember = state.extra as Map<String, dynamic>;
+          final staffMember = state.extra as Map<String, dynamic>?;
+
+          if (staffMember == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return SubmitRatingScreen(staffMember: staffMember);
         },
       ),
       GoRoute(
         path: '/department-detail',
         builder: (context, state) {
-          final departmentData = state.extra as Map<String, dynamic>;
-          return DepartmentDetailScreen(departmentData: departmentData);
+          final extra = state.extra as Map<String, dynamic>?;
+
+          if (extra == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
+          final department = extra['department'] as DepartmentModel;
+          final color = extra['color'] as Color;
+          return DepartmentDetailScreen(department: department, color: color);
         },
       ),
       GoRoute(
         path: '/academic-staff',
         builder: (context, state) {
-          final collegeData = state.extra as Map<String, dynamic>;
+          final collegeData = state.extra as Map<String, dynamic>?;
+
+          if (collegeData == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return AcademicStaffScreen(collegeData: collegeData);
         },
       ),
       GoRoute(
         path: '/admin/colleges/details',
         builder: (context, state) {
-          final college = state.extra as CollegeModel;
+          final college = state.extra as CollegeModel?;
+
+          if (college == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return admin_screens.CollegeDetailsScreen(college: college);
+        },
+      ),
+      GoRoute(
+        path: '/college-portal',
+        builder: (context, state) {
+          final college = state.extra as StaticCollegeData?;
+
+          if (college == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
+          return CollegePortalScreen(college: college);
         },
       ),
       GoRoute(
         path: '/college-details',
         builder: (context, state) {
-          final collegeData = state.extra as Map<String, dynamic>;
+          final collegeData = state.extra as Map<String, dynamic>?;
+
+          if (collegeData == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
           return CollegeDetailsScreen(collegeData: collegeData);
         },
       ),
       GoRoute(
         path: '/college-departments',
         builder: (context, state) {
-          final collegeData = state.extra as Map<String, dynamic>;
-          return CollegeDepartmentsScreen(collegeData: collegeData);
+          final extra = state.extra as Map<String, dynamic>?;
+
+          if (extra == null) {
+            return const Scaffold(
+              body: Center(child: Text('Navigation error: missing data')),
+            );
+          }
+          final college = extra['college'] as CollegeModel;
+          final color = extra['color'] as Color;
+          return CollegeDepartmentsScreen(college: college, color: color);
         },
       ),
       GoRoute(
@@ -380,35 +505,60 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/professor-profile',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ProfessorProfileScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/professor-dashboard',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ProfessorDashboardScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/manage-tas',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ManageTasScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/manage-groups',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ManageGroupsScreen(profile: profile);
         },
       ),
       GoRoute(
         path: '/professor-chat',
         builder: (context, state) {
-          final profile = state.extra as ProfessorProfile;
+          final profile = state.extra as ProfessorProfile?;
+          if (profile == null) {
+            return const Scaffold(
+              body: Center(child: Text('Professor profile not available')),
+            );
+          }
           return ProfessorChatScreen(profile: profile);
         },
       ),

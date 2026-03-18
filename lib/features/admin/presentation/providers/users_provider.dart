@@ -25,6 +25,7 @@ class UsersController extends _$UsersController {
     required String password,
     required String fullName,
     required List<UserRole> roles,
+    String? gender,
     String? studentId,
     String? nationalId,
     String? nationality,
@@ -38,6 +39,7 @@ class UsersController extends _$UsersController {
       password: password,
       fullName: fullName,
       roles: roles,
+      gender: gender,
       studentId: studentId,
       nationalId: nationalId,
       nationality: nationality,
@@ -58,9 +60,7 @@ class UsersController extends _$UsersController {
         'action': 'update',
         'notes': 'Pending approval: ${data.toString()}',
       });
-    } catch (_) {
-      // audit_logs table may not exist yet — silently skip
-    }
+    } catch (_) {}
   }
 
   Future<void> toggleUserStatus(String userId, bool isActive) async {
@@ -138,7 +138,5 @@ class UsersController extends _$UsersController {
         .deleteUser(userId, hardDelete: hardDelete);
   }
 
-  Future<void> refresh() async {
-    // With stream, refresh is typically less needed, but we keep it to not break external calls.
-  }
+  Future<void> refresh() async {}
 }

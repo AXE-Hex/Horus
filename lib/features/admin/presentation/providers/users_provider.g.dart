@@ -1,13 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'users_provider.dart';
-
-// **************************************************************************
-// RiverpodGenerator
-// **************************************************************************
-
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(UsersController)
 final usersControllerProvider = UsersControllerFamily._();
@@ -50,7 +41,7 @@ final class UsersControllerProvider
   }
 }
 
-String _$usersControllerHash() => r'3d4d8af532ee56881bb98cadbaa5edf9dccfc67e';
+String _$usersControllerHash() => r'2cd120740c29cd5af3cbdd726e74061a84a64dda';
 
 final class UsersControllerFamily extends $Family
     with

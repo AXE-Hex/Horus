@@ -4,17 +4,10 @@ import 'package:hue/core/auth/auth_provider.dart';
 import 'package:hue/features/enrollment/data/models/invoice_models.dart';
 import 'package:hue/features/enrollment/data/repositories/enrollment_repository.dart';
 
-// ──────────────────────────────────────────────
-// Repository Provider
-// ──────────────────────────────────────────────
 final enrollmentRepositoryProvider = Provider<EnrollmentRepository>((ref) {
   return EnrollmentRepository(Supabase.instance.client);
 });
 
-// ──────────────────────────────────────────────
-// Invoices List Provider
-// Real-time aware; re-fetches when auth changes.
-// ──────────────────────────────────────────────
 final studentInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   ref,
 ) async {
@@ -27,9 +20,6 @@ final studentInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   return raw.map((e) => Invoice.fromJson(e)).toList();
 });
 
-// ──────────────────────────────────────────────
-// Invoice Summary Provider (derived)
-// ──────────────────────────────────────────────
 final invoiceSummaryProvider = FutureProvider.autoDispose<InvoiceSummary>((
   ref,
 ) async {
@@ -37,10 +27,6 @@ final invoiceSummaryProvider = FutureProvider.autoDispose<InvoiceSummary>((
   return InvoiceSummary.fromInvoices(invoices);
 });
 
-// ──────────────────────────────────────────────
-// Invoice Filter Notifier (replaces StateProvider)
-// Holds the currently selected filter tab
-// ──────────────────────────────────────────────
 class InvoiceFilterNotifier extends Notifier<InvoiceStatus?> {
   @override
   InvoiceStatus? build() => null;
@@ -53,9 +39,6 @@ final invoiceFilterProvider =
       InvoiceFilterNotifier.new,
     );
 
-// ──────────────────────────────────────────────
-// Filtered Invoices (combines all + filter)
-// ──────────────────────────────────────────────
 final filteredInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   ref,
 ) async {
@@ -65,9 +48,6 @@ final filteredInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   return all.where((inv) => inv.status == filter).toList();
 });
 
-// ──────────────────────────────────────────────
-// Mark Invoice Paid Action
-// ──────────────────────────────────────────────
 class InvoiceActionsNotifier extends AsyncNotifier<void> {
   @override
   Future<void> build() async {}

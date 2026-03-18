@@ -29,7 +29,10 @@ class DepartmentsManagementScreen extends ConsumerWidget {
         actions: [
           IconButton(
             icon: const Icon(LucideIcons.plus),
-            onPressed: () => _showAddDepartmentDialog(context, ref),
+            onPressed: () => context.push(
+              '/admin/departments/form',
+              extra: {'collegeId': collegeId},
+            ),
           ),
         ],
       ),
@@ -47,11 +50,7 @@ class DepartmentsManagementScreen extends ConsumerWidget {
           final departments = snapshot.data ?? [];
 
           if (departments.isEmpty) {
-            return Center(
-              child: Text(
-                t.admin.no_departments_found,
-              ),
-            );
+            return Center(child: Text(t.admin.no_departments_found));
           }
 
           return ListView.builder(
@@ -70,29 +69,20 @@ class DepartmentsManagementScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(30),
                       child: Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  Colors.purple.withValues(alpha: 0.2),
-                                  Colors.purple.withValues(alpha: 0.05),
-                                ],
-                              ),
-                              borderRadius: BorderRadius.circular(18),
-                              border: Border.all(
-                                color: Colors.purple.withValues(alpha: 0.1),
-                              ),
-                            ),
-                            child: const Icon(
-                              LucideIcons.layout,
-                              color: Colors.purpleAccent,
-                              size: 28,
-                            ),
-                          ),
-                          const SizedBox(width: 20),
+                          dept.imageUrl != null && dept.imageUrl!.isNotEmpty
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(18),
+                                  child: Image.network(
+                                    dept.imageUrl!,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (ctx, err, stack) =>
+                                        _buildFallbackIcon(context),
+                                  ),
+                                )
+                              : _buildFallbackIcon(context),
+                          SizedBox(width: 20),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,7 +95,7 @@ class DepartmentsManagementScreen extends ConsumerWidget {
                                     letterSpacing: -0.4,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   (isArabic
                                           ? dept.descriptionAr
@@ -113,7 +103,10 @@ class DepartmentsManagementScreen extends ConsumerWidget {
                                       '',
                                   style: GoogleFonts.inter(
                                     fontSize: 13,
-                                    color: Colors.white.withValues(alpha: 0.4),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurface
+                                        .withValues(alpha: 0.4),
                                   ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -122,15 +115,17 @@ class DepartmentsManagementScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          // Actions
+
                           _buildCircleButton(
                             context,
                             LucideIcons.edit2,
                             Colors.white.withValues(alpha: 0.1),
-                            () => _showDepartmentFormDialog(
-                              context,
-                              ref,
-                              dept: dept,
+                            () => context.push(
+                              '/admin/departments/form',
+                              extra: {
+                                'department': dept,
+                                'collegeId': collegeId,
+                              },
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -156,81 +151,6 @@ class DepartmentsManagementScreen extends ConsumerWidget {
             },
           );
         },
-      ),
-    );
-  }
-
-  void _showAddDepartmentDialog(BuildContext context, WidgetRef ref) {
-    _showDepartmentFormDialog(context, ref);
-  }
-
-  void _showDepartmentFormDialog(
-    BuildContext context,
-    WidgetRef ref, {
-    DepartmentModel? dept,
-  }) {
-    final nameEnController = TextEditingController(text: dept?.nameEn);
-    final nameArController = TextEditingController(text: dept?.nameAr);
-    final descEnController = TextEditingController(text: dept?.descriptionEn);
-    final descArController = TextEditingController(text: dept?.descriptionAr);
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(dept == null ? 'Add Department' : 'Edit Department'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameEnController,
-                decoration: const InputDecoration(labelText: 'Name (EN)'),
-              ),
-              TextField(
-                controller: nameArController,
-                decoration: const InputDecoration(labelText: 'Name (AR)'),
-              ),
-              TextField(
-                controller: descEnController,
-                decoration: const InputDecoration(
-                  labelText: 'Description (EN)',
-                ),
-              ),
-              TextField(
-                controller: descArController,
-                decoration: const InputDecoration(
-                  labelText: 'Description (AR)',
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              final data = {
-                'name': nameEnController.text,
-                'name_ar': nameArController.text,
-                'description': descEnController.text,
-                'description_ar': descArController.text,
-                if (collegeId != null && dept == null) 'college_id': collegeId,
-              };
-              final repo = ref.read(institutionalRepositoryProvider);
-              if (dept == null) {
-                await repo.createDepartment(data);
-              } else {
-                await repo.updateDepartment(dept.id, data);
-              }
-              if (!context.mounted) return;
-              Navigator.pop(context);
-            },
-            child: Text(dept == null ? 'Create' : 'Save'),
-          ),
-        ],
       ),
     );
   }
@@ -290,6 +210,28 @@ class DepartmentsManagementScreen extends ConsumerWidget {
             color: iconColor ?? Colors.white.withValues(alpha: 0.7),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildFallbackIcon(BuildContext context) {
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Colors.purple.withValues(alpha: 0.2),
+            Colors.purple.withValues(alpha: 0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.purple.withValues(alpha: 0.1)),
+      ),
+      child: Center(
+        child: Icon(LucideIcons.layout, color: Colors.purpleAccent, size: 28),
       ),
     );
   }

@@ -70,6 +70,7 @@ class DepartmentModel {
   final String? descriptionAr;
   final String? headId;
   final String? assistantHeadId;
+  final String? imageUrl;
   final String? building;
   final int? floor;
   final String? officeSymbol;
@@ -86,6 +87,7 @@ class DepartmentModel {
     this.descriptionAr,
     this.headId,
     this.assistantHeadId,
+    this.imageUrl,
     this.building,
     this.floor,
     this.officeSymbol,
@@ -104,6 +106,7 @@ class DepartmentModel {
       descriptionAr: json['description_ar'] as String?,
       headId: json['hod_id'] as String?,
       assistantHeadId: json['assistant_hod_id'] as String?,
+      imageUrl: json['image_url'] as String?,
       building: json['building'] as String?,
       floor: json['floor'] as int?,
       officeSymbol: json['office_symbol'] as String?,
@@ -125,6 +128,7 @@ class DepartmentModel {
       'description_ar': descriptionAr,
       'hod_id': headId,
       'assistant_hod_id': assistantHeadId,
+      if (imageUrl != null) 'image_url': imageUrl,
       if (building != null) 'building': building,
       if (floor != null) 'floor': floor,
       if (officeSymbol != null) 'office_symbol': officeSymbol,

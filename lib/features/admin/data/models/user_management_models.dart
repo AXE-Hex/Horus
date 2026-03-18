@@ -7,6 +7,7 @@ class UserProfileModel {
   final String? fullNameAr;
   final String? avatarUrl;
   final List<UserRole> roles;
+  final String? gender;
   final String? studentId;
   final String? nationalId;
   final String? nationality;
@@ -30,6 +31,7 @@ class UserProfileModel {
     this.fullNameAr,
     this.avatarUrl,
     required this.roles,
+    this.gender,
     this.studentId,
     this.nationalId,
     this.nationality,
@@ -47,7 +49,6 @@ class UserProfileModel {
     this.deletedAt,
   });
 
-  /// Safe JSON parser — handles missing columns gracefully with defaults
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
     return UserProfileModel(
       id: json['id'] as String,
@@ -56,13 +57,14 @@ class UserProfileModel {
       fullNameAr: json['full_name_ar'] as String?,
       avatarUrl: json['avatar_url'] as String?,
       roles: _parseRoles(json),
+      gender: json['gender'] as String?,
       studentId: json['student_id'] as String?,
       nationalId: json['national_id'] as String?,
       nationality: json['nationality'] as String?,
       phone: json['phone'] as String?,
       collegeId: json['college_id'] as String?,
       departmentId: json['department_id'] as String?,
-      // These columns may not exist in the table yet — safe defaults
+
       warningLevel: (json['warning_level'] as int?) ?? 0,
       isVerified: (json['is_verified'] as bool?) ?? false,
       tags: json.containsKey('tags')
@@ -92,12 +94,11 @@ class UserProfileModel {
             .toList();
       }
     }
-    // Fallback: check legacy single "role" field
+
     final roleStr = json['role'] as String? ?? 'student';
     return [UserRoleX.fromDbString(roleStr)];
   }
 
-  /// Only includes columns that exist in the Supabase profiles table
   Map<String, dynamic> toProfileJson() {
     return {
       'full_name': fullName,
@@ -137,6 +138,7 @@ class UserProfileModel {
     String? fullNameAr,
     String? avatarUrl,
     List<UserRole>? roles,
+    String? gender,
     String? studentId,
     String? nationalId,
     String? nationality,
@@ -160,6 +162,7 @@ class UserProfileModel {
       fullNameAr: fullNameAr ?? this.fullNameAr,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       roles: roles ?? this.roles,
+      gender: gender ?? this.gender,
       studentId: studentId ?? this.studentId,
       nationalId: nationalId ?? this.nationalId,
       nationality: nationality ?? this.nationality,

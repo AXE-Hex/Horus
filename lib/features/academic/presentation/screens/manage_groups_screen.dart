@@ -97,7 +97,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  t.professor.selected_count(count: _selectedGroupIds.length),
+                  '${_selectedGroupIds.length} selected',
                   style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     color: color,
@@ -280,7 +280,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
           const Icon(LucideIcons.megaphone, color: Colors.white),
           const SizedBox(width: 12),
           Text(
-            t.professor.announcement_to(count: _selectedGroupIds.length),
+            'Announcement',
             style: GoogleFonts.outfit(
               color: Colors.white,
               fontWeight: FontWeight.bold,

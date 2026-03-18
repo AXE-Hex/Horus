@@ -29,7 +29,6 @@ class AdminStatCard extends StatelessWidget {
       onTap: onTap,
       child: Stack(
         children: [
-          // Background Glow
           PositionedDirectional(
             end: -24,
             top: -24,
@@ -272,11 +271,10 @@ class _ChartPainter extends CustomPainter {
 
     final path = Path();
 
-    // Normalize data: map 0-200ms to height
     double normalize(double val) {
       const maxVal = 200.0;
       final factor = (val / maxVal).clamp(0.0, 1.0);
-      return size.height * (1.0 - factor * 0.8); // Reserve some space
+      return size.height * (1.0 - factor * 0.8);
     }
 
     final stepX = size.width / (data.length - 1);
