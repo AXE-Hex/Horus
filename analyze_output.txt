@@ -1,0 +1,6 @@
+Analyzing admin, feed, academic, colleges, enrollment, home, settings, students...
+
+  error - lib/features/admin/presentation/screens/system_settings_screen.dart:35:39 - The argument type 'String Function({required Object error})' can't be assigned to the parameter type 'String'.  - argument_type_not_assignable
+  error - lib/features/enrollment/presentation/screens/invoices_screen.dart:261:25 - The argument type 'String Function({required Object count})' can't be assigned to the parameter type 'String'.  - argument_type_not_assignable
+
+2 issues found.

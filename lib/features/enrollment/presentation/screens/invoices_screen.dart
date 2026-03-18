@@ -258,7 +258,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        t.enrollment.summaryoverduecount_overdue,
+                        t.enrollment.summaryoverduecount_overdue(count: summary.overdueCount),
                         style: GoogleFonts.outfit(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,

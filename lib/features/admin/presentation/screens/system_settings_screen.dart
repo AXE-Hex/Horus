@@ -32,7 +32,7 @@ class SystemSettingsScreen extends ConsumerWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text(t.admin.error_snapshoterror));
+            return Center(child: Text(t.admin.error_snapshoterror(error: snapshot.error ?? 'Unknown error')));
           }
 
           final data = snapshot.data ?? [];
