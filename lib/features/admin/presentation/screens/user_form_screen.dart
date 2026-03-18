@@ -1286,8 +1286,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
             enabled: !isEdit,
             suffixText: '@horus.edu.eg',
             validator: (val) {
-              if (val == null || val.trim().isEmpty)
+              if (val == null || val.trim().isEmpty) {
                 return t.extracted.required;
+              }
               if (val.contains('@')) return t.extracted.enter_prefix_only;
               return null;
             },
@@ -1432,8 +1433,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   onSelected: (val) {
                     setState(() {
                       if (isSelected) {
-                        if (_selectedRoles.length > 1)
+                        if (_selectedRoles.length > 1) {
                           _selectedRoles.remove(role);
+                        }
                       } else {
                         _selectedRoles.add(role);
                       }

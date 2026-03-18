@@ -267,7 +267,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: theme.primaryColor.withOpacity(0.3),
+              color: theme.primaryColor.withValues(alpha: 0.3),
               width: 2,
             ),
           ),
@@ -276,7 +276,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             backgroundImage: authState.avatarUrl != null
                 ? NetworkImage(authState.avatarUrl!)
                 : null,
-            backgroundColor: theme.primaryColor.withOpacity(0.1),
+            backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
             child: authState.avatarUrl == null
                 ? Icon(LucideIcons.user, color: theme.primaryColor)
                 : null,
@@ -604,19 +604,21 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildToolItem(LucideIcons.image, Colors.green, () {
-                if (_currentType != PostType.image)
+                if (_currentType != PostType.image) {
                   setState(() {
                     _selectedMedia.clear();
                     _currentType = PostType.image;
                   });
+                }
                 _pickMedia(false);
               }),
               _buildToolItem(LucideIcons.video, Colors.red, () {
-                if (_currentType != PostType.video)
+                if (_currentType != PostType.video) {
                   setState(() {
                     _selectedMedia.clear();
                     _currentType = PostType.video;
                   });
+                }
                 _pickMedia(true);
               }),
               _buildToolItem(

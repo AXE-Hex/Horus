@@ -188,7 +188,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               child: IgnorePointer(
                 child: AnimatedBuilder(
                   animation: _glowController,
-                  builder: (_, __) => Container(
+                  builder: (_, child) => Container(
                     width: 250,
                     height: 250,
                     decoration: BoxDecoration(

@@ -311,7 +311,7 @@ class _HoDIdentityCard extends ConsumerWidget {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             ),
                           ),
-                          error: (_, __) => _buildRatingStat(0.0),
+                          error: (_, stackTrace) => _buildRatingStat(0.0),
                         ),
                       ),
                     ],
