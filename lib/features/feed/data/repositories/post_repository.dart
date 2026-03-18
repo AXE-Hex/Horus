@@ -25,13 +25,7 @@ class PostRepository {
           post_likes(user_id)
         ''');
 
-    if (userId != null) {
-      // We can't easily filter the join results in a single select query with the current client
-      // for a list of items to only include the current user's like.
-      // But we can parse it in the model since we only care if the list is empty or not for that post.
-      // However, to keep it efficient, we might want to only fetch likes for the current user.
-      // query = query.filter('post_likes.user_id', 'eq', userId);
-    }
+    if (userId != null) {}
 
     final response = await query
         .order('created_at', ascending: false)
@@ -39,10 +33,7 @@ class PostRepository {
 
     return (response as List<dynamic>).map((e) {
       final map = Map<String, dynamic>.from(e as Map);
-      // Filter likes to only include the current user's like if needed,
-      // but the model will check if post_likes is not empty.
-      // Actually, if we fetch ALL likes it will be slow.
-      // For now, let's assume post_likes join returns the user's like if we can filter it.
+
       if (userId != null && map['post_likes'] != null) {
         final likes = map['post_likes'] as List;
         map['post_likes'] = likes.where((l) => l['user_id'] == userId).toList();
@@ -174,5 +165,4 @@ class PostRepository {
 
     return PostModel.fromJson(response);
   }
-
 }

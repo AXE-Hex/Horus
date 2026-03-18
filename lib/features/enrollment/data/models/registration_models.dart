@@ -160,10 +160,6 @@ class StudentCourseRegistration {
   }
 }
 
-// ──────────────────────────────────────────────
-// ADVISOR WORKFLOW MODELS
-// ──────────────────────────────────────────────
-
 enum RegistrationStatus { pending, approved, rejected, withdrawn }
 
 extension RegistrationStatusX on RegistrationStatus {

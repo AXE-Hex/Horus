@@ -91,7 +91,6 @@ class AcademicRepository extends BaseRepository {
     required String studentId,
     required String semester,
   }) async {
-    // 1. Get all course registrations for the student in this semester
     final regResponse = await client
         .from('student_course_registrations')
         .select('course_id, section_name, sub_section_name')
@@ -102,7 +101,6 @@ class AcademicRepository extends BaseRepository {
 
     final List<Map<String, dynamic>> allSchedules = [];
 
-    // 2. For each course, fetch its specific schedule based on chosen section/subsection
     for (final reg in regResponse) {
       final courseId = reg['course_id'];
       final sectionName = reg['section_name'];
@@ -114,12 +112,10 @@ class AcademicRepository extends BaseRepository {
           .eq('course_id', courseId)
           .eq('semester', semester);
 
-      // Filter by section if specified
       if (sectionName != null) {
         query = query.eq('section_name', sectionName);
       }
 
-      // Filter by subsection if specified
       if (subSectionName != null) {
         query = query.eq('sub_section_name', subSectionName);
       }
@@ -137,8 +133,12 @@ class AcademicRepository extends BaseRepository {
 
   Future<List<Map<String, dynamic>>> getDepartments({String? collegeId}) async {
     if (collegeId != null) {
-      return fetchWhere('departments', 'college_id', collegeId,
-          orderBy: 'name_en');
+      return fetchWhere(
+        'departments',
+        'college_id',
+        collegeId,
+        orderBy: 'name_en',
+      );
     }
     return fetchAll('departments', orderBy: 'name_en');
   }
@@ -146,8 +146,12 @@ class AcademicRepository extends BaseRepository {
   Future<List<Map<String, dynamic>>> getDepartmentProjects(
     String departmentId,
   ) async {
-    return fetchWhere('department_projects', 'department_id', departmentId,
-        orderBy: 'created_at', ascending: false);
+    return fetchWhere(
+      'department_projects',
+      'department_id',
+      departmentId,
+      orderBy: 'created_at',
+      ascending: false,
+    );
   }
 }
-

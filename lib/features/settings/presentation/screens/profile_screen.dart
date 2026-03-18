@@ -375,7 +375,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     final body = CustomScrollView(
       physics: BouncingScrollPhysics(),
       slivers: [
-        // ── Immersive Hero Header ──
         SliverAppBar(
           expandedHeight: 340,
           pinned: true,
@@ -454,7 +453,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             background: Stack(
               fit: StackFit.expand,
               children: [
-                // Gradient background
                 Container(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -469,7 +467,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                   ),
                 ),
-                // Subtle pattern
+
                 Positioned.fill(
                   child: Opacity(
                     opacity: 0.06,
@@ -480,7 +478,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                   ),
                 ),
-                // Glow blob
+
                 Positioned(
                   right: isArabic ? null : 40,
                   left: isArabic ? 40 : null,
@@ -504,14 +502,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                   ),
                 ),
-                // Avatar + info
+
                 Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
                   child: Column(
                     children: [
-                      // Avatar with camera button
                       Center(
                         child: Stack(
                           children: [
@@ -575,7 +572,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               duration: 700.ms,
                               curve: Curves.easeOutBack,
                             ),
-                            // Camera button overlay
+
                             Positioned(
                               bottom: 4,
                               right: 4,
@@ -682,7 +679,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           ),
         ),
 
-        // ── Body ──
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
           sliver: SliverList(
@@ -692,7 +688,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Section header
                     _sectionLabel(
                       t.extracted.personal_info,
                       LucideIcons.user,
@@ -700,7 +695,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 16),
 
-                    // Full Name
                     _buildPremiumField(
                       context: context,
                       label: t.extracted.full_name,
@@ -714,7 +708,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 14),
 
-                    // Email (read-only)
                     _buildPremiumField(
                       context: context,
                       label: t.extracted.email,
@@ -728,7 +721,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 14),
 
-                    // Phone
                     _buildPremiumField(
                       context: context,
                       label: t.extracted.phone_number,
@@ -740,7 +732,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 14),
 
-                    // National ID
                     _buildPremiumField(
                       context: context,
                       label: t.extracted.national_id,
@@ -759,7 +750,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 16),
 
-                    // Bio
                     _buildPremiumField(
                       context: context,
                       label: t.extracted.write_something_about_yourself,
@@ -771,7 +761,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 28),
 
-                    // Role badge card
                     _sectionLabel(
                       t.extracted.account_info,
                       LucideIcons.shield,
@@ -786,7 +775,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     ),
                     const SizedBox(height: 32),
 
-                    // Save button
                     _buildSaveButton(context, isArabic, primaryColor),
                     const SizedBox(height: 80),
                   ],

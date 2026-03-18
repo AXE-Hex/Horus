@@ -48,7 +48,6 @@ class GlassContainer extends ConsumerWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
 
-    // Responsive Metrics
     final isMobile = ResponsiveHelper.isMobile(context);
     final defaultRadius = isMobile ? 24.0 : 32.0;
     final BorderRadius radius =

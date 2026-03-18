@@ -208,7 +208,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              // Stats row
+
               Row(
                 children: [
                   _buildStatChip(
@@ -730,8 +730,6 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     );
   }
 
-  // ─── Dialogs ───────────────────────────────────────────────
-
   void _showAssignDeanDialog(bool isArabic, Color themeColor) {
     showDialog(
       context: context,
@@ -758,7 +756,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                 await repo.updateCollege(_college.id, {'dean_id': deanId});
                 if (!context.mounted) return;
                 Navigator.pop(context);
-                // Reload college data
+
                 final updated = await repo.getCollegeById(_college.id);
                 setState(() => _college = updated);
               },
@@ -916,8 +914,6 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     );
   }
 }
-
-// ─── Dean Selection List ─────────────────────────────────────
 
 class _DeanSelectionList extends ConsumerWidget {
   final CollegeModel college;

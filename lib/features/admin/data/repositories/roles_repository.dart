@@ -31,7 +31,6 @@ class RolesRepository {
   }
 }
 
-// Manual provider to bypass generator issues
 final rolesRepositoryProvider = Provider<RolesRepository>((ref) {
   return RolesRepository(Supabase.instance.client);
 });

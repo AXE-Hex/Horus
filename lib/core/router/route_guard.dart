@@ -13,12 +13,8 @@ const Set<String> publicRoutes = {
   '/transition',
 };
 
-/// Global permission matrix used for fine-grained route access checks.
 final PermissionMatrix _permissionMatrix = PermissionMatrix.initial();
 
-/// Required permissions for restricted admin routes.
-///
-/// A user may access the route if they have **any** of the listed permissions.
 const Map<String, Set<RolePermission>> adminRoutePermissions = {
   '/admin': {
     RolePermission.manageSystem,
@@ -34,10 +30,7 @@ const Map<String, Set<RolePermission>> adminRoutePermissions = {
   '/admin/colleges': {RolePermission.manageColleges},
   '/admin/departments': {RolePermission.manageDepartments},
   '/admin/audit-logs': {RolePermission.viewAuditLogs},
-  '/admin/roles': {
-    RolePermission.manageSystem,
-    RolePermission.manageUsers,
-  },
+  '/admin/roles': {RolePermission.manageSystem, RolePermission.manageUsers},
   '/admin/monitor': {RolePermission.manageSystem},
   '/admin/management/students': {
     RolePermission.manageEnrollments,
@@ -53,10 +46,7 @@ const Map<String, Set<RolePermission>> adminRoutePermissions = {
 };
 
 const Map<String, Set<RoleCategory>> routePermissions = {
-  '/dashboard': {
-    RoleCategory.studentRoles,
-    RoleCategory.adminIT,
-  },
+  '/dashboard': {RoleCategory.studentRoles, RoleCategory.adminIT},
   '/staff-dashboard': {
     RoleCategory.teachingStaff,
     RoleCategory.academicLeadership,
@@ -137,7 +127,6 @@ const Map<String, Set<RoleCategory>> routePermissions = {
 bool canAccessRoute(String path, UserRole role) {
   if (role == UserRole.superAdmin) return true;
 
-  // 1) Fine-grained admin routes based on RolePermission.
   final requiredPermissions = adminRoutePermissions[path];
   if (requiredPermissions != null) {
     for (final permission in requiredPermissions) {
@@ -145,11 +134,10 @@ bool canAccessRoute(String path, UserRole role) {
         return true;
       }
     }
-    // Route is protected by permissions and none matched.
+
     return false;
   }
 
-  // 2) Legacy category-based restrictions for non-admin routes.
   final allowed = routePermissions[path];
   if (allowed == null) return true;
 

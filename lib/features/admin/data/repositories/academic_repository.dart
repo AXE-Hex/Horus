@@ -8,7 +8,6 @@ class AcademicRepository {
 
   AcademicRepository(this._client);
 
-  // Workload
   Future<void> assignWorkload({
     required String professorId,
     required String courseId,
@@ -26,7 +25,6 @@ class AcademicRepository {
     );
   }
 
-  // Schedules
   Future<void> updateScheduleEntry({
     required String entryId,
     required Map<String, dynamic> data,
@@ -34,7 +32,6 @@ class AcademicRepository {
     await _client.from('schedules').update(data).eq('id', entryId);
   }
 
-  // Results
   Future<void> approveFinalResults({
     required String courseId,
     required String semesterId,

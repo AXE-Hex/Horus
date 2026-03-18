@@ -90,15 +90,12 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             padding: const EdgeInsets.all(20),
             sliver: SliverList(
               delegate: SliverChildListDelegate([
-                // ── Profile Header
                 _buildProfileHeader(primaryColor, roleName, isArabic),
                 const SizedBox(height: 20),
 
-                // ── Status Overview
                 _buildStatusGrid(primaryColor),
                 const SizedBox(height: 20),
 
-                // ── Quick Actions
                 _buildSectionTitle(
                   LucideIcons.zap,
                   t.extracted.quick_actions,
@@ -108,7 +105,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildQuickActions(primaryColor, isArabic),
                 const SizedBox(height: 24),
 
-                // ── Verification
                 _buildSectionTitle(
                   LucideIcons.shieldCheck,
                   t.extracted.verification,
@@ -118,7 +114,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildVerificationCard(primaryColor, isArabic),
                 const SizedBox(height: 24),
 
-                // ── Ban Management
                 _buildSectionTitle(
                   LucideIcons.ban,
                   t.extracted.ban_management,
@@ -128,7 +123,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildBanCard(primaryColor, isArabic),
                 const SizedBox(height: 24),
 
-                // ── Tags
                 _buildSectionTitle(
                   LucideIcons.tag,
                   t.extracted.tags,
@@ -138,7 +132,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildTagsCard(primaryColor, isArabic),
                 const SizedBox(height: 24),
 
-                // ── Warning Level
                 _buildSectionTitle(
                   LucideIcons.alertTriangle,
                   t.extracted.warning_level,
@@ -148,7 +141,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildWarningCard(primaryColor, isArabic),
                 const SizedBox(height: 24),
 
-                // ── Account Status
                 _buildSectionTitle(
                   LucideIcons.power,
                   t.extracted.account_status,
@@ -158,7 +150,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildAccountStatusCard(primaryColor, isArabic),
                 const SizedBox(height: 24),
 
-                // ── Danger Zone
                 _buildSectionTitle(
                   LucideIcons.alertOctagon,
                   t.extracted.danger_zone,
@@ -209,7 +200,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       borderRadius: BorderRadius.circular(28),
       child: Column(
         children: [
-          // Avatar
           Stack(
             alignment: Alignment.bottomRight,
             children: [
@@ -272,7 +262,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             ],
           ),
           SizedBox(height: 16),
-          // Name
+
           Text(
             _user.fullName,
             style: GoogleFonts.outfit(
@@ -294,7 +284,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             ),
           ],
           SizedBox(height: 8),
-          // Email
+
           Text(
             _user.email,
             style: GoogleFonts.shareTechMono(
@@ -305,7 +295,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             ),
           ),
           const SizedBox(height: 14),
-          // Role Badge
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
@@ -323,7 +313,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               ),
             ),
           ),
-          // Badges row
+
           const SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -521,7 +511,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     );
   }
 
-  // ── Verification Card
   Widget _buildVerificationCard(Color primaryColor, bool isArabic) {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
@@ -584,7 +573,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.04, end: 0);
   }
 
-  // ── Ban Card
   Widget _buildBanCard(Color primaryColor, bool isArabic) {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
@@ -657,7 +645,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     ).animate().fadeIn(delay: 250.ms).slideY(begin: 0.04, end: 0);
   }
 
-  // ── Tags Card
   Widget _buildTagsCard(Color primaryColor, bool isArabic) {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
@@ -771,7 +758,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.04, end: 0);
   }
 
-  // ── Warning Card
   Widget _buildWarningCard(Color primaryColor, bool isArabic) {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
@@ -805,7 +791,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             ],
           ),
           const SizedBox(height: 14),
-          // Warning bar
+
           ClipRRect(
             borderRadius: BorderRadius.circular(6),
             child: LinearProgressIndicator(
@@ -861,7 +847,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     ).animate().fadeIn(delay: 350.ms).slideY(begin: 0.04, end: 0);
   }
 
-  // ── Account Status Card
   Widget _buildAccountStatusCard(Color primaryColor, bool isArabic) {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
@@ -926,7 +911,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     );
   }
 
-  // ── Danger Zone
   Widget _buildDangerZone(Color primaryColor, bool isArabic) {
     return GlassContainer(
       padding: const EdgeInsets.all(18),
@@ -1032,8 +1016,6 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     return '${date.day}/${date.month}/${date.year}';
   }
 
-  // ── Action Methods
-
   void _toggleVerification(bool isArabic) {
     final newVal = !_user.isVerified;
     _showConfirmDialog(
@@ -1042,7 +1024,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           : (t.extracted.remove_verification),
       message: newVal
           ? "${t.extracted.verify_userfullname(user_fullName: _user.fullName)}'s account?"
-          : (t.extracted.remove_verification_from_userfullname(user_fullName: _user.fullName)),
+          : (t.extracted.remove_verification_from_userfullname(
+              user_fullName: _user.fullName,
+            )),
       confirmColor: const Color(0xFF10B981),
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
@@ -1065,7 +1049,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     _showConfirmDialog(
       title: newVal ? (t.extracted.ban_user) : (t.extracted.unban_user),
       message: newVal
-          ? (t.extracted.ban_userfullname_they_will_lose_system_access(user_fullName: _user.fullName))
+          ? (t.extracted.ban_userfullname_they_will_lose_system_access(
+              user_fullName: _user.fullName,
+            ))
           : (t.extracted.unban_userfullname(user_fullName: _user.fullName)),
       confirmColor: const Color(0xFFEF4444),
       onConfirm: () {
@@ -1198,10 +1184,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         : t.extracted.soft_delete;
 
     final message = hardDelete
-        ? t.extracted
-            .permanently_delete_userfullname_this_cannot_be_undone(
-              user_fullName: _user.fullName,
-            )
+        ? t.extracted.permanently_delete_userfullname_this_cannot_be_undone(
+            user_fullName: _user.fullName,
+          )
         : '${t.extracted.deactivate_userfullname(user_fullName: _user.fullName)}\'s account?';
 
     _showConfirmDialog(

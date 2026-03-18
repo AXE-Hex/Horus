@@ -13,11 +13,6 @@ import 'package:hue/features/admin/presentation/widgets/admin_dashboard_componen
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// AdministrationScreen — Complete Rebuild
-// Premium futuristic design with 6 major sections, fully Supabase-connected
-// ──────────────────────────────────────────────────────────────────────────────
-
 class AdministrationScreen extends ConsumerWidget {
   final bool isStandalone;
   const AdministrationScreen({super.key, this.isStandalone = true});
@@ -37,26 +32,21 @@ class AdministrationScreen extends ConsumerWidget {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          // ── Animated dark background gradient
           AdminBackground(),
 
-          // ── Holographic grid overlay
           Positioned.fill(
             child: CustomPaint(painter: HolographicGridPainter()),
           ),
 
-          // ── Main scrollable content
           CustomScrollView(
             physics: const BouncingScrollPhysics(),
             slivers: [
-              // 1. Immersive SliverAppBar header
               _AdminSliverHeader(
                 isArabic: isArabic,
                 auth: auth,
                 isStandalone: isStandalone,
               ),
 
-              // 2. Live stat cards row — Supabase connected
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -68,7 +58,6 @@ class AdministrationScreen extends ConsumerWidget {
                 ),
               ),
 
-              // 3. System Modules Grid
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 32, 20, 0),
@@ -76,7 +65,6 @@ class AdministrationScreen extends ConsumerWidget {
                 ),
               ),
 
-              // 5. System Pulse Monitor — live latency
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 32, 20, 0),
@@ -87,7 +75,6 @@ class AdministrationScreen extends ConsumerWidget {
                 ),
               ),
 
-              // 6. Recent Activity + Role Breakdown
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 32, 20, 120),
@@ -105,17 +92,6 @@ class AdministrationScreen extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Background — animated gradient layers
-// ──────────────────────────────────────────────────────────────────────────────
-
-// ──────────────────────────────────────────────────────────────────────────────
-// Holographic Grid Painter
-// ──────────────────────────────────────────────────────────────────────────────
-
-// ──────────────────────────────────────────────────────────────────────────────
-// 1. Sliver App Bar — Immersive header
-// ──────────────────────────────────────────────────────────────────────────────
 class _AdminSliverHeader extends StatelessWidget {
   final bool isArabic;
   final AuthState auth;
@@ -158,9 +134,8 @@ class _AdminSliverHeader extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            // Diagonal scanline
             Positioned.fill(child: CustomPaint(painter: ScanlinePainter())),
-            // Content
+
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(24, 12, 24, 28),
@@ -170,7 +145,6 @@ class _AdminSliverHeader extends StatelessWidget {
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
                   children: [
-                    // Status badge
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 12,
@@ -208,7 +182,6 @@ class _AdminSliverHeader extends StatelessWidget {
                     ).animate().fadeIn().slideX(begin: isArabic ? 0.1 : -0.1),
                     SizedBox(height: 14),
 
-                    // Title
                     Text(
                       t.admin.admin_command_center,
                       style: GoogleFonts.outfit(
@@ -222,7 +195,6 @@ class _AdminSliverHeader extends StatelessWidget {
 
                     SizedBox(height: 6),
 
-                    // Subtitle with admin name
                     Wrap(
                       alignment: isArabic
                           ? WrapAlignment.end
@@ -275,9 +247,6 @@ class _AdminSliverHeader extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 2. Live Stat Cards — Supabase connected via adminStatsProvider
-// ──────────────────────────────────────────────────────────────────────────────
 class _LiveStatCards extends ConsumerWidget {
   final AsyncValue<Map<RoleCategory, int>> statsAsync;
   final bool isArabic;
@@ -312,7 +281,6 @@ class _LiveStatCards extends ConsumerWidget {
           spacing: 14,
           runSpacing: 14,
           children: [
-            // Students
             LiveCard(
               label: t.admin.students,
               icon: LucideIcons.graduationCap,
@@ -322,7 +290,7 @@ class _LiveStatCards extends ConsumerWidget {
               valueAsync: totalStudentsAsync,
               onTap: () => context.push('/admin/management/students'),
             ),
-            // Staff
+
             LiveCard(
               label: t.admin.staff,
               icon: LucideIcons.users,
@@ -332,7 +300,7 @@ class _LiveStatCards extends ConsumerWidget {
               valueAsync: totalStaffAsync,
               onTap: () => context.push('/admin/management/staff'),
             ),
-            // Leadership
+
             LiveCard(
               label: t.admin.leadership,
               icon: LucideIcons.crown,
@@ -344,7 +312,7 @@ class _LiveStatCards extends ConsumerWidget {
               ),
               onTap: () => context.push('/admin/management/leadership'),
             ),
-            // Admin IT
+
             LiveCard(
               label: t.admin.admin_it,
               icon: LucideIcons.server,
@@ -361,9 +329,6 @@ class _LiveStatCards extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 3. System Modules Grid — 8 modules with holographic cards
-// ──────────────────────────────────────────────────────────────────────────────
 class _SystemModulesGrid extends StatelessWidget {
   final bool isArabic;
   const _SystemModulesGrid({required this.isArabic});
@@ -458,9 +423,6 @@ class _SystemModulesGrid extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 5. System Pulse Monitor — live latency chart
-// ──────────────────────────────────────────────────────────────────────────────
 class _SystemPulseSection extends StatelessWidget {
   final bool isArabic;
   final PerformanceState perfState;
@@ -504,7 +466,6 @@ class _SystemPulseSection extends StatelessWidget {
           ),
           child: Column(
             children: [
-              // Status row
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -533,7 +494,7 @@ class _SystemPulseSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 24),
-              // Live chart
+
               SizedBox(
                 height: 100,
                 child: LivePerformanceChart(
@@ -542,7 +503,7 @@ class _SystemPulseSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              // Chart label
+
               Text(
                 t.admin.realtime_latency_ms,
                 style: GoogleFonts.shareTechMono(
@@ -559,9 +520,6 @@ class _SystemPulseSection extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 6. Role Breakdown Section — visual breakdown of user categories
-// ──────────────────────────────────────────────────────────────────────────────
 class _RoleBreakdownSection extends ConsumerWidget {
   final AsyncValue<Map<RoleCategory, int>> statsAsync;
   final bool isArabic;
@@ -703,12 +661,3 @@ class _RoleBreakdownSection extends ConsumerWidget {
     ).animate(delay: 450.ms).fadeIn().slideY(begin: 0.08, end: 0);
   }
 }
-
-
-
-// ──────────────────────────────────────────────────────────────────────────────
-// Helpers
-// ──────────────────────────────────────────────────────────────────────────────
-
-
-

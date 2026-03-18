@@ -781,7 +781,6 @@ class _DigitalIDScreenState extends ConsumerState<DigitalIDScreen> {
   }
 
   void _showShareDialog(BuildContext context) {
-    // ... logic remains similar but with updated styling
     final isArabic = t.$meta.locale.languageCode == 'ar';
     showModalBottomSheet(
       context: context,
@@ -853,7 +852,6 @@ class _Interactive3DCardState extends State<_Interactive3DCard>
   late AnimationController _flipController;
   late Animation<double> _flipAnimation;
 
-  // For 3D Tilt
   Offset _tilt = Offset.zero;
   bool _isFlipped = false;
 
@@ -1041,7 +1039,6 @@ class _FrontCard extends StatelessWidget {
                 : 20,
           ),
           itemBuilder: (context, index) {
-            // Use seed to subtly vary the grid
             final isVisible = (math.Random(seed + index).nextDouble() > 0.2);
             if (!isVisible) return const SizedBox();
 
@@ -1061,7 +1058,6 @@ class _FrontCard extends StatelessWidget {
   }
 
   Widget _buildContent(DigitalIDTheme theme, bool isArabic, int seed) {
-    // Fetch base college theme for the name
     final collegeTheme = DigitalIDThemeRepository.getTheme(
       collegeId: studentData['college']?.toString() ?? '',
     );

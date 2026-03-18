@@ -10,8 +10,6 @@ class InstitutionalRepository {
 
   InstitutionalRepository(this._client);
 
-  // ─── Colleges ───────────────────────────────────────────────
-
   Future<List<CollegeModel>> getColleges() async {
     final response = await _client.from('colleges').select().order('name');
     return (response as List)
@@ -39,8 +37,6 @@ class InstitutionalRepository {
   Future<void> deleteCollege(String id) async {
     await _client.from('colleges').delete().eq('id', id);
   }
-
-  // ─── Departments ────────────────────────────────────────────
 
   Future<List<DepartmentModel>> getDepartments({String? collegeId}) async {
     var query = _client.from('departments').select();
@@ -74,9 +70,6 @@ class InstitutionalRepository {
     await _client.from('departments').delete().eq('id', id);
   }
 
-  // ─── Staff Management ──────────────────────────────────────
-
-  /// Get all faculty/staff users assigned to a specific department
   Future<List<UserProfileModel>> getStaffByDepartment(
     String departmentId,
   ) async {
@@ -90,7 +83,6 @@ class InstitutionalRepository {
         .toList();
   }
 
-  /// Get all faculty/staff users assigned to a specific college
   Future<List<UserProfileModel>> getStaffByCollege(String collegeId) async {
     final response = await _client
         .from('profiles')
@@ -102,7 +94,6 @@ class InstitutionalRepository {
         .toList();
   }
 
-  /// Assign a user to a department (and its parent college)
   Future<void> assignStaffToDepartment(
     String userId,
     String departmentId,
@@ -114,15 +105,12 @@ class InstitutionalRepository {
         .eq('id', userId);
   }
 
-  /// Remove a user from their department
   Future<void> removeStaffFromDepartment(String userId) async {
     await _client
         .from('profiles')
         .update({'department_id': null})
         .eq('id', userId);
   }
-
-  // ─── Department Projects ────────────────────────────────────
 
   Future<List<DepartmentProjectModel>> getDepartmentProjects(
     String departmentId,
@@ -136,8 +124,6 @@ class InstitutionalRepository {
         .map((json) => DepartmentProjectModel.fromJson(json))
         .toList();
   }
-
-  // ─── Appointments ───────────────────────────────────────────
 
   Future<List<AppointmentModel>> getAppointments({
     bool activeOnly = true,
@@ -166,11 +152,8 @@ class InstitutionalRepository {
         .eq('id', id);
   }
 
-  // ─── Real-Time Statistics ───────────────────────────────────
-
   Future<Map<String, int>> getCollegeRealTimeStats(String collegeId) async {
     try {
-      // 1. Students Count
       final studentsResponse = await _client
           .from('profiles')
           .select('id')
@@ -178,7 +161,6 @@ class InstitutionalRepository {
           .contains('roles', ['student']);
       final studentsCount = (studentsResponse as List).length;
 
-      // 2. Faculty Count (Professor, Lecturer, etc.)
       final facultyResponse = await _client
           .from('profiles')
           .select('id')
@@ -186,7 +168,6 @@ class InstitutionalRepository {
           .or('roles.cs.{"professor"},roles.cs.{"lecturer"}');
       final facultyCount = (facultyResponse as List).length;
 
-      // 3. Assistants Count (Teaching Assistant)
       final assistantsResponse = await _client
           .from('profiles')
           .select('id')
@@ -194,7 +175,6 @@ class InstitutionalRepository {
           .contains('roles', ['teaching_assistant']);
       final assistantsCount = (assistantsResponse as List).length;
 
-      // 4. Research Count (Shared Files/Publications)
       final researchResponse = await _client
           .from('shared_files')
           .select('id')

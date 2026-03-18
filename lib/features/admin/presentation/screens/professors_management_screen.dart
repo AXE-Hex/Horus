@@ -156,7 +156,7 @@ class ProfessorsManagementScreen extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 16),
-            // We'll use a FutureBuilder to fetch departments for the dropdown
+
             FutureBuilder(
               future: ref
                   .read(institutionalRepositoryProvider)

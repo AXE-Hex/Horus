@@ -53,7 +53,7 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        '${college.studentCount} ${t.extracted.students}', // Or other stat
+                        '${college.studentCount} ${t.extracted.students}',
                         style: GoogleFonts.inter(
                           fontSize: 13,
                           color: isGlass

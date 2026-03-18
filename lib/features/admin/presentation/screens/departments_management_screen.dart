@@ -115,7 +115,7 @@ class DepartmentsManagementScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(width: 8),
-                          // Actions
+
                           _buildCircleButton(
                             context,
                             LucideIcons.edit2,

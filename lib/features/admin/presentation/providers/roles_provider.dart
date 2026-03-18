@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hue/features/admin/data/models/dynamic_role_model.dart';
 import 'package:hue/features/admin/data/repositories/roles_repository.dart';
 
-// Manual providers to bypass generator issues
 final rolesControllerProvider =
     AsyncNotifierProvider<RolesController, List<DynamicRoleModel>>(
       RolesController.new,

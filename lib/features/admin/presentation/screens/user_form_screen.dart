@@ -47,14 +47,12 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
   List<UserRole> _selectedRoles = [];
   bool _isSaving = false;
   bool _isActive = true;
-  String _selectedGender = 'male'; // male / female
+  String _selectedGender = 'male';
 
-  // Password strength
   double _passwordStrength = 0;
   String _passwordStrengthLabel = '';
   Color _passwordStrengthColor = Colors.grey;
 
-  // Institution Selection
   String? _selectedCollegeId;
   String? _selectedDepartmentId;
   List<CollegeModel> _colleges = [];
@@ -191,7 +189,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         setState(() {
           _departments = deps;
           _isLoadingDepartments = false;
-          // Ensure selected department is valid
+
           if (_selectedDepartmentId != null &&
               !deps.any((d) => d.id == _selectedDepartmentId)) {
             _selectedDepartmentId = null;
@@ -234,12 +232,16 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
   }
 
   bool _validateCurrentStep() {
-    // We could add more granular validation here if needed
-    // For now, most fields are optional except Name and Email
     if (_currentStep == 0) {
       if (_nameController.text.trim().isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(t.$meta.locale.languageCode == 'ar' ? 'الاسم مطلوب' : 'Name is required')),
+          SnackBar(
+            content: Text(
+              t.$meta.locale.languageCode == 'ar'
+                  ? 'الاسم مطلوب'
+                  : 'Name is required',
+            ),
+          ),
         );
         return false;
       }
@@ -247,13 +249,25 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
     if (_currentStep == 1 && widget.user == null) {
       if (_emailController.text.trim().isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(t.$meta.locale.languageCode == 'ar' ? 'البريد مطلوب' : 'Email is required')),
+          SnackBar(
+            content: Text(
+              t.$meta.locale.languageCode == 'ar'
+                  ? 'البريد مطلوب'
+                  : 'Email is required',
+            ),
+          ),
         );
         return false;
       }
       if (_passwordController.text.length < 8) {
-         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(t.$meta.locale.languageCode == 'ar' ? 'كلمة المرور قصيرة' : 'Password is too short')),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              t.$meta.locale.languageCode == 'ar'
+                  ? 'كلمة المرور قصيرة'
+                  : 'Password is too short',
+            ),
+          ),
         );
         return false;
       }
@@ -275,7 +289,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         ).notifier,
       );
 
-      // Build full email with domain suffix
       final fullEmail = '${_emailController.text.trim()}@horus.edu.eg';
 
       if (widget.user == null) {
@@ -313,9 +326,13 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         PremiumSuccessOverlay.show(
           context,
           title: t.admin.changes_saved_successfully,
-          message: widget.user == null 
-              ? (t.$meta.locale.languageCode == 'ar' ? 'تم إنشاء الحساب بنجاح' : 'User account created successfully')
-              : (t.$meta.locale.languageCode == 'ar' ? 'تم تحديث البيانات بنجاح' : 'Profile updated successfully'),
+          message: widget.user == null
+              ? (t.$meta.locale.languageCode == 'ar'
+                    ? 'تم إنشاء الحساب بنجاح'
+                    : 'User account created successfully')
+              : (t.$meta.locale.languageCode == 'ar'
+                    ? 'تم تحديث البيانات بنجاح'
+                    : 'Profile updated successfully'),
         );
         context.pop();
       }
@@ -396,11 +413,16 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
 
   String _getStepTitle(int step, bool isArabic) {
     switch (step) {
-      case 0: return t.extracted.personal_details;
-      case 1: return t.extracted.account_credentials;
-      case 2: return t.extracted.roles_permissions;
-      case 3: return t.extracted.academic_affiliation;
-      default: return '';
+      case 0:
+        return t.extracted.personal_details;
+      case 1:
+        return t.extracted.account_credentials;
+      case 2:
+        return t.extracted.roles_permissions;
+      case 3:
+        return t.extracted.academic_affiliation;
+      default:
+        return '';
     }
   }
 
@@ -424,24 +446,26 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                       color: isActive ? primaryColor : Colors.white24,
                       width: 2,
                     ),
-                    boxShadow: isActive ? [
-                      BoxShadow(
-                        color: primaryColor.withValues(alpha: 0.3),
-                        blurRadius: 10,
-                      )
-                    ] : null,
+                    boxShadow: isActive
+                        ? [
+                            BoxShadow(
+                              color: primaryColor.withValues(alpha: 0.3),
+                              blurRadius: 10,
+                            ),
+                          ]
+                        : null,
                   ),
                   child: Center(
-                    child: index < _currentStep 
-                      ? const Icon(Icons.check, size: 16, color: Colors.white)
-                      : Text(
-                        '${index + 1}',
-                        style: GoogleFonts.outfit(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isActive ? Colors.white : Colors.white30,
-                        ),
-                      ),
+                    child: index < _currentStep
+                        ? const Icon(Icons.check, size: 16, color: Colors.white)
+                        : Text(
+                            '${index + 1}',
+                            style: GoogleFonts.outfit(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: isActive ? Colors.white : Colors.white30,
+                            ),
+                          ),
                   ),
                 ),
                 if (index < 3)
@@ -450,7 +474,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                       duration: const Duration(milliseconds: 300),
                       height: 2,
                       margin: const EdgeInsets.symmetric(horizontal: 8),
-                      color: index < _currentStep ? primaryColor : Colors.white10,
+                      color: index < _currentStep
+                          ? primaryColor
+                          : Colors.white10,
                     ),
                   ),
               ],
@@ -600,7 +626,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       ),
     );
   }
-
 
   Widget _buildInstitutionSelectors(bool isArabic, Color primaryColor) {
     if (_isLoadingColleges) {
@@ -804,7 +829,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.06),
           ),
-          // Tags
+
           SizedBox(
             width: double.infinity,
             child: TextButton.icon(
@@ -837,7 +862,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.06),
           ),
-          // Warning level
+
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -901,7 +926,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.06),
           ),
-          // Delete button
+
           SizedBox(
             width: double.infinity,
             child: TextButton.icon(
@@ -974,7 +999,6 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       ],
     );
   }
-
 
   void _showDeleteConfirmation(BuildContext context, UsersController notifier) {
     showDialog(
@@ -1116,7 +1140,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           _buildSectionHeader(
             icon: LucideIcons.user,
             title: t.extracted.personal_info,
-            color: (Theme.of(context).cardTheme.color ?? Theme.of(context).cardColor),
+            color:
+                (Theme.of(context).cardTheme.color ??
+                Theme.of(context).cardColor),
           ),
           const SizedBox(height: 16),
           _buildPremiumField(
@@ -1161,7 +1187,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             maxLength: 11,
           ),
-          if (_selectedRoles.any((r) => r.category == RoleCategory.studentRoles)) ...[
+          if (_selectedRoles.any(
+            (r) => r.category == RoleCategory.studentRoles,
+          )) ...[
             const SizedBox(height: 14),
             _buildPremiumField(
               label: t.admin.student_id,
@@ -1174,7 +1202,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
             ),
           ],
           const SizedBox(height: 14),
-           _buildGenderSelectorInternal(isArabic, primaryColor),
+          _buildGenderSelectorInternal(isArabic, primaryColor),
         ],
       ),
     );
@@ -1210,7 +1238,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                 backgroundColor: Colors.transparent,
                 selectedColor: primaryColor.withValues(alpha: 0.2),
                 labelStyle: GoogleFonts.inter(
-                  color: _selectedGender == 'male' ? primaryColor : Colors.white54,
+                  color: _selectedGender == 'male'
+                      ? primaryColor
+                      : Colors.white54,
                   fontSize: 12,
                 ),
               ),
@@ -1222,7 +1252,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                 backgroundColor: Colors.transparent,
                 selectedColor: primaryColor.withValues(alpha: 0.2),
                 labelStyle: GoogleFonts.inter(
-                  color: _selectedGender == 'female' ? primaryColor : Colors.white54,
+                  color: _selectedGender == 'female'
+                      ? primaryColor
+                      : Colors.white54,
                   fontSize: 12,
                 ),
               ),
@@ -1254,7 +1286,8 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
             enabled: !isEdit,
             suffixText: '@horus.edu.eg',
             validator: (val) {
-              if (val == null || val.trim().isEmpty) return t.extracted.required;
+              if (val == null || val.trim().isEmpty)
+                return t.extracted.required;
               if (val.contains('@')) return t.extracted.enter_prefix_only;
               return null;
             },
@@ -1268,7 +1301,11 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               iconColor: Colors.pinkAccent,
               obscureText: true,
               suffix: IconButton(
-                icon: const Icon(LucideIcons.refreshCw, size: 16, color: Colors.white54),
+                icon: const Icon(
+                  LucideIcons.refreshCw,
+                  size: 16,
+                  color: Colors.white54,
+                ),
                 onPressed: _generatePassword,
               ),
             ),
@@ -1287,13 +1324,19 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                       ),
                     ),
                     const SizedBox(width: 12),
-                    Text(_passwordStrengthLabel, style: GoogleFonts.inter(color: _passwordStrengthColor, fontSize: 11)),
+                    Text(
+                      _passwordStrengthLabel,
+                      style: GoogleFonts.inter(
+                        color: _passwordStrengthColor,
+                        fontSize: 11,
+                      ),
+                    ),
                   ],
                 ),
               ),
           ],
-           const SizedBox(height: 14),
-           _buildStatusToggleInternal(isArabic, primaryColor),
+          const SizedBox(height: 14),
+          _buildStatusToggleInternal(isArabic, primaryColor),
         ],
       ),
     );
@@ -1312,7 +1355,11 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               const SizedBox(width: 12),
               Text(
                 t.admin.account_status,
-                style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white70),
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white70,
+                ),
               ),
             ],
           ),
@@ -1334,7 +1381,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
         children: [
           _buildSectionHeader(
             icon: LucideIcons.shield,
-            title: widget.initialCategory != null ? t.admin.select_role_in_widgetinitialca : t.admin.select_role_permission,
+            title: widget.initialCategory != null
+                ? t.admin.select_role_in_widgetinitialca
+                : t.admin.select_role_permission,
             color: primaryColor,
           ),
           const SizedBox(height: 16),
@@ -1364,7 +1413,11 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                 padding: const EdgeInsets.only(bottom: 8.0, top: 4.0),
                 child: Text(
                   entry.key.displayName(isArabic: isArabic),
-                  style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white30),
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white30,
+                  ),
                 ),
               ),
             ],
@@ -1379,7 +1432,8 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   onSelected: (val) {
                     setState(() {
                       if (isSelected) {
-                        if (_selectedRoles.length > 1) _selectedRoles.remove(role);
+                        if (_selectedRoles.length > 1)
+                          _selectedRoles.remove(role);
                       } else {
                         _selectedRoles.add(role);
                       }
@@ -1390,7 +1444,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   labelStyle: GoogleFonts.inter(
                     color: isSelected ? primaryColor : Colors.white54,
                     fontSize: 12,
-                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: isSelected
+                        ? FontWeight.bold
+                        : FontWeight.normal,
                   ),
                 );
               }).toList(),
@@ -1408,17 +1464,17 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-           _buildInstitutionSelectors(isArabic, primaryColor),
-           if (isEdit) ...[
-             const SizedBox(height: 32),
-             _buildSectionHeader(
+          _buildInstitutionSelectors(isArabic, primaryColor),
+          if (isEdit) ...[
+            const SizedBox(height: 32),
+            _buildSectionHeader(
               icon: LucideIcons.settings,
               title: t.admin.advanced_management,
               color: Colors.orangeAccent,
             ),
             const SizedBox(height: 16),
             _buildManagementZone(isArabic, primaryColor),
-           ],
+          ],
         ],
       ),
     );
@@ -1429,7 +1485,9 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.8),
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.only(top: 16.0),
@@ -1442,9 +1500,14 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     side: const BorderSide(color: Colors.white10),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
-                  child: Text(t.extracted.previous, style: GoogleFonts.inter(color: Colors.white70)),
+                  child: Text(
+                    t.extracted.previous,
+                    style: GoogleFonts.inter(color: Colors.white70),
+                  ),
                 ),
               ),
             if (_currentStep > 0) const SizedBox(width: 12),
@@ -1453,26 +1516,46 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               child: ElevatedButton(
                 onPressed: _isSaving ? null : _nextStep,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _currentStep == 3 ? const Color(0xFF10B981) : primaryColor,
+                  backgroundColor: _currentStep == 3
+                      ? const Color(0xFF10B981)
+                      : primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
                   elevation: 4,
                 ),
                 child: _isSaving
-                  ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                  : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _currentStep == 3 
-                          ? (widget.user != null ? t.admin.save_changes : (t.extracted.create_account))
-                          : (t.extracted.next),
-                        style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            _currentStep == 3
+                                ? (widget.user != null
+                                      ? t.admin.save_changes
+                                      : (t.extracted.create_account))
+                                : (t.extracted.next),
+                            style: GoogleFonts.outfit(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(
+                            _currentStep == 3
+                                ? LucideIcons.check
+                                : LucideIcons.arrowRight,
+                            size: 18,
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 8),
-                      Icon(_currentStep == 3 ? LucideIcons.check : LucideIcons.arrowRight, size: 18),
-                    ],
-                  ),
               ),
             ),
           ],

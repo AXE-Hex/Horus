@@ -153,7 +153,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         body: Stack(
           fit: StackFit.expand,
           children: [
-            // ── 1. Deep background ──
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -174,7 +173,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               ),
             ),
 
-            // ── 2. Animated gradient orbs ──
             RepaintBoundary(
               child: AnimatedBuilder(
                 animation: _orbController,
@@ -191,7 +189,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               ),
             ),
 
-            // ── 3. Noise + blur overlay ──
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
               child: Container(
@@ -201,7 +198,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               ),
             ),
 
-            // ── 4. Content ──
             SafeArea(
               child: Center(
                 child: SingleChildScrollView(
@@ -213,10 +209,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // ── Logo ──
                       _buildLogo(theme, isDark),
                       const SizedBox(height: 16),
-                      // ── Title ──
+
                       Text(
                         t.students.horus_university,
                         textAlign: TextAlign.center,
@@ -232,7 +227,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
                       const SizedBox(height: 48),
 
-                      // ── Login Card ──
                       _buildLoginCard(theme, isDark, isArabic),
                     ],
                   ),
@@ -245,9 +239,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  LOGO
-  // ═══════════════════════════════════════════════════════════════════════════
   Widget _buildLogo(ThemeData theme, bool isDark) {
     return AnimatedBuilder(
           animation: _pulseController,
@@ -290,9 +281,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  LOGIN CARD
-  // ═══════════════════════════════════════════════════════════════════════════
   Widget _buildLoginCard(ThemeData theme, bool isDark, bool isArabic) {
     return ClipRRect(
           borderRadius: BorderRadius.circular(28),
@@ -323,7 +311,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // ── Welcome ──
                   Text(
                     t.auth.login.welcome,
                     textAlign: TextAlign.center,
@@ -353,7 +340,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
                   const SizedBox(height: 36),
 
-                  // ── Email ──
                   _buildTextField(
                         controller: _emailController,
                         focusNode: _emailFocus,
@@ -372,7 +358,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
                   const SizedBox(height: 16),
 
-                  // ── Password ──
                   _buildTextField(
                         controller: _passwordController,
                         focusNode: _passwordFocus,
@@ -417,7 +402,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
                   const SizedBox(height: 12),
 
-                  // ── Forgot Password ──
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: TextButton(
@@ -447,7 +431,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
 
                   const SizedBox(height: 24),
 
-                  // ── Sign In Button ──
                   _buildSignInButton(theme),
                 ],
               ),
@@ -464,9 +447,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  TEXT FIELD
-  // ═══════════════════════════════════════════════════════════════════════════
   Widget _buildTextField({
     required TextEditingController controller,
     required FocusNode focusNode,
@@ -564,9 +544,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  SIGN IN BUTTON
-  // ═══════════════════════════════════════════════════════════════════════════
   Widget _buildSignInButton(ThemeData theme) {
     return AnimatedContainer(
           duration: const Duration(milliseconds: 300),
@@ -646,9 +623,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// ANIMATED GRADIENT ORBS PAINTER
-// ═══════════════════════════════════════════════════════════════════════════════
 class _OrbsPainter extends CustomPainter {
   final double t;
   final Color primary;
@@ -662,7 +636,6 @@ class _OrbsPainter extends CustomPainter {
     final h = size.height;
     final angle = t * 2 * math.pi;
 
-    // Primary orb — slow orbit
     _paintOrb(
       canvas,
       center: Offset(
@@ -673,7 +646,6 @@ class _OrbsPainter extends CustomPainter {
       color: primary.withValues(alpha: isDark ? 0.18 : 0.10),
     );
 
-    // Purple orb
     _paintOrb(
       canvas,
       center: Offset(
@@ -685,7 +657,6 @@ class _OrbsPainter extends CustomPainter {
           .withValues(alpha: isDark ? 0.12 : 0.07),
     );
 
-    // Teal orb
     _paintOrb(
       canvas,
       center: Offset(

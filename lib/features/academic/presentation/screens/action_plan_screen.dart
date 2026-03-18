@@ -13,9 +13,15 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:hue/core/data/supabase_providers.dart';
 import 'package:hue/core/auth/auth_provider.dart';
 
-final actionPlanProvider = FutureProvider.family<List<Map<String, dynamic>>, String>((ref, studentId) async {
-  return await ref.read(academicRepositoryProvider).getActionPlan(studentId);
-});
+final actionPlanProvider =
+    FutureProvider.family<List<Map<String, dynamic>>, String>((
+      ref,
+      studentId,
+    ) async {
+      return await ref
+          .read(academicRepositoryProvider)
+          .getActionPlan(studentId);
+    });
 
 class ActionPlanScreen extends ConsumerWidget {
   const ActionPlanScreen({super.key});
@@ -28,7 +34,7 @@ class ActionPlanScreen extends ConsumerWidget {
 
     final auth = ref.watch(authControllerProvider);
     final studentId = auth.user?.id;
-    
+
     if (studentId == null) {
       return const Scaffold(body: Center(child: Text('User not signed in')));
     }
@@ -37,8 +43,6 @@ class ActionPlanScreen extends ConsumerWidget {
 
     return actionPlanAsync.when(
       data: (rawData) {
-        
-        // Ensure we group data logically by year if needed, or map directly
         final List<Map<String, dynamic>> timelineData = rawData.map((item) {
           final isCompleted = item['status'] == 'completed';
           final isInProgress = item['status'] == 'in_progress';
@@ -60,10 +64,16 @@ class ActionPlanScreen extends ConsumerWidget {
             'progress': isCompleted ? 1.0 : (isInProgress ? 0.5 : 0.0),
             'icon': icon,
             'color': color,
-            'tasks': (item['tasks'] as List<dynamic>?)?.map((t) => {
-              'label': t['label']?.toString() ?? 'Task',
-              'done': t['done'] == true,
-            }).toList() ?? [],
+            'tasks':
+                (item['tasks'] as List<dynamic>?)
+                    ?.map(
+                      (t) => {
+                        'label': t['label']?.toString() ?? 'Task',
+                        'done': t['done'] == true,
+                      },
+                    )
+                    .toList() ??
+                [],
           };
         }).toList();
 
@@ -74,76 +84,92 @@ class ActionPlanScreen extends ConsumerWidget {
           totalTasks += tasks.length;
           completedTasks += tasks.where((t) => t['done'] == true).length;
         }
-        
-        final double overallProgress = totalTasks > 0 ? (completedTasks / totalTasks) : 0.0;
+
+        final double overallProgress = totalTasks > 0
+            ? (completedTasks / totalTasks)
+            : 0.0;
         final int progressPercentage = (overallProgress * 100).toInt();
 
         final body = CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-        GlassSliverAppBar(
-          expandedHeight: 120,
-          floating: true,
-          pinned: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-            onPressed: () => context.pop(),
-          ),
-          title: Text(
-            t.academic.action_plan,
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w900,
-              fontSize: 24,
-              color: Colors.white,
-              letterSpacing: 1.2,
+            GlassSliverAppBar(
+              expandedHeight: 120,
+              floating: true,
+              pinned: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+                onPressed: () => context.pop(),
+              ),
+              title: Text(
+                t.academic.action_plan,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 24,
+                  color: Colors.white,
+                  letterSpacing: 1.2,
+                ),
+              ),
+              centerTitle: true,
             ),
-          ),
-          centerTitle: true,
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: timelineData.isEmpty 
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 40),
-                    child: Text(
-                      t.academic.no_data, // Fallback string assuming it might exist or generic text
-                      style: GoogleFonts.outfit(color: Colors.white60, fontSize: 16),
-                    ),
-                  ),
-                )
-              : _buildProgressHeader(isArabic, progressPercentage, overallProgress),
-          ),
-        ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          sliver: SliverList(
-            delegate: SliverChildBuilderDelegate((context, index) {
-              return _TimelineItem(
-                data: timelineData[index],
-                isFirst: index == 0,
-                isLast: index == timelineData.length - 1,
-                index: index,
-                isArabic: isArabic,
-              );
-            }, childCount: timelineData.length),
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: 100)),
-      ],
-    );
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: timelineData.isEmpty
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: Text(
+                            t.academic.no_data,
+                            style: GoogleFonts.outfit(
+                              color: Colors.white60,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      )
+                    : _buildProgressHeader(
+                        isArabic,
+                        progressPercentage,
+                        overallProgress,
+                      ),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return _TimelineItem(
+                    data: timelineData[index],
+                    isFirst: index == 0,
+                    isLast: index == timelineData.length - 1,
+                    index: index,
+                    isArabic: isArabic,
+                  );
+                }, childCount: timelineData.length),
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          ],
+        );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, stack) => Center(child: Text('Error: $err')),
     );
   }
 
-  Widget _buildProgressHeader(bool isArabic, int progressPercentage, double overallProgress) {
+  Widget _buildProgressHeader(
+    bool isArabic,
+    int progressPercentage,
+    double overallProgress,
+  ) {
     return GlassContainer(
       borderRadius: BorderRadius.circular(32),
       padding: const EdgeInsets.all(24),

@@ -60,9 +60,7 @@ class UsersController extends _$UsersController {
         'action': 'update',
         'notes': 'Pending approval: ${data.toString()}',
       });
-    } catch (_) {
-      // audit_logs table may not exist yet — silently skip
-    }
+    } catch (_) {}
   }
 
   Future<void> toggleUserStatus(String userId, bool isActive) async {
@@ -140,7 +138,5 @@ class UsersController extends _$UsersController {
         .deleteUser(userId, hardDelete: hardDelete);
   }
 
-  Future<void> refresh() async {
-    // With stream, refresh is typically less needed, but we keep it to not break external calls.
-  }
+  Future<void> refresh() async {}
 }

@@ -97,7 +97,6 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            // Using a colored container with an icon as we don't have real images yet
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -258,7 +257,6 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
                 itemWidth,
                 1,
               ),
-              // ... fallback to 0 or handle error
             ],
           );
         },

@@ -32,7 +32,6 @@ class FeedNotifier extends AsyncNotifier<List<PostModel>> {
     final post = currentPosts[postIndex];
     final wasLiked = post.isLiked;
 
-    // Optimistic update
     final updatedPost = PostModel(
       id: post.id,
       authorId: post.authorId,
@@ -67,7 +66,6 @@ class FeedNotifier extends AsyncNotifier<List<PostModel>> {
         await _repo.likePost(postId);
       }
     } catch (e) {
-      // Rollback on error
       state = AsyncValue.data(currentPosts);
     }
   }
@@ -84,8 +82,9 @@ class FeedNotifier extends AsyncNotifier<List<PostModel>> {
   }
 }
 
-final commentsProvider =
-    FutureProvider.family<List<CommentModel>, String>((ref, postId) {
+final commentsProvider = FutureProvider.family<List<CommentModel>, String>((
+  ref,
+  postId,
+) {
   return ref.read(postRepositoryProvider).getComments(postId);
 });
-

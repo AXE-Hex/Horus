@@ -38,7 +38,6 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
   String _verifiedFilter = 'all';
   bool _isSearchFocused = false;
 
-  // Selection Mode
   bool _isSelectionMode = false;
   final Set<String> _selectedUserIds = {};
 
@@ -168,7 +167,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
       body: Column(
         children: [
           const SizedBox(height: 12),
-          // ── Search Bar
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Row(
@@ -179,11 +178,11 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
               ],
             ),
           ),
-          // ── Active Filters
+
           if (_statusFilter != 'all' || _verifiedFilter != 'all')
             _buildActiveFilters(primaryColor),
           const SizedBox(height: 4),
-          // ── User List
+
           Expanded(child: _buildMainContent()),
         ],
       ),
@@ -498,7 +497,6 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
             ),
             child: Row(
               children: [
-                // ── Avatar
                 Stack(
                   children: [
                     Container(
@@ -547,7 +545,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                               ).colorScheme.onSurface.withValues(alpha: 0.6),
                             ),
                     ),
-                    // Status dot
+
                     Positioned(
                       bottom: 1,
                       right: 1,
@@ -566,7 +564,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                         ),
                       ),
                     ),
-                    // Selection indicator
+
                     if (_isSelectionMode)
                       Positioned(
                         top: -2,
@@ -600,7 +598,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                   ],
                 ),
                 SizedBox(width: 14),
-                // ── User Info
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -652,7 +650,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                         overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: 6),
-                      // ── Role Badge
+
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
@@ -678,7 +676,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     ],
                   ),
                 ),
-                // ── Chevron
+
                 Icon(
                   isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
                   size: 16,
@@ -757,7 +755,6 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Handle bar
               Center(
                 child: Container(
                   width: 40,

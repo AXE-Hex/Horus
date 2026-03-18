@@ -14,9 +14,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:hue/core/data/supabase_providers.dart';
 import 'package:intl/intl.dart';
 
-final examScheduleProvider = FutureProvider.family<List<Map<String, dynamic>>, String>((ref, semester) async {
-  return await ref.read(academicRepositoryProvider).getExamSchedule(semester: semester);
-});
+final examScheduleProvider =
+    FutureProvider.family<List<Map<String, dynamic>>, String>((
+      ref,
+      semester,
+    ) async {
+      return await ref
+          .read(academicRepositoryProvider)
+          .getExamSchedule(semester: semester);
+    });
 
 class ExamScheduleScreen extends HookConsumerWidget {
   const ExamScheduleScreen({super.key});
@@ -27,16 +33,15 @@ class ExamScheduleScreen extends HookConsumerWidget {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
     final selectedDate = useState<DateTime?>(null);
-    final examsAsync = ref.watch(examScheduleProvider('Fall 2024')); // In a real app, 'Fall 2024' would come from user settings or active semester
+    final examsAsync = ref.watch(examScheduleProvider('Fall 2024'));
 
     return examsAsync.when(
       data: (rawData) {
-        // Map backend data to local view format, assigning colors and icons based on subject/ID
         final exams = rawData.map((e) {
           final id = e['course_id'] as String? ?? 'N/A';
           Color color = const Color(0xFF6366F1);
           IconData icon = LucideIcons.book;
-          
+
           if (id.startsWith('CS')) {
             color = const Color(0xFF10B981);
             icon = LucideIcons.cpu;
@@ -50,8 +55,11 @@ class ExamScheduleScreen extends HookConsumerWidget {
 
           return {
             'id': id,
-            'subject': e['subject'] as String? ?? t.academic.artificial_intelligence, // Ideally subject name is fetched, using fallback for now
-            'dateTime': DateTime.tryParse(e['exam_date']?.toString() ?? '') ?? DateTime.now(),
+            'subject':
+                e['subject'] as String? ?? t.academic.artificial_intelligence,
+            'dateTime':
+                DateTime.tryParse(e['exam_date']?.toString() ?? '') ??
+                DateTime.now(),
             'seat': e['seat'] as String? ?? 'TBD',
             'room': e['room'] as String? ?? 'TBD',
             'color': color,
@@ -59,107 +67,112 @@ class ExamScheduleScreen extends HookConsumerWidget {
           };
         }).toList();
 
+        final filteredExams = exams.where((exam) {
+          if (selectedDate.value == null) return true;
+          final examDate = exam['dateTime'] as DateTime;
+          return examDate.year == selectedDate.value!.year &&
+              examDate.month == selectedDate.value!.month &&
+              examDate.day == selectedDate.value!.day;
+        }).toList();
 
-    final filteredExams = exams.where((exam) {
-      if (selectedDate.value == null) return true;
-      final examDate = exam['dateTime'] as DateTime;
-      return examDate.year == selectedDate.value!.year &&
-          examDate.month == selectedDate.value!.month &&
-          examDate.day == selectedDate.value!.day;
-    }).toList();
+        final examDates = exams
+            .map((e) => e['dateTime'] as DateTime)
+            .map((d) => DateTime(d.year, d.month, d.day))
+            .toSet()
+            .toList();
+        examDates.sort();
 
-    // Calculate unique dates with exams
-    final examDates = exams
-        .map((e) => e['dateTime'] as DateTime)
-        .map((d) => DateTime(d.year, d.month, d.day))
-        .toSet()
-        .toList();
-    examDates.sort();
-
-    final body = CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        GlassSliverAppBar(
-          expandedHeight: 120,
-          floating: true,
-          pinned: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-            icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-            onPressed: () => context.pop(),
-          ),
-          title: Text(
-            t.academic.exam_schedule,
-            style: GoogleFonts.outfit(
-              fontWeight: FontWeight.w900,
-              fontSize: 24,
-              color: Colors.white,
-              letterSpacing: 1.2,
-            ),
-          ),
-          centerTitle: true,
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: exams.isEmpty 
-              ? const SizedBox.shrink()
-              : _ExamCountdown(
-                  nextExam: exams.first['dateTime'] as DateTime,
-                  isArabic: isArabic,
+        final body = CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            GlassSliverAppBar(
+              expandedHeight: 120,
+              floating: true,
+              pinned: true,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: IconButton(
+                icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+                onPressed: () => context.pop(),
+              ),
+              title: Text(
+                t.academic.exam_schedule,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w900,
+                  fontSize: 24,
+                  color: Colors.white,
+                  letterSpacing: 1.2,
                 ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 24),
-            child: _DateScroller(
-              dates: examDates,
-              selectedDate: selectedDate.value,
-              onDateSelected: (date) => selectedDate.value = date,
-              isArabic: isArabic,
+              ),
+              centerTitle: true,
             ),
-          ),
-        ),
-        if (filteredExams.isEmpty)
-          SliverFillRemaining(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    LucideIcons.calendarX,
-                    size: 64,
-                    color: Colors.white10,
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    t.academic.no_exams_on_this_day,
-                    style: GoogleFonts.outfit(
-                      color: Colors.white38,
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 20,
+                ),
+                child: exams.isEmpty
+                    ? const SizedBox.shrink()
+                    : _ExamCountdown(
+                        nextExam: exams.first['dateTime'] as DateTime,
+                        isArabic: isArabic,
+                      ),
               ),
             ),
-          )
-        else
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: SliverList(
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final exam = filteredExams[index];
-                return _ExamCard(exam: exam, isArabic: isArabic, index: index);
-              }, childCount: filteredExams.length),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 24),
+                child: _DateScroller(
+                  dates: examDates,
+                  selectedDate: selectedDate.value,
+                  onDateSelected: (date) => selectedDate.value = date,
+                  isArabic: isArabic,
+                ),
+              ),
             ),
-          ),
-        const SliverToBoxAdapter(child: SizedBox(height: 100)),
-      ],
-    );
+            if (filteredExams.isEmpty)
+              SliverFillRemaining(
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        LucideIcons.calendarX,
+                        size: 64,
+                        color: Colors.white10,
+                      ),
+                      const SizedBox(height: 20),
+                      Text(
+                        t.academic.no_exams_on_this_day,
+                        style: GoogleFonts.outfit(
+                          color: Colors.white38,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final exam = filteredExams[index];
+                    return _ExamCard(
+                      exam: exam,
+                      isArabic: isArabic,
+                      index: index,
+                    );
+                  }, childCount: filteredExams.length),
+                ),
+              ),
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          ],
+        );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (err, stack) => Center(child: Text('Error loading exams: $err')),
@@ -297,10 +310,7 @@ class _ExamCountdown extends HookWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _buildTimeUnit(
-                days.toString().padLeft(2, '0'),
-                t.academic.days,
-              ),
+              _buildTimeUnit(days.toString().padLeft(2, '0'), t.academic.days),
               _buildDivider(),
               _buildTimeUnit(
                 hours.toString().padLeft(2, '0'),

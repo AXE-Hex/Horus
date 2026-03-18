@@ -28,7 +28,6 @@ class GradesScreen extends HookConsumerWidget {
     ];
 
     final allGrades = [
-      // Semester 0 (Fall 2023)
       [
         {
           'name': t.academic.computer_programming,
@@ -61,7 +60,7 @@ class GradesScreen extends HookConsumerWidget {
           'icon': LucideIcons.shieldCheck,
         },
       ],
-      // Semester 1 (Spring 2024)
+
       [
         {
           'name': t.academic.artificial_intelligence,
@@ -84,7 +83,7 @@ class GradesScreen extends HookConsumerWidget {
           'icon': LucideIcons.database,
         },
       ],
-      // Semester 2 (Summer 2024)
+
       [
         {
           'name': t.academic.ethics_in_it,
@@ -222,10 +221,7 @@ class _GPAHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _buildMiniStat(
-                totalCredits.toString(),
-                t.academic.credits_1,
-              ),
+              _buildMiniStat(totalCredits.toString(), t.academic.credits_1),
               Container(width: 1, height: 20, color: Colors.white10),
               _buildMiniStat('#$rank', t.academic.rank),
             ],
@@ -466,14 +462,8 @@ class _GradeCard extends StatelessWidget {
                         t.academic.points,
                         points.toStringAsFixed(1),
                       ),
-                      _buildDetailItem(
-                        t.academic.credits,
-                        credits.toString(),
-                      ),
-                      _buildDetailItem(
-                        t.academic.score,
-                        '$score/100',
-                      ),
+                      _buildDetailItem(t.academic.credits, credits.toString()),
+                      _buildDetailItem(t.academic.score, '$score/100'),
                     ],
                   ),
                 ],

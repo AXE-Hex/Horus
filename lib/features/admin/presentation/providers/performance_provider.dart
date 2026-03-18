@@ -46,7 +46,6 @@ class Performance extends _$Performance {
   Future<void> _measureLatency() async {
     final stopwatch = Stopwatch()..start();
     try {
-      // Use a lightweight query to measure latency
       await Supabase.instance.client.from('profiles').select('id').limit(1);
       stopwatch.stop();
 

@@ -496,9 +496,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                       HapticFeedback.selectionClick();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                            '${t.academic.joined} ${group.name}',
-                          ),
+                          content: Text('${t.academic.joined} ${group.name}'),
                           duration: const Duration(seconds: 1),
                         ),
                       );

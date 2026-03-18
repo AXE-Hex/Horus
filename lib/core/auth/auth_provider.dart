@@ -181,7 +181,6 @@ class AuthController extends _$AuthController {
         isLoading: false,
       );
 
-      // Start listening for real-time profile changes
       _subscribeToProfileChanges(user.id);
     } catch (e) {
       final isMissingProfile = e.toString().contains('PGRST116');
@@ -195,12 +194,7 @@ class AuthController extends _$AuthController {
     }
   }
 
-  // ════════════════════════════════════════════════════════════════════════════
-  //  REALTIME: Listen for profile changes (role, name, avatar, etc.)
-  // ════════════════════════════════════════════════════════════════════════════
-
   void _subscribeToProfileChanges(String userId) {
-    // Avoid duplicate subscriptions
     _unsubscribeFromProfile();
 
     _profileChannel = _client
@@ -224,7 +218,6 @@ class AuthController extends _$AuthController {
   void _handleProfileChange(Map<String, dynamic> newData) {
     if (state.user == null) return;
 
-    // Parse updated roles
     List<UserRole> roles;
     if (newData['roles'] != null) {
       roles = (newData['roles'] as List)
@@ -237,7 +230,6 @@ class AuthController extends _$AuthController {
 
     final primaryRole = roles.isNotEmpty ? roles.first : UserRole.guest;
 
-    // Update state — this triggers a rebuild of all listening widgets
     state = AuthState(
       user: state.user,
       role: primaryRole,

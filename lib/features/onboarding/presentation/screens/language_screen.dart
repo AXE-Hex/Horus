@@ -63,7 +63,6 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Premium Background
           const AnimatedMeshBackground(),
 
           SafeArea(
@@ -73,7 +72,7 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  // Back Button High-End Variant
+
                   GestureDetector(
                     onTap: () {
                       HapticFeedback.lightImpact();
@@ -98,7 +97,6 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
 
                   const SizedBox(height: 48),
 
-                  // ShaderMask Typography Hero
                   ShaderMask(
                     shaderCallback: (bounds) => LinearGradient(
                       colors: [isDark ? Colors.white : Colors.black87, primary],
@@ -133,7 +131,6 @@ class _LanguageScreenState extends ConsumerState<LanguageScreen> {
 
                   const SizedBox(height: 48),
 
-                  // Language Selection Grid
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,

@@ -17,16 +17,13 @@ class PostModel {
   final int commentsCount;
   final bool isLiked;
 
-  // Joined fields from profiles
   final String? authorName;
   final String? authorAvatarUrl;
   final UserRole? authorRole;
 
-  // Joined fields from colleges
   final String? collegeNameEn;
   final String? collegeNameAr;
 
-  // Joined fields from departments
   final String? departmentNameEn;
   final String? departmentNameAr;
 
@@ -54,7 +51,6 @@ class PostModel {
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
-    // Parse author info if joined
     final profile = json['profiles'] as Map<String, dynamic>?;
     final college = json['colleges'] as Map<String, dynamic>?;
     final department = json['departments'] as Map<String, dynamic>?;
@@ -71,7 +67,6 @@ class PostModel {
 
     final mediaList = json['media_urls'] as List<dynamic>? ?? [];
 
-    // Check if liked (expecting a 'post_likes' join or similar)
     final likes = json['post_likes'] as List<dynamic>?;
     final isLiked = likes != null && likes.isNotEmpty;
 
@@ -131,7 +126,6 @@ class CommentModel {
   final DateTime createdAt;
   final DateTime updatedAt;
 
-  // Joined fields from profiles
   final String? authorName;
   final String? authorAvatarUrl;
   final UserRole? authorRole;
@@ -188,4 +182,3 @@ class CommentModel {
     };
   }
 }
-
