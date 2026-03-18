@@ -68,7 +68,6 @@ class _AdminITManagementScreenState
       ),
       body: Column(
         children: [
-          // ── System Status Dashboard
           Padding(
             padding: const EdgeInsets.all(20),
             child: GlassContainer(
@@ -173,7 +172,6 @@ class _AdminITManagementScreenState
             ).animate().fadeIn().slideY(begin: 0.05, end: 0),
           ),
 
-          // ── Admins List
           Expanded(child: _buildAdminsList(isArabic, primaryColor)),
         ],
       ),

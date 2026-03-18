@@ -44,13 +44,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     super.dispose();
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  TAB BUILDER  — builds the list of tabs per role
-  // ═══════════════════════════════════════════════════════════════════════════
   List<_TabItem> _buildTabItems(UserRole role) {
     final items = <_TabItem>[];
 
-    // 1. Feed — everyone
     items.add(
       _TabItem(
         icon: LucideIcons.home,
@@ -59,7 +55,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
     );
 
-    // 2. Colleges — everyone
     items.add(
       _TabItem(
         icon: LucideIcons.graduationCap,
@@ -68,7 +63,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
     );
 
-    // 3. Student Dashboard
     if (role.isStudent) {
       items.add(
         _TabItem(
@@ -79,7 +73,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       );
     }
 
-    // 4. Staff Dashboard (Teaching, Leadership, Advisors, Librarians, Registrars, Super Admin)
     final hasStaffDashboard =
         role.isTeachingStaff ||
         role.isLeadership ||
@@ -98,7 +91,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       );
     }
 
-    // 4. Admin panel — admin and leadership roles
     if (role.isAdmin || role.isLeadership) {
       items.add(
         _TabItem(
@@ -112,9 +104,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     return items;
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  BUILD
-  // ═══════════════════════════════════════════════════════════════════════════
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -125,7 +114,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final role = authState.role;
     final items = _buildTabItems(role);
 
-    // Clamp index
     if (_currentIndex >= items.length) {
       _currentIndex = items.length - 1;
     }
@@ -145,10 +133,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       ),
     );
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  MODERN FAB
-  // ═══════════════════════════════════════════════════════════════════════════
 
   void _showCreatePostMenu(BuildContext context, ThemeData theme, bool isDark) {
     showModalBottomSheet(
@@ -277,9 +261,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  APP BAR
-  // ═══════════════════════════════════════════════════════════════════════════
   PreferredSizeWidget _buildAppBar(
     ThemeData theme,
     bool isDark,
@@ -354,11 +335,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: Icon(
-                LucideIcons.plus,
-                size: 20,
-                color: theme.primaryColor,
-              ),
+              icon: Icon(LucideIcons.plus, size: 20, color: theme.primaryColor),
               onPressed: () => _showCreatePostMenu(context, theme, isDark),
               splashRadius: 22,
             ),
@@ -383,9 +360,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  MODERN BOTTOM NAVIGATION (TASKBAR)
-  // ═══════════════════════════════════════════════════════════════════════════
   Widget _buildModernBottomNav(
     ThemeData theme,
     bool isDark,
@@ -427,10 +401,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                     children: List.generate(items.length, (i) {
                       final isSelected = _currentIndex == i;
                       final item = items[i];
-
-                      // If we have a FAB in the middle and enough items to surround it
-                      // we can add a spacer here if we wanted a notched look,
-                      // but floating taskbars often just distribute items evenly.
 
                       return GestureDetector(
                         onTap: () {
@@ -507,9 +477,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-//  TAB ITEM MODEL
-// ═══════════════════════════════════════════════════════════════════════════════
 class _TabItem {
   final IconData icon;
   final String label;

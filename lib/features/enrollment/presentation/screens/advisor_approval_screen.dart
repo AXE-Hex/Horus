@@ -11,8 +11,6 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-/// Screen for Academic Advisors to review and approve/reject student
-/// course registration requests.
 class AdvisorApprovalScreen extends ConsumerStatefulWidget {
   const AdvisorApprovalScreen({super.key});
 
@@ -22,7 +20,7 @@ class AdvisorApprovalScreen extends ConsumerStatefulWidget {
 }
 
 class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
-  String _filterStatus = 'all'; // all | pending | approved | rejected
+  String _filterStatus = 'all';
 
   @override
   Widget build(BuildContext context) {
@@ -51,14 +49,14 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
           ),
           centerTitle: true,
         ),
-        // Filter chips
+
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: _buildFilterChips(isArabic, isGlass),
           ),
         ),
-        // Requests list
+
         requestsAsync.when(
           loading: () => const SliverFillRemaining(
             child: Center(child: CircularProgressIndicator()),
@@ -254,7 +252,6 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                 ],
               ),
               children: [
-                // Courses
                 ...request.courses.map((rc) {
                   final course = rc.course;
                   return Padding(
@@ -293,7 +290,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                   );
                 }),
                 const SizedBox(height: 12),
-                // If already reviewed show notes
+
                 if (request.advisorNotes != null &&
                     request.advisorNotes!.isNotEmpty)
                   Container(
@@ -315,7 +312,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                       ),
                     ),
                   ),
-                // Action buttons (only for pending)
+
                 if (request.isPending)
                   _buildActionButtons(request, isArabic, isGlass),
               ],

@@ -49,7 +49,6 @@ class UserProfileModel {
     this.deletedAt,
   });
 
-  /// Safe JSON parser — handles missing columns gracefully with defaults
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
     return UserProfileModel(
       id: json['id'] as String,
@@ -65,7 +64,7 @@ class UserProfileModel {
       phone: json['phone'] as String?,
       collegeId: json['college_id'] as String?,
       departmentId: json['department_id'] as String?,
-      // These columns may not exist in the table yet — safe defaults
+
       warningLevel: (json['warning_level'] as int?) ?? 0,
       isVerified: (json['is_verified'] as bool?) ?? false,
       tags: json.containsKey('tags')
@@ -95,12 +94,11 @@ class UserProfileModel {
             .toList();
       }
     }
-    // Fallback: check legacy single "role" field
+
     final roleStr = json['role'] as String? ?? 'student';
     return [UserRoleX.fromDbString(roleStr)];
   }
 
-  /// Only includes columns that exist in the Supabase profiles table
   Map<String, dynamic> toProfileJson() {
     return {
       'full_name': fullName,

@@ -29,10 +29,12 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
   }
 
   Future<void> _initializePlayer() async {
-    _videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
-    
+    _videoPlayerController = VideoPlayerController.networkUrl(
+      Uri.parse(widget.videoUrl),
+    );
+
     await _videoPlayerController.initialize();
-    
+
     if (!mounted) return;
     final primaryColor = Theme.of(context).primaryColor;
 
@@ -66,7 +68,8 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
 
   @override
   Widget build(BuildContext context) {
-    if (_chewieController != null && _chewieController!.videoPlayerController.value.isInitialized) {
+    if (_chewieController != null &&
+        _chewieController!.videoPlayerController.value.isInitialized) {
       return AspectRatio(
         aspectRatio: _videoPlayerController.value.aspectRatio,
         child: Chewie(controller: _chewieController!),

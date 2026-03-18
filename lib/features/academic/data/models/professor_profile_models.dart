@@ -110,5 +110,3 @@ class OfficeHour {
     this.isWalkIn = false,
   });
 }
-
-

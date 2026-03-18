@@ -11,8 +11,6 @@ class UsersRepository {
 
   UsersRepository(this._client);
 
-  // ── Read Operations ─────────────────────────────────────────────────
-
   Future<List<UserProfileModel>> getUsers({
     RoleCategory? category,
     UserRole? role,
@@ -78,11 +76,6 @@ class UsersRepository {
     });
   }
 
-  // ── Create User ─────────────────────────────────────────────────────
-
-  /// Creates a new user via Supabase Auth + profiles table upsert.
-  /// Uses auth.admin.createUser when service_role key is available,
-  /// otherwise falls back to auth.signUp + profile upsert.
   Future<String> createAccount({
     required String email,
     required String password,
@@ -100,20 +93,20 @@ class UsersRepository {
       final String newUserId = await _client.rpc(
         'admin_create_user',
         params: {
-          'email': email,
-          'password': password,
-          'full_name': fullName,
-          'roles': roles.map((r) => r.toDbString()).toList(),
-          'student_id': studentId?.isNotEmpty == true ? studentId : null,
-          'national_id': nationalId?.isNotEmpty == true ? nationalId : null,
-          'nationality': nationality?.isNotEmpty == true ? nationality : null,
-          'phone': phone?.isNotEmpty == true ? phone : null,
-          'college_id': collegeId,
-          'department_id': departmentId,
+          'p_email': email,
+          'p_password': password,
+          'p_full_name': fullName,
+          'p_roles': roles.map((r) => r.toDbString()).toList(),
+          'p_student_id': studentId?.isNotEmpty == true ? studentId : null,
+          'p_national_id': nationalId?.isNotEmpty == true ? nationalId : null,
+          'p_nationality': nationality?.isNotEmpty == true ? nationality : null,
+          'p_phone': phone?.isNotEmpty == true ? phone : null,
+          'p_college_id': collegeId?.isNotEmpty == true ? collegeId : null,
+          'p_department_id':
+              departmentId?.isNotEmpty == true ? departmentId : null,
         },
       );
 
-      // Gender field was added after the RPC was defined, update separately
       if (gender != null && gender.isNotEmpty) {
         await _client
             .from('profiles')
@@ -128,11 +121,7 @@ class UsersRepository {
     }
   }
 
-  // ── Update Operations ───────────────────────────────────────────────
-
-  /// Update specific profile fields — only sends columns that exist
   Future<void> updateProfile(String userId, Map<String, dynamic> data) async {
-    // Filter to only known columns that exist in the profiles table
     final knownColumns = {
       'full_name',
       'full_name_ar',
@@ -192,8 +181,6 @@ class UsersRepository {
     );
   }
 
-  /// Safely updates a single column — if the column doesn't exist,
-  /// the error is caught and logged instead of crashing the app.
   Future<void> _safeColumnUpdate(
     String userId,
     String column,
@@ -214,28 +201,22 @@ class UsersRepository {
     }
   }
 
-  // ── Delete Operations ───────────────────────────────────────────────
-
   Future<void> deleteUser(String userId, {bool hardDelete = false}) async {
     if (hardDelete) {
-      // Try admin delete first (requires service_role)
       try {
         await _client.auth.admin.deleteUser(userId);
       } catch (e) {
         debugPrint('Admin delete failed: $e');
       }
-      // Also remove from profiles
+
       await _client.from('profiles').delete().eq('id', userId);
     } else {
-      // Soft delete: just deactivate
       await _client
           .from('profiles')
           .update({'is_active': false})
           .eq('id', userId);
     }
   }
-
-  // ── Stats ──────────────────────────────────────────────────────────
 
   Future<int> getCategoryCount(RoleCategory category) async {
     final roles = category.roles.map((r) => r.toDbString()).toList();

@@ -125,7 +125,7 @@ class RegistrationRepository {
   ) async {
     final transcript = await getTranscript(studentId);
     final passedCourseCodes = transcript
-        .where((g) => (g['total_score'] ?? 0) >= 50) // Basic pass threshold
+        .where((g) => (g['total_score'] ?? 0) >= 50)
         .map((g) => g['courses']['code'] as String)
         .toSet();
 
@@ -166,7 +166,6 @@ class RegistrationRepository {
     String semester,
     List<Map<String, dynamic>> registrations,
   ) async {
-    // Delete existing registrations for this semester first to handle removals
     await _supabase
         .from('student_course_registrations')
         .delete()

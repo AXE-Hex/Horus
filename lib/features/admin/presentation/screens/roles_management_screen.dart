@@ -30,7 +30,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
   @override
   void initState() {
     super.initState();
-    // +1 tab for "Custom" roles
+
     _tabController = TabController(length: _categories.length + 1, vsync: this);
   }
 
@@ -61,7 +61,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          // Merge button
           Container(
             margin: const EdgeInsets.only(right: 4),
             decoration: BoxDecoration(
@@ -80,7 +79,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               onPressed: () => _showMergeDialog(isArabic),
             ),
           ),
-          // Create button
+
           Container(
             margin: const EdgeInsets.only(right: 12),
             decoration: BoxDecoration(
@@ -107,7 +106,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       ),
       body: Column(
         children: [
-          // ── Search Bar
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
             child: GlassContainer(
@@ -144,7 +142,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
             ),
           ).animate().fadeIn().slideY(begin: -0.03, end: 0),
 
-          // ── Category Tabs
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: TabBar(
@@ -190,7 +187,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
 
           const SizedBox(height: 8),
 
-          // ── Tab Content
           Expanded(
             child: TabBarView(
               controller: _tabController,
@@ -206,8 +202,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       ),
     );
   }
-
-  // ── Built-in Roles by Category ──────────────────────────────────────
 
   Widget _buildCategoryRoles(
     RoleCategory category,
@@ -257,7 +251,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
 
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-      itemCount: filtered.length + 1, // +1 for header
+      itemCount: filtered.length + 1,
       itemBuilder: (context, index) {
         if (index == 0) {
           return _buildCategoryHeader(
@@ -340,8 +334,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       ),
     );
   }
-
-  // ── Custom / Dynamic Roles Tab ──────────────────────────────────────
 
   Widget _buildCustomRoles(
     AsyncValue<List<DynamicRoleModel>> asyncRoles,
@@ -510,8 +502,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       ),
     );
   }
-
-  // ── Create Role Dialog ──────────────────────────────────────────────
 
   void _showCreateRoleDialog(bool isArabic) {
     final nameEnCtrl = TextEditingController();
@@ -697,8 +687,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     );
   }
 
-  // ── Merge Roles Dialog ──────────────────────────────────────────────
-
   void _showMergeDialog(bool isArabic) {
     UserRole? roleA;
     UserRole? roleB;
@@ -752,7 +740,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                       ),
                     ),
                     SizedBox(height: 16),
-                    // Role A
+
                     _buildRoleSelector(
                       label: t.extracted.first_role,
                       value: roleA,
@@ -779,7 +767,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                       ),
                     ),
                     SizedBox(height: 8),
-                    // Role B
+
                     _buildRoleSelector(
                       label: t.extracted.second_role,
                       value: roleB,
@@ -788,7 +776,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                       onChanged: (v) => setDialogState(() => roleB = v),
                     ),
                     SizedBox(height: 16),
-                    // Merged name
+
                     _buildDialogField(
                       mergedNameCtrl,
                       t.extracted.merged_role_name_english,
@@ -800,7 +788,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                       t.extracted.merged_role_name_arabic,
                       LucideIcons.languages,
                     ),
-                    // Preview
+
                     if (roleA != null && roleB != null) ...[
                       SizedBox(height: 16),
                       Container(
@@ -999,8 +987,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     );
   }
 
-  // ── Edit / Delete Dialogs ──────────────────────────────────────────
-
   void _showEditRoleDialog(DynamicRoleModel role, bool isArabic) {
     final nameEnCtrl = TextEditingController(text: role.nameEn);
     final nameArCtrl = TextEditingController(text: role.nameAr);
@@ -1092,7 +1078,9 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
           style: GoogleFonts.outfit(fontWeight: FontWeight.w800),
         ),
         content: Text(
-          t.extracted.delete_role_rolenameen_this_cannot_be_undone(role_nameEn: role.nameEn),
+          t.extracted.delete_role_rolenameen_this_cannot_be_undone(
+            role_nameEn: role.nameEn,
+          ),
           style: GoogleFonts.inter(
             color: Theme.of(
               context,
@@ -1128,8 +1116,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       ),
     );
   }
-
-  // ── Helper Widgets ──────────────────────────────────────────────────
 
   Widget _buildDialogField(
     TextEditingController ctrl,
@@ -1257,8 +1243,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     );
   }
 
-  // ── Static Helpers ──────────────────────────────────────────────────
-
   static IconData _getCategoryIcon(RoleCategory c) {
     switch (c) {
       case RoleCategory.adminIT:
@@ -1316,8 +1300,6 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
     }
   }
 }
-
-// ── Built-in Role Tile ────────────────────────────────────────────────
 
 class _BuiltInRoleTile extends StatefulWidget {
   final RoleInfo roleInfo;
@@ -1492,8 +1474,6 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
     );
   }
 }
-
-// ── Dynamic Role Tile ─────────────────────────────────────────────────
 
 class _DynamicRoleTile extends StatelessWidget {
   final DynamicRoleModel role;

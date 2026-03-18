@@ -32,7 +32,13 @@ class SystemSettingsScreen extends ConsumerWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text(t.admin.error_snapshoterror(error: snapshot.error ?? 'Unknown error')));
+            return Center(
+              child: Text(
+                t.admin.error_snapshoterror(
+                  error: snapshot.error ?? 'Unknown error',
+                ),
+              ),
+            );
           }
 
           final data = snapshot.data ?? [];
@@ -45,7 +51,6 @@ class SystemSettingsScreen extends ConsumerWidget {
             );
           }
 
-          // Group by category
           final Map<String, List<Map<String, dynamic>>> groupedSettings = {};
           for (var item in data) {
             final cat = isArabic

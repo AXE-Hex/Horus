@@ -263,7 +263,7 @@ class ManageTasScreen extends HookConsumerWidget {
       builder: (context) => Consumer(
         builder: (context, ref, child) {
           final taAsync = ref.watch(availableTAsProvider);
-          
+
           return GlassContainer(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
             child: Container(
@@ -294,16 +294,21 @@ class ManageTasScreen extends HookConsumerWidget {
                   const SizedBox(height: 8),
                   Text(
                     t.academic.select_a_ta_from_the_list_to_a,
-                    style: GoogleFonts.outfit(fontSize: 14, color: Colors.white38),
+                    style: GoogleFonts.outfit(
+                      fontSize: 14,
+                      color: Colors.white38,
+                    ),
                   ),
                   const SizedBox(height: 24),
                   Expanded(
                     child: taAsync.when(
                       data: (tas) {
                         final availableTAs = tas
-                            .where((ta) => !currentTAs.any((c) => c.id == ta.id))
+                            .where(
+                              (ta) => !currentTAs.any((c) => c.id == ta.id),
+                            )
                             .toList();
-                            
+
                         if (availableTAs.isEmpty) {
                           return Center(
                             child: Text(
@@ -350,7 +355,9 @@ class ManageTasScreen extends HookConsumerWidget {
                                         onPressed: () async {
                                           if (profile != null) {
                                             await ref
-                                                .read(professorRepositoryProvider)
+                                                .read(
+                                                  professorRepositoryProvider,
+                                                )
                                                 .addTA({
                                                   'professor_id': profile.id,
                                                   'profile_id': ta.id,
@@ -393,7 +400,8 @@ class ManageTasScreen extends HookConsumerWidget {
                           },
                         );
                       },
-                      loading: () => const Center(child: CircularProgressIndicator()),
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
                       error: (err, stack) => Center(child: Text('Error: $err')),
                     ),
                   ),

@@ -12,11 +12,10 @@ class AnimatedMeshBackground extends StatelessWidget {
 
     return Stack(
       children: [
-        // Base color
         Container(
           color: isDark ? const Color(0xFF0F0F13) : const Color(0xFFF8F9FA),
         ),
-        // Animated glowing orbs
+
         Positioned(
           top: -100,
           right: -50,
@@ -59,14 +58,14 @@ class AnimatedMeshBackground extends StatelessWidget {
                     curve: Curves.easeInOutSine,
                   ),
         ),
-        // Blur overlay to melt the shapes into gradients
+
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
             child: Container(color: Colors.transparent),
           ),
         ),
-        // Subtle noise or grid (optional, but a subtle dark tint helps)
+
         Positioned.fill(
           child: Container(
             color: isDark

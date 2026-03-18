@@ -14,7 +14,9 @@ class MediaGrid extends StatelessWidget {
 
   bool _isVideo(String url) {
     final lower = url.toLowerCase();
-    return lower.endsWith('.mp4') || lower.endsWith('.mov') || lower.endsWith('.avi');
+    return lower.endsWith('.mp4') ||
+        lower.endsWith('.mov') ||
+        lower.endsWith('.avi');
   }
 
   @override
@@ -70,7 +72,6 @@ class MediaGrid extends StatelessWidget {
         ],
       );
     } else {
-      // 4 or more
       return Column(
         children: [
           Expanded(

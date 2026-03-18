@@ -14,9 +14,10 @@ class EnvConfig {
   static const String apiUrl = String.fromEnvironment('API_URL');
   static const String apiKey = String.fromEnvironment('API_KEY');
 
-  static const String defaultProfileImage = '';
-  static const String mockDeanImage = '';
-  static const String mockStaffImageBase = '';
+  static const String defaultProfileImage =
+      'https://ui-avatars.com/api/?name=User&background=6366f1&color=fff';
+  static const String mockDeanImage = 'https://i.pravatar.cc/300?img=68';
+  static const String mockStaffImageBase = 'https://i.pravatar.cc/300?img=';
 
   static const bool enableAnalytics = true;
   static const bool enableOfflineCache = false;

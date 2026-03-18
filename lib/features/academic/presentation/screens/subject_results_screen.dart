@@ -21,9 +21,7 @@ class SubjectResultsScreen extends HookConsumerWidget {
     final isGlass = appStyle.value == AppStyle.glass;
 
     final selectedSubject = useState(0);
-    final selectedLayout = useState(
-      0,
-    ); // 0: Immersive, 1: Analytical, 2: Minimal
+    final selectedLayout = useState(0);
 
     final subjects = [
       {
@@ -537,49 +535,44 @@ class _AnalyticalLayout extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              ...components
-                  .map(
-                    (c) => Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
+              ...components.map(
+                (c) => Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                c['title'],
-                                style: GoogleFonts.outfit(
-                                  fontSize: 14,
-                                  color: Colors.white70,
-                                ),
-                              ),
-                              Text(
-                                '${c['score']}/${c['max']}',
-                                style: GoogleFonts.shareTechMono(
-                                  color: c['color'],
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                          Text(
+                            c['title'],
+                            style: GoogleFonts.outfit(
+                              fontSize: 14,
+                              color: Colors.white70,
+                            ),
                           ),
-                          const SizedBox(height: 10),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: LinearProgressIndicator(
-                              value: c['score'] / c['max'],
-                              minHeight: 6,
-                              backgroundColor: Colors.white.withValues(
-                                alpha: 0.05,
-                              ),
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                c['color'],
-                              ),
+                          Text(
+                            '${c['score']}/${c['max']}',
+                            style: GoogleFonts.shareTechMono(
+                              color: c['color'],
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ],
                       ),
-                    ),
-                  )
+                      const SizedBox(height: 10),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: c['score'] / c['max'],
+                          minHeight: 6,
+                          backgroundColor: Colors.white.withValues(alpha: 0.05),
+                          valueColor: AlwaysStoppedAnimation<Color>(c['color']),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

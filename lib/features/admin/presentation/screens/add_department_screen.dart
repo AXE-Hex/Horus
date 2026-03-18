@@ -124,8 +124,12 @@ class _AddDepartmentScreenState extends ConsumerState<AddDepartmentScreen> {
           context,
           title: t.admin.changes_saved_successfully,
           message: widget.department == null
-              ? (t.$meta.locale.languageCode == 'ar' ? 'تمت إضافة القسم بنجاح' : 'Department added successfully')
-              : (t.$meta.locale.languageCode == 'ar' ? 'تم تحديث بيانات القسم' : 'Department details updated'),
+              ? (t.$meta.locale.languageCode == 'ar'
+                    ? 'تمت إضافة القسم بنجاح'
+                    : 'Department added successfully')
+              : (t.$meta.locale.languageCode == 'ar'
+                    ? 'تم تحديث بيانات القسم'
+                    : 'Department details updated'),
         );
         context.pop();
       }
@@ -437,7 +441,6 @@ class _AddDepartmentScreenState extends ConsumerState<AddDepartmentScreen> {
 
                       const SizedBox(height: 40),
 
-                      // Save Button
                       SizedBox(
                             width: double.infinity,
                             height: 56,

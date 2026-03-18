@@ -28,7 +28,6 @@ class AuditLogModel {
   });
 
   factory AuditLogModel.fromJson(Map<String, dynamic> json) {
-    // Extract actor name if the 'profiles' relation is included
     String? actorName;
     if (json['profiles'] != null && json['profiles'] is Map) {
       actorName = json['profiles']['full_name'] as String?;

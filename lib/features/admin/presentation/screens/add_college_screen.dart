@@ -93,8 +93,12 @@ class _AddCollegeScreenState extends ConsumerState<AddCollegeScreen> {
           context,
           title: t.admin.changes_saved_successfully,
           message: widget.college == null
-              ? (t.$meta.locale.languageCode == 'ar' ? 'تمت إضافة الكلية بنجاح' : 'College added successfully')
-              : (t.$meta.locale.languageCode == 'ar' ? 'تم تحديث بيانات الكلية' : 'College details updated'),
+              ? (t.$meta.locale.languageCode == 'ar'
+                    ? 'تمت إضافة الكلية بنجاح'
+                    : 'College added successfully')
+              : (t.$meta.locale.languageCode == 'ar'
+                    ? 'تم تحديث بيانات الكلية'
+                    : 'College details updated'),
         );
         context.pop();
       }
@@ -345,7 +349,6 @@ class _AddCollegeScreenState extends ConsumerState<AddCollegeScreen> {
 
                       const SizedBox(height: 40),
 
-                      // Save Button
                       SizedBox(
                             width: double.infinity,
                             height: 56,

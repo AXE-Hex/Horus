@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const Color primaryLight = Color(0xFF0EA5E9); // Sky Blue 500
-  static const Color primaryDark = Color(0xFF38BDF8); // Sky Blue 400
-  static const Color secondaryColor = Color(0xFF8B5CF6); // Vivid Violet 500
+  static const Color primaryLight = Color(0xFF0EA5E9);
+  static const Color primaryDark = Color(0xFF38BDF8);
+  static const Color secondaryColor = Color(0xFF8B5CF6);
 
-  static const Color bgLight = Color(
-    0xFFE2E8F0,
-  ); // Slate 200 (Slightly darker light bg)
-  static const Color bgDark = Color(0xFF0A0A1A); // Deep Navy Space
+  static const Color bgLight = Color(0xFFE2E8F0);
+  static const Color bgDark = Color(0xFF0A0A1A);
   static const Color surfaceLight = Colors.white;
-  static const Color surfaceDark = Color(0xFF1E1E3A); // Glass surface dark
+  static const Color surfaceDark = Color(0xFF1E1E3A);
 
   static ThemeData get lightTheme {
     final base = ThemeData.light();

@@ -95,7 +95,6 @@ class _LeadershipManagementScreenState
       ),
       body: Column(
         children: [
-          // ── Leadership Overview Card
           Padding(
             padding: const EdgeInsets.all(20),
             child: GlassContainer(
@@ -170,7 +169,6 @@ class _LeadershipManagementScreenState
             ).animate().fadeIn().slideY(begin: 0.05, end: 0),
           ),
 
-          // ── Leadership List
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
             child: Row(

@@ -57,7 +57,6 @@ class GlassScaffold extends ConsumerWidget {
       bottomNavigationBar: isDesktop ? null : bottomNavigationBar,
       floatingActionButton: floatingActionButton,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      // Desktop might want a different navigation pattern, but for now we just handle max width
     );
 
     if (!isGlass || isLowPerformance) return scaffold;

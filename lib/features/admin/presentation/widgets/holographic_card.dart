@@ -32,7 +32,6 @@ class HolographicCard extends StatelessWidget {
         onTap: onTap,
         child: Stack(
           children: [
-            // Outer Glow (The "Aura")
             AnimatedContainer(
               duration: const Duration(milliseconds: 400),
               decoration: BoxDecoration(
@@ -47,16 +46,13 @@ class HolographicCard extends StatelessWidget {
               ),
             ),
 
-            // The Glass Panel
             GlassContainer(
               borderRadius: radius,
               padding: padding ?? const EdgeInsets.all(20),
               child: Stack(
                 children: [
-                  // Inner Holographic Scan-lines or Texture could go here
                   child,
 
-                  // Top Highlight Edge
                   Positioned(
                     top: 0,
                     left: 20,

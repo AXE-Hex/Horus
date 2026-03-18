@@ -2,6 +2,7 @@ import 'package:hue/core/i18n/strings.g.dart';
 import 'package:hue/features/admin/data/models/institutional_models.dart';
 import 'package:hue/features/admin/data/models/user_management_models.dart';
 import 'package:hue/features/admin/presentation/providers/users_provider.dart';
+import 'package:hue/features/academic/data/repositories/professor_repository.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -210,7 +211,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
   }
 }
 
-class _HoDIdentityCard extends StatelessWidget {
+class _HoDIdentityCard extends ConsumerWidget {
   final UserProfileModel hod;
   final DepartmentModel department;
   final Color color;
@@ -224,7 +225,9 @@ class _HoDIdentityCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ratingAsync = ref.watch(professorAverageRatingProvider(hod.id));
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -299,8 +302,18 @@ class _HoDIdentityCard extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: _buildRatingStat(4.9),
-                      ), // Keep mock rating for now
+                        child: ratingAsync.when(
+                          data: (rating) => _buildRatingStat(rating),
+                          loading: () => const Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                          error: (_, __) => _buildRatingStat(0.0),
+                        ),
+                      ),
                     ],
                   ),
                 ],

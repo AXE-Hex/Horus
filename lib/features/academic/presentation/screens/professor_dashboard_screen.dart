@@ -471,14 +471,21 @@ class _AnnouncementsList extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   announcement.content,
-                  style: GoogleFonts.outfit(fontSize: 14, color: Colors.white70),
+                  style: GoogleFonts.outfit(
+                    fontSize: 14,
+                    color: Colors.white70,
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(LucideIcons.calendar, size: 14, color: Colors.white38),
+                    const Icon(
+                      LucideIcons.calendar,
+                      size: 14,
+                      color: Colors.white38,
+                    ),
                     const SizedBox(width: 6),
                     Text(
                       DateFormat(
@@ -560,86 +567,120 @@ class _QuickActionsPanel extends HookConsumerWidget {
     ProfessorProfile profile,
   ) {
     final titleController = TextEditingController();
+    String? selectedFilePath;
+    String? selectedFileName;
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          side: const BorderSide(color: Colors.white10),
-          borderRadius: BorderRadius.circular(24),
-        ),
-        title: Text(
-          t.academic.upload_new_file,
-          style: GoogleFonts.outfit(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          backgroundColor: Colors.transparent,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.white10),
+            borderRadius: BorderRadius.circular(24),
           ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: titleController,
-              style: const TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                labelText: t.academic.file_title,
-                labelStyle: const TextStyle(color: Colors.white60),
-                enabledBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white10),
-                ),
-                focusedBorder: const UnderlineInputBorder(
-                  borderSide: BorderSide(color: Color(0xFF6366F1)),
+          title: Text(
+            t.academic.upload_new_file,
+            style: GoogleFonts.outfit(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: titleController,
+                style: const TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: t.academic.file_title,
+                  labelStyle: const TextStyle(color: Colors.white60),
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white10),
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color(0xFF6366F1)),
+                  ),
                 ),
               ),
+              const SizedBox(height: 16),
+
+              OutlinedButton.icon(
+                icon: const Icon(Icons.attach_file, color: Colors.white70),
+                label: Text(
+                  selectedFileName ?? t.academic.file_will_be_uploaded_to_cloud,
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: selectedFileName != null
+                        ? Colors.white
+                        : Colors.white38,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Colors.white10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  setState(() {
+                    selectedFilePath = 'uploads/${profile.id}/document.pdf';
+                    selectedFileName = 'document.pdf';
+                  });
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                t.academic.cancel,
+                style: const TextStyle(color: Colors.white60),
+              ),
             ),
-            const SizedBox(height: 24),
-            Text(
-              t.academic.file_will_be_uploaded_to_cloud,
-              style: GoogleFonts.outfit(fontSize: 12, color: Colors.white24),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF6366F1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () async {
+                if (titleController.text.isEmpty || selectedFilePath == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: Colors.redAccent,
+                      content: Text(t.academic.file_title),
+                    ),
+                  );
+                  return;
+                }
+                await ref
+                    .read(professorRepositoryProvider)
+                    .uploadSharedFile(
+                      professorId: profile.id,
+                      title: titleController.text,
+                      filePath: selectedFilePath!,
+                      fileName: selectedFileName!,
+                    );
+                if (!context.mounted) return;
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: const Color(0xFF6366F1),
+                    content: Text(t.academic.uploaded_successfully),
+                  ),
+                );
+              },
+              child: Text(
+                t.academic.upload,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              t.academic.cancel,
-              style: const TextStyle(color: Colors.white60),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF6366F1),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onPressed: () async {
-              if (titleController.text.isEmpty) return;
-              await ref
-                  .read(professorRepositoryProvider)
-                  .uploadSharedFile(
-                    professorId: profile.id,
-                    title: titleController.text,
-                    filePath: 'mock_path.pdf',
-                    fileName: 'document.pdf',
-                  );
-              if (!context.mounted) return;
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: const Color(0xFF6366F1),
-                  content: Text(t.academic.uploaded_successfully),
-                ),
-              );
-            },
-            child: Text(
-              t.academic.upload,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -700,12 +741,14 @@ class _ManagementGrid extends ConsumerWidget {
     final role = auth.role;
     final roles = auth.user?.userMetadata?['roles'] as List<dynamic>? ?? [];
     final collegeId = auth.user?.userMetadata?['college_id'] as String? ?? '';
-    
+
     final isAdvisor = roles.contains('academic_advisor');
     final isDean = role == UserRole.dean || role == UserRole.superAdmin;
 
     final pendingRequestsCount = ref.watch(pendingRequestCountProvider);
-    final unassignedStudentsCount = ref.watch(unassignedStudentsCountProvider(collegeId));
+    final unassignedStudentsCount = ref.watch(
+      unassignedStudentsCountProvider(collegeId),
+    );
 
     return Column(
       children: [

@@ -26,7 +26,6 @@ class DailyScheduleScreen extends HookConsumerWidget {
       DateFormat('EEEE').format(DateTime.now()).toLowerCase(),
     );
 
-    // Timer to update current time every minute
     final currentTime = useState(DateTime.now());
     useEffect(() {
       final timer = Timer.periodic(const Duration(minutes: 1), (timer) {
@@ -445,10 +444,7 @@ class _ScheduleItem extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(
-        (isLecture
-                ? (t.academic.lecture)
-                : (t.academic.section))
-            .toUpperCase(),
+        (isLecture ? (t.academic.lecture) : (t.academic.section)).toUpperCase(),
         style: GoogleFonts.outfit(
           color: color,
           fontSize: 8,

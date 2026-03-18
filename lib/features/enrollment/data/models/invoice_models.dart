@@ -1,8 +1,3 @@
-// ─────────────────────────────────────────────────────────────────
-// INVOICE DATA MODELS
-// Matches Supabase 'invoices' table schema
-// ─────────────────────────────────────────────────────────────────
-
 import 'package:hue/core/i18n/strings.g.dart';
 
 enum InvoiceStatus { paid, unpaid, overdue, partial }

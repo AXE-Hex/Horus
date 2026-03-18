@@ -35,14 +35,12 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen>
   }
 
   List<AuditLogModel> _filterLogs(List<AuditLogModel> logs, int tabIndex) {
-    if (tabIndex == 0) return logs; // All
+    if (tabIndex == 0) return logs;
 
     return logs.where((log) {
       if (tabIndex == 1) {
-        // Security
         return ['login', 'logout', 'password_reset'].contains(log.action);
       } else if (tabIndex == 2) {
-        // User Management
         return [
               'create',
               'delete',
@@ -52,7 +50,6 @@ class _AuditLogsScreenState extends ConsumerState<AuditLogsScreen>
             log.tableName == 'profiles' ||
             log.tableName == 'users';
       } else if (tabIndex == 3) {
-        // Data Updates
         return ['update', 'insert'].contains(log.action) ||
             (log.tableName != 'profiles' &&
                 log.tableName != 'users' &&

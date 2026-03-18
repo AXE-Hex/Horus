@@ -10,11 +10,6 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/features/academic/data/repositories/professor_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// StaffDashboardScreen — Dashboard for Admin, Professors, TAs, and Leadership
-// Separated from the student dashboard for a cleaner role-based experience.
-// ──────────────────────────────────────────────────────────────────────────────
-
 class StaffDashboardScreen extends ConsumerWidget {
   const StaffDashboardScreen({super.key});
 
@@ -33,7 +28,6 @@ class StaffDashboardScreen extends ConsumerWidget {
           children: [
             const SizedBox(height: 10),
 
-            // ── Header: Role Badge ──
             _buildRoleBadge(context, isArabic, auth)
                 .animate()
                 .fadeIn(duration: 600.ms, curve: Curves.easeOut)
@@ -41,7 +35,6 @@ class StaffDashboardScreen extends ConsumerWidget {
 
             const SizedBox(height: 32),
 
-            // ═══════════════ TEACHING STAFF SECTIONS ═══════════════
             if (role.isTeachingStaff ||
                 role.isLeadership ||
                 role == UserRole.superAdmin) ...[
@@ -59,12 +52,8 @@ class StaffDashboardScreen extends ConsumerWidget {
               const SizedBox(height: 24),
             ],
 
-            // ═══════════════ LEADERSHIP SECTIONS ═══════════════
             if (role.isLeadership || role == UserRole.superAdmin) ...[
-              _buildSectionHeader(
-                    context,
-                    t.extracted.academic_leadership,
-                  )
+              _buildSectionHeader(context, t.extracted.academic_leadership)
                   .animate()
                   .fadeIn(delay: d * 3)
                   .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
@@ -77,15 +66,11 @@ class StaffDashboardScreen extends ConsumerWidget {
               const SizedBox(height: 24),
             ],
 
-            // ═══════════════ STUDENT AFFAIRS (registrar, advisor, librarian) ═══
             if (role == UserRole.registrarOfficer ||
                 role == UserRole.academicAdvisor ||
                 role == UserRole.librarian ||
                 role == UserRole.superAdmin) ...[
-              _buildSectionHeader(
-                    context,
-                    t.extracted.student_affairs,
-                  )
+              _buildSectionHeader(context, t.extracted.student_affairs)
                   .animate()
                   .fadeIn(delay: d * 5)
                   .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
@@ -98,12 +83,8 @@ class StaffDashboardScreen extends ConsumerWidget {
               const SizedBox(height: 24),
             ],
 
-            // ═══════════════ ADMIN SECTION ═══════════════
             if (role.isAdmin || role == UserRole.superAdmin) ...[
-              _buildSectionHeader(
-                    context,
-                    t.extracted.administration,
-                  )
+              _buildSectionHeader(context, t.extracted.administration)
                   .animate()
                   .fadeIn(delay: d * 7)
                   .slideX(begin: isArabic ? 0.2 : -0.2, end: 0),
@@ -116,7 +97,6 @@ class StaffDashboardScreen extends ConsumerWidget {
               const SizedBox(height: 24),
             ],
 
-            // ═══════════════ UTILITIES (everyone) ═══════════════
             _buildSectionHeader(context, t.students.utilities)
                 .animate()
                 .fadeIn(delay: d * 9)
@@ -134,10 +114,6 @@ class StaffDashboardScreen extends ConsumerWidget {
       ),
     );
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  SECTION BUILDERS
-  // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildTeachingGrid(
     BuildContext context,
@@ -185,10 +161,7 @@ class StaffDashboardScreen extends ConsumerWidget {
             if (profile != null) {
               context.push('/manage-tas', extra: profile);
             } else {
-              _showAccessDenied(
-                context,
-                t.extracted.loading_profile,
-              );
+              _showAccessDenied(context, t.extracted.loading_profile);
             }
           },
           color: const Color(0xFF8B5CF6),
@@ -203,10 +176,7 @@ class StaffDashboardScreen extends ConsumerWidget {
             if (profile != null) {
               context.push('/manage-groups', extra: profile);
             } else {
-              _showAccessDenied(
-                context,
-                t.extracted.loading_profile,
-              );
+              _showAccessDenied(context, t.extracted.loading_profile);
             }
           },
           color: const Color(0xFF0EA5E9),
@@ -230,10 +200,7 @@ class StaffDashboardScreen extends ConsumerWidget {
             if (profile != null) {
               context.push('/professor-chat', extra: profile);
             } else {
-              _showAccessDenied(
-                context,
-                t.extracted.loading_profile,
-              );
+              _showAccessDenied(context, t.extracted.loading_profile);
             }
           },
           color: const Color(0xFFEC4899),
@@ -481,10 +448,6 @@ class StaffDashboardScreen extends ConsumerWidget {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  GATED CARD HELPERS
-  // ═══════════════════════════════════════════════════════════════════════════
-
   Widget _gatedGrid(
     BuildContext context, {
     required UserRole role,
@@ -517,10 +480,6 @@ class StaffDashboardScreen extends ConsumerWidget {
       locked: locked,
     );
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  HEADER WIDGET — Role Badge
-  // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildRoleBadge(BuildContext context, bool isArabic, AuthState auth) {
     final role = auth.role;
@@ -602,10 +561,6 @@ class StaffDashboardScreen extends ConsumerWidget {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  SECTION HEADER
-  // ═══════════════════════════════════════════════════════════════════════════
-
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -619,10 +574,6 @@ class StaffDashboardScreen extends ConsumerWidget {
       ),
     );
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  CARD WIDGETS
-  // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildGridItem(
     BuildContext context,
@@ -915,10 +866,6 @@ class StaffDashboardScreen extends ConsumerWidget {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  HELPERS
-  // ═══════════════════════════════════════════════════════════════════════════
-
   Color _getRoleColor(UserRole role) {
     if (role.isAdmin) return const Color(0xFFEF4444);
     if (role.isLeadership) return const Color(0xFFF59E0B);
@@ -951,7 +898,9 @@ class StaffDashboardScreen extends ConsumerWidget {
             Expanded(
               child: Text(
                 message ??
-                    (t.extracted.you_do_not_have_permission_to_access_this_section),
+                    (t
+                        .extracted
+                        .you_do_not_have_permission_to_access_this_section),
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

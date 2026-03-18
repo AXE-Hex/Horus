@@ -120,8 +120,6 @@ class _DepartmentDetailsScreenState
     );
   }
 
-  // ─── Header ─────────────────────────────────────────────────
-
   Widget _buildHeader(bool isArabic, Color themeColor) {
     return GlassContainer(
       padding: const EdgeInsets.all(32),
@@ -292,8 +290,6 @@ class _DepartmentDetailsScreenState
     );
   }
 
-  // ─── Head of Department ─────────────────────────────────────
-
   Widget _buildHeadSection(bool isArabic, Color themeColor) {
     return _buildLeaderCard(
       title: t.admin.head_of_department,
@@ -312,8 +308,6 @@ class _DepartmentDetailsScreenState
       },
     );
   }
-
-  // ─── Assistant Head ─────────────────────────────────────────
 
   Widget _buildAssistantHeadSection(bool isArabic, Color themeColor) {
     return _buildLeaderCard(
@@ -336,7 +330,6 @@ class _DepartmentDetailsScreenState
     );
   }
 
-  /// Reusable card for head/assistant head
   Widget _buildLeaderCard({
     required String title,
     required String emptyTitle,
@@ -531,8 +524,6 @@ class _DepartmentDetailsScreenState
       error: (e, s) => Text('Error: $e'),
     );
   }
-
-  // ─── Staff Section ──────────────────────────────────────────
 
   Widget _buildStaffSection(bool isArabic, Color themeColor) {
     return Column(
@@ -745,8 +736,6 @@ class _DepartmentDetailsScreenState
     );
   }
 
-  // ─── Projects Section ───────────────────────────────────────
-
   Widget _buildProjectsSection(bool isArabic, Color themeColor) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -878,8 +867,6 @@ class _DepartmentDetailsScreenState
     );
   }
 
-  // ─── Dialogs ────────────────────────────────────────────────
-
   void _showUserSelectionDialog({
     required String title,
     required Color themeColor,
@@ -981,7 +968,9 @@ class _DepartmentDetailsScreenState
             ),
           ),
           content: Text(
-            t.extracted.remove_stafffullname_from_this_department(staff_fullName: staff.fullName),
+            t.extracted.remove_stafffullname_from_this_department(
+              staff_fullName: staff.fullName,
+            ),
             style: GoogleFonts.inter(color: Colors.white70),
           ),
           actions: [
@@ -1015,8 +1004,6 @@ class _DepartmentDetailsScreenState
     );
   }
 }
-
-// ─── User Selection List ─────────────────────────────────────
 
 class _UserSelectionList extends ConsumerWidget {
   final Color themeColor;

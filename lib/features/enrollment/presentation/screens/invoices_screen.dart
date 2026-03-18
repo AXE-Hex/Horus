@@ -12,9 +12,6 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// InvoicesScreen — Complete Rebuild with full Supabase-connected sections
-// ──────────────────────────────────────────────────────────────────────────────
 class InvoicesScreen extends ConsumerWidget {
   const InvoicesScreen({super.key});
 
@@ -27,10 +24,8 @@ class InvoicesScreen extends ConsumerWidget {
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        // ── 1. Immersive App Bar ────────────────────────────────────────────
         _InvoicesAppBar(isArabic: isArabic, isGlass: isGlass),
 
-        // ── 2. Financial Summary Card ────────────────────────────────────────
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
@@ -38,7 +33,6 @@ class InvoicesScreen extends ConsumerWidget {
           ),
         ),
 
-        // ── 3. Quick Actions Row ────────────────────────────────────────────
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
@@ -46,7 +40,6 @@ class InvoicesScreen extends ConsumerWidget {
           ),
         ),
 
-        // ── 4. Filter Tabs ───────────────────────────────────────────────────
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 28, 20, 0),
@@ -54,7 +47,6 @@ class InvoicesScreen extends ConsumerWidget {
           ),
         ),
 
-        // ── 5. Section title: Invoices ───────────────────────────────────────
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
@@ -69,10 +61,8 @@ class InvoicesScreen extends ConsumerWidget {
           ),
         ),
 
-        // ── 6. Invoices List ─────────────────────────────────────────────────
         _InvoicesList(isArabic: isArabic, isGlass: isGlass),
 
-        // bottom padding
         const SliverToBoxAdapter(child: SizedBox(height: 100)),
       ],
     );
@@ -81,9 +71,6 @@ class InvoicesScreen extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 1. Immersive App Bar
-// ──────────────────────────────────────────────────────────────────────────────
 class _InvoicesAppBar extends StatelessWidget {
   final bool isArabic;
   final bool isGlass;
@@ -108,7 +95,6 @@ class _InvoicesAppBar extends StatelessWidget {
         background: Stack(
           fit: StackFit.expand,
           children: [
-            // Gradient background
             DecoratedBox(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -122,7 +108,7 @@ class _InvoicesAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            // Decorative icon background
+
             Positioned(
               right: isArabic ? null : -40,
               left: isArabic ? -40 : null,
@@ -136,7 +122,7 @@ class _InvoicesAppBar extends StatelessWidget {
                 ),
               ),
             ),
-            // Header content
+
             SafeArea(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
@@ -196,9 +182,6 @@ class _InvoicesAppBar extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 2. Financial Summary Card — connects to invoiceSummaryProvider
-// ──────────────────────────────────────────────────────────────────────────────
 class _FinancialSummaryCard extends ConsumerWidget {
   final bool isArabic;
   final bool isGlass;
@@ -258,7 +241,9 @@ class _FinancialSummaryCard extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        t.enrollment.summaryoverduecount_overdue(count: summary.overdueCount),
+                        t.enrollment.summaryoverduecount_overdue(
+                          count: summary.overdueCount,
+                        ),
                         style: GoogleFonts.outfit(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
@@ -269,7 +254,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              // Outstanding balance (big)
+
               Text(
                 _formatAmount(summary.totalBalance),
                 style: GoogleFonts.shareTechMono(
@@ -288,7 +273,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              // Mini stats row
+
               Row(
                 children: [
                   _MiniStat(
@@ -313,7 +298,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                   ),
                 ],
               ),
-              // Pay now button if there's balance
+
               if (summary.totalBalance > 0) ...[
                 const SizedBox(height: 20),
                 SizedBox(
@@ -377,9 +362,6 @@ class _FinancialSummaryCard extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 3. Quick Actions Row
-// ──────────────────────────────────────────────────────────────────────────────
 class _QuickActionsRow extends ConsumerWidget {
   final bool isArabic;
   final bool isGlass;
@@ -497,9 +479,6 @@ class _QuickActionBtn extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 4. Filter Tab Bar — connected to invoiceFilterProvider
-// ──────────────────────────────────────────────────────────────────────────────
 class _FilterTabBar extends ConsumerWidget {
   final bool isArabic;
   final bool isGlass;
@@ -564,9 +543,6 @@ class _FilterTabBar extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// 5. Invoices List — connected to filteredInvoicesProvider
-// ──────────────────────────────────────────────────────────────────────────────
 class _InvoicesList extends ConsumerWidget {
   final bool isArabic;
   final bool isGlass;
@@ -624,9 +600,6 @@ class _InvoicesList extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Invoice Card — rich design with status color coding
-// ──────────────────────────────────────────────────────────────────────────────
 class _InvoiceCard extends ConsumerWidget {
   final Invoice invoice;
   final bool isArabic;
@@ -695,7 +668,6 @@ class _InvoiceCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top row: type icon + invoice number + status badge
           Row(
             children: [
               Container(
@@ -766,7 +738,6 @@ class _InvoiceCard extends ConsumerWidget {
           ),
           const SizedBox(height: 16),
 
-          // Middle: amount + semester
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -816,7 +787,6 @@ class _InvoiceCard extends ConsumerWidget {
 
           const SizedBox(height: 12),
 
-          // Bottom row: dates
           Row(
             children: [
               Icon(
@@ -854,7 +824,7 @@ class _InvoiceCard extends ConsumerWidget {
                 ),
               ],
               const Spacer(),
-              // Pay button for unpaid invoices
+
               if (!invoice.isPaid)
                 GestureDetector(
                   onTap: () => _showPayDialog(context, ref),
@@ -994,9 +964,6 @@ class _InvoiceCard extends ConsumerWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Helper Widgets
-// ──────────────────────────────────────────────────────────────────────────────
 class _MiniStat extends StatelessWidget {
   final String label;
   final String value;
@@ -1184,9 +1151,6 @@ class _SummaryCardError extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Utility
-// ──────────────────────────────────────────────────────────────────────────────
 String _formatAmount(double amount) {
   final formatted = NumberFormat('#,##0', 'en').format(amount);
   return '$formatted EGP';

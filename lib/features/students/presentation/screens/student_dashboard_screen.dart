@@ -10,11 +10,6 @@ import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:hue/features/students/data/digital_id_theme_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// StudentDashboardScreen — Student-Only Dashboard
-// Shows academic, enrollment, and utility sections for student roles.
-// ──────────────────────────────────────────────────────────────────────────────
-
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
@@ -33,7 +28,6 @@ class DashboardScreen extends ConsumerWidget {
           children: [
             const SizedBox(height: 10),
 
-            // ── Header: Digital ID Card ──
             _buildDigitalIDCard(context, isArabic, auth)
                 .animate()
                 .fadeIn(duration: 600.ms, curve: Curves.easeOut)
@@ -45,7 +39,6 @@ class DashboardScreen extends ConsumerWidget {
 
             const SizedBox(height: 32),
 
-            // ═══════════════ ACADEMIC ═══════════════
             _buildSectionHeader(context, t.students.academic)
                 .animate()
                 .fadeIn(delay: d)
@@ -58,7 +51,6 @@ class DashboardScreen extends ConsumerWidget {
             ).animate().fadeIn(delay: d * 2).slideY(begin: 0.2, end: 0),
             const SizedBox(height: 24),
 
-            // ═══════════════ ENROLLMENT & FINANCE ═══════════════
             _buildSectionHeader(context, t.students.enrollment_finance)
                 .animate()
                 .fadeIn(delay: d * 3)
@@ -71,7 +63,6 @@ class DashboardScreen extends ConsumerWidget {
             ).animate().fadeIn(delay: d * 4).slideY(begin: 0.2, end: 0),
             const SizedBox(height: 24),
 
-            // ═══════════════ UTILITIES ═══════════════
             _buildSectionHeader(context, t.students.utilities)
                 .animate()
                 .fadeIn(delay: d * 5)
@@ -89,10 +80,6 @@ class DashboardScreen extends ConsumerWidget {
       ),
     );
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  SECTION BUILDERS
-  // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildAcademicGrid(
     BuildContext context,
@@ -292,10 +279,6 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  GATED CARD HELPERS — shorthand for permission-checked cards
-  // ═══════════════════════════════════════════════════════════════════════════
-
   Widget _gatedGrid(
     BuildContext context, {
     required UserRole role,
@@ -329,12 +312,7 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  HEADER WIDGETS
-  // ═══════════════════════════════════════════════════════════════════════════
-
   Widget _buildDigitalIDCard(
-
     BuildContext context,
     bool isArabic,
     AuthState auth,
@@ -519,10 +497,6 @@ class DashboardScreen extends ConsumerWidget {
       ],
     );
   }
-
-  // ═══════════════════════════════════════════════════════════════════════════
-  //  CARD WIDGETS
-  // ═══════════════════════════════════════════════════════════════════════════
 
   Widget _buildSectionHeader(BuildContext context, String title) {
     return Padding(
@@ -829,8 +803,6 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-
-
   void _showAccessDenied(BuildContext context, [String? message]) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -841,7 +813,9 @@ class DashboardScreen extends ConsumerWidget {
             Expanded(
               child: Text(
                 message ??
-                    (t.extracted.you_do_not_have_permission_to_access_this_section),
+                    (t
+                        .extracted
+                        .you_do_not_have_permission_to_access_this_section),
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,

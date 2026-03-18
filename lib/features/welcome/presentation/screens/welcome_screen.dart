@@ -19,10 +19,8 @@ class WelcomeScreen extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // 1. Dynamic Background
           const AnimatedMeshBackground(),
 
-          // 2. Main Content
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -30,7 +28,6 @@ class WelcomeScreen extends ConsumerWidget {
                 children: [
                   const Spacer(flex: 3),
 
-                  // Logo Centerpiece
                   _buildLogoCenterpiece(context, isDark)
                       .animate()
                       .fadeIn(duration: 1000.ms, curve: Curves.easeOut)
@@ -38,7 +35,6 @@ class WelcomeScreen extends ConsumerWidget {
 
                   const SizedBox(height: 50),
 
-                  // Typography Hero
                   _buildHeroText(context, primary)
                       .animate()
                       .fadeIn(delay: 500.ms, duration: 800.ms)
@@ -46,7 +42,6 @@ class WelcomeScreen extends ConsumerWidget {
 
                   const Spacer(flex: 4),
 
-                  // Action Buttons
                   _buildActionButtons(context, primary)
                       .animate()
                       .fadeIn(delay: 900.ms, duration: 800.ms)
@@ -122,7 +117,7 @@ class WelcomeScreen extends ConsumerWidget {
             style: GoogleFonts.outfit(
               fontSize: 56,
               fontWeight: FontWeight.w900,
-              color: Colors.white, // Required for ShaderMask
+              color: Colors.white,
               letterSpacing: -1.5,
               height: 1.0,
             ),

@@ -115,15 +115,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       List<String> uploadedUrls = [];
       String userId = ref.read(authControllerProvider).user!.id;
 
-      // Upload media
       for (var file in _selectedMedia) {
         final url = await repository.uploadMedia(file, userId);
         if (url != null) uploadedUrls.add(url);
       }
 
-      // Determine collegeId for this post.
-      // - When posting as a college: derive the college from the current dean/rector account only.
-      // - Otherwise: use the explicitly mentioned college (if any).
       String? collegeId;
       if (_postAsCollege) {
         final res = await repository.supabase
@@ -169,6 +165,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       if (mounted) setState(() => _isLoading = false);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -181,7 +178,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       appBar: AppBar(
         title: Text(
           t.extracted.create_post,
-          style: GoogleFonts.outfit(fontWeight: FontWeight.w900, letterSpacing: -0.5),
+          style: GoogleFonts.outfit(
+            fontWeight: FontWeight.w900,
+            letterSpacing: -0.5,
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -189,17 +189,31 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: ElevatedButton(
-              onPressed: _isLoading || _contentController.text.trim().isEmpty ? null : _submitPost,
+              onPressed: _isLoading || _contentController.text.trim().isEmpty
+                  ? null
+                  : _submitPost,
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.primaryColor,
                 foregroundColor: Colors.white,
                 elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 padding: const EdgeInsets.symmetric(horizontal: 24),
               ),
               child: _isLoading
-                  ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                  : Text(t.extracted.post, style: GoogleFonts.outfit(fontWeight: FontWeight.bold)),
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(
+                      t.extracted.post,
+                      style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                    ),
             ),
           ),
         ],
@@ -213,47 +227,59 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Author Header (WhatsApp/FB Style)
-                  _buildAuthorHeader(authState.user, isArabic, canPostAsCollege, theme),
+                  _buildAuthorHeader(
+                    authState,
+                    isArabic,
+                    canPostAsCollege,
+                    theme,
+                  ),
                   const SizedBox(height: 20),
 
-                  // Mentions Area (If needed)
                   if (!_postAsCollege) _buildMentionsSection(isArabic, theme),
-                  
-                  // Content Input Area (Premium Glass)
+
                   _buildContentInput(isArabic),
                   const SizedBox(height: 20),
 
-                  // Media Preview (Premium WhatsApp Style Grid)
                   if (_selectedMedia.isNotEmpty) _buildPremiumMediaPreview(),
 
-                  // Link Field
-                  if (_currentType == PostType.link) _buildLinkField(isArabic, theme),
+                  if (_currentType == PostType.link)
+                    _buildLinkField(isArabic, theme),
                 ],
               ),
             ),
           ),
-          
-          // Tool Bar (Fixed at bottom)
+
           _buildToolBar(isArabic, theme),
         ],
       ),
     );
   }
 
-  Widget _buildAuthorHeader(dynamic user, bool isArabic, bool canPostAsCollege, ThemeData theme) {
+  Widget _buildAuthorHeader(
+    AuthState authState,
+    bool isArabic,
+    bool canPostAsCollege,
+    ThemeData theme,
+  ) {
     return Row(
       children: [
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: theme.primaryColor.withValues(alpha: 0.3), width: 2),
+            border: Border.all(
+              color: theme.primaryColor.withOpacity(0.3),
+              width: 2,
+            ),
           ),
           child: CircleAvatar(
             radius: 25,
-            backgroundImage: user?.avatarUrl != null ? NetworkImage(user!.avatarUrl!) : null,
-            backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
-            child: user?.avatarUrl == null ? Icon(LucideIcons.user, color: theme.primaryColor) : null,
+            backgroundImage: authState.avatarUrl != null
+                ? NetworkImage(authState.avatarUrl!)
+                : null,
+            backgroundColor: theme.primaryColor.withOpacity(0.1),
+            child: authState.avatarUrl == null
+                ? Icon(LucideIcons.user, color: theme.primaryColor)
+                : null,
           ),
         ),
         const SizedBox(width: 12),
@@ -262,8 +288,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                user?.name ?? 'User',
-                style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16),
+                authState.fullName ?? 'User',
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 4),
               Row(
@@ -286,18 +315,32 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-          color: _postAsCollege ? theme.primaryColor.withValues(alpha: 0.1) : Colors.white10,
+          color: _postAsCollege
+              ? theme.primaryColor.withValues(alpha: 0.1)
+              : Colors.white10,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: _postAsCollege ? theme.primaryColor.withValues(alpha: 0.3) : Colors.white24),
+          border: Border.all(
+            color: _postAsCollege
+                ? theme.primaryColor.withValues(alpha: 0.3)
+                : Colors.white24,
+          ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(LucideIcons.building, size: 12, color: _postAsCollege ? theme.primaryColor : Colors.white70),
+            Icon(
+              LucideIcons.building,
+              size: 12,
+              color: _postAsCollege ? theme.primaryColor : Colors.white70,
+            ),
             const SizedBox(width: 6),
             Text(
               t.extracted.as_college,
-              style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, color: _postAsCollege ? theme.primaryColor : Colors.white70),
+              style: GoogleFonts.inter(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: _postAsCollege ? theme.primaryColor : Colors.white70,
+              ),
             ),
           ],
         ),
@@ -320,7 +363,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           const SizedBox(width: 6),
           Text(
             t.extracted.public,
-            style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w600, color: Colors.white70),
+            style: GoogleFonts.inter(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: Colors.white70,
+            ),
           ),
           const SizedBox(width: 4),
           const Icon(LucideIcons.chevronDown, size: 12, color: Colors.white30),
@@ -335,7 +382,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       children: [
         Text(
           t.extracted.mention_collegedept,
-          style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.w600, color: Colors.white30),
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Colors.white30,
+          ),
         ),
         const SizedBox(height: 10),
         Row(
@@ -364,7 +415,8 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                   value: _selectedDepartmentId,
                   items: _departments,
                   hint: t.extracted.dept,
-                  onChanged: (val) => setState(() => _selectedDepartmentId = val),
+                  onChanged: (val) =>
+                      setState(() => _selectedDepartmentId = val),
                 ),
               ),
             ],
@@ -375,7 +427,12 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     );
   }
 
-  Widget _buildMentionsDropdown({required String? value, required List<Map<String, dynamic>> items, required String hint, required ValueChanged<String?> onChanged}) {
+  Widget _buildMentionsDropdown({
+    required String? value,
+    required List<Map<String, dynamic>> items,
+    required String hint,
+    required ValueChanged<String?> onChanged,
+  }) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -389,9 +446,19 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           value: value,
           isExpanded: true,
           dropdownColor: const Color(0xFF1E293B),
-          hint: Text(hint, style: GoogleFonts.inter(fontSize: 13, color: Colors.white30)),
+          hint: Text(
+            hint,
+            style: GoogleFonts.inter(fontSize: 13, color: Colors.white30),
+          ),
           style: GoogleFonts.inter(fontSize: 13, color: Colors.white),
-          items: items.map((i) => DropdownMenuItem(value: i['id'] as String, child: Text(isArabic ? i['name_ar'] : i['name_en']))).toList(),
+          items: items
+              .map(
+                (i) => DropdownMenuItem(
+                  value: i['id'] as String,
+                  child: Text(isArabic ? i['name_ar'] : i['name_en']),
+                ),
+              )
+              .toList(),
           onChanged: onChanged,
         ),
       ),
@@ -407,7 +474,11 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       style: GoogleFonts.inter(fontSize: 18, height: 1.5),
       decoration: InputDecoration(
         hintText: t.extracted.whats_on_your_mind,
-        hintStyle: GoogleFonts.outfit(fontSize: 22, color: Colors.white24, fontWeight: FontWeight.bold),
+        hintStyle: GoogleFonts.outfit(
+          fontSize: 22,
+          color: Colors.white24,
+          fontWeight: FontWeight.bold,
+        ),
         border: InputBorder.none,
       ),
     );
@@ -427,7 +498,13 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             width: 200,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10, offset: const Offset(0, 4))],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
             child: Stack(
               fit: StackFit.expand,
@@ -435,11 +512,17 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: _currentType == PostType.video
-                    ? Container(
-                      color: Colors.black26,
-                      child: const Center(child: Icon(LucideIcons.playCircle, size: 50, color: Colors.white)),
-                    )
-                    : Image.file(_selectedMedia[index], fit: BoxFit.cover),
+                      ? Container(
+                          color: Colors.black26,
+                          child: const Center(
+                            child: Icon(
+                              LucideIcons.playCircle,
+                              size: 50,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : Image.file(_selectedMedia[index], fit: BoxFit.cover),
                 ),
                 Positioned(
                   top: 8,
@@ -448,8 +531,15 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     onTap: () => setState(() => _selectedMedia.removeAt(index)),
                     child: Container(
                       padding: const EdgeInsets.all(6),
-                      decoration: const BoxDecoration(color: Colors.black54, shape: BoxShape.circle),
-                      child: const Icon(Icons.close, color: Colors.white, size: 16),
+                      decoration: const BoxDecoration(
+                        color: Colors.black54,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 16,
+                      ),
                     ),
                   ),
                 ),
@@ -477,7 +567,9 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           border: InputBorder.none,
           icon: Icon(LucideIcons.link, color: theme.primaryColor, size: 18),
           hintText: t.extracted.paste_link_here,
-          hintStyle: GoogleFonts.inter(color: theme.primaryColor.withValues(alpha: 0.4)),
+          hintStyle: GoogleFonts.inter(
+            color: theme.primaryColor.withValues(alpha: 0.4),
+          ),
         ),
       ),
     ).animate().fadeIn().slideY(begin: 0.1, end: 0);
@@ -489,7 +581,9 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       decoration: BoxDecoration(
         color: const Color(0xFF1E293B).withValues(alpha: 0.9),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.05))),
+        border: Border(
+          top: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
+        ),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -499,22 +593,48 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             padding: const EdgeInsets.only(left: 8, bottom: 12, top: 4),
             child: Text(
               t.extracted.add_to_your_post,
-              style: GoogleFonts.inter(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white30),
+              style: GoogleFonts.inter(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Colors.white30,
+              ),
             ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildToolItem(LucideIcons.image, Colors.green, () {
-                if (_currentType != PostType.image) setState(() { _selectedMedia.clear(); _currentType = PostType.image; });
+                if (_currentType != PostType.image)
+                  setState(() {
+                    _selectedMedia.clear();
+                    _currentType = PostType.image;
+                  });
                 _pickMedia(false);
               }),
               _buildToolItem(LucideIcons.video, Colors.red, () {
-                if (_currentType != PostType.video) setState(() { _selectedMedia.clear(); _currentType = PostType.video; });
+                if (_currentType != PostType.video)
+                  setState(() {
+                    _selectedMedia.clear();
+                    _currentType = PostType.video;
+                  });
                 _pickMedia(true);
               }),
-              _buildToolItem(LucideIcons.link, Colors.blue, () => setState(() { _selectedMedia.clear(); _currentType = PostType.link; })),
-              _buildToolItem(LucideIcons.megaphone, Colors.orange, () => setState(() { _selectedMedia.clear(); _currentType = PostType.announcement; })),
+              _buildToolItem(
+                LucideIcons.link,
+                Colors.blue,
+                () => setState(() {
+                  _selectedMedia.clear();
+                  _currentType = PostType.link;
+                }),
+              ),
+              _buildToolItem(
+                LucideIcons.megaphone,
+                Colors.orange,
+                () => setState(() {
+                  _selectedMedia.clear();
+                  _currentType = PostType.announcement;
+                }),
+              ),
             ],
           ),
         ],

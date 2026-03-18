@@ -16,8 +16,6 @@ import 'package:hue/core/theme/theme_provider.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
 
-// ignore_for_file: unnecessary_underscores
-
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
 
@@ -82,17 +80,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
-              // ── Account Section ──
               _buildSectionHeader(t.extracted.account, LucideIcons.userCircle),
               _buildAccountSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
-              // ── Appearance Section ──
               _buildSectionHeader(t.extracted.appearance, LucideIcons.palette),
               _buildAppearanceSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
-              // ── Notifications Section ──
               _buildSectionHeader(
                 t.extracted.notifications,
                 LucideIcons.bellRing,
@@ -100,7 +95,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               _buildNotificationsSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
-              // ── Language Section ──
               _buildSectionHeader(
                 t.extracted.language_region,
                 LucideIcons.globe,
@@ -108,7 +102,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               _buildLanguageSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
-              // ── Support & Feedback Section ──
               _buildSectionHeader(
                 t.extracted.support_feedback,
                 LucideIcons.lifeBuoy,
@@ -116,7 +109,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               _buildSupportSection(context, isArabic, isGlass),
               const SizedBox(height: 28),
 
-              // ── About Section ──
               _buildSectionHeader(t.extracted.about, LucideIcons.info),
               _buildAboutSection(context, isArabic, isGlass),
               const SizedBox(height: 40),
@@ -188,7 +180,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   child: CustomPaint(painter: _ParticlesPainter()),
                 ),
               ),
-            // animated glow
+
             Positioned(
               right: isArabic ? null : -60,
               left: isArabic ? -60 : null,
@@ -236,7 +228,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // Avatar with tap-to-change
                     GestureDetector(
                       onTap: () => context.push('/profile'),
                       child: Hero(
@@ -290,7 +281,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                               duration: 600.ms,
                               curve: Curves.easeOutBack,
                             ),
-                            // Camera overlay
+
                             Positioned(
                               bottom: 2,
                               right: 2,
@@ -670,7 +661,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
       ),
       child: Column(
         children: [
-          // Support Center
           _buildSettingItem(
             context: context,
             icon: LucideIcons.lifeBuoy,
@@ -681,7 +671,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             onTap: () => _showSupportDialog(context, isArabic),
           ),
           _divider(context),
-          // Feedback
+
           _buildSettingItem(
             context: context,
             icon: LucideIcons.messageSquare,
@@ -692,7 +682,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             onTap: () => _showFeedbackDialog(context, isArabic, isGlass),
           ),
           _divider(context),
-          // Rate App
+
           _buildSettingItem(
             context: context,
             icon: LucideIcons.star,
@@ -908,7 +898,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     endIndent: 16,
   );
 
-  // ─── Support Dialog ───
   void _showSupportDialog(BuildContext context, bool isArabic) {
     showModalBottomSheet(
       context: context,
@@ -1081,7 +1070,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     );
   }
 
-  // ─── Feedback Dialog ───
   void _showFeedbackDialog(BuildContext context, bool isArabic, bool isGlass) {
     final feedbackController = TextEditingController();
     int selectedRating = 5;
@@ -1169,7 +1157,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   ],
                 ),
                 const SizedBox(height: 24),
-                // Star rating
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(5, (i) {
@@ -1195,7 +1183,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                   }),
                 ),
                 SizedBox(height: 20),
-                // Text field
+
                 Container(
                   decoration: BoxDecoration(
                     color: Theme.of(
@@ -1288,7 +1276,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     );
   }
 
-  // ─── Theme / Style / Language ───
   Future<void> _handleThemeSwitch(bool isDark) async {
     final nextMode = isDark ? ThemeMode.dark : ThemeMode.light;
     HapticFeedback.mediumImpact();

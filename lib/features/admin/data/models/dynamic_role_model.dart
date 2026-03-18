@@ -37,7 +37,7 @@ class DynamicRoleModel {
       descriptionAr: json['description_ar'] as String? ?? '',
       category: RoleCategory.values.firstWhere(
         (c) => c.name == json['category'],
-        orElse: () => RoleCategory.externalRoles, // Fallback if needed
+        orElse: () => RoleCategory.externalRoles,
       ),
       permissions:
           (json['permissions'] as List<dynamic>?)

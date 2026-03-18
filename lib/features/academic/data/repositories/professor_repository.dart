@@ -35,19 +35,36 @@ final professorProfileProvider = FutureProvider<ProfessorProfile?>((ref) async {
 
 final professorProfileByIdProvider =
     FutureProvider.family<ProfessorProfile?, String>((ref, id) async {
-  return ref.watch(professorRepositoryProvider).getFullProfessorProfile(id);
+      return ref.watch(professorRepositoryProvider).getFullProfessorProfile(id);
+    });
+
+final availableTAsProvider = FutureProvider<List<TeachingAssistant>>((
+  ref,
+) async {
+  return ref.watch(professorRepositoryProvider).getAvailableTAs();
 });
 
-final availableTAsProvider =
-    FutureProvider<List<TeachingAssistant>>((ref) async {
-  return ref.watch(professorRepositoryProvider).getAvailableTAs();
+final professorAverageRatingProvider = FutureProvider.family<double, String>((
+  ref,
+  professorId,
+) async {
+  final ratings = await ref
+      .watch(professorRepositoryProvider)
+      .getRatings(professorId);
+  if (ratings.isEmpty) return 0.0;
+
+  final total = ratings.fold<double>(
+    0,
+    (sum, r) => sum + (r['rating'] as num).toDouble(),
+  );
+  return total / ratings.length;
 });
 
 class AcademicSummary {
   final double gpa;
   final int completedCredits;
   final int remainingCredits;
-  final Map<String, double> categoryCompletion; // name -> progress (0-1)
+  final Map<String, double> categoryCompletion;
 
   AcademicSummary({
     required this.gpa,
@@ -60,16 +77,21 @@ class AcademicSummary {
 final academicSummaryProvider = FutureProvider<AcademicSummary>((ref) async {
   final auth = ref.watch(authControllerProvider);
   if (auth.user == null) {
-     return AcademicSummary(gpa: 0, completedCredits: 0, remainingCredits: 140, categoryCompletion: {});
+    return AcademicSummary(
+      gpa: 0,
+      completedCredits: 0,
+      remainingCredits: 140,
+      categoryCompletion: {},
+    );
   }
-  
+
   final repo = ref.watch(academicRepositoryProvider);
   final grades = await repo.getStudentGrades(auth.user!.id);
-  
+
   double totalPoints = 0;
   int totalCredits = 0;
   int completedCredits = 0;
-  
+
   for (final grade in grades) {
     if (grade['is_published'] == true) {
       final int credits = (grade['courses']?['credits'] as num?)?.toInt() ?? 3;
@@ -79,14 +101,13 @@ final academicSummaryProvider = FutureProvider<AcademicSummary>((ref) async {
       if (points > 0) completedCredits += credits;
     }
   }
-  
+
   final gpa = totalCredits > 0 ? totalPoints / totalCredits : 0.0;
-  
-  // Mock categories for now as we don't have them in courses table yet
+
   return AcademicSummary(
     gpa: gpa,
     completedCredits: completedCredits,
-    remainingCredits: 140 - completedCredits, // Assuming 140 total
+    remainingCredits: 140 - completedCredits,
     categoryCompletion: {
       'University': 0.66,
       'Faculty': 0.71,
@@ -340,14 +361,12 @@ class ProfessorRepository extends BaseRepository {
     final path =
         'professor-files/$professorId/${DateTime.now().millisecondsSinceEpoch}.$fileExt';
 
-    // In a real app, you'd use client.storage.from('professor_content').upload(path, file);
-    // Since I can't run the actual upload here, I'll just insert the metadata
     await client.from('shared_files').insert({
       'uploader_id': professorId,
       'title': title,
       'file_path': path,
       'file_type': fileExt,
-      'file_size': 1024 * 1024, // Mock 1MB
+      'file_size': 1024 * 1024,
     });
   }
 

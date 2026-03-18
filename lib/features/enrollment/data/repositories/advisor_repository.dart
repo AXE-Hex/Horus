@@ -14,7 +14,6 @@ class AdvisorRepository {
 
   String get _currentUserId => _supabase.auth.currentUser?.id ?? '';
 
-  // ── ADVISOR: Fetch all pending registration requests for advisor's students
   Future<List<RegistrationRequest>> getAdvisorRequests({
     String? statusFilter,
   }) async {
@@ -43,7 +42,6 @@ class AdvisorRepository {
     }
   }
 
-  // ── ADVISOR: Approve a registration request
   Future<void> approveRequest(String requestId, {String? notes}) async {
     await _supabase
         .from('registration_requests')
@@ -55,7 +53,6 @@ class AdvisorRepository {
         .eq('id', requestId);
   }
 
-  // ── ADVISOR: Reject a registration request
   Future<void> rejectRequest(String requestId, {String? notes}) async {
     await _supabase
         .from('registration_requests')
@@ -67,7 +64,6 @@ class AdvisorRepository {
         .eq('id', requestId);
   }
 
-  // ── ADVISOR: Get list of students assigned to this advisor
   Future<List<Map<String, dynamic>>> getAdvisorStudents() async {
     try {
       final response = await _supabase
@@ -84,7 +80,6 @@ class AdvisorRepository {
     }
   }
 
-  // ── DEAN: Get all academic advisors in a college
   Future<List<AdvisorInfo>> getCollegeAdvisors(String collegeId) async {
     try {
       final response = await _supabase
@@ -99,7 +94,6 @@ class AdvisorRepository {
     }
   }
 
-  // ── DEAN: Get all students (unassigned or all) in a college
   Future<List<Map<String, dynamic>>> getCollegeStudents(
     String collegeId, {
     bool unassignedOnly = false,
@@ -125,7 +119,6 @@ class AdvisorRepository {
     }
   }
 
-  // ── DEAN: Assign advisor to a student
   Future<void> assignAdvisorToStudent({
     required String studentId,
     required String advisorId,
@@ -136,7 +129,6 @@ class AdvisorRepository {
         .eq('id', studentId);
   }
 
-  // ── DEAN: Remove advisor from a student
   Future<void> removeAdvisorFromStudent(String studentId) async {
     await _supabase
         .from('profiles')
@@ -144,7 +136,6 @@ class AdvisorRepository {
         .eq('id', studentId);
   }
 
-  // ── STUDENT: Fetch own advisor info
   Future<AdvisorInfo?> getMyAdvisor() async {
     try {
       final profile = await _supabase
@@ -169,12 +160,10 @@ class AdvisorRepository {
     }
   }
 
-  // ── STUDENT: Submit a registration request
   Future<RegistrationRequest> submitRegistrationRequest({
     required String semester,
     required List<Map<String, dynamic>> courses,
   }) async {
-    // Get advisor_id from student's profile
     final profile = await _supabase
         .from('profiles')
         .select('advisor_id')
@@ -183,7 +172,6 @@ class AdvisorRepository {
 
     final advisorId = profile['advisor_id'];
 
-    // Delete any existing pending request for same semester
     await _supabase
         .from('registration_requests')
         .delete()
@@ -191,7 +179,6 @@ class AdvisorRepository {
         .eq('semester', semester)
         .eq('status', 'pending');
 
-    // Insert new request
     final requestData = await _supabase
         .from('registration_requests')
         .insert({
@@ -206,7 +193,6 @@ class AdvisorRepository {
 
     final requestId = requestData['id'];
 
-    // Insert course rows
     if (courses.isNotEmpty) {
       await _supabase
           .from('registration_request_courses')
@@ -224,7 +210,6 @@ class AdvisorRepository {
           );
     }
 
-    // Fetch full request with courses
     final full = await _supabase
         .from('registration_requests')
         .select('*, registration_request_courses(*, courses(*))')
@@ -234,7 +219,6 @@ class AdvisorRepository {
     return RegistrationRequest.fromJson(full);
   }
 
-  // ── STUDENT: Fetch current registration request for semester
   Future<RegistrationRequest?> getMyRegistrationRequest(String semester) async {
     try {
       final response = await _supabase
@@ -256,7 +240,6 @@ class AdvisorRepository {
     }
   }
 
-  // ── Count pending requests (for badge notification)
   Future<int> getPendingRequestCount() async {
     try {
       final response = await _supabase

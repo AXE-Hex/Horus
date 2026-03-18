@@ -77,7 +77,6 @@ class DigitalIDThemeRepository {
   };
 
   static final Map<String, DigitalIDTheme> _specializations = {
-    // Applied Health
     'medical_laboratories_technology': _createSpec(
       'lab',
       'Medical Laboratories',
@@ -114,7 +113,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.modern,
     ),
 
-    // Business
     'accounting': _createSpec(
       'acc',
       'Accounting',
@@ -158,7 +156,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.modern,
     ),
 
-    // Dentistry
     'basic_dental_sciences': _createSpec(
       'bds',
       'Basic Dental Sciences',
@@ -209,7 +206,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.organic,
     ),
 
-    // Engineering
     'architectural_engineering': _createSpec(
       'arch',
       'Architecture',
@@ -253,7 +249,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.cyber,
     ),
 
-    // Fine Arts
     'interior_design_architecture': _createSpec(
       'interior',
       'Interior Design',
@@ -283,7 +278,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.elegant,
     ),
 
-    // Medicine
     'medical_education': _createSpec(
       'med_edu',
       'Medical Education',
@@ -348,7 +342,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.organic,
     ),
 
-    // Linguistics
     'english_program': _createSpec(
       'en',
       'English Program',
@@ -385,7 +378,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.modern,
     ),
 
-    // Pharmacy
     'clinical_pharmacy': _createSpec(
       'clin',
       'Clinical Pharmacy',
@@ -436,7 +428,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.modern,
     ),
 
-    // PT
     'pt_basic_sciences': _createSpec(
       'pt_base',
       'Basic Sciences',
@@ -494,7 +485,6 @@ class DigitalIDThemeRepository {
       style: DigitalIDDesignStyle.organic,
     ),
 
-    // AI
     'ai_biomedical_computing': _createSpec(
       'biomp',
       'Biomedical Computing',

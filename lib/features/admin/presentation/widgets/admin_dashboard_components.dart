@@ -7,9 +7,6 @@ import 'package:hue/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Background — animated gradient layers
-// ──────────────────────────────────────────────────────────────────────────────
 class AdminBackground extends StatelessWidget {
   const AdminBackground({super.key});
   @override
@@ -65,9 +62,6 @@ class AdminBackground extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Holographic Grid Painter
-// ──────────────────────────────────────────────────────────────────────────────
 class HolographicGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -103,9 +97,6 @@ class ScanlinePainter extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter old) => false;
 }
 
-// ──────────────────────────────────────────────────────────────────────────────
-// Helpers
-// ──────────────────────────────────────────────────────────────────────────────
 class SectionLabel extends StatelessWidget {
   final String label;
   final IconData icon;

@@ -8,7 +8,6 @@ class StaticCollegeData {
   final Color themeColor;
   final String established;
 
-  // Sections
   final CollegeSection about;
   final DeanInfo dean;
   final CollegeStats stats;
