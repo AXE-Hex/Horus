@@ -710,7 +710,7 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get remove => 'إزالة';
 	@override String get add_faculty_member => 'إضافة عضو هيئة تدريس';
 	@override String get confirm_removal => 'تأكيد الإزالة';
-	@override String remove_staff_fullname_from_this_departme({required Object staffFullName}) => 'هل تريد إزالة ${staffFullName} من هذا القسم؟';
+	@override String remove_stafffullname_from_this_department({required Object staff_fullName}) => 'هل تريد إزالة ${staff_fullName} من هذا القسم؟';
 	@override String get roles_management => 'إدارة الرتب';
 	@override String get merge_roles => 'دمج رتبتين';
 	@override String get create_role => 'إنشاء رتبة جديدة';
@@ -743,11 +743,11 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get edit_role => 'تعديل الرتبة';
 	@override String get role_updated => 'تم تحديث الرتبة';
 	@override String get delete_role => 'حذف الرتبة';
-	@override String delete_role_nameen_this_cannot_be_undone({required Object roleNameEn}) => 'هل تريد حذف "${roleNameEn}"؟ لا يمكن التراجع.';
+	@override String delete_role_rolenameen_this_cannot_be_undone({required Object role_nameEn}) => 'هل تريد حذف "${role_nameEn}"؟ لا يمكن التراجع.';
 	@override String get delete => 'حذف';
 	@override String get admin_it => 'الإدارة والتقنية';
 	@override String get leadership => 'القيادة الأكاديمية';
-	@override String get teaching => 'التدريس';
+	@override String get teaching => 'الهيئة التدريسية';
 	@override String get student_affairs => 'شؤون الطلاب';
 	@override String get facilities => 'المرافق والأمن';
 	@override String get external => 'خارجي';
@@ -786,19 +786,19 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get permanently_delete => 'حذف نهائي';
 	@override String get verify_account => 'توثيق الحساب';
 	@override String get remove_verification => 'إلغاء التوثيق';
-	@override String verify_user_fullname({required Object userFullName}) => 'هل تريد توثيق حساب ${userFullName}؟';
-	@override String remove_verification_from_user_fullname({required Object userFullName}) => 'هل تريد إلغاء توثيق حساب ${userFullName}؟';
+	@override String verify_userfullname({required Object user_fullName}) => 'هل تريد توثيق حساب ${user_fullName}؟';
+	@override String remove_verification_from_userfullname({required Object user_fullName}) => 'هل تريد إلغاء توثيق حساب ${user_fullName}؟';
 	@override String get ban_user => 'حظر المستخدم';
 	@override String get unban_user => 'إلغاء الحظر';
-	@override String ban_user_fullname_they_will_lose_system_({required Object userFullName}) => 'هل تريد حظر ${userFullName}؟ لن يتمكن من الوصول للنظام.';
-	@override String unban_user_fullname({required Object userFullName}) => 'هل تريد إلغاء حظر ${userFullName}؟';
+	@override String ban_userfullname_they_will_lose_system_access({required Object user_fullName}) => 'هل تريد حظر ${user_fullName}؟ لن يتمكن من الوصول للنظام.';
+	@override String unban_userfullname({required Object user_fullName}) => 'هل تريد إلغاء حظر ${user_fullName}؟';
 	@override String warning_level_set_to_level({required Object level}) => 'تم تحديث مستوى التحذير إلى ${level}';
 	@override String get tag_removed => 'تم إزالة العلامة';
 	@override String get tag_name => 'اسم العلامة';
 	@override String get permanent_delete => 'حذف نهائي';
 	@override String get soft_delete => 'تعطيل الحساب';
-	@override String permanently_delete_user_fullname_this_ca({required Object userFullName}) => 'هل أنت متأكد من حذف ${userFullName} نهائياً؟ لا يمكن التراجع!';
-	@override String deactivate_user_fullname({required Object userFullName}) => 'هل تريد تعطيل حساب ${userFullName}؟';
+	@override String permanently_delete_userfullname_this_cannot_be_undone({required Object user_fullName}) => 'هل أنت متأكد من حذف ${user_fullName} نهائياً؟ لا يمكن التراجع!';
+	@override String deactivate_userfullname({required Object user_fullName}) => 'هل تريد تعطيل حساب ${user_fullName}؟';
 	@override String get institution => 'الكلية والقسم';
 	@override String get select_college => 'اختر الكلية';
 	@override String get college_is_required => 'الكلية مطلوبة';
@@ -809,83 +809,76 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get top_5 => 'أفضل 5%';
 	@override String get total => 'المجموع';
 	@override String get grade => 'التقدير';
-	@override String get dashboard => 'لوحة التوجيه';
-	@override String get en => 'ar';
-	@override String get news => 'إعلان';
-	@override String get edit_post => 'تعديل المنشور';
-	@override String get write_something => 'اكتب شيئا...';
-	@override String get posted_successfully => 'تم النشر بنجاح';
-	@override String get your_post_is_now_live_on_the_feed => 'تم نشر منشورك في الموجز';
-	@override String get create_post => 'إنشاء منشور';
-	@override String get post => 'نشر';
-	@override String get as_college => 'بصفتي الكلية';
-	@override String get public => 'عام';
-	@override String get mention_collegedept => 'الإشارة إلى كلية/قسم';
-	@override String get dept => 'القسم';
-	@override String get whats_on_your_mind => 'بم تفكر؟';
-	@override String get paste_link_here => 'ضع الرابط هنا...';
-	@override String get add_to_your_post => 'إضافة للمنشور';
-	@override String get you_do_not_have_permission_to_access_this_section => 'ليس لديك صلاحية للوصول إلى هذا القسم';
-	@override String get k201000000000 => '+20 10 0000 0000';
-	@override String get faculty_members => 'عضو هيئة تدريس';
-	@override String remove_stafffullname_from_this_department({required Object staff.fullName}) => 'إزالة ${staff.fullName} من هذا القسم؟';
-	@override String get roles => 'رتبة';
-	@override String get permissions_2 => 'صلاحية';
-	@override String delete_role_rolenameen_this_cannot_be_undone({required Object role.nameAr}) => 'حذف دور ${role.nameAr}؟ لا يمكن التراجع عن هذا.';
-	@override String verify__userfullname({required Object _user.fullName}) => 'توثيق حساب ${_user.fullName}؟';
-	@override String remove_verification_from__userfullname({required Object _user.fullName}) => 'إزالة التوثيق من ${_user.fullName}؟';
-	@override String ban__userfullname_they_will_lose_system_access({required Object _user.fullName}) => 'حظر ${_user.fullName}؟ (سيفقدون الوصول للنظام)';
-	@override String unban__userfullname({required Object _user.fullName}) => 'إلغاء حظر ${_user.fullName}؟';
-	@override String permanently_delete__userfullname_this_cannot_be_undone({required Object _user.fullName}) => 'حذف ${_user.fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.';
-	@override String deactivate__userfullname({required Object _user.fullName}) => 'إلغاء تنشيط حساب ${_user.fullName}؟';
-	@override String get personal_details => 'البيانات الشخصية';
-	@override String get account_credentials => 'بيانات الحساب';
-	@override String get roles_permissions => 'الصلاحيات والأدوار';
-	@override String get academic_affiliation => 'الانتماء الأكاديمي';
-	@override String get gender => 'الجنس';
-	@override String get male => 'ذكر';
-	@override String get female => 'أنثى';
-	@override String get enter_prefix_only => 'ادخل الجزء الأول فقط';
-	@override String get previous => 'السابق';
-	@override String get create_account => 'إنشاء الحساب';
-	@override String get next => 'التالي';
-	@override String get academic_leadership => 'القيادة الأكاديمية';
-	@override String get administration => 'الإدارة';
-	@override String get manage_grades => 'إدارة الدرجات';
-	@override String get manage_attendance => 'إدارة الحضور';
-	@override String get manage_tas => 'إدارة المعيدين';
-	@override String get loading_profile => 'جاري تحميل الملف الشخصي...';
-	@override String get manage_groups => 'إدارة المجموعات';
-	@override String get upload_materials => 'رفع المواد';
-	@override String get professor_chat => 'محادثات الأساتذة';
-	@override String get manage_courses => 'إدارة المقررات';
-	@override String get manage_schedules => 'إدارة الجداول';
-	@override String get approve_enrollments => 'الموافقة على التسجيل';
-	@override String get announcements => 'الإعلانات';
-	@override String get manage_enrollments => 'إدارة التسجيل';
-	@override String get academic_advising => 'الإرشاد الأكاديمي';
-	@override String get manage_library => 'إدارة المكتبة';
-	@override String get student_records => 'سجلات الطلاب';
-	@override String get manage_users => 'إدارة المستخدمين';
-	@override String get manage_colleges => 'إدارة الكليات';
-	@override String get manage_departments => 'إدارة الأقسام';
-	@override String get audit_logs => 'سجل المراجعة';
-	@override String get manage_roles => 'إدارة الصلاحيات';
-	@override String get finances => 'الشؤون المالية';
-	@override String get mmm_dd_yyyy => 'yyyy/MM/dd';
-	@override String get no_projects_available_yet => 'لا توجد مشاريع متاحة حالياً';
-	@override String get details => 'التفاصيل';
-	@override String get completed => 'مكتمل';
-	@override String get paused => 'متوقف مؤقتاً';
-	@override String get cancelled => 'ملغي';
-	@override String get about_college => 'نبذة عن الكلية';
-	@override String get origins_roots => 'النشأة والجذور';
-	@override String get vision_mission => 'الرؤية والرسالة';
-	@override String get strategic_goals => 'الغايات الإستراتيجية';
-	@override String get faculty_management => 'إدارة الكلية';
-	@override String get faculty_staff => 'هيئة التدريس والمعاونين';
-	@override String get no_staff_registered_yet => 'لا يوجد أعضاء مسجلين حالياً';
-	@override String get scientific_departments => 'الأقسام العلمية';
+	@override String get mmm_dd_yyyy => 'MMM dd, yyyy';
+	@override String get no_projects_available_yet => 'No projects available yet';
+	@override String get details => 'Details';
+	@override String get completed => 'Completed';
+	@override String get paused => 'Paused';
+	@override String get cancelled => 'Cancelled';
+	@override String get faculty_members => 'Faculty Members';
+	@override String get please_assign_an_assistant_head_for_the => 'Please assign an assistant head for the department';
+	@override String get roles => 'Roles';
+	@override String get permissions_2 => 'Permissions';
+	@override String get academic_leadership => 'Academic Leadership';
+	@override String get administration => 'Administration';
+	@override String get manage_grades => 'Manage Grades';
+	@override String get manage_attendance => 'Manage Attendance';
+	@override String get manage_tas => 'Manage TAs';
+	@override String get loading_profile => 'Loading Profile...';
+	@override String get manage_groups => 'Manage Groups';
+	@override String get upload_materials => 'Upload Materials';
+	@override String get professor_chat => 'Professor Chat';
+	@override String get manage_courses => 'Manage Courses';
+	@override String get manage_schedules => 'Manage Schedules';
+	@override String get approve_enrollments => 'Approve Enrollments';
+	@override String get announcements => 'Announcements';
+	@override String get manage_enrollments => 'Manage Enrollments';
+	@override String get academic_advising => 'Academic Advising';
+	@override String get manage_library => 'Manage Library';
+	@override String get student_records => 'Student Records';
+	@override String get manage_users => 'Manage Users';
+	@override String get manage_colleges => 'Manage Colleges';
+	@override String get manage_departments => 'Manage Departments';
+	@override String get audit_logs => 'Audit Logs';
+	@override String get manage_roles => 'Manage Roles';
+	@override String get finances => 'Finances';
+	@override String get you_do_not_have_permission_to_access_this_section => 'You do not have permission to access this section';
+	@override String get personal_details => 'Personal Details';
+	@override String get account_credentials => 'Account Credentials';
+	@override String get roles_permissions => 'Roles & Permissions';
+	@override String get academic_affiliation => 'Academic Affiliation';
+	@override String get gender => 'Gender';
+	@override String get male => 'Male';
+	@override String get female => 'Female';
+	@override String get enter_prefix_only => 'Enter prefix only (e.g., ahmed123)';
+	@override String get previous => 'Previous';
+	@override String get create_account => 'Create Account';
+	@override String get next => 'Next';
+	@override String get about_college => 'About College';
+	@override String get origins_roots => 'Origins & Roots';
+	@override String get vision_mission => 'Vision & Mission';
+	@override String get strategic_goals => 'Strategic Goals';
+	@override String get faculty_management => 'Faculty Management';
+	@override String get faculty_staff => 'Faculty & Staff';
+	@override String get no_staff_registered_yet => 'No staff registered yet';
+	@override String get scientific_departments => 'Scientific Departments';
+	@override String get posted_successfully => 'Posted Successfully!';
+	@override String get your_post_is_now_live_on_the_feed => 'Your post is now live on the feed';
+	@override String get create_post => 'Create Post';
+	@override String get post => 'Post';
+	@override String get as_college => 'As College';
+	@override String get public => 'Public';
+	@override String get mention_collegedept => 'Mention College/Dept';
+	@override String get dept => 'Dept';
+	@override String get whats_on_your_mind => 'What\'s on your mind?';
+	@override String get paste_link_here => 'Paste link here...';
+	@override String get add_to_your_post => 'Add to your post';
+	@override String get en => 'en';
+	@override String get news => 'News';
+	@override String get edit_post => 'Edit Post';
+	@override String get write_something => 'Write something...';
+	@override String get dashboard => 'Dashboard';
+	@override String get share_your_thoughts_to_help_improve_the => 'Share your thoughts to help improve the system';
 }
 
 // Path: academic
@@ -1272,7 +1265,7 @@ class _TranslationsAdminAr extends TranslationsAdminEn {
 	@override String get email_address => 'عنوان البريد الإلكتروني';
 	@override String get entity => 'كيان';
 	@override String get departments_management => 'إدارة الأقسام';
-	@override String get error_snapshoterror => 'خطأ: {خطأ}';
+	@override String error_snapshoterror({required Object error}) => 'خطأ: ${error}';
 	@override String get faculty_members_1 => 'أعضاء هيئة التدريس';
 	@override String get filter_users => 'تصفية المستخدمين';
 	@override String get full_name => 'الاسم الكامل';
@@ -1280,7 +1273,7 @@ class _TranslationsAdminAr extends TranslationsAdminEn {
 	@override String get head_of_department => 'رئيس القسم';
 	@override String get incidents => 'الحوادث';
 	@override String get leadership_stats => 'إحصائيات القيادة';
-	@override String get level_level => 'المستوى {المستوى}';
+	@override String level_level({required Object level}) => 'المستوى ${level}';
 	@override String get manage_tags => 'إدارة العلامات';
 	@override String get min_6_chars => 'دقيقة. 6 أحرف';
 	@override String get national_id => 'الهوية الوطنية';
@@ -1408,7 +1401,7 @@ class _TranslationsEnrollmentAr extends TranslationsEnrollmentEn {
 	@override String get academic_advisor => 'مستشار أكاديمي';
 	@override String get retry => 'أعد المحاولة';
 	@override String get advisor_assignment => 'تعيين مستشار';
-	@override String get advisor_requestadvisorfullname => 'المستشار: {الاسم}';
+	@override String advisor_requestadvisorfullname({required Object name}) => 'المستشار: ${name}';
 	@override String get approved_courses_registered => 'تمت الموافقة عليه - الدورات المسجلة';
 	@override String get approved_1 => 'موافقة';
 	@override String get awaiting_advisor_review => 'في انتظار مراجعة المستشار';
@@ -1456,9 +1449,9 @@ class _TranslationsEnrollmentAr extends TranslationsEnrollmentEn {
 	@override String get select_the_subjects_you_want_t => 'اختر المواضيع التي تريد تسجيلها';
 	@override String get selected_schedule_summary => 'ملخص الجدول المحدد';
 	@override String get select_your_courses => 'حدد الدورات الخاصة بك';
-	@override String get semester_requestsemester => 'الفصل الدراسي: {فصل دراسي}';
+	@override String semester_requestsemester({required Object semester}) => 'الفصل الدراسي: ${semester}';
 	@override String get sub => 'الفرعية';
-	@override String get summaryoverduecount_overdue => '{عدد} متأخر';
+	@override String summaryoverduecount_overdue({required Object count}) => '${count} متأخر';
 	@override String get unassigned_only => 'غير المعينة فقط';
 	@override String get unpaid => 'غير مدفوعة الأجر';
 	@override String get withdrawn => 'انسحبت';
@@ -1467,6 +1460,10 @@ class _TranslationsEnrollmentAr extends TranslationsEnrollmentEn {
 	@override String get your_account_is_clearnno_invoi => 'حسابك واضح لم يتم العثور على فواتير.';
 	@override String get no_requests => 'لم يتم العثور على طلبات';
 	@override String get mmm_dd_yyyy => 'ط ط ط ي ي، س س س';
+	@override String get no_schedules_available => 'No schedules available';
+	@override String get registration_success_message => 'Registration successful!';
+	@override String advisor_name_label({required Object name}) => 'Advisor: ${name}';
+	@override String semester_label_with_value({required Object semester}) => 'Semester: ${semester}';
 }
 
 // Path: shared
@@ -2866,7 +2863,7 @@ extension on TranslationsAr {
 			'extracted.remove' => 'إزالة',
 			'extracted.add_faculty_member' => 'إضافة عضو هيئة تدريس',
 			'extracted.confirm_removal' => 'تأكيد الإزالة',
-			'extracted.remove_staff_fullname_from_this_departme' => ({required Object staffFullName}) => 'هل تريد إزالة ${staffFullName} من هذا القسم؟',
+			'extracted.remove_stafffullname_from_this_department' => ({required Object staff_fullName}) => 'هل تريد إزالة ${staff_fullName} من هذا القسم؟',
 			'extracted.roles_management' => 'إدارة الرتب',
 			'extracted.merge_roles' => 'دمج رتبتين',
 			'extracted.create_role' => 'إنشاء رتبة جديدة',
@@ -2899,11 +2896,11 @@ extension on TranslationsAr {
 			'extracted.edit_role' => 'تعديل الرتبة',
 			'extracted.role_updated' => 'تم تحديث الرتبة',
 			'extracted.delete_role' => 'حذف الرتبة',
-			'extracted.delete_role_nameen_this_cannot_be_undone' => ({required Object roleNameEn}) => 'هل تريد حذف "${roleNameEn}"؟ لا يمكن التراجع.',
+			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role_nameEn}) => 'هل تريد حذف "${role_nameEn}"؟ لا يمكن التراجع.',
 			'extracted.delete' => 'حذف',
 			'extracted.admin_it' => 'الإدارة والتقنية',
 			'extracted.leadership' => 'القيادة الأكاديمية',
-			'extracted.teaching' => 'التدريس',
+			'extracted.teaching' => 'الهيئة التدريسية',
 			'extracted.student_affairs' => 'شؤون الطلاب',
 			'extracted.facilities' => 'المرافق والأمن',
 			'extracted.external' => 'خارجي',
@@ -2942,19 +2939,19 @@ extension on TranslationsAr {
 			'extracted.permanently_delete' => 'حذف نهائي',
 			'extracted.verify_account' => 'توثيق الحساب',
 			'extracted.remove_verification' => 'إلغاء التوثيق',
-			'extracted.verify_user_fullname' => ({required Object userFullName}) => 'هل تريد توثيق حساب ${userFullName}؟',
-			'extracted.remove_verification_from_user_fullname' => ({required Object userFullName}) => 'هل تريد إلغاء توثيق حساب ${userFullName}؟',
+			'extracted.verify_userfullname' => ({required Object user_fullName}) => 'هل تريد توثيق حساب ${user_fullName}؟',
+			'extracted.remove_verification_from_userfullname' => ({required Object user_fullName}) => 'هل تريد إلغاء توثيق حساب ${user_fullName}؟',
 			'extracted.ban_user' => 'حظر المستخدم',
 			'extracted.unban_user' => 'إلغاء الحظر',
-			'extracted.ban_user_fullname_they_will_lose_system_' => ({required Object userFullName}) => 'هل تريد حظر ${userFullName}؟ لن يتمكن من الوصول للنظام.',
-			'extracted.unban_user_fullname' => ({required Object userFullName}) => 'هل تريد إلغاء حظر ${userFullName}؟',
+			'extracted.ban_userfullname_they_will_lose_system_access' => ({required Object user_fullName}) => 'هل تريد حظر ${user_fullName}؟ لن يتمكن من الوصول للنظام.',
+			'extracted.unban_userfullname' => ({required Object user_fullName}) => 'هل تريد إلغاء حظر ${user_fullName}؟',
 			'extracted.warning_level_set_to_level' => ({required Object level}) => 'تم تحديث مستوى التحذير إلى ${level}',
 			'extracted.tag_removed' => 'تم إزالة العلامة',
 			'extracted.tag_name' => 'اسم العلامة',
 			'extracted.permanent_delete' => 'حذف نهائي',
 			'extracted.soft_delete' => 'تعطيل الحساب',
-			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object userFullName}) => 'هل أنت متأكد من حذف ${userFullName} نهائياً؟ لا يمكن التراجع!',
-			'extracted.deactivate_user_fullname' => ({required Object userFullName}) => 'هل تريد تعطيل حساب ${userFullName}؟',
+			'extracted.permanently_delete_userfullname_this_cannot_be_undone' => ({required Object user_fullName}) => 'هل أنت متأكد من حذف ${user_fullName} نهائياً؟ لا يمكن التراجع!',
+			'extracted.deactivate_userfullname' => ({required Object user_fullName}) => 'هل تريد تعطيل حساب ${user_fullName}؟',
 			'extracted.institution' => 'الكلية والقسم',
 			'extracted.select_college' => 'اختر الكلية',
 			'extracted.college_is_required' => 'الكلية مطلوبة',
@@ -2965,83 +2962,76 @@ extension on TranslationsAr {
 			'extracted.top_5' => 'أفضل 5%',
 			'extracted.total' => 'المجموع',
 			'extracted.grade' => 'التقدير',
-			'extracted.dashboard' => 'لوحة التوجيه',
-			'extracted.en' => 'ar',
-			'extracted.news' => 'إعلان',
-			'extracted.edit_post' => 'تعديل المنشور',
-			'extracted.write_something' => 'اكتب شيئا...',
-			'extracted.posted_successfully' => 'تم النشر بنجاح',
-			'extracted.your_post_is_now_live_on_the_feed' => 'تم نشر منشورك في الموجز',
-			'extracted.create_post' => 'إنشاء منشور',
-			'extracted.post' => 'نشر',
-			'extracted.as_college' => 'بصفتي الكلية',
-			'extracted.public' => 'عام',
-			'extracted.mention_collegedept' => 'الإشارة إلى كلية/قسم',
-			'extracted.dept' => 'القسم',
-			'extracted.whats_on_your_mind' => 'بم تفكر؟',
-			'extracted.paste_link_here' => 'ضع الرابط هنا...',
-			'extracted.add_to_your_post' => 'إضافة للمنشور',
-			'extracted.you_do_not_have_permission_to_access_this_section' => 'ليس لديك صلاحية للوصول إلى هذا القسم',
-			'extracted.k201000000000' => '+20 10 0000 0000',
-			'extracted.faculty_members' => 'عضو هيئة تدريس',
-			'extracted.remove_stafffullname_from_this_department' => ({required Object staff.fullName}) => 'إزالة ${staff.fullName} من هذا القسم؟',
-			'extracted.roles' => 'رتبة',
-			'extracted.permissions_2' => 'صلاحية',
-			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role.nameAr}) => 'حذف دور ${role.nameAr}؟ لا يمكن التراجع عن هذا.',
-			'extracted.verify__userfullname' => ({required Object _user.fullName}) => 'توثيق حساب ${_user.fullName}؟',
-			'extracted.remove_verification_from__userfullname' => ({required Object _user.fullName}) => 'إزالة التوثيق من ${_user.fullName}؟',
-			'extracted.ban__userfullname_they_will_lose_system_access' => ({required Object _user.fullName}) => 'حظر ${_user.fullName}؟ (سيفقدون الوصول للنظام)',
-			'extracted.unban__userfullname' => ({required Object _user.fullName}) => 'إلغاء حظر ${_user.fullName}؟',
-			'extracted.permanently_delete__userfullname_this_cannot_be_undone' => ({required Object _user.fullName}) => 'حذف ${_user.fullName} بشكل نهائي؟ لا يمكن التراجع عن هذا.',
-			'extracted.deactivate__userfullname' => ({required Object _user.fullName}) => 'إلغاء تنشيط حساب ${_user.fullName}؟',
-			'extracted.personal_details' => 'البيانات الشخصية',
-			'extracted.account_credentials' => 'بيانات الحساب',
-			'extracted.roles_permissions' => 'الصلاحيات والأدوار',
-			'extracted.academic_affiliation' => 'الانتماء الأكاديمي',
-			'extracted.gender' => 'الجنس',
-			'extracted.male' => 'ذكر',
-			'extracted.female' => 'أنثى',
-			'extracted.enter_prefix_only' => 'ادخل الجزء الأول فقط',
-			'extracted.previous' => 'السابق',
-			'extracted.create_account' => 'إنشاء الحساب',
-			'extracted.next' => 'التالي',
-			'extracted.academic_leadership' => 'القيادة الأكاديمية',
-			'extracted.administration' => 'الإدارة',
-			'extracted.manage_grades' => 'إدارة الدرجات',
-			'extracted.manage_attendance' => 'إدارة الحضور',
-			'extracted.manage_tas' => 'إدارة المعيدين',
-			'extracted.loading_profile' => 'جاري تحميل الملف الشخصي...',
-			'extracted.manage_groups' => 'إدارة المجموعات',
-			'extracted.upload_materials' => 'رفع المواد',
-			'extracted.professor_chat' => 'محادثات الأساتذة',
-			'extracted.manage_courses' => 'إدارة المقررات',
-			'extracted.manage_schedules' => 'إدارة الجداول',
-			'extracted.approve_enrollments' => 'الموافقة على التسجيل',
-			'extracted.announcements' => 'الإعلانات',
-			'extracted.manage_enrollments' => 'إدارة التسجيل',
-			'extracted.academic_advising' => 'الإرشاد الأكاديمي',
-			'extracted.manage_library' => 'إدارة المكتبة',
-			'extracted.student_records' => 'سجلات الطلاب',
-			'extracted.manage_users' => 'إدارة المستخدمين',
-			'extracted.manage_colleges' => 'إدارة الكليات',
-			'extracted.manage_departments' => 'إدارة الأقسام',
-			'extracted.audit_logs' => 'سجل المراجعة',
-			'extracted.manage_roles' => 'إدارة الصلاحيات',
-			'extracted.finances' => 'الشؤون المالية',
-			'extracted.mmm_dd_yyyy' => 'yyyy/MM/dd',
-			'extracted.no_projects_available_yet' => 'لا توجد مشاريع متاحة حالياً',
-			'extracted.details' => 'التفاصيل',
-			'extracted.completed' => 'مكتمل',
-			'extracted.paused' => 'متوقف مؤقتاً',
-			'extracted.cancelled' => 'ملغي',
-			'extracted.about_college' => 'نبذة عن الكلية',
-			'extracted.origins_roots' => 'النشأة والجذور',
-			'extracted.vision_mission' => 'الرؤية والرسالة',
-			'extracted.strategic_goals' => 'الغايات الإستراتيجية',
-			'extracted.faculty_management' => 'إدارة الكلية',
-			'extracted.faculty_staff' => 'هيئة التدريس والمعاونين',
-			'extracted.no_staff_registered_yet' => 'لا يوجد أعضاء مسجلين حالياً',
-			'extracted.scientific_departments' => 'الأقسام العلمية',
+			'extracted.mmm_dd_yyyy' => 'MMM dd, yyyy',
+			'extracted.no_projects_available_yet' => 'No projects available yet',
+			'extracted.details' => 'Details',
+			'extracted.completed' => 'Completed',
+			'extracted.paused' => 'Paused',
+			'extracted.cancelled' => 'Cancelled',
+			'extracted.faculty_members' => 'Faculty Members',
+			'extracted.please_assign_an_assistant_head_for_the' => 'Please assign an assistant head for the department',
+			'extracted.roles' => 'Roles',
+			'extracted.permissions_2' => 'Permissions',
+			'extracted.academic_leadership' => 'Academic Leadership',
+			'extracted.administration' => 'Administration',
+			'extracted.manage_grades' => 'Manage Grades',
+			'extracted.manage_attendance' => 'Manage Attendance',
+			'extracted.manage_tas' => 'Manage TAs',
+			'extracted.loading_profile' => 'Loading Profile...',
+			'extracted.manage_groups' => 'Manage Groups',
+			'extracted.upload_materials' => 'Upload Materials',
+			'extracted.professor_chat' => 'Professor Chat',
+			'extracted.manage_courses' => 'Manage Courses',
+			'extracted.manage_schedules' => 'Manage Schedules',
+			'extracted.approve_enrollments' => 'Approve Enrollments',
+			'extracted.announcements' => 'Announcements',
+			'extracted.manage_enrollments' => 'Manage Enrollments',
+			'extracted.academic_advising' => 'Academic Advising',
+			'extracted.manage_library' => 'Manage Library',
+			'extracted.student_records' => 'Student Records',
+			'extracted.manage_users' => 'Manage Users',
+			'extracted.manage_colleges' => 'Manage Colleges',
+			'extracted.manage_departments' => 'Manage Departments',
+			'extracted.audit_logs' => 'Audit Logs',
+			'extracted.manage_roles' => 'Manage Roles',
+			'extracted.finances' => 'Finances',
+			'extracted.you_do_not_have_permission_to_access_this_section' => 'You do not have permission to access this section',
+			'extracted.personal_details' => 'Personal Details',
+			'extracted.account_credentials' => 'Account Credentials',
+			'extracted.roles_permissions' => 'Roles & Permissions',
+			'extracted.academic_affiliation' => 'Academic Affiliation',
+			'extracted.gender' => 'Gender',
+			'extracted.male' => 'Male',
+			'extracted.female' => 'Female',
+			'extracted.enter_prefix_only' => 'Enter prefix only (e.g., ahmed123)',
+			'extracted.previous' => 'Previous',
+			'extracted.create_account' => 'Create Account',
+			'extracted.next' => 'Next',
+			'extracted.about_college' => 'About College',
+			'extracted.origins_roots' => 'Origins & Roots',
+			'extracted.vision_mission' => 'Vision & Mission',
+			'extracted.strategic_goals' => 'Strategic Goals',
+			'extracted.faculty_management' => 'Faculty Management',
+			'extracted.faculty_staff' => 'Faculty & Staff',
+			'extracted.no_staff_registered_yet' => 'No staff registered yet',
+			'extracted.scientific_departments' => 'Scientific Departments',
+			'extracted.posted_successfully' => 'Posted Successfully!',
+			'extracted.your_post_is_now_live_on_the_feed' => 'Your post is now live on the feed',
+			'extracted.create_post' => 'Create Post',
+			'extracted.post' => 'Post',
+			'extracted.as_college' => 'As College',
+			'extracted.public' => 'Public',
+			'extracted.mention_collegedept' => 'Mention College/Dept',
+			'extracted.dept' => 'Dept',
+			'extracted.whats_on_your_mind' => 'What\'s on your mind?',
+			'extracted.paste_link_here' => 'Paste link here...',
+			'extracted.add_to_your_post' => 'Add to your post',
+			'extracted.en' => 'en',
+			'extracted.news' => 'News',
+			'extracted.edit_post' => 'Edit Post',
+			'extracted.write_something' => 'Write something...',
+			'extracted.dashboard' => 'Dashboard',
+			'extracted.share_your_thoughts_to_help_improve_the' => 'Share your thoughts to help improve the system',
 			'academic.university_requirements' => 'متطلبات الجامعة',
 			'academic.academic_progress' => 'التقدم الأكاديمي',
 			'academic.faculty_requirements' => 'متطلبات الكلية',
@@ -3270,8 +3260,6 @@ extension on TranslationsAr {
 			'admin.server' => 'الخادم',
 			'admin.latency' => 'كمون',
 			'admin.online' => 'متصل',
-			_ => null,
-		} ?? switch (path) {
 			'admin.status' => 'حالة',
 			'admin.database' => 'قاعدة البيانات',
 			'admin.active' => 'نشيط',
@@ -3279,6 +3267,8 @@ extension on TranslationsAr {
 			'admin.role_breakdown' => 'انهيار الدور',
 			'admin.teaching_staff' => 'أعضاء هيئة التدريس',
 			'admin.student_affairs' => 'شؤون الطلاب',
+			_ => null,
+		} ?? switch (path) {
 			'admin.system_health' => 'صحة النظام',
 			'admin.total_users' => 'إجمالي المستخدمين',
 			'admin.quick_actions' => 'إجراءات سريعة',
@@ -3412,7 +3402,7 @@ extension on TranslationsAr {
 			'admin.email_address' => 'عنوان البريد الإلكتروني',
 			'admin.entity' => 'كيان',
 			'admin.departments_management' => 'إدارة الأقسام',
-			'admin.error_snapshoterror' => 'خطأ: {خطأ}',
+			'admin.error_snapshoterror' => ({required Object error}) => 'خطأ: ${error}',
 			'admin.faculty_members_1' => 'أعضاء هيئة التدريس',
 			'admin.filter_users' => 'تصفية المستخدمين',
 			'admin.full_name' => 'الاسم الكامل',
@@ -3420,7 +3410,7 @@ extension on TranslationsAr {
 			'admin.head_of_department' => 'رئيس القسم',
 			'admin.incidents' => 'الحوادث',
 			'admin.leadership_stats' => 'إحصائيات القيادة',
-			'admin.level_level' => 'المستوى {المستوى}',
+			'admin.level_level' => ({required Object level}) => 'المستوى ${level}',
 			'admin.manage_tags' => 'إدارة العلامات',
 			'admin.min_6_chars' => 'دقيقة. 6 أحرف',
 			'admin.national_id' => 'الهوية الوطنية',
@@ -3539,7 +3529,7 @@ extension on TranslationsAr {
 			'enrollment.academic_advisor' => 'مستشار أكاديمي',
 			'enrollment.retry' => 'أعد المحاولة',
 			'enrollment.advisor_assignment' => 'تعيين مستشار',
-			'enrollment.advisor_requestadvisorfullname' => 'المستشار: {الاسم}',
+			'enrollment.advisor_requestadvisorfullname' => ({required Object name}) => 'المستشار: ${name}',
 			'enrollment.approved_courses_registered' => 'تمت الموافقة عليه - الدورات المسجلة',
 			'enrollment.approved_1' => 'موافقة',
 			'enrollment.awaiting_advisor_review' => 'في انتظار مراجعة المستشار',
@@ -3587,9 +3577,9 @@ extension on TranslationsAr {
 			'enrollment.select_the_subjects_you_want_t' => 'اختر المواضيع التي تريد تسجيلها',
 			'enrollment.selected_schedule_summary' => 'ملخص الجدول المحدد',
 			'enrollment.select_your_courses' => 'حدد الدورات الخاصة بك',
-			'enrollment.semester_requestsemester' => 'الفصل الدراسي: {فصل دراسي}',
+			'enrollment.semester_requestsemester' => ({required Object semester}) => 'الفصل الدراسي: ${semester}',
 			'enrollment.sub' => 'الفرعية',
-			'enrollment.summaryoverduecount_overdue' => '{عدد} متأخر',
+			'enrollment.summaryoverduecount_overdue' => ({required Object count}) => '${count} متأخر',
 			'enrollment.unassigned_only' => 'غير المعينة فقط',
 			'enrollment.unpaid' => 'غير مدفوعة الأجر',
 			'enrollment.withdrawn' => 'انسحبت',
@@ -3598,6 +3588,10 @@ extension on TranslationsAr {
 			'enrollment.your_account_is_clearnno_invoi' => 'حسابك واضح لم يتم العثور على فواتير.',
 			'enrollment.no_requests' => 'لم يتم العثور على طلبات',
 			'enrollment.mmm_dd_yyyy' => 'ط ط ط ي ي، س س س',
+			'enrollment.no_schedules_available' => 'No schedules available',
+			'enrollment.registration_success_message' => 'Registration successful!',
+			'enrollment.advisor_name_label' => ({required Object name}) => 'Advisor: ${name}',
+			'enrollment.semester_label_with_value' => ({required Object semester}) => 'Semester: ${semester}',
 			'shared.no_notifications_yet' => 'لا توجد إخطارات حتى الآن',
 			'shared.notifications' => 'إشعارات',
 			'shared.notifications_empty' => 'لا توجد إشعارات جديدة',

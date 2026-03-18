@@ -39,7 +39,7 @@ CREATE TRIGGER courses_updated_at
 
 -- ── professor_details ─────────────────────────────────────────────────────────
 -- Extended profile data exclusively for professors / lecturers.
-CREATE TABLE public.professor_details (
+CREATE TABLE IF NOT EXISTS public.professor_details (
   id                UUID         PRIMARY KEY REFERENCES public.profiles(id) ON DELETE CASCADE,
   department_id     UUID         REFERENCES public.departments(id) ON DELETE SET NULL,
   office_symbol     TEXT,
@@ -52,7 +52,7 @@ CREATE TABLE public.professor_details (
 ALTER TABLE public.professor_details ENABLE ROW LEVEL SECURITY;
 
 -- ── teaching_assistants ───────────────────────────────────────────────────────
-CREATE TABLE public.teaching_assistants (
+CREATE TABLE IF NOT EXISTS public.teaching_assistants (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id   UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   professor_id UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -64,7 +64,7 @@ CREATE TABLE public.teaching_assistants (
 ALTER TABLE public.teaching_assistants ENABLE ROW LEVEL SECURITY;
 
 -- ── department_projects ───────────────────────────────────────────────────────
-CREATE TABLE public.department_projects (
+CREATE TABLE IF NOT EXISTS public.department_projects (
   id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   department_id  UUID        NOT NULL REFERENCES public.departments(id) ON DELETE CASCADE,
   title_en       TEXT        NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE public.department_projects (
 ALTER TABLE public.department_projects ENABLE ROW LEVEL SECURITY;
 
 -- ── course_sections ───────────────────────────────────────────────────────────
-CREATE TABLE public.course_sections (
+CREATE TABLE IF NOT EXISTS public.course_sections (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id    UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
   name         TEXT        NOT NULL,
@@ -89,7 +89,7 @@ CREATE TABLE public.course_sections (
 ALTER TABLE public.course_sections ENABLE ROW LEVEL SECURITY;
 
 -- ── course_sub_sections ───────────────────────────────────────────────────────
-CREATE TABLE public.course_sub_sections (
+CREATE TABLE IF NOT EXISTS public.course_sub_sections (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   section_id   UUID        NOT NULL REFERENCES public.course_sections(id) ON DELETE CASCADE,
   name         TEXT        NOT NULL,
@@ -100,7 +100,7 @@ ALTER TABLE public.course_sub_sections ENABLE ROW LEVEL SECURITY;
 
 -- ── student_registrations ─────────────────────────────────────────────────────
 -- Tracks which section/sub-section a student is assigned to each semester.
-CREATE TABLE public.student_registrations (
+CREATE TABLE IF NOT EXISTS public.student_registrations (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id       UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   semester         TEXT        NOT NULL,
@@ -113,7 +113,7 @@ ALTER TABLE public.student_registrations ENABLE ROW LEVEL SECURITY;
 
 -- ── student_course_registrations ──────────────────────────────────────────────
 -- Final, approved list of courses a student is enrolled in per semester.
-CREATE TABLE public.student_course_registrations (
+CREATE TABLE IF NOT EXISTS public.student_course_registrations (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id       UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id        UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
@@ -127,7 +127,7 @@ ALTER TABLE public.student_course_registrations ENABLE ROW LEVEL SECURITY;
 
 -- ── registration_requests ─────────────────────────────────────────────────────
 -- A student's pending course-selection request, reviewed by their advisor.
-CREATE TABLE public.registration_requests (
+CREATE TABLE IF NOT EXISTS public.registration_requests (
   id            UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id    UUID              NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   advisor_id    UUID              REFERENCES public.profiles(id) ON DELETE SET NULL,
@@ -149,7 +149,7 @@ CREATE TRIGGER registration_requests_updated_at
 
 -- ── registration_request_courses ──────────────────────────────────────────────
 -- Line items of a registration request (one row per requested course).
-CREATE TABLE public.registration_request_courses (
+CREATE TABLE IF NOT EXISTS public.registration_request_courses (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   request_id       UUID        NOT NULL REFERENCES public.registration_requests(id) ON DELETE CASCADE,
   course_id        UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
@@ -161,7 +161,7 @@ CREATE TABLE public.registration_request_courses (
 ALTER TABLE public.registration_request_courses ENABLE ROW LEVEL SECURITY;
 
 -- ── enrollments ───────────────────────────────────────────────────────────────
-CREATE TABLE public.enrollments (
+CREATE TABLE IF NOT EXISTS public.enrollments (
   id          UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id  UUID              NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id   UUID              NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
@@ -177,7 +177,7 @@ ALTER TABLE public.enrollments ENABLE ROW LEVEL SECURITY;
 
 -- ── grades ────────────────────────────────────────────────────────────────────
 -- total, grade_letter, and gpa_points are auto-calculated via trigger.
-CREATE TABLE public.grades (
+CREATE TABLE IF NOT EXISTS public.grades (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id   UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id    UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
@@ -204,7 +204,7 @@ CREATE TRIGGER grades_updated_at
   FOR EACH ROW EXECUTE FUNCTION moddatetime(updated_at);
 
 -- ── schedules ─────────────────────────────────────────────────────────────────
-CREATE TABLE public.schedules (
+CREATE TABLE IF NOT EXISTS public.schedules (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id        UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
   day              day_of_week NOT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE public.schedules (
 ALTER TABLE public.schedules ENABLE ROW LEVEL SECURITY;
 
 -- ── exam_schedules ────────────────────────────────────────────────────────────
-CREATE TABLE public.exam_schedules (
+CREATE TABLE IF NOT EXISTS public.exam_schedules (
   id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   course_id  UUID        NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
   exam_type  TEXT        NOT NULL DEFAULT 'final'
@@ -241,7 +241,7 @@ CREATE TABLE public.exam_schedules (
 ALTER TABLE public.exam_schedules ENABLE ROW LEVEL SECURITY;
 
 -- ── attendance ────────────────────────────────────────────────────────────────
-CREATE TABLE public.attendance (
+CREATE TABLE IF NOT EXISTS public.attendance (
   id          UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id  UUID              NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id   UUID              NOT NULL REFERENCES public.courses(id) ON DELETE CASCADE,
@@ -255,7 +255,7 @@ CREATE TABLE public.attendance (
 ALTER TABLE public.attendance ENABLE ROW LEVEL SECURITY;
 
 -- ── office_hours ──────────────────────────────────────────────────────────────
-CREATE TABLE public.office_hours (
+CREATE TABLE IF NOT EXISTS public.office_hours (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   professor_id UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   day          day_of_week NOT NULL,
@@ -270,7 +270,7 @@ ALTER TABLE public.office_hours ENABLE ROW LEVEL SECURITY;
 
 -- ── action_plan_items ─────────────────────────────────────────────────────────
 -- Advisor-driven academic plan: which courses a student intends to take per year.
-CREATE TABLE public.action_plan_items (
+CREATE TABLE IF NOT EXISTS public.action_plan_items (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id   UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id    UUID        REFERENCES public.courses(id) ON DELETE SET NULL,
@@ -292,7 +292,7 @@ ALTER TABLE public.action_plan_items ENABLE ROW LEVEL SECURITY;
 -- ════════════════════════════════════════════════════════════════════════════
 
 -- ── posts (social feed) ───────────────────────────────────────────────────────
-CREATE TABLE public.posts (
+CREATE TABLE IF NOT EXISTS public.posts (
   id             UUID      PRIMARY KEY DEFAULT gen_random_uuid(),
   author_id      UUID      NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   college_id     UUID      REFERENCES public.colleges(id) ON DELETE CASCADE,
@@ -313,7 +313,7 @@ CREATE TRIGGER posts_updated_at
   FOR EACH ROW EXECUTE FUNCTION moddatetime(updated_at);
 
 -- ── student_groups ────────────────────────────────────────────────────────────
-CREATE TABLE public.student_groups (
+CREATE TABLE IF NOT EXISTS public.student_groups (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   professor_id UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id    UUID        REFERENCES public.courses(id) ON DELETE SET NULL,
@@ -328,7 +328,7 @@ CREATE TABLE public.student_groups (
 ALTER TABLE public.student_groups ENABLE ROW LEVEL SECURITY;
 
 -- ── group_members ─────────────────────────────────────────────────────────────
-CREATE TABLE public.group_members (
+CREATE TABLE IF NOT EXISTS public.group_members (
   id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   group_id   UUID        NOT NULL REFERENCES public.student_groups(id) ON DELETE CASCADE,
   student_id UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -338,7 +338,7 @@ CREATE TABLE public.group_members (
 ALTER TABLE public.group_members ENABLE ROW LEVEL SECURITY;
 
 -- ── announcements ─────────────────────────────────────────────────────────────
-CREATE TABLE public.announcements (
+CREATE TABLE IF NOT EXISTS public.announcements (
   id           UUID                  PRIMARY KEY DEFAULT gen_random_uuid(),
   author_id    UUID                  NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id    UUID                  REFERENCES public.courses(id) ON DELETE SET NULL,
@@ -358,7 +358,7 @@ CREATE TABLE public.announcements (
 ALTER TABLE public.announcements ENABLE ROW LEVEL SECURITY;
 
 -- ── shared_files ──────────────────────────────────────────────────────────────
-CREATE TABLE public.shared_files (
+CREATE TABLE IF NOT EXISTS public.shared_files (
   id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   uploader_id    UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   course_id      UUID        REFERENCES public.courses(id) ON DELETE SET NULL,
@@ -375,7 +375,7 @@ CREATE TABLE public.shared_files (
 ALTER TABLE public.shared_files ENABLE ROW LEVEL SECURITY;
 
 -- ── forums ────────────────────────────────────────────────────────────────────
-CREATE TABLE public.forums (
+CREATE TABLE IF NOT EXISTS public.forums (
   id          UUID           PRIMARY KEY DEFAULT gen_random_uuid(),
   name        TEXT           NOT NULL,
   name_ar     TEXT,
@@ -387,7 +387,7 @@ CREATE TABLE public.forums (
 ALTER TABLE public.forums ENABLE ROW LEVEL SECURITY;
 
 -- ── forum_posts ───────────────────────────────────────────────────────────────
-CREATE TABLE public.forum_posts (
+CREATE TABLE IF NOT EXISTS public.forum_posts (
   id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   forum_id    UUID        NOT NULL REFERENCES public.forums(id) ON DELETE CASCADE,
   author_id   UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -408,7 +408,7 @@ ALTER TABLE public.forum_posts ENABLE ROW LEVEL SECURITY;
 -- ════════════════════════════════════════════════════════════════════════════
 
 -- ── support_tickets ───────────────────────────────────────────────────────────
-CREATE TABLE public.support_tickets (
+CREATE TABLE IF NOT EXISTS public.support_tickets (
   id          UUID                  PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id     UUID                  NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   subject     TEXT                  NOT NULL,
@@ -423,7 +423,7 @@ CREATE TABLE public.support_tickets (
 ALTER TABLE public.support_tickets ENABLE ROW LEVEL SECURITY;
 
 -- ── professor_ratings ─────────────────────────────────────────────────────────
-CREATE TABLE public.professor_ratings (
+CREATE TABLE IF NOT EXISTS public.professor_ratings (
   id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
   professor_id     UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   student_id       UUID        NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
@@ -437,7 +437,7 @@ CREATE TABLE public.professor_ratings (
 ALTER TABLE public.professor_ratings ENABLE ROW LEVEL SECURITY;
 
 -- ── invoices ──────────────────────────────────────────────────────────────────
-CREATE TABLE public.invoices (
+CREATE TABLE IF NOT EXISTS public.invoices (
   id             UUID           PRIMARY KEY DEFAULT gen_random_uuid(),
   student_id     UUID           NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   semester       TEXT           NOT NULL,
@@ -455,7 +455,7 @@ CREATE TABLE public.invoices (
 ALTER TABLE public.invoices ENABLE ROW LEVEL SECURITY;
 
 -- ── notifications ─────────────────────────────────────────────────────────────
-CREATE TABLE public.notifications (
+CREATE TABLE IF NOT EXISTS public.notifications (
   id         UUID              PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id    UUID              NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   title      TEXT              NOT NULL,
@@ -471,7 +471,7 @@ CREATE TABLE public.notifications (
 ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
 -- ── user_sessions ─────────────────────────────────────────────────────────────
-CREATE TABLE public.user_sessions (
+CREATE TABLE IF NOT EXISTS public.user_sessions (
   id          UUID           PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id     UUID           NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
   device_name TEXT,
@@ -487,7 +487,7 @@ ALTER TABLE public.user_sessions ENABLE ROW LEVEL SECURITY;
 
 -- ── audit_logs ────────────────────────────────────────────────────────────────
 -- Immutable record of every admin action. Never UPDATE or DELETE rows here.
-CREATE TABLE public.audit_logs (
+CREATE TABLE IF NOT EXISTS public.audit_logs (
   id           UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
   performed_by UUID         REFERENCES public.profiles(id) ON DELETE SET NULL,
   target_user  UUID         REFERENCES public.profiles(id) ON DELETE SET NULL,
@@ -508,44 +508,44 @@ ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 -- ════════════════════════════════════════════════════════════════════════════
 
 -- Academic
-CREATE INDEX idx_courses_department        ON public.courses(department_id);
-CREATE INDEX idx_courses_professor         ON public.courses(professor_id);
-CREATE INDEX idx_enrollments_student       ON public.enrollments(student_id);
-CREATE INDEX idx_enrollments_course        ON public.enrollments(course_id);
-CREATE INDEX idx_enrollments_status        ON public.enrollments(status);
-CREATE INDEX idx_grades_student            ON public.grades(student_id);
-CREATE INDEX idx_grades_course             ON public.grades(course_id);
-CREATE INDEX idx_grades_published          ON public.grades(is_published);
-CREATE INDEX idx_attendance_student        ON public.attendance(student_id);
-CREATE INDEX idx_attendance_course         ON public.attendance(course_id);
-CREATE INDEX idx_attendance_date           ON public.attendance(date);
-CREATE INDEX idx_schedules_course          ON public.schedules(course_id);
-CREATE INDEX idx_schedules_day             ON public.schedules(day);
-CREATE INDEX idx_reg_requests_student      ON public.registration_requests(student_id);
-CREATE INDEX idx_reg_requests_advisor      ON public.registration_requests(advisor_id);
-CREATE INDEX idx_reg_requests_status       ON public.registration_requests(status);
-CREATE INDEX idx_action_plan_student       ON public.action_plan_items(student_id);
+CREATE INDEX IF NOT EXISTS idx_courses_department        ON public.courses(department_id);
+CREATE INDEX IF NOT EXISTS idx_courses_professor         ON public.courses(professor_id);
+CREATE INDEX IF NOT EXISTS idx_enrollments_student       ON public.enrollments(student_id);
+CREATE INDEX IF NOT EXISTS idx_enrollments_course        ON public.enrollments(course_id);
+CREATE INDEX IF NOT EXISTS idx_enrollments_status        ON public.enrollments(status);
+CREATE INDEX IF NOT EXISTS idx_grades_student            ON public.grades(student_id);
+CREATE INDEX IF NOT EXISTS idx_grades_course             ON public.grades(course_id);
+CREATE INDEX IF NOT EXISTS idx_grades_published          ON public.grades(is_published);
+CREATE INDEX IF NOT EXISTS idx_attendance_student        ON public.attendance(student_id);
+CREATE INDEX IF NOT EXISTS idx_attendance_course         ON public.attendance(course_id);
+CREATE INDEX IF NOT EXISTS idx_attendance_date           ON public.attendance(date);
+CREATE INDEX IF NOT EXISTS idx_schedules_course          ON public.schedules(course_id);
+CREATE INDEX IF NOT EXISTS idx_schedules_day             ON public.schedules(day);
+CREATE INDEX IF NOT EXISTS idx_reg_requests_student      ON public.registration_requests(student_id);
+CREATE INDEX IF NOT EXISTS idx_reg_requests_advisor      ON public.registration_requests(advisor_id);
+CREATE INDEX IF NOT EXISTS idx_reg_requests_status       ON public.registration_requests(status);
+CREATE INDEX IF NOT EXISTS idx_action_plan_student       ON public.action_plan_items(student_id);
 
 -- Social
-CREATE INDEX idx_posts_created_at          ON public.posts(created_at DESC);
-CREATE INDEX idx_posts_author_id           ON public.posts(author_id);
-CREATE INDEX idx_posts_college_id          ON public.posts(college_id);
-CREATE INDEX idx_posts_type                ON public.posts(type);
-CREATE INDEX idx_announcements_course      ON public.announcements(course_id);
-CREATE INDEX idx_announcements_priority    ON public.announcements(priority);
-CREATE INDEX idx_shared_files_course       ON public.shared_files(course_id);
-CREATE INDEX idx_forum_posts_forum         ON public.forum_posts(forum_id);
-CREATE INDEX idx_forum_posts_author        ON public.forum_posts(author_id);
+CREATE INDEX IF NOT EXISTS idx_posts_created_at          ON public.posts(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_posts_author_id           ON public.posts(author_id);
+CREATE INDEX IF NOT EXISTS idx_posts_college_id          ON public.posts(college_id);
+CREATE INDEX IF NOT EXISTS idx_posts_type                ON public.posts(type);
+CREATE INDEX IF NOT EXISTS idx_announcements_course      ON public.announcements(course_id);
+CREATE INDEX IF NOT EXISTS idx_announcements_priority    ON public.announcements(priority);
+CREATE INDEX IF NOT EXISTS idx_shared_files_course       ON public.shared_files(course_id);
+CREATE INDEX IF NOT EXISTS idx_forum_posts_forum         ON public.forum_posts(forum_id);
+CREATE INDEX IF NOT EXISTS idx_forum_posts_author        ON public.forum_posts(author_id);
 
 -- Administration
-CREATE INDEX idx_notifications_user        ON public.notifications(user_id, is_read);
-CREATE INDEX idx_notifications_created_at  ON public.notifications(created_at DESC);
-CREATE INDEX idx_invoices_student          ON public.invoices(student_id);
-CREATE INDEX idx_invoices_status           ON public.invoices(status);
-CREATE INDEX idx_support_tickets_user      ON public.support_tickets(user_id);
-CREATE INDEX idx_support_tickets_status    ON public.support_tickets(status);
-CREATE INDEX idx_audit_performed_by        ON public.audit_logs(performed_by);
-CREATE INDEX idx_audit_target_user         ON public.audit_logs(target_user);
-CREATE INDEX idx_audit_action              ON public.audit_logs(action);
-CREATE INDEX idx_audit_created_at          ON public.audit_logs(created_at DESC);
-CREATE INDEX idx_sessions_user_active      ON public.user_sessions(user_id, is_active);
+CREATE INDEX IF NOT EXISTS idx_notifications_user        ON public.notifications(user_id, is_read);
+CREATE INDEX IF NOT EXISTS idx_notifications_created_at  ON public.notifications(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_invoices_student          ON public.invoices(student_id);
+CREATE INDEX IF NOT EXISTS idx_invoices_status           ON public.invoices(status);
+CREATE INDEX IF NOT EXISTS idx_support_tickets_user      ON public.support_tickets(user_id);
+CREATE INDEX IF NOT EXISTS idx_support_tickets_status    ON public.support_tickets(status);
+CREATE INDEX IF NOT EXISTS idx_audit_performed_by        ON public.audit_logs(performed_by);
+CREATE INDEX IF NOT EXISTS idx_audit_target_user         ON public.audit_logs(target_user);
+CREATE INDEX IF NOT EXISTS idx_audit_action              ON public.audit_logs(action);
+CREATE INDEX IF NOT EXISTS idx_audit_created_at          ON public.audit_logs(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_sessions_user_active      ON public.user_sessions(user_id, is_active);

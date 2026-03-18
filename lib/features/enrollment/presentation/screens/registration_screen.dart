@@ -208,7 +208,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
     } else if (_error != null) {
       body = Center(
         child: Text(
-          t.registration.error_loading(error: _error!),
+          'Error loading registration: $_error',
           textAlign: TextAlign.center,
         ),
       );
@@ -473,7 +473,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                   Padding(
                     padding: const EdgeInsets.all(16),
                     child: Text(
-                      t.enrollment.no_schedules_available_for_thi,
+                      t.enrollment.no_schedules_available,
                       style: TextStyle(
                         color: isGlass ? Colors.white38 : Colors.black38,
                       ),
@@ -813,7 +813,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           padding: const EdgeInsets.all(20),
           borderRadius: BorderRadius.circular(24),
           child: Text(
-            t.enrollment.you_have_successfully_register,
+            t.enrollment.registration_success_message,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: isGlass ? Colors.white70 : Colors.black54,
@@ -987,7 +987,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 if (request.advisor != null) ...[
                   const SizedBox(height: 12),
                   Text(
-                    t.enrollment.advisor_requestadvisorfullname,
+                    t.enrollment.advisor_name_label(name: request.advisor?.fullName ?? ''),
                     style: GoogleFonts.outfit(
                       fontSize: 14,
                       color: Colors.white70,
@@ -1020,7 +1020,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 ],
                 const SizedBox(height: 8),
                 Text(
-                  t.enrollment.semester_requestsemester,
+                  t.enrollment.semester_label_with_value(semester: request.semester),
                   style: GoogleFonts.outfit(
                     fontSize: 12,
                     color: Colors.white38,

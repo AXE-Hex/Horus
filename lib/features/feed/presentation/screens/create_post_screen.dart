@@ -9,7 +9,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:hue/core/i18n/strings.g.dart';
 import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
 import 'package:hue/features/feed/domain/models/post_model.dart';
 import 'package:hue/features/feed/presentation/providers/feed_provider.dart';
 import 'package:hue/features/feed/data/repositories/post_repository.dart';
@@ -104,7 +103,6 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   Future<void> _submitPost() async {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final content = _contentController.text.trim();
     if (content.isEmpty) return;
 
@@ -123,8 +121,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         if (url != null) uploadedUrls.add(url);
       }
 
-      // If posting as college (Dean/Rector only)
-      String? collegeId = _selectedCollegeId;
+      // Determine collegeId for this post.
+      // - When posting as a college: derive the college from the current dean/rector account only.
+      // - Otherwise: use the explicitly mentioned college (if any).
+      String? collegeId;
       if (_postAsCollege) {
         final res = await repository.supabase
             .from('colleges')
@@ -134,6 +134,8 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         if (res != null) {
           collegeId = res['id'] as String;
         }
+      } else {
+        collegeId = _selectedCollegeId;
       }
 
       final post = await repository.createPost(
@@ -419,7 +421,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: _selectedMedia.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        separatorBuilder: (_, index) => const SizedBox(width: 12),
         itemBuilder: (context, index) {
           return Container(
             width: 200,

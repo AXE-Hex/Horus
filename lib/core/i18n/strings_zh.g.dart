@@ -997,7 +997,7 @@ class _TranslationsAdminZh extends TranslationsAdminEn {
 	@override String get delete => '删除';
 	@override String get departments_management => '部门管理';
 	@override String get entity => '实体';
-	@override String get error_snapshoterror => '错误：{错误}';
+	@override String error_snapshoterror({required Object error}) => '错误：${error}';
 	@override String get email_address => '电子邮件';
 	@override String get failed_to_load_data => '加载数据失败';
 	@override String get faculty_members_1 => '教职人员';
@@ -1006,7 +1006,7 @@ class _TranslationsAdminZh extends TranslationsAdminEn {
 	@override String get incidents => '事件';
 	@override String get filter_users => '过滤用户';
 	@override String get leadership_stats => '领导力统计';
-	@override String get level_level => '级别{级别}';
+	@override String level_level({required Object level}) => '级别${level}';
 	@override String get manage_tags => '管理标签';
 	@override String get national_id => '国民身份证';
 	@override String get min_6_chars => '分钟。 6 个字符';
@@ -1137,7 +1137,7 @@ class _TranslationsEnrollmentZh extends TranslationsEnrollmentEn {
 	@override String get advisor_assignment => '顾问分配';
 	@override String get confirm_submit => '确认并提交';
 	@override String get cr => 'CR';
-	@override String get advisor_requestadvisorfullname => '顾问：{姓名}';
+	@override String advisor_requestadvisorfullname({required Object name}) => '顾问：${name}';
 	@override String get advisor_updated_successfully => '顾问更新成功';
 	@override String get dormitory_fee => '宿舍费';
 	@override String get download => '下载';
@@ -1182,8 +1182,8 @@ class _TranslationsEnrollmentZh extends TranslationsEnrollmentEn {
 	@override String get select_the_subjects_you_want_t => '选择您要报名的科目';
 	@override String get review_final_timetable => '审查最终时间表';
 	@override String get selected_schedule_summary => '选定的时间表摘要';
-	@override String get semester_requestsemester => '学期：{学期}';
-	@override String get summaryoverduecount_overdue => '{count} 逾期';
+	@override String semester_requestsemester({required Object semester}) => '学期：${semester}';
+	@override String summaryoverduecount_overdue({required Object count}) => '${count} 逾期';
 	@override String get select_your_courses => '选择您的课程';
 	@override String get total_invoices => '发票总数';
 	@override String get sub => '子';
@@ -3067,7 +3067,7 @@ extension on TranslationsZh {
 			'admin.delete' => '删除',
 			'admin.departments_management' => '部门管理',
 			'admin.entity' => '实体',
-			'admin.error_snapshoterror' => '错误：{错误}',
+			'admin.error_snapshoterror' => ({required Object error}) => '错误：${error}',
 			'admin.email_address' => '电子邮件',
 			'admin.failed_to_load_data' => '加载数据失败',
 			'admin.faculty_members_1' => '教职人员',
@@ -3076,7 +3076,7 @@ extension on TranslationsZh {
 			'admin.incidents' => '事件',
 			'admin.filter_users' => '过滤用户',
 			'admin.leadership_stats' => '领导力统计',
-			'admin.level_level' => '级别{级别}',
+			'admin.level_level' => ({required Object level}) => '级别${level}',
 			'admin.manage_tags' => '管理标签',
 			'admin.national_id' => '国民身份证',
 			'admin.min_6_chars' => '分钟。 6 个字符',
@@ -3200,7 +3200,7 @@ extension on TranslationsZh {
 			'enrollment.advisor_assignment' => '顾问分配',
 			'enrollment.confirm_submit' => '确认并提交',
 			'enrollment.cr' => 'CR',
-			'enrollment.advisor_requestadvisorfullname' => '顾问：{姓名}',
+			'enrollment.advisor_requestadvisorfullname' => ({required Object name}) => '顾问：${name}',
 			'enrollment.advisor_updated_successfully' => '顾问更新成功',
 			'enrollment.dormitory_fee' => '宿舍费',
 			'enrollment.download' => '下载',
@@ -3245,8 +3245,8 @@ extension on TranslationsZh {
 			'enrollment.select_the_subjects_you_want_t' => '选择您要报名的科目',
 			'enrollment.review_final_timetable' => '审查最终时间表',
 			'enrollment.selected_schedule_summary' => '选定的时间表摘要',
-			'enrollment.semester_requestsemester' => '学期：{学期}',
-			'enrollment.summaryoverduecount_overdue' => '{count} 逾期',
+			'enrollment.semester_requestsemester' => ({required Object semester}) => '学期：${semester}',
+			'enrollment.summaryoverduecount_overdue' => ({required Object count}) => '${count} 逾期',
 			'enrollment.select_your_courses' => '选择您的课程',
 			'enrollment.total_invoices' => '发票总数',
 			'enrollment.sub' => '子',

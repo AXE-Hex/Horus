@@ -48,7 +48,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
   //  TAB BUILDER  — builds the list of tabs per role
   // ═══════════════════════════════════════════════════════════════════════════
   List<_TabItem> _buildTabItems(UserRole role) {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final items = <_TabItem>[];
 
     // 1. Feed — everyone

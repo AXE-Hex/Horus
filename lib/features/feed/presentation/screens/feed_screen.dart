@@ -471,7 +471,6 @@ class _PostCardState extends ConsumerState<_PostCard> {
   }
 
   void _handleEdit() {
-    final isArabic = t.$meta.locale.languageCode == 'ar';
     final controller = TextEditingController(text: widget.post.content);
 
     showModalBottomSheet(

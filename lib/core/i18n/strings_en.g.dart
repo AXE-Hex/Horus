@@ -2241,8 +2241,8 @@ class TranslationsAdminEn {
 	/// en: 'Entity'
 	String get entity => 'Entity';
 
-	/// en: 'Error: {error}'
-	String get error_snapshoterror => 'Error: {error}';
+	/// en: 'Error: ${error}'
+	String error_snapshoterror({required Object error}) => 'Error: ${error}';
 
 	/// en: 'Faculty Members'
 	String get faculty_members_1 => 'Faculty Members';
@@ -2265,8 +2265,8 @@ class TranslationsAdminEn {
 	/// en: 'Leadership Statistics'
 	String get leadership_stats => 'Leadership Statistics';
 
-	/// en: 'Level {level}'
-	String get level_level => 'Level {level}';
+	/// en: 'Level ${level}'
+	String level_level({required Object level}) => 'Level ${level}';
 
 	/// en: 'Manage Tags'
 	String get manage_tags => 'Manage Tags';
@@ -2631,8 +2631,8 @@ class TranslationsEnrollmentEn {
 	/// en: 'Advisor Assignment'
 	String get advisor_assignment => 'Advisor Assignment';
 
-	/// en: 'Advisor: {name}'
-	String get advisor_requestadvisorfullname => 'Advisor: {name}';
+	/// en: 'Advisor: ${name}'
+	String advisor_requestadvisorfullname({required Object name}) => 'Advisor: ${name}';
 
 	/// en: 'Advisor Updated Successfully'
 	String get advisor_updated_successfully => 'Advisor Updated Successfully';
@@ -2778,14 +2778,14 @@ class TranslationsEnrollmentEn {
 	/// en: 'Selected Schedule Summary'
 	String get selected_schedule_summary => 'Selected Schedule Summary';
 
-	/// en: 'Semester: {semester}'
-	String get semester_requestsemester => 'Semester: {semester}';
+	/// en: 'Semester: ${semester}'
+	String semester_requestsemester({required Object semester}) => 'Semester: ${semester}';
 
 	/// en: 'Sub'
 	String get sub => 'Sub';
 
-	/// en: '{count} Overdue'
-	String get summaryoverduecount_overdue => '{count} Overdue';
+	/// en: '${count} Overdue'
+	String summaryoverduecount_overdue({required Object count}) => '${count} Overdue';
 
 	/// en: 'Total Invoices'
 	String get total_invoices => 'Total Invoices';
@@ -2804,6 +2804,18 @@ class TranslationsEnrollmentEn {
 
 	/// en: 'Your account is clear. No invoices found.'
 	String get your_account_is_clearnno_invoi => 'Your account is clear. No invoices found.';
+
+	/// en: 'No schedules available'
+	String get no_schedules_available => 'No schedules available';
+
+	/// en: 'Registration successful!'
+	String get registration_success_message => 'Registration successful!';
+
+	/// en: 'Advisor: ${name}'
+	String advisor_name_label({required Object name}) => 'Advisor: ${name}';
+
+	/// en: 'Semester: ${semester}'
+	String semester_label_with_value({required Object semester}) => 'Semester: ${semester}';
 }
 
 // Path: shared
@@ -3567,8 +3579,8 @@ class TranslationsExtractedEn {
 	/// en: 'Confirm Removal'
 	String get confirm_removal => 'Confirm Removal';
 
-	/// en: 'Remove ${staffFullName} from this department?'
-	String remove_staff_fullname_from_this_departme({required Object staffFullName}) => 'Remove ${staffFullName} from this department?';
+	/// en: 'Remove ${staff_fullName} from this department?'
+	String remove_stafffullname_from_this_department({required Object staff_fullName}) => 'Remove ${staff_fullName} from this department?';
 
 	/// en: 'Roles Management'
 	String get roles_management => 'Roles Management';
@@ -3666,8 +3678,8 @@ class TranslationsExtractedEn {
 	/// en: 'Delete Role'
 	String get delete_role => 'Delete Role';
 
-	/// en: 'Delete "${roleNameEn}"? This cannot be undone.'
-	String delete_role_nameen_this_cannot_be_undone({required Object roleNameEn}) => 'Delete "${roleNameEn}"? This cannot be undone.';
+	/// en: 'Delete "${role_nameEn}"? This cannot be undone.'
+	String delete_role_rolenameen_this_cannot_be_undone({required Object role_nameEn}) => 'Delete "${role_nameEn}"? This cannot be undone.';
 
 	/// en: 'Delete'
 	String get delete => 'Delete';
@@ -3795,11 +3807,11 @@ class TranslationsExtractedEn {
 	/// en: 'Remove Verification'
 	String get remove_verification => 'Remove Verification';
 
-	/// en: 'Verify ${userFullName}'
-	String verify_user_fullname({required Object userFullName}) => 'Verify ${userFullName}';
+	/// en: 'Verify ${user_fullName}'
+	String verify_userfullname({required Object user_fullName}) => 'Verify ${user_fullName}';
 
-	/// en: 'Remove verification from ${userFullName}?'
-	String remove_verification_from_user_fullname({required Object userFullName}) => 'Remove verification from ${userFullName}?';
+	/// en: 'Remove verification from ${user_fullName}?'
+	String remove_verification_from_userfullname({required Object user_fullName}) => 'Remove verification from ${user_fullName}?';
 
 	/// en: 'Ban User'
 	String get ban_user => 'Ban User';
@@ -3807,13 +3819,13 @@ class TranslationsExtractedEn {
 	/// en: 'Unban User'
 	String get unban_user => 'Unban User';
 
-	/// en: 'Ban ${userFullName}? They will lose system access.'
-	String ban_user_fullname_they_will_lose_system_({required Object userFullName}) => 'Ban ${userFullName}? They will lose system access.';
+	/// en: 'Ban ${user_fullName}? They will lose system access.'
+	String ban_userfullname_they_will_lose_system_access({required Object user_fullName}) => 'Ban ${user_fullName}? They will lose system access.';
 
-	/// en: 'Unban ${userFullName}?'
-	String unban_user_fullname({required Object userFullName}) => 'Unban ${userFullName}?';
+	/// en: 'Unban ${user_fullName}?'
+	String unban_userfullname({required Object user_fullName}) => 'Unban ${user_fullName}?';
 
-	/// en: 'Warning level set to $level'
+	/// en: 'Warning level set to ${level}'
 	String warning_level_set_to_level({required Object level}) => 'Warning level set to ${level}';
 
 	/// en: 'Tag removed'
@@ -3828,11 +3840,11 @@ class TranslationsExtractedEn {
 	/// en: 'Soft Delete'
 	String get soft_delete => 'Soft Delete';
 
-	/// en: 'Permanently delete ${userFullName}? This cannot be undone!'
-	String permanently_delete_user_fullname_this_ca({required Object userFullName}) => 'Permanently delete ${userFullName}? This cannot be undone!';
+	/// en: 'Permanently delete ${user_fullName}? This cannot be undone!'
+	String permanently_delete_userfullname_this_cannot_be_undone({required Object user_fullName}) => 'Permanently delete ${user_fullName}? This cannot be undone!';
 
-	/// en: 'Deactivate ${userFullName}'
-	String deactivate_user_fullname({required Object userFullName}) => 'Deactivate ${userFullName}';
+	/// en: 'Deactivate ${user_fullName}'
+	String deactivate_userfullname({required Object user_fullName}) => 'Deactivate ${user_fullName}';
 
 	/// en: 'Institution'
 	String get institution => 'Institution';
@@ -3849,7 +3861,7 @@ class TranslationsExtractedEn {
 	/// en: 'Department is required'
 	String get department_is_required => 'Department is required';
 
-	/// en: 'OUT OF $max'
+	/// en: 'OUT OF ${max}'
 	String out_of_max({required Object max}) => 'OUT OF ${max}';
 
 	/// en: 'Exceeding'
@@ -3864,125 +3876,35 @@ class TranslationsExtractedEn {
 	/// en: 'Grade'
 	String get grade => 'Grade';
 
-	/// en: 'Dashboard'
-	String get dashboard => 'Dashboard';
+	/// en: 'MMM dd, yyyy'
+	String get mmm_dd_yyyy => 'MMM dd, yyyy';
 
-	/// en: 'en'
-	String get en => 'en';
+	/// en: 'No projects available yet'
+	String get no_projects_available_yet => 'No projects available yet';
 
-	/// en: 'News'
-	String get news => 'News';
+	/// en: 'Details'
+	String get details => 'Details';
 
-	/// en: 'Edit Post'
-	String get edit_post => 'Edit Post';
+	/// en: 'Completed'
+	String get completed => 'Completed';
 
-	/// en: 'Write something...'
-	String get write_something => 'Write something...';
+	/// en: 'Paused'
+	String get paused => 'Paused';
 
-	/// en: 'Posted Successfully'
-	String get posted_successfully => 'Posted Successfully';
-
-	/// en: 'Your post is now live on the feed'
-	String get your_post_is_now_live_on_the_feed => 'Your post is now live on the feed';
-
-	/// en: 'Create Post'
-	String get create_post => 'Create Post';
-
-	/// en: 'Post'
-	String get post => 'Post';
-
-	/// en: 'As College'
-	String get as_college => 'As College';
-
-	/// en: 'Public'
-	String get public => 'Public';
-
-	/// en: 'Mention College/Dept'
-	String get mention_collegedept => 'Mention College/Dept';
-
-	/// en: 'Dept'
-	String get dept => 'Dept';
-
-	/// en: 'What's on your mind?'
-	String get whats_on_your_mind => 'What\'s on your mind?';
-
-	/// en: 'Paste link here...'
-	String get paste_link_here => 'Paste link here...';
-
-	/// en: 'Add to your post'
-	String get add_to_your_post => 'Add to your post';
-
-	/// en: 'You do not have permission to access this section'
-	String get you_do_not_have_permission_to_access_this_section => 'You do not have permission to access this section';
-
-	/// en: '+20 10 0000 0000'
-	String get k201000000000 => '+20 10 0000 0000';
+	/// en: 'Cancelled'
+	String get cancelled => 'Cancelled';
 
 	/// en: 'Faculty Members'
 	String get faculty_members => 'Faculty Members';
 
-	/// en: 'Remove ${staff.fullName} from this department?'
-	String remove_stafffullname_from_this_department({required Object staff.fullName}) => 'Remove ${staff.fullName} from this department?';
+	/// en: 'Please assign an assistant head for the department'
+	String get please_assign_an_assistant_head_for_the => 'Please assign an assistant head for the department';
 
-	/// en: 'roles'
-	String get roles => 'roles';
+	/// en: 'Roles'
+	String get roles => 'Roles';
 
-	/// en: 'permissions'
-	String get permissions_2 => 'permissions';
-
-	/// en: 'Delete role ${role.nameEn}? This cannot be undone.'
-	String delete_role_rolenameen_this_cannot_be_undone({required Object role.nameEn}) => 'Delete role ${role.nameEn}? This cannot be undone.';
-
-	/// en: 'Verify ${_user.fullName}\'
-	String verify__userfullname({required Object _user.fullName}) => 'Verify ${_user.fullName}\';
-
-	/// en: 'Remove verification from ${_user.fullName}?'
-	String remove_verification_from__userfullname({required Object _user.fullName}) => 'Remove verification from ${_user.fullName}?';
-
-	/// en: 'Ban ${_user.fullName}? (They will lose system access)'
-	String ban__userfullname_they_will_lose_system_access({required Object _user.fullName}) => 'Ban ${_user.fullName}? (They will lose system access)';
-
-	/// en: 'Unban ${_user.fullName}?'
-	String unban__userfullname({required Object _user.fullName}) => 'Unban ${_user.fullName}?';
-
-	/// en: 'Permanently delete ${_user.fullName}? This cannot be undone.'
-	String permanently_delete__userfullname_this_cannot_be_undone({required Object _user.fullName}) => 'Permanently delete ${_user.fullName}? This cannot be undone.';
-
-	/// en: 'Deactivate ${_user.fullName}\'
-	String deactivate__userfullname({required Object _user.fullName}) => 'Deactivate ${_user.fullName}\';
-
-	/// en: 'Personal Details'
-	String get personal_details => 'Personal Details';
-
-	/// en: 'Account Credentials'
-	String get account_credentials => 'Account Credentials';
-
-	/// en: 'Roles & Permissions'
-	String get roles_permissions => 'Roles & Permissions';
-
-	/// en: 'Academic Affiliation'
-	String get academic_affiliation => 'Academic Affiliation';
-
-	/// en: 'Gender'
-	String get gender => 'Gender';
-
-	/// en: 'Male'
-	String get male => 'Male';
-
-	/// en: 'Female'
-	String get female => 'Female';
-
-	/// en: 'Enter prefix only'
-	String get enter_prefix_only => 'Enter prefix only';
-
-	/// en: 'Previous'
-	String get previous => 'Previous';
-
-	/// en: 'Create Account'
-	String get create_account => 'Create Account';
-
-	/// en: 'Next'
-	String get next => 'Next';
+	/// en: 'Permissions'
+	String get permissions_2 => 'Permissions';
 
 	/// en: 'Academic Leadership'
 	String get academic_leadership => 'Academic Leadership';
@@ -3999,8 +3921,8 @@ class TranslationsExtractedEn {
 	/// en: 'Manage TAs'
 	String get manage_tas => 'Manage TAs';
 
-	/// en: 'Loading profile...'
-	String get loading_profile => 'Loading profile...';
+	/// en: 'Loading Profile...'
+	String get loading_profile => 'Loading Profile...';
 
 	/// en: 'Manage Groups'
 	String get manage_groups => 'Manage Groups';
@@ -4053,23 +3975,41 @@ class TranslationsExtractedEn {
 	/// en: 'Finances'
 	String get finances => 'Finances';
 
-	/// en: 'MMM dd, yyyy'
-	String get mmm_dd_yyyy => 'MMM dd, yyyy';
+	/// en: 'You do not have permission to access this section'
+	String get you_do_not_have_permission_to_access_this_section => 'You do not have permission to access this section';
 
-	/// en: 'No projects available yet'
-	String get no_projects_available_yet => 'No projects available yet';
+	/// en: 'Personal Details'
+	String get personal_details => 'Personal Details';
 
-	/// en: 'Details'
-	String get details => 'Details';
+	/// en: 'Account Credentials'
+	String get account_credentials => 'Account Credentials';
 
-	/// en: 'Completed'
-	String get completed => 'Completed';
+	/// en: 'Roles & Permissions'
+	String get roles_permissions => 'Roles & Permissions';
 
-	/// en: 'Paused'
-	String get paused => 'Paused';
+	/// en: 'Academic Affiliation'
+	String get academic_affiliation => 'Academic Affiliation';
 
-	/// en: 'Cancelled'
-	String get cancelled => 'Cancelled';
+	/// en: 'Gender'
+	String get gender => 'Gender';
+
+	/// en: 'Male'
+	String get male => 'Male';
+
+	/// en: 'Female'
+	String get female => 'Female';
+
+	/// en: 'Enter prefix only (e.g., ahmed123)'
+	String get enter_prefix_only => 'Enter prefix only (e.g., ahmed123)';
+
+	/// en: 'Previous'
+	String get previous => 'Previous';
+
+	/// en: 'Create Account'
+	String get create_account => 'Create Account';
+
+	/// en: 'Next'
+	String get next => 'Next';
 
 	/// en: 'About College'
 	String get about_college => 'About College';
@@ -4094,6 +4034,57 @@ class TranslationsExtractedEn {
 
 	/// en: 'Scientific Departments'
 	String get scientific_departments => 'Scientific Departments';
+
+	/// en: 'Posted Successfully!'
+	String get posted_successfully => 'Posted Successfully!';
+
+	/// en: 'Your post is now live on the feed'
+	String get your_post_is_now_live_on_the_feed => 'Your post is now live on the feed';
+
+	/// en: 'Create Post'
+	String get create_post => 'Create Post';
+
+	/// en: 'Post'
+	String get post => 'Post';
+
+	/// en: 'As College'
+	String get as_college => 'As College';
+
+	/// en: 'Public'
+	String get public => 'Public';
+
+	/// en: 'Mention College/Dept'
+	String get mention_collegedept => 'Mention College/Dept';
+
+	/// en: 'Dept'
+	String get dept => 'Dept';
+
+	/// en: 'What's on your mind?'
+	String get whats_on_your_mind => 'What\'s on your mind?';
+
+	/// en: 'Paste link here...'
+	String get paste_link_here => 'Paste link here...';
+
+	/// en: 'Add to your post'
+	String get add_to_your_post => 'Add to your post';
+
+	/// en: 'en'
+	String get en => 'en';
+
+	/// en: 'News'
+	String get news => 'News';
+
+	/// en: 'Edit Post'
+	String get edit_post => 'Edit Post';
+
+	/// en: 'Write something...'
+	String get write_something => 'Write something...';
+
+	/// en: 'Dashboard'
+	String get dashboard => 'Dashboard';
+
+	/// en: 'Share your thoughts to help improve the system'
+	String get share_your_thoughts_to_help_improve_the => 'Share your thoughts to help improve the system';
 }
 
 // Path: onboarding.language
@@ -6164,7 +6155,7 @@ extension on Translations {
 			'admin.departments_management' => 'Departments Management',
 			'admin.email_address' => 'Email Address',
 			'admin.entity' => 'Entity',
-			'admin.error_snapshoterror' => 'Error: {error}',
+			'admin.error_snapshoterror' => ({required Object error}) => 'Error: ${error}',
 			'admin.faculty_members_1' => 'Faculty Members',
 			'admin.failed_to_load_data' => 'Failed to Load Data',
 			'admin.filter_users' => 'Filter Users',
@@ -6172,7 +6163,7 @@ extension on Translations {
 			'admin.head_of_department' => 'Head of Department',
 			'admin.incidents' => 'Incidents',
 			'admin.leadership_stats' => 'Leadership Statistics',
-			'admin.level_level' => 'Level {level}',
+			'admin.level_level' => ({required Object level}) => 'Level ${level}',
 			'admin.manage_tags' => 'Manage Tags',
 			'admin.min_6_chars' => 'Min. 6 characters',
 			'admin.national_id' => 'National ID',
@@ -6293,7 +6284,7 @@ extension on Translations {
 			_ => null,
 		} ?? switch (path) {
 			'enrollment.advisor_assignment' => 'Advisor Assignment',
-			'enrollment.advisor_requestadvisorfullname' => 'Advisor: {name}',
+			'enrollment.advisor_requestadvisorfullname' => ({required Object name}) => 'Advisor: ${name}',
 			'enrollment.advisor_updated_successfully' => 'Advisor Updated Successfully',
 			'enrollment.approved_1' => 'Approved',
 			'enrollment.approved_courses_registered' => 'Approved — Courses Registered',
@@ -6342,15 +6333,19 @@ extension on Translations {
 			'enrollment.select_the_subjects_you_want_t' => 'Select the subjects you want to register',
 			'enrollment.select_your_courses' => 'Select Your Courses',
 			'enrollment.selected_schedule_summary' => 'Selected Schedule Summary',
-			'enrollment.semester_requestsemester' => 'Semester: {semester}',
+			'enrollment.semester_requestsemester' => ({required Object semester}) => 'Semester: ${semester}',
 			'enrollment.sub' => 'Sub',
-			'enrollment.summaryoverduecount_overdue' => '{count} Overdue',
+			'enrollment.summaryoverduecount_overdue' => ({required Object count}) => '${count} Overdue',
 			'enrollment.total_invoices' => 'Total Invoices',
 			'enrollment.unassigned_only' => 'Unassigned Only',
 			'enrollment.unpaid' => 'Unpaid',
 			'enrollment.withdrawn' => 'Withdrawn',
 			'enrollment.you_have_successfully_register' => 'You have successfully registered your courses!',
 			'enrollment.your_account_is_clearnno_invoi' => 'Your account is clear. No invoices found.',
+			'enrollment.no_schedules_available' => 'No schedules available',
+			'enrollment.registration_success_message' => 'Registration successful!',
+			'enrollment.advisor_name_label' => ({required Object name}) => 'Advisor: ${name}',
+			'enrollment.semester_label_with_value' => ({required Object semester}) => 'Semester: ${semester}',
 			'shared.notifications' => 'Notifications',
 			'shared.no_notifications_yet' => 'No Notifications Yet',
 			'shared.notifications_empty' => 'No new notifications',
@@ -6596,7 +6591,7 @@ extension on Translations {
 			'extracted.remove' => 'Remove',
 			'extracted.add_faculty_member' => 'Add Faculty Member',
 			'extracted.confirm_removal' => 'Confirm Removal',
-			'extracted.remove_staff_fullname_from_this_departme' => ({required Object staffFullName}) => 'Remove ${staffFullName} from this department?',
+			'extracted.remove_stafffullname_from_this_department' => ({required Object staff_fullName}) => 'Remove ${staff_fullName} from this department?',
 			'extracted.roles_management' => 'Roles Management',
 			'extracted.merge_roles' => 'Merge Roles',
 			'extracted.create_role' => 'Create Role',
@@ -6629,7 +6624,7 @@ extension on Translations {
 			'extracted.edit_role' => 'Edit Role',
 			'extracted.role_updated' => 'Role updated',
 			'extracted.delete_role' => 'Delete Role',
-			'extracted.delete_role_nameen_this_cannot_be_undone' => ({required Object roleNameEn}) => 'Delete "${roleNameEn}"? This cannot be undone.',
+			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role_nameEn}) => 'Delete "${role_nameEn}"? This cannot be undone.',
 			'extracted.delete' => 'Delete',
 			'extracted.admin_it' => 'Admin & IT',
 			'extracted.leadership' => 'Leadership',
@@ -6672,19 +6667,19 @@ extension on Translations {
 			'extracted.permanently_delete' => 'Permanently Delete',
 			'extracted.verify_account' => 'Verify Account',
 			'extracted.remove_verification' => 'Remove Verification',
-			'extracted.verify_user_fullname' => ({required Object userFullName}) => 'Verify ${userFullName}',
-			'extracted.remove_verification_from_user_fullname' => ({required Object userFullName}) => 'Remove verification from ${userFullName}?',
+			'extracted.verify_userfullname' => ({required Object user_fullName}) => 'Verify ${user_fullName}',
+			'extracted.remove_verification_from_userfullname' => ({required Object user_fullName}) => 'Remove verification from ${user_fullName}?',
 			'extracted.ban_user' => 'Ban User',
 			'extracted.unban_user' => 'Unban User',
-			'extracted.ban_user_fullname_they_will_lose_system_' => ({required Object userFullName}) => 'Ban ${userFullName}? They will lose system access.',
-			'extracted.unban_user_fullname' => ({required Object userFullName}) => 'Unban ${userFullName}?',
+			'extracted.ban_userfullname_they_will_lose_system_access' => ({required Object user_fullName}) => 'Ban ${user_fullName}? They will lose system access.',
+			'extracted.unban_userfullname' => ({required Object user_fullName}) => 'Unban ${user_fullName}?',
 			'extracted.warning_level_set_to_level' => ({required Object level}) => 'Warning level set to ${level}',
 			'extracted.tag_removed' => 'Tag removed',
 			'extracted.tag_name' => 'Tag name',
 			'extracted.permanent_delete' => 'Permanent Delete',
 			'extracted.soft_delete' => 'Soft Delete',
-			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object userFullName}) => 'Permanently delete ${userFullName}? This cannot be undone!',
-			'extracted.deactivate_user_fullname' => ({required Object userFullName}) => 'Deactivate ${userFullName}',
+			'extracted.permanently_delete_userfullname_this_cannot_be_undone' => ({required Object user_fullName}) => 'Permanently delete ${user_fullName}? This cannot be undone!',
+			'extracted.deactivate_userfullname' => ({required Object user_fullName}) => 'Deactivate ${user_fullName}',
 			'extracted.institution' => 'Institution',
 			'extracted.select_college' => 'Select College',
 			'extracted.college_is_required' => 'College is required',
@@ -6695,52 +6690,22 @@ extension on Translations {
 			'extracted.top_5' => 'Top 5%',
 			'extracted.total' => 'Total',
 			'extracted.grade' => 'Grade',
-			'extracted.dashboard' => 'Dashboard',
-			'extracted.en' => 'en',
-			'extracted.news' => 'News',
-			'extracted.edit_post' => 'Edit Post',
-			'extracted.write_something' => 'Write something...',
-			'extracted.posted_successfully' => 'Posted Successfully',
-			'extracted.your_post_is_now_live_on_the_feed' => 'Your post is now live on the feed',
-			'extracted.create_post' => 'Create Post',
-			'extracted.post' => 'Post',
-			'extracted.as_college' => 'As College',
-			'extracted.public' => 'Public',
-			'extracted.mention_collegedept' => 'Mention College/Dept',
-			'extracted.dept' => 'Dept',
-			'extracted.whats_on_your_mind' => 'What\'s on your mind?',
-			'extracted.paste_link_here' => 'Paste link here...',
-			'extracted.add_to_your_post' => 'Add to your post',
-			'extracted.you_do_not_have_permission_to_access_this_section' => 'You do not have permission to access this section',
-			'extracted.k201000000000' => '+20 10 0000 0000',
+			'extracted.mmm_dd_yyyy' => 'MMM dd, yyyy',
+			'extracted.no_projects_available_yet' => 'No projects available yet',
+			'extracted.details' => 'Details',
+			'extracted.completed' => 'Completed',
+			'extracted.paused' => 'Paused',
+			'extracted.cancelled' => 'Cancelled',
 			'extracted.faculty_members' => 'Faculty Members',
-			'extracted.remove_stafffullname_from_this_department' => ({required Object staff.fullName}) => 'Remove ${staff.fullName} from this department?',
-			'extracted.roles' => 'roles',
-			'extracted.permissions_2' => 'permissions',
-			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role.nameEn}) => 'Delete role ${role.nameEn}? This cannot be undone.',
-			'extracted.verify__userfullname' => ({required Object _user.fullName}) => 'Verify ${_user.fullName}\',
-			'extracted.remove_verification_from__userfullname' => ({required Object _user.fullName}) => 'Remove verification from ${_user.fullName}?',
-			'extracted.ban__userfullname_they_will_lose_system_access' => ({required Object _user.fullName}) => 'Ban ${_user.fullName}? (They will lose system access)',
-			'extracted.unban__userfullname' => ({required Object _user.fullName}) => 'Unban ${_user.fullName}?',
-			'extracted.permanently_delete__userfullname_this_cannot_be_undone' => ({required Object _user.fullName}) => 'Permanently delete ${_user.fullName}? This cannot be undone.',
-			'extracted.deactivate__userfullname' => ({required Object _user.fullName}) => 'Deactivate ${_user.fullName}\',
-			'extracted.personal_details' => 'Personal Details',
-			'extracted.account_credentials' => 'Account Credentials',
-			'extracted.roles_permissions' => 'Roles & Permissions',
-			'extracted.academic_affiliation' => 'Academic Affiliation',
-			'extracted.gender' => 'Gender',
-			'extracted.male' => 'Male',
-			'extracted.female' => 'Female',
-			'extracted.enter_prefix_only' => 'Enter prefix only',
-			'extracted.previous' => 'Previous',
-			'extracted.create_account' => 'Create Account',
-			'extracted.next' => 'Next',
+			'extracted.please_assign_an_assistant_head_for_the' => 'Please assign an assistant head for the department',
+			'extracted.roles' => 'Roles',
+			'extracted.permissions_2' => 'Permissions',
 			'extracted.academic_leadership' => 'Academic Leadership',
 			'extracted.administration' => 'Administration',
 			'extracted.manage_grades' => 'Manage Grades',
 			'extracted.manage_attendance' => 'Manage Attendance',
 			'extracted.manage_tas' => 'Manage TAs',
-			'extracted.loading_profile' => 'Loading profile...',
+			'extracted.loading_profile' => 'Loading Profile...',
 			'extracted.manage_groups' => 'Manage Groups',
 			'extracted.upload_materials' => 'Upload Materials',
 			'extracted.professor_chat' => 'Professor Chat',
@@ -6758,12 +6723,18 @@ extension on Translations {
 			'extracted.audit_logs' => 'Audit Logs',
 			'extracted.manage_roles' => 'Manage Roles',
 			'extracted.finances' => 'Finances',
-			'extracted.mmm_dd_yyyy' => 'MMM dd, yyyy',
-			'extracted.no_projects_available_yet' => 'No projects available yet',
-			'extracted.details' => 'Details',
-			'extracted.completed' => 'Completed',
-			'extracted.paused' => 'Paused',
-			'extracted.cancelled' => 'Cancelled',
+			'extracted.you_do_not_have_permission_to_access_this_section' => 'You do not have permission to access this section',
+			'extracted.personal_details' => 'Personal Details',
+			'extracted.account_credentials' => 'Account Credentials',
+			'extracted.roles_permissions' => 'Roles & Permissions',
+			'extracted.academic_affiliation' => 'Academic Affiliation',
+			'extracted.gender' => 'Gender',
+			'extracted.male' => 'Male',
+			'extracted.female' => 'Female',
+			'extracted.enter_prefix_only' => 'Enter prefix only (e.g., ahmed123)',
+			'extracted.previous' => 'Previous',
+			'extracted.create_account' => 'Create Account',
+			'extracted.next' => 'Next',
 			'extracted.about_college' => 'About College',
 			'extracted.origins_roots' => 'Origins & Roots',
 			'extracted.vision_mission' => 'Vision & Mission',
@@ -6772,6 +6743,23 @@ extension on Translations {
 			'extracted.faculty_staff' => 'Faculty & Staff',
 			'extracted.no_staff_registered_yet' => 'No staff registered yet',
 			'extracted.scientific_departments' => 'Scientific Departments',
+			'extracted.posted_successfully' => 'Posted Successfully!',
+			'extracted.your_post_is_now_live_on_the_feed' => 'Your post is now live on the feed',
+			'extracted.create_post' => 'Create Post',
+			'extracted.post' => 'Post',
+			'extracted.as_college' => 'As College',
+			'extracted.public' => 'Public',
+			'extracted.mention_collegedept' => 'Mention College/Dept',
+			'extracted.dept' => 'Dept',
+			'extracted.whats_on_your_mind' => 'What\'s on your mind?',
+			'extracted.paste_link_here' => 'Paste link here...',
+			'extracted.add_to_your_post' => 'Add to your post',
+			'extracted.en' => 'en',
+			'extracted.news' => 'News',
+			'extracted.edit_post' => 'Edit Post',
+			'extracted.write_something' => 'Write something...',
+			'extracted.dashboard' => 'Dashboard',
+			'extracted.share_your_thoughts_to_help_improve_the' => 'Share your thoughts to help improve the system',
 			_ => null,
 		};
 	}

@@ -434,9 +434,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                     HapticFeedback.mediumImpact();
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(
-                          t.professor.action_clicked(action: ta.name),
-                        ),
+                        content: Text('Action: ${ta.name}'),
                         duration: const Duration(seconds: 1),
                       ),
                     );
@@ -485,7 +483,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
               ),
             ),
             subtitle: Text(
-              t.professor.total_students_count(count: group.studentCount),
+              '${group.studentCount} students',
               style: GoogleFonts.inter(
                 fontSize: 12,
                 color: isGlass ? Colors.white60 : Colors.grey,

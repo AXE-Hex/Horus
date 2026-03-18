@@ -998,13 +998,13 @@ class _TranslationsAdminDe extends TranslationsAdminEn {
 	@override String get department_projects => 'Abteilungsprojekte';
 	@override String get entity => 'Juristische Person';
 	@override String get email_address => 'E-Mail-Adresse';
-	@override String get error_snapshoterror => 'Fehler: {error}';
+	@override String error_snapshoterror({required Object error}) => 'Fehler: ${error}';
 	@override String get failed_to_load_data => 'Daten konnten nicht geladen werden';
 	@override String get faculty_members_1 => 'Fakultätsmitglieder';
 	@override String get full_name => 'Vollständiger Name';
 	@override String get filter_users => 'Benutzer filtern';
 	@override String get head_of_department => 'Abteilungsleiter';
-	@override String get level_level => 'Ebene {Ebene}';
+	@override String level_level({required Object level}) => 'Ebene ${level}';
 	@override String get leadership_stats => 'Führungsstatistik';
 	@override String get incidents => 'Vorfälle';
 	@override String get national_id => 'Nationaler Ausweis';
@@ -1134,7 +1134,7 @@ class _TranslationsEnrollmentDe extends TranslationsEnrollmentEn {
 	@override String get loading => 'Laden...';
 	@override String get advisor_assignment => 'Berateraufgabe';
 	@override String get academic_advisor => 'Akademischer Berater';
-	@override String get advisor_requestadvisorfullname => 'Berater: {Name}';
+	@override String advisor_requestadvisorfullname({required Object name}) => 'Berater: ${name}';
 	@override String get advisor_updated_successfully => 'Advisor erfolgreich aktualisiert';
 	@override String get approved_1 => 'Genehmigt';
 	@override String get approved_courses_registered => 'Genehmigt – Kurse angemeldet';
@@ -1182,8 +1182,8 @@ class _TranslationsEnrollmentDe extends TranslationsEnrollmentEn {
 	@override String get select_the_subjects_you_want_t => 'Wählen Sie die Fächer aus, die Sie anmelden möchten';
 	@override String get select_your_courses => 'Wählen Sie Ihre Kurse aus';
 	@override String get sub => 'Sub';
-	@override String get summaryoverduecount_overdue => '{count} Überfällig';
-	@override String get semester_requestsemester => 'Semester: {semester}';
+	@override String summaryoverduecount_overdue({required Object count}) => '${count} Überfällig';
+	@override String semester_requestsemester({required Object semester}) => 'Semester: ${semester}';
 	@override String get total_invoices => 'Gesamtrechnungen';
 	@override String get selected_schedule_summary => 'Zusammenfassung des ausgewählten Zeitplans';
 	@override String get unassigned_only => 'Nur nicht zugewiesen';
@@ -3068,13 +3068,13 @@ extension on TranslationsDe {
 			'admin.department_projects' => 'Abteilungsprojekte',
 			'admin.entity' => 'Juristische Person',
 			'admin.email_address' => 'E-Mail-Adresse',
-			'admin.error_snapshoterror' => 'Fehler: {error}',
+			'admin.error_snapshoterror' => ({required Object error}) => 'Fehler: ${error}',
 			'admin.failed_to_load_data' => 'Daten konnten nicht geladen werden',
 			'admin.faculty_members_1' => 'Fakultätsmitglieder',
 			'admin.full_name' => 'Vollständiger Name',
 			'admin.filter_users' => 'Benutzer filtern',
 			'admin.head_of_department' => 'Abteilungsleiter',
-			'admin.level_level' => 'Ebene {Ebene}',
+			'admin.level_level' => ({required Object level}) => 'Ebene ${level}',
 			'admin.leadership_stats' => 'Führungsstatistik',
 			'admin.incidents' => 'Vorfälle',
 			'admin.national_id' => 'Nationaler Ausweis',
@@ -3197,7 +3197,7 @@ extension on TranslationsDe {
 		} ?? switch (path) {
 			'enrollment.advisor_assignment' => 'Berateraufgabe',
 			'enrollment.academic_advisor' => 'Akademischer Berater',
-			'enrollment.advisor_requestadvisorfullname' => 'Berater: {Name}',
+			'enrollment.advisor_requestadvisorfullname' => ({required Object name}) => 'Berater: ${name}',
 			'enrollment.advisor_updated_successfully' => 'Advisor erfolgreich aktualisiert',
 			'enrollment.approved_1' => 'Genehmigt',
 			'enrollment.approved_courses_registered' => 'Genehmigt – Kurse angemeldet',
@@ -3245,8 +3245,8 @@ extension on TranslationsDe {
 			'enrollment.select_the_subjects_you_want_t' => 'Wählen Sie die Fächer aus, die Sie anmelden möchten',
 			'enrollment.select_your_courses' => 'Wählen Sie Ihre Kurse aus',
 			'enrollment.sub' => 'Sub',
-			'enrollment.summaryoverduecount_overdue' => '{count} Überfällig',
-			'enrollment.semester_requestsemester' => 'Semester: {semester}',
+			'enrollment.summaryoverduecount_overdue' => ({required Object count}) => '${count} Überfällig',
+			'enrollment.semester_requestsemester' => ({required Object semester}) => 'Semester: ${semester}',
 			'enrollment.total_invoices' => 'Gesamtrechnungen',
 			'enrollment.selected_schedule_summary' => 'Zusammenfassung des ausgewählten Zeitplans',
 			'enrollment.unassigned_only' => 'Nur nicht zugewiesen',

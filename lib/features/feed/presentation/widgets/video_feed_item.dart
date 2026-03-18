@@ -33,6 +33,9 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
     
     await _videoPlayerController.initialize();
     
+    if (!mounted) return;
+    final primaryColor = Theme.of(context).primaryColor;
+
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController,
       autoPlay: widget.autoPlay,
@@ -40,8 +43,8 @@ class _VideoFeedItemState extends State<VideoFeedItem> {
       aspectRatio: _videoPlayerController.value.aspectRatio,
       showControls: true,
       materialProgressColors: ChewieProgressColors(
-        playedColor: Theme.of(context).primaryColor,
-        handleColor: Theme.of(context).primaryColor,
+        playedColor: primaryColor,
+        handleColor: primaryColor,
         backgroundColor: Colors.grey.withValues(alpha: 0.2),
         bufferedColor: Colors.white24,
       ),
