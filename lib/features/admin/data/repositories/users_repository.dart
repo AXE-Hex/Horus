@@ -102,8 +102,9 @@ class UsersRepository {
           'p_nationality': nationality?.isNotEmpty == true ? nationality : null,
           'p_phone': phone?.isNotEmpty == true ? phone : null,
           'p_college_id': collegeId?.isNotEmpty == true ? collegeId : null,
-          'p_department_id':
-              departmentId?.isNotEmpty == true ? departmentId : null,
+          'p_department_id': departmentId?.isNotEmpty == true
+              ? departmentId
+              : null,
         },
       );
 

@@ -5,17 +5,22 @@
   <h3>Next-Generation Academic Management & Social Platform</h3>
   <p>Available in English & Arabic (متوفر باللغتين الإنجليزية والعربية)</p>
 
-  [![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
-  [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
-  [![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
+[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+<br>
+[![Continuous Integration](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
+[![Continuous Deployment](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/cd.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/cd.yml)
+
 </div>
 
 ---
 
 ## 🛑 Notice / تنبيه هام
+
 > [!IMPORTANT]
 > **This is a private, closed-source project.** Unauthorized copying, distribution, modification, or use of this software, via any medium, is strictly prohibited.
-> 
+>
 > **هذا المشروع خاص ومغلق المصدر.** يُمنع منعاً باتاً النسخ أو التوزيع أو التعديل أو الاستخدام غير المصرح به لهذا البرنامج عبر أي وسيلة كانت.
 
 ---
@@ -31,14 +36,17 @@
 ## 🌟 Main Features (الميزات الرئيسية)
 
 ### 🔐 Security & Access Control
+
 - **Role-Based Access Control (RBAC):** Highly granular permission system supporting over 10 distinct roles (e.g., Rector, Dean, Professor, Student, Admin).
 - **Row Level Security (RLS):** All data access is strictly controlled at the PostgreSQL database level via Supabase RLS policies.
 
 ### 🎨 User Experience
+
 - **Glassmorphism UI:** Stunning, modern, and adaptive UI supporting both Light and Dark themes natively.
 - **Bilingual Support:** Full i18n localization (English and Arabic) using the `slang` package.
 
 ### ⚙️ Functionality
+
 - **Real-time Synchronization:** Powered by Supabase for instant database updates, real-time posts, and academic notifications.
 - **Academic Dashboard:** Dedicated secure views for schedules, grades, attendance, and faculty management.
 - **Social Feed:** Interactive community feed allowing authorized users to create posts and university-wide announcements.
@@ -51,14 +59,14 @@ Hue strictly follows modular and clean architecture-inspired principles to ensur
 
 ### Technology Stack
 
-| Component | Technology | Description |
-| :--- | :--- | :--- |
-| **Framework** | **Flutter** | Cross-platform support: Web, Linux, Windows, iOS, Android |
-| **Backend** | **Supabase** | PostgreSQL, Authentication, Realtime, Storage |
-| **State Mgt.** | **Riverpod** | Declarative, safe, and reactive state caching |
-| **Routing** | **GoRouter** | Deep linking capable, fully typed routing |
-| **Localization** | **Slang** | Type-safe i18n generation |
-| **Animations** | **Flutter Animate** | Smooth and high-performance UI transitions |
+| Component        | Technology          | Description                                               |
+| :--------------- | :------------------ | :-------------------------------------------------------- |
+| **Framework**    | **Flutter**         | Cross-platform support: Web, Linux, Windows, iOS, Android |
+| **Backend**      | **Supabase**        | PostgreSQL, Authentication, Realtime, Storage             |
+| **State Mgt.**   | **Riverpod**        | Declarative, safe, and reactive state caching             |
+| **Routing**      | **GoRouter**        | Deep linking capable, fully typed routing                 |
+| **Localization** | **Slang**           | Type-safe i18n generation                                 |
+| **Animations**   | **Flutter Animate** | Smooth and high-performance UI transitions                |
 
 ### Core Folder Structure
 
@@ -90,23 +98,28 @@ lib/
 ### Workflow Instructions (خطوات التشغيل)
 
 1. **Clone the Repository:**
+
    ```bash
    git clone <repository_url>
    cd hue
    ```
 
 2. **Environment Setup:**
+
    ```bash
    cp .env.example .env
    ```
-   *Open `.env` and fill in your Supabase `SUPABASE_URL` and `SUPABASE_ANON_KEY`.*
+
+   _Open `.env` and fill in your Supabase `SUPABASE_URL` and `SUPABASE_ANON_KEY`._
 
 3. **Install Dependencies:**
+
    ```bash
    flutter pub get
    ```
 
 4. **Generate Code & Translations (i18n):**
+
    ```bash
    dart run build_runner build -d
    dart run slang
@@ -117,7 +130,7 @@ lib/
    # Run with specific environment variables
    flutter run --dart-define-from-file=.env
    ```
-   *(For VS Code users: The `.vscode/launch.json` is already configured to use the `.env` file).*
+   _(For VS Code users: The `.vscode/launch.json` is already configured to use the `.env` file)._
 
 ---
 

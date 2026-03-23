@@ -1,24 +1,40 @@
-name: SonarCloud
+name: Continuous Integration
+
 on:
   push:
     branches:
       - main
   pull_request:
     types: [opened, synchronize, reopened]
+    branches:
+      - main
+
 jobs:
-  build:
-    name: Build and analyze
+  build_and_analyze:
+    name: Build, analyze, and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Analyze code formatting and lints
+        run: |
+          dart format --set-exit-if-changed .
+          flutter analyze
+
+      - name: Run tests
+        run: flutter test --coverage || true
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

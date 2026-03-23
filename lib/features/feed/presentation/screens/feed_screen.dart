@@ -40,7 +40,11 @@ class FeedScreen extends ConsumerWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              icon: const Icon(LucideIcons.plusCircle, color: Colors.white, size: 20),
+              icon: const Icon(
+                LucideIcons.plusCircle,
+                color: Colors.white,
+                size: 20,
+              ),
               label: Text(
                 isArabic ? 'منشور جديد' : 'New Post',
                 style: GoogleFonts.outfit(
@@ -50,11 +54,11 @@ class FeedScreen extends ConsumerWidget {
                 ),
               ),
             ).animate().scale(
-                begin: const Offset(0, 0),
-                end: const Offset(1, 1),
-                delay: 400.ms,
-                curve: Curves.elasticOut,
-              )
+              begin: const Offset(0, 0),
+              end: const Offset(1, 1),
+              delay: 400.ms,
+              curve: Curves.elasticOut,
+            )
           : null,
       body: RefreshIndicator(
         onRefresh: () => ref.read(feedProvider.notifier).refresh(),
@@ -63,7 +67,6 @@ class FeedScreen extends ConsumerWidget {
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-
             SliverPadding(
               padding: EdgeInsets.fromLTRB(hPad, 4, hPad, 80),
               sliver: feedState.when(
