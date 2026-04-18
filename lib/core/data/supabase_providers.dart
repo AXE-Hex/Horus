@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:hue/features/academic/data/repositories/academic_repository.dart';
-import 'package:hue/features/academic/data/repositories/professor_repository.dart';
-import 'package:hue/features/enrollment/data/repositories/enrollment_repository.dart';
-import 'package:hue/features/shared/data/repositories/shared_repository.dart';
-import 'package:hue/features/onboarding/data/repositories/onboarding_repository.dart';
+import 'package:horus/features/academic/data/repositories/academic_repository.dart';
+import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/features/enrollment/data/repositories/enrollment_repository.dart';
+import 'package:horus/features/shared/data/repositories/shared_repository.dart';
+import 'package:horus/features/onboarding/data/repositories/onboarding_repository.dart';
 
 final academicRepositoryProvider = Provider<AcademicRepository>((ref) {
   return AcademicRepository(Supabase.instance.client);

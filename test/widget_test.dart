@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hue/core/app/hue_app.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/core/router/app_router.dart';
+import 'package:horus/core/app/horus_app.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/router/app_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -26,7 +26,7 @@ void main() {
           path: '/test',
           builder: (context, state) => const Directionality(
             textDirection: TextDirection.ltr,
-            child: Center(child: Text('HUE')),
+            child: Center(child: Text('HORUS')),
           ),
         ),
       ],
@@ -36,11 +36,11 @@ void main() {
       TranslationProvider(
         child: ProviderScope(
           overrides: [routerProvider.overrideWithValue(testRouter)],
-          child: const HueApp(),
+          child: const HorusApp(),
         ),
       ),
     );
 
-    expect(find.text('HUE'), findsOneWidget);
+    expect(find.text('HORUS'), findsOneWidget);
   });
 }

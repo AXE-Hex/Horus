@@ -1,4 +1,4 @@
-import 'package:hue/core/data/base_repository.dart';
+import 'package:horus/core/data/base_repository.dart';
 
 class SharedRepository extends BaseRepository {
   SharedRepository(super.client);

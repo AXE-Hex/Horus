@@ -1,4 +1,4 @@
-import 'package:hue/core/i18n/strings.g.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,12 +7,12 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'package:hue/features/feed/domain/models/post_model.dart';
-import 'package:hue/features/feed/presentation/providers/feed_provider.dart';
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/features/feed/data/repositories/post_repository.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/feed/presentation/widgets/media_grid.dart';
+import 'package:horus/features/feed/domain/models/post_model.dart';
+import 'package:horus/features/feed/presentation/providers/feed_provider.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/features/feed/data/repositories/post_repository.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/feed/presentation/widgets/media_grid.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});

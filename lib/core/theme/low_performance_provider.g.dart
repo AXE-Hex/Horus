@@ -1,4 +1,13 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'low_performance_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(LowPerformanceController)
 final lowPerformanceControllerProvider = LowPerformanceControllerProvider._();
@@ -23,6 +32,7 @@ final class LowPerformanceControllerProvider
   @override
   LowPerformanceController create() => LowPerformanceController();
 
+  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(bool value) {
     return $ProviderOverride(
       origin: this,

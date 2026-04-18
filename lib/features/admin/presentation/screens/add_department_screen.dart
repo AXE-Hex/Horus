@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
-import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/features/admin/data/models/institutional_models.dart';
+import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:hue/features/shared/presentation/widgets/premium_success_overlay.dart';
+import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
 
 class AddDepartmentScreen extends ConsumerStatefulWidget {
   final DepartmentModel? department;

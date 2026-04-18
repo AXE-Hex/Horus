@@ -7,14 +7,14 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/features/feed/domain/models/post_model.dart';
-import 'package:hue/features/feed/presentation/providers/feed_provider.dart';
-import 'package:hue/features/feed/data/repositories/post_repository.dart';
-import 'package:hue/features/academic/data/repositories/professor_repository.dart';
-import 'package:hue/features/shared/presentation/widgets/premium_success_overlay.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/features/feed/domain/models/post_model.dart';
+import 'package:horus/features/feed/presentation/providers/feed_provider.dart';
+import 'package:horus/features/feed/data/repositories/post_repository.dart';
+import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   final PostType initialType;

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/features/enrollment/data/models/invoice_models.dart';
-import 'package:hue/features/enrollment/data/repositories/enrollment_repository.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/features/enrollment/data/models/invoice_models.dart';
+import 'package:horus/features/enrollment/data/repositories/enrollment_repository.dart';
 
 final enrollmentRepositoryProvider = Provider<EnrollmentRepository>((ref) {
   return EnrollmentRepository(Supabase.instance.client);

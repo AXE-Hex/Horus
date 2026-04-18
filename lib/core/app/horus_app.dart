@@ -1,15 +1,15 @@
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/core/security/axe_fingerprint.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/security/axe_fingerprint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/core/router/app_router.dart';
-import 'package:hue/core/theme/app_theme.dart';
-import 'package:hue/core/theme/theme_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/liquid_toast_overlay.dart';
+import 'package:horus/core/router/app_router.dart';
+import 'package:horus/core/theme/app_theme.dart';
+import 'package:horus/core/theme/theme_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/liquid_toast_overlay.dart';
 
-class HueApp extends ConsumerWidget {
-  const HueApp({super.key});
+class HorusApp extends ConsumerWidget {
+  const HorusApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -18,7 +18,7 @@ class HueApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'Hue',
+      title: 'Horus',
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode.value ?? ThemeMode.system,

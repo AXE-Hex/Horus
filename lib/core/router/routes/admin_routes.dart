@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hue/features/admin/presentation/screens/administration_screen.dart';
+import 'package:horus/features/admin/presentation/screens/administration_screen.dart';
 
-import 'package:hue/features/admin/presentation/screens/users_list_screen.dart';
-import 'package:hue/features/admin/presentation/screens/user_form_screen.dart';
-import 'package:hue/features/admin/presentation/screens/student_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/staff_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/leadership_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/admin_it_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/professors_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/system_settings_screen.dart';
-import 'package:hue/features/admin/presentation/screens/user_details_screen.dart';
-import 'package:hue/features/admin/presentation/screens/college_details_screen.dart'
+import 'package:horus/features/admin/presentation/screens/users_list_screen.dart';
+import 'package:horus/features/admin/presentation/screens/user_form_screen.dart';
+import 'package:horus/features/admin/presentation/screens/student_management_screen.dart';
+import 'package:horus/features/admin/presentation/screens/staff_management_screen.dart';
+import 'package:horus/features/admin/presentation/screens/leadership_management_screen.dart';
+import 'package:horus/features/admin/presentation/screens/admin_it_management_screen.dart';
+import 'package:horus/features/admin/presentation/screens/professors_management_screen.dart';
+import 'package:horus/features/admin/presentation/screens/system_settings_screen.dart';
+import 'package:horus/features/admin/presentation/screens/user_details_screen.dart';
+import 'package:horus/features/admin/presentation/screens/college_details_screen.dart'
     as admin_screens;
-import 'package:hue/features/admin/presentation/screens/colleges_management_screen.dart';
-import 'package:hue/features/admin/presentation/screens/departments_management_screen.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
-import 'package:hue/features/admin/presentation/screens/add_college_screen.dart';
-import 'package:hue/features/admin/presentation/screens/add_department_screen.dart';
-import 'package:hue/features/admin/presentation/screens/department_details_screen.dart';
-import 'package:hue/features/admin/presentation/screens/audit_logs_screen.dart';
-import 'package:hue/features/admin/presentation/screens/roles_management_screen.dart';
-import 'package:hue/features/admin/data/models/user_management_models.dart';
-import 'package:hue/core/auth/roles.dart';
+import 'package:horus/features/admin/presentation/screens/colleges_management_screen.dart';
+import 'package:horus/features/admin/presentation/screens/departments_management_screen.dart';
+import 'package:horus/features/admin/data/models/institutional_models.dart';
+import 'package:horus/features/admin/presentation/screens/add_college_screen.dart';
+import 'package:horus/features/admin/presentation/screens/add_department_screen.dart';
+import 'package:horus/features/admin/presentation/screens/department_details_screen.dart';
+import 'package:horus/features/admin/presentation/screens/audit_logs_screen.dart';
+import 'package:horus/features/admin/presentation/screens/roles_management_screen.dart';
+import 'package:horus/features/admin/data/models/user_management_models.dart';
+import 'package:horus/core/auth/roles.dart';
 
 final List<RouteBase> adminRoutes = [
   GoRoute(

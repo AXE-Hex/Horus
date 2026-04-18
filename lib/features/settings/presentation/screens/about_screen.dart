@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/theme/style_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AboutScreen extends ConsumerWidget {
@@ -55,7 +55,7 @@ class AboutScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               Center(
                 child: Text(
-                  'HUE Portal',
+                  'Horus Portal',
                   style: GoogleFonts.outfit(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,

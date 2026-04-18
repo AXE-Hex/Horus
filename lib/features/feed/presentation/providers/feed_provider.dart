@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/features/feed/domain/models/post_model.dart';
-import 'package:hue/features/feed/data/repositories/post_repository.dart';
+import 'package:horus/features/feed/domain/models/post_model.dart';
+import 'package:horus/features/feed/data/repositories/post_repository.dart';
 
 final feedProvider = AsyncNotifierProvider<FeedNotifier, List<PostModel>>(
   FeedNotifier.new,

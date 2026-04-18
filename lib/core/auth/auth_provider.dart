@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:hue/core/auth/roles.dart';
-export 'package:hue/core/auth/roles.dart'
+import 'package:horus/core/auth/roles.dart';
+export 'package:horus/core/auth/roles.dart'
     show UserRole, RoleCategory, RolePermission, UserRoleX, RoleCategoryX;
 
 part 'auth_provider.g.dart';

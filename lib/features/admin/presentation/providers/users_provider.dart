@@ -1,10 +1,10 @@
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/features/admin/data/models/user_management_models.dart';
-import 'package:hue/features/admin/data/repositories/users_repository.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/features/admin/data/models/user_management_models.dart';
+import 'package:horus/features/admin/data/repositories/users_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-export 'package:hue/core/auth/roles.dart' show UserRole, RoleCategory;
+export 'package:horus/core/auth/roles.dart' show UserRole, RoleCategory;
 
 part 'users_provider.g.dart';
 

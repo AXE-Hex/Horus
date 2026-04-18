@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hue/core/config/build_config.dart';
+import 'package:horus/core/config/build_config.dart';
 
 void main() {
   group('BuildConfig', () {

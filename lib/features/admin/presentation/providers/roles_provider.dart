@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/features/admin/data/models/dynamic_role_model.dart';
-import 'package:hue/features/admin/data/repositories/roles_repository.dart';
+import 'package:horus/features/admin/data/models/dynamic_role_model.dart';
+import 'package:horus/features/admin/data/repositories/roles_repository.dart';
 
 final rolesControllerProvider =
     AsyncNotifierProvider<RolesController, List<DynamicRoleModel>>(

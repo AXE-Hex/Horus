@@ -7,7 +7,7 @@
     "back": "返回"
   },
   "welcome": {
-    "title": "欢迎来到 Hue",
+    "title": "欢迎来到 Horus",
     "subtitle": "用有意义的联系点亮你的世界。",
     "get_started": "开始使用",
     "have_account": "我已经有账号了",
@@ -147,7 +147,7 @@
       "digital_id": "数字身份证"
     },
     "labels": {
-      "university_name": "休大学 (HUE UNIVERSITY)",
+      "university_name": "荷鲁斯大学 (HORUS UNIVERSITY)",
       "id_short": "学号",
       "gpa_short": "平均绩点",
       "level_short": "级别"
@@ -185,7 +185,7 @@
     "backend": "后端",
     "passwords_do_not_match": "密码不匹配",
     "platform": "平台",
-    "hue_portal_is_a_comprehensive_": "HUE Portal是一个综合性的智慧大学管理系统。",
+    "hue_portal_is_a_comprehensive_": "Horus Portal是一个综合性的智慧大学管理系统。",
     "enter_your_new_password": "在下面输入您的新密码",
     "password_changed_successfully": "密码修改成功",
     "new_password": "新密码",

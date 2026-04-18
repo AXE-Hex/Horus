@@ -1,4 +1,13 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'financial_repository.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(financialRepository)
 final financialRepositoryProvider = FinancialRepositoryProvider._();
@@ -36,6 +45,7 @@ final class FinancialRepositoryProvider
     return financialRepository(ref);
   }
 
+  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(FinancialRepository value) {
     return $ProviderOverride(
       origin: this,

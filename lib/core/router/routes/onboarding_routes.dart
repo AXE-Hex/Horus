@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hue/features/onboarding/presentation/screens/language_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/style_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/theme_screen.dart';
-import 'package:hue/features/splash/presentation/screens/splash_screen.dart';
-import 'package:hue/features/welcome/presentation/screens/welcome_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/college_details_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/academic_staff_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/college_departments_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/submit_rating_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/staff_rating_detail_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/department_detail_screen.dart';
-import 'package:hue/features/onboarding/presentation/screens/colleges_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/language_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/style_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/theme_screen.dart';
+import 'package:horus/features/splash/presentation/screens/splash_screen.dart';
+import 'package:horus/features/welcome/presentation/screens/welcome_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/college_details_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/academic_staff_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/college_departments_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/submit_rating_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/staff_rating_detail_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/department_detail_screen.dart';
+import 'package:horus/features/onboarding/presentation/screens/colleges_screen.dart';
 
-import 'package:hue/features/shared/presentation/screens/transition_screen.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
+import 'package:horus/features/shared/presentation/screens/transition_screen.dart';
+import 'package:horus/features/admin/data/models/institutional_models.dart';
 
 final List<RouteBase> onboardingRoutes = [
   GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),

@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:hue/features/shared/presentation/screens/notifications_screen.dart';
-import 'package:hue/features/shared/presentation/screens/support_screen.dart';
-import 'package:hue/features/shared/presentation/screens/security_screen.dart';
-import 'package:hue/features/shared/presentation/screens/sessions_screen.dart';
-import 'package:hue/features/shared/presentation/screens/tutorials_screen.dart';
-import 'package:hue/features/shared/presentation/screens/forums_screen.dart';
+import 'package:horus/features/shared/presentation/screens/notifications_screen.dart';
+import 'package:horus/features/shared/presentation/screens/support_screen.dart';
+import 'package:horus/features/shared/presentation/screens/security_screen.dart';
+import 'package:horus/features/shared/presentation/screens/sessions_screen.dart';
+import 'package:horus/features/shared/presentation/screens/tutorials_screen.dart';
+import 'package:horus/features/shared/presentation/screens/forums_screen.dart';
 
 final List<RouteBase> sharedRoutes = [
   GoRoute(

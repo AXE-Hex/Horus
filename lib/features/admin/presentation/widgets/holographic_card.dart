@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 
 class HolographicCard extends StatelessWidget {
   final Widget child;

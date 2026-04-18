@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ---------------------------------------------------------------------------
-# 🛡️ HUE Build & Fingerprint Generator
+# 🛡️ Horus Build & Fingerprint Generator
 # 🚀 Developed by the GT-AXE Team
 # 👤 Signature: AXE
 # ---------------------------------------------------------------------------
@@ -21,7 +21,7 @@ DART_DEFINES=(
 )
 
 echo "---------------------------------------------------------------------------"
-echo "🚀 Building HUE with IP Protection"
+echo "🚀 Building Horus with IP Protection"
 echo "👤 Digital Fingerprint: $BUILD_ID"
 echo "---------------------------------------------------------------------------"
 

@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hue/features/academic/presentation/screens/transcript_screen.dart';
-import 'package:hue/features/academic/presentation/screens/academic_progress_screen.dart';
-import 'package:hue/features/academic/presentation/screens/grades_screen.dart';
-import 'package:hue/features/academic/presentation/screens/subject_results_screen.dart';
-import 'package:hue/features/academic/presentation/screens/action_plan_screen.dart';
-import 'package:hue/features/academic/presentation/screens/courses_screen.dart';
-import 'package:hue/features/academic/presentation/screens/daily_schedule_screen.dart';
-import 'package:hue/features/academic/presentation/screens/exam_schedule_screen.dart';
-import 'package:hue/features/academic/presentation/screens/attendance_screen.dart';
-import 'package:hue/features/academic/presentation/screens/specialization_projects_screen.dart';
+import 'package:horus/features/academic/presentation/screens/transcript_screen.dart';
+import 'package:horus/features/academic/presentation/screens/academic_progress_screen.dart';
+import 'package:horus/features/academic/presentation/screens/grades_screen.dart';
+import 'package:horus/features/academic/presentation/screens/subject_results_screen.dart';
+import 'package:horus/features/academic/presentation/screens/action_plan_screen.dart';
+import 'package:horus/features/academic/presentation/screens/courses_screen.dart';
+import 'package:horus/features/academic/presentation/screens/daily_schedule_screen.dart';
+import 'package:horus/features/academic/presentation/screens/exam_schedule_screen.dart';
+import 'package:horus/features/academic/presentation/screens/attendance_screen.dart';
+import 'package:horus/features/academic/presentation/screens/specialization_projects_screen.dart';
 
-import 'package:hue/features/academic/presentation/screens/professor_profile_screen.dart';
-import 'package:hue/features/academic/presentation/screens/professor_dashboard_screen.dart';
-import 'package:hue/features/academic/data/models/professor_profile_models.dart';
-import 'package:hue/features/academic/presentation/screens/manage_tas_screen.dart';
-import 'package:hue/features/academic/presentation/screens/manage_groups_screen.dart';
-import 'package:hue/features/academic/presentation/screens/professor_chat_screen.dart';
+import 'package:horus/features/academic/presentation/screens/professor_profile_screen.dart';
+import 'package:horus/features/academic/presentation/screens/professor_dashboard_screen.dart';
+import 'package:horus/features/academic/data/models/professor_profile_models.dart';
+import 'package:horus/features/academic/presentation/screens/manage_tas_screen.dart';
+import 'package:horus/features/academic/presentation/screens/manage_groups_screen.dart';
+import 'package:horus/features/academic/presentation/screens/professor_chat_screen.dart';
 
 final List<RouteBase> academicRoutes = [
   GoRoute(path: '/grades', builder: (context, state) => const GradesScreen()),

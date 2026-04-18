@@ -4,5 +4,5 @@ class Axe {
     defaultValue: 'AXE_UNVERIFIED',
   );
 
-  static const String identifier = 'GT-AXE::HUE::INTERNAL::METADATA';
+  static const String identifier = 'GT-AXE::HORUS::INTERNAL::METADATA';
 }

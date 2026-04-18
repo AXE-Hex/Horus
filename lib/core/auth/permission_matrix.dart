@@ -1,4 +1,4 @@
-import 'package:hue/core/auth/roles.dart';
+import 'package:horus/core/auth/roles.dart';
 
 class PermissionMatrixRow {
   final UserRole role;

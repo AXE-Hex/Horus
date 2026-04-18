@@ -7,7 +7,7 @@
     "back": "Zurück"
   },
   "welcome": {
-    "title": "Willkommen bei Hue",
+    "title": "Willkommen bei Horus",
     "subtitle": "Erleuchten Sie Ihre Welt mit bedeutungsvollen Verbindungen.",
     "get_started": "Loslegen",
     "have_account": "Ich habe bereits ein Konto",
@@ -147,7 +147,7 @@
       "digital_id": "Digitale ID"
     },
     "labels": {
-      "university_name": "UNIVERSITÄT VON HUE",
+      "university_name": "UNIVERSITÄT VON HORUS",
       "id_short": "AUSWEIS",
       "gpa_short": "Notendurchschnitt",
       "level_short": "LVL"
@@ -187,7 +187,7 @@
     "platform": "Plattform",
     "change_password": "Kennwort ändern",
     "user": "Benutzer",
-    "hue_portal_is_a_comprehensive_": "HUE Portal ist ein umfassendes intelligentes Universitätsverwaltungssystem.",
+    "hue_portal_is_a_comprehensive_": "Horus Portal ist ein umfassendes intelligentes Universitätsverwaltungssystem.",
     "password_changed_successfully": "Passwort erfolgreich geändert",
     "passwords_do_not_match": "Passwörter stimmen nicht überein",
     "please_fill_all_fields": "Bitte füllen Sie alle Felder aus",

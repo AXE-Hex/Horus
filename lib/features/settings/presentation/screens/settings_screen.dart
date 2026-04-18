@@ -7,14 +7,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/core/theme/low_performance_provider.dart';
-import 'package:hue/core/theme/style_provider.dart';
-import 'package:hue/core/theme/theme_provider.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/low_performance_provider.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/core/theme/theme_provider.dart';
 
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});

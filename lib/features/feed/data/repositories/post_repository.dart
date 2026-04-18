@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:hue/features/feed/domain/models/post_model.dart';
+import 'package:horus/features/feed/domain/models/post_model.dart';
 import 'package:path/path.dart' as p;
 
 final postRepositoryProvider = Provider((ref) {

@@ -1,149 +1,387 @@
-# 🎓 Hue - Enterprise University Portal
+# Horus
+
+> Modern university platform built with Flutter, designed for students, faculty, academic leadership, and administration.
 
 <div align="center">
-  <img src="assets/images/Logo_light.png" width="150" alt="HUE Logo">
-  <h3>Next-Generation Academic Management & Social Platform</h3>
-  <p>Available in English & Arabic (متوفر باللغتين الإنجليزية والعربية)</p>
-
-[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev)
-[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
-[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
-<br>
-[![Continuous Integration](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
-[![Continuous Deployment](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/cd.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/cd.yml)
-
+  <img src="assets/images/Logo_light.png" width="140" alt="Horus Logo">
+  <br>
+  <strong>Smart University Platform</strong>
+  <br>
+  Academic Operations • Student Services • Administration • Social Feed
 </div>
 
 ---
 
-## 🛑 Notice / تنبيه هام
+## Overview
 
-> [!IMPORTANT]
-> **This is a private, closed-source project.** Unauthorized copying, distribution, modification, or use of this software, via any medium, is strictly prohibited.
->
-> **هذا المشروع خاص ومغلق المصدر.** يُمنع منعاً باتاً النسخ أو التوزيع أو التعديل أو الاستخدام غير المصرح به لهذا البرنامج عبر أي وسيلة كانت.
+**Horus** is a full-featured university platform built in Flutter to unify academic, administrative, and community workflows in one system.
 
----
+It provides a single digital environment for:
+- Students
+- Teaching staff
+- Academic leadership
+- Student affairs teams
+- Administrative and IT teams
 
-## 📖 Project Overview (نظرة عامة على المشروع)
+Horus combines:
+- role-based access control
+- academic dashboards
+- course registration workflows
+- notifications
+- institutional management
+- internal social feed features
+- multilingual user experience
 
-**Hue** is a robust, enterprise-grade university portal application built entirely in Flutter. It functions as a centralized ecosystem connecting students, teaching staff, academic leadership, and administration. By integrating a seamless social feed with powerful academic management tools, Hue redefines the modern university experience.
-
-**Hue (هيو)** هو تطبيق بوابة جامعية متكامل وموجه للمؤسسات مبني باستخدام إطار عمل Flutter. يعمل كبيئة مركزية تربط بين الطلاب وأعضاء هيئة التدريس والقيادات الأكاديمية والإدارة. يدمج النظام بين أدوات التواصل الاجتماعي الأكاديمي وإدارة شؤون الطلاب بشكل عصري، مما يعيد تعريف التجربة الجامعية الرقمية.
-
----
-
-## 🌟 Main Features (الميزات الرئيسية)
-
-### 🔐 Security & Access Control
-
-- **Role-Based Access Control (RBAC):** Highly granular permission system supporting over 10 distinct roles (e.g., Rector, Dean, Professor, Student, Admin).
-- **Row Level Security (RLS):** All data access is strictly controlled at the PostgreSQL database level via Supabase RLS policies.
-
-### 🎨 User Experience
-
-- **Glassmorphism UI:** Stunning, modern, and adaptive UI supporting both Light and Dark themes natively.
-- **Bilingual Support:** Full i18n localization (English and Arabic) using the `slang` package.
-
-### ⚙️ Functionality
-
-- **Real-time Synchronization:** Powered by Supabase for instant database updates, real-time posts, and academic notifications.
-- **Academic Dashboard:** Dedicated secure views for schedules, grades, attendance, and faculty management.
-- **Social Feed:** Interactive community feed allowing authorized users to create posts and university-wide announcements.
+The result is a modern, scalable university portal that is easier to manage, easier to extend, and easier for users to navigate.
 
 ---
 
-## 🏗️ System Architecture (هيكلية النظام)
+## Arabic Summary | ملخص عربي
 
-Hue strictly follows modular and clean architecture-inspired principles to ensure absolute scalability, testing compatibility, and maintainability.
+**حورس** هو نظام جامعي حديث مبني باستخدام Flutter، يهدف إلى توحيد الخدمات الأكاديمية والإدارية وخدمات المستخدمين داخل منصة واحدة.
 
-### Technology Stack
+يوفر النظام بيئة رقمية موحدة تخدم:
+- الطلاب
+- أعضاء هيئة التدريس
+- القيادات الأكاديمية
+- شؤون الطلاب
+- فرق الإدارة والدعم التقني
 
-| Component        | Technology          | Description                                               |
-| :--------------- | :------------------ | :-------------------------------------------------------- |
-| **Framework**    | **Flutter**         | Cross-platform support: Web, Linux, Windows, iOS, Android |
-| **Backend**      | **Supabase**        | PostgreSQL, Authentication, Realtime, Storage             |
-| **State Mgt.**   | **Riverpod**        | Declarative, safe, and reactive state caching             |
-| **Routing**      | **GoRouter**        | Deep linking capable, fully typed routing                 |
-| **Localization** | **Slang**           | Type-safe i18n generation                                 |
-| **Animations**   | **Flutter Animate** | Smooth and high-performance UI transitions                |
+ويجمع بين:
+- نظام صلاحيات متقدم
+- لوحات أكاديمية وإدارية
+- تسجيل المقررات
+- الإشعارات
+- إدارة الكليات والأقسام والمستخدمين
+- منشورات داخلية وتواصل مؤسسي
+- دعم متعدد اللغات
 
-### Core Folder Structure
+---
+
+## Key Highlights
+
+- Built with **Flutter** for multi-platform delivery
+- Powered by **Supabase** for backend services
+- Structured with a **feature-first modular architecture**
+- Uses **Riverpod** for state management
+- Uses **GoRouter** for app navigation
+- Supports **Arabic, English, German, and Chinese**
+- Designed with a modern UI system including glass-style interfaces and rich animations
+- Supports multiple user roles with granular permissions
+
+---
+
+## Core Features
+
+### 1) Authentication and Identity
+- Secure sign-in flow
+- Password recovery
+- Profile loading and session handling
+- Role-aware user experience
+
+### 2) Role-Based Access Control
+Horus includes a granular permissions model covering multiple institutional roles such as:
+- Students
+- Professors
+- Lecturers
+- Teaching assistants
+- Academic advisors
+- Deans and department heads
+- Administrative users
+- IT and auditing roles
+
+Permissions control what each user can:
+- view
+- create
+- approve
+- manage
+- configure
+
+### 3) Student Experience
+- Student dashboard
+- Digital ID
+- Transcript and academic progress
+- Attendance and schedules
+- Exam schedule
+- Subject results
+- Registration and payments
+- Invoices and finance-related screens
+- Notifications and support access
+
+### 4) Staff and Academic Experience
+- Staff dashboard
+- Grade management
+- Attendance management
+- TA and group management
+- Academic advising workflows
+- Course and schedule management
+- Student record access based on permissions
+
+### 5) Administration
+- Users management
+- Roles management
+- Colleges management
+- Departments management
+- Audit logs
+- System settings
+- Administrative monitoring-oriented dashboards
+
+### 6) Enrollment Workflows
+- Course selection
+- Section and schedule selection
+- Registration request submission
+- Advisor approval flow
+- Dean/advisor assignment views
+
+### 7) Community and Communication
+- Internal feed
+- Posts and announcements
+- Comments and likes
+- Notifications center
+- Forums and tutorial access
+
+### 8) Settings and Preferences
+- Theme switching
+- UI style switching
+- Language selection
+- Notification preferences
+- About and privacy pages
+
+---
+
+## Technology Stack
+
+| Area | Technology |
+|---|---|
+| Frontend | Flutter |
+| Language | Dart |
+| State Management | Riverpod |
+| Routing | GoRouter |
+| Backend | Supabase |
+| Localization | Slang |
+| Animations | flutter_animate |
+| Local Storage | shared_preferences |
+
+---
+
+## Project Structure
 
 ```text
 lib/
-├── core/             # Core utilities (auth, router, theme, i18n, core data access)
-├── features/         # Feature-first modular design
-│   ├── academic/     # Academic management (Professor, Deans, etc.)
-│   ├── admin/        # System administration & user management portal
-│   ├── auth/         # Login, registration, and session flow
-│   ├── colleges/     # College portals and details
-│   ├── enrollment/   # Registration, scheduling, and invoices
-│   ├── feed/         # Social community, announcements, and posts
-│   ├── home/         # Main taskbar and navigation host
-│   ├── settings/     # App settings, theme, and language preferences
-│   └── students/     # Student-specific academic dashboards
-└── main.dart         # System entry point and top-level provider scope
+├── core/
+│   ├── app/
+│   ├── auth/
+│   ├── config/
+│   ├── data/
+│   ├── error/
+│   ├── i18n/
+│   ├── router/
+│   ├── security/
+│   ├── theme/
+│   └── utils/
+│
+├── features/
+│   ├── academic/
+│   ├── admin/
+│   ├── auth/
+│   ├── colleges/
+│   ├── enrollment/
+│   ├── feed/
+│   ├── home/
+│   ├── onboarding/
+│   ├── settings/
+│   ├── shared/
+│   ├── splash/
+│   ├── students/
+│   └── welcome/
+│
+└── main.dart
+```
+
+### Architecture Notes
+- Feature-first organization
+- Clear separation between core infrastructure and feature modules
+- Repositories used for data access
+- Presentation layer separated from data models and providers
+- Designed for maintainability and extension
+
+---
+
+## Supported Platforms
+
+Horus is structured for multi-platform support across:
+- Android
+- iOS
+- macOS
+- Linux
+- Windows
+- Web
+
+> Platform-specific identifiers and app naming have been aligned to **Horus**.
+
+---
+
+## Environment Setup
+
+### Requirements
+- Flutter SDK
+- Dart SDK
+- Supabase project and keys
+
+### Setup Steps
+
+1. Clone the repository
+```bash
+git clone <repository_url>
+cd Horus
+```
+
+2. Install dependencies
+```bash
+flutter pub get
+```
+
+3. Configure environment values
+Create or provide the required environment configuration for:
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- any additional API values used by the app
+
+4. Generate code if needed
+```bash
+dart run build_runner build -d
+dart run slang
+```
+
+5. Run the app
+```bash
+flutter run --dart-define-from-file=.env
 ```
 
 ---
 
-## 🚀 Installation & Environment Setup (التثبيت وإعداد البيئة)
+## Development Notes
 
-### Prerequisites (المتطلبات الأساسية)
+### Package Name
+The internal Dart package name has been unified to:
+- `horus`
 
-- **Flutter SDK** (Stable channel)
-- **Supabase Project** (Database, Auth, and Storage configured)
+### Branding
+The visible project/app identity has been unified as:
+- **Horus**
 
-### Workflow Instructions (خطوات التشغيل)
+### Recommended Next Branding Step
+If this project is moving toward production, replace placeholder bundle identifiers such as:
+- `com.example.horus`
 
-1. **Clone the Repository:**
-
-   ```bash
-   git clone <repository_url>
-   cd hue
-   ```
-
-2. **Environment Setup:**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   _Open `.env` and fill in your Supabase `SUPABASE_URL` and `SUPABASE_ANON_KEY`._
-
-3. **Install Dependencies:**
-
-   ```bash
-   flutter pub get
-   ```
-
-4. **Generate Code & Translations (i18n):**
-
-   ```bash
-   dart run build_runner build -d
-   dart run slang
-   ```
-
-5. **Run the Project:**
-   ```bash
-   # Run with specific environment variables
-   flutter run --dart-define-from-file=.env
-   ```
-   _(For VS Code users: The `.vscode/launch.json` is already configured to use the `.env` file)._
+with your final production identifier, for example:
+- `com.gt.horus`
+- `com.axe.horus`
+- or your organization’s official namespace
 
 ---
 
-## 🛤️ Roadmap (خارطة الطريق)
+## Security and Access
 
-- [ ] Advanced analytics dashboard for Rectors and Deans.
-- [ ] Integration of AI-driven tools for academic scheduling.
-- [ ] Comprehensive internal messaging and forum subsystems.
-- [ ] Financial payment gateway integration (Stripe/Paymob).
+Horus is designed around institutional access boundaries.
+
+Key principles include:
+- authenticated access
+- role-aware routing
+- permission-gated sections
+- controlled administrative operations
+- backend-backed data access policies
+
+For production deployment, it is recommended to additionally review:
+- final bundle identifiers
+- signing configuration
+- environment management
+- secret handling
+- release pipeline controls
+- Supabase security policies
+
+---
+
+## Status
+
+Current project state indicates:
+- strong UI maturity
+- broad feature coverage
+- modular code organization
+- multi-role academic platform scope
+
+This makes Horus suitable as a strong internal platform foundation, advanced prototype, or near-production institutional system depending on completion of deployment hardening and final integration details.
+
+---
+
+## Ownership, Rights, and Credits
+
+### Intellectual Property Notice
+**Horus is a proprietary project.**
+All rights related to the system design, implementation, structure, branding, and project materials are reserved.
+
+### Company Rights
+**GT** retains company rights associated with this project and its protected assets, documentation, implementation work, and related deliverables, unless otherwise defined by separate written agreement.
+
+### Supervision and Development
+This project was developed under the **supervision and development leadership of Axe**.
+
+### Internal Use and Distribution
+Unauthorized copying, resale, redistribution, publication, or reuse of this project or its components without explicit permission is prohibited.
+
+---
+
+## Suggested Future Improvements
+
+- finalize production bundle identifiers
+- complete any placeholder screens or actions
+- add CI/CD workflows
+- add deployment documentation
+- add release signing and environment profiles
+- expand testing coverage
+- document backend schema and policies
+- add architecture diagrams for onboarding new developers
+
+---
+
+## Quick Navigation
+
+For faster access, start here:
+- `lib/main.dart` → app entry point
+- `lib/core/app/` → app shell
+- `lib/core/router/` → navigation
+- `lib/core/auth/` → roles and permissions
+- `lib/features/students/` → student flows
+- `lib/features/admin/` → administration flows
+- `lib/features/enrollment/` → registration and finance flows
+- `lib/features/feed/` → feed and announcements
+- `lib/features/settings/` → user preferences and app info
+
+---
+
+## Maintainer Note
+
+This README was rebuilt to be:
+- clearer
+- more modern
+- easier to scan
+- easier to onboard from
+- more explicit about ownership and project identity
+
+If needed, the next improvement can be:
+1. a developer-focused README
+2. an architecture README
+3. a deployment README
+4. an Arabic-first version of this document
 
 ---
 
 <div align="center">
-  <p><i>Maintained by the Elite Software Engineering Team.</i></p>
-  <p><b>Proprietary and Confidential</b></p>
+  <strong>Horus</strong>
+  <br>
+  Built with care for modern academic operations.
+  <br><br>
+  <strong>Rights reserved by GT</strong>
+  <br>
+  Under the supervision and development of <strong>Axe</strong>
 </div>

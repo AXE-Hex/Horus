@@ -1,9 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/core/theme/style_provider.dart';
-import 'package:hue/core/theme/low_performance_provider.dart';
-import 'package:hue/core/utils/responsive_helper.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/core/theme/low_performance_provider.dart';
+import 'package:horus/core/utils/responsive_helper.dart';
 
 class GlassContainer extends ConsumerWidget {
   final Widget child;

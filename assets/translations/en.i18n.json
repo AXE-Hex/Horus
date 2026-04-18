@@ -7,11 +7,11 @@
     "back": "Back"
   },
   "welcome": {
-    "title": "Welcome To Hue",
+    "title": "Welcome To Horus",
     "subtitle": "Light up your world with meaningful connections.",
     "get_started": "Get Started",
     "have_account": "I already have an account",
-    "student_portal": "HUE Portal",
+    "student_portal": "Horus Portal",
     "welcome_to_the_smart_universit": "Welcome to the Smart University",
     "i_already_have_an_account": "I already have an account"
   },
@@ -190,7 +190,7 @@
     "developer": "Developer",
     "platform": "Platform",
     "backend": "Backend",
-    "hue_portal_is_a_comprehensive_": "HUE Portal is a comprehensive smart university management system.",
+    "hue_portal_is_a_comprehensive_": "Horus Portal is a comprehensive smart university management system.",
     "change_password": "Change Password",
     "please_fill_all_fields": "Please fill all fields",
     "password_must_be_at_least_6_ch": "Password must be at least 6 characters",

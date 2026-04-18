@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/auth/roles.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/features/admin/data/models/dynamic_role_model.dart';
-import 'package:hue/features/admin/presentation/providers/roles_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/features/admin/data/models/dynamic_role_model.dart';
+import 'package:horus/features/admin/presentation/providers/roles_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class RolesManagementScreen extends ConsumerStatefulWidget {

@@ -1,5 +1,5 @@
-import 'package:hue/core/auth/roles.dart';
-import 'package:hue/core/auth/permission_matrix.dart';
+import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/auth/permission_matrix.dart';
 
 const Set<String> publicRoutes = {
   '/splash',

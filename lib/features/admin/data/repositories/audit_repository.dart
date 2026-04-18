@@ -1,4 +1,4 @@
-import 'package:hue/features/admin/data/models/audit_models.dart';
+import 'package:horus/features/admin/data/models/audit_models.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

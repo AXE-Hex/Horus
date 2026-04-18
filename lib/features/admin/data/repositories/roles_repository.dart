@@ -1,4 +1,4 @@
-import 'package:hue/features/admin/data/models/dynamic_role_model.dart';
+import 'package:horus/features/admin/data/models/dynamic_role_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

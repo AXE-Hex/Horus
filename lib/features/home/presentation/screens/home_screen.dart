@@ -7,15 +7,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/core/theme/style_provider.dart';
-import 'package:hue/features/feed/presentation/screens/feed_screen.dart';
-import 'package:hue/features/feed/domain/models/post_model.dart';
-import 'package:hue/features/onboarding/presentation/screens/colleges_screen.dart';
-import 'package:hue/features/students/presentation/screens/student_dashboard_screen.dart';
-import 'package:hue/features/admin/presentation/screens/administration_screen.dart';
-import 'package:hue/features/admin/presentation/screens/staff_dashboard_screen.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/feed/presentation/screens/feed_screen.dart';
+import 'package:horus/features/feed/domain/models/post_model.dart';
+import 'package:horus/features/onboarding/presentation/screens/colleges_screen.dart';
+import 'package:horus/features/students/presentation/screens/student_dashboard_screen.dart';
+import 'package:horus/features/admin/presentation/screens/administration_screen.dart';
+import 'package:horus/features/admin/presentation/screens/staff_dashboard_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});

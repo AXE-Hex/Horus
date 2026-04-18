@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/features/shared/data/notification_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/data/notification_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class LiquidToastOverlay extends ConsumerStatefulWidget {

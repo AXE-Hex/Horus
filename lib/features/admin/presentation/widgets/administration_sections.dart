@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class StructuralManagementSection extends StatelessWidget {

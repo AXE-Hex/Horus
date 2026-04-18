@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
-import 'package:hue/features/admin/data/repositories/institutional_repository.dart';
-import 'package:hue/features/admin/data/models/user_management_models.dart';
-import 'package:hue/features/admin/presentation/providers/users_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/features/admin/data/models/institutional_models.dart';
+import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
+import 'package:horus/features/admin/data/models/user_management_models.dart';
+import 'package:horus/features/admin/presentation/providers/users_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 

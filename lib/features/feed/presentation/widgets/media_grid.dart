@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hue/features/feed/presentation/widgets/video_feed_item.dart';
+import 'package:horus/features/feed/presentation/widgets/video_feed_item.dart';
 
 class MediaGrid extends StatelessWidget {
   final List<String> mediaUrls;

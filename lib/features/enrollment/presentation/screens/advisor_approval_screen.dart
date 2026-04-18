@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/i18n/strings.g.dart';
-import 'package:hue/core/theme/style_provider.dart';
-import 'package:hue/features/enrollment/data/models/registration_models.dart';
-import 'package:hue/features/enrollment/presentation/providers/advisor_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/enrollment/data/models/registration_models.dart';
+import 'package:horus/features/enrollment/presentation/providers/advisor_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AdvisorApprovalScreen extends ConsumerStatefulWidget {

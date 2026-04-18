@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/features/enrollment/data/models/registration_models.dart';
-import 'package:hue/features/enrollment/data/repositories/advisor_repository.dart';
+import 'package:horus/features/enrollment/data/models/registration_models.dart';
+import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
 
 final advisorRequestsProvider =
     AsyncNotifierProvider<AdvisorRequestsNotifier, List<RegistrationRequest>>(

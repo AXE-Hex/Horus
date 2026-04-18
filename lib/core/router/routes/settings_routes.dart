@@ -1,10 +1,10 @@
 import 'package:go_router/go_router.dart';
-import 'package:hue/features/settings/presentation/screens/settings_screen.dart';
+import 'package:horus/features/settings/presentation/screens/settings_screen.dart';
 
-import 'package:hue/features/settings/presentation/screens/profile_screen.dart';
-import 'package:hue/features/settings/presentation/screens/change_password_screen.dart';
-import 'package:hue/features/settings/presentation/screens/about_screen.dart';
-import 'package:hue/features/settings/presentation/screens/privacy_policy_screen.dart';
+import 'package:horus/features/settings/presentation/screens/profile_screen.dart';
+import 'package:horus/features/settings/presentation/screens/change_password_screen.dart';
+import 'package:horus/features/settings/presentation/screens/about_screen.dart';
+import 'package:horus/features/settings/presentation/screens/privacy_policy_screen.dart';
 
 final List<RouteBase> settingsRoutes = [
   GoRoute(

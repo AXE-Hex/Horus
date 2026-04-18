@@ -1,5 +1,5 @@
-import 'package:hue/core/auth/roles.dart';
-import 'package:hue/features/admin/data/repositories/users_repository.dart';
+import 'package:horus/core/auth/roles.dart';
+import 'package:horus/features/admin/data/repositories/users_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'admin_stats_provider.g.dart';

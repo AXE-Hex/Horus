@@ -7,12 +7,12 @@
     "back": "رجوع"
   },
   "welcome": {
-    "title": "مرحبا بك في Hue",
+    "title": "مرحبا بك في حورس",
     "subtitle": "أنر عالمك باتصالات ذات مغزى.",
     "get_started": "ابدأ الآن",
     "have_account": "لدي حساب بالفعل",
     "i_already_have_an_account": "لدي حساب بالفعل",
-    "student_portal": "بوابة HUE",
+    "student_portal": "بوابة حورس",
     "welcome_to_the_smart_universit": "مرحبا بكم في الجامعة الذكية"
   },
   "onboarding": {
@@ -189,7 +189,7 @@
     "horus_university": "جامعة حورس – مصر",
     "developer": "المطور",
     "platform": "منصة",
-    "hue_portal_is_a_comprehensive_": "بوابة HUE هي نظام إدارة جامعي ذكي شامل.",
+    "hue_portal_is_a_comprehensive_": "بوابة حورس هي نظام إدارة جامعي ذكي شامل.",
     "backend": "الخلفية",
     "change_password": "تغيير كلمة المرور",
     "passwords_do_not_match": "كلمات المرور غير متطابقة",

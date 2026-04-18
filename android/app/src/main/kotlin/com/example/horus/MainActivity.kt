@@ -1,4 +1,4 @@
-package com.example.hue
+package com.example.horus
 
 import io.flutter.embedding.android.FlutterActivity
 

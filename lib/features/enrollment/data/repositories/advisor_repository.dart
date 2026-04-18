@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/core/config/supabase_client.dart';
-import 'package:hue/features/enrollment/data/models/registration_models.dart';
+import 'package:horus/core/config/supabase_client.dart';
+import 'package:horus/features/enrollment/data/models/registration_models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final advisorRepositoryProvider = Provider((ref) {

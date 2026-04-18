@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/core/config/supabase_client.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/core/config/supabase_client.dart';
 import 'package:flutter/foundation.dart';
-import 'package:hue/core/data/base_repository.dart';
-import 'package:hue/features/academic/data/models/professor_profile_models.dart';
+import 'package:horus/core/data/base_repository.dart';
+import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 
-import 'package:hue/features/academic/data/repositories/academic_repository.dart';
+import 'package:horus/features/academic/data/repositories/academic_repository.dart';
 
 final professorRepositoryProvider = Provider((ref) {
   return ProfessorRepository(ref.watch(supabaseClientProvider));

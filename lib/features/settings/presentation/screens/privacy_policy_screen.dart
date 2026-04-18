@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hue/core/theme/style_provider.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_container.dart';
-import 'package:hue/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:hue/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class PrivacyPolicyScreen extends ConsumerWidget {
@@ -114,7 +114,7 @@ const _englishSections = [
   {
     'title': 'Information We Collect',
     'content':
-        'We collect personal information including your name, email address, student/staff ID, phone number, and academic records. This data is necessary to provide university services through the HUE Portal application.',
+        'We collect personal information including your name, email address, student/staff ID, phone number, and academic records. This data is necessary to provide university services through the Horus Portal application.',
   },
   {
     'title': 'How We Use Your Data',
@@ -139,7 +139,7 @@ const _englishSections = [
   {
     'title': 'Contact Us',
     'content':
-        'For privacy-related inquiries, contact us at: privacy@hue.edu.eg\nHorus University\nEl-Horreya, Cairo, Egypt',
+        'For privacy-related inquiries, contact us at: privacy@horus.edu.eg\nHorus University\nEl-Horreya, Cairo, Egypt',
   },
 ];
 
@@ -147,7 +147,7 @@ const _arabicSections = [
   {
     'title': 'المعلومات التي نجمعها',
     'content':
-        'نجمع معلومات شخصية تشمل الاسم والبريد الإلكتروني ورقم الطالب/الموظف ورقم الهاتف والسجلات الأكاديمية. هذه البيانات ضرورية لتقديم خدمات الجامعة من خلال تطبيق بوابة HUE.',
+        'نجمع معلومات شخصية تشمل الاسم والبريد الإلكتروني ورقم الطالب/الموظف ورقم الهاتف والسجلات الأكاديمية. هذه البيانات ضرورية لتقديم خدمات الجامعة من خلال تطبيق بوابة حورس.',
   },
   {
     'title': 'كيف نستخدم بياناتك',
@@ -172,6 +172,6 @@ const _arabicSections = [
   {
     'title': 'تواصل معنا',
     'content':
-        'للاستفسارات المتعلقة بالخصوصية، تواصل معنا على: privacy@hue.edu.eg\nجامعة حورس\nالحرية، القاهرة، مصر',
+        'للاستفسارات المتعلقة بالخصوصية، تواصل معنا على: privacy@horus.edu.eg\nجامعة حورس\nالحرية، القاهرة، مصر',
   },
 ];

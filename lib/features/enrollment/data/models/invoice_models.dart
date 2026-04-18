@@ -1,4 +1,4 @@
-import 'package:hue/core/i18n/strings.g.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 
 enum InvoiceStatus { paid, unpaid, overdue, partial }
 

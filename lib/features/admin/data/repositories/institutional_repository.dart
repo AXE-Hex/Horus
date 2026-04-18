@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hue/features/admin/data/models/institutional_models.dart';
-import 'package:hue/features/admin/data/models/user_management_models.dart';
+import 'package:horus/features/admin/data/models/institutional_models.dart';
+import 'package:horus/features/admin/data/models/user_management_models.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 

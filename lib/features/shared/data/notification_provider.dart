@@ -1,5 +1,5 @@
-import 'package:hue/core/auth/auth_provider.dart';
-import 'package:hue/core/config/supabase_client.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/core/config/supabase_client.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

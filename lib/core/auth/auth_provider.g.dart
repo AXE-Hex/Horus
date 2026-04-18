@@ -1,4 +1,13 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
 part of 'auth_provider.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
 
 @ProviderFor(AuthController)
 final authControllerProvider = AuthControllerProvider._();
@@ -23,6 +32,7 @@ final class AuthControllerProvider
   @override
   AuthController create() => AuthController();
 
+  /// {@macro riverpod.override_with_value}
   Override overrideWithValue(AuthState value) {
     return $ProviderOverride(
       origin: this,
