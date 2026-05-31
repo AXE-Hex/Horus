@@ -14,7 +14,7 @@ import 'package:horus/features/feed/presentation/providers/feed_provider.dart';
 import 'package:horus/features/feed/data/repositories/post_repository.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/features/feed/presentation/widgets/link_preview_widget.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   final PostType initialType;
@@ -34,6 +34,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   List<Map<String, dynamic>> _colleges = [];
   List<Map<String, dynamic>> _departments = [];
 
+  String? _detectedLink;
   late PostType _currentType;
   bool _postAsCollege = false;
   bool _isLoading = false;
@@ -138,9 +139,9 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         content: content,
         type: _currentType,
         mediaUrls: uploadedUrls,
-        linkUrl: _currentType == PostType.link
+        linkUrl: _detectedLink ?? (_currentType == PostType.link
             ? _linkController.text.trim()
-            : null,
+            : null),
         collegeId: collegeId,
         departmentId: _selectedDepartmentId,
       );
@@ -169,18 +170,20 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final authState = ref.watch(authControllerProvider);
     final canPostAsCollege =
         authState.role == UserRole.dean || authState.role == UserRole.rector;
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
-    return GlassScaffold(
+    return Scaffold(
+      backgroundColor: isDark ? const Color(0xFF1E293B) : Colors.white,
       appBar: AppBar(
         title: Text(
           t.extracted.create_post,
           style: GoogleFonts.outfit(
-            fontWeight: FontWeight.w900,
-            letterSpacing: -0.5,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         backgroundColor: Colors.transparent,
@@ -188,23 +191,20 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: ElevatedButton(
+            child: FilledButton(
               onPressed: _isLoading || _contentController.text.trim().isEmpty
                   ? null
                   : _submitPost,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: theme.primaryColor,
-                foregroundColor: Colors.white,
-                elevation: 0,
+              style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
               ),
               child: _isLoading
                   ? const SizedBox(
-                      width: 18,
-                      height: 18,
+                      width: 16,
+                      height: 16,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         color: Colors.white,
@@ -223,7 +223,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -233,16 +233,22 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                     canPostAsCollege,
                     theme,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
 
                   if (!_postAsCollege) _buildMentionsSection(isArabic, theme),
 
                   _buildContentInput(isArabic),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 16),
+
+                  if (_detectedLink != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16),
+                      child: LinkPreviewWidget(url: _detectedLink!),
+                    ),
 
                   if (_selectedMedia.isNotEmpty) _buildPremiumMediaPreview(),
 
-                  if (_currentType == PostType.link)
+                  if (_currentType == PostType.link && _detectedLink == null)
                     _buildLinkField(isArabic, theme),
                 ],
               ),
@@ -262,25 +268,17 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     ThemeData theme,
   ) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: theme.primaryColor.withValues(alpha: 0.3),
-              width: 2,
-            ),
-          ),
-          child: CircleAvatar(
-            radius: 25,
-            backgroundImage: authState.avatarUrl != null
-                ? NetworkImage(authState.avatarUrl!)
-                : null,
-            backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
-            child: authState.avatarUrl == null
-                ? Icon(LucideIcons.user, color: theme.primaryColor)
-                : null,
-          ),
+        CircleAvatar(
+          radius: 22,
+          backgroundImage: authState.profile?.avatarUrl != null
+              ? NetworkImage(authState.profile!.avatarUrl!)
+              : null,
+          backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
+          child: authState.profile?.avatarUrl == null
+              ? Icon(LucideIcons.user, color: theme.primaryColor)
+              : null,
         ),
         const SizedBox(width: 12),
         Expanded(
@@ -288,18 +286,19 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                authState.fullName ?? 'User',
+                authState.profile?.fullName ?? 'User',
                 style: GoogleFonts.outfit(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),
               const SizedBox(height: 4),
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
                 children: [
-                  if (canPostAsCollege) _buildPostAsSwitch(isArabic, theme),
-                  const SizedBox(width: 8),
                   _buildVisibilityBadge(isArabic, theme),
+                  if (canPostAsCollege) _buildPostAsSwitch(isArabic, theme),
                 ],
               ),
             ],
@@ -310,36 +309,32 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   Widget _buildPostAsSwitch(bool isArabic, ThemeData theme) {
+    final isDark = theme.brightness == Brightness.dark;
     return GestureDetector(
       onTap: () => setState(() => _postAsCollege = !_postAsCollege),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: _postAsCollege
               ? theme.primaryColor.withValues(alpha: 0.1)
-              : Colors.white10,
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: _postAsCollege
-                ? theme.primaryColor.withValues(alpha: 0.3)
-                : Colors.white24,
-          ),
+              : (isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.05)),
+          borderRadius: BorderRadius.circular(6),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               LucideIcons.building,
-              size: 12,
-              color: _postAsCollege ? theme.primaryColor : Colors.white70,
+              size: 14,
+              color: _postAsCollege ? theme.primaryColor : (isDark ? Colors.white70 : Colors.black87),
             ),
-            const SizedBox(width: 6),
+            const SizedBox(width: 4),
             Text(
               t.extracted.as_college,
               style: GoogleFonts.inter(
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: _postAsCollege ? theme.primaryColor : Colors.white70,
+                color: _postAsCollege ? theme.primaryColor : (isDark ? Colors.white70 : Colors.black87),
               ),
             ),
           ],
@@ -349,81 +344,81 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   Widget _buildVisibilityBadge(bool isArabic, ThemeData theme) {
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.white10,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.white24),
+        color: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(LucideIcons.users, size: 12, color: Colors.white70),
-          const SizedBox(width: 6),
+          Icon(LucideIcons.users, size: 14, color: isDark ? Colors.white70 : Colors.black87),
+          const SizedBox(width: 4),
           Text(
             t.extracted.public,
             style: GoogleFonts.inter(
-              fontSize: 11,
+              fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: Colors.white70,
+              color: isDark ? Colors.white70 : Colors.black87,
             ),
           ),
           const SizedBox(width: 4),
-          const Icon(LucideIcons.chevronDown, size: 12, color: Colors.white30),
+          Icon(LucideIcons.chevronDown, size: 14, color: isDark ? Colors.white70 : Colors.black87),
         ],
       ),
     );
   }
 
   Widget _buildMentionsSection(bool isArabic, ThemeData theme) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          t.extracted.mention_collegedept,
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: Colors.white30,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            Expanded(
-              child: _buildMentionsDropdown(
-                value: _selectedCollegeId,
-                items: _colleges,
-                hint: t.extracted.select_college,
-                onChanged: (val) {
-                  if (val != null) {
-                    setState(() {
-                      _selectedCollegeId = val;
-                      _selectedDepartmentId = null;
-                      _departments = [];
-                    });
-                    _loadDepartments(val);
-                  }
-                },
-              ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          Text(
+            t.extracted.mention_collegedept,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
             ),
-            if (_departments.isNotEmpty) ...[
-              const SizedBox(width: 8),
-              Expanded(
-                child: _buildMentionsDropdown(
-                  value: _selectedDepartmentId,
-                  items: _departments,
-                  hint: t.extracted.dept,
-                  onChanged: (val) =>
-                      setState(() => _selectedDepartmentId = val),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Wrap(
+              spacing: 8,
+              children: [
+                _buildMentionsDropdown(
+                  value: _selectedCollegeId,
+                  items: _colleges,
+                  hint: t.extracted.select_college,
+                  onChanged: (val) {
+                    if (val != null) {
+                      setState(() {
+                        _selectedCollegeId = val;
+                        _selectedDepartmentId = null;
+                        _departments = [];
+                      });
+                      _loadDepartments(val);
+                    }
+                  },
+                  theme: theme,
                 ),
-              ),
-            ],
-          ],
-        ),
-        const SizedBox(height: 20),
-      ],
+                if (_departments.isNotEmpty)
+                  _buildMentionsDropdown(
+                    value: _selectedDepartmentId,
+                    items: _departments,
+                    hint: t.extracted.dept,
+                    onChanged: (val) =>
+                        setState(() => _selectedDepartmentId = val),
+                    theme: theme,
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -432,25 +427,28 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
     required List<Map<String, dynamic>> items,
     required String hint,
     required ValueChanged<String?> onChanged,
+    required ThemeData theme,
   }) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+        color: isDark ? Colors.white10 : Colors.black.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
           value: value,
-          isExpanded: true,
-          dropdownColor: const Color(0xFF1E293B),
+          iconSize: 16,
+          isDense: true,
+          dropdownColor: isDark ? const Color(0xFF1E293B) : Colors.white,
           hint: Text(
             hint,
-            style: GoogleFonts.inter(fontSize: 13, color: Colors.white30),
+            style: GoogleFonts.inter(fontSize: 12, color: isDark ? Colors.white54 : Colors.black54),
           ),
-          style: GoogleFonts.inter(fontSize: 13, color: Colors.white),
+          style: GoogleFonts.inter(fontSize: 12, color: isDark ? Colors.white : Colors.black87),
           items: items
               .map(
                 (i) => DropdownMenuItem(
@@ -466,18 +464,34 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   Widget _buildContentInput(bool isArabic) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return TextField(
       controller: _contentController,
       maxLines: null,
-      minLines: 5,
-      onChanged: (_) => setState(() {}),
-      style: GoogleFonts.inter(fontSize: 18, height: 1.5),
+      minLines: 4,
+      onChanged: (text) {
+        final RegExp urlRegExp = RegExp(
+            r'(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})');
+        final match = urlRegExp.firstMatch(text);
+        if (match != null) {
+          var link = text.substring(match.start, match.end);
+          if (!link.startsWith('http')) link = 'https://$link';
+          if (_detectedLink != link) setState(() => _detectedLink = link);
+        } else {
+          if (_detectedLink != null) setState(() => _detectedLink = null);
+        }
+        setState(() {});
+      },
+      style: GoogleFonts.inter(
+        fontSize: 20, 
+        height: 1.5,
+        color: isDark ? Colors.white : Colors.black87,
+      ),
       decoration: InputDecoration(
         hintText: t.extracted.whats_on_your_mind,
-        hintStyle: GoogleFonts.outfit(
-          fontSize: 22,
-          color: Colors.white24,
-          fontWeight: FontWeight.bold,
+        hintStyle: GoogleFonts.inter(
+          fontSize: 20,
+          color: isDark ? Colors.white30 : Colors.black38,
         ),
         border: InputBorder.none,
       ),
@@ -511,7 +525,9 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
-                  child: _currentType == PostType.video
+                  child: (_selectedMedia[index].path.toLowerCase().endsWith('.mp4') ||
+                          _selectedMedia[index].path.toLowerCase().endsWith('.mov') ||
+                          _selectedMedia[index].path.toLowerCase().endsWith('.avi'))
                       ? Container(
                           color: Colors.black26,
                           child: const Center(
@@ -576,56 +592,43 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   Widget _buildToolBar(bool isArabic, ThemeData theme) {
+    final isDark = theme.brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E293B).withValues(alpha: 0.9),
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-        border: Border(
-          top: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
-        ),
+        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            offset: const Offset(0, -2),
+            blurRadius: 4,
+          ),
+        ],
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 12, top: 4),
+          Expanded(
             child: Text(
               t.extracted.add_to_your_post,
               style: GoogleFonts.inter(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Colors.white30,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: isDark ? Colors.white70 : Colors.black87,
               ),
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildToolItem(LucideIcons.image, Colors.green, () {
-                if (_currentType != PostType.image) {
-                  setState(() {
-                    _selectedMedia.clear();
-                    _currentType = PostType.image;
-                  });
-                }
                 _pickMedia(false);
               }),
               _buildToolItem(LucideIcons.video, Colors.red, () {
-                if (_currentType != PostType.video) {
-                  setState(() {
-                    _selectedMedia.clear();
-                    _currentType = PostType.video;
-                  });
-                }
                 _pickMedia(true);
               }),
               _buildToolItem(
                 LucideIcons.link,
                 Colors.blue,
                 () => setState(() {
-                  _selectedMedia.clear();
                   _currentType = PostType.link;
                 }),
               ),
@@ -633,7 +636,6 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 LucideIcons.megaphone,
                 Colors.orange,
                 () => setState(() {
-                  _selectedMedia.clear();
                   _currentType = PostType.announcement;
                 }),
               ),
@@ -645,19 +647,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
   }
 
   Widget _buildToolItem(IconData icon, Color color, VoidCallback onTap) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: 60,
-        height: 50,
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color.withValues(alpha: 0.2)),
-        ),
-        child: Icon(icon, color: color, size: 24),
-      ),
+    return IconButton(
+      onPressed: onTap,
+      icon: Icon(icon, color: color, size: 24),
+      splashRadius: 24,
     );
   }
 }

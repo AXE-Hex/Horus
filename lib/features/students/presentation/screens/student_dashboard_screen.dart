@@ -327,7 +327,7 @@ class DashboardScreen extends ConsumerWidget {
         context.push(
           '/digital-id',
           extra: {
-            'name': auth.fullName ?? t.students.student,
+            'name': auth.profile?.fullName ?? t.students.student,
             'id': auth.user?.id ?? '',
             'college': 'ai',
             'specialization': 'artificial_cybersecurity',
@@ -414,7 +414,7 @@ class DashboardScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          auth.fullName ?? t.students.student,
+                          auth.profile?.fullName ?? t.students.student,
                           style: GoogleFonts.outfit(
                             fontSize: 24,
                             fontWeight: FontWeight.w900,

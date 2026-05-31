@@ -52,7 +52,7 @@ class SupportScreen extends ConsumerWidget {
             delegate: SliverChildListDelegate([
               _buildSupportCard(
                 context,
-                t.shared.it_support,
+                t.shared.email_support,
                 LucideIcons.monitor,
                 isGlass,
               ),

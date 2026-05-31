@@ -14,7 +14,7 @@ import 'package:horus/features/onboarding/presentation/screens/department_detail
 import 'package:horus/features/onboarding/presentation/screens/colleges_screen.dart';
 
 import 'package:horus/features/shared/presentation/screens/transition_screen.dart';
-import 'package:horus/features/admin/data/models/institutional_models.dart';
+import 'package:horus/features/institutional/data/models/institutional_models.dart';
 
 final List<RouteBase> onboardingRoutes = [
   GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),

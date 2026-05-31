@@ -58,7 +58,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   void _loadProfile() {
     if (_isLoaded) return;
     final auth = ref.read(authControllerProvider);
-    _nameController.text = auth.fullName ?? '';
+    _nameController.text = auth.profile?.fullName ?? '';
 
     final supabase = ref.read(supabaseClientProvider);
     if (auth.user != null) {
@@ -155,7 +155,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               },
             ),
             if (_selectedImage != null ||
-                ref.read(authControllerProvider).avatarUrl != null) ...[
+                ref.read(authControllerProvider).profile?.avatarUrl != null) ...[
               const SizedBox(height: 12),
               _imagePickerOption(
                 ctx,
@@ -368,8 +368,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     ImageProvider? avatarProvider;
     if (_selectedImage != null) {
       avatarProvider = FileImage(_selectedImage!);
-    } else if (auth.avatarUrl != null && auth.avatarUrl!.isNotEmpty) {
-      avatarProvider = NetworkImage(auth.avatarUrl!);
+    } else if (auth.profile?.avatarUrl != null && auth.profile!.avatarUrl!.isNotEmpty) {
+      avatarProvider = NetworkImage(auth.profile!.avatarUrl!);
     }
 
     final body = CustomScrollView(
@@ -618,7 +618,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                       ),
                       SizedBox(height: 16),
                       Text(
-                        auth.fullName ?? (t.extracted.user),
+                        auth.profile?.fullName ?? (t.extracted.user),
                         style: GoogleFonts.outfit(
                           fontSize: 26,
                           fontWeight: FontWeight.w900,

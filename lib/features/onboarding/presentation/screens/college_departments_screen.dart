@@ -9,8 +9,8 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:horus/features/admin/data/models/institutional_models.dart';
-import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
+import 'package:horus/features/institutional/data/models/institutional_models.dart';
+import 'package:horus/features/institutional/data/repositories/institutional_repository.dart';
 
 class CollegeDepartmentsScreen extends ConsumerWidget {
   final CollegeModel college;
@@ -86,7 +86,9 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
                 if (departments.isEmpty) {
                   return Center(
                     child: Text(
-                      t.admin.no_departments_in_this_college,
+                      isArabic
+                          ? 'لا توجد أقسام في هذه الكلية'
+                          : 'No departments in this college',
                       style: GoogleFonts.inter(
                         color: isGlass
                             ? Colors.white70

@@ -13,6 +13,7 @@ import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/feed/data/repositories/post_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/feed/presentation/widgets/media_grid.dart';
+import 'package:horus/features/feed/presentation/widgets/link_preview_widget.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
@@ -151,7 +152,6 @@ class _PostCardState extends ConsumerState<_PostCard> {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final authState = ref.watch(authControllerProvider);
     final isAuthor = authState.user?.id == widget.post.authorId;
-    final isAdmin = authState.isAdmin;
 
     final isCollegePost = widget.post.collegeId != null;
     final senderName = isCollegePost
@@ -170,18 +170,29 @@ class _PostCardState extends ConsumerState<_PostCard> {
           : widget.post.collegeNameEn;
     }
 
-    final cardColor = isDark
-        ? const Color(0xFF1E293B).withValues(alpha: 0.6)
-        : Colors.white.withValues(alpha: 0.8);
+    final cardColor = isDark ? const Color(0xFF1E293B) : Colors.white;
+
+    String? extractedLink = widget.post.linkUrl;
+    if (extractedLink == null) {
+      final RegExp urlRegExp = RegExp(
+          r'(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})');
+      final match = urlRegExp.firstMatch(widget.post.content);
+      if (match != null) {
+        extractedLink = widget.post.content.substring(match.start, match.end);
+        if (!extractedLink.startsWith('http')) {
+          extractedLink = 'https://$extractedLink';
+        }
+      }
+    }
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: (isDark ? Colors.white : theme.primaryColor).withValues(
-            alpha: 0.05,
+        border: Border.symmetric(
+          horizontal: BorderSide(
+            color: isDark ? Colors.black26 : Colors.grey.withValues(alpha: 0.2),
+            width: 1,
           ),
         ),
       ),
@@ -196,29 +207,32 @@ class _PostCardState extends ConsumerState<_PostCard> {
             leading: _buildAuthorAvatar(theme),
             title: _buildAuthorName(senderName, isCollegePost, theme),
             subtitle: _buildPostMeta(subHeader, theme),
-            trailing: _buildOptionsMenu(isAuthor, isAdmin, theme),
+            trailing: _buildOptionsMenu(isAuthor, theme),
           ),
 
           if (widget.post.content.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 12),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
               child: Text(
                 widget.post.content,
                 style: GoogleFonts.inter(
-                  fontSize: 14,
+                  fontSize: 15,
                   height: 1.5,
-                  color: isDark ? Colors.white70 : Colors.black87,
+                  color: isDark ? Colors.white : Colors.black87,
                 ),
               ),
             ),
 
-          if (widget.post.mediaUrls.isNotEmpty)
+          if (extractedLink != null && widget.post.mediaUrls.isEmpty)
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-              child: MediaGrid(
-                mediaUrls: widget.post.mediaUrls,
-                borderRadius: 12,
-              ),
+              child: LinkPreviewWidget(url: extractedLink),
+            ),
+
+          if (widget.post.mediaUrls.isNotEmpty)
+            MediaGrid(
+              mediaUrls: widget.post.mediaUrls,
+              borderRadius: 0,
             ),
 
           _buildFooterActions(theme, isArabic),
@@ -324,8 +338,8 @@ class _PostCardState extends ConsumerState<_PostCard> {
     );
   }
 
-  Widget _buildOptionsMenu(bool isAuthor, bool isAdmin, ThemeData theme) {
-    if (!isAuthor && !isAdmin) return const SizedBox.shrink();
+  Widget _buildOptionsMenu(bool isAuthor, ThemeData theme) {
+    if (!isAuthor) return const SizedBox.shrink();
     return PopupMenuButton<String>(
       icon: const Icon(LucideIcons.moreVertical, color: Colors.grey, size: 18),
       onSelected: (value) {

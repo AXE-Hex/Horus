@@ -9,7 +9,7 @@ import 'package:horus/features/shared/presentation/widgets/glass_container.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
-import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
+import 'package:horus/features/institutional/data/repositories/institutional_repository.dart';
 import 'package:horus/core/auth/roles.dart';
 
 class CollegePortalScreen extends ConsumerStatefulWidget {

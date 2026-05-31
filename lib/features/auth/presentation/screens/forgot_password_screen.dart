@@ -134,7 +134,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             children: [
               Expanded(
                 child: _MethodTab(
-                  title: t.auth.forgot_password.method_admin,
+                  title: t.$meta.locale.languageCode == 'ar'
+                      ? 'زيارة شؤون الطلاب'
+                      : 'Visit Student Affairs',
                   icon: LucideIcons.building,
                   isSelected: _selectedMethod == 0,
                   onTap: () => setState(() => _selectedMethod = 0),
@@ -154,7 +156,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         const SizedBox(height: 24),
 
         AnimatedCrossFade(
-          firstChild: _buildAdminContent(context),
+          firstChild: _buildStudentAffairsContent(context),
           secondChild: _buildOnlineContent(context, isGlass),
           crossFadeState: _selectedMethod == 0
               ? CrossFadeState.showFirst
@@ -220,7 +222,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     );
   }
 
-  Widget _buildAdminContent(BuildContext context) {
+  Widget _buildStudentAffairsContent(BuildContext context) {
     return Column(
       children: [
         Icon(
@@ -230,7 +232,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         ),
         const SizedBox(height: 24),
         Text(
-          t.auth.forgot_password.admin_instructions,
+          t.$meta.locale.languageCode == 'ar'
+              ? 'يرجى زيارة مكتب شؤون الطلاب لإعادة تعيين كلمة المرور. احضر بطاقتك الجامعية سارية المفعول.'
+              : 'Please visit the student affairs office to reset your password. Bring your valid university ID.',
           textAlign: TextAlign.center,
           style: GoogleFonts.inter(fontSize: 16, height: 1.5),
         ),

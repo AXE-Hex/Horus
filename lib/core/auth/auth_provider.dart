@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/models/profile_model.dart';
 export 'package:horus/core/auth/roles.dart'
     show UserRole, RoleCategory, RolePermission, UserRoleX, RoleCategoryX;
 
@@ -9,39 +10,31 @@ part 'auth_provider.g.dart';
 
 class AuthState {
   final User? user;
-  final UserRole role;
-  final String? fullName;
-  final String? avatarUrl;
+  final ProfileModel? profile;
   final bool isLoading;
   final String? error;
 
   const AuthState({
     this.user,
-    this.role = UserRole.guest,
-    this.fullName,
-    this.avatarUrl,
+    this.profile,
     this.isLoading = false,
     this.error,
   });
 
   bool get isAuthenticated => user != null;
+  UserRole get role => profile?.primaryRole ?? UserRole.guest;
   bool get isStudent => role.isStudent;
   bool get isProfessor => role == UserRole.professor;
-  bool get isAdmin => role.isAdmin;
 
   AuthState copyWith({
     User? user,
-    UserRole? role,
-    String? fullName,
-    String? avatarUrl,
+    ProfileModel? profile,
     bool? isLoading,
     String? error,
   }) {
     return AuthState(
       user: user ?? this.user,
-      role: role ?? this.role,
-      fullName: fullName ?? this.fullName,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
+      profile: profile ?? this.profile,
       isLoading: isLoading ?? this.isLoading,
       error: error,
     );
@@ -161,23 +154,11 @@ class AuthController extends _$AuthController {
           .eq('id', user.id)
           .single();
 
-      List<UserRole> roles;
-      if (data['roles'] != null) {
-        roles = (data['roles'] as List)
-            .map((r) => UserRoleX.fromDbString(r as String))
-            .toList();
-      } else {
-        final roleStr = data['role'] as String? ?? 'student';
-        roles = [UserRoleX.fromDbString(roleStr)];
-      }
-
-      final primaryRole = roles.isNotEmpty ? roles.first : UserRole.guest;
+      final profile = ProfileModel.fromJson(data);
 
       state = AuthState(
         user: user,
-        role: primaryRole,
-        fullName: data['full_name'] as String?,
-        avatarUrl: data['avatar_url'] as String?,
+        profile: profile,
         isLoading: false,
       );
 
@@ -187,7 +168,6 @@ class AuthController extends _$AuthController {
 
       state = AuthState(
         user: user,
-        role: UserRole.student,
         isLoading: false,
         error: isMissingProfile ? null : e.toString(),
       );
@@ -218,23 +198,11 @@ class AuthController extends _$AuthController {
   void _handleProfileChange(Map<String, dynamic> newData) {
     if (state.user == null) return;
 
-    List<UserRole> roles;
-    if (newData['roles'] != null) {
-      roles = (newData['roles'] as List)
-          .map((r) => UserRoleX.fromDbString(r.toString()))
-          .toList();
-    } else {
-      final roleStr = newData['role'] as String? ?? 'student';
-      roles = [UserRoleX.fromDbString(roleStr)];
-    }
-
-    final primaryRole = roles.isNotEmpty ? roles.first : UserRole.guest;
+    final profile = ProfileModel.fromJson(newData);
 
     state = AuthState(
       user: state.user,
-      role: primaryRole,
-      fullName: newData['full_name'] as String? ?? state.fullName,
-      avatarUrl: newData['avatar_url'] as String? ?? state.avatarUrl,
+      profile: profile,
       isLoading: false,
     );
   }

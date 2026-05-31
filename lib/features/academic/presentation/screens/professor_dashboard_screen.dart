@@ -743,7 +743,7 @@ class _ManagementGrid extends ConsumerWidget {
     final collegeId = auth.user?.userMetadata?['college_id'] as String? ?? '';
 
     final isAdvisor = roles.contains('academic_advisor');
-    final isDean = role == UserRole.dean || role == UserRole.superAdmin;
+    final isDean = role == UserRole.dean;
 
     final pendingRequestsCount = ref.watch(pendingRequestCountProvider);
     final unassignedStudentsCount = ref.watch(

@@ -1,5 +1,4 @@
 import 'package:horus/core/auth/roles.dart';
-import 'package:horus/core/auth/permission_matrix.dart';
 
 const Set<String> publicRoutes = {
   '/splash',
@@ -13,131 +12,58 @@ const Set<String> publicRoutes = {
   '/transition',
 };
 
-final PermissionMatrix _permissionMatrix = PermissionMatrix.initial();
-
-const Map<String, Set<RolePermission>> adminRoutePermissions = {
-  '/admin': {
-    RolePermission.manageSystem,
-    RolePermission.manageUsers,
-    RolePermission.manageColleges,
-    RolePermission.manageDepartments,
-    RolePermission.viewAuditLogs,
-  },
-  '/admin/users': {RolePermission.manageUsers},
-  '/admin/users/new': {RolePermission.manageUsers},
-  '/admin/users/details': {RolePermission.manageUsers},
-  '/admin/users/edit': {RolePermission.manageUsers},
-  '/admin/colleges': {RolePermission.manageColleges},
-  '/admin/departments': {RolePermission.manageDepartments},
-  '/admin/audit-logs': {RolePermission.viewAuditLogs},
-  '/admin/roles': {RolePermission.manageSystem, RolePermission.manageUsers},
-  '/admin/monitor': {RolePermission.manageSystem},
-  '/admin/management/students': {
-    RolePermission.manageEnrollments,
-    RolePermission.adviseStudents,
-  },
-  '/admin/management/staff': {RolePermission.manageUsers},
-  '/admin/management/faculty': {RolePermission.manageUsers},
-  '/admin/management/leadership': {
-    RolePermission.manageColleges,
-    RolePermission.manageDepartments,
-  },
-  '/admin/management/admin-it': {RolePermission.manageSystem},
-};
-
 const Map<String, Set<RoleCategory>> routePermissions = {
-  '/dashboard': {RoleCategory.studentRoles, RoleCategory.adminIT},
+  '/dashboard': {RoleCategory.studentRoles},
   '/staff-dashboard': {
     RoleCategory.teachingStaff,
     RoleCategory.academicLeadership,
     RoleCategory.studentAffairs,
-    RoleCategory.adminIT,
     RoleCategory.facilitiesSecurity,
     RoleCategory.externalRoles,
   },
   '/grades': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,
-    RoleCategory.adminIT,
   },
   '/transcript': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,
-    RoleCategory.adminIT,
   },
   '/progress': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,
-    RoleCategory.adminIT,
   },
   '/subject-result': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,
-    RoleCategory.adminIT,
   },
-  '/action-plan': {RoleCategory.studentRoles, RoleCategory.adminIT},
+  '/action-plan': {RoleCategory.studentRoles},
   '/attendance': {
     RoleCategory.studentRoles,
     RoleCategory.teachingStaff,
-    RoleCategory.adminIT,
   },
   '/registration': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,
-    RoleCategory.adminIT,
   },
-  '/payment': {RoleCategory.studentRoles, RoleCategory.adminIT},
-  '/invoices': {RoleCategory.studentRoles, RoleCategory.adminIT},
-  '/digital-id': {RoleCategory.studentRoles, RoleCategory.adminIT},
+  '/payment': {RoleCategory.studentRoles},
+  '/invoices': {RoleCategory.studentRoles},
+  '/digital-id': {RoleCategory.studentRoles},
 
   '/professor-dashboard': {
     RoleCategory.teachingStaff,
     RoleCategory.academicLeadership,
-    RoleCategory.adminIT,
   },
   '/professor-profile': {
     RoleCategory.teachingStaff,
     RoleCategory.academicLeadership,
-    RoleCategory.adminIT,
   },
-  '/manage-tas': {RoleCategory.teachingStaff, RoleCategory.adminIT},
-  '/manage-groups': {RoleCategory.teachingStaff, RoleCategory.adminIT},
-  '/professor-chat': {RoleCategory.teachingStaff, RoleCategory.adminIT},
-
-  '/admin': {RoleCategory.adminIT},
-  '/admin/users': {RoleCategory.adminIT},
-  '/admin/users/new': {RoleCategory.adminIT},
-  '/admin/users/details': {RoleCategory.adminIT},
-  '/admin/users/edit': {RoleCategory.adminIT},
-  '/admin/colleges': {RoleCategory.adminIT},
-  '/admin/departments': {RoleCategory.adminIT},
-  '/admin/audit-logs': {RoleCategory.adminIT},
-  '/admin/roles': {RoleCategory.adminIT},
-  '/admin/monitor': {RoleCategory.adminIT},
-  '/admin/management/students': {
-    RoleCategory.adminIT,
-    RoleCategory.studentAffairs,
-  },
-  '/admin/management/staff': {RoleCategory.adminIT},
-  '/admin/management/faculty': {RoleCategory.adminIT},
-  '/admin/management/leadership': {RoleCategory.adminIT},
-  '/admin/management/admin-it': {RoleCategory.adminIT},
+  '/manage-tas': {RoleCategory.teachingStaff},
+  '/manage-groups': {RoleCategory.teachingStaff},
+  '/professor-chat': {RoleCategory.teachingStaff},
 };
 
 bool canAccessRoute(String path, UserRole role) {
-  if (role == UserRole.superAdmin) return true;
-
-  final requiredPermissions = adminRoutePermissions[path];
-  if (requiredPermissions != null) {
-    for (final permission in requiredPermissions) {
-      if (_permissionMatrix.checkAccess(role, permission)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   final allowed = routePermissions[path];
   if (allowed == null) return true;
 

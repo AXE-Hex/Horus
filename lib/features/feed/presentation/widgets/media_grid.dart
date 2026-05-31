@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:horus/features/feed/presentation/widgets/video_feed_item.dart';
+import 'package:horus/features/feed/presentation/widgets/full_screen_gallery.dart';
 
 class MediaGrid extends StatelessWidget {
   final List<String> mediaUrls;
@@ -9,7 +10,7 @@ class MediaGrid extends StatelessWidget {
   const MediaGrid({
     super.key,
     required this.mediaUrls,
-    this.borderRadius = 20.0,
+    this.borderRadius = 0.0, // Default to 0 for Facebook style
   });
 
   bool _isVideo(String url) {
@@ -17,6 +18,18 @@ class MediaGrid extends StatelessWidget {
     return lower.endsWith('.mp4') ||
         lower.endsWith('.mov') ||
         lower.endsWith('.avi');
+  }
+
+  void _openGallery(BuildContext context, int index) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FullScreenGallery(
+          mediaUrls: mediaUrls,
+          initialIndex: index,
+        ),
+      ),
+    );
   }
 
   @override
@@ -43,29 +56,29 @@ class MediaGrid extends StatelessWidget {
     final count = mediaUrls.length;
 
     if (count == 1) {
-      return _buildMediaItem(mediaUrls[0], isLarge: true);
+      return _buildMediaItem(context, mediaUrls[0], 0, isLarge: true);
     } else if (count == 2) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(child: _buildMediaItem(mediaUrls[0])),
+          Expanded(child: _buildMediaItem(context, mediaUrls[0], 0)),
           const SizedBox(width: 2),
-          Expanded(child: _buildMediaItem(mediaUrls[1])),
+          Expanded(child: _buildMediaItem(context, mediaUrls[1], 1)),
         ],
       );
     } else if (count == 3) {
       return Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Expanded(flex: 2, child: _buildMediaItem(mediaUrls[0])),
+          Expanded(flex: 2, child: _buildMediaItem(context, mediaUrls[0], 0)),
           const SizedBox(width: 2),
           Expanded(
             flex: 1,
             child: Column(
               children: [
-                Expanded(child: _buildMediaItem(mediaUrls[1])),
+                Expanded(child: _buildMediaItem(context, mediaUrls[1], 1)),
                 const SizedBox(height: 2),
-                Expanded(child: _buildMediaItem(mediaUrls[2])),
+                Expanded(child: _buildMediaItem(context, mediaUrls[2], 2)),
               ],
             ),
           ),
@@ -78,9 +91,9 @@ class MediaGrid extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: _buildMediaItem(mediaUrls[0])),
+                Expanded(child: _buildMediaItem(context, mediaUrls[0], 0)),
                 const SizedBox(width: 2),
-                Expanded(child: _buildMediaItem(mediaUrls[1])),
+                Expanded(child: _buildMediaItem(context, mediaUrls[1], 1)),
               ],
             ),
           ),
@@ -89,9 +102,9 @@ class MediaGrid extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: _buildMediaItem(mediaUrls[2])),
+                Expanded(child: _buildMediaItem(context, mediaUrls[2], 2)),
                 const SizedBox(width: 2),
-                Expanded(child: _buildMoreItem(mediaUrls[3], count - 4)),
+                Expanded(child: _buildMoreItem(context, mediaUrls[3], 3, count - 4)),
               ],
             ),
           ),
@@ -100,47 +113,61 @@ class MediaGrid extends StatelessWidget {
     }
   }
 
-  Widget _buildMediaItem(String url, {bool isLarge = false}) {
+  Widget _buildMediaItem(BuildContext context, String url, int index, {bool isLarge = false}) {
+    Widget child;
     if (_isVideo(url)) {
-      return VideoFeedItem(videoUrl: url);
+      // Pass a non-autoplay video item or maybe just a thumbnail if possible
+      child = VideoFeedItem(videoUrl: url);
+    } else {
+      child = CachedNetworkImage(
+        imageUrl: url,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: isLarge ? null : double.infinity,
+        placeholder: (context, url) => Container(
+          color: Colors.grey.withValues(alpha: 0.1),
+          child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+        ),
+        errorWidget: (context, url, error) => Container(
+          color: Colors.grey.withValues(alpha: 0.1),
+          child: const Icon(Icons.error_outline),
+        ),
+      );
     }
 
-    return CachedNetworkImage(
-      imageUrl: url,
-      fit: BoxFit.cover,
-      width: double.infinity,
-      height: isLarge ? null : double.infinity,
-      placeholder: (context, url) => Container(
-        color: Colors.grey.withValues(alpha: 0.1),
-        child: const Center(child: CircularProgressIndicator(strokeWidth: 2)),
-      ),
-      errorWidget: (context, url, error) => Container(
-        color: Colors.grey.withValues(alpha: 0.1),
-        child: const Icon(Icons.error_outline),
+    return GestureDetector(
+      onTap: () => _openGallery(context, index),
+      child: Hero(
+        tag: url,
+        child: child,
       ),
     );
   }
 
-  Widget _buildMoreItem(String url, int remaining) {
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        _buildMediaItem(url),
-        if (remaining > 0)
-          Container(
-            color: Colors.black54,
-            child: Center(
-              child: Text(
-                '+$remaining',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+  Widget _buildMoreItem(BuildContext context, String url, int index, int remaining) {
+    return GestureDetector(
+      onTap: () => _openGallery(context, index),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          _buildMediaItem(context, url, index),
+          if (remaining > 0)
+            Container(
+              color: Colors.black54,
+              child: Center(
+                child: Text(
+                  '+$remaining',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }
+

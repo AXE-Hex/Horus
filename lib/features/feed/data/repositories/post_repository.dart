@@ -19,9 +19,9 @@ class PostRepository {
 
     var query = _supabase.from('posts').select('''
           *,
-          profiles(full_name, avatar_url, roles),
-          colleges(name_en, name_ar, name),
-          departments(name_en, name_ar, name),
+          profiles!posts_author_id_fkey(full_name, avatar_url, roles),
+          colleges(name_en, name_ar),
+          departments(name_en, name_ar),
           post_likes(user_id)
         ''');
 
@@ -115,9 +115,9 @@ class PostRepository {
         .eq('id', postId)
         .select('''
           *,
-          profiles(full_name, avatar_url, roles),
-          colleges(name_en, name_ar, name),
-          departments(name_en, name_ar, name)
+          profiles!posts_author_id_fkey(full_name, avatar_url, roles),
+          colleges(name_en, name_ar),
+          departments(name_en, name_ar)
         ''')
         .single();
 
@@ -157,9 +157,9 @@ class PostRepository {
         })
         .select('''
           *,
-          profiles(full_name, avatar_url, roles),
-          colleges(name_en, name_ar, name),
-          departments(name_en, name_ar, name)
+          profiles!posts_author_id_fkey(full_name, avatar_url, roles),
+          colleges(name_en, name_ar),
+          departments(name_en, name_ar)
         ''')
         .single();
 

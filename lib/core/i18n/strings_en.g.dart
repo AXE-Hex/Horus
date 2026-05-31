@@ -66,11 +66,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsSecurityEn security = TranslationsSecurityEn.internal(_root);
 	late final TranslationsTutorialsEn tutorials = TranslationsTutorialsEn.internal(_root);
 	late final TranslationsForumsEn forums = TranslationsForumsEn.internal(_root);
-	late final TranslationsAdministrationEn administration = TranslationsAdministrationEn.internal(_root);
 	late final TranslationsProfessorEn professor = TranslationsProfessorEn.internal(_root);
 	late final TranslationsRolesEn roles = TranslationsRolesEn.internal(_root);
 	late final TranslationsAcademicEn academic = TranslationsAcademicEn.internal(_root);
-	late final TranslationsAdminEn admin = TranslationsAdminEn.internal(_root);
 	late final TranslationsEnrollmentEn enrollment = TranslationsEnrollmentEn.internal(_root);
 	late final TranslationsSharedEn shared = TranslationsSharedEn.internal(_root);
 	late final TranslationsStudentsEn students = TranslationsStudentsEn.internal(_root);
@@ -228,12 +226,6 @@ class TranslationsHomeEn {
 
 	/// en: 'Professor'
 	String get prof => 'Professor';
-
-	/// en: 'Admin'
-	String get admin => 'Admin';
-
-	/// en: 'Admin Portal'
-	String get admin_portal => 'Admin Portal';
 
 	/// en: 'Faculty Portal'
 	String get faculty_portal => 'Faculty Portal';
@@ -988,29 +980,6 @@ class TranslationsForumsEn {
 	String get title => 'Forums';
 }
 
-// Path: administration
-class TranslationsAdministrationEn {
-	TranslationsAdministrationEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Student Management'
-	String get title => 'Student Management';
-
-	/// en: 'System Stats'
-	String get stats => 'System Stats';
-
-	/// en: 'Users'
-	String get users => 'Users';
-
-	/// en: 'Reports'
-	String get reports => 'Reports';
-
-	late final TranslationsAdministrationAuditLogsEn audit_logs = TranslationsAdministrationAuditLogsEn.internal(_root);
-}
-
 // Path: professor
 class TranslationsProfessorEn {
 	TranslationsProfessorEn.internal(this._root);
@@ -1714,705 +1683,6 @@ class TranslationsAcademicEn {
 	String get web_programming => 'Web Programming';
 }
 
-// Path: admin
-class TranslationsAdminEn {
-	TranslationsAdminEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'EEEE, MMMM dd, yyyy'
-	String get eeee_mmmm_dd_yyyy => 'EEEE, MMMM dd, yyyy';
-
-	/// en: 'en'
-	String get en => 'en';
-
-	/// en: 'SYSTEM ONLINE'
-	String get system_online => 'SYSTEM ONLINE';
-
-	/// en: 'Admin Command Center'
-	String get admin_command_center => 'Admin Command Center';
-
-	/// en: 'Admin'
-	String get admin => 'Admin';
-
-	/// en: 'Live Statistics'
-	String get live_statistics => 'Live Statistics';
-
-	/// en: 'Students'
-	String get students => 'Students';
-
-	/// en: 'Staff'
-	String get staff => 'Staff';
-
-	/// en: 'Faculty'
-	String get faculty => 'Faculty';
-
-	/// en: 'Leadership'
-	String get leadership => 'Leadership';
-
-	/// en: 'Admin & IT'
-	String get admin_it => 'Admin & IT';
-
-	/// en: 'System Modules'
-	String get system_modules => 'System Modules';
-
-	/// en: 'Users'
-	String get users => 'Users';
-
-	/// en: 'Manage all accounts'
-	String get manage_all_accounts => 'Manage all accounts';
-
-	/// en: 'Colleges'
-	String get colleges => 'Colleges';
-
-	/// en: 'Manage faculties'
-	String get manage_faculties => 'Manage faculties';
-
-	/// en: 'Departments'
-	String get departments => 'Departments';
-
-	/// en: 'Academic departments'
-	String get academic_departments => 'Academic departments';
-
-	/// en: 'Professors'
-	String get professors => 'Professors';
-
-	/// en: 'Faculty members'
-	String get faculty_members => 'Faculty members';
-
-	/// en: 'Roles'
-	String get roles => 'Roles';
-
-	/// en: 'Permission management'
-	String get permission_management => 'Permission management';
-
-	/// en: 'Audit Logs'
-	String get audit_logs => 'Audit Logs';
-
-	/// en: 'System activity log'
-	String get system_activity_log => 'System activity log';
-
-	/// en: 'System Settings'
-	String get system_settings => 'System Settings';
-
-	/// en: 'Platform configuration'
-	String get platform_configuration => 'Platform configuration';
-
-	/// en: 'Performance'
-	String get performance => 'Performance';
-
-	/// en: 'Server health metrics'
-	String get server_health_metrics => 'Server health metrics';
-
-	/// en: 'System Pulse'
-	String get system_pulse => 'System Pulse';
-
-	/// en: 'Server'
-	String get server => 'Server';
-
-	/// en: 'Online'
-	String get online => 'Online';
-
-	/// en: 'Latency'
-	String get latency => 'Latency';
-
-	/// en: 'Database'
-	String get database => 'Database';
-
-	/// en: 'Active'
-	String get active => 'Active';
-
-	/// en: 'Status'
-	String get status => 'Status';
-
-	/// en: 'REALTIME LATENCY (MS)'
-	String get realtime_latency_ms => 'REALTIME LATENCY (MS)';
-
-	/// en: 'Role Breakdown'
-	String get role_breakdown => 'Role Breakdown';
-
-	/// en: 'Teaching Staff'
-	String get teaching_staff => 'Teaching Staff';
-
-	/// en: 'Academic Leadership'
-	String get academic_leadership => 'Academic Leadership';
-
-	/// en: 'Student Affairs'
-	String get student_affairs => 'Student Affairs';
-
-	/// en: 'Total Users'
-	String get total_users => 'Total Users';
-
-	/// en: 'System Health'
-	String get system_health => 'System Health';
-
-	/// en: 'Quick Actions'
-	String get quick_actions => 'Quick Actions';
-
-	/// en: 'Management'
-	String get management => 'Management';
-
-	/// en: 'Add User'
-	String get add_user => 'Add User';
-
-	/// en: 'Export Data'
-	String get export_data => 'Export Data';
-
-	/// en: 'Send Announcement'
-	String get send_announcement => 'Send Announcement';
-
-	/// en: 'Backup System'
-	String get backup_system => 'Backup System';
-
-	/// en: 'User Management'
-	String get user_management => 'User Management';
-
-	/// en: 'User List'
-	String get user_list => 'User List';
-
-	/// en: 'All'
-	String get filter_all => 'All';
-
-	/// en: 'Students'
-	String get filter_students => 'Students';
-
-	/// en: 'Staff'
-	String get filter_staff => 'Staff';
-
-	/// en: 'Admin'
-	String get filter_admin => 'Admin';
-
-	/// en: 'Search users...'
-	String get search_users => 'Search users...';
-
-	/// en: 'No users found'
-	String get no_users => 'No users found';
-
-	/// en: '${count} users'
-	String user_count({required Object count}) => '${count} users';
-
-	/// en: 'Student Management'
-	String get student_management => 'Student Management';
-
-	/// en: 'Staff Management'
-	String get staff_management => 'Staff Management';
-
-	/// en: 'Faculty Management'
-	String get faculty_management => 'Faculty Management';
-
-	/// en: 'Leadership Management'
-	String get leadership_management => 'Leadership Management';
-
-	/// en: 'Admin & IT Management'
-	String get admin_it_management => 'Admin & IT Management';
-
-	/// en: 'College Management'
-	String get college_management => 'College Management';
-
-	/// en: 'Department Management'
-	String get department_management => 'Department Management';
-
-	/// en: 'Professor Management'
-	String get professor_management => 'Professor Management';
-
-	/// en: 'Role Management'
-	String get role_management => 'Role Management';
-
-	/// en: 'Audit Log Management'
-	String get audit_log_management => 'Audit Log Management';
-
-	/// en: 'System Configuration'
-	String get system_configuration => 'System Configuration';
-
-	/// en: 'Add College'
-	String get add_college => 'Add College';
-
-	/// en: 'Add Department'
-	String get add_department => 'Add Department';
-
-	/// en: 'Edit College'
-	String get edit_college => 'Edit College';
-
-	/// en: 'Edit Department'
-	String get edit_department => 'Edit Department';
-
-	/// en: 'Delete College'
-	String get delete_college => 'Delete College';
-
-	/// en: 'Delete Department'
-	String get delete_department => 'Delete Department';
-
-	/// en: 'College Name'
-	String get college_name => 'College Name';
-
-	/// en: 'Department Name'
-	String get department_name => 'Department Name';
-
-	/// en: 'Dean Name'
-	String get dean_name => 'Dean Name';
-
-	/// en: 'Head Name'
-	String get head_name => 'Head Name';
-
-	/// en: 'Students'
-	String get student_count => 'Students';
-
-	/// en: 'Staff'
-	String get staff_count => 'Staff';
-
-	/// en: 'TAs'
-	String get ta_count => 'TAs';
-
-	/// en: 'Action'
-	String get action => 'Action';
-
-	/// en: 'Timestamp'
-	String get timestamp => 'Timestamp';
-
-	/// en: 'User'
-	String get user => 'User';
-
-	/// en: 'Details'
-	String get details => 'Details';
-
-	/// en: 'Filter by action'
-	String get filter_by_action => 'Filter by action';
-
-	/// en: 'Filter by date'
-	String get filter_by_date => 'Filter by date';
-
-	/// en: 'No audit logs found'
-	String get no_logs => 'No audit logs found';
-
-	/// en: 'System Version'
-	String get system_version => 'System Version';
-
-	/// en: 'Maintenance Mode'
-	String get maintenance_mode => 'Maintenance Mode';
-
-	/// en: 'Backup Schedule'
-	String get backup_schedule => 'Backup Schedule';
-
-	/// en: 'Email Server'
-	String get email_server => 'Email Server';
-
-	/// en: 'Storage Quota'
-	String get storage_quota => 'Storage Quota';
-
-	/// en: 'Security Level'
-	String get security_level => 'Security Level';
-
-	/// en: 'Log Retention'
-	String get log_retention => 'Log Retention';
-
-	/// en: 'Session Timeout'
-	String get session_timeout => 'Session Timeout';
-
-	/// en: 'Save Settings'
-	String get save_settings => 'Save Settings';
-
-	/// en: 'Reset to Defaults'
-	String get reset_defaults => 'Reset to Defaults';
-
-	/// en: 'Name'
-	String get user_name => 'Name';
-
-	/// en: 'Email'
-	String get user_email => 'Email';
-
-	/// en: 'Phone'
-	String get user_phone => 'Phone';
-
-	/// en: 'Role'
-	String get user_role => 'Role';
-
-	/// en: 'Department'
-	String get user_department => 'Department';
-
-	/// en: 'College'
-	String get user_college => 'College';
-
-	/// en: 'Status'
-	String get user_status => 'Status';
-
-	/// en: 'Created'
-	String get user_created => 'Created';
-
-	/// en: 'User updated successfully'
-	String get user_updated => 'User updated successfully';
-
-	/// en: 'Add New User'
-	String get add_new_user => 'Add New User';
-
-	/// en: 'Edit User'
-	String get edit_user => 'Edit User';
-
-	/// en: 'Delete User'
-	String get delete_user => 'Delete User';
-
-	/// en: 'Save'
-	String get save_user => 'Save';
-
-	/// en: 'Cancel'
-	String get cancel => 'Cancel';
-
-	/// en: 'Full Name'
-	String get name_label => 'Full Name';
-
-	/// en: 'Email Address'
-	String get email_label => 'Email Address';
-
-	/// en: 'Phone Number'
-	String get phone_label => 'Phone Number';
-
-	/// en: 'Select Role'
-	String get role_label => 'Select Role';
-
-	/// en: 'Department'
-	String get department_label => 'Department';
-
-	/// en: 'College'
-	String get college_label => 'College';
-
-	/// en: 'Password'
-	String get password_label => 'Password';
-
-	/// en: 'Confirm Password'
-	String get confirm_password_label => 'Confirm Password';
-
-	/// en: 'Student'
-	String get category_student => 'Student';
-
-	/// en: 'Staff'
-	String get category_staff => 'Staff';
-
-	/// en: 'Faculty'
-	String get category_faculty => 'Faculty';
-
-	/// en: 'Leadership'
-	String get category_leadership => 'Leadership';
-
-	/// en: 'Admin'
-	String get category_admin => 'Admin';
-
-	/// en: 'No departments available'
-	String get no_departments => 'No departments available';
-
-	/// en: 'No colleges available'
-	String get no_colleges => 'No colleges available';
-
-	/// en: 'Select a role'
-	String get select_role => 'Select a role';
-
-	/// en: 'Select a department'
-	String get select_department => 'Select a department';
-
-	/// en: 'Select a college'
-	String get select_college => 'Select a college';
-
-	/// en: 'User added successfully'
-	String get user_added => 'User added successfully';
-
-	/// en: 'User deleted successfully'
-	String get user_deleted => 'User deleted successfully';
-
-	/// en: 'Confirm Delete'
-	String get confirm_delete => 'Confirm Delete';
-
-	/// en: 'Are you sure you want to delete this user?'
-	String get confirm_delete_message => 'Are you sure you want to delete this user?';
-
-	/// en: 'Error loading data'
-	String get error_loading => 'Error loading data';
-
-	/// en: 'Error saving data'
-	String get error_saving => 'Error saving data';
-
-	/// en: 'Retry'
-	String get retry => 'Retry';
-
-	/// en: 'Academic Department'
-	String get academic_department => 'Academic Department';
-
-	/// en: 'Academic Departments'
-	String get academic_departments_1 => 'Academic Departments';
-
-	/// en: 'Academic Leaders'
-	String get academic_leaders => 'Academic Leaders';
-
-	/// en: 'Academic Warnings'
-	String get academic_warnings => 'Academic Warnings';
-
-	/// en: 'Account Status'
-	String get account_status => 'Account Status';
-
-	/// en: 'Account Verification'
-	String get account_verification => 'Account Verification';
-
-	/// en: 'Actor'
-	String get actor => 'Actor';
-
-	/// en: 'Add Report'
-	String get add_report => 'Add Report';
-
-	/// en: 'Admins'
-	String get admins => 'Admins';
-
-	/// en: 'Advanced Management'
-	String get advanced_management => 'Advanced Management';
-
-	/// en: 'All'
-	String get all => 'All';
-
-	/// en: 'All Levels'
-	String get all_levels => 'All Levels';
-
-	/// en: 'All Systems Operational'
-	String get all_systems_operational => 'All Systems Operational';
-
-	/// en: 'Apply Filters'
-	String get apply_filters => 'Apply Filters';
-
-	/// en: 'Are you sure you want to delete this user?'
-	String get are_you_sure_you_want_to_delet => 'Are you sure you want to delete this user?';
-
-	/// en: 'Assign'
-	String get assign => 'Assign';
-
-	/// en: 'Assign Dean'
-	String get assign_dean => 'Assign Dean';
-
-	/// en: 'Assign Department Head'
-	String get assign_department_head => 'Assign Department Head';
-
-	/// en: 'Attached Report'
-	String get attached_report => 'Attached Report';
-
-	/// en: 'Ban User'
-	String get ban_user => 'Ban User';
-
-	/// en: 'Banned'
-	String get banned => 'Banned';
-
-	/// en: 'Change'
-	String get change => 'Change';
-
-	/// en: 'Change Dean'
-	String get change_dean => 'Change Dean';
-
-	/// en: 'Changes Saved Successfully'
-	String get changes_saved_successfully => 'Changes Saved Successfully';
-
-	/// en: 'College'
-	String get college => 'College';
-
-	/// en: 'College Dean'
-	String get college_dean => 'College Dean';
-
-	/// en: 'College Details'
-	String get college_details => 'College Details';
-
-	/// en: 'Colleges Management'
-	String get colleges_management => 'Colleges Management';
-
-	/// en: 'Coming Soon'
-	String get coming_soon => 'Coming Soon';
-
-	/// en: 'Deactivated'
-	String get deactivated => 'Deactivated';
-
-	/// en: 'Delete'
-	String get delete => 'Delete';
-
-	/// en: 'Department Details'
-	String get department_details => 'Department Details';
-
-	/// en: 'Department Projects'
-	String get department_projects => 'Department Projects';
-
-	/// en: 'Departments Management'
-	String get departments_management => 'Departments Management';
-
-	/// en: 'Email Address'
-	String get email_address => 'Email Address';
-
-	/// en: 'Entity'
-	String get entity => 'Entity';
-
-	/// en: 'Error: ${error}'
-	String error_snapshoterror({required Object error}) => 'Error: ${error}';
-
-	/// en: 'Faculty Members'
-	String get faculty_members_1 => 'Faculty Members';
-
-	/// en: 'Failed to Load Data'
-	String get failed_to_load_data => 'Failed to Load Data';
-
-	/// en: 'Filter Users'
-	String get filter_users => 'Filter Users';
-
-	/// en: 'Full Name'
-	String get full_name => 'Full Name';
-
-	/// en: 'Head of Department'
-	String get head_of_department => 'Head of Department';
-
-	/// en: 'Incidents'
-	String get incidents => 'Incidents';
-
-	/// en: 'Leadership Statistics'
-	String get leadership_stats => 'Leadership Statistics';
-
-	/// en: 'Level ${level}'
-	String level_level({required Object level}) => 'Level ${level}';
-
-	/// en: 'Manage Tags'
-	String get manage_tags => 'Manage Tags';
-
-	/// en: 'Min. 6 characters'
-	String get min_6_chars => 'Min. 6 characters';
-
-	/// en: 'National ID'
-	String get national_id => 'National ID';
-
-	/// en: 'Nationality'
-	String get nationality => 'Nationality';
-
-	/// en: 'No About Text Available'
-	String get no_about_text_available => 'No About Text Available';
-
-	/// en: 'No Colleges Found'
-	String get no_colleges_found => 'No Colleges Found';
-
-	/// en: 'No Dean Assigned'
-	String get no_dean_assigned => 'No Dean Assigned';
-
-	/// en: 'No Departments Found'
-	String get no_departments_found => 'No Departments Found';
-
-	/// en: 'No Departments in This College'
-	String get no_departments_in_this_college => 'No Departments in This College';
-
-	/// en: 'No Description Available'
-	String get no_description_available => 'No Description Available';
-
-	/// en: 'No Faculty Records Found'
-	String get no_faculty_records_found => 'No Faculty Records Found';
-
-	/// en: 'No Head Assigned'
-	String get no_head_assigned => 'No Head Assigned';
-
-	/// en: 'No Logs Found'
-	String get no_logs_found => 'No Logs Found';
-
-	/// en: 'No Matching Students Found'
-	String get no_matching_students_found => 'No Matching Students Found';
-
-	/// en: 'No Projects Added Yet'
-	String get no_projects_added_yet => 'No Projects Added Yet';
-
-	/// en: 'No settings found in the database'
-	String get no_settings_found_in_the_datab => 'No settings found in the database';
-
-	/// en: 'No Users Found'
-	String get no_users_found => 'No Users Found';
-
-	/// en: 'Office'
-	String get office => 'Office';
-
-	/// en: 'Password'
-	String get password => 'Password';
-
-	/// en: 'Pending Registration'
-	String get pending_reg => 'Pending Registration';
-
-	/// en: 'Permanently Delete User'
-	String get permanently_delete_user => 'Permanently Delete User';
-
-	/// en: 'Phone Number'
-	String get phone_number => 'Phone Number';
-
-	/// en: 'Please assign a dean for this college'
-	String get please_assign_a_dean_for_the_c => 'Please assign a dean for this college';
-
-	/// en: 'Please assign a head for this department'
-	String get please_assign_a_head_for_the_d => 'Please assign a head for this department';
-
-	/// en: 'Roles Management'
-	String get roles_management => 'Roles Management';
-
-	/// en: 'Save'
-	String get save => 'Save';
-
-	/// en: 'Save Changes'
-	String get save_changes => 'Save Changes';
-
-	/// en: 'Search by name, email, phone or ID...'
-	String get search_by_name_email_phone_id => 'Search by name, email, phone or ID...';
-
-	/// en: 'Search doctor name...'
-	String get search_doctor_name => 'Search doctor name...';
-
-	/// en: 'Search staff member...'
-	String get search_staff_member => 'Search staff member...';
-
-	/// en: 'Search student or ID...'
-	String get search_student_or_id => 'Search student or ID...';
-
-	/// en: 'Select'
-	String get select => 'Select';
-
-	/// en: 'Select role'
-	String get select_role_in_widgetinitialca => 'Select role';
-
-	/// en: 'Select Role / Permission'
-	String get select_role_permission => 'Select Role / Permission';
-
-	/// en: 'Separate tags with commas'
-	String get separate_tags_with_commas => 'Separate tags with commas';
-
-	/// en: 'Servers'
-	String get servers => 'Servers';
-
-	/// en: 'Student ID'
-	String get student_id => 'Student ID';
-
-	/// en: 'System Technical Status'
-	String get system_technical_status => 'System Technical Status';
-
-	/// en: 'tag1, tag2'
-	String get tag1_tag2 => 'tag1, tag2';
-
-	/// en: 'Teaching Assistants'
-	String get teaching_assistants => 'Teaching Assistants';
-
-	/// en: 'Total Staff'
-	String get total_staff => 'Total Staff';
-
-	/// en: 'Total Students'
-	String get total_students => 'Total Students';
-
-	/// en: 'Unverified'
-	String get unverified => 'Unverified';
-
-	/// en: 'User Roles & Ranks'
-	String get user_roles_ranks => 'User Roles & Ranks';
-
-	/// en: 'Verification'
-	String get verification => 'Verification';
-
-	/// en: 'Verified'
-	String get verified => 'Verified';
-
-	/// en: 'Warning Level'
-	String get warning_level => 'Warning Level';
-
-	/// en: 'You can manage professors and more here'
-	String get you_can_manage_professors_and_ => 'You can manage professors and more here';
-}
-
 // Path: enrollment
 class TranslationsEnrollmentEn {
 	TranslationsEnrollmentEn.internal(this._root);
@@ -2978,9 +2248,6 @@ class TranslationsSharedEn {
 
 	/// en: 'Forums'
 	String get forums => 'Forums';
-
-	/// en: 'IT Support'
-	String get it_support => 'IT Support';
 
 	/// en: 'Library'
 	String get library => 'Library';
@@ -3684,9 +2951,6 @@ class TranslationsExtractedEn {
 	/// en: 'Delete'
 	String get delete => 'Delete';
 
-	/// en: 'Admin & IT'
-	String get admin_it => 'Admin & IT';
-
 	/// en: 'Leadership'
 	String get leadership => 'Leadership';
 
@@ -3908,9 +3172,6 @@ class TranslationsExtractedEn {
 
 	/// en: 'Academic Leadership'
 	String get academic_leadership => 'Academic Leadership';
-
-	/// en: 'Administration'
-	String get administration => 'Administration';
 
 	/// en: 'Manage Grades'
 	String get manage_grades => 'Manage Grades';
@@ -4215,14 +3476,8 @@ class TranslationsAuthForgotPasswordEn {
 	/// en: 'Choose a recovery method'
 	String get subtitle => 'Choose a recovery method';
 
-	/// en: 'Visit Administration'
-	String get method_admin => 'Visit Administration';
-
 	/// en: 'Online Request'
 	String get method_online => 'Online Request';
-
-	/// en: 'Please visit the student affairs office to reset your password. Bring your valid university ID.'
-	String get admin_instructions => 'Please visit the student affairs office to reset your password. Bring your valid university ID.';
 
 	/// en: 'Phone Number'
 	String get phone_label => 'Phone Number';
@@ -4277,9 +3532,6 @@ class TranslationsHomeTabsEn {
 
 	/// en: 'Student'
 	String get student => 'Student';
-
-	/// en: 'Admin'
-	String get admin => 'Admin';
 
 	/// en: 'Search'
 	String get search => 'Search';
@@ -4863,24 +4115,6 @@ class TranslationsAttendanceSubjectsEn {
 	String get calculus => 'Advanced Calculus';
 }
 
-// Path: administration.audit_logs
-class TranslationsAdministrationAuditLogsEn {
-	TranslationsAdministrationAuditLogsEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Audit Logs'
-	String get title => 'Audit Logs';
-
-	/// en: 'No logs found matching the criteria.'
-	String get no_logs_found => 'No logs found matching the criteria.';
-
-	late final TranslationsAdministrationAuditLogsTabsEn tabs = TranslationsAdministrationAuditLogsTabsEn.internal(_root);
-	late final TranslationsAdministrationAuditLogsLabelsEn labels = TranslationsAdministrationAuditLogsLabelsEn.internal(_root);
-}
-
 // Path: professor.stats
 class TranslationsProfessorStatsEn {
 	TranslationsProfessorStatsEn.internal(this._root);
@@ -4958,9 +4192,6 @@ class TranslationsRolesCategoriesEn {
 
 	// Translations
 
-	/// en: 'Admin & IT'
-	String get admin_it => 'Admin & IT';
-
 	/// en: 'Academic Leadership'
 	String get academic_leadership => 'Academic Leadership';
 
@@ -4987,18 +4218,6 @@ class TranslationsRolesNamesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Super Admin'
-	String get super_admin => 'Super Admin';
-
-	/// en: 'Administrator'
-	String get admin => 'Administrator';
-
-	/// en: 'IT Support'
-	String get it_support => 'IT Support';
-
-	/// en: 'Financial Auditor'
-	String get financial_auditor => 'Financial Auditor';
 
 	/// en: 'Rector / President'
 	String get rector => 'Rector / President';
@@ -5068,18 +4287,6 @@ class TranslationsRolesDescriptionsEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-
-	/// en: 'Full control over the entire system'
-	String get super_admin => 'Full control over the entire system';
-
-	/// en: 'System administrator with high privileges'
-	String get admin => 'System administrator with high privileges';
-
-	/// en: 'Technical system support and maintenance'
-	String get it_support => 'Technical system support and maintenance';
-
-	/// en: 'Oversees financial records and invoices'
-	String get financial_auditor => 'Oversees financial records and invoices';
 
 	/// en: 'University president with full academic oversight'
 	String get rector => 'University president with full academic oversight';
@@ -5187,66 +4394,6 @@ class TranslationsTranscriptCourseStatusEn {
 	String get transferred => 'Transferred';
 }
 
-// Path: administration.audit_logs.tabs
-class TranslationsAdministrationAuditLogsTabsEn {
-	TranslationsAdministrationAuditLogsTabsEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'All Logs'
-	String get all => 'All Logs';
-
-	/// en: 'Security'
-	String get security => 'Security';
-
-	/// en: 'User Management'
-	String get user_management => 'User Management';
-
-	/// en: 'Data Updates'
-	String get data_updates => 'Data Updates';
-}
-
-// Path: administration.audit_logs.labels
-class TranslationsAdministrationAuditLogsLabelsEn {
-	TranslationsAdministrationAuditLogsLabelsEn.internal(this._root);
-
-	final Translations _root; // ignore: unused_field
-
-	// Translations
-
-	/// en: 'Actor'
-	String get actor => 'Actor';
-
-	/// en: 'Table'
-	String get table => 'Table';
-
-	/// en: 'Record'
-	String get record => 'Record';
-
-	/// en: 'Action'
-	String get action => 'Action';
-
-	/// en: 'Old Data'
-	String get old_data => 'Old Data';
-
-	/// en: 'New Data'
-	String get new_data => 'New Data';
-
-	/// en: 'Notes'
-	String get notes => 'Notes';
-
-	/// en: 'Performed By'
-	String get performed_by => 'Performed By';
-
-	/// en: 'Close Details'
-	String get close_details => 'Close Details';
-
-	/// en: 'View Details'
-	String get view_details => 'View Details';
-}
-
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -5310,9 +4457,7 @@ extension on Translations {
 			'auth.login.guest' => 'Browse as Guest',
 			'auth.forgot_password.title' => 'Forgot Password',
 			'auth.forgot_password.subtitle' => 'Choose a recovery method',
-			'auth.forgot_password.method_admin' => 'Visit Administration',
 			'auth.forgot_password.method_online' => 'Online Request',
-			'auth.forgot_password.admin_instructions' => 'Please visit the student affairs office to reset your password. Bring your valid university ID.',
 			'auth.forgot_password.phone_label' => 'Phone Number',
 			'auth.forgot_password.upload_id' => 'Upload ID Photo',
 			'auth.forgot_password.upload_id_hint' => 'Tap to upload a clear photo of your university ID',
@@ -5330,7 +4475,6 @@ extension on Translations {
 			'home.tabs.home' => 'Home',
 			'home.tabs.colleges' => 'Colleges',
 			'home.tabs.student' => 'Student',
-			'home.tabs.admin' => 'Admin',
 			'home.tabs.search' => 'Search',
 			'home.tabs.notifications' => 'Notifications',
 			'home.tabs.profile' => 'Profile',
@@ -5338,8 +4482,6 @@ extension on Translations {
 			'home.colleges' => 'Colleges',
 			'home.student' => 'Student',
 			'home.prof' => 'Professor',
-			'home.admin' => 'Admin',
-			'home.admin_portal' => 'Admin Portal',
 			'home.faculty_portal' => 'Faculty Portal',
 			'home.student_portal' => 'Student Portal',
 			'feed.likes' => 'likes',
@@ -5668,26 +4810,6 @@ extension on Translations {
 			'security.sessions' => 'Active Sessions',
 			'tutorials.title' => 'Tutorials & Guides',
 			'forums.title' => 'Forums',
-			'administration.title' => 'Student Management',
-			'administration.stats' => 'System Stats',
-			'administration.users' => 'Users',
-			'administration.reports' => 'Reports',
-			'administration.audit_logs.title' => 'Audit Logs',
-			'administration.audit_logs.no_logs_found' => 'No logs found matching the criteria.',
-			'administration.audit_logs.tabs.all' => 'All Logs',
-			'administration.audit_logs.tabs.security' => 'Security',
-			'administration.audit_logs.tabs.user_management' => 'User Management',
-			'administration.audit_logs.tabs.data_updates' => 'Data Updates',
-			'administration.audit_logs.labels.actor' => 'Actor',
-			'administration.audit_logs.labels.table' => 'Table',
-			'administration.audit_logs.labels.record' => 'Record',
-			'administration.audit_logs.labels.action' => 'Action',
-			'administration.audit_logs.labels.old_data' => 'Old Data',
-			'administration.audit_logs.labels.new_data' => 'New Data',
-			'administration.audit_logs.labels.notes' => 'Notes',
-			'administration.audit_logs.labels.performed_by' => 'Performed By',
-			'administration.audit_logs.labels.close_details' => 'Close Details',
-			'administration.audit_logs.labels.view_details' => 'View Details',
 			'professor.dashboard_title' => 'Professor Dashboard',
 			'professor.welcome_back_name' => ({required Object name}) => 'Welcome back, ${name}',
 			'professor.active_tas_count' => ({required Object count}) => '${count} Active TAs',
@@ -5729,17 +4851,12 @@ extension on Translations {
 			'professor.profile.teaching_assistants' => 'Teaching Assistants',
 			'professor.profile.shared_resources' => 'Shared Resources',
 			'professor.profile.office_hours' => 'Office Hours',
-			'roles.categories.admin_it' => 'Admin & IT',
 			'roles.categories.academic_leadership' => 'Academic Leadership',
 			'roles.categories.teaching_staff' => 'Teaching Staff',
 			'roles.categories.student_affairs' => 'Student Affairs',
 			'roles.categories.student_roles' => 'Student Roles',
 			'roles.categories.facilities_security' => 'Facilities & Security',
 			'roles.categories.external_roles' => 'External Roles',
-			'roles.names.super_admin' => 'Super Admin',
-			'roles.names.admin' => 'Administrator',
-			'roles.names.it_support' => 'IT Support',
-			'roles.names.financial_auditor' => 'Financial Auditor',
 			'roles.names.rector' => 'Rector / President',
 			'roles.names.dean' => 'Dean',
 			'roles.names.department_head' => 'Department Head',
@@ -5760,15 +4877,9 @@ extension on Translations {
 			'roles.names.guest' => 'Guest',
 			'roles.names.parent' => 'Parent / Guardian',
 			'roles.names.recruiter' => 'Recruiter',
-			'roles.descriptions.super_admin' => 'Full control over the entire system',
-			'roles.descriptions.admin' => 'System administrator with high privileges',
-			'roles.descriptions.it_support' => 'Technical system support and maintenance',
-			'roles.descriptions.financial_auditor' => 'Oversees financial records and invoices',
 			'roles.descriptions.rector' => 'University president with full academic oversight',
 			'roles.descriptions.dean' => 'Head of a college/faculty',
 			'roles.descriptions.department_head' => 'Head of an academic department',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.academic_coordinator' => 'Coordinates academic programs and scheduling',
 			'roles.descriptions.professor' => 'Faculty member who teaches and manages courses',
 			'roles.descriptions.lecturer' => 'Teaches courses without full professor privileges',
@@ -5803,6 +4914,8 @@ extension on Translations {
 			'academic.exam_schedule_title' => 'Exam Schedule',
 			'academic.professor_dashboard' => 'Professor Dashboard',
 			'academic.all_students' => 'All Students',
+			_ => null,
+		} ?? switch (path) {
 			'academic.groups' => 'Groups',
 			'academic.tas' => 'Teaching Assistants',
 			'academic.no_groups' => 'No Groups',
@@ -5982,236 +5095,6 @@ extension on Translations {
 			'academic.uploaded_successfully' => 'Uploaded Successfully',
 			'academic.urgent_news' => 'Urgent News',
 			'academic.web_programming' => 'Web Programming',
-			'admin.eeee_mmmm_dd_yyyy' => 'EEEE, MMMM dd, yyyy',
-			'admin.en' => 'en',
-			'admin.system_online' => 'SYSTEM ONLINE',
-			'admin.admin_command_center' => 'Admin Command Center',
-			'admin.admin' => 'Admin',
-			'admin.live_statistics' => 'Live Statistics',
-			'admin.students' => 'Students',
-			'admin.staff' => 'Staff',
-			'admin.faculty' => 'Faculty',
-			'admin.leadership' => 'Leadership',
-			'admin.admin_it' => 'Admin & IT',
-			'admin.system_modules' => 'System Modules',
-			'admin.users' => 'Users',
-			'admin.manage_all_accounts' => 'Manage all accounts',
-			'admin.colleges' => 'Colleges',
-			'admin.manage_faculties' => 'Manage faculties',
-			'admin.departments' => 'Departments',
-			'admin.academic_departments' => 'Academic departments',
-			'admin.professors' => 'Professors',
-			'admin.faculty_members' => 'Faculty members',
-			'admin.roles' => 'Roles',
-			'admin.permission_management' => 'Permission management',
-			'admin.audit_logs' => 'Audit Logs',
-			'admin.system_activity_log' => 'System activity log',
-			'admin.system_settings' => 'System Settings',
-			'admin.platform_configuration' => 'Platform configuration',
-			'admin.performance' => 'Performance',
-			'admin.server_health_metrics' => 'Server health metrics',
-			'admin.system_pulse' => 'System Pulse',
-			'admin.server' => 'Server',
-			'admin.online' => 'Online',
-			'admin.latency' => 'Latency',
-			'admin.database' => 'Database',
-			'admin.active' => 'Active',
-			'admin.status' => 'Status',
-			'admin.realtime_latency_ms' => 'REALTIME LATENCY (MS)',
-			'admin.role_breakdown' => 'Role Breakdown',
-			'admin.teaching_staff' => 'Teaching Staff',
-			'admin.academic_leadership' => 'Academic Leadership',
-			'admin.student_affairs' => 'Student Affairs',
-			'admin.total_users' => 'Total Users',
-			'admin.system_health' => 'System Health',
-			'admin.quick_actions' => 'Quick Actions',
-			'admin.management' => 'Management',
-			'admin.add_user' => 'Add User',
-			'admin.export_data' => 'Export Data',
-			'admin.send_announcement' => 'Send Announcement',
-			'admin.backup_system' => 'Backup System',
-			'admin.user_management' => 'User Management',
-			'admin.user_list' => 'User List',
-			'admin.filter_all' => 'All',
-			'admin.filter_students' => 'Students',
-			'admin.filter_staff' => 'Staff',
-			'admin.filter_admin' => 'Admin',
-			'admin.search_users' => 'Search users...',
-			'admin.no_users' => 'No users found',
-			'admin.user_count' => ({required Object count}) => '${count} users',
-			'admin.student_management' => 'Student Management',
-			'admin.staff_management' => 'Staff Management',
-			'admin.faculty_management' => 'Faculty Management',
-			'admin.leadership_management' => 'Leadership Management',
-			'admin.admin_it_management' => 'Admin & IT Management',
-			'admin.college_management' => 'College Management',
-			'admin.department_management' => 'Department Management',
-			'admin.professor_management' => 'Professor Management',
-			'admin.role_management' => 'Role Management',
-			'admin.audit_log_management' => 'Audit Log Management',
-			'admin.system_configuration' => 'System Configuration',
-			'admin.add_college' => 'Add College',
-			'admin.add_department' => 'Add Department',
-			'admin.edit_college' => 'Edit College',
-			'admin.edit_department' => 'Edit Department',
-			'admin.delete_college' => 'Delete College',
-			'admin.delete_department' => 'Delete Department',
-			'admin.college_name' => 'College Name',
-			'admin.department_name' => 'Department Name',
-			'admin.dean_name' => 'Dean Name',
-			'admin.head_name' => 'Head Name',
-			'admin.student_count' => 'Students',
-			'admin.staff_count' => 'Staff',
-			'admin.ta_count' => 'TAs',
-			'admin.action' => 'Action',
-			'admin.timestamp' => 'Timestamp',
-			'admin.user' => 'User',
-			'admin.details' => 'Details',
-			'admin.filter_by_action' => 'Filter by action',
-			'admin.filter_by_date' => 'Filter by date',
-			'admin.no_logs' => 'No audit logs found',
-			'admin.system_version' => 'System Version',
-			'admin.maintenance_mode' => 'Maintenance Mode',
-			'admin.backup_schedule' => 'Backup Schedule',
-			'admin.email_server' => 'Email Server',
-			'admin.storage_quota' => 'Storage Quota',
-			'admin.security_level' => 'Security Level',
-			'admin.log_retention' => 'Log Retention',
-			'admin.session_timeout' => 'Session Timeout',
-			'admin.save_settings' => 'Save Settings',
-			'admin.reset_defaults' => 'Reset to Defaults',
-			'admin.user_name' => 'Name',
-			'admin.user_email' => 'Email',
-			'admin.user_phone' => 'Phone',
-			'admin.user_role' => 'Role',
-			'admin.user_department' => 'Department',
-			'admin.user_college' => 'College',
-			'admin.user_status' => 'Status',
-			'admin.user_created' => 'Created',
-			'admin.user_updated' => 'User updated successfully',
-			'admin.add_new_user' => 'Add New User',
-			'admin.edit_user' => 'Edit User',
-			'admin.delete_user' => 'Delete User',
-			'admin.save_user' => 'Save',
-			'admin.cancel' => 'Cancel',
-			'admin.name_label' => 'Full Name',
-			'admin.email_label' => 'Email Address',
-			'admin.phone_label' => 'Phone Number',
-			'admin.role_label' => 'Select Role',
-			'admin.department_label' => 'Department',
-			'admin.college_label' => 'College',
-			'admin.password_label' => 'Password',
-			'admin.confirm_password_label' => 'Confirm Password',
-			'admin.category_student' => 'Student',
-			'admin.category_staff' => 'Staff',
-			'admin.category_faculty' => 'Faculty',
-			'admin.category_leadership' => 'Leadership',
-			'admin.category_admin' => 'Admin',
-			'admin.no_departments' => 'No departments available',
-			'admin.no_colleges' => 'No colleges available',
-			'admin.select_role' => 'Select a role',
-			'admin.select_department' => 'Select a department',
-			'admin.select_college' => 'Select a college',
-			'admin.user_added' => 'User added successfully',
-			'admin.user_deleted' => 'User deleted successfully',
-			'admin.confirm_delete' => 'Confirm Delete',
-			'admin.confirm_delete_message' => 'Are you sure you want to delete this user?',
-			'admin.error_loading' => 'Error loading data',
-			'admin.error_saving' => 'Error saving data',
-			'admin.retry' => 'Retry',
-			'admin.academic_department' => 'Academic Department',
-			'admin.academic_departments_1' => 'Academic Departments',
-			'admin.academic_leaders' => 'Academic Leaders',
-			'admin.academic_warnings' => 'Academic Warnings',
-			'admin.account_status' => 'Account Status',
-			'admin.account_verification' => 'Account Verification',
-			'admin.actor' => 'Actor',
-			'admin.add_report' => 'Add Report',
-			'admin.admins' => 'Admins',
-			'admin.advanced_management' => 'Advanced Management',
-			'admin.all' => 'All',
-			'admin.all_levels' => 'All Levels',
-			'admin.all_systems_operational' => 'All Systems Operational',
-			'admin.apply_filters' => 'Apply Filters',
-			'admin.are_you_sure_you_want_to_delet' => 'Are you sure you want to delete this user?',
-			'admin.assign' => 'Assign',
-			'admin.assign_dean' => 'Assign Dean',
-			'admin.assign_department_head' => 'Assign Department Head',
-			'admin.attached_report' => 'Attached Report',
-			'admin.ban_user' => 'Ban User',
-			'admin.banned' => 'Banned',
-			'admin.change' => 'Change',
-			'admin.change_dean' => 'Change Dean',
-			'admin.changes_saved_successfully' => 'Changes Saved Successfully',
-			'admin.college' => 'College',
-			'admin.college_dean' => 'College Dean',
-			'admin.college_details' => 'College Details',
-			'admin.colleges_management' => 'Colleges Management',
-			'admin.coming_soon' => 'Coming Soon',
-			'admin.deactivated' => 'Deactivated',
-			'admin.delete' => 'Delete',
-			'admin.department_details' => 'Department Details',
-			'admin.department_projects' => 'Department Projects',
-			'admin.departments_management' => 'Departments Management',
-			'admin.email_address' => 'Email Address',
-			'admin.entity' => 'Entity',
-			'admin.error_snapshoterror' => ({required Object error}) => 'Error: ${error}',
-			'admin.faculty_members_1' => 'Faculty Members',
-			'admin.failed_to_load_data' => 'Failed to Load Data',
-			'admin.filter_users' => 'Filter Users',
-			'admin.full_name' => 'Full Name',
-			'admin.head_of_department' => 'Head of Department',
-			'admin.incidents' => 'Incidents',
-			'admin.leadership_stats' => 'Leadership Statistics',
-			'admin.level_level' => ({required Object level}) => 'Level ${level}',
-			'admin.manage_tags' => 'Manage Tags',
-			'admin.min_6_chars' => 'Min. 6 characters',
-			'admin.national_id' => 'National ID',
-			'admin.nationality' => 'Nationality',
-			'admin.no_about_text_available' => 'No About Text Available',
-			'admin.no_colleges_found' => 'No Colleges Found',
-			'admin.no_dean_assigned' => 'No Dean Assigned',
-			'admin.no_departments_found' => 'No Departments Found',
-			'admin.no_departments_in_this_college' => 'No Departments in This College',
-			'admin.no_description_available' => 'No Description Available',
-			'admin.no_faculty_records_found' => 'No Faculty Records Found',
-			'admin.no_head_assigned' => 'No Head Assigned',
-			'admin.no_logs_found' => 'No Logs Found',
-			'admin.no_matching_students_found' => 'No Matching Students Found',
-			'admin.no_projects_added_yet' => 'No Projects Added Yet',
-			'admin.no_settings_found_in_the_datab' => 'No settings found in the database',
-			'admin.no_users_found' => 'No Users Found',
-			'admin.office' => 'Office',
-			'admin.password' => 'Password',
-			'admin.pending_reg' => 'Pending Registration',
-			'admin.permanently_delete_user' => 'Permanently Delete User',
-			'admin.phone_number' => 'Phone Number',
-			'admin.please_assign_a_dean_for_the_c' => 'Please assign a dean for this college',
-			'admin.please_assign_a_head_for_the_d' => 'Please assign a head for this department',
-			'admin.roles_management' => 'Roles Management',
-			'admin.save' => 'Save',
-			'admin.save_changes' => 'Save Changes',
-			'admin.search_by_name_email_phone_id' => 'Search by name, email, phone or ID...',
-			'admin.search_doctor_name' => 'Search doctor name...',
-			'admin.search_staff_member' => 'Search staff member...',
-			'admin.search_student_or_id' => 'Search student or ID...',
-			'admin.select' => 'Select',
-			'admin.select_role_in_widgetinitialca' => 'Select role',
-			'admin.select_role_permission' => 'Select Role / Permission',
-			'admin.separate_tags_with_commas' => 'Separate tags with commas',
-			'admin.servers' => 'Servers',
-			'admin.student_id' => 'Student ID',
-			'admin.system_technical_status' => 'System Technical Status',
-			'admin.tag1_tag2' => 'tag1, tag2',
-			'admin.teaching_assistants' => 'Teaching Assistants',
-			'admin.total_staff' => 'Total Staff',
-			'admin.total_students' => 'Total Students',
-			'admin.unverified' => 'Unverified',
-			'admin.user_roles_ranks' => 'User Roles & Ranks',
-			'admin.verification' => 'Verification',
-			'admin.verified' => 'Verified',
-			'admin.warning_level' => 'Warning Level',
-			'admin.you_can_manage_professors_and_' => 'You can manage professors and more here',
 			'enrollment.registration_title' => 'Course Registration',
 			'enrollment.invoices_title' => 'Financial Invoices',
 			'enrollment.payment_title' => 'Tuition Payment',
@@ -6281,8 +5164,6 @@ extension on Translations {
 			'enrollment.loading' => 'Loading...',
 			'enrollment.retry' => 'Retry',
 			'enrollment.academic_advisor' => 'Academic Advisor',
-			_ => null,
-		} ?? switch (path) {
 			'enrollment.advisor_assignment' => 'Advisor Assignment',
 			'enrollment.advisor_requestadvisorfullname' => ({required Object name}) => 'Advisor: ${name}',
 			'enrollment.advisor_updated_successfully' => 'Advisor Updated Successfully',
@@ -6397,7 +5278,6 @@ extension on Translations {
 			'shared.email_support' => 'Email Support',
 			'shared.financial_aid' => 'Financial Aid',
 			'shared.forums' => 'Forums',
-			'shared.it_support' => 'IT Support',
 			'shared.library' => 'Library',
 			'shared.logout' => 'Log Out',
 			'shared.manage_logged_in_devices' => 'Manage logged-in devices',
@@ -6548,6 +5428,8 @@ extension on Translations {
 			'extracted.test_notification_sent' => 'Test notification sent!',
 			'extracted.app_language' => 'App Language',
 			'extracted.support_center' => 'Support Center',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.get_help_and_resolve_any_issues' => 'Get help and resolve any issues',
 			'extracted.send_feedback' => 'Send Feedback',
 			'extracted.share_your_thoughts_to_help_improve_the_' => 'Share your thoughts to help improve the app',
@@ -6626,7 +5508,6 @@ extension on Translations {
 			'extracted.delete_role' => 'Delete Role',
 			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role_nameEn}) => 'Delete "${role_nameEn}"? This cannot be undone.',
 			'extracted.delete' => 'Delete',
-			'extracted.admin_it' => 'Admin & IT',
 			'extracted.leadership' => 'Leadership',
 			'extracted.teaching' => 'Teaching',
 			'extracted.student_affairs' => 'Student Affairs',
@@ -6701,7 +5582,6 @@ extension on Translations {
 			'extracted.roles' => 'Roles',
 			'extracted.permissions_2' => 'Permissions',
 			'extracted.academic_leadership' => 'Academic Leadership',
-			'extracted.administration' => 'Administration',
 			'extracted.manage_grades' => 'Manage Grades',
 			'extracted.manage_attendance' => 'Manage Attendance',
 			'extracted.manage_tas' => 'Manage TAs',

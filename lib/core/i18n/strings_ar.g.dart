@@ -65,12 +65,10 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSecurityAr security = _TranslationsSecurityAr._(_root);
 	@override late final _TranslationsTutorialsAr tutorials = _TranslationsTutorialsAr._(_root);
 	@override late final _TranslationsForumsAr forums = _TranslationsForumsAr._(_root);
-	@override late final _TranslationsAdministrationAr administration = _TranslationsAdministrationAr._(_root);
 	@override late final _TranslationsProfessorAr professor = _TranslationsProfessorAr._(_root);
 	@override late final _TranslationsRolesAr roles = _TranslationsRolesAr._(_root);
 	@override late final _TranslationsExtractedAr extracted = _TranslationsExtractedAr._(_root);
 	@override late final _TranslationsAcademicAr academic = _TranslationsAcademicAr._(_root);
-	@override late final _TranslationsAdminAr admin = _TranslationsAdminAr._(_root);
 	@override late final _TranslationsEnrollmentAr enrollment = _TranslationsEnrollmentAr._(_root);
 	@override late final _TranslationsSharedAr shared = _TranslationsSharedAr._(_root);
 	@override late final _TranslationsStudentsAr students = _TranslationsStudentsAr._(_root);
@@ -155,13 +153,11 @@ class _TranslationsHomeAr extends TranslationsHomeEn {
 
 	// Translations
 	@override late final _TranslationsHomeTabsAr tabs = _TranslationsHomeTabsAr._(_root);
-	@override String get admin_portal => 'بوابة المشرف';
 	@override String get prof => 'أستاذ';
 	@override String get home => 'الرئيسية';
 	@override String get student_portal => 'بوابة الطالب';
 	@override String get student => 'طالب';
 	@override String get colleges => 'الكليات';
-	@override String get admin => 'إدارة';
 	@override String get faculty_portal => 'بوابة الكلية';
 }
 
@@ -548,20 +544,6 @@ class _TranslationsForumsAr extends TranslationsForumsEn {
 	@override String get title => 'المنتديات';
 }
 
-// Path: administration
-class _TranslationsAdministrationAr extends TranslationsAdministrationEn {
-	_TranslationsAdministrationAr._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'إدارة الطلاب';
-	@override String get stats => 'إحصائيات النظام';
-	@override String get users => 'المستخدمين';
-	@override String get reports => 'التقارير';
-	@override late final _TranslationsAdministrationAuditLogsAr audit_logs = _TranslationsAdministrationAuditLogsAr._(_root);
-}
-
 // Path: professor
 class _TranslationsProfessorAr extends TranslationsProfessorEn {
 	_TranslationsProfessorAr._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -745,7 +727,6 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get delete_role => 'حذف الرتبة';
 	@override String delete_role_rolenameen_this_cannot_be_undone({required Object role_nameEn}) => 'هل تريد حذف "${role_nameEn}"؟ لا يمكن التراجع.';
 	@override String get delete => 'حذف';
-	@override String get admin_it => 'الإدارة والتقنية';
 	@override String get leadership => 'القيادة الأكاديمية';
 	@override String get teaching => 'الهيئة التدريسية';
 	@override String get student_affairs => 'شؤون الطلاب';
@@ -820,7 +801,6 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get roles => 'Roles';
 	@override String get permissions_2 => 'Permissions';
 	@override String get academic_leadership => 'Academic Leadership';
-	@override String get administration => 'Administration';
 	@override String get manage_grades => 'Manage Grades';
 	@override String get manage_attendance => 'Manage Attendance';
 	@override String get manage_tas => 'Manage TAs';
@@ -1086,245 +1066,6 @@ class _TranslationsAcademicAr extends TranslationsAcademicEn {
 	@override String get summer_2024 => 'صيف 2024';
 }
 
-// Path: admin
-class _TranslationsAdminAr extends TranslationsAdminEn {
-	_TranslationsAdminAr._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get eeee_mmmm_dd_yyyy => 'EEEE، MMMM ي ي، س س س';
-	@override String get system_online => 'النظام عبر الإنترنت';
-	@override String get admin_command_center => 'مركز قيادة المشرف';
-	@override String get en => 'أون';
-	@override String get admin => 'مسؤل';
-	@override String get students => 'طلاب';
-	@override String get live_statistics => 'الإحصائيات الحية';
-	@override String get staff => 'طاقم عمل';
-	@override String get faculty => 'كلية';
-	@override String get leadership => 'قيادة';
-	@override String get admin_it => 'الإدارة وتكنولوجيا المعلومات';
-	@override String get system_modules => 'وحدات النظام';
-	@override String get users => 'المستخدمين';
-	@override String get colleges => 'الكليات';
-	@override String get manage_faculties => 'إدارة الكليات';
-	@override String get manage_all_accounts => 'إدارة كافة الحسابات';
-	@override String get departments => 'الأقسام';
-	@override String get roles => 'الأدوار';
-	@override String get academic_departments => 'الأقسام الأكاديمية';
-	@override String get permission_management => 'إدارة الأذونات';
-	@override String get professors => 'الأساتذة';
-	@override String get faculty_members => 'أعضاء هيئة التدريس';
-	@override String get audit_logs => 'سجلات التدقيق';
-	@override String get system_activity_log => 'سجل نشاط النظام';
-	@override String get system_settings => 'إعدادات النظام';
-	@override String get platform_configuration => 'تكوين المنصة';
-	@override String get performance => 'أداء';
-	@override String get server_health_metrics => 'مقاييس صحة الخادم';
-	@override String get system_pulse => 'نبض النظام';
-	@override String get server => 'الخادم';
-	@override String get latency => 'كمون';
-	@override String get online => 'متصل';
-	@override String get status => 'حالة';
-	@override String get database => 'قاعدة البيانات';
-	@override String get active => 'نشيط';
-	@override String get realtime_latency_ms => 'الكمون في الوقت الحقيقي (مللي ثانية)';
-	@override String get role_breakdown => 'انهيار الدور';
-	@override String get teaching_staff => 'أعضاء هيئة التدريس';
-	@override String get student_affairs => 'شؤون الطلاب';
-	@override String get system_health => 'صحة النظام';
-	@override String get total_users => 'إجمالي المستخدمين';
-	@override String get quick_actions => 'إجراءات سريعة';
-	@override String get add_user => 'إضافة مستخدم';
-	@override String get export_data => 'تصدير البيانات';
-	@override String get academic_leadership => 'القيادة الأكاديمية';
-	@override String get management => 'إدارة';
-	@override String get send_announcement => 'إرسال إعلان';
-	@override String get backup_system => 'نظام النسخ الاحتياطي';
-	@override String get user_management => 'إدارة المستخدم';
-	@override String get user_list => 'قائمة المستخدمين';
-	@override String get filter_all => 'الجميع';
-	@override String get filter_students => 'طلاب';
-	@override String get search_users => 'البحث عن المستخدمين...';
-	@override String get filter_staff => 'طاقم عمل';
-	@override String get filter_admin => 'مسؤل';
-	@override String get no_users => 'لم يتم العثور على مستخدمين';
-	@override String user_count({required Object count}) => 'مستخدمي${count}';
-	@override String get student_management => 'إدارة الطلاب';
-	@override String get faculty_management => 'إدارة الكلية';
-	@override String get leadership_management => 'إدارة القيادة';
-	@override String get staff_management => 'إدارة الموظفين';
-	@override String get admin_it_management => 'الإدارة وإدارة تكنولوجيا المعلومات';
-	@override String get department_management => 'إدارة القسم';
-	@override String get professor_management => 'إدارة الأستاذ';
-	@override String get role_management => 'إدارة الأدوار';
-	@override String get audit_log_management => 'إدارة سجل التدقيق';
-	@override String get system_configuration => 'تكوين النظام';
-	@override String get edit_college => 'تحرير الكلية';
-	@override String get add_department => 'إضافة قسم';
-	@override String get add_college => 'أضف الكلية';
-	@override String get college_name => 'اسم الكلية';
-	@override String get delete_department => 'حذف القسم';
-	@override String get department_name => 'اسم القسم';
-	@override String get delete_college => 'حذف الكلية';
-	@override String get head_name => 'اسم الرأس';
-	@override String get dean_name => 'اسم العميد';
-	@override String get student_count => 'طلاب';
-	@override String get ta_count => 'المساعدة التقنية';
-	@override String get action => 'فعل';
-	@override String get staff_count => 'طاقم عمل';
-	@override String get edit_department => 'قسم التحرير';
-	@override String get timestamp => 'الطابع الزمني';
-	@override String get user => 'مستخدم';
-	@override String get details => 'تفاصيل';
-	@override String get filter_by_action => 'تصفية حسب العمل';
-	@override String get filter_by_date => 'تصفية حسب التاريخ';
-	@override String get no_logs => 'لم يتم العثور على سجلات التدقيق';
-	@override String get system_version => 'إصدار النظام';
-	@override String get maintenance_mode => 'وضع الصيانة';
-	@override String get backup_schedule => 'جدول النسخ الاحتياطي';
-	@override String get email_server => 'خادم البريد الإلكتروني';
-	@override String get storage_quota => 'حصة التخزين';
-	@override String get security_level => 'مستوى الأمان';
-	@override String get reset_defaults => 'إعادة التعيين إلى الإعدادات الافتراضية';
-	@override String get save_settings => 'حفظ الإعدادات';
-	@override String get user_email => 'بريد إلكتروني';
-	@override String get session_timeout => 'مهلة الجلسة';
-	@override String get user_role => 'دور';
-	@override String get user_phone => 'هاتف';
-	@override String get user_name => 'اسم';
-	@override String get user_department => 'قسم';
-	@override String get log_retention => 'الاحتفاظ بالسجل';
-	@override String get user_college => 'كلية';
-	@override String get user_created => 'مخلوق';
-	@override String get user_status => 'حالة';
-	@override String get add_new_user => 'إضافة مستخدم جديد';
-	@override String get user_updated => 'تم تحديث المستخدم بنجاح';
-	@override String get edit_user => 'تحرير المستخدم';
-	@override String get delete_user => 'حذف المستخدم';
-	@override String get save_user => 'يحفظ';
-	@override String get cancel => 'يلغي';
-	@override String get email_label => 'عنوان البريد الإلكتروني';
-	@override String get department_label => 'قسم';
-	@override String get phone_label => 'رقم التليفون';
-	@override String get role_label => 'حدد الدور';
-	@override String get college_label => 'كلية';
-	@override String get category_student => 'طالب';
-	@override String get confirm_password_label => 'تأكيد كلمة المرور';
-	@override String get name_label => 'الاسم الكامل';
-	@override String get category_staff => 'طاقم عمل';
-	@override String get password_label => 'كلمة المرور';
-	@override String get category_faculty => 'كلية';
-	@override String get category_leadership => 'قيادة';
-	@override String get category_admin => 'مسؤل';
-	@override String get no_departments => 'لا توجد أقسام متاحة';
-	@override String get select_role => 'حدد دورًا';
-	@override String get no_colleges => 'لا توجد كليات متاحة';
-	@override String get select_department => 'اختر قسمًا';
-	@override String get select_college => 'اختر الكلية';
-	@override String get user_added => 'تمت إضافة المستخدم بنجاح';
-	@override String get user_deleted => 'تم حذف المستخدم بنجاح';
-	@override String get confirm_delete => 'تأكيد الحذف';
-	@override String get confirm_delete_message => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟';
-	@override String get error_loading => 'حدث خطأ أثناء تحميل البيانات';
-	@override String get error_saving => 'خطأ في حفظ البيانات';
-	@override String get academic_leaders => 'القادة الأكاديميون';
-	@override String get academic_departments_1 => 'الأقسام الأكاديمية';
-	@override String get retry => 'أعد المحاولة';
-	@override String get academic_department => 'القسم الأكاديمي';
-	@override String get academic_warnings => 'التحذيرات الأكاديمية';
-	@override String get account_status => 'حالة الحساب';
-	@override String get actor => 'ممثل';
-	@override String get add_report => 'إضافة تقرير';
-	@override String get admins => 'المشرفين';
-	@override String get advanced_management => 'الإدارة المتقدمة';
-	@override String get account_verification => 'التحقق من الحساب';
-	@override String get all_systems_operational => 'جميع الأنظمة التشغيلية';
-	@override String get all_levels => 'جميع المستويات';
-	@override String get all => 'الجميع';
-	@override String get apply_filters => 'تطبيق المرشحات';
-	@override String get assign_dean => 'تعيين عميد';
-	@override String get are_you_sure_you_want_to_delet => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟';
-	@override String get assign => 'تعيين';
-	@override String get assign_department_head => 'تعيين رئيس القسم';
-	@override String get attached_report => 'التقرير المرفق';
-	@override String get change => 'يتغير';
-	@override String get ban_user => 'حظر المستخدم';
-	@override String get banned => 'محظور';
-	@override String get change_dean => 'تغيير العميد';
-	@override String get changes_saved_successfully => 'تم حفظ التغييرات بنجاح';
-	@override String get college => 'كلية';
-	@override String get college_dean => 'عميد الكلية';
-	@override String get college_details => 'تفاصيل الكلية';
-	@override String get colleges_management => 'إدارة الكليات';
-	@override String get deactivated => 'معطل';
-	@override String get coming_soon => 'قريباً';
-	@override String get delete => 'يمسح';
-	@override String get department_details => 'تفاصيل القسم';
-	@override String get department_projects => 'مشاريع القسم';
-	@override String get email_address => 'عنوان البريد الإلكتروني';
-	@override String get entity => 'كيان';
-	@override String get departments_management => 'إدارة الأقسام';
-	@override String error_snapshoterror({required Object error}) => 'خطأ: ${error}';
-	@override String get faculty_members_1 => 'أعضاء هيئة التدريس';
-	@override String get filter_users => 'تصفية المستخدمين';
-	@override String get full_name => 'الاسم الكامل';
-	@override String get failed_to_load_data => 'فشل في تحميل البيانات';
-	@override String get head_of_department => 'رئيس القسم';
-	@override String get incidents => 'الحوادث';
-	@override String get leadership_stats => 'إحصائيات القيادة';
-	@override String level_level({required Object level}) => 'المستوى ${level}';
-	@override String get manage_tags => 'إدارة العلامات';
-	@override String get min_6_chars => 'دقيقة. 6 أحرف';
-	@override String get national_id => 'الهوية الوطنية';
-	@override String get no_about_text_available => 'لا يوجد حول النص المتاح';
-	@override String get no_colleges_found => 'لم يتم العثور على كليات';
-	@override String get nationality => 'جنسية';
-	@override String get no_dean_assigned => 'لم يتم تعيين عميد';
-	@override String get no_departments_in_this_college => 'لا توجد أقسام في هذه الكلية';
-	@override String get no_description_available => 'لا يوجد وصف متاح';
-	@override String get no_head_assigned => 'لم يتم تعيين رئيس';
-	@override String get no_logs_found => 'لم يتم العثور على سجلات';
-	@override String get no_departments_found => 'لم يتم العثور على أقسام';
-	@override String get no_faculty_records_found => 'لم يتم العثور على سجلات أعضاء هيئة التدريس';
-	@override String get no_projects_added_yet => 'لم تتم إضافة أي مشاريع حتى الآن';
-	@override String get no_settings_found_in_the_datab => 'لم يتم العثور على إعدادات في قاعدة البيانات';
-	@override String get no_matching_students_found => 'لم يتم العثور على طلاب متطابقين';
-	@override String get no_users_found => 'لم يتم العثور على مستخدمين';
-	@override String get office => 'مكتب';
-	@override String get password => 'كلمة المرور';
-	@override String get pending_reg => 'في انتظار التسجيل';
-	@override String get permanently_delete_user => 'حذف المستخدم نهائيًا';
-	@override String get please_assign_a_dean_for_the_c => 'أرجو تعيين عميد لهذه الكلية';
-	@override String get phone_number => 'رقم التليفون';
-	@override String get please_assign_a_head_for_the_d => 'يرجى تعيين رئيس لهذا القسم';
-	@override String get save => 'يحفظ';
-	@override String get roles_management => 'إدارة الأدوار';
-	@override String get search_by_name_email_phone_id => 'البحث حسب الاسم أو البريد الإلكتروني أو الهاتف أو الهوية...';
-	@override String get search_doctor_name => 'بحث عن اسم الطبيب...';
-	@override String get save_changes => 'حفظ التغييرات';
-	@override String get search_student_or_id => 'البحث عن الطالب أو الهوية...';
-	@override String get select => 'يختار';
-	@override String get search_staff_member => 'البحث عن موظف...';
-	@override String get select_role_in_widgetinitialca => 'حدد الدور';
-	@override String get separate_tags_with_commas => 'علامات منفصلة بفواصل';
-	@override String get select_role_permission => 'حدد الدور / الإذن';
-	@override String get student_id => 'معرف الطالب';
-	@override String get servers => 'الخوادم';
-	@override String get system_technical_status => 'الحالة الفنية للنظام';
-	@override String get tag1_tag2 => 'العلامة 1، العلامة 2';
-	@override String get teaching_assistants => 'مساعدو التدريس';
-	@override String get total_students => 'إجمالي الطلاب';
-	@override String get unverified => 'لم يتم التحقق منها';
-	@override String get user_roles_ranks => 'أدوار المستخدم ورتبه';
-	@override String get verified => 'تم التحقق منه';
-	@override String get warning_level => 'مستوى التحذير';
-	@override String get verification => 'تَحَقّق';
-	@override String get you_can_manage_professors_and_ => 'يمكنك إدارة الأساتذة وأكثر هنا';
-	@override String get total_staff => 'مجموع الموظفين';
-	@override String get college_management => 'إدارة الكلية';
-}
-
 // Path: enrollment
 class _TranslationsEnrollmentAr extends TranslationsEnrollmentEn {
 	_TranslationsEnrollmentAr._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -1524,7 +1265,6 @@ class _TranslationsSharedAr extends TranslationsSharedEn {
 	@override String get email_support => 'دعم البريد الإلكتروني';
 	@override String get financial_aid => 'المساعدات المالية';
 	@override String get forums => 'المنتديات';
-	@override String get it_support => 'دعم تكنولوجيا المعلومات';
 	@override String get library => 'مكتبة';
 	@override String get logout => 'تسجيل الخروج';
 	@override String get members => 'أعضاء';
@@ -1717,9 +1457,7 @@ class _TranslationsAuthForgotPasswordAr extends TranslationsAuthForgotPasswordEn
 	// Translations
 	@override String get title => 'نسيت كلمة المرور';
 	@override String get subtitle => 'اختر طريقة الاستعادة';
-	@override String get method_admin => 'زيارة الإدارة';
 	@override String get method_online => 'طلب إلكتروني';
-	@override String get admin_instructions => 'يرجى زيارة مكتب شؤون الطلاب لإعادة تعيين كلمة المرور. احضر بطاقتك الجامعية سارية المفعول.';
 	@override String get phone_label => 'رقم الهاتف';
 	@override String get upload_id => 'رفع صورة الهوية';
 	@override String get upload_id_hint => 'اضغط لرفع صورة واضحة لهويتك الجامعية';
@@ -1744,7 +1482,6 @@ class _TranslationsHomeTabsAr extends TranslationsHomeTabsEn {
 	@override String get home => 'الرئيسية';
 	@override String get colleges => 'الكليات';
 	@override String get student => 'الطالب';
-	@override String get admin => 'الإدارة';
 	@override String get search => 'بحث';
 	@override String get notifications => 'الإشعارات';
 	@override String get profile => 'الملف الشخصي';
@@ -2032,19 +1769,6 @@ class _TranslationsAttendanceSubjectsAr extends TranslationsAttendanceSubjectsEn
 	@override String get calculus => 'تفاضل متقدم';
 }
 
-// Path: administration.audit_logs
-class _TranslationsAdministrationAuditLogsAr extends TranslationsAdministrationAuditLogsEn {
-	_TranslationsAdministrationAuditLogsAr._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'سجلات النظام';
-	@override String get no_logs_found => 'لم يتم العثور على سجلات تطابق المعايير.';
-	@override late final _TranslationsAdministrationAuditLogsTabsAr tabs = _TranslationsAdministrationAuditLogsTabsAr._(_root);
-	@override late final _TranslationsAdministrationAuditLogsLabelsAr labels = _TranslationsAdministrationAuditLogsLabelsAr._(_root);
-}
-
 // Path: professor.stats
 class _TranslationsProfessorStatsAr extends TranslationsProfessorStatsEn {
 	_TranslationsProfessorStatsAr._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -2093,7 +1817,6 @@ class _TranslationsRolesCategoriesAr extends TranslationsRolesCategoriesEn {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get admin_it => 'الإدارة والتقنية';
 	@override String get academic_leadership => 'القيادة الأكاديمية';
 	@override String get teaching_staff => 'الكادر التعليمي';
 	@override String get student_affairs => 'الخدمات الطلابية';
@@ -2109,10 +1832,6 @@ class _TranslationsRolesNamesAr extends TranslationsRolesNamesEn {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get super_admin => 'مدير النظام العام';
-	@override String get admin => 'مسؤول نظام';
-	@override String get it_support => 'المسؤول التقني';
-	@override String get financial_auditor => 'المراقب المالي';
 	@override String get rector => 'مدير الجامعة';
 	@override String get dean => 'عميد الكلية';
 	@override String get department_head => 'رئيس القسم';
@@ -2142,10 +1861,6 @@ class _TranslationsRolesDescriptionsAr extends TranslationsRolesDescriptionsEn {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
-	@override String get super_admin => 'تحكم كامل في النظام بأكمله';
-	@override String get admin => 'مسؤول نظام بصلاحيات عالية';
-	@override String get it_support => 'دعم وصيانة النظام التقني';
-	@override String get financial_auditor => 'مراقبة السجلات المالية والفواتير';
 	@override String get rector => 'مدير الجامعة مع إشراف أكاديمي كامل';
 	@override String get dean => 'رئيس كلية أو مجمع أكاديمي';
 	@override String get department_head => 'رئيس قسم أكاديمي';
@@ -2199,38 +1914,6 @@ class _TranslationsTranscriptCourseStatusAr extends TranslationsTranscriptCourse
 	// Translations
 	@override String get completed => 'مكتمل';
 	@override String get transferred => 'معادلة';
-}
-
-// Path: administration.audit_logs.tabs
-class _TranslationsAdministrationAuditLogsTabsAr extends TranslationsAdministrationAuditLogsTabsEn {
-	_TranslationsAdministrationAuditLogsTabsAr._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get all => 'سجل العمليات الكامل';
-	@override String get security => 'الأمان والدخول';
-	@override String get user_management => 'إدارة المستخدمين';
-	@override String get data_updates => 'تحديثات البيانات';
-}
-
-// Path: administration.audit_logs.labels
-class _TranslationsAdministrationAuditLogsLabelsAr extends TranslationsAdministrationAuditLogsLabelsEn {
-	_TranslationsAdministrationAuditLogsLabelsAr._(TranslationsAr root) : this._root = root, super.internal(root);
-
-	final TranslationsAr _root; // ignore: unused_field
-
-	// Translations
-	@override String get actor => 'الفاعل';
-	@override String get table => 'الجدول';
-	@override String get record => 'السجل';
-	@override String get action => 'الإجراء';
-	@override String get old_data => 'البيانات القديمة';
-	@override String get new_data => 'البيانات الجديدة';
-	@override String get notes => 'ملاحظات';
-	@override String get performed_by => 'تم بواسطة';
-	@override String get close_details => 'إغلاق التفاصيل';
-	@override String get view_details => 'عرض التفاصيل';
 }
 
 /// The flat map containing all translations for locale <ar>.
@@ -2296,9 +1979,7 @@ extension on TranslationsAr {
 			'auth.login.guest' => 'تصفح كزائر',
 			'auth.forgot_password.title' => 'نسيت كلمة المرور',
 			'auth.forgot_password.subtitle' => 'اختر طريقة الاستعادة',
-			'auth.forgot_password.method_admin' => 'زيارة الإدارة',
 			'auth.forgot_password.method_online' => 'طلب إلكتروني',
-			'auth.forgot_password.admin_instructions' => 'يرجى زيارة مكتب شؤون الطلاب لإعادة تعيين كلمة المرور. احضر بطاقتك الجامعية سارية المفعول.',
 			'auth.forgot_password.phone_label' => 'رقم الهاتف',
 			'auth.forgot_password.upload_id' => 'رفع صورة الهوية',
 			'auth.forgot_password.upload_id_hint' => 'اضغط لرفع صورة واضحة لهويتك الجامعية',
@@ -2316,17 +1997,14 @@ extension on TranslationsAr {
 			'home.tabs.home' => 'الرئيسية',
 			'home.tabs.colleges' => 'الكليات',
 			'home.tabs.student' => 'الطالب',
-			'home.tabs.admin' => 'الإدارة',
 			'home.tabs.search' => 'بحث',
 			'home.tabs.notifications' => 'الإشعارات',
 			'home.tabs.profile' => 'الملف الشخصي',
-			'home.admin_portal' => 'بوابة المشرف',
 			'home.prof' => 'أستاذ',
 			'home.home' => 'الرئيسية',
 			'home.student_portal' => 'بوابة الطالب',
 			'home.student' => 'طالب',
 			'home.colleges' => 'الكليات',
-			'home.admin' => 'إدارة',
 			'home.faculty_portal' => 'بوابة الكلية',
 			'feed.likes' => 'إعجابات',
 			'feed.caption_sample' => 'هذا مثال لشرح المنشور',
@@ -2655,26 +2333,6 @@ extension on TranslationsAr {
 			'security.sessions' => 'الجلسات النشطة',
 			'tutorials.title' => 'التعليمات والدروس',
 			'forums.title' => 'المنتديات',
-			'administration.title' => 'إدارة الطلاب',
-			'administration.stats' => 'إحصائيات النظام',
-			'administration.users' => 'المستخدمين',
-			'administration.reports' => 'التقارير',
-			'administration.audit_logs.title' => 'سجلات النظام',
-			'administration.audit_logs.no_logs_found' => 'لم يتم العثور على سجلات تطابق المعايير.',
-			'administration.audit_logs.tabs.all' => 'سجل العمليات الكامل',
-			'administration.audit_logs.tabs.security' => 'الأمان والدخول',
-			'administration.audit_logs.tabs.user_management' => 'إدارة المستخدمين',
-			'administration.audit_logs.tabs.data_updates' => 'تحديثات البيانات',
-			'administration.audit_logs.labels.actor' => 'الفاعل',
-			'administration.audit_logs.labels.table' => 'الجدول',
-			'administration.audit_logs.labels.record' => 'السجل',
-			'administration.audit_logs.labels.action' => 'الإجراء',
-			'administration.audit_logs.labels.old_data' => 'البيانات القديمة',
-			'administration.audit_logs.labels.new_data' => 'البيانات الجديدة',
-			'administration.audit_logs.labels.notes' => 'ملاحظات',
-			'administration.audit_logs.labels.performed_by' => 'تم بواسطة',
-			'administration.audit_logs.labels.close_details' => 'إغلاق التفاصيل',
-			'administration.audit_logs.labels.view_details' => 'عرض التفاصيل',
 			'professor.dashboard_title' => 'لوحة تحكم الدكتور',
 			'professor.welcome_back_name' => ({required Object name}) => 'مرحباً بعودتك، ${name}',
 			'professor.active_tas_count' => ({required Object count}) => '${count} معيد حالي',
@@ -2716,17 +2374,12 @@ extension on TranslationsAr {
 			'professor.profile.teaching_assistants' => 'المعيدين',
 			'professor.profile.shared_resources' => 'المصادر المشتركة',
 			'professor.profile.office_hours' => 'الساعات المكتبية',
-			'roles.categories.admin_it' => 'الإدارة والتقنية',
 			'roles.categories.academic_leadership' => 'القيادة الأكاديمية',
 			'roles.categories.teaching_staff' => 'الكادر التعليمي',
 			'roles.categories.student_affairs' => 'الخدمات الطلابية',
 			'roles.categories.student_roles' => 'رتب الطلاب',
 			'roles.categories.facilities_security' => 'المرافق والأمن',
 			'roles.categories.external_roles' => 'الخبراء الخارجيين',
-			'roles.names.super_admin' => 'مدير النظام العام',
-			'roles.names.admin' => 'مسؤول نظام',
-			'roles.names.it_support' => 'المسؤول التقني',
-			'roles.names.financial_auditor' => 'المراقب المالي',
 			'roles.names.rector' => 'مدير الجامعة',
 			'roles.names.dean' => 'عميد الكلية',
 			'roles.names.department_head' => 'رئيس القسم',
@@ -2747,14 +2400,8 @@ extension on TranslationsAr {
 			'roles.names.guest' => 'زائر',
 			'roles.names.parent' => 'ولي الأمر',
 			'roles.names.recruiter' => 'جهة توظيف',
-			'roles.descriptions.super_admin' => 'تحكم كامل في النظام بأكمله',
-			'roles.descriptions.admin' => 'مسؤول نظام بصلاحيات عالية',
-			'roles.descriptions.it_support' => 'دعم وصيانة النظام التقني',
-			'roles.descriptions.financial_auditor' => 'مراقبة السجلات المالية والفواتير',
 			'roles.descriptions.rector' => 'مدير الجامعة مع إشراف أكاديمي كامل',
 			'roles.descriptions.dean' => 'رئيس كلية أو مجمع أكاديمي',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.department_head' => 'رئيس قسم أكاديمي',
 			'roles.descriptions.academic_coordinator' => 'تنسيق البرامج الأكاديمية والجداول',
 			'roles.descriptions.professor' => 'عضو هيئة تدريس يقوم بالتدريس وإدارة المقررات',
@@ -2789,6 +2436,8 @@ extension on TranslationsAr {
 			'extracted.write_something_about_yourself' => 'اكتب نبذة عن نفسك...',
 			'extracted.account_info' => 'معلومات الحساب',
 			'extracted.role' => 'الدور',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.account_status' => 'حالة الحساب',
 			'extracted.active' => 'نشط',
 			'extracted.save_changes' => 'حفظ التغييرات',
@@ -2898,7 +2547,6 @@ extension on TranslationsAr {
 			'extracted.delete_role' => 'حذف الرتبة',
 			'extracted.delete_role_rolenameen_this_cannot_be_undone' => ({required Object role_nameEn}) => 'هل تريد حذف "${role_nameEn}"؟ لا يمكن التراجع.',
 			'extracted.delete' => 'حذف',
-			'extracted.admin_it' => 'الإدارة والتقنية',
 			'extracted.leadership' => 'القيادة الأكاديمية',
 			'extracted.teaching' => 'الهيئة التدريسية',
 			'extracted.student_affairs' => 'شؤون الطلاب',
@@ -2973,7 +2621,6 @@ extension on TranslationsAr {
 			'extracted.roles' => 'Roles',
 			'extracted.permissions_2' => 'Permissions',
 			'extracted.academic_leadership' => 'Academic Leadership',
-			'extracted.administration' => 'Administration',
 			'extracted.manage_grades' => 'Manage Grades',
 			'extracted.manage_attendance' => 'Manage Attendance',
 			'extracted.manage_tas' => 'Manage TAs',
@@ -3228,238 +2875,6 @@ extension on TranslationsAr {
 			'academic.web_programming' => 'برمجة الويب',
 			'academic.spring_2024' => 'ربيع 2024',
 			'academic.summer_2024' => 'صيف 2024',
-			'admin.eeee_mmmm_dd_yyyy' => 'EEEE، MMMM ي ي، س س س',
-			'admin.system_online' => 'النظام عبر الإنترنت',
-			'admin.admin_command_center' => 'مركز قيادة المشرف',
-			'admin.en' => 'أون',
-			'admin.admin' => 'مسؤل',
-			'admin.students' => 'طلاب',
-			'admin.live_statistics' => 'الإحصائيات الحية',
-			'admin.staff' => 'طاقم عمل',
-			'admin.faculty' => 'كلية',
-			'admin.leadership' => 'قيادة',
-			'admin.admin_it' => 'الإدارة وتكنولوجيا المعلومات',
-			'admin.system_modules' => 'وحدات النظام',
-			'admin.users' => 'المستخدمين',
-			'admin.colleges' => 'الكليات',
-			'admin.manage_faculties' => 'إدارة الكليات',
-			'admin.manage_all_accounts' => 'إدارة كافة الحسابات',
-			'admin.departments' => 'الأقسام',
-			'admin.roles' => 'الأدوار',
-			'admin.academic_departments' => 'الأقسام الأكاديمية',
-			'admin.permission_management' => 'إدارة الأذونات',
-			'admin.professors' => 'الأساتذة',
-			'admin.faculty_members' => 'أعضاء هيئة التدريس',
-			'admin.audit_logs' => 'سجلات التدقيق',
-			'admin.system_activity_log' => 'سجل نشاط النظام',
-			'admin.system_settings' => 'إعدادات النظام',
-			'admin.platform_configuration' => 'تكوين المنصة',
-			'admin.performance' => 'أداء',
-			'admin.server_health_metrics' => 'مقاييس صحة الخادم',
-			'admin.system_pulse' => 'نبض النظام',
-			'admin.server' => 'الخادم',
-			'admin.latency' => 'كمون',
-			'admin.online' => 'متصل',
-			'admin.status' => 'حالة',
-			'admin.database' => 'قاعدة البيانات',
-			'admin.active' => 'نشيط',
-			'admin.realtime_latency_ms' => 'الكمون في الوقت الحقيقي (مللي ثانية)',
-			'admin.role_breakdown' => 'انهيار الدور',
-			'admin.teaching_staff' => 'أعضاء هيئة التدريس',
-			'admin.student_affairs' => 'شؤون الطلاب',
-			_ => null,
-		} ?? switch (path) {
-			'admin.system_health' => 'صحة النظام',
-			'admin.total_users' => 'إجمالي المستخدمين',
-			'admin.quick_actions' => 'إجراءات سريعة',
-			'admin.add_user' => 'إضافة مستخدم',
-			'admin.export_data' => 'تصدير البيانات',
-			'admin.academic_leadership' => 'القيادة الأكاديمية',
-			'admin.management' => 'إدارة',
-			'admin.send_announcement' => 'إرسال إعلان',
-			'admin.backup_system' => 'نظام النسخ الاحتياطي',
-			'admin.user_management' => 'إدارة المستخدم',
-			'admin.user_list' => 'قائمة المستخدمين',
-			'admin.filter_all' => 'الجميع',
-			'admin.filter_students' => 'طلاب',
-			'admin.search_users' => 'البحث عن المستخدمين...',
-			'admin.filter_staff' => 'طاقم عمل',
-			'admin.filter_admin' => 'مسؤل',
-			'admin.no_users' => 'لم يتم العثور على مستخدمين',
-			'admin.user_count' => ({required Object count}) => 'مستخدمي${count}',
-			'admin.student_management' => 'إدارة الطلاب',
-			'admin.faculty_management' => 'إدارة الكلية',
-			'admin.leadership_management' => 'إدارة القيادة',
-			'admin.staff_management' => 'إدارة الموظفين',
-			'admin.admin_it_management' => 'الإدارة وإدارة تكنولوجيا المعلومات',
-			'admin.department_management' => 'إدارة القسم',
-			'admin.professor_management' => 'إدارة الأستاذ',
-			'admin.role_management' => 'إدارة الأدوار',
-			'admin.audit_log_management' => 'إدارة سجل التدقيق',
-			'admin.system_configuration' => 'تكوين النظام',
-			'admin.edit_college' => 'تحرير الكلية',
-			'admin.add_department' => 'إضافة قسم',
-			'admin.add_college' => 'أضف الكلية',
-			'admin.college_name' => 'اسم الكلية',
-			'admin.delete_department' => 'حذف القسم',
-			'admin.department_name' => 'اسم القسم',
-			'admin.delete_college' => 'حذف الكلية',
-			'admin.head_name' => 'اسم الرأس',
-			'admin.dean_name' => 'اسم العميد',
-			'admin.student_count' => 'طلاب',
-			'admin.ta_count' => 'المساعدة التقنية',
-			'admin.action' => 'فعل',
-			'admin.staff_count' => 'طاقم عمل',
-			'admin.edit_department' => 'قسم التحرير',
-			'admin.timestamp' => 'الطابع الزمني',
-			'admin.user' => 'مستخدم',
-			'admin.details' => 'تفاصيل',
-			'admin.filter_by_action' => 'تصفية حسب العمل',
-			'admin.filter_by_date' => 'تصفية حسب التاريخ',
-			'admin.no_logs' => 'لم يتم العثور على سجلات التدقيق',
-			'admin.system_version' => 'إصدار النظام',
-			'admin.maintenance_mode' => 'وضع الصيانة',
-			'admin.backup_schedule' => 'جدول النسخ الاحتياطي',
-			'admin.email_server' => 'خادم البريد الإلكتروني',
-			'admin.storage_quota' => 'حصة التخزين',
-			'admin.security_level' => 'مستوى الأمان',
-			'admin.reset_defaults' => 'إعادة التعيين إلى الإعدادات الافتراضية',
-			'admin.save_settings' => 'حفظ الإعدادات',
-			'admin.user_email' => 'بريد إلكتروني',
-			'admin.session_timeout' => 'مهلة الجلسة',
-			'admin.user_role' => 'دور',
-			'admin.user_phone' => 'هاتف',
-			'admin.user_name' => 'اسم',
-			'admin.user_department' => 'قسم',
-			'admin.log_retention' => 'الاحتفاظ بالسجل',
-			'admin.user_college' => 'كلية',
-			'admin.user_created' => 'مخلوق',
-			'admin.user_status' => 'حالة',
-			'admin.add_new_user' => 'إضافة مستخدم جديد',
-			'admin.user_updated' => 'تم تحديث المستخدم بنجاح',
-			'admin.edit_user' => 'تحرير المستخدم',
-			'admin.delete_user' => 'حذف المستخدم',
-			'admin.save_user' => 'يحفظ',
-			'admin.cancel' => 'يلغي',
-			'admin.email_label' => 'عنوان البريد الإلكتروني',
-			'admin.department_label' => 'قسم',
-			'admin.phone_label' => 'رقم التليفون',
-			'admin.role_label' => 'حدد الدور',
-			'admin.college_label' => 'كلية',
-			'admin.category_student' => 'طالب',
-			'admin.confirm_password_label' => 'تأكيد كلمة المرور',
-			'admin.name_label' => 'الاسم الكامل',
-			'admin.category_staff' => 'طاقم عمل',
-			'admin.password_label' => 'كلمة المرور',
-			'admin.category_faculty' => 'كلية',
-			'admin.category_leadership' => 'قيادة',
-			'admin.category_admin' => 'مسؤل',
-			'admin.no_departments' => 'لا توجد أقسام متاحة',
-			'admin.select_role' => 'حدد دورًا',
-			'admin.no_colleges' => 'لا توجد كليات متاحة',
-			'admin.select_department' => 'اختر قسمًا',
-			'admin.select_college' => 'اختر الكلية',
-			'admin.user_added' => 'تمت إضافة المستخدم بنجاح',
-			'admin.user_deleted' => 'تم حذف المستخدم بنجاح',
-			'admin.confirm_delete' => 'تأكيد الحذف',
-			'admin.confirm_delete_message' => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟',
-			'admin.error_loading' => 'حدث خطأ أثناء تحميل البيانات',
-			'admin.error_saving' => 'خطأ في حفظ البيانات',
-			'admin.academic_leaders' => 'القادة الأكاديميون',
-			'admin.academic_departments_1' => 'الأقسام الأكاديمية',
-			'admin.retry' => 'أعد المحاولة',
-			'admin.academic_department' => 'القسم الأكاديمي',
-			'admin.academic_warnings' => 'التحذيرات الأكاديمية',
-			'admin.account_status' => 'حالة الحساب',
-			'admin.actor' => 'ممثل',
-			'admin.add_report' => 'إضافة تقرير',
-			'admin.admins' => 'المشرفين',
-			'admin.advanced_management' => 'الإدارة المتقدمة',
-			'admin.account_verification' => 'التحقق من الحساب',
-			'admin.all_systems_operational' => 'جميع الأنظمة التشغيلية',
-			'admin.all_levels' => 'جميع المستويات',
-			'admin.all' => 'الجميع',
-			'admin.apply_filters' => 'تطبيق المرشحات',
-			'admin.assign_dean' => 'تعيين عميد',
-			'admin.are_you_sure_you_want_to_delet' => 'هل أنت متأكد أنك تريد حذف هذا المستخدم؟',
-			'admin.assign' => 'تعيين',
-			'admin.assign_department_head' => 'تعيين رئيس القسم',
-			'admin.attached_report' => 'التقرير المرفق',
-			'admin.change' => 'يتغير',
-			'admin.ban_user' => 'حظر المستخدم',
-			'admin.banned' => 'محظور',
-			'admin.change_dean' => 'تغيير العميد',
-			'admin.changes_saved_successfully' => 'تم حفظ التغييرات بنجاح',
-			'admin.college' => 'كلية',
-			'admin.college_dean' => 'عميد الكلية',
-			'admin.college_details' => 'تفاصيل الكلية',
-			'admin.colleges_management' => 'إدارة الكليات',
-			'admin.deactivated' => 'معطل',
-			'admin.coming_soon' => 'قريباً',
-			'admin.delete' => 'يمسح',
-			'admin.department_details' => 'تفاصيل القسم',
-			'admin.department_projects' => 'مشاريع القسم',
-			'admin.email_address' => 'عنوان البريد الإلكتروني',
-			'admin.entity' => 'كيان',
-			'admin.departments_management' => 'إدارة الأقسام',
-			'admin.error_snapshoterror' => ({required Object error}) => 'خطأ: ${error}',
-			'admin.faculty_members_1' => 'أعضاء هيئة التدريس',
-			'admin.filter_users' => 'تصفية المستخدمين',
-			'admin.full_name' => 'الاسم الكامل',
-			'admin.failed_to_load_data' => 'فشل في تحميل البيانات',
-			'admin.head_of_department' => 'رئيس القسم',
-			'admin.incidents' => 'الحوادث',
-			'admin.leadership_stats' => 'إحصائيات القيادة',
-			'admin.level_level' => ({required Object level}) => 'المستوى ${level}',
-			'admin.manage_tags' => 'إدارة العلامات',
-			'admin.min_6_chars' => 'دقيقة. 6 أحرف',
-			'admin.national_id' => 'الهوية الوطنية',
-			'admin.no_about_text_available' => 'لا يوجد حول النص المتاح',
-			'admin.no_colleges_found' => 'لم يتم العثور على كليات',
-			'admin.nationality' => 'جنسية',
-			'admin.no_dean_assigned' => 'لم يتم تعيين عميد',
-			'admin.no_departments_in_this_college' => 'لا توجد أقسام في هذه الكلية',
-			'admin.no_description_available' => 'لا يوجد وصف متاح',
-			'admin.no_head_assigned' => 'لم يتم تعيين رئيس',
-			'admin.no_logs_found' => 'لم يتم العثور على سجلات',
-			'admin.no_departments_found' => 'لم يتم العثور على أقسام',
-			'admin.no_faculty_records_found' => 'لم يتم العثور على سجلات أعضاء هيئة التدريس',
-			'admin.no_projects_added_yet' => 'لم تتم إضافة أي مشاريع حتى الآن',
-			'admin.no_settings_found_in_the_datab' => 'لم يتم العثور على إعدادات في قاعدة البيانات',
-			'admin.no_matching_students_found' => 'لم يتم العثور على طلاب متطابقين',
-			'admin.no_users_found' => 'لم يتم العثور على مستخدمين',
-			'admin.office' => 'مكتب',
-			'admin.password' => 'كلمة المرور',
-			'admin.pending_reg' => 'في انتظار التسجيل',
-			'admin.permanently_delete_user' => 'حذف المستخدم نهائيًا',
-			'admin.please_assign_a_dean_for_the_c' => 'أرجو تعيين عميد لهذه الكلية',
-			'admin.phone_number' => 'رقم التليفون',
-			'admin.please_assign_a_head_for_the_d' => 'يرجى تعيين رئيس لهذا القسم',
-			'admin.save' => 'يحفظ',
-			'admin.roles_management' => 'إدارة الأدوار',
-			'admin.search_by_name_email_phone_id' => 'البحث حسب الاسم أو البريد الإلكتروني أو الهاتف أو الهوية...',
-			'admin.search_doctor_name' => 'بحث عن اسم الطبيب...',
-			'admin.save_changes' => 'حفظ التغييرات',
-			'admin.search_student_or_id' => 'البحث عن الطالب أو الهوية...',
-			'admin.select' => 'يختار',
-			'admin.search_staff_member' => 'البحث عن موظف...',
-			'admin.select_role_in_widgetinitialca' => 'حدد الدور',
-			'admin.separate_tags_with_commas' => 'علامات منفصلة بفواصل',
-			'admin.select_role_permission' => 'حدد الدور / الإذن',
-			'admin.student_id' => 'معرف الطالب',
-			'admin.servers' => 'الخوادم',
-			'admin.system_technical_status' => 'الحالة الفنية للنظام',
-			'admin.tag1_tag2' => 'العلامة 1، العلامة 2',
-			'admin.teaching_assistants' => 'مساعدو التدريس',
-			'admin.total_students' => 'إجمالي الطلاب',
-			'admin.unverified' => 'لم يتم التحقق منها',
-			'admin.user_roles_ranks' => 'أدوار المستخدم ورتبه',
-			'admin.verified' => 'تم التحقق منه',
-			'admin.warning_level' => 'مستوى التحذير',
-			'admin.verification' => 'تَحَقّق',
-			'admin.you_can_manage_professors_and_' => 'يمكنك إدارة الأساتذة وأكثر هنا',
-			'admin.total_staff' => 'مجموع الموظفين',
-			'admin.college_management' => 'إدارة الكلية',
 			'enrollment.registration_title' => 'تسجيل الدورة',
 			'enrollment.invoices_title' => 'الفواتير المالية',
 			'enrollment.payment_title' => 'دفع الرسوم الدراسية',
@@ -3535,6 +2950,8 @@ extension on TranslationsAr {
 			'enrollment.awaiting_advisor_review' => 'في انتظار مراجعة المستشار',
 			'enrollment.advisor_updated_successfully' => 'تم تحديث المستشار بنجاح',
 			'enrollment.choose_schedules' => 'اختر الجداول الزمنية',
+			_ => null,
+		} ?? switch (path) {
 			'enrollment.confirm_submit' => 'تأكيد وإرسال',
 			'enrollment.cr' => 'سي آر',
 			'enrollment.download' => 'تحميل',
@@ -3643,7 +3060,6 @@ extension on TranslationsAr {
 			'shared.email_support' => 'دعم البريد الإلكتروني',
 			'shared.financial_aid' => 'المساعدات المالية',
 			'shared.forums' => 'المنتديات',
-			'shared.it_support' => 'دعم تكنولوجيا المعلومات',
 			'shared.library' => 'مكتبة',
 			'shared.logout' => 'تسجيل الخروج',
 			'shared.members' => 'أعضاء',

@@ -262,10 +262,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                                   backgroundColor: Colors.white.withValues(
                                     alpha: 0.08,
                                   ),
-                                  backgroundImage: auth.avatarUrl != null
-                                      ? NetworkImage(auth.avatarUrl!)
+                                  backgroundImage: auth.profile?.avatarUrl != null
+                                      ? NetworkImage(auth.profile!.avatarUrl!)
                                       : null,
-                                  child: auth.avatarUrl == null
+                                  child: auth.profile?.avatarUrl == null
                                       ? Icon(
                                           LucideIcons.userCircle2,
                                           size: 55,
@@ -312,7 +312,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     ),
                     SizedBox(height: 14),
                     Text(
-                          auth.fullName ?? t.settings.user,
+                          auth.profile?.fullName ?? t.settings.user,
                           style: GoogleFonts.outfit(
                             fontSize: 26,
                             fontWeight: FontWeight.w900,

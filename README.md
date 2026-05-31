@@ -1,34 +1,33 @@
 # Horus
 
-> Modern university platform built with Flutter, designed for students, faculty, academic leadership, and administration.
+> Modern university platform built with Flutter, designed for students, faculty, academic leadership, and student affairs.
 
 <div align="center">
   <img src="assets/images/Logo_light.png" width="140" alt="Horus Logo">
   <br>
   <strong>Smart University Platform</strong>
   <br>
-  Academic Operations • Student Services • Administration • Social Feed
+  Academic Operations • Student Services • Campus Life • Social Feed
 </div>
 
 ---
 
 ## Overview
 
-**Horus** is a full-featured university platform built in Flutter to unify academic, administrative, and community workflows in one system.
+**Horus** is a full-featured university platform built in Flutter to unify academic, student-service, and community workflows in one system.
 
 It provides a single digital environment for:
 - Students
 - Teaching staff
 - Academic leadership
 - Student affairs teams
-- Administrative and IT teams
 
 Horus combines:
 - role-based access control
 - academic dashboards
 - course registration workflows
 - notifications
-- institutional management
+- institutional information
 - internal social feed features
 - multilingual user experience
 
@@ -38,21 +37,20 @@ The result is a modern, scalable university portal that is easier to manage, eas
 
 ## Arabic Summary | ملخص عربي
 
-**حورس** هو نظام جامعي حديث مبني باستخدام Flutter، يهدف إلى توحيد الخدمات الأكاديمية والإدارية وخدمات المستخدمين داخل منصة واحدة.
+**حورس** هو نظام جامعي حديث مبني باستخدام Flutter، يهدف إلى توحيد الخدمات الأكاديمية وخدمات الطلاب والمجتمع داخل منصة واحدة.
 
 يوفر النظام بيئة رقمية موحدة تخدم:
 - الطلاب
 - أعضاء هيئة التدريس
 - القيادات الأكاديمية
 - شؤون الطلاب
-- فرق الإدارة والدعم التقني
 
 ويجمع بين:
 - نظام صلاحيات متقدم
-- لوحات أكاديمية وإدارية
+- لوحات أكاديمية وخدمية
 - تسجيل المقررات
 - الإشعارات
-- إدارة الكليات والأقسام والمستخدمين
+- عرض بيانات الكليات والأقسام
 - منشورات داخلية وتواصل مؤسسي
 - دعم متعدد اللغات
 
@@ -87,8 +85,6 @@ Horus includes a granular permissions model covering multiple institutional role
 - Teaching assistants
 - Academic advisors
 - Deans and department heads
-- Administrative users
-- IT and auditing roles
 
 Permissions control what each user can:
 - view
@@ -117,30 +113,21 @@ Permissions control what each user can:
 - Course and schedule management
 - Student record access based on permissions
 
-### 5) Administration
-- Users management
-- Roles management
-- Colleges management
-- Departments management
-- Audit logs
-- System settings
-- Administrative monitoring-oriented dashboards
-
-### 6) Enrollment Workflows
+### 5) Enrollment Workflows
 - Course selection
 - Section and schedule selection
 - Registration request submission
 - Advisor approval flow
 - Dean/advisor assignment views
 
-### 7) Community and Communication
+### 6) Community and Communication
 - Internal feed
 - Posts and announcements
 - Comments and likes
 - Notifications center
 - Forums and tutorial access
 
-### 8) Settings and Preferences
+### 7) Settings and Preferences
 - Theme switching
 - UI style switching
 - Language selection
@@ -352,7 +339,8 @@ For faster access, start here:
 - `lib/core/router/` → navigation
 - `lib/core/auth/` → roles and permissions
 - `lib/features/students/` → student flows
-- `lib/features/admin/` → administration flows
+- `lib/features/staff/` → staff and academic workflows
+- `lib/features/institutional/` → colleges and departments data
 - `lib/features/enrollment/` → registration and finance flows
 - `lib/features/feed/` → feed and announcements
 - `lib/features/settings/` → user preferences and app info

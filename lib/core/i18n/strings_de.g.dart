@@ -64,12 +64,10 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSecurityDe security = _TranslationsSecurityDe._(_root);
 	@override late final _TranslationsTutorialsDe tutorials = _TranslationsTutorialsDe._(_root);
 	@override late final _TranslationsForumsDe forums = _TranslationsForumsDe._(_root);
-	@override late final _TranslationsAdministrationDe administration = _TranslationsAdministrationDe._(_root);
 	@override late final _TranslationsFeedDe feed = _TranslationsFeedDe._(_root);
 	@override late final _TranslationsProfessorDe professor = _TranslationsProfessorDe._(_root);
 	@override late final _TranslationsRolesDe roles = _TranslationsRolesDe._(_root);
 	@override late final _TranslationsAcademicDe academic = _TranslationsAcademicDe._(_root);
-	@override late final _TranslationsAdminDe admin = _TranslationsAdminDe._(_root);
 	@override late final _TranslationsEnrollmentDe enrollment = _TranslationsEnrollmentDe._(_root);
 	@override late final _TranslationsSharedDe shared = _TranslationsSharedDe._(_root);
 	@override late final _TranslationsStudentsDe students = _TranslationsStudentsDe._(_root);
@@ -157,8 +155,6 @@ class _TranslationsHomeDe extends TranslationsHomeEn {
 	@override late final _TranslationsHomeTabsDe tabs = _TranslationsHomeTabsDe._(_root);
 	@override String get student => 'Student';
 	@override String get colleges => 'Hochschulen';
-	@override String get admin_portal => 'Admin-Portal';
-	@override String get admin => 'Admin';
 	@override String get prof => 'Professor';
 	@override String get home => 'Heim';
 	@override String get student_portal => 'Studentenportal';
@@ -536,20 +532,6 @@ class _TranslationsForumsDe extends TranslationsForumsEn {
 	@override String get title => 'Foren';
 }
 
-// Path: administration
-class _TranslationsAdministrationDe extends TranslationsAdministrationEn {
-	_TranslationsAdministrationDe._(TranslationsDe root) : this._root = root, super.internal(root);
-
-	final TranslationsDe _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Studentenverwaltung';
-	@override String get stats => 'Systemstatistik';
-	@override String get users => 'Benutzer';
-	@override String get reports => 'Berichte';
-	@override late final _TranslationsAdministrationAuditLogsDe audit_logs = _TranslationsAdministrationAuditLogsDe._(_root);
-}
-
 // Path: feed
 class _TranslationsFeedDe extends TranslationsFeedEn {
 	_TranslationsFeedDe._(TranslationsDe root) : this._root = root, super.internal(root);
@@ -818,245 +800,6 @@ class _TranslationsAcademicDe extends TranslationsAcademicEn {
 	@override String get upload_new_file => 'Neue Datei hochladen';
 }
 
-// Path: admin
-class _TranslationsAdminDe extends TranslationsAdminEn {
-	_TranslationsAdminDe._(TranslationsDe root) : this._root = root, super.internal(root);
-
-	final TranslationsDe _root; // ignore: unused_field
-
-	// Translations
-	@override String get en => 'de';
-	@override String get eeee_mmmm_dd_yyyy => 'EEEE, MMMM dd, yyyy';
-	@override String get system_online => 'SYSTEM ONLINE';
-	@override String get admin_command_center => 'Admin Command Center';
-	@override String get admin => 'Admin';
-	@override String get live_statistics => 'Live-Statistiken';
-	@override String get students => 'Studenten';
-	@override String get staff => 'Personal';
-	@override String get faculty => 'Fakultät';
-	@override String get leadership => 'Führung';
-	@override String get admin_it => 'Verwaltung und IT';
-	@override String get users => 'Benutzer';
-	@override String get manage_all_accounts => 'Alle Konten verwalten';
-	@override String get system_modules => 'Systemmodule';
-	@override String get colleges => 'Hochschulen';
-	@override String get manage_faculties => 'Fakultäten verwalten';
-	@override String get academic_departments => 'Akademische Abteilungen';
-	@override String get departments => 'Abteilungen';
-	@override String get professors => 'Professoren';
-	@override String get faculty_members => 'Fakultätsmitglieder';
-	@override String get permission_management => 'Berechtigungsverwaltung';
-	@override String get roles => 'Rollen';
-	@override String get audit_logs => 'Audit-Protokolle';
-	@override String get system_activity_log => 'Systemaktivitätsprotokoll';
-	@override String get system_settings => 'Systemeinstellungen';
-	@override String get platform_configuration => 'Plattformkonfiguration';
-	@override String get performance => 'Leistung';
-	@override String get server_health_metrics => 'Kennzahlen zum Serverzustand';
-	@override String get system_pulse => 'Systemimpuls';
-	@override String get server => 'Server';
-	@override String get latency => 'Latenz';
-	@override String get online => 'Online';
-	@override String get database => 'Datenbank';
-	@override String get active => 'Aktiv';
-	@override String get status => 'Status';
-	@override String get teaching_staff => 'Lehrpersonal';
-	@override String get total_users => 'Gesamtzahl der Benutzer';
-	@override String get role_breakdown => 'Rollenaufschlüsselung';
-	@override String get system_health => 'Systemgesundheit';
-	@override String get quick_actions => 'Schnelle Aktionen';
-	@override String get management => 'Management';
-	@override String get student_affairs => 'Studentenangelegenheiten';
-	@override String get academic_leadership => 'Akademische Führung';
-	@override String get realtime_latency_ms => 'ECHTZEITLATENZ (MS)';
-	@override String get export_data => 'Daten exportieren';
-	@override String get send_announcement => 'Ankündigung senden';
-	@override String get backup_system => 'Backup-System';
-	@override String get user_management => 'Benutzerverwaltung';
-	@override String get user_list => 'Benutzerliste';
-	@override String get filter_staff => 'Personal';
-	@override String get filter_students => 'Studenten';
-	@override String get filter_all => 'Alle';
-	@override String get filter_admin => 'Admin';
-	@override String get add_user => 'Benutzer hinzufügen';
-	@override String get search_users => 'Benutzer suchen...';
-	@override String get no_users => 'Keine Benutzer gefunden';
-	@override String user_count({required Object count}) => '${count}-Benutzer';
-	@override String get faculty_management => 'Fakultätsmanagement';
-	@override String get student_management => 'Studentenmanagement';
-	@override String get staff_management => 'Personalmanagement';
-	@override String get leadership_management => 'Führungsmanagement';
-	@override String get college_management => 'Hochschulmanagement';
-	@override String get audit_log_management => 'Überwachungsprotokollverwaltung';
-	@override String get department_management => 'Abteilungsleitung';
-	@override String get role_management => 'Rollenmanagement';
-	@override String get professor_management => 'Professor Management';
-	@override String get system_configuration => 'Systemkonfiguration';
-	@override String get add_college => 'Hochschule hinzufügen';
-	@override String get admin_it_management => 'Admin- und IT-Management';
-	@override String get add_department => 'Abteilung hinzufügen';
-	@override String get edit_department => 'Abteilung bearbeiten';
-	@override String get delete_college => 'Hochschule löschen';
-	@override String get edit_college => 'Hochschule bearbeiten';
-	@override String get delete_department => 'Abteilung löschen';
-	@override String get college_name => 'Hochschulname';
-	@override String get department_name => 'Abteilungsname';
-	@override String get head_name => 'Kopfname';
-	@override String get dean_name => 'Name des Dekans';
-	@override String get student_count => 'Studenten';
-	@override String get ta_count => 'TAs';
-	@override String get staff_count => 'Personal';
-	@override String get user => 'Benutzer';
-	@override String get timestamp => 'Zeitstempel';
-	@override String get filter_by_action => 'Nach Aktion filtern';
-	@override String get action => 'Aktion';
-	@override String get filter_by_date => 'Nach Datum filtern';
-	@override String get no_logs => 'Keine Überwachungsprotokolle gefunden';
-	@override String get system_version => 'Systemversion';
-	@override String get details => 'Details';
-	@override String get maintenance_mode => 'Wartungsmodus';
-	@override String get email_server => 'E-Mail-Server';
-	@override String get backup_schedule => 'Backup-Zeitplan';
-	@override String get storage_quota => 'Speicherkontingent';
-	@override String get security_level => 'Sicherheitsstufe';
-	@override String get log_retention => 'Protokollaufbewahrung';
-	@override String get session_timeout => 'Sitzungszeitüberschreitung';
-	@override String get save_settings => 'Einstellungen speichern';
-	@override String get reset_defaults => 'Auf Standardeinstellungen zurücksetzen';
-	@override String get user_name => 'Name';
-	@override String get user_role => 'Rolle';
-	@override String get user_department => 'Abteilung';
-	@override String get user_phone => 'Telefon';
-	@override String get user_status => 'Status';
-	@override String get user_email => 'E-Mail';
-	@override String get user_updated => 'Benutzer erfolgreich aktualisiert';
-	@override String get user_college => 'Hochschule';
-	@override String get user_created => 'Erstellt';
-	@override String get add_new_user => 'Neuen Benutzer hinzufügen';
-	@override String get delete_user => 'Benutzer löschen';
-	@override String get edit_user => 'Benutzer bearbeiten';
-	@override String get save_user => 'Speichern';
-	@override String get name_label => 'Vollständiger Name';
-	@override String get email_label => 'E-Mail-Adresse';
-	@override String get cancel => 'Stornieren';
-	@override String get role_label => 'Wählen Sie Rolle aus';
-	@override String get phone_label => 'Telefonnummer';
-	@override String get department_label => 'Abteilung';
-	@override String get college_label => 'Hochschule';
-	@override String get password_label => 'Passwort';
-	@override String get category_student => 'Student';
-	@override String get category_admin => 'Admin';
-	@override String get category_staff => 'Personal';
-	@override String get confirm_password_label => 'Passwort bestätigen';
-	@override String get category_leadership => 'Führung';
-	@override String get category_faculty => 'Fakultät';
-	@override String get select_role => 'Wählen Sie eine Rolle aus';
-	@override String get no_colleges => 'Keine Hochschulen verfügbar';
-	@override String get no_departments => 'Keine Abteilungen verfügbar';
-	@override String get user_added => 'Benutzer erfolgreich hinzugefügt';
-	@override String get confirm_delete => 'Bestätigen Sie Löschen';
-	@override String get user_deleted => 'Benutzer erfolgreich gelöscht';
-	@override String get select_college => 'Wählen Sie eine Hochschule aus';
-	@override String get select_department => 'Wählen Sie eine Abteilung aus';
-	@override String get confirm_delete_message => 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?';
-	@override String get error_loading => 'Fehler beim Laden der Daten';
-	@override String get error_saving => 'Fehler beim Speichern der Daten';
-	@override String get academic_department => 'Akademische Abteilung';
-	@override String get academic_departments_1 => 'Akademische Abteilungen';
-	@override String get retry => 'Wiederholen';
-	@override String get academic_warnings => 'Akademische Warnungen';
-	@override String get account_status => 'Kontostatus';
-	@override String get account_verification => 'Kontobestätigung';
-	@override String get academic_leaders => 'Akademische Leiter';
-	@override String get actor => 'Schauspieler';
-	@override String get add_report => 'Bericht hinzufügen';
-	@override String get admins => 'Administratoren';
-	@override String get advanced_management => 'Erweitertes Management';
-	@override String get all => 'Alle';
-	@override String get all_levels => 'Alle Ebenen';
-	@override String get apply_filters => 'Filter anwenden';
-	@override String get all_systems_operational => 'Alle Systeme betriebsbereit';
-	@override String get assign => 'Zuordnen';
-	@override String get are_you_sure_you_want_to_delet => 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?';
-	@override String get assign_dean => 'Dekan zuweisen';
-	@override String get assign_department_head => 'Abteilungsleiter ernennen';
-	@override String get attached_report => 'Angehängter Bericht';
-	@override String get ban_user => 'Benutzer sperren';
-	@override String get banned => 'Verboten';
-	@override String get change_dean => 'Dekan wechseln';
-	@override String get change => 'Ändern';
-	@override String get changes_saved_successfully => 'Änderungen erfolgreich gespeichert';
-	@override String get college => 'Hochschule';
-	@override String get college_dean => 'Dekan der Hochschule';
-	@override String get college_details => 'College-Details';
-	@override String get coming_soon => 'Demnächst verfügbar';
-	@override String get delete => 'Löschen';
-	@override String get department_details => 'Abteilungsdetails';
-	@override String get colleges_management => 'Hochschulmanagement';
-	@override String get deactivated => 'Deaktiviert';
-	@override String get departments_management => 'Abteilungsleitung';
-	@override String get department_projects => 'Abteilungsprojekte';
-	@override String get entity => 'Juristische Person';
-	@override String get email_address => 'E-Mail-Adresse';
-	@override String error_snapshoterror({required Object error}) => 'Fehler: ${error}';
-	@override String get failed_to_load_data => 'Daten konnten nicht geladen werden';
-	@override String get faculty_members_1 => 'Fakultätsmitglieder';
-	@override String get full_name => 'Vollständiger Name';
-	@override String get filter_users => 'Benutzer filtern';
-	@override String get head_of_department => 'Abteilungsleiter';
-	@override String level_level({required Object level}) => 'Ebene ${level}';
-	@override String get leadership_stats => 'Führungsstatistik';
-	@override String get incidents => 'Vorfälle';
-	@override String get national_id => 'Nationaler Ausweis';
-	@override String get min_6_chars => 'Min. 6 Zeichen';
-	@override String get no_colleges_found => 'Keine Hochschulen gefunden';
-	@override String get no_dean_assigned => 'Kein Dekan zugewiesen';
-	@override String get manage_tags => 'Tags verwalten';
-	@override String get no_departments_in_this_college => 'Keine Abteilungen in diesem College';
-	@override String get no_about_text_available => 'Kein Infotext verfügbar';
-	@override String get nationality => 'Nationalität';
-	@override String get no_departments_found => 'Keine Abteilungen gefunden';
-	@override String get no_faculty_records_found => 'Keine Fakultätsunterlagen gefunden';
-	@override String get no_head_assigned => 'Kein Leiter zugewiesen';
-	@override String get no_matching_students_found => 'Keine passenden Studenten gefunden';
-	@override String get no_logs_found => 'Keine Protokolle gefunden';
-	@override String get no_description_available => 'Keine Beschreibung verfügbar';
-	@override String get no_projects_added_yet => 'Noch keine Projekte hinzugefügt';
-	@override String get no_users_found => 'Keine Benutzer gefunden';
-	@override String get no_settings_found_in_the_datab => 'In der Datenbank wurden keine Einstellungen gefunden';
-	@override String get pending_reg => 'Ausstehende Registrierung';
-	@override String get password => 'Passwort';
-	@override String get permanently_delete_user => 'Benutzer dauerhaft löschen';
-	@override String get office => 'Büro';
-	@override String get phone_number => 'Telefonnummer';
-	@override String get please_assign_a_head_for_the_d => 'Bitte benennen Sie einen Leiter für diese Abteilung';
-	@override String get please_assign_a_dean_for_the_c => 'Bitte benennen Sie einen Dekan für diese Hochschule';
-	@override String get roles_management => 'Rollenmanagement';
-	@override String get save => 'Speichern';
-	@override String get save_changes => 'Änderungen speichern';
-	@override String get search_doctor_name => 'Arztnamen suchen...';
-	@override String get search_by_name_email_phone_id => 'Suchen Sie nach Name, E-Mail, Telefon oder ID...';
-	@override String get select => 'Wählen';
-	@override String get search_staff_member => 'Mitarbeiter suchen...';
-	@override String get select_role_in_widgetinitialca => 'Rolle auswählen';
-	@override String get search_student_or_id => 'Schüler oder Ausweis suchen...';
-	@override String get select_role_permission => 'Wählen Sie Rolle/Berechtigung';
-	@override String get separate_tags_with_commas => 'Trennen Sie Tags durch Kommas';
-	@override String get servers => 'Server';
-	@override String get student_id => 'Studentenausweis';
-	@override String get tag1_tag2 => 'tag1, tag2';
-	@override String get teaching_assistants => 'Lehrassistenten';
-	@override String get system_technical_status => 'Technischer Systemstatus';
-	@override String get total_staff => 'Gesamtpersonal';
-	@override String get total_students => 'Gesamtzahl der Studierenden';
-	@override String get user_roles_ranks => 'Benutzerrollen und Ränge';
-	@override String get unverified => 'Nicht bestätigt';
-	@override String get verification => 'Überprüfung';
-	@override String get you_can_manage_professors_and_ => 'Hier können Sie Professoren und mehr verwalten';
-	@override String get verified => 'Verifiziert';
-	@override String get warning_level => 'Warnstufe';
-}
-
 // Path: enrollment
 class _TranslationsEnrollmentDe extends TranslationsEnrollmentEn {
 	_TranslationsEnrollmentDe._(TranslationsDe root) : this._root = root, super.internal(root);
@@ -1253,7 +996,6 @@ class _TranslationsSharedDe extends TranslationsSharedEn {
 	@override String get forums => 'Foren';
 	@override String get library => 'Bibliothek';
 	@override String get logout => 'Abmelden';
-	@override String get it_support => 'IT-Support';
 	@override String get manage_logged_in_devices => 'Angemeldete Geräte verwalten';
 	@override String get members => 'Mitglieder';
 	@override String get please_wait => 'Bitte warten...';
@@ -1489,7 +1231,6 @@ class _TranslationsExtractedDe extends TranslationsExtractedEn {
 	@override String get delete_role => 'Rolle löschen';
 	@override String get delete => 'Löschen';
 	@override String get role_updated => 'Rolle aktualisiert';
-	@override String get admin_it => 'Verwaltung und IT';
 	@override String get leadership => 'Führung';
 	@override String get teaching => 'Lehre';
 	@override String get external => 'Extern';
@@ -1643,9 +1384,7 @@ class _TranslationsAuthForgotPasswordDe extends TranslationsAuthForgotPasswordEn
 	// Translations
 	@override String get title => 'Passwort vergessen';
 	@override String get subtitle => 'Wählen Sie eine Wiederherstellungsmethode';
-	@override String get method_admin => 'Verwaltung besuchen';
 	@override String get method_online => 'Online-Anfrage';
-	@override String get admin_instructions => 'Bitte besuchen Sie das Büro für studentische Angelegenheiten, um Ihr Passwort zurückzusetzen. Bringen Sie Ihren gültigen Universitätsausweis mit.';
 	@override String get phone_label => 'Telefonnummer';
 	@override String get upload_id => 'ID-Foto hochladen';
 	@override String get upload_id_hint => 'Tippen Sie, um ein klares Foto Ihres Universitätsausweises hochzuladen';
@@ -1673,7 +1412,6 @@ class _TranslationsHomeTabsDe extends TranslationsHomeTabsEn {
 	@override String get profile => 'Profil';
 	@override String get student => 'Student';
 	@override String get colleges => 'Hochschulen';
-	@override String get admin => 'Admin';
 }
 
 // Path: dashboard.id_card
@@ -1958,19 +1696,6 @@ class _TranslationsAttendanceSubjectsDe extends TranslationsAttendanceSubjectsEn
 	@override String get calculus => 'Erweiterte Analysis';
 }
 
-// Path: administration.audit_logs
-class _TranslationsAdministrationAuditLogsDe extends TranslationsAdministrationAuditLogsEn {
-	_TranslationsAdministrationAuditLogsDe._(TranslationsDe root) : this._root = root, super.internal(root);
-
-	final TranslationsDe _root; // ignore: unused_field
-
-	// Translations
-	@override String get no_logs_found => 'Es wurden keine Protokolle gefunden, die den Kriterien entsprechen.';
-	@override String get title => 'Audit-Protokolle';
-	@override late final _TranslationsAdministrationAuditLogsTabsDe tabs = _TranslationsAdministrationAuditLogsTabsDe._(_root);
-	@override late final _TranslationsAdministrationAuditLogsLabelsDe labels = _TranslationsAdministrationAuditLogsLabelsDe._(_root);
-}
-
 // Path: professor.stats
 class _TranslationsProfessorStatsDe extends TranslationsProfessorStatsEn {
 	_TranslationsProfessorStatsDe._(TranslationsDe root) : this._root = root, super.internal(root);
@@ -2019,7 +1744,6 @@ class _TranslationsRolesCategoriesDe extends TranslationsRolesCategoriesEn {
 	final TranslationsDe _root; // ignore: unused_field
 
 	// Translations
-	@override String get admin_it => 'Verwaltung und IT';
 	@override String get student_affairs => 'Studentenangelegenheiten';
 	@override String get academic_leadership => 'Akademische Führung';
 	@override String get facilities_security => 'Einrichtungen und Sicherheit';
@@ -2035,10 +1759,6 @@ class _TranslationsRolesNamesDe extends TranslationsRolesNamesEn {
 	final TranslationsDe _root; // ignore: unused_field
 
 	// Translations
-	@override String get super_admin => 'Super Admin';
-	@override String get admin => 'Administrator';
-	@override String get financial_auditor => 'Finanzprüfer';
-	@override String get it_support => 'IT-Support';
 	@override String get rector => 'Rektor / Präsident';
 	@override String get academic_coordinator => 'Akademischer Koordinator';
 	@override String get department_head => 'Abteilungsleiter';
@@ -2068,9 +1788,6 @@ class _TranslationsRolesDescriptionsDe extends TranslationsRolesDescriptionsEn {
 	final TranslationsDe _root; // ignore: unused_field
 
 	// Translations
-	@override String get super_admin => 'Volle Kontrolle über das gesamte System';
-	@override String get financial_auditor => 'Überwacht Finanzunterlagen und Rechnungen';
-	@override String get it_support => 'Technische Systembetreuung und Wartung';
 	@override String get department_head => 'Leiter einer wissenschaftlichen Abteilung';
 	@override String get rector => 'Universitätspräsident mit voller akademischer Aufsicht';
 	@override String get dean => 'Leiter einer Hochschule/Fakultät';
@@ -2078,7 +1795,6 @@ class _TranslationsRolesDescriptionsDe extends TranslationsRolesDescriptionsEn {
 	@override String get academic_coordinator => 'Koordiniert akademische Programme und Terminplanung';
 	@override String get professor => 'Fakultätsmitglied, das Kurse unterrichtet und verwaltet';
 	@override String get librarian => 'Verwaltet Bibliotheksressourcen und -materialien';
-	@override String get admin => 'Systemadministrator mit hohen Rechten';
 	@override String get academic_advisor => 'Führt Studierende durch die akademische Planung';
 	@override String get freshman => 'Studienanfänger mit eingeschränktem Systemzugriff';
 	@override String get lecturer => 'Lehrt Kurse ohne volle Professorenprivilegien';
@@ -2125,38 +1841,6 @@ class _TranslationsTranscriptCourseStatusDe extends TranslationsTranscriptCourse
 	// Translations
 	@override String get completed => 'Abgeschlossen';
 	@override String get transferred => 'Übertragen';
-}
-
-// Path: administration.audit_logs.tabs
-class _TranslationsAdministrationAuditLogsTabsDe extends TranslationsAdministrationAuditLogsTabsEn {
-	_TranslationsAdministrationAuditLogsTabsDe._(TranslationsDe root) : this._root = root, super.internal(root);
-
-	final TranslationsDe _root; // ignore: unused_field
-
-	// Translations
-	@override String get all => 'Alle Protokolle';
-	@override String get security => 'Sicherheit';
-	@override String get user_management => 'Benutzerverwaltung';
-	@override String get data_updates => 'Datenaktualisierungen';
-}
-
-// Path: administration.audit_logs.labels
-class _TranslationsAdministrationAuditLogsLabelsDe extends TranslationsAdministrationAuditLogsLabelsEn {
-	_TranslationsAdministrationAuditLogsLabelsDe._(TranslationsDe root) : this._root = root, super.internal(root);
-
-	final TranslationsDe _root; // ignore: unused_field
-
-	// Translations
-	@override String get record => 'Aufzeichnen';
-	@override String get action => 'Aktion';
-	@override String get actor => 'Schauspieler';
-	@override String get old_data => 'Alte Daten';
-	@override String get new_data => 'Neue Daten';
-	@override String get performed_by => 'Aufgeführt von';
-	@override String get table => 'Tisch';
-	@override String get notes => 'Notizen';
-	@override String get close_details => 'Details schließen';
-	@override String get view_details => 'Details anzeigen';
 }
 
 /// The flat map containing all translations for locale <de>.
@@ -2222,9 +1906,7 @@ extension on TranslationsDe {
 			'auth.login.guest' => 'Als Gast stöbern',
 			'auth.forgot_password.title' => 'Passwort vergessen',
 			'auth.forgot_password.subtitle' => 'Wählen Sie eine Wiederherstellungsmethode',
-			'auth.forgot_password.method_admin' => 'Verwaltung besuchen',
 			'auth.forgot_password.method_online' => 'Online-Anfrage',
-			'auth.forgot_password.admin_instructions' => 'Bitte besuchen Sie das Büro für studentische Angelegenheiten, um Ihr Passwort zurückzusetzen. Bringen Sie Ihren gültigen Universitätsausweis mit.',
 			'auth.forgot_password.phone_label' => 'Telefonnummer',
 			'auth.forgot_password.upload_id' => 'ID-Foto hochladen',
 			'auth.forgot_password.upload_id_hint' => 'Tippen Sie, um ein klares Foto Ihres Universitätsausweises hochzuladen',
@@ -2245,11 +1927,8 @@ extension on TranslationsDe {
 			'home.tabs.profile' => 'Profil',
 			'home.tabs.student' => 'Student',
 			'home.tabs.colleges' => 'Hochschulen',
-			'home.tabs.admin' => 'Admin',
 			'home.student' => 'Student',
 			'home.colleges' => 'Hochschulen',
-			'home.admin_portal' => 'Admin-Portal',
-			'home.admin' => 'Admin',
 			'home.prof' => 'Professor',
 			'home.home' => 'Heim',
 			'home.student_portal' => 'Studentenportal',
@@ -2578,26 +2257,6 @@ extension on TranslationsDe {
 			'security.sessions' => 'Aktive Sitzungen',
 			'tutorials.title' => 'Tutorials & Leitfäden',
 			'forums.title' => 'Foren',
-			'administration.title' => 'Studentenverwaltung',
-			'administration.stats' => 'Systemstatistik',
-			'administration.users' => 'Benutzer',
-			'administration.reports' => 'Berichte',
-			'administration.audit_logs.no_logs_found' => 'Es wurden keine Protokolle gefunden, die den Kriterien entsprechen.',
-			'administration.audit_logs.title' => 'Audit-Protokolle',
-			'administration.audit_logs.tabs.all' => 'Alle Protokolle',
-			'administration.audit_logs.tabs.security' => 'Sicherheit',
-			'administration.audit_logs.tabs.user_management' => 'Benutzerverwaltung',
-			'administration.audit_logs.tabs.data_updates' => 'Datenaktualisierungen',
-			'administration.audit_logs.labels.record' => 'Aufzeichnen',
-			'administration.audit_logs.labels.action' => 'Aktion',
-			'administration.audit_logs.labels.actor' => 'Schauspieler',
-			'administration.audit_logs.labels.old_data' => 'Alte Daten',
-			'administration.audit_logs.labels.new_data' => 'Neue Daten',
-			'administration.audit_logs.labels.performed_by' => 'Aufgeführt von',
-			'administration.audit_logs.labels.table' => 'Tisch',
-			'administration.audit_logs.labels.notes' => 'Notizen',
-			'administration.audit_logs.labels.close_details' => 'Details schließen',
-			'administration.audit_logs.labels.view_details' => 'Details anzeigen',
 			'feed.hours_ago' => 'Vor Stunden',
 			'feed.likes' => 'mag',
 			'feed.caption_sample' => 'Dies ist eine Beispielbeschriftung für einen Beitrag',
@@ -2642,17 +2301,12 @@ extension on TranslationsDe {
 			'professor.profile.teaching_assistants' => 'Lehrassistenten',
 			'professor.profile.shared_resources' => 'Gemeinsame Ressourcen',
 			'professor.profile.office_hours' => 'Bürozeiten',
-			'roles.categories.admin_it' => 'Verwaltung und IT',
 			'roles.categories.student_affairs' => 'Studentenangelegenheiten',
 			'roles.categories.academic_leadership' => 'Akademische Führung',
 			'roles.categories.facilities_security' => 'Einrichtungen und Sicherheit',
 			'roles.categories.teaching_staff' => 'Lehrpersonal',
 			'roles.categories.external_roles' => 'Externe Rollen',
 			'roles.categories.student_roles' => 'Schülerrollen',
-			'roles.names.super_admin' => 'Super Admin',
-			'roles.names.admin' => 'Administrator',
-			'roles.names.financial_auditor' => 'Finanzprüfer',
-			'roles.names.it_support' => 'IT-Support',
 			'roles.names.rector' => 'Rektor / Präsident',
 			'roles.names.academic_coordinator' => 'Akademischer Koordinator',
 			'roles.names.department_head' => 'Abteilungsleiter',
@@ -2673,19 +2327,13 @@ extension on TranslationsDe {
 			'roles.names.parent' => 'Elternteil/Erziehungsberechtigter',
 			'roles.names.guest' => 'Gast',
 			'roles.names.recruiter' => 'Personalvermittler',
-			'roles.descriptions.super_admin' => 'Volle Kontrolle über das gesamte System',
-			'roles.descriptions.financial_auditor' => 'Überwacht Finanzunterlagen und Rechnungen',
-			'roles.descriptions.it_support' => 'Technische Systembetreuung und Wartung',
 			'roles.descriptions.department_head' => 'Leiter einer wissenschaftlichen Abteilung',
 			'roles.descriptions.rector' => 'Universitätspräsident mit voller akademischer Aufsicht',
 			'roles.descriptions.dean' => 'Leiter einer Hochschule/Fakultät',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.teaching_assistant' => 'Unterstützt Professoren bei der Benotung, Laboren und Tutorials',
 			'roles.descriptions.academic_coordinator' => 'Koordiniert akademische Programme und Terminplanung',
 			'roles.descriptions.professor' => 'Fakultätsmitglied, das Kurse unterrichtet und verwaltet',
 			'roles.descriptions.librarian' => 'Verwaltet Bibliotheksressourcen und -materialien',
-			'roles.descriptions.admin' => 'Systemadministrator mit hohen Rechten',
 			'roles.descriptions.academic_advisor' => 'Führt Studierende durch die akademische Planung',
 			'roles.descriptions.freshman' => 'Studienanfänger mit eingeschränktem Systemzugriff',
 			'roles.descriptions.lecturer' => 'Lehrt Kurse ohne volle Professorenprivilegien',
@@ -2715,6 +2363,8 @@ extension on TranslationsDe {
 			'academic.schedule_title' => 'Zeitplan',
 			'academic.exam_schedule_title' => 'Prüfungsplan',
 			'academic.professor_dashboard' => 'Professor-Dashboard',
+			_ => null,
+		} ?? switch (path) {
 			'academic.tas' => 'Lehrassistenten',
 			'academic.groups' => 'Gruppen',
 			'academic.all_students' => 'Alle Studenten',
@@ -2895,236 +2545,6 @@ extension on TranslationsDe {
 			'academic.urgent_news' => 'Dringende Neuigkeiten',
 			'academic.web_programming' => 'Webprogrammierung',
 			'academic.upload_new_file' => 'Neue Datei hochladen',
-			'admin.en' => 'de',
-			'admin.eeee_mmmm_dd_yyyy' => 'EEEE, MMMM dd, yyyy',
-			'admin.system_online' => 'SYSTEM ONLINE',
-			'admin.admin_command_center' => 'Admin Command Center',
-			'admin.admin' => 'Admin',
-			'admin.live_statistics' => 'Live-Statistiken',
-			'admin.students' => 'Studenten',
-			'admin.staff' => 'Personal',
-			'admin.faculty' => 'Fakultät',
-			'admin.leadership' => 'Führung',
-			'admin.admin_it' => 'Verwaltung und IT',
-			'admin.users' => 'Benutzer',
-			'admin.manage_all_accounts' => 'Alle Konten verwalten',
-			'admin.system_modules' => 'Systemmodule',
-			'admin.colleges' => 'Hochschulen',
-			'admin.manage_faculties' => 'Fakultäten verwalten',
-			'admin.academic_departments' => 'Akademische Abteilungen',
-			'admin.departments' => 'Abteilungen',
-			'admin.professors' => 'Professoren',
-			'admin.faculty_members' => 'Fakultätsmitglieder',
-			'admin.permission_management' => 'Berechtigungsverwaltung',
-			'admin.roles' => 'Rollen',
-			'admin.audit_logs' => 'Audit-Protokolle',
-			'admin.system_activity_log' => 'Systemaktivitätsprotokoll',
-			'admin.system_settings' => 'Systemeinstellungen',
-			'admin.platform_configuration' => 'Plattformkonfiguration',
-			'admin.performance' => 'Leistung',
-			'admin.server_health_metrics' => 'Kennzahlen zum Serverzustand',
-			'admin.system_pulse' => 'Systemimpuls',
-			'admin.server' => 'Server',
-			'admin.latency' => 'Latenz',
-			'admin.online' => 'Online',
-			'admin.database' => 'Datenbank',
-			'admin.active' => 'Aktiv',
-			'admin.status' => 'Status',
-			'admin.teaching_staff' => 'Lehrpersonal',
-			'admin.total_users' => 'Gesamtzahl der Benutzer',
-			'admin.role_breakdown' => 'Rollenaufschlüsselung',
-			'admin.system_health' => 'Systemgesundheit',
-			'admin.quick_actions' => 'Schnelle Aktionen',
-			'admin.management' => 'Management',
-			'admin.student_affairs' => 'Studentenangelegenheiten',
-			'admin.academic_leadership' => 'Akademische Führung',
-			'admin.realtime_latency_ms' => 'ECHTZEITLATENZ (MS)',
-			'admin.export_data' => 'Daten exportieren',
-			'admin.send_announcement' => 'Ankündigung senden',
-			'admin.backup_system' => 'Backup-System',
-			'admin.user_management' => 'Benutzerverwaltung',
-			'admin.user_list' => 'Benutzerliste',
-			'admin.filter_staff' => 'Personal',
-			'admin.filter_students' => 'Studenten',
-			'admin.filter_all' => 'Alle',
-			'admin.filter_admin' => 'Admin',
-			'admin.add_user' => 'Benutzer hinzufügen',
-			'admin.search_users' => 'Benutzer suchen...',
-			'admin.no_users' => 'Keine Benutzer gefunden',
-			'admin.user_count' => ({required Object count}) => '${count}-Benutzer',
-			'admin.faculty_management' => 'Fakultätsmanagement',
-			'admin.student_management' => 'Studentenmanagement',
-			'admin.staff_management' => 'Personalmanagement',
-			'admin.leadership_management' => 'Führungsmanagement',
-			'admin.college_management' => 'Hochschulmanagement',
-			'admin.audit_log_management' => 'Überwachungsprotokollverwaltung',
-			'admin.department_management' => 'Abteilungsleitung',
-			'admin.role_management' => 'Rollenmanagement',
-			'admin.professor_management' => 'Professor Management',
-			'admin.system_configuration' => 'Systemkonfiguration',
-			'admin.add_college' => 'Hochschule hinzufügen',
-			'admin.admin_it_management' => 'Admin- und IT-Management',
-			'admin.add_department' => 'Abteilung hinzufügen',
-			'admin.edit_department' => 'Abteilung bearbeiten',
-			'admin.delete_college' => 'Hochschule löschen',
-			'admin.edit_college' => 'Hochschule bearbeiten',
-			'admin.delete_department' => 'Abteilung löschen',
-			'admin.college_name' => 'Hochschulname',
-			'admin.department_name' => 'Abteilungsname',
-			'admin.head_name' => 'Kopfname',
-			'admin.dean_name' => 'Name des Dekans',
-			'admin.student_count' => 'Studenten',
-			'admin.ta_count' => 'TAs',
-			'admin.staff_count' => 'Personal',
-			'admin.user' => 'Benutzer',
-			'admin.timestamp' => 'Zeitstempel',
-			'admin.filter_by_action' => 'Nach Aktion filtern',
-			'admin.action' => 'Aktion',
-			'admin.filter_by_date' => 'Nach Datum filtern',
-			'admin.no_logs' => 'Keine Überwachungsprotokolle gefunden',
-			'admin.system_version' => 'Systemversion',
-			'admin.details' => 'Details',
-			'admin.maintenance_mode' => 'Wartungsmodus',
-			'admin.email_server' => 'E-Mail-Server',
-			'admin.backup_schedule' => 'Backup-Zeitplan',
-			'admin.storage_quota' => 'Speicherkontingent',
-			'admin.security_level' => 'Sicherheitsstufe',
-			'admin.log_retention' => 'Protokollaufbewahrung',
-			'admin.session_timeout' => 'Sitzungszeitüberschreitung',
-			'admin.save_settings' => 'Einstellungen speichern',
-			'admin.reset_defaults' => 'Auf Standardeinstellungen zurücksetzen',
-			'admin.user_name' => 'Name',
-			'admin.user_role' => 'Rolle',
-			'admin.user_department' => 'Abteilung',
-			'admin.user_phone' => 'Telefon',
-			'admin.user_status' => 'Status',
-			'admin.user_email' => 'E-Mail',
-			'admin.user_updated' => 'Benutzer erfolgreich aktualisiert',
-			'admin.user_college' => 'Hochschule',
-			'admin.user_created' => 'Erstellt',
-			'admin.add_new_user' => 'Neuen Benutzer hinzufügen',
-			'admin.delete_user' => 'Benutzer löschen',
-			'admin.edit_user' => 'Benutzer bearbeiten',
-			'admin.save_user' => 'Speichern',
-			'admin.name_label' => 'Vollständiger Name',
-			'admin.email_label' => 'E-Mail-Adresse',
-			'admin.cancel' => 'Stornieren',
-			'admin.role_label' => 'Wählen Sie Rolle aus',
-			'admin.phone_label' => 'Telefonnummer',
-			'admin.department_label' => 'Abteilung',
-			'admin.college_label' => 'Hochschule',
-			'admin.password_label' => 'Passwort',
-			'admin.category_student' => 'Student',
-			'admin.category_admin' => 'Admin',
-			'admin.category_staff' => 'Personal',
-			'admin.confirm_password_label' => 'Passwort bestätigen',
-			'admin.category_leadership' => 'Führung',
-			'admin.category_faculty' => 'Fakultät',
-			'admin.select_role' => 'Wählen Sie eine Rolle aus',
-			'admin.no_colleges' => 'Keine Hochschulen verfügbar',
-			'admin.no_departments' => 'Keine Abteilungen verfügbar',
-			'admin.user_added' => 'Benutzer erfolgreich hinzugefügt',
-			'admin.confirm_delete' => 'Bestätigen Sie Löschen',
-			'admin.user_deleted' => 'Benutzer erfolgreich gelöscht',
-			'admin.select_college' => 'Wählen Sie eine Hochschule aus',
-			'admin.select_department' => 'Wählen Sie eine Abteilung aus',
-			'admin.confirm_delete_message' => 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?',
-			'admin.error_loading' => 'Fehler beim Laden der Daten',
-			'admin.error_saving' => 'Fehler beim Speichern der Daten',
-			'admin.academic_department' => 'Akademische Abteilung',
-			'admin.academic_departments_1' => 'Akademische Abteilungen',
-			'admin.retry' => 'Wiederholen',
-			'admin.academic_warnings' => 'Akademische Warnungen',
-			'admin.account_status' => 'Kontostatus',
-			'admin.account_verification' => 'Kontobestätigung',
-			'admin.academic_leaders' => 'Akademische Leiter',
-			'admin.actor' => 'Schauspieler',
-			'admin.add_report' => 'Bericht hinzufügen',
-			'admin.admins' => 'Administratoren',
-			'admin.advanced_management' => 'Erweitertes Management',
-			'admin.all' => 'Alle',
-			'admin.all_levels' => 'Alle Ebenen',
-			'admin.apply_filters' => 'Filter anwenden',
-			'admin.all_systems_operational' => 'Alle Systeme betriebsbereit',
-			'admin.assign' => 'Zuordnen',
-			'admin.are_you_sure_you_want_to_delet' => 'Sind Sie sicher, dass Sie diesen Benutzer löschen möchten?',
-			'admin.assign_dean' => 'Dekan zuweisen',
-			'admin.assign_department_head' => 'Abteilungsleiter ernennen',
-			'admin.attached_report' => 'Angehängter Bericht',
-			'admin.ban_user' => 'Benutzer sperren',
-			'admin.banned' => 'Verboten',
-			'admin.change_dean' => 'Dekan wechseln',
-			'admin.change' => 'Ändern',
-			'admin.changes_saved_successfully' => 'Änderungen erfolgreich gespeichert',
-			'admin.college' => 'Hochschule',
-			'admin.college_dean' => 'Dekan der Hochschule',
-			'admin.college_details' => 'College-Details',
-			'admin.coming_soon' => 'Demnächst verfügbar',
-			'admin.delete' => 'Löschen',
-			'admin.department_details' => 'Abteilungsdetails',
-			'admin.colleges_management' => 'Hochschulmanagement',
-			'admin.deactivated' => 'Deaktiviert',
-			'admin.departments_management' => 'Abteilungsleitung',
-			'admin.department_projects' => 'Abteilungsprojekte',
-			'admin.entity' => 'Juristische Person',
-			'admin.email_address' => 'E-Mail-Adresse',
-			'admin.error_snapshoterror' => ({required Object error}) => 'Fehler: ${error}',
-			'admin.failed_to_load_data' => 'Daten konnten nicht geladen werden',
-			'admin.faculty_members_1' => 'Fakultätsmitglieder',
-			'admin.full_name' => 'Vollständiger Name',
-			'admin.filter_users' => 'Benutzer filtern',
-			'admin.head_of_department' => 'Abteilungsleiter',
-			'admin.level_level' => ({required Object level}) => 'Ebene ${level}',
-			'admin.leadership_stats' => 'Führungsstatistik',
-			'admin.incidents' => 'Vorfälle',
-			'admin.national_id' => 'Nationaler Ausweis',
-			'admin.min_6_chars' => 'Min. 6 Zeichen',
-			'admin.no_colleges_found' => 'Keine Hochschulen gefunden',
-			'admin.no_dean_assigned' => 'Kein Dekan zugewiesen',
-			'admin.manage_tags' => 'Tags verwalten',
-			'admin.no_departments_in_this_college' => 'Keine Abteilungen in diesem College',
-			'admin.no_about_text_available' => 'Kein Infotext verfügbar',
-			'admin.nationality' => 'Nationalität',
-			'admin.no_departments_found' => 'Keine Abteilungen gefunden',
-			'admin.no_faculty_records_found' => 'Keine Fakultätsunterlagen gefunden',
-			'admin.no_head_assigned' => 'Kein Leiter zugewiesen',
-			'admin.no_matching_students_found' => 'Keine passenden Studenten gefunden',
-			'admin.no_logs_found' => 'Keine Protokolle gefunden',
-			'admin.no_description_available' => 'Keine Beschreibung verfügbar',
-			'admin.no_projects_added_yet' => 'Noch keine Projekte hinzugefügt',
-			'admin.no_users_found' => 'Keine Benutzer gefunden',
-			'admin.no_settings_found_in_the_datab' => 'In der Datenbank wurden keine Einstellungen gefunden',
-			'admin.pending_reg' => 'Ausstehende Registrierung',
-			'admin.password' => 'Passwort',
-			'admin.permanently_delete_user' => 'Benutzer dauerhaft löschen',
-			'admin.office' => 'Büro',
-			'admin.phone_number' => 'Telefonnummer',
-			'admin.please_assign_a_head_for_the_d' => 'Bitte benennen Sie einen Leiter für diese Abteilung',
-			'admin.please_assign_a_dean_for_the_c' => 'Bitte benennen Sie einen Dekan für diese Hochschule',
-			'admin.roles_management' => 'Rollenmanagement',
-			'admin.save' => 'Speichern',
-			'admin.save_changes' => 'Änderungen speichern',
-			'admin.search_doctor_name' => 'Arztnamen suchen...',
-			'admin.search_by_name_email_phone_id' => 'Suchen Sie nach Name, E-Mail, Telefon oder ID...',
-			'admin.select' => 'Wählen',
-			'admin.search_staff_member' => 'Mitarbeiter suchen...',
-			'admin.select_role_in_widgetinitialca' => 'Rolle auswählen',
-			'admin.search_student_or_id' => 'Schüler oder Ausweis suchen...',
-			'admin.select_role_permission' => 'Wählen Sie Rolle/Berechtigung',
-			'admin.separate_tags_with_commas' => 'Trennen Sie Tags durch Kommas',
-			'admin.servers' => 'Server',
-			'admin.student_id' => 'Studentenausweis',
-			'admin.tag1_tag2' => 'tag1, tag2',
-			'admin.teaching_assistants' => 'Lehrassistenten',
-			'admin.system_technical_status' => 'Technischer Systemstatus',
-			'admin.total_staff' => 'Gesamtpersonal',
-			'admin.total_students' => 'Gesamtzahl der Studierenden',
-			'admin.user_roles_ranks' => 'Benutzerrollen und Ränge',
-			'admin.unverified' => 'Nicht bestätigt',
-			'admin.verification' => 'Überprüfung',
-			'admin.you_can_manage_professors_and_' => 'Hier können Sie Professoren und mehr verwalten',
-			'admin.verified' => 'Verifiziert',
-			'admin.warning_level' => 'Warnstufe',
 			'enrollment.registration_title' => 'Kursanmeldung',
 			'enrollment.advisor' => 'Akademischer Berater',
 			'enrollment.payment_title' => 'Studiengebührenzahlung',
@@ -3193,8 +2613,6 @@ extension on TranslationsDe {
 			'enrollment.academic_year' => 'Akademisches Jahr',
 			'enrollment.retry' => 'Wiederholen',
 			'enrollment.loading' => 'Laden...',
-			_ => null,
-		} ?? switch (path) {
 			'enrollment.advisor_assignment' => 'Berateraufgabe',
 			'enrollment.academic_advisor' => 'Akademischer Berater',
 			'enrollment.advisor_requestadvisorfullname' => ({required Object name}) => 'Berater: ${name}',
@@ -3307,7 +2725,6 @@ extension on TranslationsDe {
 			'shared.forums' => 'Foren',
 			'shared.library' => 'Bibliothek',
 			'shared.logout' => 'Abmelden',
-			'shared.it_support' => 'IT-Support',
 			'shared.manage_logged_in_devices' => 'Angemeldete Geräte verwalten',
 			'shared.members' => 'Mitglieder',
 			'shared.please_wait' => 'Bitte warten...',
@@ -3460,6 +2877,8 @@ extension on TranslationsDe {
 			'extracted.log_out' => 'Abmelden',
 			'extracted.how_can_we_help_you' => 'Wie können wir Ihnen helfen?',
 			'extracted.write_your_feedback_here' => 'Schreiben Sie hier Ihr Feedback...',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.email_support' => 'E-Mail-Support',
 			'extracted.write_something_about_yourself' => 'Schreiben Sie etwas über sich selbst...',
 			'extracted.disable_complex_visual_effects' => 'Deaktivieren Sie komplexe visuelle Effekte',
@@ -3525,7 +2944,6 @@ extension on TranslationsDe {
 			'extracted.delete_role' => 'Rolle löschen',
 			'extracted.delete' => 'Löschen',
 			'extracted.role_updated' => 'Rolle aktualisiert',
-			'extracted.admin_it' => 'Verwaltung und IT',
 			'extracted.leadership' => 'Führung',
 			'extracted.teaching' => 'Lehre',
 			'extracted.external' => 'Extern',

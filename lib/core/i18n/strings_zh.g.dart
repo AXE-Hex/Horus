@@ -64,12 +64,10 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSecurityZh security = _TranslationsSecurityZh._(_root);
 	@override late final _TranslationsTutorialsZh tutorials = _TranslationsTutorialsZh._(_root);
 	@override late final _TranslationsForumsZh forums = _TranslationsForumsZh._(_root);
-	@override late final _TranslationsAdministrationZh administration = _TranslationsAdministrationZh._(_root);
 	@override late final _TranslationsFeedZh feed = _TranslationsFeedZh._(_root);
 	@override late final _TranslationsProfessorZh professor = _TranslationsProfessorZh._(_root);
 	@override late final _TranslationsRolesZh roles = _TranslationsRolesZh._(_root);
 	@override late final _TranslationsAcademicZh academic = _TranslationsAcademicZh._(_root);
-	@override late final _TranslationsAdminZh admin = _TranslationsAdminZh._(_root);
 	@override late final _TranslationsEnrollmentZh enrollment = _TranslationsEnrollmentZh._(_root);
 	@override late final _TranslationsSharedZh shared = _TranslationsSharedZh._(_root);
 	@override late final _TranslationsStudentsZh students = _TranslationsStudentsZh._(_root);
@@ -156,13 +154,11 @@ class _TranslationsHomeZh extends TranslationsHomeEn {
 	// Translations
 	@override late final _TranslationsHomeTabsZh tabs = _TranslationsHomeTabsZh._(_root);
 	@override String get prof => '教授';
-	@override String get admin => '行政';
 	@override String get faculty_portal => '教师门户';
 	@override String get student => '学生';
 	@override String get home => '家';
 	@override String get student_portal => '学生门户';
 	@override String get colleges => '学院';
-	@override String get admin_portal => '管理门户';
 }
 
 // Path: dashboard
@@ -536,20 +532,6 @@ class _TranslationsForumsZh extends TranslationsForumsEn {
 	@override String get title => '论坛';
 }
 
-// Path: administration
-class _TranslationsAdministrationZh extends TranslationsAdministrationEn {
-	_TranslationsAdministrationZh._(TranslationsZh root) : this._root = root, super.internal(root);
-
-	final TranslationsZh _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => '学生管理';
-	@override String get stats => '系统统计';
-	@override String get users => '用户';
-	@override String get reports => '报告';
-	@override late final _TranslationsAdministrationAuditLogsZh audit_logs = _TranslationsAdministrationAuditLogsZh._(_root);
-}
-
 // Path: feed
 class _TranslationsFeedZh extends TranslationsFeedEn {
 	_TranslationsFeedZh._(TranslationsZh root) : this._root = root, super.internal(root);
@@ -818,245 +800,6 @@ class _TranslationsAcademicZh extends TranslationsAcademicEn {
 	@override String get uploaded_successfully => '上传成功';
 }
 
-// Path: admin
-class _TranslationsAdminZh extends TranslationsAdminEn {
-	_TranslationsAdminZh._(TranslationsZh root) : this._root = root, super.internal(root);
-
-	final TranslationsZh _root; // ignore: unused_field
-
-	// Translations
-	@override String get system_online => '系统上线';
-	@override String get en => 'zh';
-	@override String get admin_command_center => '管理指挥中心';
-	@override String get eeee_mmmm_dd_yyyy => 'EEEE，MMMM 日，年';
-	@override String get live_statistics => '实时统计';
-	@override String get students => '学生';
-	@override String get admin => '行政';
-	@override String get faculty => '学院';
-	@override String get leadership => '领导';
-	@override String get staff => '职员';
-	@override String get system_modules => '系统模块';
-	@override String get users => '用户';
-	@override String get admin_it => '行政与信息技术';
-	@override String get manage_all_accounts => '管理所有帐户';
-	@override String get manage_faculties => '管理院系';
-	@override String get colleges => '学院';
-	@override String get departments => '部门';
-	@override String get academic_departments => '学术部门';
-	@override String get professors => '教授';
-	@override String get faculty_members => '教职人员';
-	@override String get permission_management => '权限管理';
-	@override String get audit_logs => '审核日志';
-	@override String get roles => '角色';
-	@override String get system_activity_log => '系统活动日志';
-	@override String get system_settings => '系统设置';
-	@override String get platform_configuration => '平台配置';
-	@override String get performance => '表现';
-	@override String get server_health_metrics => '服务器健康指标';
-	@override String get server => '服务器';
-	@override String get system_pulse => '系统脉冲';
-	@override String get latency => '延迟';
-	@override String get online => '在线的';
-	@override String get status => '地位';
-	@override String get active => '积极的';
-	@override String get realtime_latency_ms => '实时延迟 (MS)';
-	@override String get teaching_staff => '师资队伍';
-	@override String get role_breakdown => '角色细分';
-	@override String get academic_leadership => '学术领导力';
-	@override String get student_affairs => '学生事务';
-	@override String get database => '数据库';
-	@override String get total_users => '用户总数';
-	@override String get quick_actions => '快速行动';
-	@override String get system_health => '系统健康状况';
-	@override String get management => '管理';
-	@override String get export_data => '导出数据';
-	@override String get add_user => '添加用户';
-	@override String get user_management => '用户管理';
-	@override String get backup_system => '备份系统';
-	@override String get user_list => '用户列表';
-	@override String get filter_students => '学生';
-	@override String get filter_all => '全部';
-	@override String get filter_admin => '行政';
-	@override String get filter_staff => '职员';
-	@override String get search_users => '搜索用户...';
-	@override String get no_users => '没有找到用户';
-	@override String get staff_management => '员工管理';
-	@override String get student_management => '学生管理';
-	@override String get faculty_management => '师资管理';
-	@override String user_count({required Object count}) => '${count}用户';
-	@override String get leadership_management => '领导力管理';
-	@override String get admin_it_management => '行政和 IT 管理';
-	@override String get send_announcement => '发送公告';
-	@override String get college_management => '学院管理';
-	@override String get department_management => '部门管理';
-	@override String get professor_management => '教授管理学';
-	@override String get role_management => '角色管理';
-	@override String get audit_log_management => '审计日志管理';
-	@override String get system_configuration => '系统配置';
-	@override String get add_department => '添加部门';
-	@override String get add_college => '添加学院';
-	@override String get edit_college => '编辑学院';
-	@override String get edit_department => '编辑部门';
-	@override String get delete_college => '删除学院';
-	@override String get delete_department => '删除部门';
-	@override String get college_name => '学院名称';
-	@override String get department_name => '部门名称';
-	@override String get student_count => '学生';
-	@override String get head_name => '头名';
-	@override String get dean_name => '院长姓名';
-	@override String get timestamp => '时间戳';
-	@override String get action => '行动';
-	@override String get ta_count => 'TA';
-	@override String get staff_count => '职员';
-	@override String get user => '用户';
-	@override String get details => '细节';
-	@override String get filter_by_date => '按日期过滤';
-	@override String get filter_by_action => '按操作过滤';
-	@override String get system_version => '系统版本';
-	@override String get no_logs => '未找到审核日志';
-	@override String get maintenance_mode => '维护方式';
-	@override String get backup_schedule => '备份计划';
-	@override String get storage_quota => '存储配额';
-	@override String get email_server => '电子邮件服务器';
-	@override String get log_retention => '日志保留';
-	@override String get security_level => '安全等级';
-	@override String get session_timeout => '会话超时';
-	@override String get reset_defaults => '重置为默认值';
-	@override String get save_settings => '保存设置';
-	@override String get user_name => '姓名';
-	@override String get user_role => '角色';
-	@override String get user_phone => '电话';
-	@override String get user_department => '部门';
-	@override String get user_email => '电子邮件';
-	@override String get user_college => '大学';
-	@override String get user_status => '地位';
-	@override String get user_updated => '用户更新成功';
-	@override String get user_created => '已创建';
-	@override String get add_new_user => '添加新用户';
-	@override String get edit_user => '编辑用户';
-	@override String get delete_user => '删除用户';
-	@override String get save_user => '节省';
-	@override String get cancel => '取消';
-	@override String get name_label => '姓名';
-	@override String get college_label => '大学';
-	@override String get department_label => '部门';
-	@override String get email_label => '电子邮件';
-	@override String get role_label => '选择角色';
-	@override String get phone_label => '电话号码';
-	@override String get confirm_password_label => '确认密码';
-	@override String get password_label => '密码';
-	@override String get category_faculty => '学院';
-	@override String get category_student => '学生';
-	@override String get category_leadership => '领导';
-	@override String get category_staff => '职员';
-	@override String get category_admin => '行政';
-	@override String get select_role => '选择角色';
-	@override String get select_department => '选择部门';
-	@override String get select_college => '选择学院';
-	@override String get user_added => '用户添加成功';
-	@override String get no_colleges => '没有可用的大学';
-	@override String get user_deleted => '用户删除成功';
-	@override String get confirm_delete => '确认删除';
-	@override String get error_loading => '加载数据时出错';
-	@override String get retry => '重试';
-	@override String get confirm_delete_message => '您确定要删除该用户吗？';
-	@override String get error_saving => '保存数据时出错';
-	@override String get academic_departments_1 => '学术部门';
-	@override String get no_departments => '没有可用的部门';
-	@override String get academic_department => '学术部';
-	@override String get academic_leaders => '学术带头人';
-	@override String get academic_warnings => '学术警告';
-	@override String get account_status => '账户状态';
-	@override String get account_verification => '账户验证';
-	@override String get actor => '演员';
-	@override String get add_report => '添加报告';
-	@override String get advanced_management => '先进管理';
-	@override String get admins => '管理员';
-	@override String get all_levels => '所有级别';
-	@override String get all_systems_operational => '所有系统均可运行';
-	@override String get all => '全部';
-	@override String get apply_filters => '应用过滤器';
-	@override String get are_you_sure_you_want_to_delet => '您确定要删除该用户吗？';
-	@override String get assign => '分配';
-	@override String get assign_dean => '指定院长';
-	@override String get assign_department_head => '指定部门主管';
-	@override String get attached_report => '附报告';
-	@override String get banned => '禁止';
-	@override String get change => '改变';
-	@override String get ban_user => '禁止用户';
-	@override String get change_dean => '更换院长';
-	@override String get changes_saved_successfully => '更改已成功保存';
-	@override String get college => '大学';
-	@override String get college_dean => '学院院长';
-	@override String get college_details => '学院详情';
-	@override String get colleges_management => '学院管理';
-	@override String get coming_soon => '即将推出';
-	@override String get department_details => '部门详情';
-	@override String get deactivated => '已停用';
-	@override String get department_projects => '部门项目';
-	@override String get delete => '删除';
-	@override String get departments_management => '部门管理';
-	@override String get entity => '实体';
-	@override String error_snapshoterror({required Object error}) => '错误：${error}';
-	@override String get email_address => '电子邮件';
-	@override String get failed_to_load_data => '加载数据失败';
-	@override String get faculty_members_1 => '教职人员';
-	@override String get full_name => '姓名';
-	@override String get head_of_department => '系主任';
-	@override String get incidents => '事件';
-	@override String get filter_users => '过滤用户';
-	@override String get leadership_stats => '领导力统计';
-	@override String level_level({required Object level}) => '级别${level}';
-	@override String get manage_tags => '管理标签';
-	@override String get national_id => '国民身份证';
-	@override String get min_6_chars => '分钟。 6 个字符';
-	@override String get no_about_text_available => '没有可用的关于文本';
-	@override String get nationality => '国籍';
-	@override String get no_dean_assigned => '没有指定院长';
-	@override String get no_colleges_found => '没有找到大学';
-	@override String get no_departments_in_this_college => '该学院没有院系';
-	@override String get no_departments_found => '未找到部门';
-	@override String get no_description_available => '无可用描述';
-	@override String get no_matching_students_found => '未找到匹配的学生';
-	@override String get no_faculty_records_found => '未找到教师记录';
-	@override String get no_head_assigned => '没有分配头';
-	@override String get no_projects_added_yet => '尚未添加项目';
-	@override String get no_logs_found => '未找到日志';
-	@override String get no_settings_found_in_the_datab => '在数据库中找不到设置';
-	@override String get office => '办公室';
-	@override String get no_users_found => '未找到用户';
-	@override String get password => '密码';
-	@override String get pending_reg => '待注册';
-	@override String get permanently_delete_user => '永久删除用户';
-	@override String get phone_number => '电话号码';
-	@override String get please_assign_a_head_for_the_d => '请指定该部门的负责人';
-	@override String get please_assign_a_dean_for_the_c => '请为该学院指派一名院长';
-	@override String get save => '节省';
-	@override String get roles_management => '角色管理';
-	@override String get save_changes => '保存更改';
-	@override String get search_by_name_email_phone_id => '按姓名、电子邮件、电话或 ID 搜索...';
-	@override String get select_role_in_widgetinitialca => '选择角色';
-	@override String get search_staff_member => '搜寻工作人员...';
-	@override String get select => '选择';
-	@override String get search_doctor_name => '搜索医生姓名...';
-	@override String get search_student_or_id => '搜索学生或 ID...';
-	@override String get servers => '服务器';
-	@override String get select_role_permission => '选择角色/权限';
-	@override String get separate_tags_with_commas => '用逗号分隔标签';
-	@override String get student_id => '学生证';
-	@override String get system_technical_status => '系统技术状况';
-	@override String get tag1_tag2 => '标签1、标签2';
-	@override String get teaching_assistants => '助教';
-	@override String get total_staff => '员工总数';
-	@override String get total_students => '学生总数';
-	@override String get unverified => '未验证';
-	@override String get verified => '已验证';
-	@override String get verification => '确认';
-	@override String get warning_level => '警告级别';
-	@override String get user_roles_ranks => '用户角色和等级';
-	@override String get you_can_manage_professors_and_ => '您可以在这里管理教授等';
-}
-
 // Path: enrollment
 class _TranslationsEnrollmentZh extends TranslationsEnrollmentEn {
 	_TranslationsEnrollmentZh._(TranslationsZh root) : this._root = root, super.internal(root);
@@ -1252,7 +995,6 @@ class _TranslationsSharedZh extends TranslationsSharedEn {
 	@override String get device_management => '设备管理';
 	@override String get forums => '论坛';
 	@override String get financial_aid => '经济援助';
-	@override String get it_support => '信息技术支持';
 	@override String get manage_logged_in_devices => '管理登录设备';
 	@override String get members => '会员';
 	@override String get logout => '退出';
@@ -1495,7 +1237,6 @@ class _TranslationsExtractedZh extends TranslationsExtractedEn {
 	@override String get student_affairs => '学生事务';
 	@override String get teaching => '教学';
 	@override String get leadership => '领导';
-	@override String get admin_it => '行政与信息技术';
 	@override String get external => '外部的';
 	@override String get quick_actions => '快速行动';
 	@override String get delete => '删除';
@@ -1643,9 +1384,7 @@ class _TranslationsAuthForgotPasswordZh extends TranslationsAuthForgotPasswordEn
 	// Translations
 	@override String get title => '忘记密码';
 	@override String get subtitle => '选择恢复方法';
-	@override String get method_admin => '访问管理部门';
 	@override String get method_online => '在线申请';
-	@override String get admin_instructions => '请前往学生事务办公室重置密码。请携带有效的大学身份证件。';
 	@override String get phone_label => '电话号码';
 	@override String get upload_id => '上传证件照';
 	@override String get upload_id_hint => '点击上传清晰的大学身份证照片';
@@ -1671,7 +1410,6 @@ class _TranslationsHomeTabsZh extends TranslationsHomeTabsEn {
 	@override String get search => '搜索';
 	@override String get notifications => '通知';
 	@override String get profile => '个人资料';
-	@override String get admin => '行政';
 	@override String get colleges => '学院';
 	@override String get student => '学生';
 }
@@ -1958,19 +1696,6 @@ class _TranslationsAttendanceSubjectsZh extends TranslationsAttendanceSubjectsEn
 	@override String get ethics => 'IT 道德';
 }
 
-// Path: administration.audit_logs
-class _TranslationsAdministrationAuditLogsZh extends TranslationsAdministrationAuditLogsEn {
-	_TranslationsAdministrationAuditLogsZh._(TranslationsZh root) : this._root = root, super.internal(root);
-
-	final TranslationsZh _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => '审核日志';
-	@override late final _TranslationsAdministrationAuditLogsLabelsZh labels = _TranslationsAdministrationAuditLogsLabelsZh._(_root);
-	@override late final _TranslationsAdministrationAuditLogsTabsZh tabs = _TranslationsAdministrationAuditLogsTabsZh._(_root);
-	@override String get no_logs_found => '未找到符合条件的日志。';
-}
-
 // Path: professor.stats
 class _TranslationsProfessorStatsZh extends TranslationsProfessorStatsEn {
 	_TranslationsProfessorStatsZh._(TranslationsZh root) : this._root = root, super.internal(root);
@@ -2019,7 +1744,6 @@ class _TranslationsRolesCategoriesZh extends TranslationsRolesCategoriesEn {
 	final TranslationsZh _root; // ignore: unused_field
 
 	// Translations
-	@override String get admin_it => '行政与信息技术';
 	@override String get academic_leadership => '学术领导力';
 	@override String get teaching_staff => '师资队伍';
 	@override String get student_affairs => '学生事务';
@@ -2035,14 +1759,10 @@ class _TranslationsRolesNamesZh extends TranslationsRolesNamesEn {
 	final TranslationsZh _root; // ignore: unused_field
 
 	// Translations
-	@override String get super_admin => '超级管理员';
-	@override String get financial_auditor => '财务审计师';
-	@override String get it_support => '信息技术支持';
 	@override String get dean => '院长';
 	@override String get academic_coordinator => '学术协调员';
 	@override String get rector => '校长/主席';
 	@override String get department_head => '系主任';
-	@override String get admin => '行政人员';
 	@override String get professor => '教授/讲师';
 	@override String get lecturer => '讲师';
 	@override String get teaching_assistant => '助教';
@@ -2068,10 +1788,6 @@ class _TranslationsRolesDescriptionsZh extends TranslationsRolesDescriptionsEn {
 	final TranslationsZh _root; // ignore: unused_field
 
 	// Translations
-	@override String get it_support => '技术系统支持与维护';
-	@override String get super_admin => '完全控制整个系统';
-	@override String get admin => '具有高权限的系统管理员';
-	@override String get financial_auditor => '监督财务记录和发票';
 	@override String get rector => '大学校长拥有全面的学术监督权';
 	@override String get dean => '学院/学院院长';
 	@override String get department_head => '学术部门负责人';
@@ -2125,38 +1841,6 @@ class _TranslationsTranscriptCourseStatusZh extends TranslationsTranscriptCourse
 	// Translations
 	@override String get completed => '已完成';
 	@override String get transferred => '转学分';
-}
-
-// Path: administration.audit_logs.labels
-class _TranslationsAdministrationAuditLogsLabelsZh extends TranslationsAdministrationAuditLogsLabelsEn {
-	_TranslationsAdministrationAuditLogsLabelsZh._(TranslationsZh root) : this._root = root, super.internal(root);
-
-	final TranslationsZh _root; // ignore: unused_field
-
-	// Translations
-	@override String get record => '记录';
-	@override String get actor => '演员';
-	@override String get table => '桌子';
-	@override String get action => '行动';
-	@override String get old_data => '旧数据';
-	@override String get notes => '笔记';
-	@override String get new_data => '新数据';
-	@override String get performed_by => '表演者';
-	@override String get close_details => '关闭详情';
-	@override String get view_details => '查看详情';
-}
-
-// Path: administration.audit_logs.tabs
-class _TranslationsAdministrationAuditLogsTabsZh extends TranslationsAdministrationAuditLogsTabsEn {
-	_TranslationsAdministrationAuditLogsTabsZh._(TranslationsZh root) : this._root = root, super.internal(root);
-
-	final TranslationsZh _root; // ignore: unused_field
-
-	// Translations
-	@override String get security => '安全';
-	@override String get all => '所有日志';
-	@override String get user_management => '用户管理';
-	@override String get data_updates => '数据更新';
 }
 
 /// The flat map containing all translations for locale <zh>.
@@ -2222,9 +1906,7 @@ extension on TranslationsZh {
 			'auth.login.guest' => '作为访客浏览',
 			'auth.forgot_password.title' => '忘记密码',
 			'auth.forgot_password.subtitle' => '选择恢复方法',
-			'auth.forgot_password.method_admin' => '访问管理部门',
 			'auth.forgot_password.method_online' => '在线申请',
-			'auth.forgot_password.admin_instructions' => '请前往学生事务办公室重置密码。请携带有效的大学身份证件。',
 			'auth.forgot_password.phone_label' => '电话号码',
 			'auth.forgot_password.upload_id' => '上传证件照',
 			'auth.forgot_password.upload_id_hint' => '点击上传清晰的大学身份证照片',
@@ -2243,17 +1925,14 @@ extension on TranslationsZh {
 			'home.tabs.search' => '搜索',
 			'home.tabs.notifications' => '通知',
 			'home.tabs.profile' => '个人资料',
-			'home.tabs.admin' => '行政',
 			'home.tabs.colleges' => '学院',
 			'home.tabs.student' => '学生',
 			'home.prof' => '教授',
-			'home.admin' => '行政',
 			'home.faculty_portal' => '教师门户',
 			'home.student' => '学生',
 			'home.home' => '家',
 			'home.student_portal' => '学生门户',
 			'home.colleges' => '学院',
-			'home.admin_portal' => '管理门户',
 			'dashboard.id_card.student_name' => '学生姓名',
 			'dashboard.id_card.college' => '学院',
 			'dashboard.id_card.id' => '学号',
@@ -2578,26 +2257,6 @@ extension on TranslationsZh {
 			'security.sessions' => '活动会话',
 			'tutorials.title' => '教程与指南',
 			'forums.title' => '论坛',
-			'administration.title' => '学生管理',
-			'administration.stats' => '系统统计',
-			'administration.users' => '用户',
-			'administration.reports' => '报告',
-			'administration.audit_logs.title' => '审核日志',
-			'administration.audit_logs.labels.record' => '记录',
-			'administration.audit_logs.labels.actor' => '演员',
-			'administration.audit_logs.labels.table' => '桌子',
-			'administration.audit_logs.labels.action' => '行动',
-			'administration.audit_logs.labels.old_data' => '旧数据',
-			'administration.audit_logs.labels.notes' => '笔记',
-			'administration.audit_logs.labels.new_data' => '新数据',
-			'administration.audit_logs.labels.performed_by' => '表演者',
-			'administration.audit_logs.labels.close_details' => '关闭详情',
-			'administration.audit_logs.labels.view_details' => '查看详情',
-			'administration.audit_logs.tabs.security' => '安全',
-			'administration.audit_logs.tabs.all' => '所有日志',
-			'administration.audit_logs.tabs.user_management' => '用户管理',
-			'administration.audit_logs.tabs.data_updates' => '数据更新',
-			'administration.audit_logs.no_logs_found' => '未找到符合条件的日志。',
 			'feed.likes' => '喜欢',
 			'feed.hours_ago' => '几小时前',
 			'feed.caption_sample' => '这是帖子的示例标题',
@@ -2642,21 +2301,16 @@ extension on TranslationsZh {
 			'professor.profile.teaching_assistants' => '助教',
 			'professor.profile.shared_resources' => '共享资源',
 			'professor.profile.office_hours' => '办公时间',
-			'roles.categories.admin_it' => '行政与信息技术',
 			'roles.categories.academic_leadership' => '学术领导力',
 			'roles.categories.teaching_staff' => '师资队伍',
 			'roles.categories.student_affairs' => '学生事务',
 			'roles.categories.facilities_security' => '设施与安全',
 			'roles.categories.student_roles' => '学生角色',
 			'roles.categories.external_roles' => '外部角色',
-			'roles.names.super_admin' => '超级管理员',
-			'roles.names.financial_auditor' => '财务审计师',
-			'roles.names.it_support' => '信息技术支持',
 			'roles.names.dean' => '院长',
 			'roles.names.academic_coordinator' => '学术协调员',
 			'roles.names.rector' => '校长/主席',
 			'roles.names.department_head' => '系主任',
-			'roles.names.admin' => '行政人员',
 			'roles.names.professor' => '教授/讲师',
 			'roles.names.lecturer' => '讲师',
 			'roles.names.teaching_assistant' => '助教',
@@ -2673,14 +2327,8 @@ extension on TranslationsZh {
 			'roles.names.alumni' => '校友',
 			'roles.names.recruiter' => '招聘人员',
 			'roles.names.regular_student' => '普通学生',
-			'roles.descriptions.it_support' => '技术系统支持与维护',
-			'roles.descriptions.super_admin' => '完全控制整个系统',
-			'roles.descriptions.admin' => '具有高权限的系统管理员',
-			'roles.descriptions.financial_auditor' => '监督财务记录和发票',
 			'roles.descriptions.rector' => '大学校长拥有全面的学术监督权',
 			'roles.descriptions.dean' => '学院/学院院长',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.department_head' => '学术部门负责人',
 			'roles.descriptions.academic_coordinator' => '协调学术课程和日程安排',
 			'roles.descriptions.professor' => '教授和管理课程的教员',
@@ -2715,6 +2363,8 @@ extension on TranslationsZh {
 			'academic.professor_dashboard' => '教授仪表板',
 			'academic.all_students' => '所有学生',
 			'academic.exam_schedule_title' => '考试时间表',
+			_ => null,
+		} ?? switch (path) {
 			'academic.tas' => '助教',
 			'academic.subject_results_title' => '科目结果',
 			'academic.office_hours' => '办公时间',
@@ -2895,236 +2545,6 @@ extension on TranslationsZh {
 			'academic.urgent_news' => '紧急消息',
 			'academic.upload' => '上传',
 			'academic.uploaded_successfully' => '上传成功',
-			'admin.system_online' => '系统上线',
-			'admin.en' => 'zh',
-			'admin.admin_command_center' => '管理指挥中心',
-			'admin.eeee_mmmm_dd_yyyy' => 'EEEE，MMMM 日，年',
-			'admin.live_statistics' => '实时统计',
-			'admin.students' => '学生',
-			'admin.admin' => '行政',
-			'admin.faculty' => '学院',
-			'admin.leadership' => '领导',
-			'admin.staff' => '职员',
-			'admin.system_modules' => '系统模块',
-			'admin.users' => '用户',
-			'admin.admin_it' => '行政与信息技术',
-			'admin.manage_all_accounts' => '管理所有帐户',
-			'admin.manage_faculties' => '管理院系',
-			'admin.colleges' => '学院',
-			'admin.departments' => '部门',
-			'admin.academic_departments' => '学术部门',
-			'admin.professors' => '教授',
-			'admin.faculty_members' => '教职人员',
-			'admin.permission_management' => '权限管理',
-			'admin.audit_logs' => '审核日志',
-			'admin.roles' => '角色',
-			'admin.system_activity_log' => '系统活动日志',
-			'admin.system_settings' => '系统设置',
-			'admin.platform_configuration' => '平台配置',
-			'admin.performance' => '表现',
-			'admin.server_health_metrics' => '服务器健康指标',
-			'admin.server' => '服务器',
-			'admin.system_pulse' => '系统脉冲',
-			'admin.latency' => '延迟',
-			'admin.online' => '在线的',
-			'admin.status' => '地位',
-			'admin.active' => '积极的',
-			'admin.realtime_latency_ms' => '实时延迟 (MS)',
-			'admin.teaching_staff' => '师资队伍',
-			'admin.role_breakdown' => '角色细分',
-			'admin.academic_leadership' => '学术领导力',
-			'admin.student_affairs' => '学生事务',
-			'admin.database' => '数据库',
-			'admin.total_users' => '用户总数',
-			'admin.quick_actions' => '快速行动',
-			'admin.system_health' => '系统健康状况',
-			'admin.management' => '管理',
-			'admin.export_data' => '导出数据',
-			'admin.add_user' => '添加用户',
-			'admin.user_management' => '用户管理',
-			'admin.backup_system' => '备份系统',
-			'admin.user_list' => '用户列表',
-			'admin.filter_students' => '学生',
-			'admin.filter_all' => '全部',
-			'admin.filter_admin' => '行政',
-			'admin.filter_staff' => '职员',
-			'admin.search_users' => '搜索用户...',
-			'admin.no_users' => '没有找到用户',
-			'admin.staff_management' => '员工管理',
-			'admin.student_management' => '学生管理',
-			'admin.faculty_management' => '师资管理',
-			'admin.user_count' => ({required Object count}) => '${count}用户',
-			'admin.leadership_management' => '领导力管理',
-			'admin.admin_it_management' => '行政和 IT 管理',
-			'admin.send_announcement' => '发送公告',
-			'admin.college_management' => '学院管理',
-			'admin.department_management' => '部门管理',
-			'admin.professor_management' => '教授管理学',
-			'admin.role_management' => '角色管理',
-			'admin.audit_log_management' => '审计日志管理',
-			'admin.system_configuration' => '系统配置',
-			'admin.add_department' => '添加部门',
-			'admin.add_college' => '添加学院',
-			'admin.edit_college' => '编辑学院',
-			'admin.edit_department' => '编辑部门',
-			'admin.delete_college' => '删除学院',
-			'admin.delete_department' => '删除部门',
-			'admin.college_name' => '学院名称',
-			'admin.department_name' => '部门名称',
-			'admin.student_count' => '学生',
-			'admin.head_name' => '头名',
-			'admin.dean_name' => '院长姓名',
-			'admin.timestamp' => '时间戳',
-			'admin.action' => '行动',
-			'admin.ta_count' => 'TA',
-			'admin.staff_count' => '职员',
-			'admin.user' => '用户',
-			'admin.details' => '细节',
-			'admin.filter_by_date' => '按日期过滤',
-			'admin.filter_by_action' => '按操作过滤',
-			'admin.system_version' => '系统版本',
-			'admin.no_logs' => '未找到审核日志',
-			'admin.maintenance_mode' => '维护方式',
-			'admin.backup_schedule' => '备份计划',
-			'admin.storage_quota' => '存储配额',
-			'admin.email_server' => '电子邮件服务器',
-			'admin.log_retention' => '日志保留',
-			'admin.security_level' => '安全等级',
-			'admin.session_timeout' => '会话超时',
-			'admin.reset_defaults' => '重置为默认值',
-			'admin.save_settings' => '保存设置',
-			'admin.user_name' => '姓名',
-			'admin.user_role' => '角色',
-			'admin.user_phone' => '电话',
-			'admin.user_department' => '部门',
-			'admin.user_email' => '电子邮件',
-			'admin.user_college' => '大学',
-			'admin.user_status' => '地位',
-			'admin.user_updated' => '用户更新成功',
-			'admin.user_created' => '已创建',
-			'admin.add_new_user' => '添加新用户',
-			'admin.edit_user' => '编辑用户',
-			'admin.delete_user' => '删除用户',
-			'admin.save_user' => '节省',
-			'admin.cancel' => '取消',
-			'admin.name_label' => '姓名',
-			'admin.college_label' => '大学',
-			'admin.department_label' => '部门',
-			'admin.email_label' => '电子邮件',
-			'admin.role_label' => '选择角色',
-			'admin.phone_label' => '电话号码',
-			'admin.confirm_password_label' => '确认密码',
-			'admin.password_label' => '密码',
-			'admin.category_faculty' => '学院',
-			'admin.category_student' => '学生',
-			'admin.category_leadership' => '领导',
-			'admin.category_staff' => '职员',
-			'admin.category_admin' => '行政',
-			'admin.select_role' => '选择角色',
-			'admin.select_department' => '选择部门',
-			'admin.select_college' => '选择学院',
-			'admin.user_added' => '用户添加成功',
-			'admin.no_colleges' => '没有可用的大学',
-			'admin.user_deleted' => '用户删除成功',
-			'admin.confirm_delete' => '确认删除',
-			'admin.error_loading' => '加载数据时出错',
-			'admin.retry' => '重试',
-			'admin.confirm_delete_message' => '您确定要删除该用户吗？',
-			'admin.error_saving' => '保存数据时出错',
-			'admin.academic_departments_1' => '学术部门',
-			'admin.no_departments' => '没有可用的部门',
-			'admin.academic_department' => '学术部',
-			'admin.academic_leaders' => '学术带头人',
-			'admin.academic_warnings' => '学术警告',
-			'admin.account_status' => '账户状态',
-			'admin.account_verification' => '账户验证',
-			'admin.actor' => '演员',
-			'admin.add_report' => '添加报告',
-			'admin.advanced_management' => '先进管理',
-			'admin.admins' => '管理员',
-			'admin.all_levels' => '所有级别',
-			'admin.all_systems_operational' => '所有系统均可运行',
-			'admin.all' => '全部',
-			'admin.apply_filters' => '应用过滤器',
-			'admin.are_you_sure_you_want_to_delet' => '您确定要删除该用户吗？',
-			'admin.assign' => '分配',
-			'admin.assign_dean' => '指定院长',
-			'admin.assign_department_head' => '指定部门主管',
-			'admin.attached_report' => '附报告',
-			'admin.banned' => '禁止',
-			'admin.change' => '改变',
-			'admin.ban_user' => '禁止用户',
-			'admin.change_dean' => '更换院长',
-			'admin.changes_saved_successfully' => '更改已成功保存',
-			'admin.college' => '大学',
-			'admin.college_dean' => '学院院长',
-			'admin.college_details' => '学院详情',
-			'admin.colleges_management' => '学院管理',
-			'admin.coming_soon' => '即将推出',
-			'admin.department_details' => '部门详情',
-			'admin.deactivated' => '已停用',
-			'admin.department_projects' => '部门项目',
-			'admin.delete' => '删除',
-			'admin.departments_management' => '部门管理',
-			'admin.entity' => '实体',
-			'admin.error_snapshoterror' => ({required Object error}) => '错误：${error}',
-			'admin.email_address' => '电子邮件',
-			'admin.failed_to_load_data' => '加载数据失败',
-			'admin.faculty_members_1' => '教职人员',
-			'admin.full_name' => '姓名',
-			'admin.head_of_department' => '系主任',
-			'admin.incidents' => '事件',
-			'admin.filter_users' => '过滤用户',
-			'admin.leadership_stats' => '领导力统计',
-			'admin.level_level' => ({required Object level}) => '级别${level}',
-			'admin.manage_tags' => '管理标签',
-			'admin.national_id' => '国民身份证',
-			'admin.min_6_chars' => '分钟。 6 个字符',
-			'admin.no_about_text_available' => '没有可用的关于文本',
-			'admin.nationality' => '国籍',
-			'admin.no_dean_assigned' => '没有指定院长',
-			'admin.no_colleges_found' => '没有找到大学',
-			'admin.no_departments_in_this_college' => '该学院没有院系',
-			'admin.no_departments_found' => '未找到部门',
-			'admin.no_description_available' => '无可用描述',
-			'admin.no_matching_students_found' => '未找到匹配的学生',
-			'admin.no_faculty_records_found' => '未找到教师记录',
-			'admin.no_head_assigned' => '没有分配头',
-			'admin.no_projects_added_yet' => '尚未添加项目',
-			'admin.no_logs_found' => '未找到日志',
-			'admin.no_settings_found_in_the_datab' => '在数据库中找不到设置',
-			'admin.office' => '办公室',
-			'admin.no_users_found' => '未找到用户',
-			'admin.password' => '密码',
-			'admin.pending_reg' => '待注册',
-			'admin.permanently_delete_user' => '永久删除用户',
-			'admin.phone_number' => '电话号码',
-			'admin.please_assign_a_head_for_the_d' => '请指定该部门的负责人',
-			'admin.please_assign_a_dean_for_the_c' => '请为该学院指派一名院长',
-			'admin.save' => '节省',
-			'admin.roles_management' => '角色管理',
-			'admin.save_changes' => '保存更改',
-			'admin.search_by_name_email_phone_id' => '按姓名、电子邮件、电话或 ID 搜索...',
-			'admin.select_role_in_widgetinitialca' => '选择角色',
-			'admin.search_staff_member' => '搜寻工作人员...',
-			'admin.select' => '选择',
-			'admin.search_doctor_name' => '搜索医生姓名...',
-			'admin.search_student_or_id' => '搜索学生或 ID...',
-			'admin.servers' => '服务器',
-			'admin.select_role_permission' => '选择角色/权限',
-			'admin.separate_tags_with_commas' => '用逗号分隔标签',
-			'admin.student_id' => '学生证',
-			'admin.system_technical_status' => '系统技术状况',
-			'admin.tag1_tag2' => '标签1、标签2',
-			'admin.teaching_assistants' => '助教',
-			'admin.total_staff' => '员工总数',
-			'admin.total_students' => '学生总数',
-			'admin.unverified' => '未验证',
-			'admin.verified' => '已验证',
-			'admin.verification' => '确认',
-			'admin.warning_level' => '警告级别',
-			'admin.user_roles_ranks' => '用户角色和等级',
-			'admin.you_can_manage_professors_and_' => '您可以在这里管理教授等',
 			'enrollment.registration_title' => '课程注册',
 			'enrollment.invoices_title' => '财务发票',
 			'enrollment.advisor_approval' => '顾问批准',
@@ -3193,8 +2613,6 @@ extension on TranslationsZh {
 			'enrollment.academic_advisor' => '学术顾问',
 			'enrollment.request_submitted' => '请求提交成功',
 			'enrollment.approved_1' => '得到正式认可的',
-			_ => null,
-		} ?? switch (path) {
 			'enrollment.retry' => '重试',
 			'enrollment.approved_courses_registered' => '批准 - 注册课程',
 			'enrollment.advisor_assignment' => '顾问分配',
@@ -3306,7 +2724,6 @@ extension on TranslationsZh {
 			'shared.device_management' => '设备管理',
 			'shared.forums' => '论坛',
 			'shared.financial_aid' => '经济援助',
-			'shared.it_support' => '信息技术支持',
 			'shared.manage_logged_in_devices' => '管理登录设备',
 			'shared.members' => '会员',
 			'shared.logout' => '退出',
@@ -3460,6 +2877,8 @@ extension on TranslationsZh {
 			'extracted.version_details_and_developer_info' => '版本详细信息和开发者信息',
 			'extracted.email_support' => '电子邮件支持',
 			'extracted.log_out' => '退出',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.about_app' => '关于应用程序',
 			'extracted.how_can_we_help_you' => '我们能为您提供什么帮助？',
 			'extracted.call_hotline' => '拨打热线',
@@ -3531,7 +2950,6 @@ extension on TranslationsZh {
 			'extracted.student_affairs' => '学生事务',
 			'extracted.teaching' => '教学',
 			'extracted.leadership' => '领导',
-			'extracted.admin_it' => '行政与信息技术',
 			'extracted.external' => '外部的',
 			'extracted.quick_actions' => '快速行动',
 			'extracted.delete' => '删除',

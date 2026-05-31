@@ -13,20 +13,47 @@ import 'core/security/branding_verifier.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  EnvConfig.validate();
-
-  if (kDebugMode) {
-    debugPrint('Horus Traceability Key: ${BuildConfig.traceabilityKey}');
+  // Validate environment configuration
+  try {
+    EnvConfig.validate();
+  } catch (e) {
+    if (kDebugMode) {
+      debugPrint('⚠️  Environment validation: $e');
+      debugPrint(EnvConfig.getDebugInfo());
+    }
   }
 
-  if (!BrandingVerifier.verify() || Axe.axeSignature == 'INVALID') {}
+  // Print environment and build info in debug mode
+  if (kDebugMode) {
+    debugPrint(EnvConfig.getDebugInfo());
+    debugPrint('🔒 Horus Traceability Key: ${BuildConfig.traceabilityKey}');
+    debugPrint('🔑 Security Signature: ${Axe.axeSignature}');
+  }
 
-  await Supabase.initialize(
-    url: EnvConfig.supabaseUrl,
-    anonKey: EnvConfig.supabaseAnonKey,
-    debug: false,
-  );
+  // Verify branding (warning only in development)
+  final isBrandingValid = BrandingVerifier.verify();
+  if (kDebugMode && !isBrandingValid) {
+    debugPrint('⚠️  Branding verification failed - development mode');
+  }
 
+  // Initialize Supabase
+  try {
+    await Supabase.initialize(
+      url: EnvConfig.supabaseUrl,
+      anonKey: EnvConfig.supabaseAnonKey,
+      debug: kDebugMode,
+    );
+    if (kDebugMode) {
+      debugPrint('✅ Supabase initialized successfully');
+    }
+  } catch (e) {
+    debugPrint('❌ Supabase initialization error: $e');
+    if (!EnvConfig.isDevelopment) {
+      rethrow; // Fail fast in production
+    }
+  }
+
+  // Set locale
   LocaleSettings.useDeviceLocale();
 
   runApp(TranslationProvider(child: const ProviderScope(child: HorusApp())));

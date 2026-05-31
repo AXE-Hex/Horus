@@ -1,7 +1,6 @@
 import 'package:horus/core/i18n/strings.g.dart';
 
 enum RoleCategory {
-  adminIT,
   academicLeadership,
   teachingStaff,
   studentAffairs,
@@ -11,11 +10,6 @@ enum RoleCategory {
 }
 
 enum UserRole {
-  superAdmin,
-  admin,
-  itSupport,
-  financialAuditor,
-
   rector,
   dean,
   departmentHead,
@@ -44,11 +38,6 @@ enum UserRole {
 }
 
 enum RolePermission {
-  manageSystem,
-  manageUsers,
-  viewAuditLogs,
-  manageFinances,
-
   manageColleges,
   manageDepartments,
   manageCourses,
@@ -107,65 +96,6 @@ class RoleInfo {
 }
 
 final Map<UserRole, RoleInfo> roleRegistry = {
-  UserRole.superAdmin: RoleInfo(
-    role: UserRole.superAdmin,
-    category: RoleCategory.adminIT,
-    nameEn: 'Super Admin',
-    nameAr: 'مدير النظام العام',
-    descriptionEn: 'Full control over the entire system',
-    descriptionAr: 'تحكم كامل في النظام بأكمله',
-    hierarchyLevel: 0,
-    permissions: RolePermission.values.toSet(),
-  ),
-
-  UserRole.admin: RoleInfo(
-    role: UserRole.admin,
-    category: RoleCategory.adminIT,
-    nameEn: 'Administrator',
-    nameAr: 'مسؤول نظام',
-    descriptionEn: 'System administrator with high privileges',
-    descriptionAr: 'مسؤول نظام بصلاحيات عالية',
-    hierarchyLevel: 1,
-    permissions: RolePermission.values
-        .where((p) => p != RolePermission.manageSystem)
-        .toSet(),
-  ),
-
-  UserRole.itSupport: const RoleInfo(
-    role: UserRole.itSupport,
-    category: RoleCategory.adminIT,
-    nameEn: 'IT Support',
-    nameAr: 'المسؤول التقني',
-    descriptionEn: 'Technical system support and maintenance',
-    descriptionAr: 'دعم وصيانة النظام التقني',
-    hierarchyLevel: 1,
-    permissions: {
-      RolePermission.manageSystem,
-      RolePermission.manageUsers,
-      RolePermission.viewAuditLogs,
-      RolePermission.viewProfile,
-      RolePermission.editOwnProfile,
-      RolePermission.viewNotifications,
-    },
-  ),
-
-  UserRole.financialAuditor: const RoleInfo(
-    role: UserRole.financialAuditor,
-    category: RoleCategory.adminIT,
-    nameEn: 'Financial Auditor',
-    nameAr: 'المراقب المالي',
-    descriptionEn: 'Oversees financial records and invoices',
-    descriptionAr: 'مراقبة السجلات المالية والفواتير',
-    hierarchyLevel: 2,
-    permissions: {
-      RolePermission.manageFinances,
-      RolePermission.viewAuditLogs,
-      RolePermission.viewProfile,
-      RolePermission.editOwnProfile,
-      RolePermission.viewNotifications,
-    },
-  ),
-
   UserRole.rector: const RoleInfo(
     role: UserRole.rector,
     category: RoleCategory.academicLeadership,
@@ -180,8 +110,6 @@ final Map<UserRole, RoleInfo> roleRegistry = {
       RolePermission.manageCourses,
       RolePermission.manageSchedules,
       RolePermission.approveEnrollments,
-      RolePermission.viewAuditLogs,
-      RolePermission.manageFinances,
       RolePermission.viewProfile,
       RolePermission.editOwnProfile,
       RolePermission.viewNotifications,
@@ -557,14 +485,6 @@ extension UserRoleX on UserRole {
 
   String displayName({bool isArabic = false}) {
     switch (this) {
-      case UserRole.superAdmin:
-        return t.roles.names.super_admin;
-      case UserRole.admin:
-        return t.roles.names.admin;
-      case UserRole.itSupport:
-        return t.roles.names.it_support;
-      case UserRole.financialAuditor:
-        return t.roles.names.financial_auditor;
       case UserRole.rector:
         return t.roles.names.rector;
       case UserRole.dean:
@@ -610,14 +530,6 @@ extension UserRoleX on UserRole {
 
   String description({bool isArabic = false}) {
     switch (this) {
-      case UserRole.superAdmin:
-        return t.roles.descriptions.super_admin;
-      case UserRole.admin:
-        return t.roles.descriptions.admin;
-      case UserRole.itSupport:
-        return t.roles.descriptions.it_support;
-      case UserRole.financialAuditor:
-        return t.roles.descriptions.financial_auditor;
       case UserRole.rector:
         return t.roles.descriptions.rector;
       case UserRole.dean:
@@ -666,12 +578,6 @@ extension UserRoleX on UserRole {
   bool hasPermission(RolePermission permission) =>
       info.permissions.contains(permission);
 
-  bool get isAdmin =>
-      this == UserRole.superAdmin ||
-      this == UserRole.admin ||
-      this == UserRole.itSupport ||
-      this == UserRole.financialAuditor;
-
   bool get isLeadership => category == RoleCategory.academicLeadership;
 
   bool get isTeachingStaff => category == RoleCategory.teachingStaff;
@@ -679,7 +585,6 @@ extension UserRoleX on UserRole {
   bool get isStudent => category == RoleCategory.studentRoles;
 
   bool get isStaff =>
-      category == RoleCategory.adminIT ||
       category == RoleCategory.academicLeadership ||
       category == RoleCategory.teachingStaff ||
       category == RoleCategory.studentAffairs;
@@ -707,7 +612,6 @@ extension UserRoleX on UserRole {
 
 extension UserRolesX on List<UserRole> {
   bool get containsAcademicStaff => any((r) => r.isTeachingStaff);
-  bool get containsAdmin => any((r) => r.isAdmin);
 
   UserRole get primaryRole => isNotEmpty ? first : UserRole.guest;
 }
@@ -718,8 +622,6 @@ extension RoleCategoryX on RoleCategory {
 
   String displayName({bool isArabic = false}) {
     switch (this) {
-      case RoleCategory.adminIT:
-        return t.roles.categories.admin_it;
       case RoleCategory.academicLeadership:
         return t.roles.categories.academic_leadership;
       case RoleCategory.teachingStaff:

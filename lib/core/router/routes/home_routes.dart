@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:horus/features/home/presentation/screens/home_screen.dart';
 import 'package:horus/features/students/presentation/screens/digital_id_screen.dart';
 import 'package:horus/features/students/presentation/screens/student_dashboard_screen.dart';
-import 'package:horus/features/admin/presentation/screens/staff_dashboard_screen.dart';
+import 'package:horus/features/staff/presentation/screens/staff_dashboard_screen.dart';
 
 import 'package:horus/features/colleges/presentation/screens/college_portal_screen.dart';
 import 'package:horus/core/constants/colleges_data.dart';

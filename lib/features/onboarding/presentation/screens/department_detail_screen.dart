@@ -1,7 +1,7 @@
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:horus/features/admin/data/models/institutional_models.dart';
-import 'package:horus/features/admin/data/models/user_management_models.dart';
-import 'package:horus/features/admin/presentation/providers/users_provider.dart';
+import 'package:horus/features/institutional/data/models/institutional_models.dart';
+import 'package:horus/features/profiles/data/models/directory_profile_model.dart';
+import 'package:horus/features/profiles/data/repositories/profile_directory_repository.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
     final name = isArabic ? department.nameAr : department.nameEn;
     final bio =
         (isArabic ? department.descriptionAr : department.descriptionEn) ??
-        t.admin.no_about_text_available;
+        (isArabic ? 'لا توجد بيانات متاحة' : 'No data available');
 
     Widget content = CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -101,7 +101,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               _buildSectionHeader(
-                t.admin.department_details,
+                isArabic ? 'تفاصيل القسم' : 'Department Details',
                 LucideIcons.info,
                 isGlass,
               ),
@@ -109,7 +109,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
               _buildBioText(bio, isGlass),
               const SizedBox(height: 24),
               _buildSectionHeader(
-                t.admin.head_of_department,
+                isArabic ? 'رئيس القسم' : 'Head of Department',
                 LucideIcons.award,
                 isGlass,
               ),
@@ -136,7 +136,9 @@ class DepartmentDetailScreen extends ConsumerWidget {
               Icon(LucideIcons.userX, color: Colors.orangeAccent, size: 40),
               SizedBox(height: 12),
               Text(
-                t.admin.no_head_assigned,
+                t.$meta.locale.languageCode == 'ar'
+                    ? 'لم يتم تعيين رئيس'
+                    : 'No head assigned',
                 style: GoogleFonts.outfit(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -149,19 +151,19 @@ class DepartmentDetailScreen extends ConsumerWidget {
       ).animate().fadeIn(delay: 200.ms).slideX(begin: 0.05);
     }
 
-    final usersAsync = ref.watch(usersControllerProvider());
+    final usersAsync = ref.watch(
+      profileDirectoryProvider(const ProfileDirectoryFilter()),
+    );
 
     return usersAsync.when(
       data: (users) {
         final hod = users.firstWhere(
           (u) => u.id == department.headId,
-          orElse: () => UserProfileModel(
+          orElse: () => DirectoryProfileModel(
             id: 'unknown',
             email: 'unknown',
             fullName: 'Unknown',
             isActive: false,
-            isBanned: false,
-            isVerified: false,
             roles: [],
             createdAt: DateTime.now(),
           ),
@@ -212,7 +214,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
 }
 
 class _HoDIdentityCard extends ConsumerWidget {
-  final UserProfileModel hod;
+  final DirectoryProfileModel hod;
   final DepartmentModel department;
   final Color color;
   final bool isGlass;
@@ -339,7 +341,9 @@ class _HoDIdentityCard extends ConsumerWidget {
           overflow: TextOverflow.ellipsis,
         ),
         Text(
-          t.admin.head_of_department,
+          t.$meta.locale.languageCode == 'ar'
+              ? 'رئيس القسم'
+              : 'Head of Department',
           style: GoogleFonts.inter(
             fontSize: 12,
             fontWeight: FontWeight.w600,
