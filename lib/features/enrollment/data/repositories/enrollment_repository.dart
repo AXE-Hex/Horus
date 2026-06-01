@@ -1,4 +1,10 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:horus/core/config/supabase_client.dart';
 import 'package:horus/core/data/base_repository.dart';
+
+final enrollmentRepositoryProvider = Provider<EnrollmentRepository>((ref) {
+  return EnrollmentRepository(ref.watch(supabaseClientProvider));
+});
 
 class EnrollmentRepository extends BaseRepository {
   EnrollmentRepository(super.client);

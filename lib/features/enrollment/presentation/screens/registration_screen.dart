@@ -12,6 +12,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:horus/features/enrollment/data/repositories/registration_repository.dart';
 import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
+import 'package:horus/features/academic/presentation/providers/semester_provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
@@ -22,7 +23,7 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
-  final String currentSemester = "Spring 2024";
+  String currentSemester = fallbackSemesterName;
 
   int _currentStep = 0;
   final List<Course> _selectedCourses = [];
@@ -56,6 +57,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       final advisorRepo = ref.read(advisorRepositoryProvider);
       final auth = ref.read(authControllerProvider);
       final studentId = auth.user?.id;
+      currentSemester = await ref.read(currentSemesterProvider.future);
 
       if (studentId == null) throw Exception("User not logged in");
 

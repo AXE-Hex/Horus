@@ -10,6 +10,7 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -140,47 +141,12 @@ class ManageTasScreen extends HookConsumerWidget {
   Widget _buildEmptyState(bool isGlass, bool isArabic) {
     return SliverFillRemaining(
       hasScrollBody: false,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-                  padding: const EdgeInsets.all(32),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.05),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(
-                    LucideIcons.users,
-                    size: 80,
-                    color: Colors.white.withValues(alpha: 0.2),
-                  ),
-                )
-                .animate(
-                  onPlay: (controller) => controller.repeat(reverse: true),
-                )
-                .scale(
-                  begin: const Offset(1, 1),
-                  end: const Offset(1.1, 1.1),
-                  duration: 2.seconds,
-                  curve: Curves.easeInOut,
-                ),
-            const SizedBox(height: 24),
-            Text(
-              t.academic.no_tas_assigned_yet,
-              style: GoogleFonts.outfit(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white70,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              t.academic.start_by_adding_the_first_ta_f,
-              style: GoogleFonts.outfit(fontSize: 14, color: Colors.white38),
-            ),
-          ],
-        ).animate().fadeIn(duration: 800.ms),
+      child: HorusEmptyState(
+        icon: LucideIcons.users,
+        title: t.academic.no_tas_assigned_yet,
+        subtitle: t.academic.start_by_adding_the_first_ta_f,
+        iconSize: 80,
+        pulseIcon: true,
       ),
     );
   }

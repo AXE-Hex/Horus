@@ -6,13 +6,10 @@ import 'package:horus/core/data/base_repository.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 
 import 'package:horus/features/academic/data/repositories/academic_repository.dart';
+import 'package:horus/features/academic/presentation/providers/semester_provider.dart';
 
-final professorRepositoryProvider = Provider((ref) {
+final professorRepositoryProvider = Provider<ProfessorRepository>((ref) {
   return ProfessorRepository(ref.watch(supabaseClientProvider));
-});
-
-final academicRepositoryProvider = Provider((ref) {
-  return AcademicRepository(ref.watch(supabaseClientProvider));
 });
 
 final studentScheduleProvider = FutureProvider<List<Map<String, dynamic>>>((
@@ -20,9 +17,10 @@ final studentScheduleProvider = FutureProvider<List<Map<String, dynamic>>>((
 ) async {
   final auth = ref.watch(authControllerProvider);
   if (auth.user == null) return [];
+  final semester = await ref.watch(currentSemesterProvider.future);
   return ref
       .watch(academicRepositoryProvider)
-      .getStudentSchedule(studentId: auth.user!.id, semester: 'Spring 2024');
+      .getStudentSchedule(studentId: auth.user!.id, semester: semester);
 });
 
 final professorProfileProvider = FutureProvider<ProfessorProfile?>((ref) async {

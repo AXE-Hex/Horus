@@ -10,7 +10,7 @@ import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/features/academic/data/repositories/academic_repository.dart';
 
 final departmentProjectsProvider =
     FutureProvider.family<List<Map<String, dynamic>>, String>((

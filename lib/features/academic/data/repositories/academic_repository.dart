@@ -1,4 +1,10 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:horus/core/config/supabase_client.dart';
 import 'package:horus/core/data/base_repository.dart';
+
+final academicRepositoryProvider = Provider<AcademicRepository>((ref) {
+  return AcademicRepository(ref.watch(supabaseClientProvider));
+});
 
 class AcademicRepository extends BaseRepository {
   AcademicRepository(super.client);

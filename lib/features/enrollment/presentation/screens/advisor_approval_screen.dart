@@ -9,6 +9,7 @@ import 'package:horus/features/enrollment/presentation/providers/advisor_provide
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AdvisorApprovalScreen extends ConsumerStatefulWidget {
@@ -425,18 +426,9 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
   }
 
   Widget _buildEmptyState(bool isArabic, bool isGlass) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(LucideIcons.inbox, size: 64, color: Colors.white24),
-          const SizedBox(height: 16),
-          Text(
-            t.enrollment.no_requests_found,
-            style: GoogleFonts.outfit(fontSize: 18, color: Colors.white54),
-          ),
-        ],
-      ),
+    return HorusEmptyState(
+      icon: LucideIcons.inbox,
+      title: t.enrollment.no_requests_found,
     );
   }
 

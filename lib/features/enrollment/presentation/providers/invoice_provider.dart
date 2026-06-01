@@ -1,12 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/enrollment/data/models/invoice_models.dart';
 import 'package:horus/features/enrollment/data/repositories/enrollment_repository.dart';
-
-final enrollmentRepositoryProvider = Provider<EnrollmentRepository>((ref) {
-  return EnrollmentRepository(Supabase.instance.client);
-});
 
 final studentInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   ref,

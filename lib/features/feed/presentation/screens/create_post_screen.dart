@@ -12,7 +12,7 @@ import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/feed/domain/models/post_model.dart';
 import 'package:horus/features/feed/presentation/providers/feed_provider.dart';
 import 'package:horus/features/feed/data/repositories/post_repository.dart';
-import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/features/academic/data/repositories/academic_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
 import 'package:horus/features/feed/presentation/widgets/link_preview_widget.dart';
 

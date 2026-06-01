@@ -14,6 +14,7 @@ class GlassScaffold extends ConsumerWidget {
   final List<Color>? backgroundColors;
   final bool maxWidth;
   final bool? resizeToAvoidBottomInset;
+  final bool extendBody;
 
   const GlassScaffold({
     super.key,
@@ -25,6 +26,7 @@ class GlassScaffold extends ConsumerWidget {
     this.backgroundColors,
     this.maxWidth = true,
     this.resizeToAvoidBottomInset,
+    this.extendBody = false,
   });
 
   @override
@@ -57,6 +59,7 @@ class GlassScaffold extends ConsumerWidget {
       bottomNavigationBar: isDesktop ? null : bottomNavigationBar,
       floatingActionButton: floatingActionButton,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      extendBody: extendBody,
     );
 
     if (!isGlass || isLowPerformance) return scaffold;

@@ -11,7 +11,8 @@ import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:horus/core/data/supabase_providers.dart';
+import 'package:horus/features/academic/data/repositories/academic_repository.dart';
+import 'package:horus/features/academic/presentation/providers/semester_provider.dart';
 import 'package:intl/intl.dart';
 
 final examScheduleProvider =
@@ -33,10 +34,14 @@ class ExamScheduleScreen extends HookConsumerWidget {
     final appStyle = ref.watch(styleControllerProvider);
     final isGlass = appStyle.value == AppStyle.glass;
     final selectedDate = useState<DateTime?>(null);
-    final examsAsync = ref.watch(examScheduleProvider('Fall 2024'));
+    final semesterAsync = ref.watch(currentSemesterProvider);
 
-    return examsAsync.when(
-      data: (rawData) {
+    return semesterAsync.when(
+      data: (semester) {
+        final examsAsync = ref.watch(examScheduleProvider(semester));
+
+        return examsAsync.when(
+          data: (rawData) {
         final exams = rawData.map((e) {
           final id = e['course_id'] as String? ?? 'N/A';
           Color color = const Color(0xFF6366F1);
@@ -172,10 +177,16 @@ class ExamScheduleScreen extends HookConsumerWidget {
           ],
         );
 
-        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+            return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (err, stack) =>
+              Center(child: Text('Error loading exams: $err')),
+        );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error loading exams: $err')),
+      error: (err, stack) =>
+          Center(child: Text('Error loading semester: $err')),
     );
   }
 }

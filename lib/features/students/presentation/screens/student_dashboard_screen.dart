@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/dashboard_action_widgets.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/students/data/digital_id_theme_repository.dart';
@@ -499,17 +500,7 @@ class DashboardScreen extends ConsumerWidget {
   }
 
   Widget _buildSectionHeader(BuildContext context, String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Text(
-        title,
-        style: GoogleFonts.outfit(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).textTheme.bodyLarge?.color,
-        ),
-      ),
-    );
+    return DashboardSectionHeader(title: title);
   }
 
   Widget _buildGridItem(
