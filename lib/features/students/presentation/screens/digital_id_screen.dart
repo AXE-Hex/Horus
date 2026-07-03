@@ -8,7 +8,7 @@ import 'package:horus/features/shared/presentation/widgets/glass_container.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/students/data/digital_id_theme_repository.dart';
 import 'package:horus/features/students/domain/models/digital_id_theme.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -9,7 +9,7 @@ import 'package:horus/features/shared/presentation/widgets/dashboard_action_widg
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class StaffDashboardScreen extends ConsumerWidget {
   const StaffDashboardScreen({super.key});

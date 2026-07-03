@@ -8,7 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';

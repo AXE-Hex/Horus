@@ -11,7 +11,7 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
 class ProfessorProfileScreen extends ConsumerWidget {

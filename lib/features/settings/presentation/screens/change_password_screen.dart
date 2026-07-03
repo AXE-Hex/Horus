@@ -6,7 +6,7 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {

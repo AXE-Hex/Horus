@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:horus/core/theme/style_provider.dart';
-import 'package:horus/core/theme/low_performance_provider.dart';
-import 'package:horus/features/shared/presentation/widgets/liquid_background.dart';
 import 'package:horus/core/utils/responsive_helper.dart';
 
 class GlassScaffold extends ConsumerWidget {
@@ -31,12 +28,7 @@ class GlassScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isLowPerformance = ref.watch(lowPerformanceControllerProvider);
-
-    final isGlass = appStyle.value == AppStyle.glass;
     final theme = Theme.of(context);
-
     final isDesktop = ResponsiveHelper.isDesktop(context);
 
     Widget content = body;
@@ -49,10 +41,8 @@ class GlassScaffold extends ConsumerWidget {
       );
     }
 
-    Widget scaffold = Scaffold(
-      backgroundColor: isGlass
-          ? Colors.transparent
-          : theme.scaffoldBackgroundColor,
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: appBar,
       drawer: drawer,
       body: content,
@@ -60,15 +50,6 @@ class GlassScaffold extends ConsumerWidget {
       floatingActionButton: floatingActionButton,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       extendBody: extendBody,
-    );
-
-    if (!isGlass || isLowPerformance) return scaffold;
-
-    return Stack(
-      children: [
-        Positioned.fill(child: LiquidBackground(colors: backgroundColors)),
-        scaffold,
-      ],
     );
   }
 }

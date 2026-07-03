@@ -11,7 +11,7 @@ import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/enrollment/presentation/providers/advisor_provider.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
 class ProfessorDashboardScreen extends HookConsumerWidget {

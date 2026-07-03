@@ -8,7 +8,10 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:horus/shared/widgets/app_button.dart';
+import 'package:horus/shared/widgets/app_text_field.dart';
+import 'package:horus/shared/widgets/press_feedback.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -282,344 +285,124 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   }
 
   Widget _buildLoginCard(ThemeData theme, bool isDark, bool isArabic) {
-    return ClipRRect(
-          borderRadius: BorderRadius.circular(28),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 24, sigmaY: 24),
-            child: Container(
-              padding: const EdgeInsets.all(32),
-              decoration: BoxDecoration(
-                color:
-                    (isDark ? const Color(0xFF1E293B) : const Color(0xFFFFFFFF))
-                        .withValues(alpha: isDark ? 0.45 : 0.7),
-                borderRadius: BorderRadius.circular(28),
-                border: Border.all(
-                  color: (isDark ? Colors.white : Colors.black).withValues(
-                    alpha: isDark ? 0.08 : 0.06,
-                  ),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.06),
-                    blurRadius: 48,
-                    spreadRadius: -8,
-                    offset: const Offset(0, 24),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    t.auth.login.welcome,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.outfit(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w900,
-                      color: theme.textTheme.displayLarge?.color,
-                      letterSpacing: -0.5,
-                      height: 1.1,
-                    ),
-                  ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.15, end: 0),
-
-                  const SizedBox(height: 8),
-
-                  Text(
-                    t.auth.login.subtitle,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: theme.textTheme.bodyMedium?.color?.withValues(
-                        alpha: 0.5,
-                      ),
-                      height: 1.4,
-                    ),
-                  ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.15, end: 0),
-
-                  const SizedBox(height: 36),
-
-                  _buildTextField(
-                        controller: _emailController,
-                        focusNode: _emailFocus,
-                        label: t.auth.login.email,
-                        icon: LucideIcons.atSign,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        onSubmitted: (_) => _passwordFocus.requestFocus(),
-                        isDark: isDark,
-                        theme: theme,
-                        suffixText: '@horus.edu.eg',
-                      )
-                      .animate()
-                      .fadeIn(delay: 400.ms)
-                      .slideX(begin: isArabic ? 0.08 : -0.08, end: 0),
-
-                  const SizedBox(height: 16),
-
-                  _buildTextField(
-                        controller: _passwordController,
-                        focusNode: _passwordFocus,
-                        label: t.auth.login.password,
-                        icon: LucideIcons.keyRound,
-                        obscureText: _obscurePassword,
-                        textInputAction: TextInputAction.done,
-                        onSubmitted: (_) => _handleSignIn(),
-                        isDark: isDark,
-                        theme: theme,
-                        suffixWidget: GestureDetector(
-                          onTap: () {
-                            setState(
-                              () => _obscurePassword = !_obscurePassword,
-                            );
-                            HapticFeedback.selectionClick();
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 12),
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.onSurface.withValues(
-                                alpha: 0.05,
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Icon(
-                              _obscurePassword
-                                  ? LucideIcons.eye
-                                  : LucideIcons.eyeOff,
-                              color: theme.iconTheme.color?.withValues(
-                                alpha: 0.4,
-                              ),
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(delay: 500.ms)
-                      .slideX(begin: isArabic ? -0.08 : 0.08, end: 0),
-
-                  const SizedBox(height: 12),
-
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: TextButton(
-                      onPressed: () {
-                        HapticFeedback.lightImpact();
-                        context.push('/forgot-password');
-                      },
-                      style: TextButton.styleFrom(
-                        foregroundColor: theme.primaryColor,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 8,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      child: Text(
-                        t.auth.login.forgot_password,
-                        style: GoogleFonts.outfit(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ).animate().fadeIn(delay: 600.ms),
-
-                  const SizedBox(height: 24),
-
-                  _buildSignInButton(theme),
-                ],
-              ),
-            ),
-          ),
-        )
-        .animate()
-        .fadeIn(delay: 100.ms, duration: 900.ms)
-        .slideY(
-          begin: 0.04,
-          end: 0,
-          duration: 900.ms,
-          curve: Curves.easeOutCirc,
-        );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required FocusNode focusNode,
-    required String label,
-    required IconData icon,
-    required ThemeData theme,
-    required bool isDark,
-    bool obscureText = false,
-    TextInputType keyboardType = TextInputType.text,
-    TextInputAction textInputAction = TextInputAction.done,
-    void Function(String)? onSubmitted,
-    Widget? suffixWidget,
-    String? suffixText,
-  }) {
     return Container(
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        color: theme.colorScheme.onSurface.withValues(alpha: 0.04),
+        color: isDark ? const Color(0xFF1E293B) : Colors.white,
+        borderRadius: BorderRadius.circular(28),
         border: Border.all(
-          color: theme.colorScheme.onSurface.withValues(alpha: 0.07),
+          color: isDark ? const Color(0xFF334155) : const Color(0xFFE5E7EB),
+          width: 0.5,
         ),
       ),
-      child: TextFormField(
-        controller: controller,
-        focusNode: focusNode,
-        obscureText: obscureText,
-        keyboardType: keyboardType,
-        textInputAction: textInputAction,
-        onFieldSubmitted: onSubmitted,
-        style: GoogleFonts.inter(
-          fontWeight: FontWeight.w500,
-          color: theme.textTheme.bodyLarge?.color,
-          fontSize: 15,
-        ),
-        cursorColor: theme.primaryColor,
-        cursorRadius: const Radius.circular(2),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: GoogleFonts.outfit(
-            color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.45),
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-          ),
-          floatingLabelStyle: GoogleFonts.outfit(
-            color: theme.primaryColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          prefixIcon: Container(
-            margin: const EdgeInsets.all(10),
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  theme.primaryColor.withValues(alpha: 0.12),
-                  theme.primaryColor.withValues(alpha: 0.06),
-                ],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            t.auth.login.welcome,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(
+              fontSize: 30,
+              fontWeight: FontWeight.w700,
+              color: isDark ? const Color(0xFFF1F5F9) : const Color(0xFF111827),
+              height: 1.1,
+            ),
+          ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.15, end: 0),
+
+          const SizedBox(height: 8),
+
+          Text(
+            t.auth.login.subtitle,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF6B7280),
+              height: 1.4,
+            ),
+          ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.15, end: 0),
+
+          const SizedBox(height: 36),
+
+          AppTextField(
+            controller: _emailController,
+            focusNode: _emailFocus,
+            label: t.auth.login.email,
+            prefixIcon: const Icon(LucideIcons.atSign),
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
+            suffixText: '@horus.edu.eg',
+          ).animate()
+           .fadeIn(delay: 400.ms)
+           .slideX(begin: isArabic ? 0.08 : -0.08, end: 0),
+
+          const SizedBox(height: 16),
+
+          AppTextField(
+            controller: _passwordController,
+            focusNode: _passwordFocus,
+            label: t.auth.login.password,
+            prefixIcon: const Icon(LucideIcons.keyRound),
+            obscureText: _obscurePassword,
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (_) => _handleSignIn(),
+            suffixIcon: PressFeedback(
+              onTap: () {
+                setState(() => _obscurePassword = !_obscurePassword);
+                HapticFeedback.selectionClick();
+              },
+              child: Icon(
+                _obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff,
+                size: 18,
               ),
-              borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: theme.primaryColor, size: 18),
-          ),
-          suffixText: suffixText,
-          suffixStyle: suffixText != null
-              ? GoogleFonts.inter(
-                  color: theme.textTheme.bodyMedium?.color?.withValues(
-                    alpha: 0.35,
-                  ),
+          ).animate()
+           .fadeIn(delay: 500.ms)
+           .slideX(begin: isArabic ? -0.08 : 0.08, end: 0),
+
+          const SizedBox(height: 12),
+
+          Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: TextButton(
+              onPressed: () {
+                HapticFeedback.lightImpact();
+                context.push('/forgot-password');
+              },
+              style: TextButton.styleFrom(
+                foregroundColor: theme.primaryColor,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                t.auth.login.forgot_password,
+                style: GoogleFonts.cairo(
+                  fontWeight: FontWeight.w700,
                   fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                )
-              : null,
-          suffixIcon: suffixWidget,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(18),
-            borderSide: BorderSide(
-              color: theme.primaryColor.withValues(alpha: 0.4),
-              width: 1.5,
+                ),
+              ),
             ),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 18,
-          ),
-        ),
+          ).animate().fadeIn(delay: 600.ms),
+
+          const SizedBox(height: 24),
+
+          GoldButton(
+            text: t.auth.login.submit,
+            onPressed: _handleSignIn,
+            isLoading: _isSigningIn,
+          ).animate()
+           .fadeIn(delay: 700.ms)
+           .scale(begin: const Offset(0.95, 0.95), curve: Curves.easeOutBack),
+        ],
       ),
     );
-  }
-
-  Widget _buildSignInButton(ThemeData theme) {
-    return AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          height: 60,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(
-              colors: [
-                theme.primaryColor,
-                HSLColor.fromColor(
-                  theme.primaryColor,
-                ).withLightness(0.5).toColor(),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: theme.primaryColor.withValues(alpha: 0.35),
-                blurRadius: 28,
-                spreadRadius: -6,
-                offset: const Offset(0, 12),
-              ),
-            ],
-          ),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: _isSigningIn ? null : _handleSignIn,
-              borderRadius: BorderRadius.circular(18),
-              splashColor: Colors.white.withValues(alpha: 0.15),
-              highlightColor: Colors.transparent,
-              child: Center(
-                child: _isSigningIn
-                    ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2.5,
-                        ),
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            t.auth.login.submit,
-                            style: GoogleFonts.outfit(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(
-                              LucideIcons.arrowRight,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
-            ),
-          ),
-        )
-        .animate()
-        .fadeIn(delay: 700.ms)
-        .scale(begin: const Offset(0.95, 0.95), curve: Curves.easeOutBack);
   }
 }
 

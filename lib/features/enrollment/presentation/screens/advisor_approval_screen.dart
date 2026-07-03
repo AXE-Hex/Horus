@@ -10,7 +10,7 @@ import 'package:horus/features/shared/presentation/widgets/glass_container.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class AdvisorApprovalScreen extends ConsumerStatefulWidget {
   const AdvisorApprovalScreen({super.key});

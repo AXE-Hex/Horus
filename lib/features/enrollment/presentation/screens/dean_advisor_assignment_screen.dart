@@ -11,7 +11,7 @@ import 'package:horus/features/enrollment/presentation/providers/advisor_provide
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class DeanAdvisorAssignmentScreen extends ConsumerStatefulWidget {
   const DeanAdvisorAssignmentScreen({super.key});

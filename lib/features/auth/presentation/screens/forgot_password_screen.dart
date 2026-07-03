@@ -7,7 +7,7 @@ import 'package:horus/core/error/app_exception.dart';
 import 'package:horus/core/error/error_handler.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {

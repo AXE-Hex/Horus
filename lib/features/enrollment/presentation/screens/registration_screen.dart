@@ -8,7 +8,7 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/features/enrollment/data/repositories/registration_repository.dart';
 import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';

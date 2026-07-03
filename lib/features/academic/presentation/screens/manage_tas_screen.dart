@@ -12,7 +12,7 @@ import 'package:horus/features/shared/presentation/widgets/glass_container.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ManageTasScreen extends HookConsumerWidget {
   final ProfessorProfile profile;

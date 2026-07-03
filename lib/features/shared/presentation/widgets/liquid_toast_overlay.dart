@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/data/notification_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class LiquidToastOverlay extends ConsumerStatefulWidget {
   final Widget child;

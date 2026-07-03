@@ -41,6 +41,9 @@ class AuthState {
   }
 }
 
+/// IDs used by the local mock sign-in bypass — never hit Supabase for these.
+const _kMockIds = {'mock-student-id', 'mock-ta-id', 'mock-professor-id', 'mock-rector-id'};
+
 @Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
   SupabaseClient get _client => Supabase.instance.client;
@@ -63,11 +66,17 @@ class AuthController extends _$AuthController {
       final event = data.event;
       final session = data.session;
 
+      // Skip Supabase network calls for mock accounts
+      if (session?.user != null && _kMockIds.contains(session!.user.id)) return;
+
       if (event == AuthChangeEvent.signedIn && session?.user != null) {
         _loadProfile(session!.user);
       } else if (event == AuthChangeEvent.signedOut) {
-        _unsubscribeFromProfile();
-        state = const AuthState();
+        // Only clear state if we weren't on a mock account
+        if (!_kMockIds.contains(state.user?.id)) {
+          _unsubscribeFromProfile();
+          state = const AuthState();
+        }
       } else if (event == AuthChangeEvent.tokenRefreshed &&
           session?.user != null) {
         state = state.copyWith(user: session!.user);
@@ -79,6 +88,78 @@ class AuthController extends _$AuthController {
 
   Future<void> signIn(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
+    
+    // ── Mock Sign-In Bypass for Development & Testing ─────────────────────────
+    final cleanEmail = email.toLowerCase().trim();
+    if (cleanEmail == 'student@horus.edu.eg' ||
+        cleanEmail == 'ta@horus.edu.eg' ||
+        cleanEmail == 'professor@horus.edu.eg' ||
+        cleanEmail == 'rector@horus.edu.eg') {
+      
+      await Future.delayed(const Duration(milliseconds: 600)); // Simulate network lag
+      
+      final String mockId;
+      final String fullName;
+      final String? fullNameAr;
+      final List<UserRole> roles;
+      String? collegeId = 'CS';
+      String? departmentId = 'CS-SE';
+
+      if (cleanEmail == 'student@horus.edu.eg') {
+        mockId = 'mock-student-id';
+        fullName = 'Ahmed Ali';
+        fullNameAr = 'أحمد علي';
+        roles = [UserRole.regularStudent];
+      } else if (cleanEmail == 'ta@horus.edu.eg') {
+        mockId = 'mock-ta-id';
+        fullName = 'Sarah Mohamed';
+        fullNameAr = 'سارة محمد';
+        roles = [UserRole.teachingAssistant];
+      } else if (cleanEmail == 'professor@horus.edu.eg') {
+        mockId = 'mock-professor-id';
+        fullName = 'Dr. Khaled Mahmoud';
+        fullNameAr = 'د. خالد محمود';
+        roles = [UserRole.professor];
+      } else {
+        mockId = 'mock-rector-id';
+        fullName = 'Prof. Hassan Shaker';
+        fullNameAr = 'أ.د. حسن شاكر';
+        roles = [UserRole.rector];
+        collegeId = null;
+        departmentId = null;
+      }
+
+      final mockUser = User(
+        id: mockId,
+        email: cleanEmail,
+        appMetadata: const {},
+        userMetadata: const {},
+        aud: 'authenticated',
+        createdAt: DateTime.now().toIso8601String(),
+      );
+
+      final mockProfile = ProfileModel(
+        id: mockId,
+        email: cleanEmail,
+        fullName: fullName,
+        fullNameAr: fullNameAr,
+        roles: roles,
+        collegeId: collegeId,
+        departmentId: departmentId,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        isActive: true,
+        isVerified: true,
+      );
+
+      state = AuthState(
+        user: mockUser,
+        profile: mockProfile,
+        isLoading: false,
+      );
+      return;
+    }
+
     try {
       final response = await _client.auth.signInWithPassword(
         email: email,
@@ -130,9 +211,12 @@ class AuthController extends _$AuthController {
 
   Future<void> signOut() async {
     _unsubscribeFromProfile();
-    try {
-      await _client.auth.signOut();
-    } catch (_) {}
+    // For mock accounts we only need to clear local state
+    if (!_kMockIds.contains(state.user?.id)) {
+      try {
+        await _client.auth.signOut();
+      } catch (_) {}
+    }
     state = const AuthState();
   }
 
