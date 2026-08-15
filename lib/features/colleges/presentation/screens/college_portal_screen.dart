@@ -7,10 +7,11 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
 import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class CollegePortalScreen extends ConsumerStatefulWidget {
   final StaticCollegeData college;
@@ -140,7 +141,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
                     ),
                     decoration: BoxDecoration(
                       color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: SharedStyles.cardRadius,
                     ),
                     child: Text(
                       'EST. ${college.established}',
@@ -280,7 +281,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         border: isGlass
             ? null
             : Border.all(color: color.withValues(alpha: 0.1)),
@@ -329,7 +330,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
 
     return (isGlass
             ? GlassContainer(
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: SharedStyles.glassRadius,
                 padding: EdgeInsets.zero,
                 child: cardContent,
               )
@@ -402,14 +403,14 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
     return Container(
       decoration: BoxDecoration(
         color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         border: isGlass
             ? null
             : Border.all(color: Colors.grey.withValues(alpha: 0.1)),
       ),
       child: isGlass
           ? GlassContainer(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: SharedStyles.cardRadius,
               padding: EdgeInsets.zero,
               child: ExpansionTile(
                 title: Text(
@@ -600,7 +601,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: isGlass ? null : Theme.of(context).cardColor,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: SharedStyles.cardRadius,
                     border: isGlass
                         ? null
                         : Border.all(color: Colors.grey.withValues(alpha: 0.1)),
@@ -646,7 +647,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
 
                 return isGlass
                     ? GlassContainer(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: SharedStyles.cardRadius,
                         padding: EdgeInsets.zero,
                         child: item,
                       )
@@ -698,7 +699,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               decoration: BoxDecoration(
                 color: isGlass ? null : Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: SharedStyles.buttonRadius,
                 border: isGlass
                     ? null
                     : Border.all(color: Colors.grey.withValues(alpha: 0.05)),
@@ -734,7 +735,7 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
 
             return isGlass
                 ? GlassContainer(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                     padding: EdgeInsets.zero,
                     child: item,
                   )

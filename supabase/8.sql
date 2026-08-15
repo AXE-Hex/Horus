@@ -17,6 +17,8 @@ DROP POLICY IF EXISTS "Users can update their own post_media"     ON storage.obj
 DROP POLICY IF EXISTS "Users can delete their own post_media"     ON storage.objects;
 
 -- ── Triggers ─────────────────────────────────────────────────────────────────
+DROP TRIGGER IF EXISTS protect_roles_on_update             ON public.profiles;
+DROP TRIGGER IF EXISTS protect_admin_columns_on_update     ON public.profiles;
 DROP TRIGGER IF EXISTS on_profile_college_dept_change     ON public.profiles;
 DROP TRIGGER IF EXISTS on_auth_user_created               ON auth.users;
 DROP TRIGGER IF EXISTS profiles_updated_at                ON public.profiles;
@@ -65,6 +67,8 @@ DROP TABLE IF EXISTS public.colleges                      CASCADE;
 DROP TABLE IF EXISTS public.profiles                      CASCADE;
 
 -- ── Functions ─────────────────────────────────────────────────────────────────
+DROP FUNCTION IF EXISTS public.protect_roles_column()                                                        CASCADE;
+DROP FUNCTION IF EXISTS public.protect_admin_columns()                                                       CASCADE;
 DROP FUNCTION IF EXISTS public.update_student_count()                                                       CASCADE;
 DROP FUNCTION IF EXISTS public.handle_new_user()                                                            CASCADE;
 DROP FUNCTION IF EXISTS public.get_my_role()                                                                CASCADE;

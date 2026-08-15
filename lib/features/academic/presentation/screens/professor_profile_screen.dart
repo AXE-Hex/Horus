@@ -11,8 +11,9 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ProfessorProfileScreen extends ConsumerWidget {
   final ProfessorProfile profile;
@@ -227,7 +228,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 12),
       decoration: BoxDecoration(
         color: isGlass ? null : baseColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -255,7 +256,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
           ),
         );
       },
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: isGlass
           ? GlassContainer(padding: EdgeInsets.zero, child: block)
           : block,
@@ -345,7 +346,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                         color: Colors.redAccent,
                         width: 0.5,
                       ),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: SharedStyles.buttonRadius,
                     ),
                     child: block,
                   ),
@@ -385,7 +386,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: isGlass ? null : Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: SharedStyles.buttonRadius,
                   boxShadow: isGlass
                       ? null
                       : [
@@ -439,7 +440,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                       ),
                     );
                   },
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: SharedStyles.buttonRadius,
                   child: isGlass
                       ? GlassContainer(padding: EdgeInsets.zero, child: block)
                       : block,
@@ -505,7 +506,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                       foregroundColor: isGlass ? Colors.white : color,
                       side: BorderSide(color: isGlass ? Colors.white30 : color),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: SharedStyles.badgeRadius,
                       ),
                     ),
                     child: Text(t.professor.join),
@@ -668,7 +669,7 @@ class ProfessorProfileScreen extends ConsumerWidget {
                     ),
                     decoration: BoxDecoration(
                       color: Colors.green.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: SharedStyles.badgeRadius,
                     ),
                     child: Text(
                       t.professor.walk_in,

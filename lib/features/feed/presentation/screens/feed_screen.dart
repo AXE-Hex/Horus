@@ -1,10 +1,11 @@
 import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/error/error_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:horus/features/feed/domain/models/post_model.dart';
@@ -13,6 +14,7 @@ import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/feed/data/repositories/post_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/feed/presentation/widgets/media_grid.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class FeedScreen extends ConsumerWidget {
   const FeedScreen({super.key});
@@ -38,7 +40,7 @@ class FeedScreen extends ConsumerWidget {
               backgroundColor: const Color(0xFF6366F1),
               elevation: 10,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: SharedStyles.cardRadius,
               ),
               icon: const Icon(
                 LucideIcons.plusCircle,
@@ -178,7 +180,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         border: Border.all(
           color: (isDark ? Colors.white : theme.primaryColor).withValues(
             alpha: 0.05,
@@ -362,6 +364,11 @@ class _PostCardState extends ConsumerState<_PostCard> {
     setState(() => _isLiking = true);
     ref.read(feedProvider.notifier).toggleLike(widget.post.id).then((_) {
       if (mounted) setState(() => _isLiking = false);
+    }).catchError((e) {
+      if (mounted) {
+        setState(() => _isLiking = false);
+        ErrorHandler.showError(context, e);
+      }
     });
   }
 
@@ -407,7 +414,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                 decoration: InputDecoration(
                   hintText: 'What\'s on your mind?',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                   ),
                 ),
               ),
@@ -447,7 +454,11 @@ class _PostCardState extends ConsumerState<_PostCard> {
           ),
           TextButton(
             onPressed: () {
-              ref.read(feedProvider.notifier).deletePost(widget.post.id);
+              ref.read(feedProvider.notifier).deletePost(widget.post.id).catchError((e) {
+                if (context.mounted) {
+                  ErrorHandler.showError(context, e);
+                }
+              });
               Navigator.pop(context);
             },
             child: const Text('Delete', style: TextStyle(color: Colors.red)),
@@ -559,7 +570,7 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
                       filled: true,
                       fillColor: Colors.grey.withValues(alpha: 0.05),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
+                        borderRadius: SharedStyles.glassRadius,
                         borderSide: BorderSide.none,
                       ),
                       contentPadding: const EdgeInsets.symmetric(

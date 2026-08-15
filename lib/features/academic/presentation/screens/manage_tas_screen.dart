@@ -11,7 +11,8 @@ import 'package:horus/features/academic/data/models/professor_profile_models.dar
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ManageTasScreen extends HookConsumerWidget {
   final ProfessorProfile profile;
@@ -197,7 +198,7 @@ class ManageTasScreen extends HookConsumerWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: null,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
         title: Text(
           t.academic.confirm_removal,
           style: GoogleFonts.outfit(
@@ -325,7 +326,7 @@ class ManageTasScreen extends HookConsumerWidget {
                             return Padding(
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: GlassContainer(
-                                    padding: const EdgeInsets.all(12),
+                                    padding: SharedStyles.itemPadding,
                                     child: ListTile(
                                       leading: CircleAvatar(
                                         backgroundColor: color.withValues(
@@ -437,7 +438,7 @@ class _TACard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
@@ -448,7 +449,7 @@ class _TACard extends StatelessWidget {
                   height: 64,
                   decoration: BoxDecoration(
                     color: color.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: SharedStyles.cardRadius,
                   ),
                   child: Center(
                     child: Icon(LucideIcons.user, color: color, size: 32),
@@ -461,7 +462,7 @@ class _TACard extends StatelessWidget {
                     width: 14,
                     height: 14,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981),
+                      color: SharedStyles.success,
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.transparent, width: 2),
                     ),
@@ -490,7 +491,7 @@ class _TACard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: color.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: SharedStyles.badgeRadius,
                     ),
                     child: Text(
                       ta.role,

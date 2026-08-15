@@ -7,9 +7,10 @@ import 'package:horus/features/admin/data/models/audit_models.dart';
 import 'package:horus/features/admin/data/repositories/audit_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AuditLogsScreen extends ConsumerStatefulWidget {
   const AuditLogsScreen({super.key});
@@ -138,7 +139,7 @@ class _AuditLogCard extends StatelessWidget {
       child:
           GlassContainer(
                 padding: const EdgeInsets.all(24),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: SharedStyles.glassRadius,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -446,7 +447,7 @@ class _JsonView extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.black.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SharedStyles.badgeRadius,
       ),
       child: SelectableText(
         formatted,

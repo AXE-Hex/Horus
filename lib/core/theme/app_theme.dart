@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AppTheme {
-  static const Color primaryLight = Color(0xFF0EA5E9);
-  static const Color primaryDark = Color(0xFF38BDF8);
-  static const Color secondaryColor = Color(0xFF8B5CF6);
+  static const Color primaryLight = SharedStyles.primaryLight;
+  static const Color primaryDark = SharedStyles.primaryDark;
+  static const Color secondaryColor = SharedStyles.secondary;
 
-  static const Color bgLight = Color(0xFFE2E8F0);
-  static const Color bgDark = Color(0xFF0A0A1A);
-  static const Color surfaceLight = Colors.white;
-  static const Color surfaceDark = Color(0xFF1E1E3A);
+  static const Color bgLight = SharedStyles.bgLight;
+  static const Color bgDark = SharedStyles.bgDark;
+  static const Color surfaceLight = SharedStyles.surfaceLight;
+  static const Color surfaceDark = SharedStyles.surfaceDark;
 
   static ThemeData get lightTheme {
     final base = ThemeData.light();
@@ -38,7 +39,7 @@ class AppTheme {
         color: surfaceLight,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           side: const BorderSide(color: Color(0xFFE2E8F0), width: 1),
         ),
       ),
@@ -47,9 +48,9 @@ class AppTheme {
           backgroundColor: primaryLight,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+          padding: SharedStyles.buttonPadding,
           elevation: 8,
           shadowColor: primaryLight.withValues(alpha: 0.3),
         ),
@@ -96,7 +97,7 @@ class AppTheme {
         color: surfaceDark,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           side: BorderSide(
             color: Colors.white.withValues(alpha: 0.1),
             width: 1,
@@ -108,9 +109,9 @@ class AppTheme {
           backgroundColor: primaryDark,
           foregroundColor: bgDark,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+          padding: SharedStyles.buttonPadding,
           elevation: 12,
           shadowColor: primaryDark.withValues(alpha: 0.4),
         ),

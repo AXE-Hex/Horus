@@ -12,7 +12,8 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -96,7 +97,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
+            colors: [SharedStyles.surfaceDark, Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border.all(
@@ -410,7 +411,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         primaryColor.withValues(alpha: 0.7),
                       ],
                     ),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: SharedStyles.cardRadius,
                     boxShadow: [
                       BoxShadow(
                         color: primaryColor.withValues(
@@ -519,7 +520,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   gradient: LinearGradient(
-                                    colors: [primaryColor, Color(0xFF10B981)],
+                                    colors: [
+                                      primaryColor,
+                                      SharedStyles.success,
+                                    ],
                                     begin: Alignment.topLeft,
                                     end: Alignment.bottomRight,
                                   ),
@@ -644,7 +648,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                         ),
                         decoration: BoxDecoration(
                           color: primaryColor.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: SharedStyles.cardRadius,
                           border: Border.all(
                             color: primaryColor.withValues(alpha: 0.35),
                           ),
@@ -862,7 +866,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
             fontSize: 14,
           ),
           prefixIcon: Container(
-            margin: const EdgeInsets.all(12),
+            margin: SharedStyles.itemPadding,
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: iconColor.withValues(alpha: 0.15),
@@ -912,8 +916,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
     Color primaryColor,
   ) {
     return GlassContainer(
-      borderRadius: BorderRadius.circular(20),
-      padding: const EdgeInsets.all(20),
+      borderRadius: SharedStyles.cardRadius,
+      padding: SharedStyles.cardPadding,
       child: Column(
         children: [
           _infoRow(
@@ -1012,11 +1016,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
           height: 60,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [primaryColor, Color(0xFF10B981)],
+              colors: [primaryColor, SharedStyles.success],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             boxShadow: [
               BoxShadow(
                 color: primaryColor.withValues(

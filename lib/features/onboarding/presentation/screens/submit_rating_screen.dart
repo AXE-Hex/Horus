@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class SubmitRatingScreen extends ConsumerStatefulWidget {
   final Map<String, dynamic> staffMember;
@@ -165,7 +166,7 @@ class _SubmitRatingScreenState extends ConsumerState<SubmitRatingScreen> {
           : Colors.grey.withValues(alpha: 0.1),
       filled: true,
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         borderSide: BorderSide.none,
       ),
     );
@@ -193,7 +194,7 @@ class _SubmitRatingScreenState extends ConsumerState<SubmitRatingScreen> {
         backgroundColor: color,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.buttonRadius),
       ),
       child: Text(
         'Submit Review',

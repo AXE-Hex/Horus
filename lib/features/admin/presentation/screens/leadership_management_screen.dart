@@ -11,8 +11,9 @@ import 'package:horus/features/admin/presentation/providers/admin_stats_provider
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class LeadershipManagementScreen extends ConsumerStatefulWidget {
   const LeadershipManagementScreen({super.key});
@@ -96,17 +97,17 @@ class _LeadershipManagementScreenState
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: SharedStyles.cardPadding,
             child: GlassContainer(
-              padding: const EdgeInsets.all(20),
-              borderRadius: BorderRadius.circular(24),
+              padding: SharedStyles.cardPadding,
+              borderRadius: SharedStyles.glassRadius,
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: SharedStyles.itemPadding,
                     decoration: BoxDecoration(
                       color: Colors.amber.withValues(alpha: 0.12),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: SharedStyles.buttonRadius,
                     ),
                     child: const Icon(
                       LucideIcons.crown,
@@ -161,7 +162,7 @@ class _LeadershipManagementScreenState
                     child: const Icon(
                       LucideIcons.shieldCheck,
                       size: 18,
-                      color: Color(0xFF10B981),
+                      color: SharedStyles.success,
                     ),
                   ),
                 ],
@@ -252,7 +253,7 @@ class _LeadershipManagementScreenState
   Widget _buildCollegeFilterButton(Color primaryColor, bool isArabic) {
     final hasActiveFilter = _collegeFilter != 'all';
     return GlassContainer(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: Stack(
         children: [
           IconButton(
@@ -421,7 +422,7 @@ class _LeaderTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 14),
       child: GlassContainer(
         padding: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         onTap: () => context.push('/admin/users/details', extra: leader),
         child: Row(
           children: [

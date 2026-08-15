@@ -5,7 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/data/notification_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class LiquidToastOverlay extends ConsumerStatefulWidget {
   final Widget child;
@@ -128,7 +129,7 @@ class _LiquidToastOverlayState extends ConsumerState<LiquidToastOverlay>
     }
 
     return GlassContainer(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [

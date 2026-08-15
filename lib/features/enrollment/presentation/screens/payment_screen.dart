@@ -7,7 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class PaymentScreen extends ConsumerWidget {
   const PaymentScreen({super.key});
@@ -125,7 +126,7 @@ class PaymentScreen extends ConsumerWidget {
               foregroundColor: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: SharedStyles.buttonRadius,
               ),
               elevation: 0,
             ),
@@ -186,14 +187,14 @@ class PaymentScreen extends ConsumerWidget {
 
     return isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             padding: EdgeInsets.zero,
             child: content,
           )
         : Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: SharedStyles.cardRadius,
               border: Border.all(color: Colors.black12),
             ),
             child: content,

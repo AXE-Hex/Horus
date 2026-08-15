@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class StaticCollegeData {
   final String id;
@@ -261,7 +262,7 @@ final List<StaticCollegeData> allColleges = [
     nameEn: 'Faculty of Physical Therapy',
     nameAr: 'كلية العلاج الطبيعي',
     imagePath: 'assets/images/colleges/pt.jpg',
-    themeColor: const Color(0xFF10B981),
+    themeColor: SharedStyles.success,
     established: '2014',
     about: const CollegeSection(
       originsAr: 'أكبر كلية علاج طبيعي في الدلتا، مجهزة بأحدث معامل التأهيل.',
@@ -313,7 +314,7 @@ final List<StaticCollegeData> allColleges = [
     nameEn: 'Faculty of Business',
     nameAr: 'كلية إدارة الأعمال',
     imagePath: 'assets/images/colleges/business.jpg',
-    themeColor: const Color(0xFFF59E0B),
+    themeColor: SharedStyles.warning,
     established: '2015',
     about: const CollegeSection(
       originsAr: 'كلية عصرية تهدف لتشكيل قادة المستقبل في عالم المال والأعمال.',
@@ -414,7 +415,7 @@ final List<StaticCollegeData> allColleges = [
     nameEn: 'Faculty of Human Medicine',
     nameAr: 'كلية الطب البشري',
     imagePath: 'assets/images/colleges/medicine.jpg',
-    themeColor: const Color(0xFFEF4444),
+    themeColor: SharedStyles.danger,
     established: '2024',
     about: const CollegeSection(
       originsAr:
@@ -521,7 +522,7 @@ final List<StaticCollegeData> allColleges = [
     nameEn: 'Faculty of Artificial Intelligence',
     nameAr: 'كلية الذكاء الاصطناعي',
     imagePath: 'assets/images/colleges/ai.jpg',
-    themeColor: const Color(0xFF0EA5E9),
+    themeColor: SharedStyles.primaryLight,
     established: '2024',
     about: const CollegeSection(
       originsAr: 'مركز الابتكار الرقمي، ترسم مستقبل التكنولوجيا في المنطقة.',

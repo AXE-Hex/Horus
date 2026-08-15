@@ -10,8 +10,9 @@ import 'package:horus/features/shared/data/notification_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class UserDetailsScreen extends ConsumerStatefulWidget {
   final UserProfileModel user;
@@ -87,7 +88,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.all(20),
+            padding: SharedStyles.cardPadding,
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 _buildProfileHeader(primaryColor, roleName, isArabic),
@@ -108,7 +109,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildSectionTitle(
                   LucideIcons.shieldCheck,
                   t.extracted.verification,
-                  const Color(0xFF10B981),
+                  SharedStyles.success,
                 ),
                 const SizedBox(height: 14),
                 _buildVerificationCard(primaryColor, isArabic),
@@ -117,7 +118,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildSectionTitle(
                   LucideIcons.ban,
                   t.extracted.ban_management,
-                  const Color(0xFFEF4444),
+                  SharedStyles.danger,
                 ),
                 const SizedBox(height: 14),
                 _buildBanCard(primaryColor, isArabic),
@@ -144,7 +145,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildSectionTitle(
                   LucideIcons.power,
                   t.extracted.account_status,
-                  const Color(0xFFF59E0B),
+                  SharedStyles.warning,
                 ),
                 const SizedBox(height: 14),
                 _buildAccountStatusCard(primaryColor, isArabic),
@@ -153,7 +154,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildSectionTitle(
                   LucideIcons.alertOctagon,
                   t.extracted.danger_zone,
-                  const Color(0xFFEF4444),
+                  SharedStyles.danger,
                 ),
                 const SizedBox(height: 14),
                 _buildDangerZone(primaryColor, isArabic),
@@ -249,7 +250,9 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: _user.isActive ? Color(0xFF10B981) : Color(0xFFEF4444),
+                  color: _user.isActive
+                      ? SharedStyles.success
+                      : SharedStyles.danger,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color:
@@ -322,13 +325,13 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 _buildBadge(
                   LucideIcons.badgeCheck,
                   t.extracted.verified,
-                  const Color(0xFF10B981),
+                  SharedStyles.success,
                 ),
               if (_user.isBanned)
                 _buildBadge(
                   LucideIcons.ban,
                   t.extracted.banned,
-                  const Color(0xFFEF4444),
+                  SharedStyles.danger,
                 ),
               if (_user.mfaEnabled)
                 _buildBadge(LucideIcons.shield, 'MFA', Colors.blueAccent),
@@ -386,7 +389,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             LucideIcons.phone,
             _user.phone ?? '—',
             t.admin.phone_number,
-            const Color(0xFF10B981),
+            SharedStyles.success,
           ),
         ),
       ],
@@ -439,7 +442,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             label: _user.isActive
                 ? (t.extracted.deactivate)
                 : (t.extracted.activate),
-            color: _user.isActive ? Color(0xFFF59E0B) : Color(0xFF10B981),
+            color: _user.isActive ? SharedStyles.warning : SharedStyles.success,
             onTap: () => _toggleStatus(isArabic),
           ),
         ),
@@ -523,14 +526,14 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _user.isVerified
-                  ? Color(0xFF10B981).withValues(alpha: 0.15)
+                  ? SharedStyles.success.withValues(alpha: 0.15)
                   : Colors.white.withValues(alpha: 0.05),
             ),
             child: Icon(
               _user.isVerified ? LucideIcons.badgeCheck : LucideIcons.shieldOff,
               size: 22,
               color: _user.isVerified
-                  ? Color(0xFF10B981)
+                  ? SharedStyles.success
                   : Colors.white.withValues(alpha: 0.3),
             ),
           ),
@@ -565,7 +568,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ),
           _buildToggleButton(
             isActive: _user.isVerified,
-            activeColor: const Color(0xFF10B981),
+            activeColor: SharedStyles.success,
             onTap: () => _toggleVerification(isArabic),
           ),
         ],
@@ -594,14 +597,14 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: _user.isBanned
-                  ? Color(0xFFEF4444).withValues(alpha: 0.15)
+                  ? SharedStyles.danger.withValues(alpha: 0.15)
                   : Colors.white.withValues(alpha: 0.05),
             ),
             child: Icon(
               _user.isBanned ? LucideIcons.ban : LucideIcons.checkCircle2,
               size: 22,
               color: _user.isBanned
-                  ? Color(0xFFEF4444)
+                  ? SharedStyles.danger
                   : Colors.white.withValues(alpha: 0.3),
             ),
           ),
@@ -617,7 +620,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                   style: GoogleFonts.outfit(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: _user.isBanned ? Color(0xFFEF4444) : Colors.white,
+                    color: _user.isBanned ? SharedStyles.danger : Colors.white,
                   ),
                 ),
                 SizedBox(height: 4),
@@ -637,7 +640,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           ),
           _buildToggleButton(
             isActive: _user.isBanned,
-            activeColor: const Color(0xFFEF4444),
+            activeColor: SharedStyles.danger,
             onTap: () => _toggleBan(isArabic),
           ),
         ],
@@ -782,7 +785,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
                   color: _user.warningLevel > 2
-                      ? const Color(0xFFEF4444)
+                      ? SharedStyles.danger
                       : (_user.warningLevel > 0
                             ? Colors.orangeAccent
                             : Colors.white30),
@@ -798,10 +801,10 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               value: _user.warningLevel / 4,
               backgroundColor: Colors.white.withValues(alpha: 0.06),
               color: _user.warningLevel > 2
-                  ? const Color(0xFFEF4444)
+                  ? SharedStyles.danger
                   : (_user.warningLevel > 0
                         ? Colors.orangeAccent
-                        : const Color(0xFF10B981)),
+                        : SharedStyles.success),
               minHeight: 8,
             ),
           ),
@@ -957,7 +960,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
                 backgroundColor: Theme.of(
                   context,
                 ).scaffoldBackgroundColor.withValues(alpha: 0.15),
-                foregroundColor: const Color(0xFFEF4444),
+                foregroundColor: SharedStyles.danger,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
@@ -1027,7 +1030,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
           : (t.extracted.remove_verification_from_userfullname(
               user_fullName: _user.fullName,
             )),
-      confirmColor: const Color(0xFF10B981),
+      confirmColor: SharedStyles.success,
       onConfirm: () {
         _controller.toggleVerification(_user.id, newVal);
         setState(() => _user = _user.copyWith(isVerified: newVal));
@@ -1053,7 +1056,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
               user_fullName: _user.fullName,
             ))
           : (t.extracted.unban_userfullname(user_fullName: _user.fullName)),
-      confirmColor: const Color(0xFFEF4444),
+      confirmColor: SharedStyles.danger,
       onConfirm: () {
         _controller.toggleBan(_user.id, newVal);
         setState(() => _user = _user.copyWith(isBanned: newVal));
@@ -1109,7 +1112,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
         title: Text(
           t.extracted.add_tag,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
@@ -1192,7 +1195,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     _showConfirmDialog(
       title: title,
       message: message,
-      confirmColor: const Color(0xFFEF4444),
+      confirmColor: SharedStyles.danger,
       onConfirm: () {
         _controller.deleteUser(_user.id, hardDelete: hardDelete);
         _sendAdminNotification(
@@ -1215,7 +1218,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
         title: Text(
           title,
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18),

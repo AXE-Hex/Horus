@@ -6,7 +6,7 @@ import 'package:horus/features/academic/data/repositories/professor_repository.d
 import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class ProfessorsManagementScreen extends ConsumerWidget {

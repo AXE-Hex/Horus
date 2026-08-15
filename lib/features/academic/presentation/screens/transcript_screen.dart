@@ -7,8 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class TranscriptScreen extends HookConsumerWidget {
   const TranscriptScreen({super.key});
@@ -44,14 +45,14 @@ class TranscriptScreen extends HookConsumerWidget {
             'name': t.academic.general_physics,
             'grade': 'B+',
             'credits': 4,
-            'color': const Color(0xFF10B981),
+            'color': SharedStyles.success,
           },
           {
             'code': 'ENG101',
             'name': t.academic.english_composition,
             'grade': 'A',
             'credits': 4,
-            'color': const Color(0xFFF59E0B),
+            'color': SharedStyles.warning,
           },
         ],
       },
@@ -65,21 +66,21 @@ class TranscriptScreen extends HookConsumerWidget {
             'name': t.academic.data_structures,
             'grade': 'A',
             'credits': 3,
-            'color': const Color(0xFF8B5CF6),
+            'color': SharedStyles.secondary,
           },
           {
             'code': 'MA202',
             'name': t.academic.linear_algebra,
             'grade': 'A',
             'credits': 3,
-            'color': const Color(0xFF3B82F6),
+            'color': SharedStyles.info,
           },
           {
             'code': 'CS205',
             'name': t.academic.logic_design,
             'grade': 'A-',
             'credits': 4,
-            'color': const Color(0xFF10B981),
+            'color': SharedStyles.success,
           },
           {
             'code': 'HU102',
@@ -420,7 +421,7 @@ class _SemesterTimelineNode extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SharedStyles.badgeRadius,
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(
@@ -455,7 +456,7 @@ class _TranscriptCourseCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         padding: const EdgeInsets.all(16),
         border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         child: Row(

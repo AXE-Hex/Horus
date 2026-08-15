@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/core/auth/auth_provider.dart';
@@ -16,6 +16,7 @@ import 'package:horus/features/onboarding/presentation/screens/colleges_screen.d
 import 'package:horus/features/students/presentation/screens/student_dashboard_screen.dart';
 import 'package:horus/features/admin/presentation/screens/administration_screen.dart';
 import 'package:horus/features/admin/presentation/screens/staff_dashboard_screen.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -121,7 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: Scaffold(
-        extendBody: isGlass,
+        extendBody: true,
         backgroundColor: isGlass ? Colors.transparent : null,
         appBar: _buildAppBar(theme, isDark, isGlass, role, items),
         body: IndexedStack(
@@ -421,7 +422,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
                             color: isSelected
                                 ? theme.primaryColor.withValues(alpha: 0.15)
                                 : Colors.transparent,
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: SharedStyles.cardRadius,
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,

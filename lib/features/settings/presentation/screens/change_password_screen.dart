@@ -6,8 +6,9 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ChangePasswordScreen extends ConsumerStatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -149,7 +150,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                     onPressed: () => setState(() => _obscureNew = !_obscureNew),
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                   ),
                   filled: isGlass,
                   fillColor: isGlass
@@ -173,7 +174,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                         setState(() => _obscureConfirm = !_obscureConfirm),
                   ),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                   ),
                   filled: isGlass,
                   fillColor: isGlass
@@ -190,7 +191,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                   ),
                 ),
                 child: _isLoading

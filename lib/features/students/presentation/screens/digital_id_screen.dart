@@ -8,9 +8,10 @@ import 'package:horus/features/shared/presentation/widgets/glass_container.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/students/data/digital_id_theme_repository.dart';
 import 'package:horus/features/students/domain/models/digital_id_theme.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class DigitalIDScreen extends ConsumerStatefulWidget {
   final Map<String, dynamic> studentData;
@@ -522,7 +523,7 @@ class _DigitalIDScreenState extends ConsumerState<DigitalIDScreen> {
                     color: isSelected
                         ? Colors.blueAccent.withValues(alpha: 0.2)
                         : Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: SharedStyles.cardRadius,
                     border: Border.all(
                       color: isSelected
                           ? Colors.blueAccent
@@ -749,7 +750,7 @@ class _DigitalIDScreenState extends ConsumerState<DigitalIDScreen> {
     bool isArabic,
   ) {
     return GlassContainer(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       padding: const EdgeInsets.all(16),
       border: Border.all(color: color.withValues(alpha: 0.2)),
       gradient: LinearGradient(
@@ -1129,7 +1130,7 @@ class _FrontCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SharedStyles.badgeRadius,
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Row(
@@ -1495,7 +1496,7 @@ class _BackCard extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: SharedStyles.glassRadius,
             boxShadow: [
               BoxShadow(
                 color: theme.secondaryColor.withValues(alpha: 0.3),

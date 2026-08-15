@@ -7,7 +7,7 @@ import 'package:horus/features/admin/data/models/institutional_models.dart';
 import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class DepartmentsManagementScreen extends ConsumerWidget {

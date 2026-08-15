@@ -7,7 +7,8 @@ import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AboutScreen extends ConsumerWidget {
   const AboutScreen({super.key});
@@ -75,7 +76,7 @@ class AboutScreen extends ConsumerWidget {
               const SizedBox(height: 32),
 
               GlassContainer(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: SharedStyles.cardRadius,
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +114,7 @@ class AboutScreen extends ConsumerWidget {
               const SizedBox(height: 24),
 
               GlassContainer(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: SharedStyles.cardRadius,
                 padding: const EdgeInsets.all(20),
                 child: Text(
                   t.settings.hue_portal_is_a_comprehensive_,

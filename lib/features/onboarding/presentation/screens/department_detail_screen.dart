@@ -12,7 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class DepartmentDetailScreen extends ConsumerWidget {
   final DepartmentModel department;
@@ -129,7 +130,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
     if (department.headId == null) {
       return GlassContainer(
         padding: const EdgeInsets.all(24),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         child: Center(
           child: Column(
             children: [
@@ -231,7 +232,7 @@ class _HoDIdentityCard extends ConsumerWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -356,7 +357,7 @@ class _HoDIdentityCard extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SharedStyles.badgeRadius,
         border: Border.all(color: color.withValues(alpha: 0.3)),
       ),
       child: Text(

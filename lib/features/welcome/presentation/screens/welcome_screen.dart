@@ -6,7 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/shared/presentation/widgets/animated_mesh_background.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class WelcomeScreen extends ConsumerWidget {
   const WelcomeScreen({super.key});
@@ -154,28 +155,8 @@ class WelcomeScreen extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
-                  gradient: LinearGradient(
-                    colors: [
-                      primary,
-                      Color.fromRGBO(
-                        (primary.r * 255.0).round(),
-                        (primary.g * 255.0).round(),
-                        ((primary.b * 255.0).round() < 200)
-                            ? (primary.b * 255.0).round() + 50
-                            : 255,
-                        primary.a,
-                      ),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: primary.withValues(alpha: 0.4),
-                      blurRadius: 24,
-                      offset: const Offset(0, 8),
-                    ),
-                  ],
+                  gradient: SharedStyles.primaryGradient,
+                  boxShadow: SharedStyles.primaryGlow(primary),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

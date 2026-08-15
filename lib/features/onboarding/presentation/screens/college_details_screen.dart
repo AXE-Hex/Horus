@@ -9,7 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class CollegeDetailsScreen extends ConsumerWidget {
   final Map<String, dynamic> collegeData;
@@ -210,7 +211,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         boxShadow: isGlass
             ? []
             : [
@@ -284,7 +285,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
     return isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: SharedStyles.glassRadius,
             padding: EdgeInsets.zero,
             child: card,
           )
@@ -312,7 +313,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: isGlass ? null : Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: SharedStyles.cardRadius,
               border: isGlass
                   ? null
                   : Border.all(color: color.withValues(alpha: 0.05)),
@@ -373,7 +374,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
           return isGlass
               ? GlassContainer(
                   width: 150,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: SharedStyles.glassRadius,
                   padding: EdgeInsets.zero,
                   child: card,
                 )
@@ -434,11 +435,11 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
     if (isGlass) {
       return GlassContainer(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         padding: EdgeInsets.zero,
         child: InkWell(
           onTap: () => context.push('/college-departments', extra: collegeData),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           child: buttonContent,
         ),
       );
@@ -446,12 +447,12 @@ class CollegeDetailsScreen extends ConsumerWidget {
       return Container(
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           border: Border.all(color: color.withValues(alpha: 0.1)),
         ),
         child: InkWell(
           onTap: () => context.push('/college-departments', extra: collegeData),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           child: buttonContent,
         ),
       ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2);
@@ -523,7 +524,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         border: isGlass
             ? null
             : Border.all(color: color.withValues(alpha: 0.1), width: 1.2),
@@ -587,7 +588,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
     return (isGlass
             ? GlassContainer(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: SharedStyles.cardRadius,
                 padding: EdgeInsets.zero,
                 child: cardContent,
               )

@@ -8,7 +8,8 @@ import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class StaffDashboardScreen extends ConsumerWidget {
   const StaffDashboardScreen({super.key});
@@ -149,7 +150,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.userCheck,
           title: t.extracted.manage_attendance,
           onTap: () => context.push('/attendance'),
-          color: const Color(0xFF10B981),
+          color: SharedStyles.success,
         ),
         _gatedGrid(
           context,
@@ -164,7 +165,7 @@ class StaffDashboardScreen extends ConsumerWidget {
               _showAccessDenied(context, t.extracted.loading_profile);
             }
           },
-          color: const Color(0xFF8B5CF6),
+          color: SharedStyles.secondary,
         ),
         _gatedGrid(
           context,
@@ -179,7 +180,7 @@ class StaffDashboardScreen extends ConsumerWidget {
               _showAccessDenied(context, t.extracted.loading_profile);
             }
           },
-          color: const Color(0xFF0EA5E9),
+          color: SharedStyles.primaryLight,
         ),
         _gatedGrid(
           context,
@@ -188,7 +189,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.upload,
           title: t.extracted.upload_materials,
           onTap: () {},
-          color: const Color(0xFFF59E0B),
+          color: SharedStyles.warning,
         ),
         _gatedGrid(
           context,
@@ -239,7 +240,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.calendarClock,
           title: t.extracted.manage_schedules,
           onTap: () => context.push('/schedule'),
-          color: const Color(0xFF0EA5E9),
+          color: SharedStyles.primaryLight,
         ),
         _gatedHorizontal(
           context,
@@ -248,7 +249,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.checkSquare,
           title: t.extracted.approve_enrollments,
           onTap: () => context.push('/advisor-approval'),
-          color: const Color(0xFF10B981),
+          color: SharedStyles.success,
         ),
         _gatedHorizontal(
           context,
@@ -257,7 +258,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.megaphone,
           title: t.extracted.announcements,
           onTap: () {},
-          color: const Color(0xFFF59E0B),
+          color: SharedStyles.warning,
         ),
       ],
     );
@@ -302,7 +303,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.bookMarked,
           title: t.extracted.manage_library,
           onTap: () {},
-          color: const Color(0xFF10B981),
+          color: SharedStyles.success,
         ),
         _gatedHorizontal(
           context,
@@ -343,7 +344,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.building2,
           title: t.extracted.manage_colleges,
           onTap: () => context.push('/admin/colleges'),
-          color: const Color(0xFF0EA5E9),
+          color: SharedStyles.primaryLight,
         ),
         _gatedHorizontal(
           context,
@@ -352,7 +353,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.layers,
           title: t.extracted.manage_departments,
           onTap: () => context.push('/admin/departments'),
-          color: const Color(0xFF10B981),
+          color: SharedStyles.success,
         ),
         _gatedHorizontal(
           context,
@@ -361,7 +362,7 @@ class StaffDashboardScreen extends ConsumerWidget {
           icon: LucideIcons.fileSearch,
           title: t.extracted.audit_logs,
           onTap: () => context.push('/admin/audit-logs'),
-          color: const Color(0xFFF59E0B),
+          color: SharedStyles.warning,
         ),
         _gatedHorizontal(
           context,
@@ -535,7 +536,7 @@ class StaffDashboardScreen extends ConsumerWidget {
                   ),
                   decoration: BoxDecoration(
                     color: roleColor.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: SharedStyles.badgeRadius,
                     border: Border.all(color: roleColor.withValues(alpha: 0.4)),
                   ),
                   child: Text(
@@ -585,9 +586,9 @@ class StaffDashboardScreen extends ConsumerWidget {
   }) {
     return InkWell(
       onTap: locked ? () => _showAccessDenied(context) : onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         padding: const EdgeInsets.all(16),
         border: Border.all(
           color: locked
@@ -681,7 +682,7 @@ class StaffDashboardScreen extends ConsumerWidget {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: SharedStyles.glassRadius,
                     color: Colors.black.withValues(alpha: 0.15),
                   ),
                 ),
@@ -702,9 +703,9 @@ class StaffDashboardScreen extends ConsumerWidget {
   }) {
     return InkWell(
       onTap: locked ? () => _showAccessDenied(context) : onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         padding: EdgeInsets.zero,
         border: Border.all(
           color: locked
@@ -819,12 +820,12 @@ class StaffDashboardScreen extends ConsumerWidget {
 
     return InkWell(
       onTap: locked ? () => _showAccessDenied(context) : onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: SizedBox(
         width: 100,
         child: GlassContainer(
-          borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.all(12),
+          borderRadius: SharedStyles.buttonRadius,
+          padding: SharedStyles.itemPadding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -867,15 +868,15 @@ class StaffDashboardScreen extends ConsumerWidget {
   }
 
   Color _getRoleColor(UserRole role) {
-    if (role.isAdmin) return const Color(0xFFEF4444);
-    if (role.isLeadership) return const Color(0xFFF59E0B);
+    if (role.isAdmin) return SharedStyles.danger;
+    if (role.isLeadership) return SharedStyles.warning;
     if (role.isTeachingStaff) return const Color(0xFF6366F1);
     if (role == UserRole.registrarOfficer ||
         role == UserRole.academicAdvisor ||
         role == UserRole.librarian) {
-      return const Color(0xFF10B981);
+      return SharedStyles.success;
     }
-    return const Color(0xFF0EA5E9);
+    return SharedStyles.primaryLight;
   }
 
   IconData _getRoleIcon(UserRole role) {
@@ -911,7 +912,7 @@ class StaffDashboardScreen extends ConsumerWidget {
         ),
         backgroundColor: Colors.redAccent.shade700,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.buttonRadius),
         margin: const EdgeInsets.all(16),
         duration: const Duration(seconds: 2),
       ),

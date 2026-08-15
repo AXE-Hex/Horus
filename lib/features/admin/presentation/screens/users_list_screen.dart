@@ -9,9 +9,10 @@ import 'package:horus/features/admin/presentation/providers/users_provider.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:horus/core/utils/responsive_helper.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class UsersListScreen extends ConsumerStatefulWidget {
   final RoleCategory? category;
@@ -207,7 +208,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
     return AnimatedContainer(
       duration: 300.ms,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
         border: Border.all(
           color: _isSearchFocused
@@ -277,7 +278,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
   Widget _buildFilterButton(Color primaryColor) {
     final hasActiveFilters = _statusFilter != 'all' || _verifiedFilter != 'all';
     return GlassContainer(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: Stack(
         children: [
           IconButton(
@@ -427,7 +428,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
               crossAxisSpacing: 14,
               childAspectRatio: isDesktop ? 1.1 : 1.0,
             ),
-            padding: const EdgeInsets.all(20),
+            padding: SharedStyles.cardPadding,
             itemCount: filteredUsers.length,
             itemBuilder: (context, index) =>
                 _buildUserTile(filteredUsers[index], category, index, isArabic),
@@ -456,8 +457,8 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
     final isActive = user.isActive && !user.isBanned;
     final isSelected = _selectedUserIds.contains(user.id);
     final statusColor = user.isBanned
-        ? const Color(0xFFEF4444)
-        : (isActive ? const Color(0xFF10B981) : const Color(0xFFF59E0B));
+        ? SharedStyles.danger
+        : (isActive ? SharedStyles.success : SharedStyles.warning);
     final roleName = user.roles.isNotEmpty
         ? user.roles.first.displayName()
         : '—';
@@ -658,7 +659,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                         ),
                         decoration: BoxDecoration(
                           color: primaryColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: SharedStyles.badgeRadius,
                           border: Border.all(
                             color: primaryColor.withValues(alpha: 0.2),
                           ),
@@ -798,7 +799,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     setSheetState(() => _statusFilter = 'active');
                     setState(() {});
                   },
-                  const Color(0xFF10B981),
+                  SharedStyles.success,
                 ),
                 _buildFilterChipItem(
                   t.admin.deactivated,
@@ -807,7 +808,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     setSheetState(() => _statusFilter = 'deactivated');
                     setState(() {});
                   },
-                  const Color(0xFFF59E0B),
+                  SharedStyles.warning,
                 ),
                 _buildFilterChipItem(
                   t.admin.banned,
@@ -816,7 +817,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     setSheetState(() => _statusFilter = 'banned');
                     setState(() {});
                   },
-                  const Color(0xFFEF4444),
+                  SharedStyles.danger,
                 ),
               ]),
               const SizedBox(height: 20),
@@ -832,7 +833,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     setSheetState(() => _verifiedFilter = 'verified');
                     setState(() {});
                   },
-                  const Color(0xFF10B981),
+                  SharedStyles.success,
                 ),
                 _buildFilterChipItem(
                   t.admin.unverified,
@@ -841,7 +842,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                     setSheetState(() => _verifiedFilter = 'unverified');
                     setState(() {});
                   },
-                  const Color(0xFFEF4444),
+                  SharedStyles.danger,
                 ),
               ]),
               const SizedBox(height: 28),
@@ -876,7 +877,7 @@ class _UsersListScreenState extends ConsumerState<UsersListScreen>
                         foregroundColor: Colors.white,
                         padding: const EdgeInsets.all(14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: SharedStyles.buttonRadius,
                         ),
                         elevation: 0,
                       ),

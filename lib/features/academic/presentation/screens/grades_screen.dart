@@ -8,8 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class GradesScreen extends HookConsumerWidget {
   const GradesScreen({super.key});
@@ -56,7 +57,7 @@ class GradesScreen extends HookConsumerWidget {
           'points': 3.7,
           'credits': 3,
           'score': 91,
-          'color': const Color(0xFF10B981),
+          'color': SharedStyles.success,
           'icon': LucideIcons.shieldCheck,
         },
       ],
@@ -69,7 +70,7 @@ class GradesScreen extends HookConsumerWidget {
           'points': 4.0,
           'credits': 3,
           'score': 98,
-          'color': const Color(0xFF8B5CF6),
+          'color': SharedStyles.secondary,
           'icon': LucideIcons.brain,
         },
         {
@@ -79,7 +80,7 @@ class GradesScreen extends HookConsumerWidget {
           'points': 3.7,
           'credits': 3,
           'score': 89,
-          'color': const Color(0xFFF59E0B),
+          'color': SharedStyles.warning,
           'icon': LucideIcons.database,
         },
       ],
@@ -291,7 +292,7 @@ class _SemesterSelector extends StatelessWidget {
                   color: isSelected
                       ? const Color(0xFF6366F1)
                       : Colors.white.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                   border: Border.all(
                     color: isSelected
                         ? const Color(0xFF6366F1)
@@ -365,10 +366,10 @@ class _GradeCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: SharedStyles.itemPadding,
                         decoration: BoxDecoration(
                           color: color.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: SharedStyles.buttonRadius,
                           border: Border.all(
                             color: color.withValues(alpha: 0.2),
                           ),

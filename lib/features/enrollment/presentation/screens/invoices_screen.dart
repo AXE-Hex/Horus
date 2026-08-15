@@ -9,8 +9,9 @@ import 'package:horus/features/enrollment/data/models/invoice_models.dart';
 import 'package:horus/features/enrollment/presentation/providers/invoice_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class InvoicesScreen extends ConsumerWidget {
   const InvoicesScreen({super.key});
@@ -101,7 +102,7 @@ class _InvoicesAppBar extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    const Color(0xFF10B981),
+                    SharedStyles.success,
                     const Color(0xFF059669),
                     const Color(0xFF047857),
                   ],
@@ -139,7 +140,7 @@ class _InvoicesAppBar extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: SharedStyles.cardRadius,
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.25),
                         ),
@@ -210,12 +211,12 @@ class _FinancialSummaryCard extends ConsumerWidget {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981).withValues(alpha: 0.15),
+                      color: SharedStyles.success.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(14),
                     ),
                     child: const Icon(
                       LucideIcons.wallet,
-                      color: Color(0xFF10B981),
+                      color: SharedStyles.success,
                       size: 22,
                     ),
                   ),
@@ -238,7 +239,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.red.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: SharedStyles.cardRadius,
                       ),
                       child: Text(
                         t.enrollment.summaryoverduecount_overdue(
@@ -262,7 +263,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                   fontWeight: FontWeight.w900,
                   color: summary.totalBalance > 0
                       ? Colors.redAccent
-                      : const Color(0xFF10B981),
+                      : SharedStyles.success,
                 ),
               ),
               Text(
@@ -279,7 +280,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                   _MiniStat(
                     label: t.enrollment.paid,
                     value: _formatAmount(summary.paidTotal),
-                    color: const Color(0xFF10B981),
+                    color: SharedStyles.success,
                     isGlass: isGlass,
                   ),
                   _VertDivider(isGlass: isGlass),
@@ -311,11 +312,11 @@ class _FinancialSummaryCard extends ConsumerWidget {
                       style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF10B981),
+                      backgroundColor: SharedStyles.success,
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: SharedStyles.buttonRadius,
                       ),
                       elevation: 0,
                     ),
@@ -331,7 +332,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(28),
                     padding: EdgeInsets.zero,
                     border: Border.all(
-                      color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                      color: SharedStyles.success.withValues(alpha: 0.2),
                     ),
                     child: content,
                   )
@@ -340,7 +341,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(28),
                       border: Border.all(
-                        color: const Color(0xFF10B981).withValues(alpha: 0.2),
+                        color: SharedStyles.success.withValues(alpha: 0.2),
                       ),
                       boxShadow: [
                         BoxShadow(
@@ -380,13 +381,13 @@ class _QuickActionsRow extends ConsumerWidget {
       (
         icon: LucideIcons.fileDown,
         label: t.enrollment.download,
-        color: const Color(0xFF10B981),
+        color: SharedStyles.success,
         onTap: () => _showDownloadSnack(context, isArabic),
       ),
       (
         icon: LucideIcons.history,
         label: t.enrollment.history,
-        color: const Color(0xFFF59E0B),
+        color: SharedStyles.warning,
         onTap: () {
           ref
               .read(invoiceFilterProvider.notifier)
@@ -424,7 +425,7 @@ class _QuickActionsRow extends ConsumerWidget {
   void _showDownloadSnack(BuildContext context, bool isArabic) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: const Color(0xFF10B981),
+        backgroundColor: SharedStyles.success,
         content: Text(t.enrollment.preparing_pdf_statement),
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -456,7 +457,7 @@ class _QuickActionBtn extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           color: color.withValues(alpha: isGlass ? 0.08 : 0.06),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           border: Border.all(color: color.withValues(alpha: 0.2)),
         ),
         child: Column(
@@ -514,14 +515,14 @@ class _FilterTabBar extends ConsumerWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
                 color: isActive
-                    ? const Color(0xFF10B981)
+                    ? SharedStyles.success
                     : (isGlass
                           ? Colors.white.withValues(alpha: 0.08)
                           : Theme.of(context).cardColor),
                 borderRadius: BorderRadius.circular(30),
                 border: Border.all(
                   color: isActive
-                      ? const Color(0xFF10B981)
+                      ? SharedStyles.success
                       : Colors.grey.withValues(alpha: 0.2),
                 ),
               ),
@@ -614,7 +615,7 @@ class _InvoiceCard extends ConsumerWidget {
   Color get _statusColor {
     switch (invoice.status) {
       case InvoiceStatus.paid:
-        return const Color(0xFF10B981);
+        return SharedStyles.success;
       case InvoiceStatus.unpaid:
         return Colors.orangeAccent;
       case InvoiceStatus.overdue:
@@ -708,7 +709,7 @@ class _InvoiceCard extends ConsumerWidget {
                 ),
                 decoration: BoxDecoration(
                   color: _statusColor.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -834,8 +835,8 @@ class _InvoiceCard extends ConsumerWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF10B981),
-                      borderRadius: BorderRadius.circular(20),
+                      color: SharedStyles.success,
+                      borderRadius: SharedStyles.cardRadius,
                     ),
                     child: Text(
                       t.enrollment.pay,
@@ -855,7 +856,7 @@ class _InvoiceCard extends ConsumerWidget {
 
     return isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: SharedStyles.glassRadius,
             padding: EdgeInsets.zero,
             border: Border.all(color: _statusColor.withValues(alpha: 0.15)),
             child: content,
@@ -863,7 +864,7 @@ class _InvoiceCard extends ConsumerWidget {
         : Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: SharedStyles.glassRadius,
               border: Border.all(color: _statusColor.withValues(alpha: 0.15)),
               boxShadow: [
                 BoxShadow(
@@ -884,7 +885,7 @@ class _InvoiceCard extends ConsumerWidget {
       builder: (ctx) => AlertDialog(
         backgroundColor: const Color(0xFF1A1A2E),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           side: const BorderSide(color: Colors.white10),
         ),
         title: Text(
@@ -899,7 +900,7 @@ class _InvoiceCard extends ConsumerWidget {
           children: [
             const Icon(
               LucideIcons.creditCard,
-              color: Color(0xFF10B981),
+              color: SharedStyles.success,
               size: 50,
             ),
             const SizedBox(height: 16),
@@ -928,7 +929,7 @@ class _InvoiceCard extends ConsumerWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF10B981),
+              backgroundColor: SharedStyles.success,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -941,7 +942,7 @@ class _InvoiceCard extends ConsumerWidget {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    backgroundColor: const Color(0xFF10B981),
+                    backgroundColor: SharedStyles.success,
                     content: Text(
                       isArabicLocal ? 'تم الدفع بنجاح!' : 'Payment successful!',
                     ),

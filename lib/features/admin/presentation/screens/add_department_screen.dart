@@ -7,9 +7,10 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/admin/data/models/institutional_models.dart';
 import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AddDepartmentScreen extends ConsumerStatefulWidget {
   final DepartmentModel? department;
@@ -271,7 +272,7 @@ class _AddDepartmentScreenState extends ConsumerState<AddDepartmentScreen> {
     final isArabic = t.$meta.locale.languageCode == 'ar';
     if (_isLoadingColleges) {
       return Container(
-        padding: const EdgeInsets.all(20),
+        padding: SharedStyles.cardPadding,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(18),
           color: Theme.of(
@@ -348,7 +349,7 @@ class _AddDepartmentScreenState extends ConsumerState<AddDepartmentScreen> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverPadding(
-            padding: const EdgeInsets.all(20),
+            padding: SharedStyles.cardPadding,
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 Form(
@@ -391,7 +392,7 @@ class _AddDepartmentScreenState extends ConsumerState<AddDepartmentScreen> {
                             label: 'Department Name (Arabic)',
                             controller: _nameArController,
                             icon: LucideIcons.type,
-                            iconColor: const Color(0xFF10B981),
+                            iconColor: SharedStyles.success,
                             validator: (val) =>
                                 val == null || val.isEmpty ? 'Required' : null,
                           )

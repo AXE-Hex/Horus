@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AdminBackground extends StatelessWidget {
   const AdminBackground({super.key});
@@ -49,7 +50,7 @@ class AdminBackground extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    const Color(0xFF0EA5E9).withValues(alpha: 0.1),
+                    SharedStyles.primaryLight.withValues(alpha: 0.1),
                     Colors.transparent,
                   ],
                 ),
@@ -148,7 +149,7 @@ class ErrorCard extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
         color: Colors.red.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         border: Border.all(color: Colors.red.withValues(alpha: 0.2)),
       ),
       child: Column(
@@ -211,7 +212,7 @@ class LiveCard extends StatelessWidget {
               color.withValues(alpha: 0.03),
             ],
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           border: Border.all(color: color.withValues(alpha: 0.18)),
         ),
         child: Column(
@@ -299,7 +300,7 @@ class AdminModuleCard extends StatelessWidget {
               module.color.withValues(alpha: 0.03),
             ],
           ),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           border: Border.all(color: module.color.withValues(alpha: 0.2)),
           boxShadow: [
             BoxShadow(

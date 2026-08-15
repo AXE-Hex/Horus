@@ -9,8 +9,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AcademicStaffScreen extends ConsumerWidget {
   final Map<String, dynamic> collegeData;
@@ -228,14 +229,14 @@ class AcademicStaffScreen extends ConsumerWidget {
 
     final card = isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             padding: EdgeInsets.zero,
             child: cardContent,
           )
         : Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: SharedStyles.cardRadius,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.05),
@@ -284,7 +285,7 @@ class AcademicStaffScreen extends ConsumerWidget {
           context.push('/staff-rating-detail', extra: member);
         }
       },
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: SharedStyles.cardRadius,
       child: card,
     );
   }

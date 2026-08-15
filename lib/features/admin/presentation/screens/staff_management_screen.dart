@@ -11,8 +11,9 @@ import 'package:horus/features/admin/presentation/providers/admin_stats_provider
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class StaffManagementScreen extends ConsumerStatefulWidget {
   const StaffManagementScreen({super.key});
@@ -151,7 +152,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   Widget _buildSearchBar(bool isArabic, Color primaryColor) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
         border: Border.all(
           color: Theme.of(
@@ -194,7 +195,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   Widget _buildCollegeFilterButton(Color primaryColor, bool isArabic) {
     final hasActiveFilter = _collegeFilter != 'all';
     return GlassContainer(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: Stack(
         children: [
           IconButton(
@@ -494,8 +495,8 @@ class _StaffTile extends StatelessWidget {
         ? member.roles.first.displayName(isArabic: isArabic)
         : '—';
     final statusColor = member.isBanned
-        ? const Color(0xFFEF4444)
-        : (member.isActive ? const Color(0xFF10B981) : const Color(0xFFF59E0B));
+        ? SharedStyles.danger
+        : (member.isActive ? SharedStyles.success : SharedStyles.warning);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -591,7 +592,7 @@ class _StaffTile extends StatelessWidget {
                           (Theme.of(context).cardTheme.color ??
                                   Theme.of(context).cardColor)
                               .withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: SharedStyles.badgeRadius,
                       border: Border.all(
                         color:
                             (Theme.of(context).cardTheme.color ??

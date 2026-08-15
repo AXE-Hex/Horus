@@ -8,11 +8,12 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:horus/features/enrollment/data/repositories/registration_repository.dart';
 import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class RegistrationScreen extends ConsumerStatefulWidget {
   const RegistrationScreen({super.key});
@@ -312,7 +313,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
             ),
           ),
           child: Text(
@@ -337,10 +338,10 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   }) {
     return InkWell(
       onTap: isLocked ? null : onTap,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: SharedStyles.cardRadius,
       child: GlassContainer(
         padding: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         border: Border.all(
           color: isSelected
               ? (isGlass ? Colors.white : Theme.of(context).colorScheme.primary)
@@ -498,7 +499,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
             ),
           ),
           child: Text(
@@ -530,7 +531,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       padding: const EdgeInsets.only(bottom: 10),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         child: AnimatedContainer(
           duration: 300.ms,
           padding: const EdgeInsets.all(16),
@@ -542,7 +543,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                           context,
                         ).colorScheme.primary.withValues(alpha: 0.1))
                 : (isGlass ? Colors.transparent : Colors.white),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
             border: Border.all(
               color: isSelected
                   ? (isGlass
@@ -644,7 +645,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         const SizedBox(height: 24),
         GlassContainer(
           padding: const EdgeInsets.all(20),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           child: Column(
             children: [
               Text(
@@ -713,7 +714,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
             foregroundColor: Colors.black,
             padding: const EdgeInsets.symmetric(vertical: 18),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
             ),
           ),
           child: _isRegistering
@@ -802,7 +803,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         const SizedBox(height: 16),
         GlassContainer(
           padding: const EdgeInsets.all(20),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           child: Text(
             t.enrollment.registration_success_message,
             textAlign: TextAlign.center,
@@ -826,7 +827,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
                 : Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 18),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
             ),
             elevation: 8,
             shadowColor:
@@ -958,7 +959,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         GlassContainer(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
@@ -1027,7 +1028,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         const SizedBox(height: 16),
 
         GlassContainer(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           child: Padding(
             padding: const EdgeInsets.all(20),
             child: Column(

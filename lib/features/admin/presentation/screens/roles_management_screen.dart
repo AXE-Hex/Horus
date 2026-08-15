@@ -9,7 +9,8 @@ import 'package:horus/features/admin/data/models/dynamic_role_model.dart';
 import 'package:horus/features/admin/presentation/providers/roles_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class RolesManagementScreen extends ConsumerStatefulWidget {
   const RolesManagementScreen({super.key});
@@ -283,10 +284,10 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: SharedStyles.itemPadding,
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: SharedStyles.buttonRadius,
               ),
               child: Icon(_getCategoryIcon(category), size: 22, color: color),
             ),
@@ -357,7 +358,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(20),
+                  padding: SharedStyles.cardPadding,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color:
@@ -798,7 +799,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
                               (Theme.of(context).cardTheme.color ??
                                       Theme.of(context).cardColor)
                                   .withValues(alpha: 0.06),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: SharedStyles.buttonRadius,
                           border: Border.all(
                             color:
                                 (Theme.of(context).cardTheme.color ??
@@ -1072,7 +1073,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
         title: Text(
           t.extracted.delete_role,
           style: GoogleFonts.outfit(fontWeight: FontWeight.w800),
@@ -1191,7 +1192,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
               color: isSelected
                   ? Theme.of(context).primaryColor.withValues(alpha: 0.15)
                   : Colors.white.withValues(alpha: 0.03),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: SharedStyles.badgeRadius,
               border: Border.all(
                 color: isSelected
                     ? Theme.of(context).primaryColor.withValues(alpha: 0.4)
@@ -1269,7 +1270,7 @@ class _RolesManagementScreenState extends ConsumerState<RolesManagementScreen>
       case RoleCategory.academicLeadership:
         return Colors.amber;
       case RoleCategory.teachingStaff:
-        return const Color(0xFF10B981);
+        return SharedStyles.success;
       case RoleCategory.studentAffairs:
         return Colors.orangeAccent;
       case RoleCategory.studentRoles:
@@ -1324,7 +1325,7 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         onTap: () => setState(() => _expanded = !_expanded),
         child: Column(
           children: [
@@ -1381,7 +1382,7 @@ class _BuiltInRoleTileState extends State<_BuiltInRoleTile> {
                     ),
                     decoration: BoxDecoration(
                       color: widget.categoryColor.withValues(alpha: 0.08),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: SharedStyles.badgeRadius,
                     ),
                     child: Text(
                       '${widget.roleInfo.permissions.length}',
@@ -1496,7 +1497,7 @@ class _DynamicRoleTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: GlassContainer(
         padding: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         border: isMerged
             ? Border.all(
                 color:
@@ -1522,12 +1523,12 @@ class _DynamicRoleTile extends StatelessWidget {
                     : null,
                 color: isMerged
                     ? null
-                    : Color(0xFF10B981).withValues(alpha: 0.12),
+                    : SharedStyles.success.withValues(alpha: 0.12),
               ),
               child: Icon(
                 isMerged ? LucideIcons.merge : LucideIcons.sparkles,
                 size: 18,
-                color: isMerged ? Color(0xFF6366F1) : Color(0xFF10B981),
+                color: isMerged ? Color(0xFF6366F1) : SharedStyles.success,
               ),
             ),
             SizedBox(width: 14),

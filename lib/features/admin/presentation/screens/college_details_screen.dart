@@ -9,8 +9,9 @@ import 'package:horus/features/admin/data/models/user_management_models.dart';
 import 'package:horus/features/admin/presentation/providers/users_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class CollegeDetailsScreen extends ConsumerStatefulWidget {
   final CollegeModel college;
@@ -136,7 +137,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                     ),
                     decoration: BoxDecoration(
                       color: themeColor.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: SharedStyles.cardRadius,
                       border: Border.all(
                         color: themeColor.withValues(alpha: 0.2),
                       ),
@@ -172,7 +173,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
                         color: Theme.of(
                           context,
                         ).colorScheme.onSurface.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: SharedStyles.badgeRadius,
                       ),
                       child: Text(
                         _college.code!,
@@ -285,7 +286,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
     if (_college.deanId == null) {
       return GlassContainer(
         padding: const EdgeInsets.all(24),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         child: Row(
           children: [
             Container(
@@ -356,7 +357,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
 
         return GlassContainer(
           padding: const EdgeInsets.all(24),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           border: Border.all(color: themeColor.withValues(alpha: 0.2)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,7 +464,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
 
         return GlassContainer(
           padding: const EdgeInsets.all(20),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           child: Row(
             children: [
               Container(
@@ -627,7 +628,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
               context.push('/admin/departments/details', extra: dept);
             },
             padding: const EdgeInsets.all(20),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             child: Row(
               children: [
                 Container(
@@ -736,9 +737,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
       builder: (context) {
         return AlertDialog(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
           title: Text(
             t.admin.assign_dean,
             style: GoogleFonts.outfit(
@@ -778,9 +777,7 @@ class _CollegeDetailsScreenState extends ConsumerState<CollegeDetailsScreen> {
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
           title: Row(
             children: [
               Icon(LucideIcons.layoutGrid, color: themeColor, size: 22),

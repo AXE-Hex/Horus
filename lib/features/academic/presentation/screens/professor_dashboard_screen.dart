@@ -11,8 +11,9 @@ import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/enrollment/presentation/providers/advisor_provider.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ProfessorDashboardScreen extends HookConsumerWidget {
   final ProfessorProfile profile;
@@ -133,7 +134,7 @@ class _ImmersiveHeader extends StatelessWidget {
                           ),
                           decoration: BoxDecoration(
                             color: Colors.greenAccent.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius: SharedStyles.cardRadius,
                             border: Border.all(
                               color: Colors.greenAccent.withValues(alpha: 0.3),
                             ),
@@ -254,7 +255,7 @@ class _BentoStatsGrid extends StatelessWidget {
                 title: t.academic.tas,
                 value: profile.teachingAssistants.length.toString(),
                 icon: LucideIcons.graduationCap,
-                color: const Color(0xFF10B981),
+                color: SharedStyles.success,
                 isSmall: true,
               ),
             ),
@@ -296,8 +297,8 @@ class _BentoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GlassContainer(
-      borderRadius: BorderRadius.circular(24),
-      padding: const EdgeInsets.all(20),
+      borderRadius: SharedStyles.glassRadius,
+      padding: SharedStyles.cardPadding,
       border: Border.all(color: color.withValues(alpha: 0.2)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -354,7 +355,7 @@ class _GroupsBentoList extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: GlassContainer(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             padding: const EdgeInsets.all(16),
             child: Row(
               children: [
@@ -363,7 +364,7 @@ class _GroupsBentoList extends StatelessWidget {
                   height: 48,
                   decoration: BoxDecoration(
                     color: Colors.white.withValues(alpha: 0.05),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                   ),
                   child: Center(
                     child: Text(
@@ -426,7 +427,7 @@ class _AnnouncementsList extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: GlassContainer(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,7 +453,7 @@ class _AnnouncementsList extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: Colors.redAccent.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: SharedStyles.badgeRadius,
                           border: Border.all(
                             color: Colors.redAccent.withValues(alpha: 0.3),
                           ),
@@ -577,7 +578,7 @@ class _QuickActionsPanel extends HookConsumerWidget {
           backgroundColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             side: const BorderSide(color: Colors.white10),
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: SharedStyles.glassRadius,
           ),
           title: Text(
             t.academic.upload_new_file,
@@ -707,7 +708,7 @@ class _ActionTile extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.1),
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           border: Border.all(color: color.withValues(alpha: 0.2)),
         ),
         child: Column(
@@ -790,7 +791,7 @@ class _ManagementGrid extends ConsumerWidget {
           icon: LucideIcons.folderKey,
           title: t.academic.shared_files,
           count: profile.sharedFiles.length,
-          color: const Color(0xFFF59E0B),
+          color: SharedStyles.warning,
           onTap: () {},
           isArabic: isArabic,
         ),
@@ -823,12 +824,12 @@ class _ManagementRow extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: SharedStyles.itemPadding,
               decoration: BoxDecoration(
                 color: color.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),

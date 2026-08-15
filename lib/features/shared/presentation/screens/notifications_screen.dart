@@ -10,7 +10,8 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/data/notification_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
@@ -199,13 +200,13 @@ class NotificationsScreen extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 16),
           child: isGlass
               ? GlassContainer(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: SharedStyles.glassRadius,
                   padding: EdgeInsets.zero,
                   child: content,
                 )
               : Card(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: SharedStyles.glassRadius,
                   ),
                   child: content,
                 ),

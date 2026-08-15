@@ -4,7 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:horus/core/auth/auth_provider.dart';
@@ -15,6 +15,7 @@ import 'package:horus/core/theme/theme_provider.dart';
 
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -239,7 +240,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: LinearGradient(
-                                  colors: [themeColor, Color(0xFF10B981)],
+                                  colors: [themeColor, SharedStyles.success],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
@@ -344,7 +345,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       ),
                       decoration: BoxDecoration(
                         color: themeColor.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: SharedStyles.cardRadius,
                         border: Border.all(
                           color: themeColor.withValues(alpha: 0.35),
                         ),
@@ -675,7 +676,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           _buildSettingItem(
             context: context,
             icon: LucideIcons.messageSquare,
-            iconColor: const Color(0xFF8B5CF6),
+            iconColor: SharedStyles.secondary,
             title: t.extracted.send_feedback,
             subtitle: t.extracted.share_your_thoughts_to_help_improve_the,
             isGlass: isGlass,
@@ -907,7 +908,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
+            colors: [SharedStyles.surfaceDark, Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border.all(
@@ -934,7 +935,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: SharedStyles.itemPadding,
                   decoration: BoxDecoration(
                     color: Colors.cyanAccent.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(14),
@@ -1020,12 +1021,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           HapticFeedback.lightImpact();
           Navigator.pop(context);
         },
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
           decoration: BoxDecoration(
             color: color.withValues(alpha: 0.08),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
             border: Border.all(color: color.withValues(alpha: 0.2)),
           ),
           child: Row(
@@ -1088,7 +1089,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
+                colors: [SharedStyles.surfaceDark, Color(0xFF12122A)],
               ),
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(28),
@@ -1117,7 +1118,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(12),
+                      padding: SharedStyles.itemPadding,
                       decoration: BoxDecoration(
                         color:
                             (Theme.of(context).cardTheme.color ??
@@ -1127,7 +1128,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                       ),
                       child: Icon(
                         LucideIcons.messageSquare,
-                        color: Color(0xFF8B5CF6),
+                        color: SharedStyles.secondary,
                         size: 26,
                       ),
                     ),
@@ -1240,7 +1241,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
                     height: 54,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color(0xFF7C3AED), Color(0xFF8B5CF6)],
+                        colors: [Color(0xFF7C3AED), SharedStyles.secondary],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
                       ),
@@ -1327,7 +1328,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
+            colors: [SharedStyles.surfaceDark, Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border.all(
@@ -1410,7 +1411,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
         color: isSelected
             ? primaryColor.withValues(alpha: 0.12)
             : Colors.white.withValues(alpha: 0.04),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         border: Border.all(
           color: isSelected
               ? primaryColor.withValues(alpha: 0.4)
@@ -1422,7 +1423,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
           Navigator.pop(context);
           _handleLanguageSwitch(context, locale);
         },
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.buttonRadius),
         leading: Text(emoji, style: TextStyle(fontSize: 22, fontFamily: null)),
         title: Text(
           label,

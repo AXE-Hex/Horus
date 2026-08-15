@@ -8,7 +8,8 @@ import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/students/data/digital_id_theme_repository.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
@@ -430,7 +431,7 @@ class DashboardScreen extends ConsumerWidget {
                           ),
                           decoration: BoxDecoration(
                             color: theme.secondaryColor.withValues(alpha: 0.15),
-                            borderRadius: BorderRadius.circular(8),
+                            borderRadius: SharedStyles.badgeRadius,
                             border: Border.all(
                               color: theme.secondaryColor.withValues(
                                 alpha: 0.4,
@@ -522,9 +523,9 @@ class DashboardScreen extends ConsumerWidget {
   }) {
     return InkWell(
       onTap: locked ? () => _showAccessDenied(context) : onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         padding: const EdgeInsets.all(16),
         border: Border.all(
           color: locked
@@ -618,7 +619,7 @@ class DashboardScreen extends ConsumerWidget {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: SharedStyles.glassRadius,
                     color: Colors.black.withValues(alpha: 0.15),
                   ),
                 ),
@@ -639,9 +640,9 @@ class DashboardScreen extends ConsumerWidget {
   }) {
     return InkWell(
       onTap: locked ? () => _showAccessDenied(context) : onTap,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         padding: EdgeInsets.zero,
         border: Border.all(
           color: locked
@@ -756,11 +757,11 @@ class DashboardScreen extends ConsumerWidget {
 
     return InkWell(
       onTap: locked ? () => _showAccessDenied(context) : onTap,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: SizedBox(
         width: 100,
         child: GlassContainer(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: SharedStyles.buttonRadius,
           padding: const EdgeInsets.all(12),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -826,7 +827,7 @@ class DashboardScreen extends ConsumerWidget {
         ),
         backgroundColor: Colors.redAccent.shade700,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.buttonRadius),
         margin: const EdgeInsets.all(16),
         duration: const Duration(seconds: 2),
       ),

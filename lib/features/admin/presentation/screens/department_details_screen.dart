@@ -8,8 +8,9 @@ import 'package:horus/features/admin/data/models/user_management_models.dart';
 import 'package:horus/features/admin/presentation/providers/users_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class DepartmentDetailsScreen extends ConsumerStatefulWidget {
   final DepartmentModel department;
@@ -148,7 +149,7 @@ class _DepartmentDetailsScreenState
                     ),
                     decoration: BoxDecoration(
                       color: themeColor.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: SharedStyles.cardRadius,
                       border: Border.all(
                         color: themeColor.withValues(alpha: 0.2),
                       ),
@@ -180,7 +181,7 @@ class _DepartmentDetailsScreenState
                         color: Theme.of(
                           context,
                         ).colorScheme.onSurface.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: SharedStyles.badgeRadius,
                       ),
                       child: Text(
                         _department.code!,
@@ -345,7 +346,7 @@ class _DepartmentDetailsScreenState
     if (userId == null) {
       return GlassContainer(
         padding: const EdgeInsets.all(24),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         child: Row(
           children: [
             Container(
@@ -421,7 +422,7 @@ class _DepartmentDetailsScreenState
 
         return GlassContainer(
           padding: const EdgeInsets.all(24),
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: SharedStyles.glassRadius,
           border: Border.all(color: themeColor.withValues(alpha: 0.2)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -625,7 +626,7 @@ class _DepartmentDetailsScreenState
                     padding: const EdgeInsets.only(bottom: 10),
                     child: GlassContainer(
                       padding: const EdgeInsets.all(16),
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: SharedStyles.buttonRadius,
                       border: isHead || isAssistant
                           ? Border.all(color: themeColor.withValues(alpha: 0.3))
                           : null,
@@ -784,7 +785,7 @@ class _DepartmentDetailsScreenState
                   padding: const EdgeInsets.only(bottom: 12),
                   child: GlassContainer(
                     padding: const EdgeInsets.all(20),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                     border: Border(
                       left: BorderSide(
                         color: project.status == 'completed'
@@ -819,7 +820,7 @@ class _DepartmentDetailsScreenState
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.onSurface.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: SharedStyles.badgeRadius,
                               ),
                               child: Text(
                                 project.status.toUpperCase(),
@@ -878,9 +879,7 @@ class _DepartmentDetailsScreenState
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
           title: Text(
             title,
             style: GoogleFonts.outfit(
@@ -911,9 +910,7 @@ class _DepartmentDetailsScreenState
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
           title: Row(
             children: [
               Icon(LucideIcons.userPlus, color: themeColor, size: 22),
@@ -958,9 +955,7 @@ class _DepartmentDetailsScreenState
       builder: (dialogContext) {
         return AlertDialog(
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
           title: Text(
             t.extracted.confirm_removal,
             style: GoogleFonts.outfit(

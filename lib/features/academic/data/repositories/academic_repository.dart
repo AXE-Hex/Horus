@@ -97,34 +97,43 @@ class AcademicRepository extends BaseRepository {
         .eq('student_id', studentId)
         .eq('semester', semester);
 
-    if ((regResponse as List).isEmpty) return [];
+    final registrations = regResponse as List;
+    if (registrations.isEmpty) return [];
 
-    final List<Map<String, dynamic>> allSchedules = [];
+    // Collect all course IDs to fetch schedules in a single query (solves N+1 query problem)
+    final List<String> courseIds =
+        registrations.map((reg) => reg['course_id'] as String).toList();
 
-    for (final reg in regResponse) {
+    final schedulesResponse = await client
+        .from('schedules')
+        .select('*, courses(*)')
+        .inFilter('course_id', courseIds)
+        .eq('semester', semester);
+
+    final List<Map<String, dynamic>> allSchedules =
+        List<Map<String, dynamic>>.from(schedulesResponse);
+
+    final List<Map<String, dynamic>> filteredSchedules = [];
+
+    // Filter schedules client-side matching the student's registered sections/sub-sections
+    for (final reg in registrations) {
       final courseId = reg['course_id'];
       final sectionName = reg['section_name'];
       final subSectionName = reg['sub_section_name'];
 
-      var query = client
-          .from('schedules')
-          .select('*, courses(*)')
-          .eq('course_id', courseId)
-          .eq('semester', semester);
+      final matchedSchedules = allSchedules.where((s) {
+        final sameCourse = s['course_id'] == courseId;
+        final sameSection =
+            sectionName == null || s['section_name'] == sectionName;
+        final sameSubSection =
+            subSectionName == null || s['sub_section_name'] == subSectionName;
+        return sameCourse && sameSection && sameSubSection;
+      });
 
-      if (sectionName != null) {
-        query = query.eq('section_name', sectionName);
-      }
-
-      if (subSectionName != null) {
-        query = query.eq('sub_section_name', subSectionName);
-      }
-
-      final schedules = await query;
-      allSchedules.addAll(List<Map<String, dynamic>>.from(schedules));
+      filteredSchedules.addAll(matchedSchedules);
     }
 
-    return allSchedules;
+    return filteredSchedules;
   }
 
   Future<List<Map<String, dynamic>>> getColleges() async {

@@ -7,7 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class SupportScreen extends ConsumerWidget {
   const SupportScreen({super.key});
@@ -146,14 +147,14 @@ class SupportScreen extends ConsumerWidget {
 
     return isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: SharedStyles.glassRadius,
             padding: EdgeInsets.zero,
             child: content,
           )
         : Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: SharedStyles.glassRadius,
               border: Border.all(color: Colors.black12),
             ),
             child: content,
@@ -198,14 +199,14 @@ class SupportScreen extends ConsumerWidget {
 
     return isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
             padding: EdgeInsets.zero,
             child: content,
           )
         : Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
               border: Border.all(color: Colors.black12),
             ),
             child: content,

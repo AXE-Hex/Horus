@@ -196,20 +196,15 @@ class UsersRepository {
           '⚠️ Column "$column" does not exist in profiles table. '
           'Add it via Supabase Dashboard → Table Editor → profiles → Add Column.',
         );
-      } else {
-        rethrow;
       }
+      rethrow;
     }
   }
 
   Future<void> deleteUser(String userId, {bool hardDelete = false}) async {
     if (hardDelete) {
-      try {
-        await _client.auth.admin.deleteUser(userId);
-      } catch (e) {
-        debugPrint('Admin delete failed: $e');
-      }
-
+      // Do not swallow auth delete error to prevent orphaned profile records
+      await _client.auth.admin.deleteUser(userId);
       await _client.from('profiles').delete().eq('id', userId);
     } else {
       await _client

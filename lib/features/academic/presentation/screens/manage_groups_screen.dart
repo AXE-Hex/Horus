@@ -10,7 +10,8 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ManageGroupsScreen extends ConsumerStatefulWidget {
   final ProfessorProfile profile;
@@ -210,7 +211,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                                           color: Colors.transparent,
                                           width: 2,
                                         ),
-                                  borderRadius: BorderRadius.circular(16),
+                                  borderRadius: SharedStyles.buttonRadius,
                                 ),
                                 child: isGlass
                                     ? GlassContainer(

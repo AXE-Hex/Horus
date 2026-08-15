@@ -8,11 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:horus/core/data/supabase_providers.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 final examScheduleProvider =
     FutureProvider.family<List<Map<String, dynamic>>, String>((
@@ -43,10 +44,10 @@ class ExamScheduleScreen extends HookConsumerWidget {
           IconData icon = LucideIcons.book;
 
           if (id.startsWith('CS')) {
-            color = const Color(0xFF10B981);
+            color = SharedStyles.success;
             icon = LucideIcons.cpu;
           } else if (id.startsWith('HU')) {
-            color = const Color(0xFFF59E0B);
+            color = SharedStyles.warning;
             icon = LucideIcons.shieldCheck;
           } else if (id.startsWith('MA')) {
             color = const Color(0xFFEC4899);
@@ -228,7 +229,7 @@ class _DateScroller extends StatelessWidget {
             color: isSelected
                 ? const Color(0xFF6366F1)
                 : Colors.white.withValues(alpha: 0.05),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             border: Border.all(
               color: isSelected
                   ? const Color(0xFF6366F1)
@@ -409,10 +410,10 @@ class _ExamCard extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12),
+                        padding: SharedStyles.itemPadding,
                         decoration: BoxDecoration(
                           color: color.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: SharedStyles.buttonRadius,
                           border: Border.all(
                             color: color.withValues(alpha: 0.2),
                           ),
@@ -559,7 +560,7 @@ class _ExamCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: SharedStyles.buttonRadius,
           border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Row(
@@ -588,7 +589,7 @@ class _ExamCard extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: SharedStyles.buttonRadius,
           border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Icon(icon, size: 16, color: Colors.white70),

@@ -9,8 +9,9 @@ import 'package:horus/features/admin/presentation/providers/admin_stats_provider
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AdminITManagementScreen extends ConsumerStatefulWidget {
   const AdminITManagementScreen({super.key});
@@ -69,7 +70,7 @@ class _AdminITManagementScreenState
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: SharedStyles.cardPadding,
             child: GlassContainer(
               padding: const EdgeInsets.all(22),
               borderRadius: BorderRadius.circular(28),
@@ -96,7 +97,7 @@ class _AdminITManagementScreenState
                                   width: 8,
                                   height: 8,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFF10B981),
+                                    color: SharedStyles.success,
                                     shape: BoxShape.circle,
                                   ),
                                 ),
@@ -156,13 +157,13 @@ class _AdminITManagementScreenState
                       _buildMiniInfo(
                         t.admin.servers,
                         const AsyncValue.data(3),
-                        const Color(0xFF10B981),
+                        SharedStyles.success,
                         LucideIcons.server,
                       ),
                       _buildMiniInfo(
                         t.admin.incidents,
                         const AsyncValue.data(0),
-                        const Color(0xFFEF4444),
+                        SharedStyles.danger,
                         LucideIcons.alertOctagon,
                       ),
                     ],
@@ -375,7 +376,7 @@ class _AdminTile extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: Colors.blueAccent.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: SharedStyles.badgeRadius,
                       border: Border.all(
                         color: Colors.blueAccent.withValues(alpha: 0.2),
                       ),

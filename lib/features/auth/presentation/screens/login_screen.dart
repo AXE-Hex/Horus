@@ -8,7 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -108,7 +109,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: SharedStyles.badgeRadius,
               ),
               child: const Icon(
                 LucideIcons.alertTriangle,
@@ -131,7 +132,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         ),
         backgroundColor: const Color(0xFFDC2626),
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.buttonRadius),
         margin: const EdgeInsets.all(20),
         elevation: 12,
         duration: const Duration(seconds: 4),
@@ -549,31 +550,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           duration: const Duration(milliseconds: 300),
           height: 60,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(
-              colors: [
-                theme.primaryColor,
-                HSLColor.fromColor(
-                  theme.primaryColor,
-                ).withLightness(0.5).toColor(),
-              ],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: theme.primaryColor.withValues(alpha: 0.35),
-                blurRadius: 28,
-                spreadRadius: -6,
-                offset: const Offset(0, 12),
-              ),
-            ],
+            borderRadius: SharedStyles.buttonRadius,
+            gradient: SharedStyles.primaryGradient,
+            boxShadow: SharedStyles.primaryGlow(theme.primaryColor),
           ),
           child: Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: _isSigningIn ? null : _handleSignIn,
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: SharedStyles.buttonRadius,
               splashColor: Colors.white.withValues(alpha: 0.15),
               highlightColor: Colors.transparent,
               child: Center(
@@ -603,7 +588,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               color: Colors.white.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: SharedStyles.badgeRadius,
                             ),
                             child: const Icon(
                               LucideIcons.arrowRight,
@@ -653,7 +638,7 @@ class _OrbsPainter extends CustomPainter {
         h * 0.7 + math.cos(angle * 0.9) * h * 0.3,
       ),
       radius: w * 0.9,
-      color: (isDark ? const Color(0xFF7C3AED) : const Color(0xFF8B5CF6))
+      color: (isDark ? const Color(0xFF7C3AED) : SharedStyles.secondary)
           .withValues(alpha: isDark ? 0.12 : 0.07),
     );
 

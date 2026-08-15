@@ -8,8 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class SubjectResultsScreen extends HookConsumerWidget {
   const SubjectResultsScreen({super.key});
@@ -37,14 +38,14 @@ class SubjectResultsScreen extends HookConsumerWidget {
             'score': 18,
             'max': 20,
             'icon': LucideIcons.clipboardList,
-            'color': const Color(0xFF10B981),
+            'color': SharedStyles.success,
           },
           {
             'title': t.academic.midterm_exam,
             'score': 16,
             'max': 20,
             'icon': LucideIcons.pencil,
-            'color': const Color(0xFFF59E0B),
+            'color': SharedStyles.warning,
           },
           {
             'title': t.academic.practical_project,
@@ -58,7 +59,7 @@ class SubjectResultsScreen extends HookConsumerWidget {
             'score': 49,
             'max': 50,
             'icon': LucideIcons.graduationCap,
-            'color': const Color(0xFF8B5CF6),
+            'color': SharedStyles.secondary,
           },
         ],
       },
@@ -68,28 +69,28 @@ class SubjectResultsScreen extends HookConsumerWidget {
         'totalScore': 88,
         'maxScore': 100,
         'grade': 'A-',
-        'color': const Color(0xFF10B981),
+        'color': SharedStyles.success,
         'components': [
           {
             'title': t.academic.coursework,
             'score': 19,
             'max': 20,
             'icon': LucideIcons.clipboardList,
-            'color': const Color(0xFF10B981),
+            'color': SharedStyles.success,
           },
           {
             'title': t.academic.quiz_1,
             'score': 10,
             'max': 10,
             'icon': LucideIcons.zap,
-            'color': const Color(0xFFF59E0B),
+            'color': SharedStyles.warning,
           },
           {
             'title': t.academic.quiz_2,
             'score': 8,
             'max': 10,
             'icon': LucideIcons.zap,
-            'color': const Color(0xFFF59E0B),
+            'color': SharedStyles.warning,
           },
           {
             'title': t.academic.final_exam,
@@ -127,7 +128,7 @@ class SubjectResultsScreen extends HookConsumerWidget {
             'score': 47,
             'max': 50,
             'icon': LucideIcons.hardDrive,
-            'color': const Color(0xFF10B981),
+            'color': SharedStyles.success,
           },
         ],
       },
@@ -262,7 +263,7 @@ class _SubjectScroller extends StatelessWidget {
                   color: isSelected
                       ? color
                       : Colors.white.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                   border: Border.all(
                     color: isSelected
                         ? color
@@ -422,7 +423,7 @@ class _ImmersiveLayout extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(
@@ -660,7 +661,7 @@ class _MinimalLayout extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: SharedStyles.cardRadius,
                 border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
               ),
               child: Column(
@@ -711,8 +712,8 @@ class _ComponentCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: GlassContainer(
-        borderRadius: BorderRadius.circular(24),
-        padding: const EdgeInsets.all(20),
+        borderRadius: SharedStyles.glassRadius,
+        padding: SharedStyles.cardPadding,
         child: Row(
           children: [
             Container(
@@ -767,10 +768,10 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: SharedStyles.cardPadding,
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.05),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: SharedStyles.glassRadius,
         border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Column(

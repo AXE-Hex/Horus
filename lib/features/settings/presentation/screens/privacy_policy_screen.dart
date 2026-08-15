@@ -7,7 +7,8 @@ import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class PrivacyPolicyScreen extends ConsumerWidget {
   const PrivacyPolicyScreen({super.key});
@@ -60,7 +61,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
                 (section) => Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: GlassContainer(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: SharedStyles.cardRadius,
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

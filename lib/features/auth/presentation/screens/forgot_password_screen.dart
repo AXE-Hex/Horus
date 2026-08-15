@@ -7,8 +7,9 @@ import 'package:horus/core/error/app_exception.dart';
 import 'package:horus/core/error/error_handler.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -124,7 +125,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
             color: Colors.grey.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
             border: Border.all(
               color: Colors.white.withValues(alpha: 0.2),
               width: 1,
@@ -257,7 +258,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               fontSize: 15,
               fontWeight: FontWeight.w500,
             ),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+            border: OutlineInputBorder(borderRadius: SharedStyles.buttonRadius),
             filled: isGlass,
             fillColor: isGlass ? Colors.white.withValues(alpha: 0.4) : null,
           ),
@@ -269,7 +270,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           decoration: InputDecoration(
             labelText: t.auth.forgot_password.phone_label,
             prefixIcon: const Icon(LucideIcons.phone),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+            border: OutlineInputBorder(borderRadius: SharedStyles.buttonRadius),
             filled: isGlass,
             fillColor: isGlass ? Colors.white.withValues(alpha: 0.4) : null,
           ),
@@ -283,7 +284,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               color: isGlass
                   ? Colors.white.withValues(alpha: 0.3)
                   : Colors.grey.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
               border: Border.all(
                 color: _isIdUploaded
                     ? Colors.green
@@ -333,7 +334,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             foregroundColor: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
             ),
             elevation: isGlass ? 0 : 2,
           ),

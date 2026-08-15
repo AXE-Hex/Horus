@@ -8,7 +8,8 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/core/theme/theme_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/animated_mesh_background.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ThemeScreen extends ConsumerStatefulWidget {
   const ThemeScreen({super.key});
@@ -157,7 +158,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.05),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: SharedStyles.cardRadius,
                         border: Border.all(
                           color: Colors.white.withValues(alpha: 0.1),
                         ),
@@ -174,7 +175,7 @@ class _ThemeScreenState extends ConsumerState<ThemeScreen> {
                               color: index == 2
                                   ? primary
                                   : Colors.white.withValues(alpha: 0.3),
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: SharedStyles.badgeRadius,
                               boxShadow: index == 2
                                   ? [
                                       BoxShadow(

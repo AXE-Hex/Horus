@@ -8,10 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 
 import 'package:horus/core/data/supabase_providers.dart';
 import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 final actionPlanProvider =
     FutureProvider.family<List<Map<String, dynamic>>, String>((
@@ -50,7 +51,7 @@ class ActionPlanScreen extends ConsumerWidget {
           IconData icon = LucideIcons.circle;
 
           if (isCompleted) {
-            color = const Color(0xFF10B981);
+            color = SharedStyles.success;
             icon = LucideIcons.checkCircle;
           } else if (isInProgress) {
             color = const Color(0xFF6366F1);
@@ -204,7 +205,7 @@ class ActionPlanScreen extends ConsumerWidget {
               ),
               const Icon(
                 LucideIcons.trendingUp,
-                color: Color(0xFF10B981),
+                color: SharedStyles.success,
                 size: 32,
               ),
             ],
@@ -222,12 +223,12 @@ class ActionPlanScreen extends ConsumerWidget {
                     width: 300 * overallProgress,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF6366F1), Color(0xFF10B981)],
+                        colors: [Color(0xFF6366F1), SharedStyles.success],
                       ),
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF10B981).withValues(alpha: 0.5),
+                          color: SharedStyles.success.withValues(alpha: 0.5),
                           blurRadius: 10,
                         ),
                       ],
@@ -339,8 +340,8 @@ class _TimelineItem extends StatelessWidget {
 
   Widget _buildCard(bool isCompleted, bool isInProgress, Color color) {
     return GlassContainer(
-          borderRadius: BorderRadius.circular(24),
-          padding: const EdgeInsets.all(20),
+          borderRadius: SharedStyles.glassRadius,
+          padding: SharedStyles.cardPadding,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -390,7 +391,7 @@ class _TimelineItem extends StatelessWidget {
                   if (isCompleted)
                     const Icon(
                       LucideIcons.shieldCheck,
-                      color: Color(0xFF10B981),
+                      color: SharedStyles.success,
                       size: 20,
                     ),
                 ],

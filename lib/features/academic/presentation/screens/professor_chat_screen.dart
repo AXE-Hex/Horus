@@ -8,8 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class ProfessorChatScreen extends ConsumerStatefulWidget {
   final ProfessorProfile profile;
@@ -201,7 +202,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: Colors.grey.withValues(alpha: 0.2),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: SharedStyles.buttonRadius,
           ),
           child: Text(
             msg.text,
@@ -246,7 +247,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: bubbleColor,
-              borderRadius: BorderRadius.circular(16).copyWith(
+              borderRadius: SharedStyles.buttonRadius.copyWith(
                 bottomRight: msg.isMe
                     ? const Radius.circular(0)
                     : const Radius.circular(16),
@@ -277,7 +278,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
 
   Widget _buildInputArea(bool isGlass, Color color, bool isArabic) {
     final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       borderSide: BorderSide.none,
     );
 

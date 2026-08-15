@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:horus/core/auth/roles.dart';
@@ -14,6 +15,7 @@ class AuthState {
   final String? avatarUrl;
   final bool isLoading;
   final String? error;
+  final bool isLocalAccount;
 
   const AuthState({
     this.user,
@@ -22,9 +24,10 @@ class AuthState {
     this.avatarUrl,
     this.isLoading = false,
     this.error,
+    this.isLocalAccount = false,
   });
 
-  bool get isAuthenticated => user != null;
+  bool get isAuthenticated => user != null || isLocalAccount;
   bool get isStudent => role.isStudent;
   bool get isProfessor => role == UserRole.professor;
   bool get isAdmin => role.isAdmin;
@@ -36,6 +39,7 @@ class AuthState {
     String? avatarUrl,
     bool? isLoading,
     String? error,
+    bool? isLocalAccount,
   }) {
     return AuthState(
       user: user ?? this.user,
@@ -44,6 +48,7 @@ class AuthState {
       avatarUrl: avatarUrl ?? this.avatarUrl,
       isLoading: isLoading ?? this.isLoading,
       error: error,
+      isLocalAccount: isLocalAccount ?? this.isLocalAccount,
     );
   }
 }
@@ -85,6 +90,19 @@ class AuthController extends _$AuthController {
   }
 
   Future<void> signIn(String email, String password) async {
+    // Local account bypass with super admin role (DEBUG ONLY)
+    if (kDebugMode &&
+        (email == 'admin@horus.edu.eg' || email == 'admin') &&
+        password == 'admin123') {
+      state = const AuthState(
+        isLocalAccount: true,
+        role: UserRole.superAdmin,
+        fullName: 'Local Admin (All Permissions)',
+        isLoading: false,
+      );
+      return;
+    }
+
     state = state.copyWith(isLoading: true, error: null);
     try {
       final response = await _client.auth.signInWithPassword(
@@ -119,13 +137,6 @@ class AuthController extends _$AuthController {
         },
       );
       if (response.user != null) {
-        await _client.from('profiles').upsert({
-          'id': response.user!.id,
-          'email': email,
-          'full_name': fullName,
-          'student_id': studentId,
-          'roles': ['student'],
-        });
         await _loadProfile(response.user!);
       }
     } on AuthException catch (e) {
@@ -139,7 +150,9 @@ class AuthController extends _$AuthController {
     _unsubscribeFromProfile();
     try {
       await _client.auth.signOut();
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('SignOut error (session may already be expired): $e');
+    }
     state = const AuthState();
   }
 
@@ -185,9 +198,10 @@ class AuthController extends _$AuthController {
     } catch (e) {
       final isMissingProfile = e.toString().contains('PGRST116');
 
+      // Deny-by-default: if profile fetch fails, assign guest role
       state = AuthState(
         user: user,
-        role: UserRole.student,
+        role: UserRole.guest,
         isLoading: false,
         error: isMissingProfile ? null : e.toString(),
       );

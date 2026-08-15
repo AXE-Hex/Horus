@@ -7,7 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class SessionsScreen extends ConsumerWidget {
   const SessionsScreen({super.key});
@@ -167,14 +168,14 @@ class SessionsScreen extends ConsumerWidget {
 
     return isGlass
         ? GlassContainer(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             padding: EdgeInsets.zero,
             child: content,
           )
         : Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: SharedStyles.cardRadius,
               border: Border.all(color: Colors.black12),
             ),
             child: content,

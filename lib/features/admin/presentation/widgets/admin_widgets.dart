@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 export 'holographic_card.dart';
 
@@ -120,7 +121,7 @@ class AdminDashboardTile extends StatelessWidget {
     return GlassContainer(
       onTap: onTap,
       padding: const EdgeInsets.all(18),
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: SharedStyles.glassRadius,
       child: Row(
         children: [
           Container(
@@ -134,7 +135,7 @@ class AdminDashboardTile extends StatelessWidget {
                   color.withValues(alpha: 0.05),
                 ],
               ),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
               border: Border.all(color: color.withValues(alpha: 0.1), width: 1),
             ),
             child: Icon(icon, color: color, size: 24),

@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:horus/core/i18n/strings.g.dart';
@@ -15,6 +15,7 @@ import 'package:horus/features/feed/data/repositories/post_repository.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
   final PostType initialType;
@@ -115,8 +116,10 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       List<String> uploadedUrls = [];
       String userId = ref.read(authControllerProvider).user!.id;
 
-      for (var file in _selectedMedia) {
-        final url = await repository.uploadMedia(file, userId);
+      // Upload media concurrently to speed up posting
+      final uploadFutures = _selectedMedia.map((file) => repository.uploadMedia(file, userId));
+      final uploadResults = await Future.wait(uploadFutures);
+      for (var url in uploadResults) {
         if (url != null) uploadedUrls.add(url);
       }
 
@@ -197,7 +200,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
                 foregroundColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                 ),
                 padding: const EdgeInsets.symmetric(horizontal: 24),
               ),
@@ -318,7 +321,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           color: _postAsCollege
               ? theme.primaryColor.withValues(alpha: 0.1)
               : Colors.white10,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: SharedStyles.badgeRadius,
           border: Border.all(
             color: _postAsCollege
                 ? theme.primaryColor.withValues(alpha: 0.3)
@@ -353,7 +356,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.white10,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SharedStyles.badgeRadius,
         border: Border.all(color: Colors.white24),
       ),
       child: Row(
@@ -497,7 +500,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
           return Container(
             width: 200,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: SharedStyles.cardRadius,
               boxShadow: [
                 BoxShadow(
                   color: Colors.black26,
@@ -510,7 +513,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
               fit: StackFit.expand,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                   child: _currentType == PostType.video
                       ? Container(
                           color: Colors.black26,
@@ -557,7 +560,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
         color: theme.primaryColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: SharedStyles.buttonRadius,
         border: Border.all(color: theme.primaryColor.withValues(alpha: 0.2)),
       ),
       child: TextField(

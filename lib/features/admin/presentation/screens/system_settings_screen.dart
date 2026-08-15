@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SystemSettingsScreen extends ConsumerWidget {

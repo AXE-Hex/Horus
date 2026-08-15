@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class HolographicCard extends StatelessWidget {
   final Widget child;
@@ -22,7 +23,7 @@ class HolographicCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = glowColor ?? Theme.of(context).primaryColor;
-    final radius = borderRadius ?? BorderRadius.circular(24);
+    final radius = borderRadius ?? SharedStyles.glassRadius;
 
     return MouseRegion(
       cursor: onTap != null

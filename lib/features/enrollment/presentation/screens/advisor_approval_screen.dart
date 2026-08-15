@@ -9,7 +9,8 @@ import 'package:horus/features/enrollment/presentation/providers/advisor_provide
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AdvisorApprovalScreen extends ConsumerStatefulWidget {
   const AdvisorApprovalScreen({super.key});
@@ -135,7 +136,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                   color: isSelected
                       ? null
                       : Colors.white.withValues(alpha: 0.08),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                   border: Border.all(
                     color: isSelected
                         ? Colors.indigoAccent.withValues(alpha: 0.5)
@@ -185,7 +186,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
       padding: const EdgeInsets.only(bottom: 16),
       child:
           GlassContainer(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: SharedStyles.cardRadius,
             child: ExpansionTile(
               tilePadding: const EdgeInsets.symmetric(
                 horizontal: 16,
@@ -228,7 +229,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: statusColor.withValues(alpha: 0.15),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: SharedStyles.badgeRadius,
                         ),
                         child: Text(
                           request.status.label(isArabic: isArabic),

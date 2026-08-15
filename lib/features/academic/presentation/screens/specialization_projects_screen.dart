@@ -9,8 +9,9 @@ import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 final departmentProjectsProvider =
     FutureProvider.family<List<Map<String, dynamic>>, String>((
@@ -176,7 +177,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
       child:
           GlassContainer(
                 padding: const EdgeInsets.all(20),
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: SharedStyles.glassRadius,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

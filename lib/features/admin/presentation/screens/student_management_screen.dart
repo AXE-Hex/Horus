@@ -12,8 +12,9 @@ import 'package:horus/features/admin/presentation/providers/admin_stats_provider
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class StudentManagementScreen extends ConsumerStatefulWidget {
   const StudentManagementScreen({super.key});
@@ -231,7 +232,7 @@ class _StudentManagementScreenState
   Widget _buildSearchBar(bool isArabic, Color primaryColor) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: SharedStyles.cardRadius,
         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.05),
         border: Border.all(
           color: Theme.of(
@@ -274,7 +275,7 @@ class _StudentManagementScreenState
   Widget _buildCollegeFilterButton(Color primaryColor, bool isArabic) {
     final hasActiveFilter = _collegeFilter != 'all';
     return GlassContainer(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: SharedStyles.buttonRadius,
       child: Stack(
         children: [
           IconButton(
@@ -483,7 +484,7 @@ class _StudentManagementScreenState
             child: Icon(
               LucideIcons.graduationCap,
               size: 36,
-              color: Color(0xFF10B981),
+              color: SharedStyles.success,
             ),
           ),
           SizedBox(height: 16),
@@ -521,7 +522,7 @@ class _StatMiniCard extends StatelessWidget {
       width: 145,
       margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(14),
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: SharedStyles.cardRadius,
       child: Row(
         children: [
           Container(
@@ -587,10 +588,8 @@ class _StudentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusColor = student.isBanned
-        ? const Color(0xFFEF4444)
-        : (student.isActive
-              ? const Color(0xFF10B981)
-              : const Color(0xFFF59E0B));
+        ? SharedStyles.danger
+        : (student.isActive ? SharedStyles.success : SharedStyles.warning);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
@@ -609,8 +608,8 @@ class _StudentCard extends StatelessWidget {
                     shape: BoxShape.circle,
                     gradient: LinearGradient(
                       colors: [
-                        Color(0xFF10B981).withValues(alpha: 0.3),
-                        Color(0xFF10B981).withValues(alpha: 0.1),
+                        SharedStyles.success.withValues(alpha: 0.3),
+                        SharedStyles.success.withValues(alpha: 0.1),
                       ],
                     ),
                   ),
@@ -673,7 +672,7 @@ class _StudentCard extends StatelessWidget {
                         Icon(
                           LucideIcons.badgeCheck,
                           size: 14,
-                          color: Color(0xFF10B981),
+                          color: SharedStyles.success,
                         ),
                       ],
                       if (student.warningLevel > 0) ...[
@@ -714,7 +713,7 @@ class _StudentCard extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: primaryColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: SharedStyles.badgeRadius,
                           border: Border.all(
                             color: primaryColor.withValues(alpha: 0.2),
                           ),

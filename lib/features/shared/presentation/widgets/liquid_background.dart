@@ -1,17 +1,19 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:horus/core/theme/low_performance_provider.dart';
 
-class LiquidBackground extends StatefulWidget {
+class LiquidBackground extends ConsumerStatefulWidget {
   final List<Color>? colors;
   final bool showParticles;
 
   const LiquidBackground({super.key, this.colors, this.showParticles = true});
 
   @override
-  State<LiquidBackground> createState() => _LiquidBackgroundState();
+  ConsumerState<LiquidBackground> createState() => _LiquidBackgroundState();
 }
 
-class _LiquidBackgroundState extends State<LiquidBackground>
+class _LiquidBackgroundState extends ConsumerState<LiquidBackground>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -33,6 +35,14 @@ class _LiquidBackgroundState extends State<LiquidBackground>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isLowPerformance = ref.watch(lowPerformanceControllerProvider);
+
+    if (isLowPerformance) {
+      return Container(
+        color: theme.scaffoldBackgroundColor,
+      );
+    }
+
     final primary = widget.colors?[0] ?? theme.primaryColor;
     final secondary = widget.colors != null && widget.colors!.length > 1
         ? widget.colors![1]

@@ -13,9 +13,10 @@ import 'dart:math';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/admin/data/models/institutional_models.dart';
 import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:horus/features/shared/presentation/widgets/premium_success_overlay.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class UserFormScreen extends ConsumerStatefulWidget {
   final UserProfileModel? user;
@@ -654,7 +655,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           color: Theme.of(
             context,
           ).colorScheme.onSurface.withValues(alpha: 0.03),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: SharedStyles.buttonRadius,
           border: Border.all(
             color: Theme.of(
               context,
@@ -662,7 +663,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButtonFormField<String>(
-              dropdownColor: Color(0xFF1E1E3A),
+              dropdownColor: SharedStyles.surfaceDark,
               decoration: InputDecoration(border: InputBorder.none),
               icon: Icon(
                 LucideIcons.chevronDown,
@@ -719,7 +720,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               color: Theme.of(
                 context,
               ).colorScheme.onSurface.withValues(alpha: 0.03),
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: SharedStyles.buttonRadius,
               border: Border.all(
                 color: Theme.of(
                   context,
@@ -727,7 +728,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButtonFormField<String>(
-                  dropdownColor: Color(0xFF1E1E3A),
+                  dropdownColor: SharedStyles.surfaceDark,
                   decoration: InputDecoration(border: InputBorder.none),
                   icon: Icon(
                     LucideIcons.chevronDown,
@@ -777,7 +778,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
 
   Widget _buildManagementZone(bool isArabic, Color primaryColor) {
     return GlassContainer(
-      padding: const EdgeInsets.all(20),
+      padding: SharedStyles.cardPadding,
       borderRadius: BorderRadius.circular(22),
       child: Column(
         children: [
@@ -872,7 +873,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                     padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: Colors.orangeAccent.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: SharedStyles.badgeRadius,
                     ),
                     child: const Icon(
                       LucideIcons.alertTriangle,
@@ -945,7 +946,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               style: TextButton.styleFrom(
-                foregroundColor: const Color(0xFFEF4444),
+                foregroundColor: SharedStyles.danger,
                 padding: const EdgeInsets.symmetric(vertical: 12),
               ),
             ),
@@ -972,7 +973,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 color: c.withValues(alpha: 0.1),
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: SharedStyles.badgeRadius,
               ),
               child: Icon(icon, size: 14, color: c),
             ),
@@ -1005,7 +1006,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
         title: Row(
           children: [
             const Icon(LucideIcons.alertTriangle, color: Colors.redAccent),
@@ -1056,7 +1057,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(borderRadius: SharedStyles.glassRadius),
         title: Row(
           children: [
             Icon(LucideIcons.tag, color: Theme.of(context).primaryColor),
@@ -1160,7 +1161,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                   label: t.admin.nationality,
                   controller: _nationalityController,
                   icon: LucideIcons.globe,
-                  iconColor: const Color(0xFF10B981),
+                  iconColor: SharedStyles.success,
                 ),
               ),
               const SizedBox(width: 12),
@@ -1195,7 +1196,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
               label: t.admin.student_id,
               controller: _studentIdController,
               icon: LucideIcons.hash,
-              iconColor: const Color(0xFFF59E0B),
+              iconColor: SharedStyles.warning,
               keyboardType: TextInputType.number,
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               maxLength: 16,
@@ -1367,7 +1368,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
           Switch(
             value: _isActive,
             onChanged: (val) => setState(() => _isActive = val),
-            activeThumbColor: const Color(0xFF10B981),
+            activeThumbColor: SharedStyles.success,
           ),
         ],
       ),
@@ -1503,7 +1504,7 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     side: const BorderSide(color: Colors.white10),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: SharedStyles.buttonRadius,
                     ),
                   ),
                   child: Text(
@@ -1519,11 +1520,11 @@ class _UserFormScreenState extends ConsumerState<UserFormScreen>
                 onPressed: _isSaving ? null : _nextStep,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _currentStep == 3
-                      ? const Color(0xFF10B981)
+                      ? SharedStyles.success
                       : primaryColor,
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: SharedStyles.buttonRadius,
                   ),
                   elevation: 4,
                 ),

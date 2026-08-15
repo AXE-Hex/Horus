@@ -8,11 +8,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class DailyScheduleScreen extends HookConsumerWidget {
   const DailyScheduleScreen({super.key});
@@ -136,7 +137,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
                   color: isSelected
                       ? const Color(0xFF6366F1)
                       : Colors.white.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: SharedStyles.cardRadius,
                   border: Border.all(
                     color: isSelected
                         ? const Color(0xFF6366F1)
@@ -307,7 +308,7 @@ class _ScheduleItem extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 24),
                   child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: SharedStyles.glassRadius,
                       boxShadow: isActive
                           ? [
                               BoxShadow(
@@ -324,7 +325,7 @@ class _ScheduleItem extends StatelessWidget {
                           : null,
                     ),
                     child: GlassContainer(
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: SharedStyles.glassRadius,
                       padding: const EdgeInsets.all(20),
                       border: Border.all(
                         color: isActive
@@ -440,7 +441,7 @@ class _ScheduleItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: SharedStyles.badgeRadius,
         border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(

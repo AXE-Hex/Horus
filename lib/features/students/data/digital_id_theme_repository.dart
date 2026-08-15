@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import '../domain/models/digital_id_theme.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class DigitalIDThemeRepository {
   static final Map<String, DigitalIDTheme> _colleges = {
@@ -49,21 +50,21 @@ class DigitalIDThemeRepository {
     'linguistics': _createTheme(
       'lang',
       'Languages & Translation',
-      const Color(0xFFF59E0B),
+      SharedStyles.warning,
       LucideIcons.languages,
       style: DigitalIDDesignStyle.modern,
     ),
     'pharmacy': _createTheme(
       'pharm',
       'Pharmacy',
-      const Color(0xFF10B981),
+      SharedStyles.success,
       LucideIcons.pill,
       style: DigitalIDDesignStyle.organic,
     ),
     'physical_therapy': _createTheme(
       'pt',
       'Physical Therapy',
-      const Color(0xFF0EA5E9),
+      SharedStyles.primaryLight,
       LucideIcons.activity,
       style: DigitalIDDesignStyle.organic,
     ),
@@ -101,7 +102,7 @@ class DigitalIDThemeRepository {
     'dental_prosthetics_technology': _createSpec(
       'prosth',
       'Dental Prosthetics',
-      const Color(0xFF8B5CF6),
+      SharedStyles.secondary,
       LucideIcons.smile,
       style: DigitalIDDesignStyle.organic,
     ),
@@ -180,14 +181,14 @@ class DigitalIDThemeRepository {
     'orthodontics_pediatric_dentistry': _createSpec(
       'ortho',
       'Orthodontics',
-      const Color(0xFF8B5CF6),
+      SharedStyles.secondary,
       LucideIcons.smile,
       style: DigitalIDDesignStyle.organic,
     ),
     'periodontology_oral_medicine': _createSpec(
       'perio',
       'Periodontology',
-      const Color(0xFF10B981),
+      SharedStyles.success,
       LucideIcons.activity,
       style: DigitalIDDesignStyle.organic,
     ),
@@ -302,14 +303,14 @@ class DigitalIDThemeRepository {
     'medical_physiology': _createSpec(
       'phys',
       'Physiology',
-      const Color(0xFFF43F5E),
+      SharedStyles.accent,
       LucideIcons.activity,
       style: DigitalIDDesignStyle.organic,
     ),
     'medical_microbiology_immunology': _createSpec(
       'micro',
       'Microbiology',
-      const Color(0xFF10B981),
+      SharedStyles.success,
       LucideIcons.bug,
       style: DigitalIDDesignStyle.organic,
     ),
@@ -345,7 +346,7 @@ class DigitalIDThemeRepository {
     'english_program': _createSpec(
       'en',
       'English Program',
-      const Color(0xFFF59E0B),
+      SharedStyles.warning,
       LucideIcons.languages,
       style: DigitalIDDesignStyle.modern,
     ),
@@ -381,7 +382,7 @@ class DigitalIDThemeRepository {
     'clinical_pharmacy': _createSpec(
       'clin',
       'Clinical Pharmacy',
-      const Color(0xFF10B981),
+      SharedStyles.success,
       LucideIcons.clipboardList,
       style: DigitalIDDesignStyle.organic,
     ),
@@ -423,7 +424,7 @@ class DigitalIDThemeRepository {
     'pharmacy_practice': _createSpec(
       'prac',
       'Pharmacy Practice',
-      const Color(0xFF10B981),
+      SharedStyles.success,
       LucideIcons.clipboardCheck,
       style: DigitalIDDesignStyle.modern,
     ),
@@ -431,7 +432,7 @@ class DigitalIDThemeRepository {
     'pt_basic_sciences': _createSpec(
       'pt_base',
       'Basic Sciences',
-      const Color(0xFF0EA5E9),
+      SharedStyles.primaryLight,
       LucideIcons.bookOpen,
       style: DigitalIDDesignStyle.organic,
     ),
@@ -495,7 +496,7 @@ class DigitalIDThemeRepository {
     'ai_cybersecurity': _createSpec(
       'sec',
       'Cyber Security',
-      const Color(0xFF10B981),
+      SharedStyles.success,
       LucideIcons.shieldCheck,
       style: DigitalIDDesignStyle.cyber,
     ),
@@ -509,14 +510,14 @@ class DigitalIDThemeRepository {
     'ai_robotics': _createSpec(
       'bot',
       'Robotics',
-      const Color(0xFFF59E0B),
+      SharedStyles.warning,
       LucideIcons.bot,
       style: DigitalIDDesignStyle.cyber,
     ),
     'ai_smart_systems': _createSpec(
       'smart',
       'Smart Systems',
-      const Color(0xFF8B5CF6),
+      SharedStyles.secondary,
       LucideIcons.cpu,
       style: DigitalIDDesignStyle.cyber,
     ),

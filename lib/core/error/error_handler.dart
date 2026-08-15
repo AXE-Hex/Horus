@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class ErrorHandler {
   static void showError(BuildContext context, dynamic error) {
+    if (!context.mounted) return;
+
     String code = 'SYS-999';
     String message = 'An unexpected system error occurred.';
 
@@ -12,6 +14,8 @@ class ErrorHandler {
       message = error.message;
     } else {
       debugPrint('Unknown Error: $error');
+      // Include actual error details for easier production debugging
+      message = error.toString();
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -51,3 +55,4 @@ class ErrorHandler {
     );
   }
 }
+

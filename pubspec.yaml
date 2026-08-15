@@ -28,8 +28,7 @@ dependencies:
   slang: ^4.0.0
   slang_flutter: ^4.0.0
 
-  # UI/Icons
-  lucide_icons: any
+  lucide_icons: ^0.257.0
 
   google_fonts: ^8.0.1
 

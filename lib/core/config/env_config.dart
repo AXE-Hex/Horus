@@ -23,13 +23,15 @@ class EnvConfig {
   static const bool enableOfflineCache = false;
 
   static void validate() {
-    assert(
-      supabaseUrl.isNotEmpty,
-      'SUPABASE_URL is missing! Run with --dart-define-from-file=.env',
-    );
-    assert(
-      supabaseAnonKey.isNotEmpty,
-      'SUPABASE_ANON_KEY is missing! Run with --dart-define-from-file=.env',
-    );
+    if (supabaseUrl.isEmpty) {
+      throw StateError(
+        'SUPABASE_URL is missing! Run with --dart-define-from-file=.env',
+      );
+    }
+    if (supabaseAnonKey.isEmpty) {
+      throw StateError(
+        'SUPABASE_ANON_KEY is missing! Run with --dart-define-from-file=.env',
+      );
+    }
   }
 }

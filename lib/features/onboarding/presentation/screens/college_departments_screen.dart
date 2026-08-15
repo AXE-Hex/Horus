@@ -8,9 +8,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:horus/features/admin/data/models/institutional_models.dart';
 import 'package:horus/features/admin/data/repositories/institutional_repository.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class CollegeDepartmentsScreen extends ConsumerWidget {
   final CollegeModel college;
@@ -176,12 +177,12 @@ class _DepartmentCard extends StatelessWidget {
           extra: {'department': department, 'color': color},
         );
       },
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: SharedStyles.cardRadius,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isGlass ? null : Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: SharedStyles.cardRadius,
           border: isGlass
               ? null
               : Border.all(color: color.withValues(alpha: 0.1)),
@@ -244,7 +245,7 @@ class _DepartmentCard extends StatelessWidget {
 
     return (isGlass
             ? GlassContainer(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: SharedStyles.cardRadius,
                 padding: EdgeInsets.zero,
                 child: content,
               )

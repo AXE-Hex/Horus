@@ -8,7 +8,7 @@ export 'package:horus/core/auth/roles.dart' show UserRole, RoleCategory;
 
 part 'users_provider.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 class UsersController extends _$UsersController {
   @override
   Stream<List<UserProfileModel>> build({
@@ -60,7 +60,10 @@ class UsersController extends _$UsersController {
         'action': 'update',
         'notes': 'Pending approval: ${data.toString()}',
       });
-    } catch (_) {}
+    } catch (e) {
+      //debugPrint('Audit logging failed: $e');
+      rethrow;
+    }
   }
 
   Future<void> toggleUserStatus(String userId, bool isActive) async {

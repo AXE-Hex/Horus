@@ -10,8 +10,9 @@ import 'package:horus/features/admin/presentation/providers/admin_stats_provider
 import 'package:horus/features/admin/presentation/providers/performance_provider.dart';
 import 'package:horus/features/admin/presentation/widgets/admin_widgets.dart';
 import 'package:horus/features/admin/presentation/widgets/admin_dashboard_components.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:intl/intl.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AdministrationScreen extends ConsumerWidget {
   final bool isStandalone;
@@ -347,21 +348,21 @@ class _SystemModulesGrid extends StatelessWidget {
         LucideIcons.building2,
         t.admin.colleges,
         t.admin.manage_faculties,
-        const Color(0xFF0EA5E9),
+        SharedStyles.primaryLight,
         '/admin/colleges',
       ),
       AdminModule(
         LucideIcons.layoutGrid,
         t.admin.departments,
         t.admin.academic_departments,
-        const Color(0xFF10B981),
+        SharedStyles.success,
         '/admin/departments',
       ),
       AdminModule(
         LucideIcons.shieldAlert,
         t.admin.roles,
         t.admin.permission_management,
-        const Color(0xFF8B5CF6),
+        SharedStyles.secondary,
         '/admin/roles',
       ),
       AdminModule(
@@ -602,7 +603,7 @@ class _RoleBreakdownSection extends ConsumerWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF8B5CF6).withValues(alpha: 0.06),
+                    SharedStyles.secondary.withValues(alpha: 0.06),
                     Colors.transparent,
                   ],
                 ),

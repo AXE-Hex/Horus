@@ -7,8 +7,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:horus/core/utils/lucide_icon_mapping.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:horus/core/theme/shared_styles.dart';
 
 class AttendanceScreen extends ConsumerWidget {
   const AttendanceScreen({super.key});
@@ -37,7 +38,7 @@ class AttendanceScreen extends ConsumerWidget {
         'late': 1,
         'ratio': 100,
         'icon': LucideIcons.brain,
-        'color': const Color(0xFF10B981),
+        'color': SharedStyles.success,
         'trend': [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
       },
       {
@@ -47,7 +48,7 @@ class AttendanceScreen extends ConsumerWidget {
         'late': 0,
         'ratio': 86,
         'icon': LucideIcons.shieldCheck,
-        'color': const Color(0xFFF59E0B),
+        'color': SharedStyles.warning,
         'trend': [0.7, 0.8, 0.9, 0.8, 0.75, 0.86],
       },
     ];
@@ -83,7 +84,7 @@ class AttendanceScreen extends ConsumerWidget {
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.all(20),
+          padding: SharedStyles.cardPadding,
           sliver: SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
               return Padding(
@@ -254,17 +255,17 @@ class _AttendanceCourseCard extends StatelessWidget {
     final Color subjectColor = data['color'] as Color;
 
     return GlassContainer(
-      borderRadius: BorderRadius.circular(24),
-      padding: const EdgeInsets.all(20),
+      borderRadius: SharedStyles.glassRadius,
+      padding: SharedStyles.cardPadding,
       child: Column(
         children: [
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: SharedStyles.itemPadding,
                 decoration: BoxDecoration(
                   color: subjectColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: SharedStyles.buttonRadius,
                   border: Border.all(
                     color: subjectColor.withValues(alpha: 0.3),
                   ),
