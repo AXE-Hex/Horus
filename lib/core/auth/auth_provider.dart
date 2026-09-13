@@ -93,8 +93,7 @@ class AuthController extends _$AuthController {
     final cleanEmail = email.toLowerCase().trim();
     if (cleanEmail == 'student@horus.edu.eg' ||
         cleanEmail == 'ta@horus.edu.eg' ||
-        cleanEmail == 'professor@horus.edu.eg' ||
-        cleanEmail == 'rector@horus.edu.eg') {
+        cleanEmail == 'professor@horus.edu.eg') {
       
       await Future.delayed(const Duration(milliseconds: 600)); // Simulate network lag
       
@@ -115,18 +114,11 @@ class AuthController extends _$AuthController {
         fullName = 'Sarah Mohamed';
         fullNameAr = 'سارة محمد';
         roles = [UserRole.teachingAssistant];
-      } else if (cleanEmail == 'professor@horus.edu.eg') {
+      } else {
         mockId = 'mock-professor-id';
         fullName = 'Dr. Khaled Mahmoud';
         fullNameAr = 'د. خالد محمود';
         roles = [UserRole.professor];
-      } else {
-        mockId = 'mock-rector-id';
-        fullName = 'Prof. Hassan Shaker';
-        fullNameAr = 'أ.د. حسن شاكر';
-        roles = [UserRole.rector];
-        collegeId = null;
-        departmentId = null;
       }
 
       final mockUser = User(

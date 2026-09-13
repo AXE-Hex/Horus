@@ -14,13 +14,6 @@ const Set<String> publicRoutes = {
 
 const Map<String, Set<RoleCategory>> routePermissions = {
   '/dashboard': {RoleCategory.studentRoles},
-  '/staff-dashboard': {
-    RoleCategory.teachingStaff,
-    RoleCategory.academicLeadership,
-    RoleCategory.studentAffairs,
-    RoleCategory.facilitiesSecurity,
-    RoleCategory.externalRoles,
-  },
   '/grades': {
     RoleCategory.studentRoles,
     RoleCategory.studentAffairs,

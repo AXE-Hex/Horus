@@ -14,7 +14,6 @@ import 'package:horus/features/feed/presentation/screens/feed_screen.dart';
 import 'package:horus/features/feed/domain/models/post_model.dart';
 import 'package:horus/features/onboarding/presentation/screens/colleges_screen.dart';
 import 'package:horus/features/students/presentation/screens/student_dashboard_screen.dart';
-import 'package:horus/features/staff/presentation/screens/staff_dashboard_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -68,23 +67,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
           icon: LucideIcons.layoutDashboard,
           label: t.extracted.dashboard,
           screen: const DashboardScreen(),
-        ),
-      );
-    }
-
-    final hasStaffDashboard =
-        role.isTeachingStaff ||
-        role.isLeadership ||
-        role == UserRole.registrarOfficer ||
-        role == UserRole.academicAdvisor ||
-        role == UserRole.librarian;
-
-    if (hasStaffDashboard) {
-      items.add(
-        _TabItem(
-          icon: LucideIcons.presentation,
-          label: t.extracted.dashboard,
-          screen: const StaffDashboardScreen(),
         ),
       );
     }
