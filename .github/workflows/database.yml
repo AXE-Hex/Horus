@@ -1,0 +1,50 @@
+name: Horus Database CI
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - ".github/workflows/database.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/**"
+      - ".github/workflows/database.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: horus-db-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  database:
+    name: Supabase Migration Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v3
+        with:
+          version: 2.118.0
+
+      - name: CLI version
+        run: supabase --version
+
+      - name: Start local database
+        run: supabase db start
+
+      - name: Rebuild database from migrations
+        run: supabase db reset
+
+      - name: Database lint
+        run: supabase db lint
+
+      - name: Database advisors
+        run: supabase db advisors --local

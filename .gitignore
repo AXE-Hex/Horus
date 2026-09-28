@@ -1,50 +1,111 @@
-# Miscellaneous
-*.class
-*.log
-*.pyc
-*.swp
-.DS_Store
-.atom/
-.build/
-.buildlog/
-.history
-.svn/
-.swiftpm/
-migrate_working_dir/
+# ============================================================
+# HORUS — Repository Ignore Policy
+# ============================================================
 
-# IntelliJ related
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors / IDE
+.idea/
 *.iml
 *.ipr
 *.iws
-.idea/
+.history/
+*.swp
+*.swo
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
-
-# Flutter/Dart/Pub related
-**/doc/api/
-**/ios/Flutter/.last_build_id
+# Dart / Flutter
 .dart_tool/
-.flutter-plugins-dependencies
-.pub-cache/
+.packages
 .pub/
-/build/
-/coverage/
+.pub-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+**/build/
+coverage/
+doc/api/
+**/ios/Flutter/.last_build_id
 
-# Symbolication related
+# Generated Dart sources — regenerated locally and in CI
+**/*.g.dart
+**/*.freezed.dart
+**/*.gr.dart
+**/*.gen.dart
+
+# Generated platform files
+**/Flutter/ephemeral/
+**/flutter/ephemeral/
+**/.plugin_symlinks/
+
+# Android local/build outputs
+android/.gradle/
+android/local.properties
+android/app/debug/
+android/app/profile/
+android/app/release/
+*.apk
+*.aab
+
+# Signing / certificates — never commit
+android/key.properties
+**/key.properties
+*.jks
+*.keystore
+*.p12
+*.mobileprovision
+*.cer
+*.pem
+*.key
+
+# Apple generated dependencies
+ios/Pods/
+macos/Pods/
+DerivedData/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.secret
+*.secrets
+secrets/
+
+# Supabase local runtime
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+supabase/.env.*
+supabase/functions/.env
+supabase/functions/.env.*
+
+# Database dumps / backups
+*.dump
+*.backup
+*.bak
+database-dumps/
+backups/
+
+# Logs / reports / temporary output
+*.log
+*.tmp
+*.temp
+audit_report.txt
+reports/local/
+tmp/
+temp/
+
+# Symbolication / obfuscation
 app.*.symbols
-
-# Obfuscation related
 app.*.map.json
 
-# Android Studio will place build artifacts here
-/android/app/debug
-/android/app/profile
-/android/app/release
-
-# Environment
-.env
-audit_report.txt
-*.py
+# Misc generated
+migrate_working_dir/
+.build/
+.buildlog/
+.swiftpm/
