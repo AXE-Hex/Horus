@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Running Horus pre-commit guard..."
+
+blocked_patterns=(
+  '(^|/)\.env($|\.)'
+  '(^|/)key\.properties$'
+  '(^|/)local\.properties$'
+  '\.(jks|keystore|p12|pem|key)$'
+  '(^|/)build/'
+  '(^|/)\.dart_tool/'
+  '(^|/)coverage/'
+  '\.g\.dart$'
+  '\.freezed\.dart$'
+  '\.gr\.dart$'
+  '\.gen\.dart$'
+)
+
+fail=0
+
+while IFS= read -r file; do
+  [[ "$file" == ".env.example" ]] && continue
+
+  for pattern in "${blocked_patterns[@]}"; do
+    if [[ "$file" =~ $pattern ]]; then
+      echo "Blocked staged file: $file"
+      fail=1
+      break
+    fi
+  done
+done < <(git diff --cached --name-only --diff-filter=ACMR)
+
+if [[ "$fail" -ne 0 ]]; then
+  echo "Commit blocked: generated, local, build, or sensitive files are staged."
+  exit 1
+fi
+
+echo "Pre-commit guard passed."

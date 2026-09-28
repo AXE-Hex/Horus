@@ -1,0 +1,144 @@
+name: Horus CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: horus-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: "3.38.7"
+
+jobs:
+  quality:
+    name: Quality and Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Tool versions
+        run: |
+          flutter --version
+          dart --version
+          java -version
+
+      - name: Repository hygiene
+        run: bash tool/ci/repository_hygiene.sh
+
+      - name: Install dependencies and generate code
+        run: bash tool/generate.sh
+
+      - name: Verify lockfile is stable
+        run: git diff --exit-code -- pubspec.lock
+
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: flutter analyze --fatal-warnings
+
+      - name: Custom lint
+        run: dart run custom_lint
+
+      - name: Tests with coverage
+        run: flutter test --coverage
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: flutter-coverage
+          path: coverage/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  web-build:
+    name: Web Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: quality
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: bash tool/generate.sh
+
+      - name: Build web
+        run: >
+          flutter build web --release
+          --dart-define=BUILD_FINGERPRINT=CI
+          --dart-define=COMMIT_HASH=${{ github.sha }}
+          --dart-define=BUILD_TIMESTAMP=${{ github.run_id }}
+
+      - name: Upload web artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: horus-web-${{ github.sha }}
+          path: build/web/
+          retention-days: 7
+
+  android-build:
+    name: Android Debug Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    needs: quality
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - run: bash tool/generate.sh
+
+      - name: Build debug APK
+        run: >
+          flutter build apk --debug
+          --dart-define=BUILD_FINGERPRINT=CI
+          --dart-define=COMMIT_HASH=${{ github.sha }}
+          --dart-define=BUILD_TIMESTAMP=${{ github.run_id }}
+
+      - name: Upload Android artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: horus-android-debug-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 7
