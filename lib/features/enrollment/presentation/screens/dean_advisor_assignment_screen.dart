@@ -33,7 +33,7 @@ class _DeanAdvisorAssignmentScreenState
     final isGlass = appStyle.value == AppStyle.glass;
 
     final auth = ref.watch(authControllerProvider);
-    final collegeId = auth.user?.userMetadata?['college_id'] as String? ?? '';
+    final collegeId = auth.profile?.collegeId ?? '';
 
     final studentsAsync = ref.watch(collegeStudentsProvider(collegeId));
     final advisorsAsync = ref.watch(collegeAdvisorsProvider(collegeId));
@@ -165,15 +165,13 @@ class _DeanAdvisorAssignmentScreenState
               ),
               data: (students) {
                 var filtered = students.where((s) {
-                  final name = (s['full_name'] as String? ?? '').toLowerCase();
-                  final idNum = (s['student_id'] as String? ?? '')
-                      .toLowerCase();
+                  final name = s.fullName.toLowerCase();
+                  final idNum = (s.studentNumber ?? '').toLowerCase();
                   final matchesSearch =
                       _searchQuery.isEmpty ||
                       name.contains(_searchQuery) ||
                       idNum.contains(_searchQuery);
-                  final matchesFilter =
-                      !_onlyUnassigned || s['advisor_id'] == null;
+                  final matchesFilter = !_onlyUnassigned || s.advisorId == null;
                   return matchesSearch && matchesFilter;
                 }).toList();
 
@@ -230,16 +228,16 @@ class _DeanAdvisorAssignmentScreenState
   }
 
   Widget _buildStudentCard(
-    Map<String, dynamic> student,
+    AdvisorStudent student,
     List<AdvisorInfo> advisors,
     bool isArabic,
     bool isGlass,
     int index,
   ) {
-    final studentId = student['id'] as String;
-    final studentName = student['full_name'] as String? ?? '—';
-    final studentIdNum = student['student_id'] as String? ?? '';
-    final currentAdvisorId = student['advisor_id'] as String?;
+    final studentId = student.id;
+    final studentName = student.fullName;
+    final studentIdNum = student.studentNumber ?? '';
+    final currentAdvisorId = student.advisorId;
 
     final currentAdvisor = advisors
         .where((a) => a.id == currentAdvisorId)

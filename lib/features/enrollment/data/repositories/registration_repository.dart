@@ -1,6 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/core/config/supabase_client.dart';
+import 'package:horus/core/data/db_row.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
+import 'package:horus/features/enrollment/domain/registration_eligibility.dart';
 import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -16,23 +18,18 @@ class RegistrationRepository {
   Future<List<Course>> fetchCoursesBySemester(String semester) async {
     final response = await _supabase
         .from('courses')
-        .select('*')
+        .select('''
+          *,
+          course_prerequisites!course_prerequisites_course_id_fkey(
+            minimum_grade,
+            prerequisite_course:courses!course_prerequisites_prerequisite_course_id_fkey(
+              id, code, name_en, name_ar
+            )
+          )
+        ''')
         .eq('is_active', true);
     return (response as List)
-        .map(
-          (json) => Course(
-            id: json['id'],
-            code: json['code'],
-            name: json['name'],
-            nameAr: json['name_ar'],
-            description: json['description'],
-            descriptionAr: json['description_ar'],
-            credits: json['credits'],
-            departmentId: json['department_id'],
-            prerequisites: List<String>.from(json['prerequisites'] ?? []),
-            isActive: json['is_active'],
-          ),
-        )
+        .map((json) => Course.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
@@ -43,14 +40,14 @@ class RegistrationRepository {
         .eq('semester', semester);
 
     final names = (response as List)
-        .map((e) => e['name'] as String)
+        .map((e) => DbRow(e, context: 'course_sections').requiredString('name'))
         .toSet()
         .toList();
     names.sort();
     return names;
   }
 
-  Future<List<Map<String, dynamic>>> fetchSectionsByCourse(
+  Future<List<ScheduleOption>> fetchSectionsByCourse(
     String courseId,
     String semester,
   ) async {
@@ -60,7 +57,9 @@ class RegistrationRepository {
         .eq('course_id', courseId)
         .eq('semester', semester);
 
-    return List<Map<String, dynamic>>.from(response);
+    return (response as List)
+        .map((row) => ScheduleOption.fromJson(Map<String, dynamic>.from(row)))
+        .toList();
   }
 
   Future<List<String>> fetchSubSections(
@@ -75,7 +74,11 @@ class RegistrationRepository {
 
     if ((sectionsResp as List).isEmpty) return [];
 
-    final sectionIds = sectionsResp.map((e) => e['id']).toList();
+    final sectionIds = (sectionsResp as List)
+        .map(
+          (row) => DbRow(row, context: 'course_sections').requiredString('id'),
+        )
+        .toList();
 
     final subSectionsResp = await _supabase
         .from('course_sub_sections')
@@ -83,7 +86,10 @@ class RegistrationRepository {
         .inFilter('section_id', sectionIds);
 
     final names = (subSectionsResp as List)
-        .map((e) => e['name'] as String)
+        .map(
+          (row) =>
+              DbRow(row, context: 'course_sub_sections').requiredString('name'),
+        )
         .toSet()
         .toList();
     names.sort();
@@ -110,13 +116,18 @@ class RegistrationRepository {
     }
   }
 
-  Future<List<Map<String, dynamic>>> getTranscript(String studentId) async {
+  Future<List<CompletedCourseGrade>> getTranscript(String studentId) async {
     final response = await _supabase
         .from('grades')
-        .select('*, courses(code)')
+        .select('total, courses(code)')
         .eq('student_id', studentId)
         .eq('is_published', true);
-    return List<Map<String, dynamic>>.from(response);
+    return (response as List)
+        .map(
+          (row) =>
+              CompletedCourseGrade.fromJson(Map<String, dynamic>.from(row)),
+        )
+        .toList();
   }
 
   Future<Map<String, bool>> checkPrerequisites(
@@ -124,26 +135,22 @@ class RegistrationRepository {
     List<Course> courses,
   ) async {
     final transcript = await getTranscript(studentId);
-    final passedCourseCodes = transcript
-        .where((g) => (g['total_score'] ?? 0) >= 50)
-        .map((g) => g['courses']['code'] as String)
-        .toSet();
-
-    final Map<String, bool> lockedStatus = {};
-
-    for (final course in courses) {
-      if (course.prerequisites.isEmpty) {
-        lockedStatus[course.id] = false;
-        continue;
+    final gradesByCourseCode = <String, double>{};
+    for (final grade in transcript) {
+      final code = grade.courseCode;
+      final total = grade.total;
+      if (code != null && total != null) {
+        final previous = gradesByCourseCode[code];
+        if (previous == null || total > previous) {
+          gradesByCourseCode[code] = total;
+        }
       }
-
-      final hasAllPrereqs = course.prerequisites.every(
-        (prereqCode) => passedCourseCodes.contains(prereqCode),
-      );
-      lockedStatus[course.id] = !hasAllPrereqs;
     }
 
-    return lockedStatus;
+    return RegistrationEligibility.evaluatePrerequisites(
+      courses: courses,
+      completedGradesByCourseCode: gradesByCourseCode,
+    );
   }
 
   Future<void> registerStudent(
@@ -164,7 +171,7 @@ class RegistrationRepository {
   Future<void> registerCourseSections(
     String studentId,
     String semester,
-    List<Map<String, dynamic>> registrations,
+    List<RegistrationCourseSelection> registrations,
   ) async {
     await _supabase
         .from('student_course_registrations')
@@ -179,12 +186,12 @@ class RegistrationRepository {
         .insert(
           registrations
               .map(
-                (r) => {
+                (registration) => {
                   'student_id': studentId,
-                  'course_id': r['course_id'],
+                  'course_id': registration.courseId,
                   'semester': semester,
-                  'section_name': r['section_name'],
-                  'sub_section_name': r['sub_section_name'],
+                  'section_name': registration.sectionName,
+                  'sub_section_name': registration.subSectionName,
                   'registered_at': DateTime.now().toIso8601String(),
                 },
               )

@@ -179,8 +179,8 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
     int index,
   ) {
     final statusColor = _statusColor(request.status);
-    final studentName = request.studentProfile?['full_name'] as String? ?? '—';
-    final studentIdNum = request.studentProfile?['student_id'] as String? ?? '';
+    final studentName = request.studentProfile?.fullName ?? '—';
+    final studentIdNum = request.studentProfile?.studentNumber ?? '';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),

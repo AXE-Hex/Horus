@@ -8,48 +8,49 @@ class ProfileDirectoryRepository {
 
   ProfileDirectoryRepository(this._client);
 
-  Stream<List<DirectoryProfileModel>> watchProfiles({
+  Future<List<DirectoryProfileModel>> watchProfiles({
     RoleCategory? category,
     UserRole? role,
-  }) {
-    final stream = _client.from('profiles').stream(primaryKey: ['id']);
+  }) async {
+    final response = await _client
+        .from('profile_directory')
+        .select()
+        .order('created_at', ascending: false);
+    var profiles = (response as List)
+        .map((json) => DirectoryProfileModel.fromJson(json))
+        .toList();
 
-    return stream.order('created_at', ascending: false).map((list) {
-      var profiles = list
-          .map((json) => DirectoryProfileModel.fromJson(json))
+    if (role != null) {
+      profiles = profiles
+          .where((profile) => profile.roles.contains(role))
           .toList();
-
-      if (role != null) {
-        profiles = profiles.where((profile) => profile.roles.contains(role)).toList();
-      } else if (category != null) {
-        profiles = profiles
-            .where(
-              (profile) => profile.roles.any(
-                (profileRole) => category.roles.contains(profileRole),
-              ),
-            )
-            .toList();
-      }
-
-      return profiles;
-    });
+    } else if (category != null) {
+      profiles = profiles
+          .where(
+            (profile) => profile.roles.any(
+              (profileRole) => category.roles.contains(profileRole),
+            ),
+          )
+          .toList();
+    }
+    return profiles;
   }
 }
 
-final profileDirectoryRepositoryProvider =
-    Provider<ProfileDirectoryRepository>((ref) {
-      return ProfileDirectoryRepository(Supabase.instance.client);
-    });
+final profileDirectoryRepositoryProvider = Provider<ProfileDirectoryRepository>(
+  (ref) {
+    return ProfileDirectoryRepository(Supabase.instance.client);
+  },
+);
 
 final profileDirectoryProvider =
-    StreamProvider.family<List<DirectoryProfileModel>, ProfileDirectoryFilter>((
+    FutureProvider.family<List<DirectoryProfileModel>, ProfileDirectoryFilter>((
       ref,
       filter,
     ) {
-      return ref.watch(profileDirectoryRepositoryProvider).watchProfiles(
-            category: filter.category,
-            role: filter.role,
-          );
+      return ref
+          .watch(profileDirectoryRepositoryProvider)
+          .watchProfiles(category: filter.category, role: filter.role);
     });
 
 class ProfileDirectoryFilter {

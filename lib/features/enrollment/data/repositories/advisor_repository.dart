@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/core/config/supabase_client.dart';
+import 'package:horus/core/data/db_row.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -23,7 +24,7 @@ class AdvisorRepository {
           .select('''
             *,
             registration_request_courses(*, courses(*)),
-            student:profiles!student_id(id, full_name, email, avatar_url, student_id)
+            student:profiles!student_id(id, full_name, avatar_url)
           ''')
           .eq('advisor_id', _currentUserId)
           .order('submitted_at', ascending: false);
@@ -64,16 +65,19 @@ class AdvisorRepository {
         .eq('id', requestId);
   }
 
-  Future<List<Map<String, dynamic>>> getAdvisorStudents() async {
+  Future<List<AdvisorStudent>> getAdvisorStudents() async {
     try {
-      final response = await _supabase
-          .from('profiles')
-          .select(
-            'id, full_name, email, student_id, avatar_url, department_id, college_id',
-          )
-          .eq('advisor_id', _currentUserId)
-          .order('full_name');
-      return List<Map<String, dynamic>>.from(response);
+      final response = await _supabase.rpc(
+        'get_advisor_directory',
+        params: {
+          'p_college_id': null,
+          'p_assigned_to_me': true,
+          'p_unassigned_only': false,
+        },
+      );
+      return (response as List)
+          .map((row) => AdvisorStudent.fromJson(Map<String, dynamic>.from(row)))
+          .toList();
     } catch (e) {
       debugPrint('getAdvisorStudents error: $e');
       return [];
@@ -83,36 +87,35 @@ class AdvisorRepository {
   Future<List<AdvisorInfo>> getCollegeAdvisors(String collegeId) async {
     try {
       final response = await _supabase
-          .from('profiles')
-          .select('id, full_name, email, avatar_url')
-          .contains('roles', ['academic_advisor'])
+          .from('profile_directory')
+          .select('id, full_name, avatar_url')
+          .contains('role_codes', ['academic_advisor'])
           .eq('college_id', collegeId);
-      return (response as List).map((j) => AdvisorInfo.fromJson(j)).toList();
+      return (response as List)
+          .map((j) => AdvisorInfo.fromJson(Map<String, dynamic>.from(j)))
+          .toList();
     } catch (e) {
       debugPrint('getCollegeAdvisors error: $e');
       return [];
     }
   }
 
-  Future<List<Map<String, dynamic>>> getCollegeStudents(
+  Future<List<AdvisorStudent>> getCollegeStudents(
     String collegeId, {
     bool unassignedOnly = false,
   }) async {
     try {
-      var query = _supabase
-          .from('profiles')
-          .select(
-            'id, full_name, email, student_id, avatar_url, advisor_id, department_id',
-          )
-          .eq('college_id', collegeId)
-          .contains('roles', ['student']);
-
-      if (unassignedOnly) {
-        query = query.isFilter('advisor_id', null);
-      }
-
-      final response = await query.order('full_name');
-      return List<Map<String, dynamic>>.from(response);
+      final response = await _supabase.rpc(
+        'get_advisor_directory',
+        params: {
+          'p_college_id': collegeId,
+          'p_assigned_to_me': false,
+          'p_unassigned_only': unassignedOnly,
+        },
+      );
+      return (response as List)
+          .map((row) => AdvisorStudent.fromJson(Map<String, dynamic>.from(row)))
+          .toList();
     } catch (e) {
       debugPrint('getCollegeStudents error: $e');
       return [];
@@ -123,37 +126,37 @@ class AdvisorRepository {
     required String studentId,
     required String advisorId,
   }) async {
-    await _supabase
-        .from('profiles')
-        .update({'advisor_id': advisorId})
-        .eq('id', studentId);
+    await _supabase.rpc(
+      'assign_student_advisor',
+      params: {'p_student_id': studentId, 'p_advisor_id': advisorId},
+    );
   }
 
   Future<void> removeAdvisorFromStudent(String studentId) async {
-    await _supabase
-        .from('profiles')
-        .update({'advisor_id': null})
-        .eq('id', studentId);
+    await _supabase.rpc(
+      'assign_student_advisor',
+      params: {'p_student_id': studentId, 'p_advisor_id': null},
+    );
   }
 
   Future<AdvisorInfo?> getMyAdvisor() async {
     try {
-      final profile = await _supabase
-          .from('profiles')
-          .select('advisor_id')
-          .eq('id', _currentUserId)
-          .single();
+      final profileRows = await _supabase.rpc('get_my_profile_private');
+      final profile = DbRow(
+        (profileRows as List).single,
+        context: 'private profile',
+      );
 
-      final advisorId = profile['advisor_id'];
+      final advisorId = profile.optionalString('advisor_id');
       if (advisorId == null) return null;
 
       final advisor = await _supabase
           .from('profiles')
-          .select('id, full_name, email, avatar_url')
+          .select('id, full_name, avatar_url')
           .eq('id', advisorId)
           .single();
 
-      return AdvisorInfo.fromJson(advisor);
+      return AdvisorInfo.fromJson(Map<String, dynamic>.from(advisor));
     } catch (e) {
       debugPrint('getMyAdvisor error: $e');
       return null;
@@ -162,15 +165,15 @@ class AdvisorRepository {
 
   Future<RegistrationRequest> submitRegistrationRequest({
     required String semester,
-    required List<Map<String, dynamic>> courses,
+    required List<RegistrationCourseSelection> courses,
   }) async {
-    final profile = await _supabase
-        .from('profiles')
-        .select('advisor_id')
-        .eq('id', _currentUserId)
-        .single();
+    final profileRows = await _supabase.rpc('get_my_profile_private');
+    final profile = DbRow(
+      (profileRows as List).single,
+      context: 'private profile',
+    );
 
-    final advisorId = profile['advisor_id'];
+    final advisorId = profile.optionalString('advisor_id');
 
     await _supabase
         .from('registration_requests')
@@ -191,7 +194,10 @@ class AdvisorRepository {
         .select()
         .single();
 
-    final requestId = requestData['id'];
+    final requestId = DbRow(
+      requestData,
+      context: 'registration_requests',
+    ).requiredString('id');
 
     if (courses.isNotEmpty) {
       await _supabase
@@ -199,11 +205,11 @@ class AdvisorRepository {
           .insert(
             courses
                 .map(
-                  (c) => {
+                  (course) => {
                     'request_id': requestId,
-                    'course_id': c['course_id'],
-                    'section_name': c['section_name'],
-                    'sub_section_name': c['sub_section_name'],
+                    'course_id': course.courseId,
+                    'section_name': course.sectionName,
+                    'sub_section_name': course.subSectionName,
                   },
                 )
                 .toList(),
@@ -226,7 +232,7 @@ class AdvisorRepository {
           .select('''
             *,
             registration_request_courses(*, courses(*)),
-            advisor:profiles!advisor_id(id, full_name, email, avatar_url)
+            advisor:profiles!advisor_id(id, full_name, avatar_url)
           ''')
           .eq('student_id', _currentUserId)
           .eq('semester', semester)

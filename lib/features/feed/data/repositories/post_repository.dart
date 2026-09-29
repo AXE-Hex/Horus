@@ -8,6 +8,20 @@ final postRepositoryProvider = Provider((ref) {
   return PostRepository(Supabase.instance.client);
 });
 
+String postMediaObjectPath({
+  required String userId,
+  required DateTime timestamp,
+  required String extension,
+}) {
+  final normalizedExtension = extension.toLowerCase();
+  final suffix = normalizedExtension.isEmpty
+      ? ''
+      : normalizedExtension.startsWith('.')
+      ? normalizedExtension
+      : '.$normalizedExtension';
+  return '$userId/${timestamp.millisecondsSinceEpoch}$suffix';
+}
+
 class PostRepository {
   final SupabaseClient _supabase;
   SupabaseClient get supabase => _supabase;
@@ -19,7 +33,7 @@ class PostRepository {
 
     var query = _supabase.from('posts').select('''
           *,
-          profiles!posts_author_id_fkey(full_name, avatar_url, roles),
+          profiles!posts_author_id_fkey(full_name, avatar_url),
           colleges(name_en, name_ar),
           departments(name_en, name_ar),
           post_likes(user_id)
@@ -31,15 +45,16 @@ class PostRepository {
         .order('created_at', ascending: false)
         .range(offset, offset + limit - 1);
 
-    return (response as List<dynamic>).map((e) {
+    final posts = (response as List<dynamic>).map((e) async {
       final map = Map<String, dynamic>.from(e as Map);
 
       if (userId != null && map['post_likes'] != null) {
         final likes = map['post_likes'] as List;
         map['post_likes'] = likes.where((l) => l['user_id'] == userId).toList();
       }
-      return PostModel.fromJson(map);
-    }).toList();
+      return _withSignedMedia(map);
+    });
+    return Future.wait(posts);
   }
 
   Future<void> likePost(String postId) async {
@@ -61,7 +76,7 @@ class PostRepository {
   Future<List<CommentModel>> getComments(String postId) async {
     final response = await _supabase
         .from('post_comments')
-        .select('*, profiles(full_name, avatar_url, roles)')
+        .select('*, profiles(full_name, avatar_url)')
         .eq('post_id', postId)
         .order('created_at', ascending: true);
 
@@ -84,7 +99,7 @@ class PostRepository {
           'content': content,
           'parent_id': parentId,
         })
-        .select('*, profiles(full_name, avatar_url, roles)')
+        .select('*, profiles(full_name, avatar_url)')
         .single();
 
     return CommentModel.fromJson(response);
@@ -115,23 +130,30 @@ class PostRepository {
         .eq('id', postId)
         .select('''
           *,
-          profiles!posts_author_id_fkey(full_name, avatar_url, roles),
+          profiles!posts_author_id_fkey(full_name, avatar_url),
           colleges(name_en, name_ar),
           departments(name_en, name_ar)
         ''')
         .single();
 
-    return PostModel.fromJson(response);
+    return _withSignedMedia(Map<String, dynamic>.from(response));
   }
 
-  Future<String?> uploadMedia(File file, String userId) async {
-    final ext = p.extension(file.path);
-    final fileName = '${DateTime.now().millisecondsSinceEpoch}$ext';
-    final path = '$userId/$fileName';
+  Future<String?> uploadMedia(File file) async {
+    final userId = _supabase.auth.currentUser?.id;
+    if (userId == null) {
+      throw StateError('Authentication is required to upload post media.');
+    }
+    final ext = p.extension(file.path).toLowerCase();
+    final path = postMediaObjectPath(
+      userId: userId,
+      timestamp: DateTime.now(),
+      extension: ext,
+    );
 
     await _supabase.storage.from('post_media').upload(path, file);
 
-    return _supabase.storage.from('post_media').getPublicUrl(path);
+    return path;
   }
 
   Future<PostModel> createPost({
@@ -157,12 +179,40 @@ class PostRepository {
         })
         .select('''
           *,
-          profiles!posts_author_id_fkey(full_name, avatar_url, roles),
+          profiles!posts_author_id_fkey(full_name, avatar_url),
           colleges(name_en, name_ar),
           departments(name_en, name_ar)
         ''')
         .single();
 
-    return PostModel.fromJson(response);
+    return _withSignedMedia(Map<String, dynamic>.from(response));
+  }
+
+  Future<PostModel> _withSignedMedia(Map<String, dynamic> row) async {
+    final storedPaths = row['media_urls'] as List<dynamic>? ?? const [];
+    final signedUrls = <String>[];
+    for (final value in storedPaths) {
+      final path = _postMediaPath(value.toString());
+      if (path == null) {
+        signedUrls.add(value.toString());
+      } else {
+        signedUrls.add(
+          await _supabase.storage
+              .from('post_media')
+              .createSignedUrl(path, 3600),
+        );
+      }
+    }
+    row['media_urls'] = signedUrls;
+    return PostModel.fromJson(row);
+  }
+
+  String? _postMediaPath(String value) {
+    const publicPath = '/storage/v1/object/public/post_media/';
+    final index = value.indexOf(publicPath);
+    if (index >= 0) return value.substring(index + publicPath.length);
+    final uri = Uri.tryParse(value);
+    if (uri != null && uri.hasScheme) return null;
+    return value;
   }
 }

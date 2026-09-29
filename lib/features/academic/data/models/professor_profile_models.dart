@@ -1,3 +1,5 @@
+import 'package:horus/features/shared/data/models/shared_records.dart';
+
 class ProfessorProfile {
   final String id;
   final String name;
@@ -12,7 +14,7 @@ class ProfessorProfile {
   final List<TeachingAssistant> teachingAssistants;
   final List<StudentGroup> groups;
   final List<ProfessorAnnouncement> announcements;
-  final List<SharedFile> sharedFiles;
+  final List<SharedFileRecord> sharedFiles;
   final List<OfficeHour> officeHours;
 
   ProfessorProfile({
@@ -76,22 +78,6 @@ class ProfessorAnnouncement {
     required this.content,
     required this.date,
     this.isUrgent = false,
-  });
-}
-
-class SharedFile {
-  final String id;
-  final String title;
-  final String fileType;
-  final String size;
-  final DateTime uploadDate;
-
-  SharedFile({
-    required this.id,
-    required this.title,
-    required this.fileType,
-    required this.size,
-    required this.uploadDate,
   });
 }
 

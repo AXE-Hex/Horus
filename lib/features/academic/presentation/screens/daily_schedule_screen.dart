@@ -12,6 +12,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/features/academic/data/models/academic_records.dart';
 import 'package:intl/intl.dart';
 
 class DailyScheduleScreen extends HookConsumerWidget {
@@ -50,7 +51,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
       data: (allSlots) {
         final filteredSlots = allSlots.where((slot) {
           if (selectedDay.value == 'all') return true;
-          return (slot['day'] as String).toLowerCase() == selectedDay.value;
+          return slot.day.name.toLowerCase() == selectedDay.value;
         }).toList();
 
         final body = CustomScrollView(
@@ -210,7 +211,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
 }
 
 class _ScheduleItem extends StatelessWidget {
-  final Map<String, dynamic> slot;
+  final StudentScheduleRecord slot;
   final DateTime currentTime;
   final bool isArabic;
   final int index;
@@ -224,9 +225,9 @@ class _ScheduleItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final startTimeStr = slot['startTime'] as String;
-    final endTimeStr = slot['endTime'] as String;
-    final color = slot['color'] as Color;
+    final startTimeStr = slot.startTime.substring(0, 5);
+    final endTimeStr = slot.endTime.substring(0, 5);
+    final color = _scheduleColor(slot.scheduleType);
 
     final startParts = startTimeStr.split(':');
     final endParts = endTimeStr.split(':');
@@ -338,7 +339,7 @@ class _ScheduleItem extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              _buildTypeBadge(slot['type'] as String, color),
+                              _buildTypeBadge(slot.scheduleType, color),
                               if (isActive)
                                 _buildLiveIndicator(color)
                               else if (isPast)
@@ -351,15 +352,11 @@ class _ScheduleItem extends StatelessWidget {
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            (isArabic
-                                    ? (slot['courses']?['name_ar'] ??
-                                          slot['courses']?['name'] ??
-                                          slot['subject'] ??
-                                          '')
-                                    : (slot['courses']?['name'] ??
-                                          slot['subject'] ??
-                                          ''))
-                                as String,
+                            isArabic
+                                ? (slot.course?.nameAr ??
+                                      slot.course?.nameEn ??
+                                      '')
+                                : (slot.course?.nameEn ?? ''),
                             style: GoogleFonts.outfit(
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
@@ -376,7 +373,7 @@ class _ScheduleItem extends StatelessWidget {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                slot['instructor'] as String,
+                                slot.course?.instructorName ?? '—',
                                 style: GoogleFonts.inter(
                                   color: isPast
                                       ? Colors.white10
@@ -392,7 +389,7 @@ class _ScheduleItem extends StatelessWidget {
                             children: [
                               _buildDetailChip(
                                 LucideIcons.mapPin,
-                                slot['room'] as String,
+                                slot.room ?? '—',
                                 isPast,
                               ),
                             ],
@@ -434,8 +431,16 @@ class _ScheduleItem extends StatelessWidget {
         .slideX(begin: 0.1, end: 0);
   }
 
-  Widget _buildTypeBadge(String type, Color color) {
-    final isLecture = type == 'type_lecture';
+  Color _scheduleColor(ScheduleType type) => switch (type) {
+    ScheduleType.lecture => const Color(0xFF6366F1),
+    ScheduleType.lab => const Color(0xFF10B981),
+    ScheduleType.tutorial => const Color(0xFFF59E0B),
+    ScheduleType.online => const Color(0xFF8B5CF6),
+    ScheduleType.unknown => Colors.blueGrey,
+  };
+
+  Widget _buildTypeBadge(ScheduleType type, Color color) {
+    final isLecture = type == ScheduleType.lecture;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(

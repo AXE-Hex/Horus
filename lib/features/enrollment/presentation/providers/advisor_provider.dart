@@ -50,9 +50,7 @@ final pendingRequestCountProvider = FutureProvider<int>((ref) {
   return ref.read(advisorRepositoryProvider).getPendingRequestCount();
 });
 
-final advisorStudentsProvider = FutureProvider<List<Map<String, dynamic>>>((
-  ref,
-) {
+final advisorStudentsProvider = FutureProvider<List<AdvisorStudent>>((ref) {
   return ref.read(advisorRepositoryProvider).getAdvisorStudents();
 });
 
@@ -62,7 +60,7 @@ final collegeAdvisorsProvider =
     });
 
 final collegeStudentsProvider =
-    FutureProvider.family<List<Map<String, dynamic>>, String>((ref, collegeId) {
+    FutureProvider.family<List<AdvisorStudent>, String>((ref, collegeId) {
       return ref.read(advisorRepositoryProvider).getCollegeStudents(collegeId);
     });
 

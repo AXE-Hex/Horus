@@ -1,4 +1,5 @@
 import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/data/db_row.dart';
 
 enum PostType { text, image, video, link, announcement }
 
@@ -51,51 +52,35 @@ class PostModel {
   });
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
-    final profile = json['profiles'] as Map<String, dynamic>?;
-    final college = json['colleges'] as Map<String, dynamic>?;
-    final department = json['departments'] as Map<String, dynamic>?;
+    final row = DbRow(json, context: 'posts');
+    final profile = row.optionalRow('profiles');
+    final college = row.optionalRow('colleges');
+    final department = row.optionalRow('departments');
 
-    UserRole? parsedRole;
-    if (profile?['role'] != null) {
-      parsedRole = UserRoleX.fromDbString(profile!['role'] as String);
-    } else if (profile?['roles'] != null) {
-      final roles = profile!['roles'] as List;
-      if (roles.isNotEmpty) {
-        parsedRole = UserRoleX.fromDbString(roles.first as String);
-      }
-    }
-
-    final mediaList = json['media_urls'] as List<dynamic>? ?? [];
-
-    final likes = json['post_likes'] as List<dynamic>?;
-    final isLiked = likes != null && likes.isNotEmpty;
+    const UserRole? parsedRole = null;
+    final likes = row.rowsOrEmpty('post_likes');
 
     return PostModel(
-      id: json['id'] as String,
-      authorId: json['author_id'] as String,
-      collegeId: json['college_id'] as String?,
-      departmentId: json['department_id'] as String?,
-      content: json['content'] as String,
-      mediaUrls: mediaList.map((e) => e.toString()).toList(),
-      linkUrl: json['link_url'] as String?,
-      type: PostType.values.firstWhere(
-        (e) => e.name == json['type'],
-        orElse: () => PostType.text,
-      ),
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      likesCount: json['likes_count'] as int? ?? 0,
-      commentsCount: json['comments_count'] as int? ?? 0,
-      isLiked: isLiked,
-      authorName: profile?['full_name'] as String?,
-      authorAvatarUrl: profile?['avatar_url'] as String?,
+      id: row.requiredString('id'),
+      authorId: row.requiredString('author_id'),
+      collegeId: row.optionalString('college_id'),
+      departmentId: row.optionalString('department_id'),
+      content: row.requiredString('content'),
+      mediaUrls: row.stringsOrEmpty('media_urls'),
+      linkUrl: row.optionalString('link_url'),
+      type: row.enumValue('type', PostType.values, PostType.text),
+      createdAt: row.requiredDateTime('created_at'),
+      updatedAt: row.requiredDateTime('updated_at'),
+      likesCount: row.intOr('likes_count', 0),
+      commentsCount: row.intOr('comments_count', 0),
+      isLiked: likes.isNotEmpty,
+      authorName: profile?.optionalString('full_name'),
+      authorAvatarUrl: profile?.optionalString('avatar_url'),
       authorRole: parsedRole,
-      collegeNameEn:
-          college?['name_en'] as String? ?? college?['name'] as String?,
-      collegeNameAr: college?['name_ar'] as String?,
-      departmentNameEn:
-          department?['name_en'] as String? ?? department?['name'] as String?,
-      departmentNameAr: department?['name_ar'] as String?,
+      collegeNameEn: college?.optionalString('name_en'),
+      collegeNameAr: college?.optionalString('name_ar'),
+      departmentNameEn: department?.optionalString('name_en'),
+      departmentNameAr: department?.optionalString('name_ar'),
     );
   }
 
@@ -144,28 +129,21 @@ class CommentModel {
   });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) {
-    final profile = json['profiles'] as Map<String, dynamic>?;
+    final row = DbRow(json, context: 'post_comments');
+    final profile = row.optionalRow('profiles');
 
-    UserRole? parsedRole;
-    if (profile?['role'] != null) {
-      parsedRole = UserRoleX.fromDbString(profile!['role'] as String);
-    } else if (profile?['roles'] != null) {
-      final roles = profile!['roles'] as List;
-      if (roles.isNotEmpty) {
-        parsedRole = UserRoleX.fromDbString(roles.first as String);
-      }
-    }
+    const UserRole? parsedRole = null;
 
     return CommentModel(
-      id: json['id'] as String,
-      postId: json['post_id'] as String,
-      authorId: json['author_id'] as String,
-      content: json['content'] as String,
-      parentId: json['parent_id'] as String?,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
-      authorName: profile?['full_name'] as String?,
-      authorAvatarUrl: profile?['avatar_url'] as String?,
+      id: row.requiredString('id'),
+      postId: row.requiredString('post_id'),
+      authorId: row.requiredString('author_id'),
+      content: row.requiredString('content'),
+      parentId: row.optionalString('parent_id'),
+      createdAt: row.requiredDateTime('created_at'),
+      updatedAt: row.requiredDateTime('updated_at'),
+      authorName: profile?.optionalString('full_name'),
+      authorAvatarUrl: profile?.optionalString('avatar_url'),
       authorRole: parsedRole,
     );
   }

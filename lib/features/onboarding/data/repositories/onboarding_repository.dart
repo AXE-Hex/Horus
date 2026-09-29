@@ -7,7 +7,7 @@ class OnboardingRepository extends BaseRepository {
     final result = await client
         .from('colleges')
         .select('*, profiles:dean_id(full_name, full_name_ar, avatar_url)')
-        .order('name');
+        .order('name_en');
     return List<Map<String, dynamic>>.from(result);
   }
 
@@ -25,7 +25,7 @@ class OnboardingRepository extends BaseRepository {
         .from('departments')
         .select('*, profiles:hod_id(full_name, full_name_ar, avatar_url)')
         .eq('college_id', collegeId)
-        .order('name');
+        .order('name_en');
     return List<Map<String, dynamic>>.from(result);
   }
 
@@ -34,8 +34,8 @@ class OnboardingRepository extends BaseRepository {
         .from('departments')
         .select('''
           *,
-          profiles:hod_id(full_name, full_name_ar, email, avatar_url, bio),
-          colleges(name, name_ar, code)
+          profiles:hod_id(full_name, full_name_ar, avatar_url),
+          colleges(name_en, name_ar, code)
         ''')
         .eq('id', departmentId)
         .single();
@@ -47,9 +47,7 @@ class OnboardingRepository extends BaseRepository {
   ) async {
     final result = await client
         .from('professor_details')
-        .select(
-          '*, profiles(full_name, full_name_ar, email, avatar_url, roles)',
-        )
+        .select('*, profiles(full_name, full_name_ar, avatar_url)')
         .eq('department_id', departmentId)
         .order('created_at');
     return List<Map<String, dynamic>>.from(result);

@@ -26,21 +26,12 @@ DROP POLICY IF EXISTS "Users can delete their own post_media"     ON storage.obj
 -- 2. TRIGGERS
 -- ══════════════════════════════════════════════════════════════════════════════
 
-DROP TRIGGER IF EXISTS on_profile_college_dept_change     ON public.profiles;
+-- Every application-table trigger below is removed automatically when its
+-- owning table is dropped with CASCADE. Do not issue DROP TRIGGER against
+-- public tables here: IF EXISTS does not protect a missing target relation on
+-- a fresh database. auth.users survives this teardown, so its trigger must be
+-- dropped explicitly while the Supabase Auth relation exists.
 DROP TRIGGER IF EXISTS on_auth_user_created               ON auth.users;
-DROP TRIGGER IF EXISTS profiles_updated_at                ON public.profiles;
-DROP TRIGGER IF EXISTS colleges_updated_at                ON public.colleges;
-DROP TRIGGER IF EXISTS departments_updated_at             ON public.departments;
-DROP TRIGGER IF EXISTS courses_updated_at                 ON public.courses;
-DROP TRIGGER IF EXISTS grades_updated_at                  ON public.grades;
-DROP TRIGGER IF EXISTS grades_metrics_trigger             ON public.grades;
-DROP TRIGGER IF EXISTS on_request_approved                ON public.registration_requests;
-DROP TRIGGER IF EXISTS registration_requests_updated_at   ON public.registration_requests;
-DROP TRIGGER IF EXISTS posts_updated_at                   ON public.posts;
-DROP TRIGGER IF EXISTS conversations_updated_at           ON public.conversations;
-DROP TRIGGER IF EXISTS trg_update_post_likes_count        ON public.post_likes;
-DROP TRIGGER IF EXISTS trg_update_post_comments_count     ON public.post_comments;
-DROP TRIGGER IF EXISTS trg_cumulative_gpa                 ON public.semester_gpa;
 
 -- ══════════════════════════════════════════════════════════════════════════════
 -- 3. MATERIALIZED VIEWS
@@ -170,9 +161,19 @@ DROP FUNCTION IF EXISTS public.calculate_grade_metrics()                        
 DROP FUNCTION IF EXISTS public.on_registration_request_approved()                                          CASCADE;
 DROP FUNCTION IF EXISTS public.fn_update_post_counts()                                                     CASCADE;
 DROP FUNCTION IF EXISTS public.fn_recalculate_cumulative_gpa()                                             CASCADE;
-DROP FUNCTION IF EXISTS public.fn_decrypt_field(UUID, encryption_context, TEXT)                             CASCADE;
-DROP FUNCTION IF EXISTS public.fn_encrypt_field(UUID, encryption_context, TEXT, TEXT)                       CASCADE;
-DROP FUNCTION IF EXISTS public.admin_create_user(TEXT,TEXT,TEXT,user_role[],TEXT,TEXT,TEXT,TEXT,UUID,UUID)     CASCADE;
+DO $$ BEGIN
+  -- These signatures use application enum types, which are absent on a fresh
+  -- database and are dropped later in this reset on an existing database.
+  IF to_regtype('public.encryption_context') IS NOT NULL THEN
+    EXECUTE 'DROP FUNCTION IF EXISTS public.fn_decrypt_field(UUID, public.encryption_context, TEXT) CASCADE';
+    EXECUTE 'DROP FUNCTION IF EXISTS public.fn_encrypt_field(UUID, public.encryption_context, TEXT, TEXT) CASCADE';
+  END IF;
+
+  IF to_regtype('public.user_role') IS NOT NULL THEN
+    EXECUTE 'DROP FUNCTION IF EXISTS public.admin_create_user(TEXT,TEXT,TEXT,public.user_role[],TEXT,TEXT,TEXT,TEXT,UUID,UUID) CASCADE';
+  END IF;
+END $$;
+
 DROP FUNCTION IF EXISTS public.admin_toggle_user_status(UUID,BOOLEAN)                                      CASCADE;
 DROP FUNCTION IF EXISTS public.admin_delete_user(UUID,BOOLEAN)                                             CASCADE;
 DROP FUNCTION IF EXISTS public.admin_toggle_verification(UUID,BOOLEAN)                                     CASCADE;

@@ -6,6 +6,12 @@ analyzer:
     - "**/*.freezed.dart"
     - "**/diagnostic_schema.dart"
     - "docs/**"
+    - build/**
+    - android/**
+    - ios/**
+    - windows/**
+    - macos/**
+    - linux/**
   errors:
     invalid_use_of_internal_member: ignore
 

@@ -1,20 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:horus/core/config/supabase_client.dart';
+import 'package:horus/features/academic/data/repositories/academic_repository.dart';
 
 const fallbackSemesterName = 'Spring 2024';
 
 final currentSemesterProvider = FutureProvider<String>((ref) async {
-  final client = ref.watch(supabaseClientProvider);
+  final repository = ref.watch(academicRepositoryProvider);
 
   try {
-    final current = await client
-        .from('semesters')
-        .select('name_en')
-        .eq('is_current', true)
-        .eq('is_active', true)
-        .maybeSingle();
-
-    final name = current?['name_en'] as String?;
+    final name = await repository.getCurrentSemesterName();
     if (name != null && name.trim().isNotEmpty) {
       return name;
     }

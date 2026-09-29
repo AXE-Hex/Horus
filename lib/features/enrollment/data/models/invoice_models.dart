@@ -1,4 +1,5 @@
 import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/data/db_row.dart';
 
 enum InvoiceStatus { paid, unpaid, overdue, partial }
 
@@ -110,24 +111,28 @@ class Invoice {
           status == InvoiceStatus.unpaid);
 
   factory Invoice.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'invoices');
     return Invoice(
-      id: json['id'] ?? '',
-      studentId: json['student_id'] ?? '',
-      invoiceNumber: json['invoice_number'] ?? json['id'] ?? '',
-      type: InvoiceTypeX.fromString(json['type']),
-      status: InvoiceStatusX.fromString(json['status'] ?? 'unpaid'),
-      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
-      paidAmount: (json['paid_amount'] as num?)?.toDouble() ?? 0.0,
-      semester: json['semester'],
-      dueDate: json['due_date'] != null
-          ? DateTime.parse(json['due_date'])
-          : null,
-      paidAt: json['paid_at'] != null ? DateTime.parse(json['paid_at']) : null,
-      receiptUrl: json['receipt_url'],
-      notes: json['notes'],
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
-          : DateTime.now(),
+      id: row.requiredString('id'),
+      studentId: row.requiredString('student_id'),
+      invoiceNumber:
+          row.optionalString('invoice_number') ?? row.requiredString('id'),
+      type: InvoiceType.values.firstWhere(
+        (value) => value.name == row.optionalString('type'),
+        orElse: () => InvoiceType.other,
+      ),
+      status: InvoiceStatus.values.firstWhere(
+        (value) => value.name == row.optionalString('status'),
+        orElse: () => InvoiceStatus.unpaid,
+      ),
+      amount: row.doubleOr('amount', 0),
+      paidAmount: row.doubleOr('paid_amount', 0),
+      semester: row.optionalString('semester'),
+      dueDate: row.optionalDateTime('due_date'),
+      paidAt: row.optionalDateTime('paid_at'),
+      receiptUrl: row.optionalString('receipt_url'),
+      notes: row.optionalString('notes'),
+      createdAt: row.requiredDateTime('created_at'),
     );
   }
 

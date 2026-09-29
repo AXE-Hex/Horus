@@ -1,4 +1,5 @@
 import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/data/db_row.dart';
 
 class CollegeModel {
   final String id;
@@ -28,20 +29,21 @@ class CollegeModel {
   });
 
   factory CollegeModel.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'colleges');
     return CollegeModel(
-      id: json['id'] as String,
-      nameEn: (json['name_en'] as String?) ?? (json['name'] as String? ?? ''),
-      nameAr: (json['name_ar'] as String?) ?? '',
-      code: json['code'] as String?,
-      descriptionEn: json['description'] as String?,
-      descriptionAr: json['description_ar'] as String?,
-      deanId: json['dean_id'] as String?,
-      imageUrl: json['image_url'] as String?,
-      established: json['established'] as int?,
-      studentCount: (json['student_count'] as int?) ?? 0,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
-          : DateTime.now(),
+      id: row.requiredString('id'),
+      nameEn: row.requiredString('name_en'),
+      nameAr: row.requiredString('name_ar'),
+      code: row.optionalString('code'),
+      descriptionEn: row.optionalString('description'),
+      descriptionAr: row.optionalString('description_ar'),
+      deanId: row.optionalString('dean_id'),
+      imageUrl: row.optionalString('image_url'),
+      established: json['established'] == null
+          ? null
+          : row.requiredInt('established'),
+      studentCount: row.intOr('student_count', 0),
+      createdAt: row.requiredDateTime('created_at'),
     );
   }
 }
@@ -56,7 +58,6 @@ class DepartmentModel {
   final String? descriptionAr;
   final String? headId;
   final String? assistantHeadId;
-  final String? imageUrl;
   final String? building;
   final int? floor;
   final String? officeSymbol;
@@ -73,7 +74,6 @@ class DepartmentModel {
     this.descriptionAr,
     this.headId,
     this.assistantHeadId,
-    this.imageUrl,
     this.building,
     this.floor,
     this.officeSymbol,
@@ -82,24 +82,22 @@ class DepartmentModel {
   });
 
   factory DepartmentModel.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'departments');
     return DepartmentModel(
-      id: json['id'] as String,
-      collegeId: json['college_id'] as String,
-      nameEn: (json['name_en'] as String?) ?? (json['name'] as String? ?? ''),
-      nameAr: (json['name_ar'] as String?) ?? '',
-      code: json['code'] as String?,
-      descriptionEn: json['description'] as String?,
-      descriptionAr: json['description_ar'] as String?,
-      headId: json['hod_id'] as String?,
-      assistantHeadId: json['assistant_hod_id'] as String?,
-      imageUrl: json['image_url'] as String?,
-      building: json['building'] as String?,
-      floor: json['floor'] as int?,
-      officeSymbol: json['office_symbol'] as String?,
-      studentCount: (json['student_count'] as int?) ?? 0,
-      createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'] as String)
-          : DateTime.now(),
+      id: row.requiredString('id'),
+      collegeId: row.requiredString('college_id'),
+      nameEn: row.requiredString('name_en'),
+      nameAr: row.requiredString('name_ar'),
+      code: row.optionalString('code'),
+      descriptionEn: row.optionalString('description'),
+      descriptionAr: row.optionalString('description_ar'),
+      headId: row.optionalString('hod_id'),
+      assistantHeadId: row.optionalString('assistant_hod_id'),
+      building: row.optionalString('building'),
+      floor: json['floor'] == null ? null : row.requiredInt('floor'),
+      officeSymbol: row.optionalString('office_symbol'),
+      studentCount: row.intOr('student_count', 0),
+      createdAt: row.requiredDateTime('created_at'),
     );
   }
 }
@@ -126,20 +124,21 @@ class AppointmentModel {
   });
 
   factory AppointmentModel.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'appointments');
     return AppointmentModel(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      role: UserRoleX.fromDbString(json['role'] as String),
-      collegeId: json['college_id'] as String?,
-      departmentId: json['department_id'] as String?,
-      startDate: DateTime.parse(json['start_date'] as String),
-      endDate: json['end_date'] != null
-          ? DateTime.parse(json['end_date'] as String)
-          : null,
-      isActive: json['is_active'] as bool? ?? true,
+      id: row.requiredString('id'),
+      userId: row.requiredString('user_id'),
+      role: UserRoleX.fromDbString(row.requiredString('role')),
+      collegeId: row.optionalString('college_id'),
+      departmentId: row.optionalString('department_id'),
+      startDate: row.requiredDateTime('start_date'),
+      endDate: row.optionalDateTime('end_date'),
+      isActive: row.boolOr('is_active', true),
     );
   }
 }
+
+enum DepartmentProjectStatus { active, completed, paused, cancelled, unknown }
 
 class DepartmentProjectModel {
   final String id;
@@ -148,7 +147,7 @@ class DepartmentProjectModel {
   final String titleAr;
   final String? descriptionEn;
   final String? descriptionAr;
-  final String status;
+  final DepartmentProjectStatus status;
   final DateTime createdAt;
 
   DepartmentProjectModel({
@@ -163,15 +162,20 @@ class DepartmentProjectModel {
   });
 
   factory DepartmentProjectModel.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'department_projects');
     return DepartmentProjectModel(
-      id: json['id'] as String,
-      departmentId: json['department_id'] as String,
-      titleEn: json['title_en'] as String,
-      titleAr: json['title_ar'] as String,
-      descriptionEn: json['description_en'] as String?,
-      descriptionAr: json['description_ar'] as String?,
-      status: json['status'] as String,
-      createdAt: DateTime.parse(json['created_at'] as String),
+      id: row.requiredString('id'),
+      departmentId: row.requiredString('department_id'),
+      titleEn: row.requiredString('title_en'),
+      titleAr: row.requiredString('title_ar'),
+      descriptionEn: row.optionalString('description_en'),
+      descriptionAr: row.optionalString('description_ar'),
+      status: row.enumValue(
+        'status',
+        DepartmentProjectStatus.values,
+        DepartmentProjectStatus.unknown,
+      ),
+      createdAt: row.requiredDateTime('created_at'),
     );
   }
 }

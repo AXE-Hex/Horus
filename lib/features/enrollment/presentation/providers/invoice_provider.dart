@@ -11,8 +11,7 @@ final studentInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   if (userId == null) return [];
 
   final repo = ref.read(enrollmentRepositoryProvider);
-  final raw = await repo.getStudentInvoices(userId);
-  return raw.map((e) => Invoice.fromJson(e)).toList();
+  return repo.getStudentInvoices(userId);
 });
 
 final invoiceSummaryProvider = FutureProvider.autoDispose<InvoiceSummary>((
@@ -42,19 +41,3 @@ final filteredInvoicesProvider = FutureProvider.autoDispose<List<Invoice>>((
   if (filter == null) return all;
   return all.where((inv) => inv.status == filter).toList();
 });
-
-class InvoiceActionsNotifier extends AsyncNotifier<void> {
-  @override
-  Future<void> build() async {}
-
-  Future<void> markAsPaid(String invoiceId, {String? receiptUrl}) async {
-    final repo = ref.read(enrollmentRepositoryProvider);
-    await repo.markInvoicePaid(invoiceId, receiptUrl: receiptUrl);
-    ref.invalidate(studentInvoicesProvider);
-  }
-}
-
-final invoiceActionsProvider =
-    AsyncNotifierProvider<InvoiceActionsNotifier, void>(
-      InvoiceActionsNotifier.new,
-    );

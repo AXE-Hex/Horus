@@ -1,4 +1,5 @@
 import 'package:horus/core/auth/roles.dart';
+import 'package:horus/core/data/db_row.dart';
 
 class ProfileModel {
   final String id;
@@ -6,6 +7,8 @@ class ProfileModel {
   final String fullName;
   final String? fullNameAr;
   final String? avatarUrl;
+
+  /// Loaded from canonical user_roles assignments, never from profiles.roles.
   final List<UserRole> roles;
   final String? studentId;
   final String? nationalId;
@@ -49,66 +52,39 @@ class ProfileModel {
     required this.updatedAt,
   });
 
-  factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    List<UserRole> parsedRoles = [];
-    if (json['roles'] != null) {
-      final rolesList = json['roles'] as List;
-      parsedRoles = rolesList.map((r) => UserRoleX.fromDbString(r.toString())).toList();
-    } else {
-      parsedRoles = [UserRole.guest];
-    }
-
+  factory ProfileModel.fromJson(
+    Map<String, dynamic> json, {
+    required List<String> roleCodes,
+  }) {
+    final row = DbRow(json, context: 'profiles');
+    final parsedRoles = roleCodes
+        .map(UserRoleX.tryFromDbString)
+        .whereType<UserRole>()
+        .toList();
     return ProfileModel(
-      id: json['id'] as String,
-      email: json['email'] as String,
-      fullName: json['full_name'] as String,
-      fullNameAr: json['full_name_ar'] as String?,
-      avatarUrl: json['avatar_url'] as String?,
+      id: row.requiredString('id'),
+      email: row.requiredString('email'),
+      fullName: row.requiredString('full_name'),
+      fullNameAr: row.optionalString('full_name_ar'),
+      avatarUrl: row.optionalString('avatar_url'),
       roles: parsedRoles,
-      studentId: json['student_id'] as String?,
-      nationalId: json['national_id'] as String?,
-      nationality: json['nationality'] as String?,
-      phone: json['phone'] as String?,
-      bio: json['bio'] as String?,
-      bioAr: json['bio_ar'] as String?,
-      collegeId: json['college_id'] as String?,
-      departmentId: json['department_id'] as String?,
-      advisorId: json['advisor_id'] as String?,
-      warningLevel: json['warning_level'] as int? ?? 0,
-      isVerified: json['is_verified'] as bool? ?? false,
-      tags: (json['tags'] as List?)?.map((e) => e.toString()).toList() ?? [],
-      isBanned: json['is_banned'] as bool? ?? false,
-      isActive: json['is_active'] as bool? ?? true,
-      createdAt: DateTime.parse(json['created_at'] as String),
-      updatedAt: DateTime.parse(json['updated_at'] as String),
+      studentId: row.optionalString('student_id'),
+      nationalId: row.optionalString('national_id'),
+      nationality: row.optionalString('nationality'),
+      phone: row.optionalString('phone'),
+      bio: row.optionalString('bio'),
+      bioAr: row.optionalString('bio_ar'),
+      collegeId: row.optionalString('college_id'),
+      departmentId: row.optionalString('department_id'),
+      advisorId: row.optionalString('advisor_id'),
+      warningLevel: row.intOr('warning_level', 0),
+      isVerified: row.boolOr('is_verified', false),
+      tags: row.stringsOrEmpty('tags'),
+      isBanned: row.boolOr('is_banned', false),
+      isActive: row.boolOr('is_active', true),
+      createdAt: row.requiredDateTime('created_at'),
+      updatedAt: row.requiredDateTime('updated_at'),
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'full_name': fullName,
-      if (fullNameAr != null) 'full_name_ar': fullNameAr,
-      if (avatarUrl != null) 'avatar_url': avatarUrl,
-      'roles': roles.map((r) => r.toDbString()).toList(),
-      if (studentId != null) 'student_id': studentId,
-      if (nationalId != null) 'national_id': nationalId,
-      if (nationality != null) 'nationality': nationality,
-      if (phone != null) 'phone': phone,
-      if (bio != null) 'bio': bio,
-      if (bioAr != null) 'bio_ar': bioAr,
-      if (collegeId != null) 'college_id': collegeId,
-      if (departmentId != null) 'department_id': departmentId,
-      if (advisorId != null) 'advisor_id': advisorId,
-      'warning_level': warningLevel,
-      'is_verified': isVerified,
-      'tags': tags,
-      'is_banned': isBanned,
-      'is_active': isActive,
-      'created_at': createdAt.toIso8601String(),
-      'updated_at': updatedAt.toIso8601String(),
-    };
   }
 
   UserRole get primaryRole => roles.isNotEmpty ? roles.first : UserRole.guest;

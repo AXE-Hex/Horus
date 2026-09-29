@@ -161,9 +161,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
           (u) => u.id == department.headId,
           orElse: () => DirectoryProfileModel(
             id: 'unknown',
-            email: 'unknown',
             fullName: 'Unknown',
-            isActive: false,
             roles: [],
             createdAt: DateTime.now(),
           ),
@@ -273,7 +271,6 @@ class _HoDIdentityCard extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _buildDetailRow(LucideIcons.mail, 'Email', hod.email),
                   const Divider(height: 24, color: Colors.white10),
                   Row(
                     children: [
@@ -371,35 +368,6 @@ class _HoDIdentityCard extends ConsumerWidget {
           color: Colors.white,
         ),
       ),
-    );
-  }
-
-  Widget _buildDetailRow(IconData icon, String label, String value) {
-    return Row(
-      children: [
-        Icon(icon, size: 16, color: color),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: GoogleFonts.inter(fontSize: 10, color: Colors.white38),
-              ),
-              Text(
-                value,
-                style: GoogleFonts.outfit(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 

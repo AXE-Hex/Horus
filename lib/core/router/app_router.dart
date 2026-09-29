@@ -27,26 +27,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/splash',
     refreshListenable: authNotifier,
-    redirect: (context, state) {
-      final authState = authNotifier.value;
-      final location = state.matchedLocation;
-      final isLoggedIn = authState.isAuthenticated;
-      final isPublic = publicRoutes.contains(location);
-
-      if (!isLoggedIn && !isPublic) {
-        return '/login';
-      }
-
-      if (isLoggedIn && location == '/login') {
-        return '/home';
-      }
-
-      if (isLoggedIn && !canAccessRoute(location, authState.role)) {
-        return '/home';
-      }
-
-      return null;
-    },
+    redirect: (context, state) =>
+        redirectForAuthState(state.matchedLocation, authNotifier.value),
     routes: [
       ...authRoutes,
       ...onboardingRoutes,

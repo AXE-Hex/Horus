@@ -1,16 +1,23 @@
 import 'package:horus/core/data/base_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:horus/core/config/supabase_client.dart';
+import 'package:horus/features/shared/data/models/shared_records.dart';
+
+final sharedRepositoryProvider = Provider<SharedRepository>(
+  (ref) => SharedRepository(ref.watch(supabaseClientProvider)),
+);
 
 class SharedRepository extends BaseRepository {
   SharedRepository(super.client);
 
-  Future<List<Map<String, dynamic>>> getNotifications(String userId) =>
-      fetchWhere(
-        'notifications',
-        'user_id',
-        userId,
-        orderBy: 'created_at',
-        ascending: false,
-      );
+  Future<List<NotificationRecord>> getNotifications(String userId) async {
+    final rows = await client
+        .from('notifications')
+        .select()
+        .eq('user_id', userId)
+        .order('created_at', ascending: false);
+    return rows.map((row) => NotificationRecord.fromJson(row)).toList();
+  }
 
   Future<int> getUnreadCount(String userId) async {
     final result = await client
@@ -27,15 +34,17 @@ class SharedRepository extends BaseRepository {
     {'is_read': true, 'read_at': DateTime.now().toIso8601String()},
   );
 
-  Future<void> markAllAsRead(String userId) async {
-    await client
+  Future<int> markAllAsRead(String userId) async {
+    final rows = await client
         .from('notifications')
         .update({'is_read': true, 'read_at': DateTime.now().toIso8601String()})
         .eq('user_id', userId)
-        .eq('is_read', false);
+        .eq('is_read', false)
+        .select('id');
+    return rows.length;
   }
 
-  Future<List<Map<String, dynamic>>> getAnnouncements({
+  Future<List<AnnouncementRecord>> getAnnouncements({
     String? courseId,
     int limit = 20,
   }) async {
@@ -51,16 +60,18 @@ class SharedRepository extends BaseRepository {
     final result = await query
         .order('published_at', ascending: false)
         .limit(limit);
-    return List<Map<String, dynamic>>.from(result);
+    return result.map((row) => AnnouncementRecord.fromJson(row)).toList();
   }
 
   Future<Map<String, dynamic>> createAnnouncement(Map<String, dynamic> data) =>
       insert('announcements', data);
 
-  Future<List<Map<String, dynamic>>> getForums() =>
-      fetchAll('forums', orderBy: 'name');
+  Future<List<ForumRecord>> getForums() async {
+    final rows = await client.from('forums').select().order('name');
+    return rows.map((row) => ForumRecord.fromJson(row)).toList();
+  }
 
-  Future<List<Map<String, dynamic>>> getForumPosts(String forumId) async {
+  Future<List<ForumPostRecord>> getForumPosts(String forumId) async {
     final result = await client
         .from('forum_posts')
         .select('*, profiles:author_id(full_name, avatar_url)')
@@ -68,65 +79,66 @@ class SharedRepository extends BaseRepository {
         .isFilter('deleted_at', null)
         .order('is_pinned', ascending: false)
         .order('created_at', ascending: false);
-    return List<Map<String, dynamic>>.from(result);
+    return result.map((row) => ForumPostRecord.fromJson(row)).toList();
   }
 
   Future<Map<String, dynamic>> createPost(Map<String, dynamic> data) =>
       insert('forum_posts', data);
 
-  Future<List<Map<String, dynamic>>> getTickets(String userId) => fetchWhere(
-    'support_tickets',
-    'user_id',
-    userId,
-    orderBy: 'created_at',
-    ascending: false,
-  );
-
-  Future<Map<String, dynamic>> createTicket(Map<String, dynamic> data) =>
-      insert('support_tickets', data);
-
-  Future<Map<String, dynamic>> updateTicketStatus(
-    String ticketId,
-    String status,
-  ) => update('support_tickets', ticketId, {'status': status});
-
-  Future<List<Map<String, dynamic>>> getUserSessions(String userId) =>
-      fetchWhere(
-        'user_sessions',
-        'user_id',
-        userId,
-        orderBy: 'last_active',
-        ascending: false,
-      );
+  Future<List<UserSessionRecord>> getUserSessions(String userId) async {
+    final rows = await client
+        .from('user_sessions')
+        .select()
+        .eq('user_id', userId)
+        .order('last_active', ascending: false);
+    return rows.map((row) => UserSessionRecord.fromJson(row)).toList();
+  }
 
   Future<void> revokeSession(String sessionId) =>
       update('user_sessions', sessionId, {'is_active': false});
 
-  Future<List<Map<String, dynamic>>> getSharedFiles({String? courseId}) async {
+  Future<List<SharedFileRecord>> getSharedFiles({String? courseId}) async {
+    final List<dynamic> rows;
     if (courseId != null) {
-      return fetchAll(
-        'shared_files',
-        filters: {'course_id': courseId, 'is_public': true},
-        orderBy: 'created_at',
-        ascending: false,
-      );
+      rows = await client
+          .from('shared_files')
+          .select()
+          .eq('course_id', courseId)
+          .eq('is_public', true)
+          .isFilter('deleted_at', null)
+          .order('created_at', ascending: false);
+    } else {
+      rows = await client
+          .from('shared_files')
+          .select()
+          .eq('is_public', true)
+          .isFilter('deleted_at', null)
+          .order('created_at', ascending: false);
     }
-    return fetchWhere(
-      'shared_files',
-      'is_public',
-      true,
-      orderBy: 'created_at',
-      ascending: false,
-    );
+    return rows
+        .map((row) => SharedFileRecord.fromJson(Map<String, dynamic>.from(row)))
+        .toList();
   }
 
-  Future<Map<String, dynamic>> uploadSharedFile(
-    Map<String, dynamic> metadata,
-  ) => insert('shared_files', metadata);
+  Future<SharedFileRecord> uploadSharedFile(SharedFileUpload metadata) async {
+    final row = await client
+        .from('shared_files')
+        .insert(metadata.toDatabase())
+        .select()
+        .single();
+    return SharedFileRecord.fromJson(row);
+  }
 
   Future<void> incrementDownloadCount(String fileId) async {
-    final current = await fetchById('shared_files', fileId);
-    final count = (current['download_count'] as int? ?? 0) + 1;
-    await update('shared_files', fileId, {'download_count': count});
+    final currentRow = await client
+        .from('shared_files')
+        .select()
+        .eq('id', fileId)
+        .single();
+    final current = SharedFileRecord.fromJson(currentRow);
+    await client
+        .from('shared_files')
+        .update({'download_count': current.downloadCount + 1})
+        .eq('id', fileId);
   }
 }

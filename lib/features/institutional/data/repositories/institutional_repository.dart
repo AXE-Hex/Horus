@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/features/institutional/data/models/institutional_models.dart';
+import 'package:horus/core/auth/roles.dart';
 import 'package:horus/features/profiles/data/models/directory_profile_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -10,10 +11,19 @@ class InstitutionalRepository {
   InstitutionalRepository(this._client);
 
   Future<List<CollegeModel>> getColleges() async {
-    final response = await _client.from('colleges').select().order('name');
+    final response = await _client.from('colleges').select().order('name_en');
     return (response as List)
         .map((json) => CollegeModel.fromJson(json))
         .toList();
+  }
+
+  Future<CollegeModel?> getCollegeForDean(String deanId) async {
+    final response = await _client
+        .from('colleges')
+        .select()
+        .eq('dean_id', deanId)
+        .maybeSingle();
+    return response == null ? null : CollegeModel.fromJson(response);
   }
 
   Future<List<DepartmentModel>> getDepartments({String? collegeId}) async {
@@ -21,7 +31,7 @@ class InstitutionalRepository {
     if (collegeId != null) {
       query = query.eq('college_id', collegeId);
     }
-    final response = await query.order('name');
+    final response = await query.order('name_en');
     return (response as List)
         .map((json) => DepartmentModel.fromJson(json))
         .toList();
@@ -42,31 +52,35 @@ class InstitutionalRepository {
 
   Future<Map<String, int>> getCollegeRealTimeStats(String collegeId) async {
     try {
-      final studentsResponse = await _client
-          .from('profiles')
-          .select('id')
-          .eq('college_id', collegeId)
-          .contains('roles', ['student']);
-      final studentsCount = (studentsResponse as List).length;
-
-      final facultyResponse = await _client
-          .from('profiles')
-          .select('id')
-          .eq('college_id', collegeId)
-          .or('roles.cs.{"professor"},roles.cs.{"lecturer"}');
-      final facultyCount = (facultyResponse as List).length;
-
-      final assistantsResponse = await _client
-          .from('profiles')
-          .select('id')
-          .eq('college_id', collegeId)
-          .contains('roles', ['teaching_assistant']);
-      final assistantsCount = (assistantsResponse as List).length;
+      final directory = await _client
+          .from('profile_directory')
+          .select('role_codes')
+          .eq('college_id', collegeId);
+      final roleLists = (directory as List)
+          .map((row) => (row['role_codes'] as List).cast<String>())
+          .toList();
+      final studentsCount = roleLists
+          .where(
+            (roles) => roles.any(
+              (role) =>
+                  {'student', 'freshman', 'regular_student'}.contains(role),
+            ),
+          )
+          .length;
+      final facultyCount = roleLists
+          .where(
+            (roles) =>
+                roles.any((role) => {'professor', 'lecturer'}.contains(role)),
+          )
+          .length;
+      final assistantsCount = roleLists
+          .where((roles) => roles.contains('teaching_assistant'))
+          .length;
 
       final researchResponse = await _client
           .from('shared_files')
-          .select('id')
-          .eq('college_id', collegeId);
+          .select('id, courses!inner(departments!inner(college_id))')
+          .eq('courses.departments.college_id', collegeId);
       final researchCount = (researchResponse as List).length;
 
       return {
@@ -85,21 +99,21 @@ class InstitutionalRepository {
     String collegeId,
   ) async {
     final response = await _client
-        .from('profiles')
+        .from('profile_directory')
         .select()
         .eq('college_id', collegeId)
-        .or(
-          'roles.cs.{"professor"},roles.cs.{"lecturer"},roles.cs.{"teaching_assistant"}',
-        )
         .order('full_name');
 
     return (response as List)
         .map((json) => DirectoryProfileModel.fromJson(json))
+        .where((profile) => profile.roles.any((role) => role.isTeachingStaff))
         .toList();
   }
 }
 
-final institutionalRepositoryProvider = Provider<InstitutionalRepository>((ref) {
+final institutionalRepositoryProvider = Provider<InstitutionalRepository>((
+  ref,
+) {
   return InstitutionalRepository(Supabase.instance.client);
 });
 

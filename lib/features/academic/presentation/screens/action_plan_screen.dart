@@ -11,10 +11,11 @@ import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:horus/features/academic/data/repositories/academic_repository.dart';
+import 'package:horus/features/academic/data/models/academic_records.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 
 final actionPlanProvider =
-    FutureProvider.family<List<Map<String, dynamic>>, String>((
+    FutureProvider.family<List<ActionPlanItemRecord>, String>((
       ref,
       studentId,
     ) async {
@@ -42,10 +43,10 @@ class ActionPlanScreen extends ConsumerWidget {
     final actionPlanAsync = ref.watch(actionPlanProvider(studentId));
 
     return actionPlanAsync.when(
-      data: (rawData) {
-        final List<Map<String, dynamic>> timelineData = rawData.map((item) {
-          final isCompleted = item['status'] == 'completed';
-          final isInProgress = item['status'] == 'in_progress';
+      data: (records) {
+        final List<Map<String, dynamic>> timelineData = records.map((item) {
+          final isCompleted = item.status == ActionPlanStatus.passed;
+          final isInProgress = item.status == ActionPlanStatus.enrolled;
           Color color = Colors.white24;
           IconData icon = LucideIcons.circle;
 
@@ -58,32 +59,20 @@ class ActionPlanScreen extends ConsumerWidget {
           }
 
           return {
-            'title': 'Year ${item['year'] ?? 1}',
-            'subtitle': item['title'] ?? t.academic.foundational_skills,
-            'status': item['status'] ?? 'remaining',
+            'title': 'Year ${item.year}',
+            'subtitle':
+                item.courseName ?? item.notes ?? t.academic.foundational_skills,
+            'status': item.status.name,
             'progress': isCompleted ? 1.0 : (isInProgress ? 0.5 : 0.0),
             'icon': icon,
             'color': color,
-            'tasks':
-                (item['tasks'] as List<dynamic>?)
-                    ?.map(
-                      (t) => {
-                        'label': t['label']?.toString() ?? 'Task',
-                        'done': t['done'] == true,
-                      },
-                    )
-                    .toList() ??
-                [],
           };
         }).toList();
 
-        int totalTasks = 0;
-        int completedTasks = 0;
-        for (final year in timelineData) {
-          final tasks = year['tasks'] as List;
-          totalTasks += tasks.length;
-          completedTasks += tasks.where((t) => t['done'] == true).length;
-        }
+        final totalTasks = records.length;
+        final completedTasks = records
+            .where((item) => item.status == ActionPlanStatus.passed)
+            .length;
 
         final double overallProgress = totalTasks > 0
             ? (completedTasks / totalTasks)
@@ -395,47 +384,11 @@ class _TimelineItem extends StatelessWidget {
                     ),
                 ],
               ),
-              if (isInProgress) ...[
-                const SizedBox(height: 20),
-                _buildTaskList(
-                  data['tasks'] as List<Map<String, dynamic>>,
-                  color,
-                ),
-              ],
             ],
           ),
         )
         .animate(delay: (index * 150).ms)
         .fadeIn(duration: 600.ms)
         .slideX(begin: 0.1, end: 0);
-  }
-
-  Widget _buildTaskList(List<Map<String, dynamic>> tasks, Color color) {
-    return Column(
-      children: tasks.map((task) {
-        final done = task['done'] as bool;
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(
-            children: [
-              Icon(
-                done ? LucideIcons.checkSquare : LucideIcons.square,
-                size: 16,
-                color: done ? color : Colors.white24,
-              ),
-              const SizedBox(width: 12),
-              Text(
-                task['label'] as String,
-                style: GoogleFonts.inter(
-                  fontSize: 13,
-                  color: done ? Colors.white70 : Colors.white24,
-                  decoration: done ? TextDecoration.lineThrough : null,
-                ),
-              ),
-            ],
-          ),
-        );
-      }).toList(),
-    );
   }
 }

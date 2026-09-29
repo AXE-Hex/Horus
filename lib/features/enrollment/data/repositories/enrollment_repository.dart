@@ -1,15 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/core/config/supabase_client.dart';
-import 'package:horus/core/data/base_repository.dart';
+import 'package:horus/features/enrollment/data/models/invoice_models.dart';
+import 'package:horus/features/enrollment/data/models/registration_models.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 final enrollmentRepositoryProvider = Provider<EnrollmentRepository>((ref) {
   return EnrollmentRepository(ref.watch(supabaseClientProvider));
 });
 
-class EnrollmentRepository extends BaseRepository {
-  EnrollmentRepository(super.client);
+class EnrollmentRepository {
+  EnrollmentRepository(this.client);
 
-  Future<List<Map<String, dynamic>>> getStudentEnrollments(
+  final SupabaseClient client;
+
+  Future<List<EnrollmentRecord>> getStudentEnrollments(
     String studentId, {
     String? semester,
   }) async {
@@ -20,45 +24,61 @@ class EnrollmentRepository extends BaseRepository {
           .eq('student_id', studentId)
           .eq('semester', semester)
           .order('enrolled_at');
-      return List<Map<String, dynamic>>.from(result);
+      return result.map((row) => EnrollmentRecord.fromJson(row)).toList();
     }
     final result = await client
         .from('enrollments')
         .select('*, courses(*)')
         .eq('student_id', studentId)
         .order('enrolled_at', ascending: false);
-    return List<Map<String, dynamic>>.from(result);
+    return result.map((row) => EnrollmentRecord.fromJson(row)).toList();
   }
 
-  Future<Map<String, dynamic>> enrollInCourse(Map<String, dynamic> data) =>
-      insert('enrollments', data);
+  Future<EnrollmentRecord> enrollInCourse(EnrollmentDraft draft) async {
+    final row = await client
+        .from('enrollments')
+        .insert(draft.toDatabase())
+        .select('*, courses(*)')
+        .single();
+    return EnrollmentRecord.fromJson(row);
+  }
 
-  Future<Map<String, dynamic>> updateEnrollmentStatus(
+  Future<EnrollmentRecord> updateEnrollmentStatus(
     String id,
-    String status,
-  ) => update('enrollments', id, {'status': status});
+    EnrollmentStatus status,
+  ) async {
+    if (status == EnrollmentStatus.unknown) {
+      throw StateError('Unknown enrollment status cannot be written.');
+    }
+    final row = await client
+        .from('enrollments')
+        .update({'status': status.name})
+        .eq('id', id)
+        .select('*, courses(*)')
+        .single();
+    return EnrollmentRecord.fromJson(row);
+  }
 
-  Future<void> withdrawFromCourse(String enrollmentId) =>
-      update('enrollments', enrollmentId, {'status': 'withdrawn'});
+  Future<void> withdrawFromCourse(String enrollmentId) => client
+      .from('enrollments')
+      .update({'status': 'withdrawn'})
+      .eq('id', enrollmentId);
 
-  Future<List<Map<String, dynamic>>> getStudentInvoices(String studentId) =>
-      fetchWhere(
-        'invoices',
-        'student_id',
-        studentId,
-        orderBy: 'created_at',
-        ascending: false,
-      );
+  Future<List<Invoice>> getStudentInvoices(String studentId) async {
+    final rows = await client
+        .from('invoices')
+        .select()
+        .eq('student_id', studentId)
+        .order('created_at', ascending: false);
+    return rows.map((row) => Invoice.fromJson(row)).toList();
+  }
 
-  Future<Map<String, dynamic>> getInvoice(String invoiceId) =>
-      fetchById('invoices', invoiceId);
-
-  Future<Map<String, dynamic>> markInvoicePaid(
-    String invoiceId, {
-    String? receiptUrl,
-  }) => update('invoices', invoiceId, {
-    'status': 'paid',
-    'paid_at': DateTime.now().toIso8601String(),
-    'receipt_url': receiptUrl,
-  });
+  Future<Invoice> getInvoice(String invoiceId) async {
+    final row = await client
+        .from('invoices')
+        .select()
+        .eq('id', invoiceId)
+        .single();
+    return Invoice.fromJson(row);
+  }
 }

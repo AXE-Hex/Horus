@@ -1,7 +1,9 @@
 import 'package:horus/core/auth/auth_provider.dart';
-import 'package:horus/core/config/supabase_client.dart';
+import 'package:horus/core/data/db_row.dart';
 import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:horus/features/shared/data/models/shared_records.dart';
+import 'package:horus/features/shared/data/repositories/shared_repository.dart';
 
 part 'notification_provider.g.dart';
 
@@ -33,18 +35,38 @@ class AppNotification {
     'isRead': isRead,
   };
 
-  factory AppNotification.fromJson(Map<String, dynamic> json) =>
-      AppNotification(
-        id: json['id'],
-        title: json['title'],
-        message: json['message'],
-        timestamp: DateTime.parse(json['timestamp']),
-        category: NotificationCategory.values.firstWhere(
-          (e) => e.name == json['category'],
-          orElse: () => NotificationCategory.general,
-        ),
-        isRead: json['isRead'] ?? false,
-      );
+  factory AppNotification.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'notification cache row');
+    return AppNotification(
+      id: row.requiredString('id'),
+      title: row.requiredString('title'),
+      message: row.requiredString('message'),
+      timestamp: row.requiredDateTime('timestamp'),
+      category: row.enumValue(
+        'category',
+        NotificationCategory.values,
+        NotificationCategory.general,
+      ),
+      isRead: row.boolOr('isRead', false),
+    );
+  }
+
+  factory AppNotification.fromRecord(NotificationRecord record) {
+    final category = switch (record.type) {
+      NotificationType.error ||
+      NotificationType.warning => NotificationCategory.security,
+      NotificationType.success => NotificationCategory.academic,
+      _ => NotificationCategory.general,
+    };
+    return AppNotification(
+      id: record.id,
+      title: record.title,
+      message: record.message,
+      timestamp: record.createdAt,
+      category: category,
+      isRead: record.isRead,
+    );
+  }
 
   AppNotification copyWith({bool? isRead}) => AppNotification(
     id: id,
@@ -68,43 +90,10 @@ class NotificationController extends _$NotificationController {
       final auth = ref.watch(authControllerProvider);
       if (auth.user == null) return [];
 
-      final supabase = ref.watch(supabaseClientProvider);
-      final response = await supabase
-          .from('notifications')
-          .select('*')
-          .eq('user_id', auth.user!.id)
-          .order('created_at', ascending: false);
-
-      final List<AppNotification> notes = [];
-      for (final row in response) {
-        NotificationCategory category;
-        final typeStr = row['type'] as String?;
-        switch (typeStr) {
-          case 'error':
-          case 'warning':
-            category = NotificationCategory.security;
-            break;
-          case 'success':
-            category = NotificationCategory.academic;
-            break;
-          case 'info':
-          default:
-            category = NotificationCategory.general;
-            break;
-        }
-
-        notes.add(
-          AppNotification(
-            id: row['id'].toString(),
-            title: row['title'] ?? '',
-            message: row['message'] ?? '',
-            timestamp: DateTime.parse(row['created_at']),
-            category: category,
-            isRead: row['is_read'] ?? false,
-          ),
-        );
-      }
-      return notes;
+      final records = await ref
+          .watch(sharedRepositoryProvider)
+          .getNotifications(auth.user!.id);
+      return records.map(AppNotification.fromRecord).toList();
     } catch (e) {
       debugPrint('Error fetching notifications: $e');
       return [];
@@ -127,33 +116,39 @@ class NotificationController extends _$NotificationController {
     state = AsyncValue.data(updated);
 
     try {
-      final supabase = ref.read(supabaseClientProvider);
-      await supabase
-          .from('notifications')
-          .update({
-            'is_read': true,
-            'read_at': DateTime.now().toIso8601String(),
-          })
-          .eq('id', id);
+      await ref.read(sharedRepositoryProvider).markAsRead(id);
     } catch (e) {
       debugPrint('Error updating notification read status: $e');
     }
   }
 
-  Future<void> clearAll() async {
+  Future<void> markAllAsRead() async {
     final auth = ref.read(authControllerProvider);
     if (auth.user == null) return;
 
-    state = const AsyncValue.data([]);
-
     try {
-      final supabase = ref.read(supabaseClientProvider);
-      await supabase
-          .from('notifications')
-          .delete()
-          .eq('user_id', auth.user!.id);
+      final current = state.value ?? [];
+      final updatedRows = await ref
+          .read(sharedRepositoryProvider)
+          .markAllAsRead(auth.user!.id);
+      state = AsyncValue.data(
+        notificationsAfterMarkAllRead(current, updatedRows: updatedRows),
+      );
     } catch (e) {
-      debugPrint('Error clearing notifications: $e');
+      debugPrint('Error marking all notifications as read: $e');
     }
   }
+}
+
+List<AppNotification> notificationsAfterMarkAllRead(
+  List<AppNotification> notifications, {
+  required int updatedRows,
+}) {
+  final unreadCount = notifications
+      .where((notification) => !notification.isRead)
+      .length;
+  if (updatedRows != unreadCount) return notifications;
+  return notifications
+      .map((notification) => notification.copyWith(isRead: true))
+      .toList();
 }

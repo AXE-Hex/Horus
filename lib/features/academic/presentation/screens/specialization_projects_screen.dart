@@ -11,9 +11,10 @@ import 'package:horus/features/shared/presentation/widgets/glass_container.dart'
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/features/academic/data/repositories/academic_repository.dart';
+import 'package:horus/features/institutional/data/models/institutional_models.dart';
 
 final departmentProjectsProvider =
-    FutureProvider.family<List<Map<String, dynamic>>, String>((
+    FutureProvider.family<List<DepartmentProjectModel>, String>((
       ref,
       departmentId,
     ) async {
@@ -32,7 +33,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
     final auth = ref.watch(authControllerProvider);
-    final departmentId = auth.user?.userMetadata?['department_id'] as String?;
+    final departmentId = auth.profile?.departmentId;
 
     if (departmentId == null || departmentId.isEmpty) {
       final noDepBody = CustomScrollView(
@@ -158,18 +159,16 @@ class SpecializationProjectsScreen extends ConsumerWidget {
 
   Widget _buildProjectCard(
     BuildContext context,
-    Map<String, dynamic> project,
+    DepartmentProjectModel project,
     bool isGlass,
     bool isArabic,
     int index,
   ) {
-    final title = isArabic
-        ? (project['title_ar'] ?? project['title_en'])
-        : project['title_en'];
+    final title = isArabic ? project.titleAr : project.titleEn;
     final description = isArabic
-        ? (project['description_ar'] ?? project['description_en'])
-        : project['description_en'];
-    final status = project['status'] ?? 'active';
+        ? (project.descriptionAr ?? project.descriptionEn)
+        : project.descriptionEn;
+    final status = project.status.name;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -216,7 +215,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
                         const SizedBox(width: 8),
                         Text(
                           DateTime.parse(
-                            project['created_at'],
+                            project.createdAt.toIso8601String(),
                           ).toLocal().toString().split(' ')[0],
                           style: GoogleFonts.shareTechMono(
                             color: Colors.white38,

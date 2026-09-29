@@ -45,10 +45,15 @@ class NotificationsScreen extends ConsumerWidget {
           ),
           actions: [
             IconButton(
-              icon: const Icon(LucideIcons.trash2, color: Colors.white30),
+              tooltip: t.$meta.locale.languageCode == 'ar'
+                  ? 'تحديد الكل كمقروء'
+                  : 'Mark all as read',
+              icon: const Icon(Icons.done_all, color: Colors.white70),
               onPressed: () {
                 HapticFeedback.mediumImpact();
-                ref.read(notificationControllerProvider.notifier).clearAll();
+                ref
+                    .read(notificationControllerProvider.notifier)
+                    .markAllAsRead();
               },
             ),
           ],
