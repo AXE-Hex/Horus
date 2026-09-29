@@ -6,18 +6,14 @@ class Skeleton extends StatefulWidget {
   final double? height;
   final double borderRadius;
 
-  const Skeleton({
-    super.key,
-    this.width,
-    this.height,
-    this.borderRadius = 8.0,
-  });
+  const Skeleton({super.key, this.width, this.height, this.borderRadius = 8.0});
 
   @override
   State<Skeleton> createState() => _SkeletonState();
 }
 
-class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin {
+class _SkeletonState extends State<Skeleton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
 
@@ -29,9 +25,10 @@ class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin
       duration: const Duration(milliseconds: 1000),
     )..repeat(reverse: true);
 
-    _opacityAnimation = Tween<double>(begin: 0.4, end: 0.8).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _opacityAnimation = Tween<double>(
+      begin: 0.4,
+      end: 0.8,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
@@ -43,7 +40,9 @@ class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? const Color(0xFF334155) : const Color(0xFFE5E7EB);
+    final baseColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE5E7EB);
 
     return AnimatedBuilder(
       animation: _controller,
@@ -67,15 +66,12 @@ class _SkeletonState extends State<Skeleton> with SingleTickerProviderStateMixin
 class CardSkeleton extends StatelessWidget {
   final double height;
 
-  const CardSkeleton({
-    super.key,
-    this.height = 120.0,
-  });
+  const CardSkeleton({super.key, this.height = 120.0});
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
@@ -97,9 +93,15 @@ class CardSkeleton extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Skeleton(width: MediaQuery.of(context).size.width * 0.4, height: 16),
+                    Skeleton(
+                      width: MediaQuery.of(context).size.width * 0.4,
+                      height: 16,
+                    ),
                     const SizedBox(height: AppSpacing.sm),
-                    Skeleton(width: MediaQuery.of(context).size.width * 0.2, height: 12),
+                    Skeleton(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      height: 12,
+                    ),
                   ],
                 ),
               ),
@@ -118,10 +120,7 @@ class CardSkeleton extends StatelessWidget {
 class ListSkeleton extends StatelessWidget {
   final int count;
 
-  const ListSkeleton({
-    super.key,
-    this.count = 3,
-  });
+  const ListSkeleton({super.key, this.count = 3});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +128,8 @@ class ListSkeleton extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: count,
-      separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
+      separatorBuilder: (context, index) =>
+          const SizedBox(height: AppSpacing.md),
       itemBuilder: (context, index) => const CardSkeleton(height: 100),
     );
   }

@@ -24,13 +24,14 @@ class AppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
-    final resolvedBg = backgroundColor ?? 
-        (isDark ? const Color(0xFF1E293B) : AppColors.white);
-        
-    final resolvedBorder = borderSide ?? 
-        (isDark 
-            ? const BorderSide(color: Color(0xFF334155), width: 0.5) 
+
+    final resolvedBg =
+        backgroundColor ?? (isDark ? const Color(0xFF1E293B) : AppColors.white);
+
+    final resolvedBorder =
+        borderSide ??
+        (isDark
+            ? const BorderSide(color: Color(0xFF334155), width: 0.5)
             : AppBorders.standard);
 
     final cardWidget = Container(

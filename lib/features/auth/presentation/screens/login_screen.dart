@@ -326,41 +326,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           const SizedBox(height: 36),
 
           AppTextField(
-            controller: _emailController,
-            focusNode: _emailFocus,
-            label: t.auth.login.email,
-            prefixIcon: const Icon(LucideIcons.atSign),
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
-            suffixText: '@horus.edu.eg',
-          ).animate()
-           .fadeIn(delay: 400.ms)
-           .slideX(begin: isArabic ? 0.08 : -0.08, end: 0),
+                controller: _emailController,
+                focusNode: _emailFocus,
+                label: t.auth.login.email,
+                prefixIcon: const Icon(LucideIcons.atSign),
+                keyboardType: TextInputType.emailAddress,
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
+                suffixText: '@horus.edu.eg',
+              )
+              .animate()
+              .fadeIn(delay: 400.ms)
+              .slideX(begin: isArabic ? 0.08 : -0.08, end: 0),
 
           const SizedBox(height: 16),
 
           AppTextField(
-            controller: _passwordController,
-            focusNode: _passwordFocus,
-            label: t.auth.login.password,
-            prefixIcon: const Icon(LucideIcons.keyRound),
-            obscureText: _obscurePassword,
-            textInputAction: TextInputAction.done,
-            onFieldSubmitted: (_) => _handleSignIn(),
-            suffixIcon: PressFeedback(
-              onTap: () {
-                setState(() => _obscurePassword = !_obscurePassword);
-                HapticFeedback.selectionClick();
-              },
-              child: Icon(
-                _obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff,
-                size: 18,
-              ),
-            ),
-          ).animate()
-           .fadeIn(delay: 500.ms)
-           .slideX(begin: isArabic ? -0.08 : 0.08, end: 0),
+                controller: _passwordController,
+                focusNode: _passwordFocus,
+                label: t.auth.login.password,
+                prefixIcon: const Icon(LucideIcons.keyRound),
+                obscureText: _obscurePassword,
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) => _handleSignIn(),
+                suffixIcon: PressFeedback(
+                  onTap: () {
+                    setState(() => _obscurePassword = !_obscurePassword);
+                    HapticFeedback.selectionClick();
+                  },
+                  child: Icon(
+                    _obscurePassword ? LucideIcons.eye : LucideIcons.eyeOff,
+                    size: 18,
+                  ),
+                ),
+              )
+              .animate()
+              .fadeIn(delay: 500.ms)
+              .slideX(begin: isArabic ? -0.08 : 0.08, end: 0),
 
           const SizedBox(height: 12),
 
@@ -394,12 +396,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
           const SizedBox(height: 24),
 
           GoldButton(
-            text: t.auth.login.submit,
-            onPressed: _handleSignIn,
-            isLoading: _isSigningIn,
-          ).animate()
-           .fadeIn(delay: 700.ms)
-           .scale(begin: const Offset(0.95, 0.95), curve: Curves.easeOutBack),
+                text: t.auth.login.submit,
+                onPressed: _handleSignIn,
+                isLoading: _isSigningIn,
+              )
+              .animate()
+              .fadeIn(delay: 700.ms)
+              .scale(
+                begin: const Offset(0.95, 0.95),
+                curve: Curves.easeOutBack,
+              ),
         ],
       ),
     );

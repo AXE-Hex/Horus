@@ -63,10 +63,7 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
           if (_isVideo(url)) {
             return PhotoViewGalleryPageOptions.customChild(
               child: Center(
-                child: VideoFeedItem(
-                  videoUrl: url,
-                  autoPlay: true,
-                ),
+                child: VideoFeedItem(videoUrl: url, autoPlay: true),
               ),
               initialScale: PhotoViewComputedScale.contained,
               minScale: PhotoViewComputedScale.contained,
@@ -84,12 +81,9 @@ class _FullScreenGalleryState extends State<FullScreenGallery> {
           }
         },
         itemCount: widget.mediaUrls.length,
-        loadingBuilder: (context, event) => const Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
-        backgroundDecoration: const BoxDecoration(
-          color: Colors.black,
-        ),
+        loadingBuilder: (context, event) =>
+            const Center(child: CircularProgressIndicator(color: Colors.white)),
+        backgroundDecoration: const BoxDecoration(color: Colors.black),
         pageController: pageController,
         onPageChanged: onPageChanged,
       ),

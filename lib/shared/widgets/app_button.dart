@@ -39,10 +39,7 @@ class PrimaryButton extends StatelessWidget {
           ? SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: fg,
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2, color: fg),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -51,10 +48,7 @@ class PrimaryButton extends StatelessWidget {
                   icon!,
                   const SizedBox(width: AppSpacing.sm),
                 ],
-                Text(
-                  text,
-                  style: AppTextStyles.labelLarge.copyWith(color: fg),
-                ),
+                Text(text, style: AppTextStyles.labelLarge.copyWith(color: fg)),
               ],
             ),
     );
@@ -152,7 +146,9 @@ class SecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final fg = isDark ? AppColors.navy400 : AppColors.navy600;
-    final borderColor = isDark ? const Color(0xFF334155) : const Color(0xFFCDD7EF);
+    final borderColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFCDD7EF);
 
     final buttonWidget = OutlinedButton(
       onPressed: isLoading ? () {} : onPressed,
@@ -168,10 +164,7 @@ class SecondaryButton extends StatelessWidget {
           ? SizedBox(
               width: 20,
               height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: fg,
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2, color: fg),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -180,10 +173,7 @@ class SecondaryButton extends StatelessWidget {
                   icon!,
                   const SizedBox(width: AppSpacing.sm),
                 ],
-                Text(
-                  text,
-                  style: AppTextStyles.labelLarge.copyWith(color: fg),
-                ),
+                Text(text, style: AppTextStyles.labelLarge.copyWith(color: fg)),
               ],
             ),
     );

@@ -26,11 +26,10 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 0.5,
         centerTitle: true,
-        iconTheme: const IconThemeData(
+        iconTheme: const IconThemeData(color: AppColors.neutral900, size: 18),
+        titleTextStyle: AppTextStyles.headlineSmall.copyWith(
           color: AppColors.neutral900,
-          size: 18,
         ),
-        titleTextStyle: AppTextStyles.headlineSmall.copyWith(color: AppColors.neutral900),
       ),
       cardTheme: CardThemeData(
         color: AppColors.white,
@@ -48,9 +47,16 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.neutral050,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        labelStyle: AppTextStyles.labelMedium.copyWith(color: AppColors.neutral500),
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral400),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 14,
+        ),
+        labelStyle: AppTextStyles.labelMedium.copyWith(
+          color: AppColors.neutral500,
+        ),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.neutral400,
+        ),
         prefixIconColor: AppColors.navy600,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -89,7 +95,9 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          textStyle: AppTextStyles.labelLarge.copyWith(color: AppColors.navy600),
+          textStyle: AppTextStyles.labelLarge.copyWith(
+            color: AppColors.navy600,
+          ),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -110,16 +118,36 @@ class AppTheme {
         }),
       ),
       textTheme: TextTheme(
-        displayLarge: AppTextStyles.displayLarge.copyWith(color: AppColors.neutral900),
-        headlineLarge: AppTextStyles.headlineLarge.copyWith(color: AppColors.neutral900),
-        headlineMedium: AppTextStyles.headlineMedium.copyWith(color: AppColors.neutral900),
-        headlineSmall: AppTextStyles.headlineSmall.copyWith(color: AppColors.neutral900),
-        bodyLarge: AppTextStyles.bodyLarge.copyWith(color: AppColors.neutral700),
-        bodyMedium: AppTextStyles.bodyMedium.copyWith(color: AppColors.neutral700),
-        bodySmall: AppTextStyles.bodySmall.copyWith(color: AppColors.neutral500),
-        labelLarge: AppTextStyles.labelLarge.copyWith(color: AppColors.neutral700),
-        labelMedium: AppTextStyles.labelMedium.copyWith(color: AppColors.neutral500),
-        labelSmall: AppTextStyles.labelSmall.copyWith(color: AppColors.neutral500),
+        displayLarge: AppTextStyles.displayLarge.copyWith(
+          color: AppColors.neutral900,
+        ),
+        headlineLarge: AppTextStyles.headlineLarge.copyWith(
+          color: AppColors.neutral900,
+        ),
+        headlineMedium: AppTextStyles.headlineMedium.copyWith(
+          color: AppColors.neutral900,
+        ),
+        headlineSmall: AppTextStyles.headlineSmall.copyWith(
+          color: AppColors.neutral900,
+        ),
+        bodyLarge: AppTextStyles.bodyLarge.copyWith(
+          color: AppColors.neutral700,
+        ),
+        bodyMedium: AppTextStyles.bodyMedium.copyWith(
+          color: AppColors.neutral700,
+        ),
+        bodySmall: AppTextStyles.bodySmall.copyWith(
+          color: AppColors.neutral500,
+        ),
+        labelLarge: AppTextStyles.labelLarge.copyWith(
+          color: AppColors.neutral700,
+        ),
+        labelMedium: AppTextStyles.labelMedium.copyWith(
+          color: AppColors.neutral500,
+        ),
+        labelSmall: AppTextStyles.labelSmall.copyWith(
+          color: AppColors.neutral500,
+        ),
       ),
     );
   }
@@ -128,7 +156,8 @@ class AppTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      primaryColor: AppColors.navy400, // In dark mode, primary is navy-400 (#3A6BC4)
+      primaryColor:
+          AppColors.navy400, // In dark mode, primary is navy-400 (#3A6BC4)
       scaffoldBackgroundColor: const Color(0xFF0F172A), // Dark mode background
       colorScheme: const ColorScheme.dark(
         primary: AppColors.navy400,
@@ -146,11 +175,10 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 0.5,
         centerTitle: true,
-        iconTheme: const IconThemeData(
-          color: Color(0xFFF1F5F9),
-          size: 18,
+        iconTheme: const IconThemeData(color: Color(0xFFF1F5F9), size: 18),
+        titleTextStyle: AppTextStyles.headlineSmall.copyWith(
+          color: const Color(0xFFF1F5F9),
         ),
-        titleTextStyle: AppTextStyles.headlineSmall.copyWith(color: const Color(0xFFF1F5F9)),
       ),
       cardTheme: CardThemeData(
         color: const Color(0xFF1E293B),
@@ -168,9 +196,16 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: const Color(0xFF1E293B),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-        labelStyle: AppTextStyles.labelMedium.copyWith(color: const Color(0xFF94A3B8)),
-        hintStyle: AppTextStyles.bodyMedium.copyWith(color: const Color(0xFF6B7280)),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 14,
+        ),
+        labelStyle: AppTextStyles.labelMedium.copyWith(
+          color: const Color(0xFF94A3B8),
+        ),
+        hintStyle: AppTextStyles.bodyMedium.copyWith(
+          color: const Color(0xFF6B7280),
+        ),
         prefixIconColor: AppColors.navy400,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -198,7 +233,9 @@ class AppTheme {
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
           elevation: 0,
-          textStyle: AppTextStyles.labelLarge.copyWith(color: AppColors.navy950),
+          textStyle: AppTextStyles.labelLarge.copyWith(
+            color: AppColors.navy950,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -209,7 +246,9 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.md),
           ),
-          textStyle: AppTextStyles.labelLarge.copyWith(color: AppColors.navy400),
+          textStyle: AppTextStyles.labelLarge.copyWith(
+            color: AppColors.navy400,
+          ),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -220,7 +259,9 @@ class AppTheme {
           if (states.contains(WidgetState.selected)) {
             return AppTextStyles.labelSmall.copyWith(color: AppColors.navy400);
           }
-          return AppTextStyles.labelSmall.copyWith(color: const Color(0xFF94A3B8));
+          return AppTextStyles.labelSmall.copyWith(
+            color: const Color(0xFF94A3B8),
+          );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -230,16 +271,36 @@ class AppTheme {
         }),
       ),
       textTheme: TextTheme(
-        displayLarge: AppTextStyles.displayLarge.copyWith(color: const Color(0xFFF1F5F9)),
-        headlineLarge: AppTextStyles.headlineLarge.copyWith(color: const Color(0xFFF1F5F9)),
-        headlineMedium: AppTextStyles.headlineMedium.copyWith(color: const Color(0xFFF1F5F9)),
-        headlineSmall: AppTextStyles.headlineSmall.copyWith(color: const Color(0xFFF1F5F9)),
-        bodyLarge: AppTextStyles.bodyLarge.copyWith(color: const Color(0xFFCBD5E1)),
-        bodyMedium: AppTextStyles.bodyMedium.copyWith(color: const Color(0xFFCBD5E1)),
-        bodySmall: AppTextStyles.bodySmall.copyWith(color: const Color(0xFF94A3B8)),
-        labelLarge: AppTextStyles.labelLarge.copyWith(color: const Color(0xFFCBD5E1)),
-        labelMedium: AppTextStyles.labelMedium.copyWith(color: const Color(0xFF94A3B8)),
-        labelSmall: AppTextStyles.labelSmall.copyWith(color: const Color(0xFF94A3B8)),
+        displayLarge: AppTextStyles.displayLarge.copyWith(
+          color: const Color(0xFFF1F5F9),
+        ),
+        headlineLarge: AppTextStyles.headlineLarge.copyWith(
+          color: const Color(0xFFF1F5F9),
+        ),
+        headlineMedium: AppTextStyles.headlineMedium.copyWith(
+          color: const Color(0xFFF1F5F9),
+        ),
+        headlineSmall: AppTextStyles.headlineSmall.copyWith(
+          color: const Color(0xFFF1F5F9),
+        ),
+        bodyLarge: AppTextStyles.bodyLarge.copyWith(
+          color: const Color(0xFFCBD5E1),
+        ),
+        bodyMedium: AppTextStyles.bodyMedium.copyWith(
+          color: const Color(0xFFCBD5E1),
+        ),
+        bodySmall: AppTextStyles.bodySmall.copyWith(
+          color: const Color(0xFF94A3B8),
+        ),
+        labelLarge: AppTextStyles.labelLarge.copyWith(
+          color: const Color(0xFFCBD5E1),
+        ),
+        labelMedium: AppTextStyles.labelMedium.copyWith(
+          color: const Color(0xFF94A3B8),
+        ),
+        labelSmall: AppTextStyles.labelSmall.copyWith(
+          color: const Color(0xFF94A3B8),
+        ),
       ),
     );
   }

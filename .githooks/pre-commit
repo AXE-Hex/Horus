@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+bad_paths=()
+while IFS= read -r path; do
+  case "$path" in
+    .env|.env.*|*/.env|*/.env.*)
+      [[ "$path" == ".env.example" || "$path" == */.env.example ]] || bad_paths+=("$path")
+      ;;
+    *.pem|*.key|*.p12|*.pfx|*.jks|*.keystore|*.mobileprovision|*.provisionprofile)
+      bad_paths+=("$path")
+      ;;
+    build/*|*/build/*|.dart_tool/*|*/.dart_tool/*|coverage/*|*/coverage/*|supabase/.temp/*|supabase/.branches/*)
+      bad_paths+=("$path")
+      ;;
+  esac
+done < <(git diff --cached --name-only --diff-filter=ACMRT)
+
+if ((${#bad_paths[@]})); then
+  printf 'Refusing to commit local or sensitive paths:\n' >&2
+  printf '  %s\n' "${bad_paths[@]}" >&2
+  exit 1
+fi

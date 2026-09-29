@@ -1,0 +1,56 @@
+name: Horus Security
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_call:
+  schedule:
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-security-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  filesystem-security-scan:
+    name: Secret and Vulnerability Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      # JSON stays in the runner workspace and is never uploaded or printed.
+      - name: Scan filesystem
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # 0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          format: json
+          output: trivy-report.json
+          skip-dirs: .git,.dart_tool,build,coverage,supabase/.temp,supabase/.branches
+
+      - name: Report safe finding metadata and fail on findings
+        run: python3 .github/scripts/check_trivy_report.py trivy-report.json
+
+      - name: Remove scanner report
+        if: always()
+        run: rm -f trivy-report.json
+
+  dependency-review:
+    name: Dependency Review
+    if: github.event_name == 'pull_request' && (github.repository_visibility == 'public' || vars.DEPENDENCY_REVIEW_ENABLED == 'true')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Review dependency changes
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0

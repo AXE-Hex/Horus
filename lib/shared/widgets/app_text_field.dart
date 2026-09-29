@@ -40,11 +40,13 @@ class AppTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     final fill = isDark ? const Color(0xFF1E293B) : const Color(0xFFF9FAFB);
-    final borderCol = isDark ? const Color(0xFF334155) : const Color(0xFFE5E7EB);
+    final borderCol = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE5E7EB);
     final primaryCol = isDark ? AppColors.navy400 : AppColors.navy600;
-    
+
     final labelColor = isDark ? const Color(0xFF94A3B8) : AppColors.neutral700;
     final hintColor = isDark ? const Color(0xFF6B7280) : AppColors.neutral500;
 
@@ -82,10 +84,13 @@ class AppTextField extends StatelessWidget {
             suffixIcon: suffixIcon,
             suffixIconColor: primaryCol,
             suffixText: suffixText,
-            suffixStyle: suffixText != null 
-                ? AppTextStyles.bodyMedium.copyWith(color: hintColor) 
+            suffixStyle: suffixText != null
+                ? AppTextStyles.bodyMedium.copyWith(color: hintColor)
                 : null,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 14,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(AppRadius.md),
               borderSide: BorderSide(color: borderCol, width: 0.5),
@@ -106,7 +111,9 @@ class AppTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(AppRadius.md),
               borderSide: const BorderSide(color: AppColors.danger, width: 1.5),
             ),
-            errorStyle: AppTextStyles.labelSmall.copyWith(color: AppColors.danger),
+            errorStyle: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.danger,
+            ),
           ),
         ),
       ],

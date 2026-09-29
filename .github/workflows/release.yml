@@ -1,0 +1,81 @@
+name: Horus Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    name: Verify before release
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  security:
+    name: Security scan before release
+    uses: ./.github/workflows/security.yml
+    permissions:
+      contents: read
+
+  publish-web-artifact:
+    name: Package Web Release
+    needs: [verify, security]
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout tagged source
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          flutter-version: 3.44.4
+          channel: stable
+          cache: true
+
+      - name: Restore dependencies and regenerate tracked output
+        run: |
+          flutter pub get --enforce-lockfile
+          dart run build_runner build
+          dart run slang
+
+      - name: Verify generated output is current
+        run: |
+          git diff --exit-code -- lib
+          test -z "$(git ls-files --others --exclude-standard -- lib)"
+
+      - name: Validate public Supabase build configuration
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: |
+          test -n "$SUPABASE_URL" || { echo "Missing production environment variable SUPABASE_URL" >&2; exit 1; }
+          test -n "$SUPABASE_ANON_KEY" || { echo "Missing production environment variable SUPABASE_ANON_KEY" >&2; exit 1; }
+
+      - name: Build Flutter Web release
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: |
+          flutter build web --release \
+            --dart-define="SUPABASE_URL=$SUPABASE_URL" \
+            --dart-define="SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY"
+
+      - name: Package Web release
+        run: tar -C build/web -czf "horus-web-${GITHUB_REF_NAME}.tar.gz" .
+
+      - name: Publish GitHub Release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" "horus-web-${GITHUB_REF_NAME}.tar.gz" --verify-tag --generate-notes

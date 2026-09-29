@@ -46,5 +46,29 @@ app.*.map.json
 
 # Environment
 .env
+.env.*
+!.env.example
+
+# Local Supabase runtime state and database exports
+supabase/.temp/
+supabase/.branches/
+*.dump
+*.backup
+*.sql.gz
+
+# Private signing material and keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.mobileprovision
+*.provisionprofile
+
 audit_report.txt
-*.py
+
+# Local tooling output
+.gitleaksignore.local
+*.tmp
+*.temp

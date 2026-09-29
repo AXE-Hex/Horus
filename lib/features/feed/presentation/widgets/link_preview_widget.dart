@@ -48,14 +48,8 @@ class LinkPreviewWidget extends StatelessWidget {
       removeElevation: true,
       onTap: _launchUrl,
       bodyTextOverflow: TextOverflow.ellipsis,
-      titleStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 14,
-      ),
-      bodyStyle: const TextStyle(
-        fontSize: 12,
-        color: Colors.grey,
-      ),
+      titleStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+      bodyStyle: const TextStyle(fontSize: 12, color: Colors.grey),
     );
   }
 }

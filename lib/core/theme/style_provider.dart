@@ -6,7 +6,6 @@ enum AppStyle { classic, glass }
 
 @Riverpod(keepAlive: true)
 class StyleController extends _$StyleController {
-
   @override
   Future<AppStyle> build() async {
     return AppStyle.classic;

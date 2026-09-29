@@ -127,7 +127,9 @@ class DashboardGridItem extends StatelessWidget {
                         size: 14,
                         color: locked
                             ? Colors.grey.withValues(alpha: 0.5)
-                            : Theme.of(context).hintColor.withValues(alpha: 0.5),
+                            : Theme.of(
+                                context,
+                              ).hintColor.withValues(alpha: 0.5),
                       ),
                     ),
                   ],

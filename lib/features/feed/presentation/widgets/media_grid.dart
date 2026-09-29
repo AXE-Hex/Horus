@@ -24,10 +24,8 @@ class MediaGrid extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FullScreenGallery(
-          mediaUrls: mediaUrls,
-          initialIndex: index,
-        ),
+        builder: (context) =>
+            FullScreenGallery(mediaUrls: mediaUrls, initialIndex: index),
       ),
     );
   }
@@ -104,7 +102,9 @@ class MediaGrid extends StatelessWidget {
               children: [
                 Expanded(child: _buildMediaItem(context, mediaUrls[2], 2)),
                 const SizedBox(width: 2),
-                Expanded(child: _buildMoreItem(context, mediaUrls[3], 3, count - 4)),
+                Expanded(
+                  child: _buildMoreItem(context, mediaUrls[3], 3, count - 4),
+                ),
               ],
             ),
           ),
@@ -113,7 +113,12 @@ class MediaGrid extends StatelessWidget {
     }
   }
 
-  Widget _buildMediaItem(BuildContext context, String url, int index, {bool isLarge = false}) {
+  Widget _buildMediaItem(
+    BuildContext context,
+    String url,
+    int index, {
+    bool isLarge = false,
+  }) {
     Widget child;
     if (_isVideo(url)) {
       // Pass a non-autoplay video item or maybe just a thumbnail if possible
@@ -137,14 +142,16 @@ class MediaGrid extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => _openGallery(context, index),
-      child: Hero(
-        tag: url,
-        child: child,
-      ),
+      child: Hero(tag: url, child: child),
     );
   }
 
-  Widget _buildMoreItem(BuildContext context, String url, int index, int remaining) {
+  Widget _buildMoreItem(
+    BuildContext context,
+    String url,
+    int index,
+    int remaining,
+  ) {
     return GestureDetector(
       onTap: () => _openGallery(context, index),
       child: Stack(
@@ -170,4 +177,3 @@ class MediaGrid extends StatelessWidget {
     );
   }
 }
-

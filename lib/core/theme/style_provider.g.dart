@@ -33,7 +33,7 @@ final class StyleControllerProvider
   StyleController create() => StyleController();
 }
 
-String _$styleControllerHash() => r'6bcbadfe79ca384eb61098c0efe3448eb18888cd';
+String _$styleControllerHash() => r'71ffc96e77f7c6b6ad2511818e440dc54f219c53';
 
 abstract class _$StyleController extends $AsyncNotifier<AppStyle> {
   FutureOr<AppStyle> build();

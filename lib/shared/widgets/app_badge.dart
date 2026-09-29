@@ -57,7 +57,7 @@ class AppBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     // In dark mode, adjust background opacities/colors to be softer on dark theme
     Color resolvedBg = backgroundColor;
     Color resolvedText = textColor;
@@ -75,9 +75,12 @@ class AppBadge extends StatelessWidget {
         resolvedBg = const Color(0xFF7F1D1D).withValues(alpha: 0.4);
         resolvedText = const Color(0xFFFCA5A5);
       }
-      
+
       if (resolvedBorder != null) {
-        resolvedBorder = Border.all(color: AppColors.gold500.withValues(alpha: 0.6), width: 1.0);
+        resolvedBorder = Border.all(
+          color: AppColors.gold500.withValues(alpha: 0.6),
+          width: 1.0,
+        );
       }
     }
 

@@ -5,3 +5,4 @@ input_file_pattern: .i18n.json
 output_directory: lib/core/i18n
 flat_map: true
 output_file_name: strings.g.dart
+timestamp: false
