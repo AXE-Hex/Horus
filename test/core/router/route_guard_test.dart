@@ -1,5 +1,4 @@
 import 'package:horus/core/auth/auth_provider.dart';
-import 'package:horus/core/auth/roles.dart';
 import 'package:horus/core/models/profile_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:horus/core/router/route_guard.dart';

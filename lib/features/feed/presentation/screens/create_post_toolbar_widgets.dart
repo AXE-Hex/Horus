@@ -79,7 +79,7 @@ class _Toolbar extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            '${t.extracted.whats_on_your_mind}'.length > 0 ? '' : '',
+            t.extracted.whats_on_your_mind.isNotEmpty ? '' : '',
             style: const TextStyle(fontSize: 0),
           ),
         ],

@@ -218,7 +218,7 @@ class _MediaPreview extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
         physics: const BouncingScrollPhysics(),
         itemCount: media.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         itemBuilder: (context, i) {
           final isVideo = [
             '.mp4',

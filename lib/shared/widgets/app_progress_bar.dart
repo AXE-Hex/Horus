@@ -11,8 +11,9 @@ class AppProgressBar extends StatelessWidget {
   Color _getProgressColor(double value, BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     if (value >= 0.85) return AppColors.gold500; // Gold = Excellent
-    if (value >= 0.70)
+    if (value >= 0.70) {
       return isDark ? AppColors.navy400 : AppColors.navy600; // Blue = Good
+    }
     if (value >= 0.60) return AppColors.warning; // Amber = Medium
     return AppColors.danger; // Red = Poor
   }

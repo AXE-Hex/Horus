@@ -236,7 +236,7 @@ class _PostSkeletonState extends State<_PostSkeleton>
 
     return AnimatedBuilder(
       animation: _anim,
-      builder: (_, __) {
+      builder: (_, _) {
         return Container(
           margin: const EdgeInsets.only(bottom: 8),
           padding: const EdgeInsets.all(16),
