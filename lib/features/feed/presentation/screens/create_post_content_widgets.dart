@@ -46,17 +46,14 @@ class _MentionsRow extends StatelessWidget {
           dropdownColor: isDark ? _kSurface : Colors.white,
           hint: Text(
             hint,
-            style: GoogleFonts.inter(
+            style: TextStyle(
               fontSize: 12,
               color: isDark
                   ? Colors.white.withValues(alpha: 0.38)
                   : Colors.black.withValues(alpha: 0.38),
             ),
           ),
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            color: isDark ? Colors.white : _kBg,
-          ),
+          style: TextStyle(fontSize: 12, color: isDark ? Colors.white : _kBg),
           items: items
               .map(
                 (item) => DropdownMenuItem(
@@ -86,7 +83,7 @@ class _MentionsRow extends StatelessWidget {
         children: [
           Text(
             isArabic ? 'ذكر:' : 'Mention:',
-            style: GoogleFonts.inter(
+            style: TextStyle(
               fontSize: 13,
               color: isDark
                   ? Colors.white.withValues(alpha: 0.38)
@@ -143,7 +140,7 @@ class _ContentField extends StatelessWidget {
       minLines: 5,
       autofocus: true,
       onChanged: onChanged,
-      style: GoogleFonts.inter(
+      style: TextStyle(
         fontSize: 17,
         height: 1.6,
         color: isDark
@@ -155,7 +152,7 @@ class _ContentField extends StatelessWidget {
         hintText: isArabic
             ? 'شاركنا ما يدور في ذهنك...'
             : "What's on your mind?",
-        hintStyle: GoogleFonts.inter(
+        hintStyle: TextStyle(
           fontSize: 17,
           color: isDark
               ? Colors.white.withValues(alpha: 0.24)
@@ -190,12 +187,12 @@ class _LinkField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        style: GoogleFonts.inter(fontSize: 14, color: _kPrimary),
+        style: TextStyle(fontSize: 14, color: _kPrimary),
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: Icon(LucideIcons.link, color: _kPrimary, size: 18),
           hintText: isArabic ? 'الصق الرابط هنا...' : 'Paste a link...',
-          hintStyle: GoogleFonts.inter(color: _kPrimary.withValues(alpha: 0.4)),
+          hintStyle: TextStyle(color: _kPrimary.withValues(alpha: 0.4)),
         ),
       ),
     );

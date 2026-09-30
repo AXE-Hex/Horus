@@ -50,7 +50,7 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
               children: [
                 Text(
                   isArabic ? 'التعليقات' : 'Comments',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: isDark ? Colors.white : _kBg,
@@ -68,7 +68,7 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
                   ),
                   child: Text(
                     '${widget.post.commentsCount}',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: _kPrimary,
@@ -116,17 +116,14 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
                         const SizedBox(height: 12),
                         Text(
                           isArabic ? 'لا توجد تعليقات بعد' : 'No comments yet',
-                          style: GoogleFonts.inter(color: Colors.grey),
+                          style: TextStyle(color: Colors.grey),
                         ),
                         const SizedBox(height: 4),
                         Text(
                           isArabic
                               ? 'كن أول من يعلق!'
                               : 'Be the first to comment!',
-                          style: GoogleFonts.inter(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
                         ),
                       ],
                     ),
@@ -141,7 +138,7 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, _) => Center(child: Text('Error: $err')),
+              error: (_, _) => Center(child: Text(t.shared.error)),
             ),
           ),
 
@@ -183,7 +180,7 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
                         hintText: isArabic
                             ? 'أضف تعليقاً...'
                             : 'Add a comment...',
-                        hintStyle: GoogleFonts.inter(
+                        hintStyle: TextStyle(
                           color: isDark
                               ? Colors.white.withValues(alpha: 0.30)
                               : Colors.black.withValues(alpha: 0.30),
@@ -193,7 +190,7 @@ class _CommentSheetState extends ConsumerState<_CommentSheet> {
                           vertical: 12,
                         ),
                       ),
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
                         fontSize: 14,
                         color: isDark
                             ? Colors.white.withValues(alpha: 0.87)

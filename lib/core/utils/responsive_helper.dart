@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
 
 class ResponsiveHelper {
-  static bool isMobile(BuildContext context) =>
-      MediaQuery.sizeOf(context).width < 600;
+  static const compactBreakpoint = 600.0;
+  static const mediumBreakpoint = 1024.0;
+  static const expandedBreakpoint = 1440.0;
 
-  static bool isTablet(BuildContext context) =>
-      MediaQuery.sizeOf(context).width >= 600 &&
-      MediaQuery.sizeOf(context).width < 1024;
+  static bool isCompact(BuildContext context) =>
+      MediaQuery.sizeOf(context).width < compactBreakpoint;
+
+  static bool isMedium(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return width >= compactBreakpoint && width < mediumBreakpoint;
+  }
+
+  static bool isExpanded(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return width >= mediumBreakpoint && width < expandedBreakpoint;
+  }
+
+  static bool isLarge(BuildContext context) =>
+      MediaQuery.sizeOf(context).width >= expandedBreakpoint;
+
+  static bool isMobile(BuildContext context) => isCompact(context);
+
+  static bool isTablet(BuildContext context) => isMedium(context);
 
   static bool isDesktop(BuildContext context) =>
-      MediaQuery.sizeOf(context).width >= 1024;
+      MediaQuery.sizeOf(context).width >= mediumBreakpoint;
 
   static T select<T>(
     BuildContext context, {
@@ -18,8 +35,8 @@ class ResponsiveHelper {
     T? desktop,
   }) {
     final width = MediaQuery.sizeOf(context).width;
-    if (width >= 1024) return desktop ?? tablet ?? mobile;
-    if (width >= 600) return tablet ?? mobile;
+    if (width >= mediumBreakpoint) return desktop ?? tablet ?? mobile;
+    if (width >= compactBreakpoint) return tablet ?? mobile;
     return mobile;
   }
 }
@@ -40,10 +57,10 @@ class ResponsiveLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth >= 1024) {
+        if (constraints.maxWidth >= ResponsiveHelper.mediumBreakpoint) {
           return desktop ?? tablet ?? mobile;
         }
-        if (constraints.maxWidth >= 600) {
+        if (constraints.maxWidth >= ResponsiveHelper.compactBreakpoint) {
           return tablet ?? mobile;
         }
         return mobile;

@@ -83,7 +83,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
                     ),
                     child: Text(
                       'EST. ${college.established}',
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
                   const SizedBox(height: 8),
                   Text(
                     title,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -152,15 +152,6 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
                 itemWidth,
                 2,
               ),
-              _buildStatItem(
-                'published_articles',
-                stats['research']?.toString() ?? '0',
-                LucideIcons.fileText,
-                color,
-                isGlass,
-                itemWidth,
-                3,
-              ),
             ],
           );
         },
@@ -171,35 +162,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
           child: CircularProgressIndicator(),
         ),
       ),
-      error: (e, _) => LayoutBuilder(
-        builder: (context, constraints) {
-          final itemWidth = (constraints.maxWidth - 12) / 2;
-          return Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: [
-              _buildStatItem(
-                'students',
-                '0',
-                LucideIcons.users,
-                color,
-                isGlass,
-                itemWidth,
-                0,
-              ),
-              _buildStatItem(
-                'academic_staff',
-                '0',
-                LucideIcons.userCheck,
-                color,
-                isGlass,
-                itemWidth,
-                1,
-              ),
-            ],
-          );
-        },
-      ),
+      error: (_, _) => Center(child: Text(t.academic.error)),
     );
   }
 
@@ -247,7 +210,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
           const SizedBox(height: 16),
           Text(
             value,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: isGlass
@@ -257,7 +220,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
           ),
           Text(
             label,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 12,
               color: isGlass ? Colors.white70 : Colors.grey[600],
             ),
@@ -293,7 +256,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
             const SizedBox(width: 12),
             Text(
               t.extracted.about_college,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: isGlass ? Colors.white : null,
@@ -353,7 +316,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
               child: ExpansionTile(
                 title: Text(
                   title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -366,23 +329,17 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
                 children: [
                   Text(
                     content,
-                    style: GoogleFonts.outfit(
-                      color: Colors.white70,
-                      height: 1.5,
-                    ),
+                    style: TextStyle(color: Colors.white70, height: 1.5),
                   ),
                 ],
               ),
             )
           : ExpansionTile(
-              title: Text(
-                title,
-                style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
-              ),
+              title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
               textColor: color,
               iconColor: color,
               childrenPadding: const EdgeInsets.all(16),
-              children: [Text(content, style: GoogleFonts.outfit(height: 1.5))],
+              children: [Text(content, style: TextStyle(height: 1.5))],
             ),
     ).animate().fadeIn(delay: (index * 150).ms).slideX(begin: 0.1);
   }

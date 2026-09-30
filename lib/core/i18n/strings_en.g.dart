@@ -73,6 +73,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsSharedEn shared = TranslationsSharedEn.internal(_root);
 	late final TranslationsStudentsEn students = TranslationsStudentsEn.internal(_root);
 	late final TranslationsExtractedEn extracted = TranslationsExtractedEn.internal(_root);
+	late final TranslationsControlEn control = TranslationsControlEn.internal(_root);
 }
 
 // Path: common
@@ -196,6 +197,9 @@ class TranslationsAuthEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
+	late final TranslationsAuthSplashEn splash = TranslationsAuthSplashEn.internal(_root);
+	late final TranslationsAuthGuestRegistrationEn guest_registration = TranslationsAuthGuestRegistrationEn.internal(_root);
+	late final TranslationsAuthAccessPendingEn access_pending = TranslationsAuthAccessPendingEn.internal(_root);
 	late final TranslationsAuthLoginEn login = TranslationsAuthLoginEn.internal(_root);
 	late final TranslationsAuthForgotPasswordEn forgot_password = TranslationsAuthForgotPasswordEn.internal(_root);
 
@@ -232,6 +236,15 @@ class TranslationsHomeEn {
 
 	/// en: 'Student Portal'
 	String get student_portal => 'Student Portal';
+
+	/// en: 'Text'
+	String get post_text => 'Text';
+
+	/// en: 'Image'
+	String get post_image => 'Image';
+
+	/// en: 'Announcement'
+	String get post_announcement => 'Announcement';
 }
 
 // Path: feed
@@ -756,6 +769,12 @@ class TranslationsAttendanceEn {
 	String get ratio => 'Attendance Ratio';
 
 	late final TranslationsAttendanceSubjectsEn subjects = TranslationsAttendanceSubjectsEn.internal(_root);
+
+	/// en: 'Excused'
+	String get excused => 'Excused';
+
+	/// en: 'Unavailable'
+	String get unknown => 'Unavailable';
 }
 
 // Path: registration
@@ -1298,6 +1317,9 @@ class TranslationsAcademicEn {
 	/// en: 'No data available'
 	String get no_data => 'No data available';
 
+	/// en: 'No reviews yet'
+	String get no_reviews_yet => 'No reviews yet';
+
 	/// en: 'Back'
 	String get back => 'Back';
 
@@ -1435,18 +1457,6 @@ class TranslationsAcademicEn {
 
 	/// en: 'Deep Learning'
 	String get deep_learning => 'Deep Learning';
-
-	/// en: 'Dr. Ada Lovelace'
-	String get dr_ada_lovelace => 'Dr. Ada Lovelace';
-
-	/// en: 'Dr. Alan Turing'
-	String get dr_alan_turing => 'Dr. Alan Turing';
-
-	/// en: 'Dr. Robert Smith'
-	String get dr_robert_smith => 'Dr. Robert Smith';
-
-	/// en: 'Dr. Sarah Ahmed'
-	String get dr_sarah_ahmed => 'Dr. Sarah Ahmed';
 
 	/// en: 'English Composition'
 	String get english_composition => 'English Composition';
@@ -1681,6 +1691,18 @@ class TranslationsAcademicEn {
 
 	/// en: 'Web Programming'
 	String get web_programming => 'Web Programming';
+
+	/// en: 'Reviews unavailable'
+	String get reviews_unavailable => 'Reviews unavailable';
+
+	/// en: 'Staff reviews are not currently enabled. No review has been submitted.'
+	String get reviews_unavailable_description => 'Staff reviews are not currently enabled. No review has been submitted.';
+
+	/// en: 'Select a file'
+	String get select_file => 'Select a file';
+
+	/// en: 'Select a nonempty file of at most 50 MB.'
+	String get upload_file_size_error => 'Select a nonempty file of at most 50 MB.';
 }
 
 // Path: enrollment
@@ -1996,6 +2018,12 @@ class TranslationsEnrollmentEn {
 
 	/// en: 'Overdue'
 	String get overdue => 'Overdue';
+
+	/// en: 'Refunded'
+	String get refunded => 'Refunded';
+
+	/// en: 'Status unavailable'
+	String get unknown_status => 'Status unavailable';
 
 	/// en: 'Paid'
 	String get paid => 'Paid';
@@ -2557,6 +2585,9 @@ class TranslationsStudentsEn {
 
 	/// en: 'Smart Digital ID'
 	String get smart_digital_id => 'Smart Digital ID';
+
+	/// en: 'Digital ID details are not available for this account.'
+	String get id_unavailable => 'Digital ID details are not available for this account.';
 
 	/// en: 'Status'
 	String get status => 'Status';
@@ -3346,6 +3377,24 @@ class TranslationsExtractedEn {
 
 	/// en: 'Share your thoughts to help improve the system'
 	String get share_your_thoughts_to_help_improve_the => 'Share your thoughts to help improve the system';
+
+	/// en: 'System'
+	String get system_appearance => 'System';
+}
+
+// Path: control
+class TranslationsControlEn {
+	TranslationsControlEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'University management'
+	String get title => 'University management';
+
+	/// en: 'Your authorized academic and operational workspace'
+	String get subtitle => 'Your authorized academic and operational workspace';
 }
 
 // Path: onboarding.language
@@ -3432,6 +3481,81 @@ class TranslationsOnboardingThemeEn {
 	String get dark => 'Dark';
 }
 
+// Path: auth.splash
+class TranslationsAuthSplashEn {
+	TranslationsAuthSplashEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Welcome,'
+	String get welcome_prefix => 'Welcome,';
+}
+
+// Path: auth.guest_registration
+class TranslationsAuthGuestRegistrationEn {
+	TranslationsAuthGuestRegistrationEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Create a guest account'
+	String get title => 'Create a guest account';
+
+	/// en: 'Guest accounts have access to public university information only.'
+	String get subtitle => 'Guest accounts have access to public university information only.';
+
+	/// en: 'Full name'
+	String get full_name => 'Full name';
+
+	/// en: 'University email'
+	String get email => 'University email';
+
+	/// en: 'Password'
+	String get password => 'Password';
+
+	/// en: 'Confirm password'
+	String get confirm_password => 'Confirm password';
+
+	/// en: 'Create guest account'
+	String get submit => 'Create guest account';
+
+	/// en: 'Complete all fields and use a valid @horus.edu.eg address.'
+	String get validation => 'Complete all fields and use a valid @horus.edu.eg address.';
+
+	/// en: 'Passwords do not match.'
+	String get password_mismatch => 'Passwords do not match.';
+
+	/// en: 'Unable to create the account. Check your details and try again.'
+	String get request_failed => 'Unable to create the account. Check your details and try again.';
+
+	/// en: 'Already have an account? Sign in'
+	String get already_have_account => 'Already have an account? Sign in';
+
+	/// en: 'Check your email to confirm your account before signing in.'
+	String get confirmation_required => 'Check your email to confirm your account before signing in.';
+}
+
+// Path: auth.access_pending
+class TranslationsAuthAccessPendingEn {
+	TranslationsAuthAccessPendingEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Access is pending'
+	String get title => 'Access is pending';
+
+	/// en: 'This account does not have an active university role. Contact university support if you believe this is an error.'
+	String get body => 'This account does not have an active university role. Contact university support if you believe this is an error.';
+
+	/// en: 'Sign out'
+	String get sign_out => 'Sign out';
+}
+
 // Path: auth.login
 class TranslationsAuthLoginEn {
 	TranslationsAuthLoginEn.internal(this._root);
@@ -3449,8 +3573,20 @@ class TranslationsAuthLoginEn {
 	/// en: 'Email'
 	String get email => 'Email';
 
+	/// en: 'Enter your university email or username'
+	String get email_hint => 'Enter your university email or username';
+
 	/// en: 'Password'
 	String get password => 'Password';
+
+	/// en: 'Enter your email and password.'
+	String get required_fields => 'Enter your email and password.';
+
+	/// en: 'Use a valid university email ending in @horus.edu.eg.'
+	String get invalid_email => 'Use a valid university email ending in @horus.edu.eg.';
+
+	/// en: 'Unable to sign in. Check your details and try again.'
+	String get sign_in_failed => 'Unable to sign in. Check your details and try again.';
 
 	/// en: 'Forgot Password?'
 	String get forgot_password => 'Forgot Password?';
@@ -4448,10 +4584,30 @@ extension on Translations {
 			'onboarding.theme.subtitle' => 'Light or dark, your choice',
 			'onboarding.theme.light' => 'Light',
 			'onboarding.theme.dark' => 'Dark',
+			'auth.splash.welcome_prefix' => 'Welcome,',
+			'auth.guest_registration.title' => 'Create a guest account',
+			'auth.guest_registration.subtitle' => 'Guest accounts have access to public university information only.',
+			'auth.guest_registration.full_name' => 'Full name',
+			'auth.guest_registration.email' => 'University email',
+			'auth.guest_registration.password' => 'Password',
+			'auth.guest_registration.confirm_password' => 'Confirm password',
+			'auth.guest_registration.submit' => 'Create guest account',
+			'auth.guest_registration.validation' => 'Complete all fields and use a valid @horus.edu.eg address.',
+			'auth.guest_registration.password_mismatch' => 'Passwords do not match.',
+			'auth.guest_registration.request_failed' => 'Unable to create the account. Check your details and try again.',
+			'auth.guest_registration.already_have_account' => 'Already have an account? Sign in',
+			'auth.guest_registration.confirmation_required' => 'Check your email to confirm your account before signing in.',
+			'auth.access_pending.title' => 'Access is pending',
+			'auth.access_pending.body' => 'This account does not have an active university role. Contact university support if you believe this is an error.',
+			'auth.access_pending.sign_out' => 'Sign out',
 			'auth.login.welcome' => 'Welcome Back',
 			'auth.login.subtitle' => 'Sign in to continue',
 			'auth.login.email' => 'Email',
+			'auth.login.email_hint' => 'Enter your university email or username',
 			'auth.login.password' => 'Password',
+			'auth.login.required_fields' => 'Enter your email and password.',
+			'auth.login.invalid_email' => 'Use a valid university email ending in @horus.edu.eg.',
+			'auth.login.sign_in_failed' => 'Unable to sign in. Check your details and try again.',
 			'auth.login.forgot_password' => 'Forgot Password?',
 			'auth.login.submit' => 'Login',
 			'auth.login.guest' => 'Browse as Guest',
@@ -4484,6 +4640,9 @@ extension on Translations {
 			'home.prof' => 'Professor',
 			'home.faculty_portal' => 'Faculty Portal',
 			'home.student_portal' => 'Student Portal',
+			'home.post_text' => 'Text',
+			'home.post_image' => 'Image',
+			'home.post_announcement' => 'Announcement',
 			'feed.likes' => 'likes',
 			'feed.caption_sample' => 'This is a sample caption for post',
 			'feed.hours_ago' => 'hours ago',
@@ -4760,6 +4919,8 @@ extension on Translations {
 			'attendance.subjects.machine_learning' => 'Machine Learning',
 			'attendance.subjects.ethics' => 'Ethics in IT',
 			'attendance.subjects.calculus' => 'Advanced Calculus',
+			'attendance.excused' => 'Excused',
+			'attendance.unknown' => 'Unavailable',
 			'registration.title' => 'Course Registration',
 			'registration.submit' => 'Submit Registration',
 			'registration.enrolled_credits' => 'Enrolled Credits',
@@ -4889,6 +5050,8 @@ extension on Translations {
 			'roles.descriptions.librarian' => 'Manages library resources and materials',
 			'roles.descriptions.freshman' => 'First-year student with limited system access',
 			'roles.descriptions.regular_student' => 'Full student with all standard academic privileges',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.student' => 'General student role',
 			'roles.descriptions.class_representative' => 'Student leader who represents the class body',
 			'roles.descriptions.alumni' => 'Graduated student with limited access',
@@ -4914,8 +5077,6 @@ extension on Translations {
 			'academic.exam_schedule_title' => 'Exam Schedule',
 			'academic.professor_dashboard' => 'Professor Dashboard',
 			'academic.all_students' => 'All Students',
-			_ => null,
-		} ?? switch (path) {
 			'academic.groups' => 'Groups',
 			'academic.tas' => 'Teaching Assistants',
 			'academic.no_groups' => 'No Groups',
@@ -4967,6 +5128,7 @@ extension on Translations {
 			'academic.error' => 'Error',
 			'academic.retry' => 'Retry',
 			'academic.no_data' => 'No data available',
+			'academic.no_reviews_yet' => 'No reviews yet',
 			'academic.back' => 'Back',
 			'academic.search' => 'Search',
 			'academic.filter' => 'Filter',
@@ -5013,10 +5175,6 @@ extension on Translations {
 			'academic.database_systems' => 'Database Systems',
 			'academic.days' => 'Days',
 			'academic.deep_learning' => 'Deep Learning',
-			'academic.dr_ada_lovelace' => 'Dr. Ada Lovelace',
-			'academic.dr_alan_turing' => 'Dr. Alan Turing',
-			'academic.dr_robert_smith' => 'Dr. Robert Smith',
-			'academic.dr_sarah_ahmed' => 'Dr. Sarah Ahmed',
 			'academic.english_composition' => 'English Composition',
 			'academic.ethics_in_it' => 'Ethics in IT',
 			'academic.exam_schedule' => 'Exam Schedule',
@@ -5095,6 +5253,10 @@ extension on Translations {
 			'academic.uploaded_successfully' => 'Uploaded Successfully',
 			'academic.urgent_news' => 'Urgent News',
 			'academic.web_programming' => 'Web Programming',
+			'academic.reviews_unavailable' => 'Reviews unavailable',
+			'academic.reviews_unavailable_description' => 'Staff reviews are not currently enabled. No review has been submitted.',
+			'academic.select_file' => 'Select a file',
+			'academic.upload_file_size_error' => 'Select a nonempty file of at most 50 MB.',
 			'enrollment.registration_title' => 'Course Registration',
 			'enrollment.invoices_title' => 'Financial Invoices',
 			'enrollment.payment_title' => 'Tuition Payment',
@@ -5197,6 +5359,8 @@ extension on Translations {
 			'enrollment.notes_optional' => 'Notes (Optional)',
 			'enrollment.other' => 'Other',
 			'enrollment.overdue' => 'Overdue',
+			'enrollment.refunded' => 'Refunded',
+			'enrollment.unknown_status' => 'Status unavailable',
 			'enrollment.paid' => 'Paid',
 			'enrollment.partial' => 'Partial',
 			'enrollment.pay' => 'Pay',
@@ -5378,6 +5542,7 @@ extension on Translations {
 			'students.settings' => 'Settings',
 			'students.share_identity' => 'Share Identity',
 			'students.smart_digital_id' => 'Smart Digital ID',
+			'students.id_unavailable' => 'Digital ID details are not available for this account.',
 			'students.status' => 'Status',
 			'students.student' => 'Student',
 			'students.utilities' => 'Utilities',
@@ -5399,6 +5564,8 @@ extension on Translations {
 			'extracted.role' => 'Role',
 			'extracted.account_status' => 'Account Status',
 			'extracted.active' => 'Active',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.save_changes' => 'Save Changes',
 			'extracted.account' => 'Account',
 			'extracted.appearance' => 'Appearance',
@@ -5428,8 +5595,6 @@ extension on Translations {
 			'extracted.test_notification_sent' => 'Test notification sent!',
 			'extracted.app_language' => 'App Language',
 			'extracted.support_center' => 'Support Center',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.get_help_and_resolve_any_issues' => 'Get help and resolve any issues',
 			'extracted.send_feedback' => 'Send Feedback',
 			'extracted.share_your_thoughts_to_help_improve_the_' => 'Share your thoughts to help improve the app',
@@ -5640,6 +5805,9 @@ extension on Translations {
 			'extracted.write_something' => 'Write something...',
 			'extracted.dashboard' => 'Dashboard',
 			'extracted.share_your_thoughts_to_help_improve_the' => 'Share your thoughts to help improve the system',
+			'extracted.system_appearance' => 'System',
+			'control.title' => 'University management',
+			'control.subtitle' => 'Your authorized academic and operational workspace',
 			_ => null,
 		};
 	}

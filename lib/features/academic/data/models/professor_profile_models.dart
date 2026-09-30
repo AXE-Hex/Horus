@@ -6,6 +6,7 @@ class ProfessorProfile {
   final String role;
   final String department;
   final double generalRating;
+  final int totalRatings;
   final double curriculumRating;
   final String email;
   final String officeSymbol;
@@ -23,6 +24,7 @@ class ProfessorProfile {
     required this.role,
     required this.department,
     required this.generalRating,
+    this.totalRatings = 0,
     required this.curriculumRating,
     required this.email,
     required this.officeSymbol,

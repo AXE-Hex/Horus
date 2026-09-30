@@ -147,7 +147,7 @@ List<AppNotification> notificationsAfterMarkAllRead(
   final unreadCount = notifications
       .where((notification) => !notification.isRead)
       .length;
-  if (updatedRows != unreadCount) return notifications;
+  if (updatedRows < unreadCount) return notifications;
   return notifications
       .map((notification) => notification.copyWith(isRead: true))
       .toList();

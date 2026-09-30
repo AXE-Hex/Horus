@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/app_spacing.dart';
 
 class HorusEmptyState extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String? subtitle;
-  final double iconSize;
-  final bool pulseIcon;
-
   const HorusEmptyState({
     super.key,
     required this.icon,
@@ -17,58 +10,51 @@ class HorusEmptyState extends StatelessWidget {
     this.iconSize = 64,
     this.pulseIcon = false,
   });
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final double iconSize;
+  // Retained for caller compatibility. Empty pages never need perpetual motion.
+  final bool pulseIcon;
 
   @override
   Widget build(BuildContext context) {
-    final iconWidget = Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.05),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        size: iconSize,
-        color: Colors.white.withValues(alpha: 0.24),
-      ),
-    );
-
+    final theme = Theme.of(context);
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          pulseIcon
-              ? iconWidget
-                    .animate(
-                      onPlay: (controller) => controller.repeat(reverse: true),
-                    )
-                    .scale(
-                      begin: const Offset(1, 1),
-                      end: const Offset(1.08, 1.08),
-                      duration: 2.seconds,
-                      curve: Curves.easeInOut,
-                    )
-              : iconWidget,
-          const SizedBox(height: 24),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: GoogleFonts.outfit(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white70,
+      child: Padding(
+        padding: const EdgeInsets.all(AppSpacing.xxl),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(AppSpacing.xxl),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: iconSize,
+                color: theme.colorScheme.primary,
+              ),
             ),
-          ),
-          if (subtitle != null) ...[
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSpacing.xxl),
             Text(
-              subtitle!,
+              title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.outfit(fontSize: 14, color: Colors.white38),
+              style: theme.textTheme.titleLarge,
             ),
+            if (subtitle != null) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                subtitle!,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ],
           ],
-        ],
-      ).animate().fadeIn(duration: 800.ms),
+        ),
+      ),
     );
   }
 }

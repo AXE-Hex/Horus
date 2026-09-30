@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -14,9 +11,6 @@ class AboutScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
-
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
@@ -31,7 +25,7 @@ class AboutScreen extends ConsumerWidget {
           ),
           title: Text(
             t.settings.about_app,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
@@ -56,7 +50,7 @@ class AboutScreen extends ConsumerWidget {
               Center(
                 child: Text(
                   'Horus Portal',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).primaryColor,
@@ -66,7 +60,7 @@ class AboutScreen extends ConsumerWidget {
               Center(
                 child: Text(
                   'v1.0.0',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 14,
                     color: Theme.of(context).hintColor,
                   ),
@@ -117,7 +111,7 @@ class AboutScreen extends ConsumerWidget {
                 padding: const EdgeInsets.all(20),
                 child: Text(
                   t.settings.hue_portal_is_a_comprehensive_,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 14,
                     height: 1.6,
                     color: Theme.of(
@@ -131,7 +125,7 @@ class AboutScreen extends ConsumerWidget {
               Center(
                 child: Text(
                   '© 2026 Horus University. All rights reserved.',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).hintColor,
                   ),
@@ -145,7 +139,7 @@ class AboutScreen extends ConsumerWidget {
       ],
     );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+    return Scaffold(body: body);
   }
 
   Widget _buildInfoRow(
@@ -163,17 +157,14 @@ class AboutScreen extends ConsumerWidget {
           children: [
             Text(
               label,
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 12,
                 color: Theme.of(context).hintColor,
               ),
             ),
             Text(
               value,
-              style: GoogleFonts.outfit(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
             ),
           ],
         ),

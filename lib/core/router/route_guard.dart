@@ -1,22 +1,24 @@
 import 'package:horus/core/auth/auth_provider.dart';
 
 const Set<String> publicRoutes = {
-  '/',
   '/splash',
   '/login',
   '/forgot-password',
-  '/welcome',
-  '/language-selection',
-  '/ui-style-selection',
-  '/theme-selection',
-  '/colleges-selection',
-  '/transition',
+  '/guest-registration',
 };
 
 /// Route entry points are a client convenience. Database RLS/RPC checks remain
 /// the authority for data access and mutations.
 const Map<String, Set<String>> routePermissions = {
   '/home': {'profiles.read'},
+  '/control': {
+    'courses.manage',
+    'registration.manage',
+    'registration.review',
+    'students.advise',
+    'students.assign_advisor',
+  },
+  '/access-pending': {},
   '/dashboard': {'grades.read', 'grades.manage', 'students.progress.read'},
   '/digital-id': {'courses.enroll'},
   '/college-portal': {'profiles.read'},
@@ -67,6 +69,26 @@ bool canAccessRoute(String path, Set<String> permissionCodes) {
   return requiredPermissions.any(permissionCodes.contains);
 }
 
+String resolveInitialDestination(AuthState authState) {
+  if (!authState.isAuthenticated) return '/login';
+  if (authState.isLoading) return '/splash';
+  if (!authState.hasRole) return '/access-pending';
+
+  final permissions = authState.permissionCodes;
+  if (authState.profile!.roles.any(
+        (role) => role.category == RoleCategory.academicLeadership,
+      ) &&
+      canAccessRoute('/control', permissions)) {
+    return '/control';
+  }
+  if (permissions.contains('students.advise')) return '/advisor-approval';
+  if (permissions.contains('registration.manage')) return '/registration';
+  if (permissions.contains('grades.manage')) return '/professor-dashboard';
+  if (permissions.contains('grades.read')) return '/dashboard';
+  if (permissions.contains('profiles.read')) return '/home';
+  return '/access-pending';
+}
+
 /// Resolves auth-driven navigation transitions; database policies remain the
 /// security boundary for data access and writes.
 String? redirectForAuthState(String location, AuthState authState) {
@@ -74,20 +96,28 @@ String? redirectForAuthState(String location, AuthState authState) {
 
   if (!authState.isAuthenticated && !isPublic) return '/login';
 
+  if (location == '/access-pending') {
+    return authState.isAuthenticated ? null : '/login';
+  }
+
+  if (location == '/splash') return null;
+
+  if (authState.isAuthenticated && location == '/guest-registration') {
+    return resolveInitialDestination(authState);
+  }
+
   if (authState.isAuthenticated && location == '/login') {
-    return authState.hasRole ? '/home' : '/splash';
+    return resolveInitialDestination(authState);
   }
 
   if (authState.isAuthenticated && !isPublic && !authState.hasRole) {
-    return '/splash';
+    return '/access-pending';
   }
 
   if (authState.isAuthenticated &&
       !isPublic &&
       !canAccessRoute(location, authState.permissionCodes)) {
-    return canAccessRoute('/home', authState.permissionCodes)
-        ? '/home'
-        : '/splash';
+    return resolveInitialDestination(authState);
   }
 
   return null;

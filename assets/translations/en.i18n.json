@@ -64,11 +64,37 @@
     }
   },
   "auth": {
+    "splash": {
+      "welcome_prefix": "Welcome,"
+    },
+    "guest_registration": {
+      "title": "Create a guest account",
+      "subtitle": "Guest accounts have access to public university information only.",
+      "full_name": "Full name",
+      "email": "University email",
+      "password": "Password",
+      "confirm_password": "Confirm password",
+      "submit": "Create guest account",
+      "validation": "Complete all fields and use a valid @horus.edu.eg address.",
+      "password_mismatch": "Passwords do not match.",
+      "request_failed": "Unable to create the account. Check your details and try again.",
+      "already_have_account": "Already have an account? Sign in",
+      "confirmation_required": "Check your email to confirm your account before signing in."
+    },
+    "access_pending": {
+      "title": "Access is pending",
+      "body": "This account does not have an active university role. Contact university support if you believe this is an error.",
+      "sign_out": "Sign out"
+    },
     "login": {
       "welcome": "Welcome Back",
       "subtitle": "Sign in to continue",
       "email": "Email",
+      "email_hint": "Enter your university email or username",
       "password": "Password",
+      "required_fields": "Enter your email and password.",
+      "invalid_email": "Use a valid university email ending in @horus.edu.eg.",
+      "sign_in_failed": "Unable to sign in. Check your details and try again.",
       "forgot_password": "Forgot Password?",
       "submit": "Login",
       "guest": "Browse as Guest"
@@ -107,7 +133,10 @@
     "student": "Student",
     "prof": "Professor",
     "faculty_portal": "Faculty Portal",
-    "student_portal": "Student Portal"
+    "student_portal": "Student Portal",
+    "post_text": "Text",
+    "post_image": "Image",
+    "post_announcement": "Announcement"
   },
   "feed": {
     "likes": "likes",
@@ -441,7 +470,9 @@
       "machine_learning": "Machine Learning",
       "ethics": "Ethics in IT",
       "calculus": "Advanced Calculus"
-    }
+    },
+    "excused": "Excused",
+    "unknown": "Unavailable"
   },
   "registration": {
     "title": "Course Registration",
@@ -681,6 +712,7 @@
     "error": "Error",
     "retry": "Retry",
     "no_data": "No data available",
+    "no_reviews_yet": "No reviews yet",
     "back": "Back",
     "search": "Search",
     "filter": "Filter",
@@ -727,10 +759,6 @@
     "database_systems": "Database Systems",
     "days": "Days",
     "deep_learning": "Deep Learning",
-    "dr_ada_lovelace": "Dr. Ada Lovelace",
-    "dr_alan_turing": "Dr. Alan Turing",
-    "dr_robert_smith": "Dr. Robert Smith",
-    "dr_sarah_ahmed": "Dr. Sarah Ahmed",
     "english_composition": "English Composition",
     "ethics_in_it": "Ethics in IT",
     "exam_schedule": "Exam Schedule",
@@ -808,7 +836,11 @@
     "upload_new_file": "Upload New File",
     "uploaded_successfully": "Uploaded Successfully",
     "urgent_news": "Urgent News",
-    "web_programming": "Web Programming"
+    "web_programming": "Web Programming",
+    "reviews_unavailable": "Reviews unavailable",
+    "reviews_unavailable_description": "Staff reviews are not currently enabled. No review has been submitted.",
+    "select_file": "Select a file",
+    "upload_file_size_error": "Select a nonempty file of at most 50 MB."
   },
   "enrollment": {
     "registration_title": "Course Registration",
@@ -913,6 +945,8 @@
     "notes_optional": "Notes (Optional)",
     "other": "Other",
     "overdue": "Overdue",
+    "refunded": "Refunded",
+    "unknown_status": "Status unavailable",
     "paid": "Paid",
     "partial": "Partial",
     "pay": "Pay",
@@ -1098,6 +1132,7 @@
     "settings": "Settings",
     "share_identity": "Share Identity",
     "smart_digital_id": "Smart Digital ID",
+    "id_unavailable": "Digital ID details are not available for this account.",
     "status": "Status",
     "student": "Student",
     "utilities": "Utilities"
@@ -1359,6 +1394,11 @@
     "edit_post": "Edit Post",
     "write_something": "Write something...",
     "dashboard": "Dashboard",
-    "share_your_thoughts_to_help_improve_the": "Share your thoughts to help improve the system"
+    "share_your_thoughts_to_help_improve_the": "Share your thoughts to help improve the system",
+    "system_appearance": "System"
+  },
+  "control": {
+    "title": "University management",
+    "subtitle": "Your authorized academic and operational workspace"
   }
 }

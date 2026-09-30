@@ -1,13 +1,13 @@
+import 'package:horus/core/theme/app_colors.dart';
+import 'package:horus/core/theme/app_spacing.dart';
+import 'package:horus/features/academic/presentation/widgets/course_file_upload_dialog.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/enrollment/presentation/providers/advisor_provider.dart';
@@ -21,21 +21,22 @@ part 'professor_dashboard_actions.dart';
 part 'professor_dashboard_management.dart';
 
 class ProfessorDashboardScreen extends HookConsumerWidget {
-  final ProfessorProfile profile;
+  final ProfessorProfile? profile;
 
-  const ProfessorDashboardScreen({super.key, required this.profile});
+  const ProfessorDashboardScreen({super.key, this.profile});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(professorProfileProvider);
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
     return profileAsync.when(
       data: (profile) {
         if (profile == null) {
-          return const Center(child: Text('Profile not found'));
+          return Scaffold(
+            appBar: AppBar(title: Text(t.academic.course_management)),
+            body: Center(child: Text(t.academic.no_data)),
+          );
         }
 
         final body = CustomScrollView(
@@ -51,8 +52,7 @@ class ProfessorDashboardScreen extends HookConsumerWidget {
                   if (profile.announcements.isNotEmpty) ...[
                     const SizedBox(height: 32),
                     _SectionHeader(
-                      title: 'Announcements',
-                      onTap: () {},
+                      title: t.extracted.announcements,
                       isArabic: isArabic,
                     ),
                     const SizedBox(height: 16),
@@ -76,10 +76,13 @@ class ProfessorDashboardScreen extends HookConsumerWidget {
           ],
         );
 
-        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+        return Scaffold(body: body);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (err, stack) => Scaffold(
+        appBar: AppBar(title: Text(t.academic.course_management)),
+        body: Center(child: Text(t.academic.error)),
+      ),
     );
   }
 }

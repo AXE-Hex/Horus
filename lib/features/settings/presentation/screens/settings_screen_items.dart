@@ -65,7 +65,7 @@ extension _SettingsScreenItems on _SettingsScreenState {
                 const SizedBox(width: 12),
                 Text(
                   t.extracted.log_out,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
                     color: Colors.redAccent,
@@ -121,7 +121,7 @@ extension _SettingsScreenItems on _SettingsScreenState {
                   children: [
                     Text(
                       title,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
                         color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -131,7 +131,7 @@ extension _SettingsScreenItems on _SettingsScreenState {
                       SizedBox(height: 3),
                       Text(
                         subtitle,
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
                           fontSize: 12,
                           color: Theme.of(
                             context,

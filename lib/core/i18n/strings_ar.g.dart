@@ -72,6 +72,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsEnrollmentAr enrollment = _TranslationsEnrollmentAr._(_root);
 	@override late final _TranslationsSharedAr shared = _TranslationsSharedAr._(_root);
 	@override late final _TranslationsStudentsAr students = _TranslationsStudentsAr._(_root);
+	@override late final _TranslationsControlAr control = _TranslationsControlAr._(_root);
 }
 
 // Path: common
@@ -139,6 +140,9 @@ class _TranslationsAuthAr extends TranslationsAuthEn {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
+	@override late final _TranslationsAuthSplashAr splash = _TranslationsAuthSplashAr._(_root);
+	@override late final _TranslationsAuthGuestRegistrationAr guest_registration = _TranslationsAuthGuestRegistrationAr._(_root);
+	@override late final _TranslationsAuthAccessPendingAr access_pending = _TranslationsAuthAccessPendingAr._(_root);
 	@override late final _TranslationsAuthLoginAr login = _TranslationsAuthLoginAr._(_root);
 	@override late final _TranslationsAuthForgotPasswordAr forgot_password = _TranslationsAuthForgotPasswordAr._(_root);
 	@override String get back => 'خلف';
@@ -159,6 +163,9 @@ class _TranslationsHomeAr extends TranslationsHomeEn {
 	@override String get student => 'طالب';
 	@override String get colleges => 'الكليات';
 	@override String get faculty_portal => 'بوابة الكلية';
+	@override String get post_text => 'نص';
+	@override String get post_image => 'صورة';
+	@override String get post_announcement => 'إعلان';
 }
 
 // Path: feed
@@ -420,6 +427,8 @@ class _TranslationsAttendanceAr extends TranslationsAttendanceEn {
 	@override String get late => 'متأخر';
 	@override String get ratio => 'نسبة الحضور';
 	@override late final _TranslationsAttendanceSubjectsAr subjects = _TranslationsAttendanceSubjectsAr._(_root);
+	@override String get excused => 'بعذر';
+	@override String get unknown => 'غير متاح';
 }
 
 // Path: registration
@@ -859,6 +868,7 @@ class _TranslationsExtractedAr extends TranslationsExtractedEn {
 	@override String get write_something => 'Write something...';
 	@override String get dashboard => 'Dashboard';
 	@override String get share_your_thoughts_to_help_improve_the => 'Share your thoughts to help improve the system';
+	@override String get system_appearance => 'النظام';
 }
 
 // Path: academic
@@ -932,6 +942,7 @@ class _TranslationsAcademicAr extends TranslationsAcademicEn {
 	@override String get ratio => 'نسبة';
 	@override String get search => 'يبحث';
 	@override String get no_data => 'لا توجد بيانات متاحة';
+	@override String get no_reviews_yet => 'لا توجد مراجعات بعد';
 	@override String get late => 'متأخر';
 	@override String get present => 'حاضر';
 	@override String get error => 'خطأ';
@@ -981,14 +992,10 @@ class _TranslationsAcademicAr extends TranslationsAcademicEn {
 	@override String get cumulative_gpa => 'المعدل التراكمي';
 	@override String get deep_learning => 'التعلم العميق';
 	@override String get days => 'أيام';
-	@override String get dr_ada_lovelace => 'دكتورة أدا لوفليس';
-	@override String get dr_robert_smith => 'دكتور روبرت سميث';
 	@override String get ethics_in_it => 'الأخلاقيات في مجال تكنولوجيا المعلومات';
-	@override String get dr_sarah_ahmed => 'د/سارة أحمد';
 	@override String get english_composition => 'تكوين اللغة الإنجليزية';
 	@override String get field_internship => 'التدريب الميداني';
 	@override String get exam_schedule => 'جدول الامتحانات';
-	@override String get dr_alan_turing => 'الدكتور آلان تورينج';
 	@override String get fall_2023 => 'خريف 2023';
 	@override String get file_will_be_uploaded_to_cloud => 'سيتم رفع الملف إلى التخزين السحابي';
 	@override String get file_title => 'عنوان الملف';
@@ -1064,6 +1071,10 @@ class _TranslationsAcademicAr extends TranslationsAcademicEn {
 	@override String get web_programming => 'برمجة الويب';
 	@override String get spring_2024 => 'ربيع 2024';
 	@override String get summer_2024 => 'صيف 2024';
+	@override String get reviews_unavailable => 'التقييمات غير متاحة';
+	@override String get reviews_unavailable_description => 'تقييمات أعضاء هيئة التدريس غير مفعّلة حالياً. لم يتم إرسال أي تقييم.';
+	@override String get select_file => 'اختيار ملف';
+	@override String get upload_file_size_error => 'اختر ملفاً غير فارغ بحجم لا يتجاوز ٥٠ ميجابايت.';
 }
 
 // Path: enrollment
@@ -1173,6 +1184,8 @@ class _TranslationsEnrollmentAr extends TranslationsEnrollmentEn {
 	@override String get other => 'آخر';
 	@override String get no_schedules_available_for_thi => 'لا توجد جداول متاحة لهذه الدورة';
 	@override String get overdue => 'تأخرت';
+	@override String get refunded => 'مستردة';
+	@override String get unknown_status => 'حالة غير متاحة';
 	@override String get paid => 'مدفوع';
 	@override String get partial => 'جزئي';
 	@override String get pay => 'يدفع';
@@ -1376,7 +1389,19 @@ class _TranslationsStudentsAr extends TranslationsStudentsEn {
 	@override String get student => 'طالب';
 	@override String get status => 'حالة';
 	@override String get smart_digital_id => 'الهوية الرقمية الذكية';
+	@override String get id_unavailable => 'بيانات الهوية الرقمية غير متاحة لهذا الحساب.';
 	@override String get utilities => 'المرافق';
+}
+
+// Path: control
+class _TranslationsControlAr extends TranslationsControlEn {
+	_TranslationsControlAr._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'إدارة الجامعة';
+	@override String get subtitle => 'مساحة العمل الأكاديمية والإدارية وفق صلاحياتك';
 }
 
 // Path: onboarding.language
@@ -1432,6 +1457,49 @@ class _TranslationsOnboardingThemeAr extends TranslationsOnboardingThemeEn {
 	@override String get dark => 'داكن';
 }
 
+// Path: auth.splash
+class _TranslationsAuthSplashAr extends TranslationsAuthSplashEn {
+	_TranslationsAuthSplashAr._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get welcome_prefix => 'مرحباً،';
+}
+
+// Path: auth.guest_registration
+class _TranslationsAuthGuestRegistrationAr extends TranslationsAuthGuestRegistrationEn {
+	_TranslationsAuthGuestRegistrationAr._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'إنشاء حساب زائر';
+	@override String get subtitle => 'تتيح حسابات الزوار الوصول إلى المعلومات الجامعية العامة فقط.';
+	@override String get full_name => 'الاسم الكامل';
+	@override String get email => 'البريد الجامعي';
+	@override String get password => 'كلمة المرور';
+	@override String get confirm_password => 'تأكيد كلمة المرور';
+	@override String get submit => 'إنشاء حساب زائر';
+	@override String get validation => 'أكمل جميع الحقول واستخدم بريدًا صالحًا ينتهي بـ @horus.edu.eg.';
+	@override String get password_mismatch => 'كلمتا المرور غير متطابقتين.';
+	@override String get request_failed => 'تعذر إنشاء الحساب. تحقق من البيانات ثم حاول مجددًا.';
+	@override String get already_have_account => 'لديك حساب بالفعل؟ سجّل الدخول';
+	@override String get confirmation_required => 'راجع بريدك الإلكتروني لتأكيد حسابك قبل تسجيل الدخول.';
+}
+
+// Path: auth.access_pending
+class _TranslationsAuthAccessPendingAr extends TranslationsAuthAccessPendingEn {
+	_TranslationsAuthAccessPendingAr._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الصلاحية قيد الانتظار';
+	@override String get body => 'لا يملك هذا الحساب دورًا جامعيًا نشطًا. تواصل مع دعم الجامعة إذا كنت تعتقد أن هذا خطأ.';
+	@override String get sign_out => 'تسجيل الخروج';
+}
+
 // Path: auth.login
 class _TranslationsAuthLoginAr extends TranslationsAuthLoginEn {
 	_TranslationsAuthLoginAr._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -1442,7 +1510,11 @@ class _TranslationsAuthLoginAr extends TranslationsAuthLoginEn {
 	@override String get welcome => 'مرحباً بعودتك';
 	@override String get subtitle => 'سجل الدخول للمتابعة';
 	@override String get email => 'البريد الإلكتروني';
+	@override String get email_hint => 'أدخل بريدك الجامعي الكامل أو اسم المستخدم';
 	@override String get password => 'كلمة المرور';
+	@override String get required_fields => 'أدخل البريد الإلكتروني وكلمة المرور.';
+	@override String get invalid_email => 'استخدم بريدًا جامعيًا صالحًا ينتهي بـ @horus.edu.eg.';
+	@override String get sign_in_failed => 'تعذر تسجيل الدخول. تحقق من بياناتك ثم حاول مجددًا.';
 	@override String get forgot_password => 'نسيت كلمة المرور؟';
 	@override String get submit => 'تسجيل الدخول';
 	@override String get guest => 'تصفح كزائر';
@@ -1970,10 +2042,30 @@ extension on TranslationsAr {
 			'onboarding.choose_language' => 'اختر لغتك',
 			'onboarding.classic_solid' => 'كلاسيكي',
 			'onboarding.premium_frosted_glass_blur_eff' => 'تأثير طمس زجاجي بلوري ممتاز',
+			'auth.splash.welcome_prefix' => 'مرحباً،',
+			'auth.guest_registration.title' => 'إنشاء حساب زائر',
+			'auth.guest_registration.subtitle' => 'تتيح حسابات الزوار الوصول إلى المعلومات الجامعية العامة فقط.',
+			'auth.guest_registration.full_name' => 'الاسم الكامل',
+			'auth.guest_registration.email' => 'البريد الجامعي',
+			'auth.guest_registration.password' => 'كلمة المرور',
+			'auth.guest_registration.confirm_password' => 'تأكيد كلمة المرور',
+			'auth.guest_registration.submit' => 'إنشاء حساب زائر',
+			'auth.guest_registration.validation' => 'أكمل جميع الحقول واستخدم بريدًا صالحًا ينتهي بـ @horus.edu.eg.',
+			'auth.guest_registration.password_mismatch' => 'كلمتا المرور غير متطابقتين.',
+			'auth.guest_registration.request_failed' => 'تعذر إنشاء الحساب. تحقق من البيانات ثم حاول مجددًا.',
+			'auth.guest_registration.already_have_account' => 'لديك حساب بالفعل؟ سجّل الدخول',
+			'auth.guest_registration.confirmation_required' => 'راجع بريدك الإلكتروني لتأكيد حسابك قبل تسجيل الدخول.',
+			'auth.access_pending.title' => 'الصلاحية قيد الانتظار',
+			'auth.access_pending.body' => 'لا يملك هذا الحساب دورًا جامعيًا نشطًا. تواصل مع دعم الجامعة إذا كنت تعتقد أن هذا خطأ.',
+			'auth.access_pending.sign_out' => 'تسجيل الخروج',
 			'auth.login.welcome' => 'مرحباً بعودتك',
 			'auth.login.subtitle' => 'سجل الدخول للمتابعة',
 			'auth.login.email' => 'البريد الإلكتروني',
+			'auth.login.email_hint' => 'أدخل بريدك الجامعي الكامل أو اسم المستخدم',
 			'auth.login.password' => 'كلمة المرور',
+			'auth.login.required_fields' => 'أدخل البريد الإلكتروني وكلمة المرور.',
+			'auth.login.invalid_email' => 'استخدم بريدًا جامعيًا صالحًا ينتهي بـ @horus.edu.eg.',
+			'auth.login.sign_in_failed' => 'تعذر تسجيل الدخول. تحقق من بياناتك ثم حاول مجددًا.',
 			'auth.login.forgot_password' => 'نسيت كلمة المرور؟',
 			'auth.login.submit' => 'تسجيل الدخول',
 			'auth.login.guest' => 'تصفح كزائر',
@@ -2006,6 +2098,9 @@ extension on TranslationsAr {
 			'home.student' => 'طالب',
 			'home.colleges' => 'الكليات',
 			'home.faculty_portal' => 'بوابة الكلية',
+			'home.post_text' => 'نص',
+			'home.post_image' => 'صورة',
+			'home.post_announcement' => 'إعلان',
 			'feed.likes' => 'إعجابات',
 			'feed.caption_sample' => 'هذا مثال لشرح المنشور',
 			'feed.hours_ago' => 'منذ ساعتين',
@@ -2283,6 +2378,8 @@ extension on TranslationsAr {
 			'attendance.subjects.machine_learning' => 'تعلم الآلة',
 			'attendance.subjects.ethics' => 'أخلاقيات المهنة',
 			'attendance.subjects.calculus' => 'تفاضل متقدم',
+			'attendance.excused' => 'بعذر',
+			'attendance.unknown' => 'غير متاح',
 			'registration.title' => 'التسجيل الأكاديمي',
 			'registration.submit' => 'إرسال طلب التسجيل',
 			'registration.enrolled_credits' => 'الساعات المسجلة',
@@ -2411,6 +2508,8 @@ extension on TranslationsAr {
 			'roles.descriptions.academic_advisor' => 'يرشد الطلاب خلال التخطيط الأكاديمي',
 			'roles.descriptions.librarian' => 'إدارة الموارد والمواد المكتبية',
 			'roles.descriptions.freshman' => 'طالب في السنة الأولى مع صلاحيات محدودة',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.regular_student' => 'طالب منتظم مع جميع الصلاحيات الأكاديمية المعتادة',
 			'roles.descriptions.student' => 'طالب عام',
 			'roles.descriptions.class_representative' => 'قائد طلابي يمثل مجموعته الدراسية',
@@ -2436,8 +2535,6 @@ extension on TranslationsAr {
 			'extracted.write_something_about_yourself' => 'اكتب نبذة عن نفسك...',
 			'extracted.account_info' => 'معلومات الحساب',
 			'extracted.role' => 'الدور',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.account_status' => 'حالة الحساب',
 			'extracted.active' => 'نشط',
 			'extracted.save_changes' => 'حفظ التغييرات',
@@ -2679,6 +2776,7 @@ extension on TranslationsAr {
 			'extracted.write_something' => 'Write something...',
 			'extracted.dashboard' => 'Dashboard',
 			'extracted.share_your_thoughts_to_help_improve_the' => 'Share your thoughts to help improve the system',
+			'extracted.system_appearance' => 'النظام',
 			'academic.university_requirements' => 'متطلبات الجامعة',
 			'academic.academic_progress' => 'التقدم الأكاديمي',
 			'academic.faculty_requirements' => 'متطلبات الكلية',
@@ -2743,6 +2841,7 @@ extension on TranslationsAr {
 			'academic.ratio' => 'نسبة',
 			'academic.search' => 'يبحث',
 			'academic.no_data' => 'لا توجد بيانات متاحة',
+			'academic.no_reviews_yet' => 'لا توجد مراجعات بعد',
 			'academic.late' => 'متأخر',
 			'academic.present' => 'حاضر',
 			'academic.error' => 'خطأ',
@@ -2792,14 +2891,10 @@ extension on TranslationsAr {
 			'academic.cumulative_gpa' => 'المعدل التراكمي',
 			'academic.deep_learning' => 'التعلم العميق',
 			'academic.days' => 'أيام',
-			'academic.dr_ada_lovelace' => 'دكتورة أدا لوفليس',
-			'academic.dr_robert_smith' => 'دكتور روبرت سميث',
 			'academic.ethics_in_it' => 'الأخلاقيات في مجال تكنولوجيا المعلومات',
-			'academic.dr_sarah_ahmed' => 'د/سارة أحمد',
 			'academic.english_composition' => 'تكوين اللغة الإنجليزية',
 			'academic.field_internship' => 'التدريب الميداني',
 			'academic.exam_schedule' => 'جدول الامتحانات',
-			'academic.dr_alan_turing' => 'الدكتور آلان تورينج',
 			'academic.fall_2023' => 'خريف 2023',
 			'academic.file_will_be_uploaded_to_cloud' => 'سيتم رفع الملف إلى التخزين السحابي',
 			'academic.file_title' => 'عنوان الملف',
@@ -2875,6 +2970,10 @@ extension on TranslationsAr {
 			'academic.web_programming' => 'برمجة الويب',
 			'academic.spring_2024' => 'ربيع 2024',
 			'academic.summer_2024' => 'صيف 2024',
+			'academic.reviews_unavailable' => 'التقييمات غير متاحة',
+			'academic.reviews_unavailable_description' => 'تقييمات أعضاء هيئة التدريس غير مفعّلة حالياً. لم يتم إرسال أي تقييم.',
+			'academic.select_file' => 'اختيار ملف',
+			'academic.upload_file_size_error' => 'اختر ملفاً غير فارغ بحجم لا يتجاوز ٥٠ ميجابايت.',
 			'enrollment.registration_title' => 'تسجيل الدورة',
 			'enrollment.invoices_title' => 'الفواتير المالية',
 			'enrollment.payment_title' => 'دفع الرسوم الدراسية',
@@ -2923,6 +3022,8 @@ extension on TranslationsAr {
 			'enrollment.pay_now' => 'ادفع الآن',
 			'enrollment.invoice_overdue' => 'تأخرت',
 			'enrollment.payment_method' => 'طريقة الدفع',
+			_ => null,
+		} ?? switch (path) {
 			'enrollment.credit_card' => 'بطاقة إئتمان',
 			'enrollment.bank_transfer' => 'التحويل البنكي',
 			'enrollment.fawry' => 'فوري',
@@ -2950,8 +3051,6 @@ extension on TranslationsAr {
 			'enrollment.awaiting_advisor_review' => 'في انتظار مراجعة المستشار',
 			'enrollment.advisor_updated_successfully' => 'تم تحديث المستشار بنجاح',
 			'enrollment.choose_schedules' => 'اختر الجداول الزمنية',
-			_ => null,
-		} ?? switch (path) {
 			'enrollment.confirm_submit' => 'تأكيد وإرسال',
 			'enrollment.cr' => 'سي آر',
 			'enrollment.download' => 'تحميل',
@@ -2977,6 +3076,8 @@ extension on TranslationsAr {
 			'enrollment.other' => 'آخر',
 			'enrollment.no_schedules_available_for_thi' => 'لا توجد جداول متاحة لهذه الدورة',
 			'enrollment.overdue' => 'تأخرت',
+			'enrollment.refunded' => 'مستردة',
+			'enrollment.unknown_status' => 'حالة غير متاحة',
 			'enrollment.paid' => 'مدفوع',
 			'enrollment.partial' => 'جزئي',
 			'enrollment.pay' => 'يدفع',
@@ -3162,7 +3263,10 @@ extension on TranslationsAr {
 			'students.student' => 'طالب',
 			'students.status' => 'حالة',
 			'students.smart_digital_id' => 'الهوية الرقمية الذكية',
+			'students.id_unavailable' => 'بيانات الهوية الرقمية غير متاحة لهذا الحساب.',
 			'students.utilities' => 'المرافق',
+			'control.title' => 'إدارة الجامعة',
+			'control.subtitle' => 'مساحة العمل الأكاديمية والإدارية وفق صلاحياتك',
 			_ => null,
 		};
 	}

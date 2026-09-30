@@ -157,7 +157,10 @@ class BaseRepository {
           bytes as dynamic,
           fileOptions: FileOptions(contentType: contentType),
         );
-    return client.storage.from(bucket).getPublicUrl(path);
+    if (bucket == 'avatars') {
+      return client.storage.from(bucket).getPublicUrl(path);
+    }
+    return client.storage.from(bucket).createSignedUrl(path, 3600);
   }
 
   Future<String> getSignedUrl(

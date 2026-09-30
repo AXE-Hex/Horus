@@ -38,7 +38,7 @@ extension _ProfileEditingSections on _ProfileScreenState {
             SizedBox(height: 24),
             Text(
               t.extracted.change_profile_photo,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onSurface,
@@ -123,7 +123,7 @@ extension _ProfileEditingSections on _ProfileScreenState {
               SizedBox(width: 16),
               Text(
                 label,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -250,7 +250,7 @@ extension _ProfileEditingSections on _ProfileScreenState {
                   t.$meta.locale.languageCode == 'ar'
                       ? 'تم حفظ الملف الشخصي بنجاح'
                       : 'Profile saved successfully!',
-                  style: GoogleFonts.outfit(fontWeight: FontWeight.w600),
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
               ],
             ),

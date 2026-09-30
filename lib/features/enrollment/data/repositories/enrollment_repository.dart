@@ -16,21 +16,24 @@ class EnrollmentRepository {
   Future<List<EnrollmentRecord>> getStudentEnrollments(
     String studentId, {
     String? semester,
+    int offset = 0,
+    int limit = 100,
   }) async {
-    if (semester != null) {
-      final result = await client
-          .from('enrollments')
-          .select('*, courses(*)')
-          .eq('student_id', studentId)
-          .eq('semester', semester)
-          .order('enrolled_at');
-      return result.map((row) => EnrollmentRecord.fromJson(row)).toList();
+    if (offset < 0 || limit < 1 || limit > 100) {
+      throw ArgumentError('Enrollment pagination is out of range.');
     }
-    final result = await client
+    var query = client
         .from('enrollments')
-        .select('*, courses(*)')
-        .eq('student_id', studentId)
-        .order('enrolled_at', ascending: false);
+        .select(
+          'id,student_id,course_id,status,semester,semester_id,enrolled_at,approved_at,created_at,updated_at,courses(id,code,name_en,name_ar,description,credit_hours,department_id,is_active)',
+        )
+        .eq('student_id', studentId);
+    if (semester != null) {
+      query = query.eq('semester', semester);
+    }
+    final result = await query
+        .order('enrolled_at', ascending: false)
+        .range(offset, offset + limit - 1);
     return result.map((row) => EnrollmentRecord.fromJson(row)).toList();
   }
 
@@ -38,7 +41,9 @@ class EnrollmentRepository {
     final row = await client
         .from('enrollments')
         .insert(draft.toDatabase())
-        .select('*, courses(*)')
+        .select(
+          'id,student_id,course_id,status,semester,semester_id,enrolled_at,approved_at,created_at,updated_at,courses(id,code,name_en,name_ar,description,credit_hours,department_id,is_active)',
+        )
         .single();
     return EnrollmentRecord.fromJson(row);
   }
@@ -54,7 +59,9 @@ class EnrollmentRepository {
         .from('enrollments')
         .update({'status': status.name})
         .eq('id', id)
-        .select('*, courses(*)')
+        .select(
+          'id,student_id,course_id,status,semester,semester_id,enrolled_at,approved_at,created_at,updated_at,courses(id,code,name_en,name_ar,description,credit_hours,department_id,is_active)',
+        )
         .single();
     return EnrollmentRecord.fromJson(row);
   }
@@ -67,7 +74,9 @@ class EnrollmentRepository {
   Future<List<Invoice>> getStudentInvoices(String studentId) async {
     final rows = await client
         .from('invoices')
-        .select()
+        .select(
+          'id,student_id,semester,description,description_ar,amount,currency,status,due_date,paid_at,receipt_url,created_at',
+        )
         .eq('student_id', studentId)
         .order('created_at', ascending: false);
     return rows.map((row) => Invoice.fromJson(row)).toList();
@@ -76,7 +85,9 @@ class EnrollmentRepository {
   Future<Invoice> getInvoice(String invoiceId) async {
     final row = await client
         .from('invoices')
-        .select()
+        .select(
+          'id,student_id,semester,description,description_ar,amount,currency,status,due_date,paid_at,receipt_url,created_at',
+        )
         .eq('id', invoiceId)
         .single();
     return Invoice.fromJson(row);

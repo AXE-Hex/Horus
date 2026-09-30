@@ -2,7 +2,6 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/error/app_exception.dart';
 import 'package:horus/core/error/error_handler.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
@@ -101,7 +100,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         Text(
           t.settings.forgot_password,
           textAlign: TextAlign.center,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).textTheme.displayLarge?.color,
@@ -111,7 +110,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         Text(
           t.auth.choose_account_recovery_method,
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(
+          style: TextStyle(
             fontSize: 14,
             color: Theme.of(
               context,
@@ -169,7 +168,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           onPressed: () => context.pop(),
           child: Text(
             t.auth.back,
-            style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+            style: TextStyle(fontWeight: FontWeight.w600),
           ),
         ),
       ],
@@ -236,7 +235,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               ? 'يرجى زيارة مكتب شؤون الطلاب لإعادة تعيين كلمة المرور. احضر بطاقتك الجامعية سارية المفعول.'
               : 'Please visit the student affairs office to reset your password. Bring your valid university ID.',
           textAlign: TextAlign.center,
-          style: GoogleFonts.inter(fontSize: 16, height: 1.5),
+          style: TextStyle(fontSize: 16, height: 1.5),
         ),
         const SizedBox(height: 24),
       ],
@@ -254,7 +253,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             labelText: t.auth.login.email,
             prefixIcon: const Icon(LucideIcons.mail),
             suffixText: '@horus.edu.eg',
-            suffixStyle: GoogleFonts.inter(
+            suffixStyle: TextStyle(
               color: Theme.of(
                 context,
               ).colorScheme.onSurface.withValues(alpha: 0.5),
@@ -310,7 +309,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   _isIdUploaded
                       ? t.auth.forgot_password.id_uploaded
                       : t.auth.forgot_password.upload_id,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: _isIdUploaded
                         ? Colors.green
@@ -322,7 +321,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   Text(
                     t.auth.forgot_password.upload_id_hint,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.inter(fontSize: 10, color: Colors.grey),
+                    style: TextStyle(fontSize: 10, color: Colors.grey),
                   ),
                 ],
               ],
@@ -343,7 +342,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           ),
           child: Text(
             t.auth.login.submit,
-            style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ],
@@ -397,7 +396,7 @@ class _MethodTab extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 color: isSelected

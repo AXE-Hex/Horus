@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:horus/features/onboarding/presentation/screens/language_screen.dart';
-import 'package:horus/features/onboarding/presentation/screens/style_screen.dart';
-import 'package:horus/features/onboarding/presentation/screens/theme_screen.dart';
 import 'package:horus/features/splash/presentation/screens/splash_screen.dart';
 import 'package:horus/features/welcome/presentation/screens/welcome_screen.dart';
 import 'package:horus/features/onboarding/presentation/screens/college_details_screen.dart';
@@ -18,18 +15,6 @@ import 'package:horus/features/institutional/data/models/institutional_models.da
 
 final List<RouteBase> onboardingRoutes = [
   GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
-  GoRoute(
-    path: '/language-selection',
-    builder: (context, state) => const LanguageScreen(),
-  ),
-  GoRoute(
-    path: '/ui-style-selection',
-    builder: (context, state) => const StyleScreen(),
-  ),
-  GoRoute(
-    path: '/theme-selection',
-    builder: (context, state) => const ThemeScreen(),
-  ),
   GoRoute(
     path: '/colleges-selection',
     builder: (context, state) => const CollegesScreen(),

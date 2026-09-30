@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:horus/core/auth/roles.dart';
@@ -30,8 +29,10 @@ class AuthState {
   bool get isStudent => role.isStudent;
   bool get isProfessor => role == UserRole.professor;
   bool hasPermission(RolePermission permission) =>
-      permissionCodes.contains(permission.code);
+      hasRole && permissionCodes.contains(permission.code);
   bool get hasRole =>
+      isAuthenticated &&
+      user!.id == profile?.id &&
       (profile?.roles.isNotEmpty ?? false) &&
       (profile?.isActive ?? false) &&
       !(profile?.isBanned ?? true);
@@ -53,32 +54,31 @@ class AuthState {
   }
 }
 
-/// IDs used by the local mock sign-in bypass — never hit Supabase for these.
-const _kMockIds = {
-  'mock-student-id',
-  'mock-ta-id',
-  'mock-professor-id',
-  'mock-rector-id',
-};
-const _kMockEmails = {
-  'student@horus.edu.eg',
-  'ta@horus.edu.eg',
-  'professor@horus.edu.eg',
-};
+String normalizeUniversityEmail(String value) {
+  final input = value.trim().toLowerCase();
+  if (input.contains('@')) return input;
+  return '$input@horus.edu.eg';
+}
 
-bool isMockSignInAllowed(bool isDebugBuild, String email) =>
-    isDebugBuild && _kMockEmails.contains(email.toLowerCase().trim());
+bool isUniversityEmail(String value) {
+  final email = normalizeUniversityEmail(value);
+  return RegExp(r'^[a-z0-9._%+-]+@horus\.edu\.eg$').hasMatch(email);
+}
 
 @Riverpod(keepAlive: true)
 class AuthController extends _$AuthController {
   SupabaseClient get _client => Supabase.instance.client;
   RealtimeChannel? _profileChannel;
   StreamSubscription? _authSub;
+  Timer? _roleExpiryTimer;
+  int _loadGeneration = 0;
 
   @override
   AuthState build() {
     ref.onDispose(() {
       _authSub?.cancel();
+      _roleExpiryTimer?.cancel();
+      _loadGeneration++;
       _unsubscribeFromProfile();
     });
 
@@ -91,111 +91,43 @@ class AuthController extends _$AuthController {
       final event = data.event;
       final session = data.session;
 
-      // Skip Supabase network calls for mock accounts
-      if (kDebugMode &&
-          session?.user != null &&
-          _kMockIds.contains(session!.user.id)) {
-        return;
-      }
-
-      if (event == AuthChangeEvent.signedIn && session?.user != null) {
+      if ((event == AuthChangeEvent.signedIn ||
+              event == AuthChangeEvent.initialSession) &&
+          session?.user != null) {
         _loadProfile(session!.user);
       } else if (event == AuthChangeEvent.signedOut) {
-        // Only clear state if we weren't on a mock account
-        if (!kDebugMode || !_kMockIds.contains(state.user?.id)) {
-          _unsubscribeFromProfile();
-          state = const AuthState();
-        }
+        _loadGeneration++;
+        _roleExpiryTimer?.cancel();
+        _unsubscribeFromProfile();
+        state = const AuthState();
       } else if (event == AuthChangeEvent.tokenRefreshed &&
           session?.user != null) {
         state = state.copyWith(user: session!.user);
       }
     });
 
-    return const AuthState();
+    return AuthState(user: currentUser, isLoading: currentUser != null);
   }
 
   Future<void> signIn(String email, String password) async {
-    state = state.copyWith(isLoading: true, error: null);
-
-    // ── Mock Sign-In Bypass for Development & Testing ─────────────────────────
-    final cleanEmail = email.toLowerCase().trim();
-    if (isMockSignInAllowed(kDebugMode, cleanEmail)) {
-      await Future.delayed(
-        const Duration(milliseconds: 600),
-      ); // Simulate network lag
-
-      final String mockId;
-      final String fullName;
-      final String? fullNameAr;
-      final List<UserRole> roles;
-      String? collegeId = 'CS';
-      String? departmentId = 'CS-SE';
-
-      if (cleanEmail == 'student@horus.edu.eg') {
-        mockId = 'mock-student-id';
-        fullName = 'Ahmed Ali';
-        fullNameAr = 'أحمد علي';
-        roles = [UserRole.regularStudent];
-      } else if (cleanEmail == 'ta@horus.edu.eg') {
-        mockId = 'mock-ta-id';
-        fullName = 'Sarah Mohamed';
-        fullNameAr = 'سارة محمد';
-        roles = [UserRole.teachingAssistant];
-      } else {
-        mockId = 'mock-professor-id';
-        fullName = 'Dr. Khaled Mahmoud';
-        fullNameAr = 'د. خالد محمود';
-        roles = [UserRole.professor];
-      }
-
-      final mockUser = User(
-        id: mockId,
-        email: cleanEmail,
-        appMetadata: const {},
-        userMetadata: const {},
-        aud: 'authenticated',
-        createdAt: DateTime.now().toIso8601String(),
-      );
-
-      final mockProfile = ProfileModel(
-        id: mockId,
-        email: cleanEmail,
-        fullName: fullName,
-        fullNameAr: fullNameAr,
-        roles: roles,
-        collegeId: collegeId,
-        departmentId: departmentId,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
-        isActive: true,
-        isVerified: true,
-      );
-
-      state = AuthState(
-        user: mockUser,
-        profile: mockProfile,
-        isLoading: false,
-        permissionCodes: roles
-            .expand((role) => role.info.permissions)
-            .map((permission) => permission.code)
-            .toSet(),
-      );
+    if (!isUniversityEmail(email)) {
+      state = const AuthState(error: 'invalid_university_email');
       return;
     }
+    state = state.copyWith(isLoading: true, error: null);
 
     try {
       final response = await _client.auth.signInWithPassword(
-        email: email,
+        email: normalizeUniversityEmail(email),
         password: password,
       );
-      if (response.user != null) {
+      if (response.user != null && response.session != null) {
         await _loadProfile(response.user!);
       }
-    } on AuthException catch (e) {
-      state = state.copyWith(isLoading: false, error: e.message);
-    } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+    } on AuthException catch (_) {
+      state = state.copyWith(isLoading: false, error: 'sign_in_failed');
+    } catch (_) {
+      state = state.copyWith(isLoading: false, error: 'sign_in_failed');
     }
   }
 
@@ -206,44 +138,67 @@ class AuthController extends _$AuthController {
     required String fullName,
   }) async {
     state = state.copyWith(isLoading: true, error: null);
+    final normalizedEmail = normalizeUniversityEmail(email);
+    if (!isUniversityEmail(normalizedEmail)) {
+      state = state.copyWith(
+        isLoading: false,
+        error: 'invalid_university_email',
+      );
+      return;
+    }
     try {
       final response = await _client.auth.signUp(
-        email: email,
+        email: normalizedEmail,
         password: password,
         data: {'full_name': fullName},
       );
-      if (response.user != null) {
+      if (response.user != null && response.session != null) {
         await _loadProfile(response.user!);
+      } else {
+        state = const AuthState(error: 'confirmation_required');
       }
-    } on AuthException catch (e) {
-      state = state.copyWith(isLoading: false, error: e.message);
-    } catch (e) {
-      state = state.copyWith(isLoading: false, error: e.toString());
+    } on AuthException catch (_) {
+      state = state.copyWith(isLoading: false, error: 'sign_up_failed');
+    } catch (_) {
+      state = state.copyWith(isLoading: false, error: 'sign_up_failed');
     }
   }
 
   Future<void> signOut() async {
-    _unsubscribeFromProfile();
-    // For mock accounts we only need to clear local state
-    if (!kDebugMode || !_kMockIds.contains(state.user?.id)) {
-      try {
-        await _client.auth.signOut();
-      } catch (_) {}
+    try {
+      await _client.auth.signOut();
+    } on AuthException catch (_) {
+      state = state.copyWith(isLoading: false, error: 'sign_out_failed');
+      return;
+    } catch (_) {
+      state = state.copyWith(isLoading: false, error: 'sign_out_failed');
+      return;
     }
+    _unsubscribeFromProfile();
     state = const AuthState();
   }
 
   Future<void> resetPassword(String email) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      await _client.auth.resetPasswordForEmail(email);
+      if (!isUniversityEmail(email)) {
+        state = state.copyWith(
+          isLoading: false,
+          error: 'invalid_university_email',
+        );
+        return;
+      }
+      await _client.auth.resetPasswordForEmail(normalizeUniversityEmail(email));
       state = state.copyWith(isLoading: false);
-    } on AuthException catch (e) {
-      state = state.copyWith(isLoading: false, error: e.message);
+    } on AuthException catch (_) {
+      state = state.copyWith(isLoading: false, error: 'password_reset_failed');
+    } catch (_) {
+      state = state.copyWith(isLoading: false, error: 'password_reset_failed');
     }
   }
 
   Future<void> _loadProfile(User user) async {
+    final generation = ++_loadGeneration;
     try {
       final data = await _client
           .from('profiles')
@@ -264,6 +219,8 @@ class AuthController extends _$AuthController {
             'role_id, expires_at, role_definitions!inner(id, code, priority)',
           )
           .eq('user_id', user.id)
+          .lte('granted_at', DateTime.now().toUtc().toIso8601String())
+          .eq('role_definitions.is_active', true)
           .or(
             'expires_at.is.null,expires_at.gt.${DateTime.now().toUtc().toIso8601String()}',
           );
@@ -291,22 +248,44 @@ class AuthController extends _$AuthController {
           .toSet();
 
       final profile = ProfileModel.fromJson(profileData, roleCodes: roleCodes);
+      if (generation != _loadGeneration ||
+          _client.auth.currentUser?.id != user.id) {
+        return;
+      }
 
       state = AuthState(
         user: user,
         profile: profile,
         isLoading: false,
-        permissionCodes: permissionCodes,
+        permissionCodes: profile.isActive && !profile.isBanned
+            ? permissionCodes
+            : const {},
       );
+
+      _roleExpiryTimer?.cancel();
+      final expirations =
+          assignments.map((row) => row.expiresAt).whereType<DateTime>().toList()
+            ..sort();
+      if (expirations.isNotEmpty) {
+        final remaining = expirations.first.difference(DateTime.now().toUtc());
+        _roleExpiryTimer = Timer(
+          remaining.isNegative ? Duration.zero : remaining,
+          () {
+            state = AuthState(user: user, isLoading: true);
+            _loadProfile(user);
+          },
+        );
+      }
 
       _subscribeToAuthorizationChanges(user.id);
     } catch (e) {
+      if (generation != _loadGeneration) return;
       final isMissingProfile = e.toString().contains('PGRST116');
 
       state = AuthState(
         user: user,
         isLoading: false,
-        error: isMissingProfile ? null : e.toString(),
+        error: isMissingProfile ? null : 'profile_load_failed',
       );
     }
   }
@@ -342,6 +321,12 @@ class AuthController extends _$AuthController {
           event: PostgresChangeEvent.all,
           schema: 'public',
           table: 'role_permissions',
+          callback: (_) => _refreshAuthorization(),
+        )
+        .onPostgresChanges(
+          event: PostgresChangeEvent.all,
+          schema: 'public',
+          table: 'role_definitions',
           callback: (_) => _refreshAuthorization(),
         )
         .subscribe();

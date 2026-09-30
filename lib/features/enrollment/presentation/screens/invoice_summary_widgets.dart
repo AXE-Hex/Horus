@@ -75,7 +75,7 @@ class _InvoicesAppBar extends StatelessWidget {
                       ),
                       child: Text(
                         t.enrollment.financial_portal,
-                        style: GoogleFonts.shareTechMono(
+                        style: TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -86,7 +86,7 @@ class _InvoicesAppBar extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       t.enrollment.my_invoices,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 34,
                         fontWeight: FontWeight.w900,
                         color: Colors.white,
@@ -95,10 +95,7 @@ class _InvoicesAppBar extends StatelessWidget {
                     ),
                     Text(
                       t.enrollment.manage_your_tuition_and_paymen,
-                      style: GoogleFonts.outfit(
-                        fontSize: 13,
-                        color: Colors.white70,
-                      ),
+                      style: TextStyle(fontSize: 13, color: Colors.white70),
                     ),
                   ],
                 ),
@@ -152,7 +149,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                   Expanded(
                     child: Text(
                       t.enrollment.financial_summary,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: isGlass ? Colors.white70 : null,
@@ -173,7 +170,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                         t.enrollment.summaryoverduecount_overdue(
                           count: summary.overdueCount,
                         ),
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                           color: Colors.red,
@@ -186,7 +183,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
 
               Text(
                 _formatAmount(summary.totalBalance),
-                style: GoogleFonts.shareTechMono(
+                style: TextStyle(
                   fontSize: 40,
                   fontWeight: FontWeight.w900,
                   color: summary.totalBalance > 0
@@ -196,7 +193,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
               ),
               Text(
                 t.enrollment.outstanding_balance,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 13,
                   color: isGlass ? Colors.white60 : Colors.grey.shade600,
                 ),
@@ -237,7 +234,7 @@ class _FinancialSummaryCard extends ConsumerWidget {
                     icon: const Icon(LucideIcons.creditCard, size: 18),
                     label: Text(
                       t.enrollment.pay_now,
-                      style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF10B981),

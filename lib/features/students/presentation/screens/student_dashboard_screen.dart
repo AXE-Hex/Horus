@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/dashboard_action_widgets.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
-import 'package:horus/features/students/data/digital_id_theme_repository.dart';
+import 'package:horus/core/theme/app_spacing.dart';
+import 'package:horus/features/students/presentation/widgets/horus_identity_card.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 part 'student_dashboard_academic_sections.dart';

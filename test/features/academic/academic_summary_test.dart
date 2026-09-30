@@ -37,22 +37,25 @@ void main() {
       ]);
 
       expect(summary.gpa, closeTo((4 * 3 + 2 * 4) / 7, 0.000001));
-      expect(summary.completedCredits, 7);
-      expect(summary.remainingCredits, 133);
+      expect(summary.recordedCredits, 7);
+      expect(summary.publishedCourseCount, 2);
     },
   );
 
   test(
-    'empty transcript produces zero GPA and null credit relation uses default',
+    'empty transcript has no GPA and unknown credit hours are not invented',
     () {
-      expect(AcademicSummary.fromGrades(const []).gpa, 0);
+      final empty = AcademicSummary.fromGrades(const []);
+      expect(empty.gpa, isNull);
+      expect(empty.recordedCredits, 0);
       final summary = AcademicSummary.fromGrades([
         _grade(id: 'a', published: true, points: 3, credits: null),
         _grade(id: 'b', published: true, points: 0, credits: 5),
       ]);
 
-      expect(summary.gpa, closeTo(9 / 8, 0.000001));
-      expect(summary.completedCredits, 3);
+      expect(summary.gpa, 0);
+      expect(summary.recordedCredits, 5);
+      expect(summary.publishedCourseCount, 2);
     },
   );
 }

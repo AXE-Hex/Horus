@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/features/institutional/data/models/institutional_models.dart';
-import 'package:horus/core/auth/roles.dart';
 import 'package:horus/features/profiles/data/models/directory_profile_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,7 +9,13 @@ class InstitutionalRepository {
   InstitutionalRepository(this._client);
 
   Future<List<CollegeModel>> getColleges() async {
-    final response = await _client.from('colleges').select().order('name_en');
+    final response = await _client
+        .from('colleges')
+        .select(
+          'id,name_en,name_ar,code,description,description_ar,dean_id,image_url,established,student_count,created_at',
+        )
+        .eq('is_active', true)
+        .order('name_en');
     return (response as List)
         .map((json) => CollegeModel.fromJson(json))
         .toList();
@@ -20,14 +24,21 @@ class InstitutionalRepository {
   Future<CollegeModel?> getCollegeForDean(String deanId) async {
     final response = await _client
         .from('colleges')
-        .select()
+        .select(
+          'id,name_en,name_ar,code,description,description_ar,dean_id,image_url,established,student_count,created_at',
+        )
         .eq('dean_id', deanId)
         .maybeSingle();
     return response == null ? null : CollegeModel.fromJson(response);
   }
 
   Future<List<DepartmentModel>> getDepartments({String? collegeId}) async {
-    var query = _client.from('departments').select();
+    var query = _client
+        .from('departments')
+        .select(
+          'id,college_id,name_en,name_ar,code,description,description_ar,hod_id,assistant_hod_id,building,floor,office_symbol,student_count,created_at',
+        )
+        .eq('is_active', true);
     if (collegeId != null) {
       query = query.eq('college_id', collegeId);
     }
@@ -42,7 +53,9 @@ class InstitutionalRepository {
   ) async {
     final response = await _client
         .from('department_projects')
-        .select()
+        .select(
+          'id,department_id,title_en,title_ar,description_en,description_ar,status,created_at',
+        )
         .eq('department_id', departmentId)
         .order('created_at', ascending: false);
     return (response as List)
@@ -51,48 +64,23 @@ class InstitutionalRepository {
   }
 
   Future<Map<String, int>> getCollegeRealTimeStats(String collegeId) async {
-    try {
-      final directory = await _client
-          .from('profile_directory')
-          .select('role_codes')
-          .eq('college_id', collegeId);
-      final roleLists = (directory as List)
-          .map((row) => (row['role_codes'] as List).cast<String>())
-          .toList();
-      final studentsCount = roleLists
-          .where(
-            (roles) => roles.any(
-              (role) =>
-                  {'student', 'freshman', 'regular_student'}.contains(role),
-            ),
-          )
-          .length;
-      final facultyCount = roleLists
-          .where(
-            (roles) =>
-                roles.any((role) => {'professor', 'lecturer'}.contains(role)),
-          )
-          .length;
-      final assistantsCount = roleLists
-          .where((roles) => roles.contains('teaching_assistant'))
-          .length;
-
-      final researchResponse = await _client
-          .from('shared_files')
-          .select('id, courses!inner(departments!inner(college_id))')
-          .eq('courses.departments.college_id', collegeId);
-      final researchCount = (researchResponse as List).length;
-
-      return {
-        'students': studentsCount,
-        'faculty': facultyCount,
-        'assistants': assistantsCount,
-        'research': researchCount,
-      };
-    } catch (e) {
-      debugPrint('Error fetching college stats: $e');
-      return {'students': 0, 'faculty': 0, 'assistants': 0, 'research': 0};
-    }
+    Future<int> people(List<String> roles) => _client
+        .from('profile_directory')
+        .count(CountOption.exact)
+        .eq('college_id', collegeId)
+        .overlaps('role_codes', roles);
+    final counts = await Future.wait([
+      people(['student', 'freshman', 'regular_student']),
+      people(['professor', 'lecturer']),
+      people(['teaching_assistant']),
+    ]);
+    // Shared files are learning materials, not a publication database. Do not
+    // misrepresent their count as a research/publication statistic.
+    return {
+      'students': counts[0],
+      'faculty': counts[1],
+      'assistants': counts[2],
+    };
   }
 
   Future<List<DirectoryProfileModel>> getCollegeStaffList(
@@ -100,13 +88,23 @@ class InstitutionalRepository {
   ) async {
     final response = await _client
         .from('profile_directory')
-        .select()
+        .select(
+          'id,full_name,full_name_ar,avatar_url,college_id,department_id,created_at,role_codes',
+        )
         .eq('college_id', collegeId)
-        .order('full_name');
+        .overlaps('role_codes', [
+          'professor',
+          'lecturer',
+          'teaching_assistant',
+          'dean',
+          'department_head',
+          'assistant_hod',
+        ])
+        .order('full_name')
+        .range(0, 99);
 
     return (response as List)
         .map((json) => DirectoryProfileModel.fromJson(json))
-        .where((profile) => profile.roles.any((role) => role.isTeachingStaff))
         .toList();
   }
 }

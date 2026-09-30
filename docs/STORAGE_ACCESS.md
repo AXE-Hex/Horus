@@ -86,3 +86,26 @@ media client flow. Edge Function authorization has no endpoint to test until a
 real privileged/provider workflow is selected. Course file upload and download
 still require the client flow to create matching `shared_files` metadata with
 the documented path.
+
+## September 2026 account boundary and HTTP verification
+
+All private reads and every mutation now intersect a restrictive account policy.
+An inactive/banned/deleted/future/expired/no-role account cannot write even its
+own avatar. Active guests can maintain their own avatar; they cannot access
+private post, chat, or course objects. Public avatar reads remain a deliberate
+exception. Caller-bound chat membership also requires an active internal member.
+
+`course_files` metadata still binds course/uploader/file ID and object name.
+SQL regressions cover wrong paths, buckets, scope, and cross-owner mutations;
+`scripts/database/storage_api_test.py` independently verifies local Auth login,
+Storage HTTP rejection of disallowed MIME and a file exceeding 5 MiB, and an
+avatar upload into another user's namespace. It refuses non-loopback endpoints
+and never prints tokens/keys.
+
+MIME and file-size ingestion rules are enforced by Storage service configuration,
+not by trusting arbitrary JSON metadata inserted directly into `storage.objects`.
+The storage schema is not exposed through the application Data API. MIME labels
+are not content inspection; malware scanning and media moderation remain
+separate deployment concerns. Previously issued signed URLs may remain usable
+until expiry, even after authorization revocation; the current client uses a
+one-hour lifetime. Public avatars are intentionally discoverable by URL.

@@ -42,7 +42,7 @@ final class LowPerformanceControllerProvider
 }
 
 String _$lowPerformanceControllerHash() =>
-    r'cf82210222b84cae3aa7a5616740c7d6b61a32c6';
+    r'07c76252b334908825fec76d88ca72ee780ea26b';
 
 abstract class _$LowPerformanceController extends $Notifier<bool> {
   bool build();

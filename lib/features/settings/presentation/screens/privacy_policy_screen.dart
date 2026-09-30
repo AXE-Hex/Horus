@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -15,8 +12,6 @@ class PrivacyPolicyScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
 
     final sections = isArabic ? _arabicSections : _englishSections;
 
@@ -34,7 +29,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
           ),
           title: Text(
             t.settings.privacy_policy,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
@@ -48,7 +43,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
               Center(
                 child: Text(
                   t.settings.last_updated_february_2026,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).hintColor,
                   ),
@@ -67,7 +62,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
                       children: [
                         Text(
                           section['title']!,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).primaryColor,
@@ -76,7 +71,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
                         const SizedBox(height: 12),
                         Text(
                           section['content']!,
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 14,
                             height: 1.7,
                             color: Theme.of(context).textTheme.bodyMedium?.color
@@ -93,7 +88,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
               Center(
                 child: Text(
                   '© 2026 Horus University',
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).hintColor,
                   ),
@@ -106,7 +101,7 @@ class PrivacyPolicyScreen extends ConsumerWidget {
       ],
     );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+    return Scaffold(body: body);
   }
 }
 

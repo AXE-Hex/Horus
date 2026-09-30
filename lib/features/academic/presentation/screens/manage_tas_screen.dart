@@ -5,11 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
 import 'package:horus/features/academic/data/repositories/professor_repository.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -22,8 +19,7 @@ class ManageTasScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final profileAsync = ref.watch(professorProfileProvider);
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final color = const Color(0xFF6366F1);
 
@@ -72,10 +68,10 @@ class ManageTasScreen extends HookConsumerWidget {
           ],
         );
 
-        return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
+        return Scaffold(body: content);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (_, _) => Center(child: Text(t.academic.error)),
     );
   }
 
@@ -91,7 +87,7 @@ class ManageTasScreen extends HookConsumerWidget {
     return GlassSliverAppBar(
       expandedHeight: 140,
       pinned: true,
-      backgroundColor: isGlass ? Colors.transparent : null,
+      backgroundColor: null,
       elevation: 0,
       leading: IconButton(
         icon: Icon(
@@ -128,7 +124,7 @@ class ManageTasScreen extends HookConsumerWidget {
         titlePadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         title: Text(
           t.academic.manage_tas,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w900,
             color: Colors.white,
@@ -166,14 +162,11 @@ class ManageTasScreen extends HookConsumerWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
           t.academic.confirm_removal,
-          style: GoogleFonts.outfit(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         content: Text(
           t.academic.are_you_sure_you_want_to_remov,
-          style: GoogleFonts.outfit(color: Colors.white70),
+          style: TextStyle(color: Colors.white70),
         ),
         actions: [
           TextButton(
@@ -251,7 +244,7 @@ class ManageTasScreen extends HookConsumerWidget {
                   const SizedBox(height: 24),
                   Text(
                     t.academic.add_new_ta,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -260,10 +253,7 @@ class ManageTasScreen extends HookConsumerWidget {
                   const SizedBox(height: 8),
                   Text(
                     t.academic.select_a_ta_from_the_list_to_a,
-                    style: GoogleFonts.outfit(
-                      fontSize: 14,
-                      color: Colors.white38,
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.white38),
                   ),
                   const SizedBox(height: 24),
                   Expanded(
@@ -305,14 +295,14 @@ class ManageTasScreen extends HookConsumerWidget {
                                       ),
                                       title: Text(
                                         ta.name,
-                                        style: GoogleFonts.outfit(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,
                                         ),
                                       ),
                                       subtitle: Text(
                                         ta.email,
-                                        style: GoogleFonts.inter(
+                                        style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.white38,
                                         ),
@@ -368,7 +358,7 @@ class ManageTasScreen extends HookConsumerWidget {
                       },
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
-                      error: (err, stack) => Center(child: Text('Error: $err')),
+                      error: (_, _) => Center(child: Text(t.academic.error)),
                     ),
                   ),
                 ],
@@ -442,7 +432,7 @@ class _TACard extends StatelessWidget {
                 children: [
                   Text(
                     ta.name,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -460,7 +450,7 @@ class _TACard extends StatelessWidget {
                     ),
                     child: Text(
                       ta.role,
-                      style: GoogleFonts.shareTechMono(
+                      style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                         color: color,
@@ -470,10 +460,7 @@ class _TACard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     ta.email,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: Colors.white38,
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.white38),
                   ),
                 ],
               ),

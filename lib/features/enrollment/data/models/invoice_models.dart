@@ -1,109 +1,77 @@
-import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/core/data/db_row.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 
-enum InvoiceStatus { paid, unpaid, overdue, partial }
+enum InvoiceStatus { paid, unpaid, overdue, refunded, unknown }
 
 extension InvoiceStatusX on InvoiceStatus {
-  String get dbValue => name;
+  String get dbValue => switch (this) {
+    InvoiceStatus.unpaid => 'pending',
+    InvoiceStatus.paid => 'paid',
+    InvoiceStatus.overdue => 'overdue',
+    InvoiceStatus.refunded => 'refunded',
+    InvoiceStatus.unknown => throw StateError(
+      'Unknown invoice status cannot be written.',
+    ),
+  };
 
-  String label({bool isArabic = false}) {
-    switch (this) {
-      case InvoiceStatus.paid:
-        return LocaleSettings.instance.currentTranslations.enrollment.paid;
-      case InvoiceStatus.unpaid:
-        return LocaleSettings.instance.currentTranslations.enrollment.unpaid;
-      case InvoiceStatus.overdue:
-        return LocaleSettings.instance.currentTranslations.enrollment.overdue;
-      case InvoiceStatus.partial:
-        return LocaleSettings.instance.currentTranslations.enrollment.partial;
-    }
+  String get label {
+    final enrollment = LocaleSettings.instance.currentTranslations.enrollment;
+    return switch (this) {
+      InvoiceStatus.paid => enrollment.paid,
+      InvoiceStatus.unpaid => enrollment.unpaid,
+      InvoiceStatus.overdue => enrollment.overdue,
+      InvoiceStatus.refunded => enrollment.refunded,
+      InvoiceStatus.unknown => enrollment.unknown_status,
+    };
   }
 
-  static InvoiceStatus fromString(String s) {
-    return InvoiceStatus.values.firstWhere(
-      (e) => e.name == s,
-      orElse: () => InvoiceStatus.unpaid,
-    );
-  }
-}
-
-enum InvoiceType { tuition, registration, library, exam, dormitory, other }
-
-extension InvoiceTypeX on InvoiceType {
-  String label({bool isArabic = false}) {
-    switch (this) {
-      case InvoiceType.tuition:
-        return LocaleSettings
-            .instance
-            .currentTranslations
-            .enrollment
-            .tuition_fee;
-      case InvoiceType.registration:
-        return LocaleSettings
-            .instance
-            .currentTranslations
-            .enrollment
-            .registration_fee;
-      case InvoiceType.library:
-        return LocaleSettings
-            .instance
-            .currentTranslations
-            .enrollment
-            .library_fee;
-      case InvoiceType.exam:
-        return LocaleSettings.instance.currentTranslations.enrollment.exam_fee;
-      case InvoiceType.dormitory:
-        return LocaleSettings
-            .instance
-            .currentTranslations
-            .enrollment
-            .dormitory_fee;
-      case InvoiceType.other:
-        return LocaleSettings.instance.currentTranslations.enrollment.other;
-    }
-  }
-
-  static InvoiceType fromString(String? s) {
-    return InvoiceType.values.firstWhere(
-      (e) => e.name == s,
-      orElse: () => InvoiceType.other,
-    );
-  }
+  static InvoiceStatus fromDatabase(String? status) => switch (status) {
+    'paid' => InvoiceStatus.paid,
+    'pending' => InvoiceStatus.unpaid,
+    'overdue' => InvoiceStatus.overdue,
+    'refunded' => InvoiceStatus.refunded,
+    _ => InvoiceStatus.unknown,
+  };
 }
 
 class Invoice {
-  final String id;
-  final String studentId;
-  final String invoiceNumber;
-  final InvoiceType type;
-  final InvoiceStatus status;
-  final double amount;
-  final double paidAmount;
-  final String? semester;
-  final DateTime? dueDate;
-  final DateTime? paidAt;
-  final String? receiptUrl;
-  final String? notes;
-  final DateTime createdAt;
-
-  Invoice({
+  const Invoice({
     required this.id,
     required this.studentId,
-    required this.invoiceNumber,
-    required this.type,
+    required this.description,
+    this.descriptionAr,
+    required this.currency,
     required this.status,
     required this.amount,
-    this.paidAmount = 0.0,
     this.semester,
     this.dueDate,
     this.paidAt,
     this.receiptUrl,
-    this.notes,
     required this.createdAt,
   });
 
-  double get remainingAmount => amount - paidAmount;
+  final String id;
+  final String studentId;
+  final String description;
+  final String? descriptionAr;
+  final String currency;
+  final InvoiceStatus status;
+  final double amount;
+  final String? semester;
+  final DateTime? dueDate;
+  final DateTime? paidAt;
+  final String? receiptUrl;
+  final DateTime createdAt;
+
+  double get paidAmount => status == InvoiceStatus.paid ? amount : 0;
+
+  double get remainingAmount => switch (status) {
+    InvoiceStatus.unpaid || InvoiceStatus.overdue => amount,
+    _ => 0,
+  };
+
   bool get isPaid => status == InvoiceStatus.paid;
+
   bool get isOverdue =>
       status == InvoiceStatus.overdue ||
       (dueDate != null &&
@@ -115,61 +83,16 @@ class Invoice {
     return Invoice(
       id: row.requiredString('id'),
       studentId: row.requiredString('student_id'),
-      invoiceNumber:
-          row.optionalString('invoice_number') ?? row.requiredString('id'),
-      type: InvoiceType.values.firstWhere(
-        (value) => value.name == row.optionalString('type'),
-        orElse: () => InvoiceType.other,
-      ),
-      status: InvoiceStatus.values.firstWhere(
-        (value) => value.name == row.optionalString('status'),
-        orElse: () => InvoiceStatus.unpaid,
-      ),
-      amount: row.doubleOr('amount', 0),
-      paidAmount: row.doubleOr('paid_amount', 0),
+      description: row.requiredString('description'),
+      descriptionAr: row.optionalString('description_ar'),
+      currency: row.requiredString('currency'),
+      status: InvoiceStatusX.fromDatabase(row.optionalString('status')),
+      amount: row.requiredDouble('amount'),
       semester: row.optionalString('semester'),
       dueDate: row.optionalDateTime('due_date'),
       paidAt: row.optionalDateTime('paid_at'),
       receiptUrl: row.optionalString('receipt_url'),
-      notes: row.optionalString('notes'),
       createdAt: row.requiredDateTime('created_at'),
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-    'student_id': studentId,
-    'invoice_number': invoiceNumber,
-    'type': type.name,
-    'status': status.dbValue,
-    'amount': amount,
-    'paid_amount': paidAmount,
-    'semester': semester,
-    'due_date': dueDate?.toIso8601String(),
-    'paid_at': paidAt?.toIso8601String(),
-    'receipt_url': receiptUrl,
-    'notes': notes,
-  };
-
-  Invoice copyWith({
-    InvoiceStatus? status,
-    double? paidAmount,
-    DateTime? paidAt,
-    String? receiptUrl,
-  }) {
-    return Invoice(
-      id: id,
-      studentId: studentId,
-      invoiceNumber: invoiceNumber,
-      type: type,
-      status: status ?? this.status,
-      amount: amount,
-      paidAmount: paidAmount ?? this.paidAmount,
-      semester: semester,
-      dueDate: dueDate,
-      paidAt: paidAt ?? this.paidAt,
-      receiptUrl: receiptUrl ?? this.receiptUrl,
-      notes: notes,
-      createdAt: createdAt,
     );
   }
 }
@@ -195,13 +118,14 @@ class InvoiceSummary {
     double paid = 0, unpaid = 0;
     int unpaidCount = 0, overdueCount = 0;
 
-    for (final inv in invoices) {
-      if (inv.isPaid) {
-        paid += inv.amount;
-      } else {
-        unpaid += inv.remainingAmount;
+    for (final invoice in invoices) {
+      if (invoice.isPaid) {
+        paid += invoice.amount;
+      } else if (invoice.status == InvoiceStatus.unpaid ||
+          invoice.status == InvoiceStatus.overdue) {
+        unpaid += invoice.remainingAmount;
         unpaidCount++;
-        if (inv.isOverdue) overdueCount++;
+        if (invoice.isOverdue) overdueCount++;
       }
     }
 

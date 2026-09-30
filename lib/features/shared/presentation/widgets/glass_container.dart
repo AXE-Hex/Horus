@@ -59,6 +59,7 @@ class GlassContainer extends ConsumerWidget {
       padding: padding ?? const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: color ?? theme.cardTheme.color ?? theme.cardColor,
+        gradient: gradient,
         borderRadius: radius,
         border:
             border ??

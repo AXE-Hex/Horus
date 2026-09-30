@@ -13,33 +13,41 @@ final academicRepositoryProvider = Provider<AcademicRepository>((ref) {
 class AcademicRepository extends BaseRepository {
   AcademicRepository(super.client);
 
-  Future<String?> getCurrentSemesterName() async {
+  Future<AcademicSemester?> getCurrentSemester() async {
     final row = await client
         .from('semesters')
-        .select('name_en')
+        .select('code,name_en,name_ar')
         .eq('is_current', true)
         .eq('is_active', true)
         .maybeSingle();
-    return row == null
-        ? null
-        : DbRow(row, context: 'semesters').optionalString('name_en');
+    return row == null ? null : AcademicSemester.fromJson(row);
   }
 
-  Future<List<Course>> getCourses({String? semester}) async {
-    final rows = semester == null
-        ? await client.from('courses').select('*').order('code')
-        : await client
-              .from('courses')
-              .select('*')
-              .eq('semester', semester)
-              .order('code');
+  Future<List<Course>> getCourses({
+    String? semester,
+    int offset = 0,
+    int limit = 50,
+  }) async {
+    if (offset < 0 || limit < 1 || limit > 100) {
+      throw ArgumentError('Course pagination is out of range.');
+    }
+    var query = client
+        .from('courses')
+        .select(
+          'id,department_id,code,name_en,name_ar,description,credit_hours,is_active',
+        );
+    query = query.eq('is_active', true);
+    if (semester != null) query = query.eq('semester', semester);
+    final rows = await query.order('code').range(offset, offset + limit - 1);
     return rows.map((row) => Course.fromJson(row)).toList();
   }
 
   Future<Course> getCourse(String courseId) async {
     final row = await client
         .from('courses')
-        .select()
+        .select(
+          'id,department_id,code,name_en,name_ar,description,credit_hours,is_active',
+        )
         .eq('id', courseId)
         .single();
     return Course.fromJson(row);
@@ -48,7 +56,9 @@ class AcademicRepository extends BaseRepository {
   Future<List<Course>> getCoursesByProfessor(String professorId) async {
     final rows = await client
         .from('courses')
-        .select()
+        .select(
+          'id,department_id,code,name_en,name_ar,description,credit_hours,is_active',
+        )
         .eq('professor_id', professorId)
         .order('code');
     return rows.map((row) => Course.fromJson(row)).toList();
@@ -60,7 +70,9 @@ class AcademicRepository extends BaseRepository {
   }) async {
     var query = client
         .from('grades')
-        .select('*, courses(credit_hours)')
+        .select(
+          'id,student_id,course_id,semester,semester_id,coursework,midterm,practical,final_exam,total,grade_letter,gpa_points,is_published,published_at,created_at,updated_at,courses(code,name_en,name_ar,credit_hours)',
+        )
         .eq('student_id', studentId);
     if (semester != null) {
       query = query.eq('semester', semester).eq('is_published', true);
@@ -76,7 +88,9 @@ class AcademicRepository extends BaseRepository {
           submission.toDatabase(),
           onConflict: 'student_id,course_id,semester',
         )
-        .select('*, courses(credit_hours)')
+        .select(
+          'id,student_id,course_id,semester,semester_id,coursework,midterm,practical,final_exam,total,grade_letter,gpa_points,is_published,published_at,created_at,updated_at,courses(code,name_en,name_ar,credit_hours)',
+        )
         .single();
     return GradeRecord.fromJson(row);
   }
@@ -100,7 +114,9 @@ class AcademicRepository extends BaseRepository {
   }) async {
     final rows = await client
         .from('exam_schedules')
-        .select('*, courses!inner(code, name_en)')
+        .select(
+          'id,course_id,exam_type,exam_date,start_time,end_time,semester,created_at,room,building,notes,courses!inner(code,name_en)',
+        )
         .eq('semester', semester)
         .order('exam_date');
     return rows.map((row) => ExamScheduleRecord.fromJson(row)).toList();
@@ -112,10 +128,31 @@ class AcademicRepository extends BaseRepository {
   ) async {
     final rows = await client
         .from('attendance')
-        .select()
+        .select(
+          'id,student_id,course_id,date,status,notes,recorded_by,created_at,courses(code,name_en,name_ar,credit_hours)',
+        )
         .eq('student_id', studentId)
         .eq('course_id', courseId)
         .order('date', ascending: false);
+    return rows.map((row) => AttendanceRecord.fromJson(row)).toList();
+  }
+
+  Future<List<AttendanceRecord>> getStudentAttendanceRecords(
+    String studentId, {
+    int offset = 0,
+    int limit = 100,
+  }) async {
+    if (offset < 0 || limit < 1 || limit > 100) {
+      throw ArgumentError('Attendance pagination is out of range.');
+    }
+    final rows = await client
+        .from('attendance')
+        .select(
+          'id,student_id,course_id,date,status,notes,recorded_by,created_at,courses(code,name_en,name_ar,credit_hours)',
+        )
+        .eq('student_id', studentId)
+        .order('date', ascending: false)
+        .range(offset, offset + limit - 1);
     return rows.map((row) => AttendanceRecord.fromJson(row)).toList();
   }
 
@@ -125,7 +162,9 @@ class AcademicRepository extends BaseRepository {
     final row = await client
         .from('attendance')
         .insert(submission.toDatabase())
-        .select()
+        .select(
+          'id,student_id,course_id,date,status,notes,recorded_by,created_at,courses(code,name_en,name_ar,credit_hours)',
+        )
         .single();
     return AttendanceRecord.fromJson(row);
   }
@@ -133,7 +172,9 @@ class AcademicRepository extends BaseRepository {
   Future<List<ActionPlanItemRecord>> getActionPlan(String studentId) async {
     final rows = await client
         .from('action_plan_items')
-        .select('*, courses(name_en)')
+        .select(
+          'id,student_id,semester,semester_id,year,course_id,status,grade_letter,notes,created_at,courses(name_en)',
+        )
         .eq('student_id', studentId)
         .order('year');
     return rows.map((row) => ActionPlanItemRecord.fromJson(row)).toList();
@@ -147,7 +188,9 @@ class AcademicRepository extends BaseRepository {
   Future<List<GradeRecord>> getTranscript(String studentId) async {
     final result = await client
         .from('grades')
-        .select('*, courses(*)')
+        .select(
+          'id,student_id,course_id,semester,semester_id,coursework,midterm,practical,final_exam,total,grade_letter,gpa_points,is_published,published_at,created_at,updated_at,courses(code,name_en,name_ar,credit_hours)',
+        )
         .eq('student_id', studentId)
         .eq('is_published', true)
         .order('semester');
@@ -166,37 +209,34 @@ class AcademicRepository extends BaseRepository {
 
     if ((regResponse as List).isEmpty) return [];
 
-    final allSchedules = <StudentScheduleRecord>[];
-
+    final registrations = <String, (String?, String?)>{};
     for (final reg in regResponse) {
       final registration = DbRow(reg, context: 'student_course_registrations');
       final courseId = registration.requiredString('course_id');
-      final sectionName = registration.optionalString('section_name');
-      final subSectionName = registration.optionalString('sub_section_name');
-
-      var query = client
-          .from('schedules')
-          .select(
-            '*, courses!inner(name_en, name_ar, professor:profiles!courses_professor_id_fkey(full_name))',
-          )
-          .eq('course_id', courseId)
-          .eq('semester', semester);
-
-      if (sectionName != null) {
-        query = query.eq('section_name', sectionName);
-      }
-
-      if (subSectionName != null) {
-        query = query.eq('sub_section_name', subSectionName);
-      }
-
-      final schedules = await query;
-      allSchedules.addAll(
-        schedules.map((row) => StudentScheduleRecord.fromJson(row)),
+      registrations[courseId] = (
+        registration.optionalString('section_name'),
+        registration.optionalString('sub_section_name'),
       );
     }
 
-    return allSchedules;
+    final scheduleRows = await client
+        .from('schedules')
+        .select(
+          'id,course_id,day,start_time,end_time,schedule_type,room,building,section_name,sub_section_name,courses!inner(name_en,name_ar,professor:profiles!courses_professor_id_fkey(full_name))',
+        )
+        .eq('semester', semester)
+        .inFilter('course_id', registrations.keys.toList())
+        .order('start_time');
+
+    return scheduleRows
+        .where((row) {
+          final selected = registrations[row['course_id'] as String];
+          return selected != null &&
+              (selected.$1 == null || row['section_name'] == selected.$1) &&
+              (selected.$2 == null || row['sub_section_name'] == selected.$2);
+        })
+        .map((row) => StudentScheduleRecord.fromJson(row))
+        .toList();
   }
 
   Future<List<Map<String, dynamic>>> getColleges() async {
@@ -220,7 +260,9 @@ class AcademicRepository extends BaseRepository {
   ) async {
     final rows = await client
         .from('department_projects')
-        .select()
+        .select(
+          'id,department_id,title_en,title_ar,description_en,description_ar,status,created_at',
+        )
         .eq('department_id', departmentId)
         .order('created_at', ascending: false);
     return rows.map((row) => DepartmentProjectModel.fromJson(row)).toList();

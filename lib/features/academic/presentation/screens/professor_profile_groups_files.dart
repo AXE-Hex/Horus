@@ -26,14 +26,14 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
             ),
             title: Text(
               group.name,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: isGlass ? Colors.white : null,
               ),
             ),
             subtitle: Text(
               '${group.studentCount} students',
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 12,
                 color: isGlass ? Colors.white60 : Colors.grey,
               ),
@@ -111,7 +111,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
             ),
             title: Text(
               file.title,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
                 color: isGlass ? Colors.white : null,
@@ -119,7 +119,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
             ),
             subtitle: Text(
               '${file.fileType.name.toUpperCase()} • ${file.sizeLabel}',
-              style: GoogleFonts.inter(
+              style: TextStyle(
                 fontSize: 11,
                 color: isGlass ? Colors.white60 : Colors.grey,
               ),
@@ -175,7 +175,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
                     children: [
                       Text(
                         oh.dayOfWeek,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: isGlass ? Colors.white : null,
@@ -184,7 +184,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
                       const SizedBox(height: 4),
                       Text(
                         oh.timeRange,
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
                           fontSize: 13,
                           color: color,
                           fontWeight: FontWeight.w600,
@@ -201,7 +201,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
                           const SizedBox(width: 4),
                           Text(
                             oh.location,
-                            style: GoogleFonts.inter(
+                            style: TextStyle(
                               fontSize: 12,
                               color: isGlass ? Colors.white60 : Colors.grey,
                             ),
@@ -223,7 +223,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
                     ),
                     child: Text(
                       t.professor.walk_in,
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
                         fontSize: 11,
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
@@ -248,7 +248,7 @@ extension _ProfessorProfileGroupsFiles on ProfessorProfileScreen {
   Widget _buildSectionTitle(String title, bool isGlass, BuildContext context) {
     return Text(
       title,
-      style: GoogleFonts.outfit(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: isGlass ? Colors.white : Theme.of(context).primaryColor,

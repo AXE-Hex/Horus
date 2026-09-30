@@ -54,7 +54,7 @@ extension _ProfessorProfileHeader on ProfessorProfileScreen {
                   const SizedBox(height: 12),
                   Text(
                     profile.name,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -62,7 +62,7 @@ extension _ProfessorProfileHeader on ProfessorProfileScreen {
                   ),
                   Text(
                     '${profile.role} • ${profile.department}',
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 14,
                       color: Colors.white.withValues(alpha: 0.8),
                     ),
@@ -107,7 +107,7 @@ extension _ProfessorProfileHeader on ProfessorProfileScreen {
           const SizedBox(width: 4),
           Text(
             text,
-            style: GoogleFonts.inter(
+            style: TextStyle(
               fontSize: 12,
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ extension _ProfessorProfileHeader on ProfessorProfileScreen {
           const SizedBox(width: 8),
           Text(
             title,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               color: isGlass ? Colors.white : baseColor,
             ),

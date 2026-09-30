@@ -15,7 +15,7 @@ extension _ProfileFields on _ProfileScreenState {
         SizedBox(width: 12),
         Text(
           title,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w800,
             color: Theme.of(context).colorScheme.onSurface,
@@ -55,13 +55,13 @@ extension _ProfileFields on _ProfileScreenState {
         keyboardType: keyboardType,
         maxLines: maxLines,
         validator: validator,
-        style: GoogleFonts.inter(
+        style: TextStyle(
           color: Theme.of(context).colorScheme.onSurface,
           fontSize: 15,
         ),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: GoogleFonts.inter(
+          labelStyle: TextStyle(
             color: Theme.of(
               context,
             ).colorScheme.onSurface.withValues(alpha: 0.5),
@@ -180,7 +180,7 @@ extension _ProfileFields on _ProfileScreenState {
             children: [
               Text(
                 label,
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   fontSize: 11,
                   color: Theme.of(
                     context,
@@ -191,7 +191,7 @@ extension _ProfileFields on _ProfileScreenState {
               SizedBox(height: 2),
               Text(
                 value,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).colorScheme.onSurface,
@@ -254,7 +254,7 @@ extension _ProfileFields on _ProfileScreenState {
                       SizedBox(width: 12),
                       Text(
                         t.extracted.save_changes,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onSurface,

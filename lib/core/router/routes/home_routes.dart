@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horus/features/home/presentation/screens/home_screen.dart';
+import 'package:horus/features/home/presentation/screens/control_dashboard_screen.dart';
 import 'package:horus/features/students/presentation/screens/digital_id_screen.dart';
 import 'package:horus/features/students/presentation/screens/student_dashboard_screen.dart';
 
@@ -8,6 +9,10 @@ import 'package:horus/features/colleges/presentation/screens/college_portal_scre
 import 'package:horus/core/constants/colleges_data.dart';
 
 final List<RouteBase> homeRoutes = [
+  GoRoute(
+    path: '/control',
+    builder: (context, state) => const ControlDashboardScreen(),
+  ),
   GoRoute(
     path: '/dashboard',
     builder: (context, state) => const DashboardScreen(),

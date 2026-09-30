@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/core/constants/colleges_data.dart';
 
@@ -22,8 +18,7 @@ class CollegesScreen extends ConsumerStatefulWidget {
 class _CollegesScreenState extends ConsumerState<CollegesScreen> {
   @override
   Widget build(BuildContext context) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
     Widget content = CustomScrollView(
@@ -37,21 +32,16 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen> {
               children: [
                 Text(
                   t.onboarding.faculties_directory.title,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: isGlass
-                        ? Colors.white
-                        : Theme.of(context).colorScheme.onSurface,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ).animate().fadeIn().slideX(begin: -0.2),
                 const SizedBox(height: 8),
                 Text(
                   t.onboarding.faculties_directory.subtitle,
-                  style: GoogleFonts.outfit(
-                    fontSize: 16,
-                    color: isGlass ? Colors.white70 : Colors.grey,
-                  ),
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
                 ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.1),
               ],
             ),
@@ -82,7 +72,7 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen> {
     );
 
     if (widget.isOnboarding) {
-      return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
+      return Scaffold(body: content);
     }
     return content;
   }
@@ -135,16 +125,14 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen> {
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.transparent,
-                  isGlass
-                      ? Colors.black.withValues(alpha: 0.8)
-                      : Colors.black.withValues(alpha: 0.6),
+                  Colors.black.withValues(alpha: 0.6),
                 ],
               ),
             ),
             child: Text(
               title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -155,27 +143,21 @@ class _CollegesScreenState extends ConsumerState<CollegesScreen> {
       ],
     );
 
-    final wrapper = isGlass
-        ? GlassContainer(
-            borderRadius: BorderRadius.circular(30),
-            padding: EdgeInsets.zero,
-            child: cardContent,
-          )
-        : Container(
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.1),
-                  blurRadius: 15,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: cardContent,
-          );
+    final wrapper = Container(
+      clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: color.withValues(alpha: 0.1),
+            blurRadius: 15,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: cardContent,
+    );
 
     return GestureDetector(onTap: () => _onCollegeTap(college), child: wrapper)
         .animate()

@@ -191,7 +191,7 @@ class AdvisorRepository {
           'status': 'pending',
           'submitted_at': DateTime.now().toIso8601String(),
         })
-        .select()
+        .select('id')
         .single();
 
     final requestId = DbRow(

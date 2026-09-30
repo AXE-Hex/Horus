@@ -72,6 +72,7 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSharedDe shared = _TranslationsSharedDe._(_root);
 	@override late final _TranslationsStudentsDe students = _TranslationsStudentsDe._(_root);
 	@override late final _TranslationsExtractedDe extracted = _TranslationsExtractedDe._(_root);
+	@override late final _TranslationsControlDe control = _TranslationsControlDe._(_root);
 }
 
 // Path: common
@@ -139,6 +140,9 @@ class _TranslationsAuthDe extends TranslationsAuthEn {
 	final TranslationsDe _root; // ignore: unused_field
 
 	// Translations
+	@override late final _TranslationsAuthSplashDe splash = _TranslationsAuthSplashDe._(_root);
+	@override late final _TranslationsAuthGuestRegistrationDe guest_registration = _TranslationsAuthGuestRegistrationDe._(_root);
+	@override late final _TranslationsAuthAccessPendingDe access_pending = _TranslationsAuthAccessPendingDe._(_root);
 	@override late final _TranslationsAuthLoginDe login = _TranslationsAuthLoginDe._(_root);
 	@override late final _TranslationsAuthForgotPasswordDe forgot_password = _TranslationsAuthForgotPasswordDe._(_root);
 	@override String get back => 'Zurück';
@@ -159,6 +163,9 @@ class _TranslationsHomeDe extends TranslationsHomeEn {
 	@override String get home => 'Heim';
 	@override String get student_portal => 'Studentenportal';
 	@override String get faculty_portal => 'Fakultätsportal';
+	@override String get post_text => 'Text';
+	@override String get post_image => 'Bild';
+	@override String get post_announcement => 'Ankündigung';
 }
 
 // Path: dashboard
@@ -408,6 +415,8 @@ class _TranslationsAttendanceDe extends TranslationsAttendanceEn {
 	@override String get late => 'Verspätet';
 	@override String get ratio => 'Anwesenheitsquote';
 	@override late final _TranslationsAttendanceSubjectsDe subjects = _TranslationsAttendanceSubjectsDe._(_root);
+	@override String get excused => 'Entschuldigt';
+	@override String get unknown => 'Nicht verfügbar';
 }
 
 // Path: registration
@@ -668,6 +677,7 @@ class _TranslationsAcademicDe extends TranslationsAcademicEn {
 	@override String get error => 'Fehler';
 	@override String get retry => 'Wiederholen';
 	@override String get no_data => 'Keine Daten verfügbar';
+	@override String get no_reviews_yet => 'Noch keine Bewertungen';
 	@override String get ratio => 'Verhältnis';
 	@override String get filter => 'Filter';
 	@override String get back => 'Zurück';
@@ -714,17 +724,13 @@ class _TranslationsAcademicDe extends TranslationsAcademicEn {
 	@override String get cs405_machine_learning => 'CS405 Maschinelles Lernen';
 	@override String get data_structures => 'Datenstrukturen';
 	@override String get database_systems => 'Datenbanksysteme';
-	@override String get dr_alan_turing => 'Alan Turing';
 	@override String get days => 'Tage';
-	@override String get dr_ada_lovelace => 'Ada Lovelace';
 	@override String get deep_learning => 'Tiefes Lernen';
-	@override String get dr_sarah_ahmed => 'Dr. Sarah Ahmed';
 	@override String get english_composition => 'Englische Komposition';
 	@override String get ethics_in_it => 'Ethik in der IT';
 	@override String get exam_schedule => 'Prüfungsplan';
 	@override String get field_internship => 'Feldpraktikum';
 	@override String get file_title => 'Dateititel';
-	@override String get dr_robert_smith => 'Dr. Robert Smith';
 	@override String get file_will_be_uploaded_to_cloud => 'Die Datei wird in den Cloud-Speicher hochgeladen';
 	@override String get fall_2023 => 'Herbst 2023';
 	@override String get final_exam => 'Abschlussprüfung';
@@ -798,6 +804,10 @@ class _TranslationsAcademicDe extends TranslationsAcademicEn {
 	@override String get urgent_news => 'Dringende Neuigkeiten';
 	@override String get web_programming => 'Webprogrammierung';
 	@override String get upload_new_file => 'Neue Datei hochladen';
+	@override String get reviews_unavailable => 'Bewertungen nicht verfügbar';
+	@override String get reviews_unavailable_description => 'Bewertungen von Lehrkräften sind derzeit nicht aktiviert. Es wurde keine Bewertung eingereicht.';
+	@override String get select_file => 'Datei auswählen';
+	@override String get upload_file_size_error => 'Wählen Sie eine nicht leere Datei mit höchstens 50 MB.';
 }
 
 // Path: enrollment
@@ -906,6 +916,8 @@ class _TranslationsEnrollmentDe extends TranslationsEnrollmentEn {
 	@override String get no_invoices_found => 'Keine Rechnungen gefunden';
 	@override String get no_students_found => 'Keine Studenten gefunden';
 	@override String get overdue => 'Überfällig';
+	@override String get refunded => 'Erstattet';
+	@override String get unknown_status => 'Status nicht verfügbar';
 	@override String get pay => 'Zahlen';
 	@override String get no_schedules_available_for_thi => 'Für diesen Kurs sind keine Termine verfügbar';
 	@override String get partial => 'Teilweise';
@@ -1104,6 +1116,7 @@ class _TranslationsStudentsDe extends TranslationsStudentsEn {
 	@override String get share_identity => 'Identität teilen';
 	@override String get settings => 'Einstellungen';
 	@override String get smart_digital_id => 'Intelligente digitale ID';
+	@override String get id_unavailable => 'Digitale Ausweisdaten sind für dieses Konto nicht verfügbar.';
 	@override String get student => 'Student';
 	@override String get status => 'Status';
 	@override String get utilities => 'Dienstprogramme';
@@ -1304,6 +1317,18 @@ class _TranslationsExtractedDe extends TranslationsExtractedEn {
 	@override String out_of_max({required Object max}) => 'AUSSERHALB${max}';
 	@override String permanently_delete_user_fullname_this_ca({required Object userFullName}) => '${userFullName}endgültig löschen? Dies kann nicht rückgängig gemacht werden!';
 	@override String get top_5 => 'Top 5 %';
+	@override String get system_appearance => 'System';
+}
+
+// Path: control
+class _TranslationsControlDe extends TranslationsControlEn {
+	_TranslationsControlDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Universitätsverwaltung';
+	@override String get subtitle => 'Ihr autorisierter akademischer und administrativer Arbeitsbereich';
 }
 
 // Path: onboarding.language
@@ -1359,6 +1384,49 @@ class _TranslationsOnboardingThemeDe extends TranslationsOnboardingThemeEn {
 	@override String get dark => 'Dunkel';
 }
 
+// Path: auth.splash
+class _TranslationsAuthSplashDe extends TranslationsAuthSplashEn {
+	_TranslationsAuthSplashDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get welcome_prefix => 'Willkommen,';
+}
+
+// Path: auth.guest_registration
+class _TranslationsAuthGuestRegistrationDe extends TranslationsAuthGuestRegistrationEn {
+	_TranslationsAuthGuestRegistrationDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Gästekonto erstellen';
+	@override String get subtitle => 'Gästekonten haben nur Zugriff auf öffentliche Hochschulinformationen.';
+	@override String get full_name => 'Vollständiger Name';
+	@override String get email => 'Hochschul-E-Mail';
+	@override String get password => 'Passwort';
+	@override String get confirm_password => 'Passwort bestätigen';
+	@override String get submit => 'Gästekonto erstellen';
+	@override String get validation => 'Füllen Sie alle Felder aus und verwenden Sie eine gültige @horus.edu.eg-Adresse.';
+	@override String get password_mismatch => 'Die Passwörter stimmen nicht überein.';
+	@override String get request_failed => 'Konto konnte nicht erstellt werden. Prüfen Sie Ihre Angaben und versuchen Sie es erneut.';
+	@override String get already_have_account => 'Schon registriert? Anmelden';
+	@override String get confirmation_required => 'Bestätigen Sie Ihr Konto per E-Mail, bevor Sie sich anmelden.';
+}
+
+// Path: auth.access_pending
+class _TranslationsAuthAccessPendingDe extends TranslationsAuthAccessPendingEn {
+	_TranslationsAuthAccessPendingDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Zugriff ausstehend';
+	@override String get body => 'Dieses Konto hat keine aktive Hochschulrolle. Wenden Sie sich an den Hochschulsupport, wenn Sie dies für einen Fehler halten.';
+	@override String get sign_out => 'Abmelden';
+}
+
 // Path: auth.login
 class _TranslationsAuthLoginDe extends TranslationsAuthLoginEn {
 	_TranslationsAuthLoginDe._(TranslationsDe root) : this._root = root, super.internal(root);
@@ -1369,7 +1437,11 @@ class _TranslationsAuthLoginDe extends TranslationsAuthLoginEn {
 	@override String get welcome => 'Willkommen zurück';
 	@override String get subtitle => 'Melden Sie sich an, um fortzufahren';
 	@override String get email => 'E-Mail';
+	@override String get email_hint => 'Geben Sie Ihre Hochschul-E-Mail oder Ihren Benutzernamen ein';
 	@override String get password => 'Passwort';
+	@override String get required_fields => 'Geben Sie E-Mail-Adresse und Passwort ein.';
+	@override String get invalid_email => 'Verwenden Sie eine gültige Hochschuladresse mit @horus.edu.eg.';
+	@override String get sign_in_failed => 'Anmeldung nicht möglich. Prüfen Sie Ihre Daten und versuchen Sie es erneut.';
 	@override String get forgot_password => 'Passwort vergessen?';
 	@override String get submit => 'Anmelden';
 	@override String get guest => 'Als Gast stöbern';
@@ -1897,10 +1969,30 @@ extension on TranslationsDe {
 			'onboarding.dark_mode' => 'Dunkler Modus',
 			'onboarding.light_mode' => 'Lichtmodus',
 			'onboarding.modern_glass' => 'Modernes Glas',
+			'auth.splash.welcome_prefix' => 'Willkommen,',
+			'auth.guest_registration.title' => 'Gästekonto erstellen',
+			'auth.guest_registration.subtitle' => 'Gästekonten haben nur Zugriff auf öffentliche Hochschulinformationen.',
+			'auth.guest_registration.full_name' => 'Vollständiger Name',
+			'auth.guest_registration.email' => 'Hochschul-E-Mail',
+			'auth.guest_registration.password' => 'Passwort',
+			'auth.guest_registration.confirm_password' => 'Passwort bestätigen',
+			'auth.guest_registration.submit' => 'Gästekonto erstellen',
+			'auth.guest_registration.validation' => 'Füllen Sie alle Felder aus und verwenden Sie eine gültige @horus.edu.eg-Adresse.',
+			'auth.guest_registration.password_mismatch' => 'Die Passwörter stimmen nicht überein.',
+			'auth.guest_registration.request_failed' => 'Konto konnte nicht erstellt werden. Prüfen Sie Ihre Angaben und versuchen Sie es erneut.',
+			'auth.guest_registration.already_have_account' => 'Schon registriert? Anmelden',
+			'auth.guest_registration.confirmation_required' => 'Bestätigen Sie Ihr Konto per E-Mail, bevor Sie sich anmelden.',
+			'auth.access_pending.title' => 'Zugriff ausstehend',
+			'auth.access_pending.body' => 'Dieses Konto hat keine aktive Hochschulrolle. Wenden Sie sich an den Hochschulsupport, wenn Sie dies für einen Fehler halten.',
+			'auth.access_pending.sign_out' => 'Abmelden',
 			'auth.login.welcome' => 'Willkommen zurück',
 			'auth.login.subtitle' => 'Melden Sie sich an, um fortzufahren',
 			'auth.login.email' => 'E-Mail',
+			'auth.login.email_hint' => 'Geben Sie Ihre Hochschul-E-Mail oder Ihren Benutzernamen ein',
 			'auth.login.password' => 'Passwort',
+			'auth.login.required_fields' => 'Geben Sie E-Mail-Adresse und Passwort ein.',
+			'auth.login.invalid_email' => 'Verwenden Sie eine gültige Hochschuladresse mit @horus.edu.eg.',
+			'auth.login.sign_in_failed' => 'Anmeldung nicht möglich. Prüfen Sie Ihre Daten und versuchen Sie es erneut.',
 			'auth.login.forgot_password' => 'Passwort vergessen?',
 			'auth.login.submit' => 'Anmelden',
 			'auth.login.guest' => 'Als Gast stöbern',
@@ -1933,6 +2025,9 @@ extension on TranslationsDe {
 			'home.home' => 'Heim',
 			'home.student_portal' => 'Studentenportal',
 			'home.faculty_portal' => 'Fakultätsportal',
+			'home.post_text' => 'Text',
+			'home.post_image' => 'Bild',
+			'home.post_announcement' => 'Ankündigung',
 			'dashboard.id_card.student_name' => 'Studentenname',
 			'dashboard.id_card.college' => 'Fakultät',
 			'dashboard.id_card.id' => 'Studenten-ID',
@@ -2207,6 +2302,8 @@ extension on TranslationsDe {
 			'attendance.subjects.ai' => 'Künstliche Intelligenz',
 			'attendance.subjects.ethics' => 'Ethik in der IT',
 			'attendance.subjects.calculus' => 'Erweiterte Analysis',
+			'attendance.excused' => 'Entschuldigt',
+			'attendance.unknown' => 'Nicht verfügbar',
 			'registration.title' => 'Kursregistrierung',
 			'registration.submit' => 'Registrierung absenden',
 			'registration.enrolled_credits' => 'Eingeschriebene Credits',
@@ -2338,6 +2435,8 @@ extension on TranslationsDe {
 			'roles.descriptions.freshman' => 'Studienanfänger mit eingeschränktem Systemzugriff',
 			'roles.descriptions.lecturer' => 'Lehrt Kurse ohne volle Professorenprivilegien',
 			'roles.descriptions.registrar_officer' => 'Verwaltet die Einschreibung und Registrierung von Studenten',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.regular_student' => 'Vollständiger Student mit allen üblichen akademischen Privilegien',
 			'roles.descriptions.alumni' => 'Absolvent mit eingeschränktem Zugang',
 			'roles.descriptions.student' => 'Allgemeine Schülerrolle',
@@ -2363,8 +2462,6 @@ extension on TranslationsDe {
 			'academic.schedule_title' => 'Zeitplan',
 			'academic.exam_schedule_title' => 'Prüfungsplan',
 			'academic.professor_dashboard' => 'Professor-Dashboard',
-			_ => null,
-		} ?? switch (path) {
 			'academic.tas' => 'Lehrassistenten',
 			'academic.groups' => 'Gruppen',
 			'academic.all_students' => 'Alle Studenten',
@@ -2415,6 +2512,7 @@ extension on TranslationsDe {
 			'academic.error' => 'Fehler',
 			'academic.retry' => 'Wiederholen',
 			'academic.no_data' => 'Keine Daten verfügbar',
+			'academic.no_reviews_yet' => 'Noch keine Bewertungen',
 			'academic.ratio' => 'Verhältnis',
 			'academic.filter' => 'Filter',
 			'academic.back' => 'Zurück',
@@ -2461,17 +2559,13 @@ extension on TranslationsDe {
 			'academic.cs405_machine_learning' => 'CS405 Maschinelles Lernen',
 			'academic.data_structures' => 'Datenstrukturen',
 			'academic.database_systems' => 'Datenbanksysteme',
-			'academic.dr_alan_turing' => 'Alan Turing',
 			'academic.days' => 'Tage',
-			'academic.dr_ada_lovelace' => 'Ada Lovelace',
 			'academic.deep_learning' => 'Tiefes Lernen',
-			'academic.dr_sarah_ahmed' => 'Dr. Sarah Ahmed',
 			'academic.english_composition' => 'Englische Komposition',
 			'academic.ethics_in_it' => 'Ethik in der IT',
 			'academic.exam_schedule' => 'Prüfungsplan',
 			'academic.field_internship' => 'Feldpraktikum',
 			'academic.file_title' => 'Dateititel',
-			'academic.dr_robert_smith' => 'Dr. Robert Smith',
 			'academic.file_will_be_uploaded_to_cloud' => 'Die Datei wird in den Cloud-Speicher hochgeladen',
 			'academic.fall_2023' => 'Herbst 2023',
 			'academic.final_exam' => 'Abschlussprüfung',
@@ -2545,6 +2639,10 @@ extension on TranslationsDe {
 			'academic.urgent_news' => 'Dringende Neuigkeiten',
 			'academic.web_programming' => 'Webprogrammierung',
 			'academic.upload_new_file' => 'Neue Datei hochladen',
+			'academic.reviews_unavailable' => 'Bewertungen nicht verfügbar',
+			'academic.reviews_unavailable_description' => 'Bewertungen von Lehrkräften sind derzeit nicht aktiviert. Es wurde keine Bewertung eingereicht.',
+			'academic.select_file' => 'Datei auswählen',
+			'academic.upload_file_size_error' => 'Wählen Sie eine nicht leere Datei mit höchstens 50 MB.',
 			'enrollment.registration_title' => 'Kursanmeldung',
 			'enrollment.advisor' => 'Akademischer Berater',
 			'enrollment.payment_title' => 'Studiengebührenzahlung',
@@ -2644,6 +2742,8 @@ extension on TranslationsDe {
 			'enrollment.no_invoices_found' => 'Keine Rechnungen gefunden',
 			'enrollment.no_students_found' => 'Keine Studenten gefunden',
 			'enrollment.overdue' => 'Überfällig',
+			'enrollment.refunded' => 'Erstattet',
+			'enrollment.unknown_status' => 'Status nicht verfügbar',
 			'enrollment.pay' => 'Zahlen',
 			'enrollment.no_schedules_available_for_thi' => 'Für diesen Kurs sind keine Termine verfügbar',
 			'enrollment.partial' => 'Teilweise',
@@ -2824,6 +2924,7 @@ extension on TranslationsDe {
 			'students.share_identity' => 'Identität teilen',
 			'students.settings' => 'Einstellungen',
 			'students.smart_digital_id' => 'Intelligente digitale ID',
+			'students.id_unavailable' => 'Digitale Ausweisdaten sind für dieses Konto nicht verfügbar.',
 			'students.student' => 'Student',
 			'students.status' => 'Status',
 			'students.utilities' => 'Dienstprogramme',
@@ -2848,6 +2949,8 @@ extension on TranslationsDe {
 			'extracted.appearance' => 'Aussehen',
 			'extracted.language_region' => 'Sprache und Region',
 			'extracted.about' => 'Um',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.edit_profile' => 'Profil bearbeiten',
 			'extracted.password_recovery' => 'Passwortwiederherstellung',
 			'extracted.send_password_recovery_link_to_your_emai' => 'Senden Sie den Link zur Passwortwiederherstellung per E-Mail',
@@ -2877,8 +2980,6 @@ extension on TranslationsDe {
 			'extracted.log_out' => 'Abmelden',
 			'extracted.how_can_we_help_you' => 'Wie können wir Ihnen helfen?',
 			'extracted.write_your_feedback_here' => 'Schreiben Sie hier Ihr Feedback...',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.email_support' => 'E-Mail-Support',
 			'extracted.write_something_about_yourself' => 'Schreiben Sie etwas über sich selbst...',
 			'extracted.disable_complex_visual_effects' => 'Deaktivieren Sie komplexe visuelle Effekte',
@@ -3017,6 +3118,9 @@ extension on TranslationsDe {
 			'extracted.out_of_max' => ({required Object max}) => 'AUSSERHALB${max}',
 			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object userFullName}) => '${userFullName}endgültig löschen? Dies kann nicht rückgängig gemacht werden!',
 			'extracted.top_5' => 'Top 5 %',
+			'extracted.system_appearance' => 'System',
+			'control.title' => 'Universitätsverwaltung',
+			'control.subtitle' => 'Ihr autorisierter akademischer und administrativer Arbeitsbereich',
 			_ => null,
 		};
 	}

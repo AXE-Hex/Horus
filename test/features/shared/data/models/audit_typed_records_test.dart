@@ -44,6 +44,10 @@ void main() {
         isTrue,
       );
       expect(
+        notificationsAfterMarkAllRead(notes, updatedRows: 100).single.isRead,
+        isTrue,
+      );
+      expect(
         notificationsAfterMarkAllRead(notes, updatedRows: 0).single.isRead,
         isFalse,
       );

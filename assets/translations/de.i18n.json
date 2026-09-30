@@ -64,11 +64,37 @@
     "modern_glass": "Modernes Glas"
   },
   "auth": {
+    "splash": {
+      "welcome_prefix": "Willkommen,"
+    },
+    "guest_registration": {
+      "title": "Gästekonto erstellen",
+      "subtitle": "Gästekonten haben nur Zugriff auf öffentliche Hochschulinformationen.",
+      "full_name": "Vollständiger Name",
+      "email": "Hochschul-E-Mail",
+      "password": "Passwort",
+      "confirm_password": "Passwort bestätigen",
+      "submit": "Gästekonto erstellen",
+      "validation": "Füllen Sie alle Felder aus und verwenden Sie eine gültige @horus.edu.eg-Adresse.",
+      "password_mismatch": "Die Passwörter stimmen nicht überein.",
+      "request_failed": "Konto konnte nicht erstellt werden. Prüfen Sie Ihre Angaben und versuchen Sie es erneut.",
+      "already_have_account": "Schon registriert? Anmelden",
+      "confirmation_required": "Bestätigen Sie Ihr Konto per E-Mail, bevor Sie sich anmelden."
+    },
+    "access_pending": {
+      "title": "Zugriff ausstehend",
+      "body": "Dieses Konto hat keine aktive Hochschulrolle. Wenden Sie sich an den Hochschulsupport, wenn Sie dies für einen Fehler halten.",
+      "sign_out": "Abmelden"
+    },
     "login": {
       "welcome": "Willkommen zurück",
       "subtitle": "Melden Sie sich an, um fortzufahren",
       "email": "E-Mail",
+      "email_hint": "Geben Sie Ihre Hochschul-E-Mail oder Ihren Benutzernamen ein",
       "password": "Passwort",
+      "required_fields": "Geben Sie E-Mail-Adresse und Passwort ein.",
+      "invalid_email": "Verwenden Sie eine gültige Hochschuladresse mit @horus.edu.eg.",
+      "sign_in_failed": "Anmeldung nicht möglich. Prüfen Sie Ihre Daten und versuchen Sie es erneut.",
       "forgot_password": "Passwort vergessen?",
       "submit": "Anmelden",
       "guest": "Als Gast stöbern"
@@ -107,7 +133,10 @@
     "prof": "Professor",
     "home": "Heim",
     "student_portal": "Studentenportal",
-    "faculty_portal": "Fakultätsportal"
+    "faculty_portal": "Fakultätsportal",
+    "post_text": "Text",
+    "post_image": "Bild",
+    "post_announcement": "Ankündigung"
   },
   "dashboard": {
     "id_card": {
@@ -437,7 +466,9 @@
       "ai": "Künstliche Intelligenz",
       "ethics": "Ethik in der IT",
       "calculus": "Erweiterte Analysis"
-    }
+    },
+    "excused": "Entschuldigt",
+    "unknown": "Nicht verfügbar"
   },
   "registration": {
     "title": "Kursregistrierung",
@@ -680,6 +711,7 @@
     "error": "Fehler",
     "retry": "Wiederholen",
     "no_data": "Keine Daten verfügbar",
+    "no_reviews_yet": "Noch keine Bewertungen",
     "ratio": "Verhältnis",
     "filter": "Filter",
     "back": "Zurück",
@@ -726,17 +758,13 @@
     "cs405_machine_learning": "CS405 Maschinelles Lernen",
     "data_structures": "Datenstrukturen",
     "database_systems": "Datenbanksysteme",
-    "dr_alan_turing": "Alan Turing",
     "days": "Tage",
-    "dr_ada_lovelace": "Ada Lovelace",
     "deep_learning": "Tiefes Lernen",
-    "dr_sarah_ahmed": "Dr. Sarah Ahmed",
     "english_composition": "Englische Komposition",
     "ethics_in_it": "Ethik in der IT",
     "exam_schedule": "Prüfungsplan",
     "field_internship": "Feldpraktikum",
     "file_title": "Dateititel",
-    "dr_robert_smith": "Dr. Robert Smith",
     "file_will_be_uploaded_to_cloud": "Die Datei wird in den Cloud-Speicher hochgeladen",
     "fall_2023": "Herbst 2023",
     "final_exam": "Abschlussprüfung",
@@ -809,7 +837,11 @@
     "uploaded_successfully": "Erfolgreich hochgeladen",
     "urgent_news": "Dringende Neuigkeiten",
     "web_programming": "Webprogrammierung",
-    "upload_new_file": "Neue Datei hochladen"
+    "upload_new_file": "Neue Datei hochladen",
+    "reviews_unavailable": "Bewertungen nicht verfügbar",
+    "reviews_unavailable_description": "Bewertungen von Lehrkräften sind derzeit nicht aktiviert. Es wurde keine Bewertung eingereicht.",
+    "select_file": "Datei auswählen",
+    "upload_file_size_error": "Wählen Sie eine nicht leere Datei mit höchstens 50 MB."
   },
   "enrollment": {
     "registration_title": "Kursanmeldung",
@@ -911,6 +943,8 @@
     "no_invoices_found": "Keine Rechnungen gefunden",
     "no_students_found": "Keine Studenten gefunden",
     "overdue": "Überfällig",
+    "refunded": "Erstattet",
+    "unknown_status": "Status nicht verfügbar",
     "pay": "Zahlen",
     "no_schedules_available_for_thi": "Für diesen Kurs sind keine Termine verfügbar",
     "partial": "Teilweise",
@@ -1095,6 +1129,7 @@
     "share_identity": "Identität teilen",
     "settings": "Einstellungen",
     "smart_digital_id": "Intelligente digitale ID",
+    "id_unavailable": "Digitale Ausweisdaten sind für dieses Konto nicht verfügbar.",
     "student": "Student",
     "status": "Status",
     "utilities": "Dienstprogramme"
@@ -1287,6 +1322,11 @@
     "select_college": "Wählen Sie Hochschule",
     "out_of_max": "AUSSERHALB$max",
     "permanently_delete_user_fullname_this_ca": "${userFullName}endgültig löschen? Dies kann nicht rückgängig gemacht werden!",
-    "top_5": "Top 5 %"
+    "top_5": "Top 5 %",
+    "system_appearance": "System"
+  },
+  "control": {
+    "title": "Universitätsverwaltung",
+    "subtitle": "Ihr autorisierter akademischer und administrativer Arbeitsbereich"
   }
 }

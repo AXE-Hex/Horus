@@ -193,7 +193,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                     SizedBox(height: 14),
                     Text(
                           auth.profile?.fullName ?? t.settings.user,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.w900,
                             color: Theme.of(context).colorScheme.onSurface,
@@ -206,7 +206,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                     SizedBox(height: 4),
                     Text(
                           auth.user?.email ?? '',
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 13,
                             color: Theme.of(
                               context,
@@ -243,7 +243,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                               isArabic:
                                   LocaleSettings.currentLocale == AppLocale.ar,
                             ),
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 12,
                               color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.w600,
@@ -281,7 +281,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           SizedBox(width: 10),
           Text(
             title,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w800,
               color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -335,95 +335,44 @@ extension _SettingsScreenSections on _SettingsScreenState {
     bool isArabic,
     bool isGlass,
   ) {
-    return GlassContainer(
-      padding: EdgeInsets.zero,
-      borderRadius: BorderRadius.circular(22),
-      border: Border.all(
-        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.08),
-      ),
-      child: Column(
-        children: [
-          _buildSettingItem(
-            context: context,
-            icon: LucideIcons.moonStar,
-            iconColor: const Color(0xFF7C3AED),
-            title: t.extracted.dark_mode,
-            subtitle: t.extracted.toggle_between_dark_and_light_mode,
-            isGlass: isGlass,
-            trailing: Consumer(
-              builder: (context, ref, _) {
-                final themeValue = ref.watch(themeControllerProvider);
-                final isDark = themeValue.maybeWhen(
-                  data: (mode) => mode == ThemeMode.dark,
-                  orElse: () => false,
-                );
-                return _buildSwitch(
-                  value: isDark,
-                  onChanged: _handleThemeSwitch,
-                  activeColor: const Color(0xFF7C3AED),
-                );
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Consumer(
+          builder: (context, ref, _) {
+            final themeValue = ref.watch(themeControllerProvider);
+            final mode = themeValue.value ?? ThemeMode.system;
+            return SegmentedButton<ThemeMode>(
+              showSelectedIcon: false,
+              segments: [
+                ButtonSegment(
+                  value: ThemeMode.system,
+                  icon: const Icon(LucideIcons.monitor, size: 18),
+                  label: Text(t.extracted.system_appearance),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.light,
+                  icon: const Icon(LucideIcons.sun, size: 18),
+                  label: Text(t.onboarding.theme.light),
+                ),
+                ButtonSegment(
+                  value: ThemeMode.dark,
+                  icon: const Icon(LucideIcons.moon, size: 18),
+                  label: Text(t.onboarding.theme.dark),
+                ),
+              ],
+              selected: {mode},
+              onSelectionChanged: (selection) async {
+                HapticFeedback.selectionClick();
+                await ref
+                    .read(themeControllerProvider.notifier)
+                    .setTheme(selection.first);
               },
-            ),
-          ),
-          _divider(context),
-          _buildSettingItem(
-            context: context,
-            icon: LucideIcons.sparkles,
-            iconColor: Colors.pinkAccent,
-            title: t.extracted.ui_style,
-            subtitle: isGlass
-                ? (t.extracted.current_glass_design)
-                : (t.extracted.current_classic_design),
-            isGlass: isGlass,
-            onTap: _handleStyleSwitch,
-            trailing: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.pinkAccent.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.pinkAccent.withValues(alpha: 0.3),
-                ),
-              ),
-              child: Text(
-                t.extracted.kSwitch,
-                style: GoogleFonts.outfit(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.pinkAccent,
-                ),
-              ),
-            ),
-          ),
-          if (isGlass) ...[
-            _divider(context),
-            _buildSettingItem(
-              context: context,
-              icon: LucideIcons.batteryCharging,
-              iconColor: Colors.greenAccent,
-              title: t.extracted.battery_saver_mode,
-              subtitle: t.extracted.disable_complex_visual_effects,
-              isGlass: isGlass,
-              trailing: Consumer(
-                builder: (context, ref, _) {
-                  final isLowPerf = ref.watch(lowPerformanceControllerProvider);
-                  return _buildSwitch(
-                    value: isLowPerf,
-                    onChanged: (val) {
-                      HapticFeedback.lightImpact();
-                      ref
-                          .read(lowPerformanceControllerProvider.notifier)
-                          .toggle();
-                    },
-                    activeColor: Colors.greenAccent,
-                  );
-                },
-              ),
-            ),
-          ],
-        ],
+            );
+          },
+        ),
       ),
-    ).animate().fadeIn(delay: 150.ms).slideY(begin: 0.08, end: 0);
+    );
   }
 
   Widget _buildNotificationsSection(
@@ -486,7 +435,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                       SizedBox(width: 12),
                       Text(
                         t.extracted.test_notification_sent,
-                        style: GoogleFonts.outfit(fontWeight: FontWeight.w600),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),

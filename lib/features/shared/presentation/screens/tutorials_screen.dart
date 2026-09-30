@@ -3,10 +3,6 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class TutorialsScreen extends ConsumerWidget {
@@ -15,8 +11,7 @@ class TutorialsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
 
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -33,7 +28,7 @@ class TutorialsScreen extends ConsumerWidget {
           ),
           title: Text(
             t.shared.tutorials,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
@@ -95,7 +90,7 @@ class TutorialsScreen extends ConsumerWidget {
       ],
     );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+    return Scaffold(body: body);
   }
 
   Widget _buildTutorialCard(
@@ -122,39 +117,28 @@ class TutorialsScreen extends ConsumerWidget {
           const SizedBox(height: 20),
           Text(
             tutorial['title'] as String,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: isGlass
-                  ? Colors.white
-                  : Theme.of(context).colorScheme.onSurface,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             tutorial['desc'] as String,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              color: isGlass ? Colors.white70 : Theme.of(context).hintColor,
-            ),
+            style: TextStyle(fontSize: 13, color: Theme.of(context).hintColor),
           ),
         ],
       ),
     );
 
-    return isGlass
-        ? GlassContainer(
-            borderRadius: BorderRadius.circular(24),
-            padding: EdgeInsets.zero,
-            child: content,
-          )
-        : Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(24),
-              border: Border.all(color: Colors.black12),
-            ),
-            child: content,
-          );
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.black12),
+      ),
+      child: content,
+    );
   }
 }

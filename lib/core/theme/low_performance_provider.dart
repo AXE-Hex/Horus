@@ -15,7 +15,7 @@ class LowPerformanceController extends _$LowPerformanceController {
 
   Future<void> _loadState() async {
     final prefs = await SharedPreferences.getInstance();
-    state = prefs.getBool(_key) ?? false;
+    if (ref.mounted) state = prefs.getBool(_key) ?? false;
   }
 
   Future<void> toggle() async {

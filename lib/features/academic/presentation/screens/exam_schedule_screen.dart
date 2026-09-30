@@ -5,10 +5,7 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -37,14 +34,15 @@ class ExamScheduleScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
     final selectedDate = useState<DateTime?>(null);
     final semesterAsync = ref.watch(currentSemesterProvider);
 
     return semesterAsync.when(
       data: (semester) {
-        final examsAsync = ref.watch(examScheduleProvider(semester));
+        if (semester == null) {
+          return Scaffold(body: Center(child: Text(t.academic.no_data)));
+        }
+        final examsAsync = ref.watch(examScheduleProvider(semester.code));
 
         return examsAsync.when(
           data: (rawData) {
@@ -66,10 +64,10 @@ class ExamScheduleScreen extends HookConsumerWidget {
 
               return {
                 'id': id,
-                'subject': e.courseName ?? t.academic.artificial_intelligence,
+                'subject': e.courseName ?? e.courseCode ?? e.courseId,
                 'dateTime': e.examDate,
-                'seat': 'TBD',
-                'room': e.room ?? 'TBD',
+                'seat': e.room ?? '',
+                'room': e.room ?? '',
                 'color': color,
                 'icon': icon,
               };
@@ -108,7 +106,7 @@ class ExamScheduleScreen extends HookConsumerWidget {
                   ),
                   title: Text(
                     t.academic.exam_schedule,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontWeight: FontWeight.w900,
                       fontSize: 24,
                       color: Colors.white,
@@ -156,7 +154,7 @@ class ExamScheduleScreen extends HookConsumerWidget {
                           const SizedBox(height: 20),
                           Text(
                             t.academic.no_exams_on_this_day,
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: Colors.white38,
                               fontSize: 16,
                             ),
@@ -183,16 +181,14 @@ class ExamScheduleScreen extends HookConsumerWidget {
               ],
             );
 
-            return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+            return Scaffold(body: body);
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (err, stack) =>
-              Center(child: Text('Error loading exams: $err')),
+          error: (err, stack) => Center(child: Text(t.academic.error)),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) =>
-          Center(child: Text('Error loading semester: $err')),
+      error: (err, stack) => Center(child: Text(t.academic.error)),
     );
   }
 }

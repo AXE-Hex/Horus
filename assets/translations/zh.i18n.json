@@ -64,11 +64,37 @@
     "light_mode": "灯光模式"
   },
   "auth": {
+    "splash": {
+      "welcome_prefix": "欢迎，"
+    },
+    "guest_registration": {
+      "title": "创建访客账户",
+      "subtitle": "访客账户只能访问大学公开信息。",
+      "full_name": "姓名",
+      "email": "大学邮箱",
+      "password": "密码",
+      "confirm_password": "确认密码",
+      "submit": "创建访客账户",
+      "validation": "请填写所有字段并使用有效的 @horus.edu.eg 邮箱。",
+      "password_mismatch": "两次输入的密码不一致。",
+      "request_failed": "无法创建账户。请检查信息后重试。",
+      "already_have_account": "已有账户？登录",
+      "confirmation_required": "请先通过邮件确认账户，再登录。"
+    },
+    "access_pending": {
+      "title": "访问权限待审核",
+      "body": "此账户没有有效的大学角色。如认为有误，请联系大学支持。",
+      "sign_out": "退出登录"
+    },
     "login": {
       "welcome": "欢迎回来",
       "subtitle": "登录以继续",
       "email": "电子邮件",
+      "email_hint": "输入大学邮箱或用户名",
       "password": "密码",
+      "required_fields": "请输入邮箱和密码。",
+      "invalid_email": "请使用以 @horus.edu.eg 结尾的有效大学邮箱。",
+      "sign_in_failed": "无法登录。请检查信息后重试。",
       "forgot_password": "忘记密码？",
       "submit": "登录",
       "guest": "作为访客浏览"
@@ -107,7 +133,10 @@
     "student": "学生",
     "home": "家",
     "student_portal": "学生门户",
-    "colleges": "学院"
+    "colleges": "学院",
+    "post_text": "文字",
+    "post_image": "图片",
+    "post_announcement": "公告"
   },
   "dashboard": {
     "id_card": {
@@ -437,7 +466,9 @@
       "machine_learning": "机器学习",
       "calculus": "高级微积分",
       "ethics": "IT 道德"
-    }
+    },
+    "excused": "已请假",
+    "unknown": "不可用"
   },
   "registration": {
     "title": "选课注册",
@@ -680,6 +711,7 @@
     "ratio": "比率",
     "back": "后退",
     "no_data": "无可用数据",
+    "no_reviews_yet": "暂无评价",
     "error": "错误",
     "search": "搜索",
     "retry": "重试",
@@ -727,11 +759,7 @@
     "data_structures": "数据结构",
     "d_mmmm": "MMMM",
     "deep_learning": "深度学习",
-    "dr_alan_turing": "艾伦·图灵博士",
     "days": "天",
-    "dr_ada_lovelace": "艾达·洛夫莱斯博士",
-    "dr_robert_smith": "罗伯特·史密斯博士",
-    "dr_sarah_ahmed": "萨拉·艾哈迈德博士",
     "english_composition": "英语作文",
     "ethics_in_it": "IT 道德",
     "fall_2023": "2023 年秋季",
@@ -809,7 +837,11 @@
     "web_programming": "网页编程",
     "urgent_news": "紧急消息",
     "upload": "上传",
-    "uploaded_successfully": "上传成功"
+    "uploaded_successfully": "上传成功",
+    "reviews_unavailable": "评价暂不可用",
+    "reviews_unavailable_description": "教职员工评价功能暂未启用，未提交任何评价。",
+    "select_file": "选择文件",
+    "upload_file_size_error": "请选择不超过50 MB的非空文件。"
   },
   "enrollment": {
     "registration_title": "课程注册",
@@ -912,6 +944,8 @@
     "notes_optional": "注释（可选）",
     "no_students_found": "没有找到学生",
     "overdue": "逾期",
+    "refunded": "已退款",
+    "unknown_status": "状态不可用",
     "paid": "有薪酬的",
     "partial": "部分的",
     "other": "其他",
@@ -1094,6 +1128,7 @@
     "share_identity": "分享身份",
     "settings": "设置",
     "smart_digital_id": "智能数字身份证",
+    "id_unavailable": "此账户暂无电子身份信息。",
     "student": "学生",
     "status": "地位",
     "utilities": "公用事业",
@@ -1287,6 +1322,11 @@
     "department_is_required": "部门为必填项",
     "permanently_delete_user_fullname_this_ca": "永久删除${userFullName}？这无法撤销！",
     "soft_delete": "软删除",
-    "permanent_delete": "永久删除"
+    "permanent_delete": "永久删除",
+    "system_appearance": "跟随系统"
+  },
+  "control": {
+    "title": "大学管理",
+    "subtitle": "您获授权的教学与行政工作区"
   }
 }

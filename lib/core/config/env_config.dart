@@ -50,12 +50,6 @@ class EnvConfig {
     defaultValue: '1.0.0',
   );
 
-  // ── Profile Images ─────────────────────────────────────────────────────
-  static const String defaultProfileImage =
-      'https://ui-avatars.com/api/?name=User&background=6366f1&color=fff';
-  static const String mockDeanImage = 'https://i.pravatar.cc/300?img=68';
-  static const String mockStaffImageBase = 'https://i.pravatar.cc/300?img=';
-
   // ── Feature Flags ──────────────────────────────────────────────────────
   static const bool enableAnalytics = true;
   static const bool enableOfflineCache = false;
@@ -63,7 +57,13 @@ class EnvConfig {
   // ── Validation ─────────────────────────────────────────────────────────
   static bool get isDevelopment =>
       supabaseUrl == 'https://your-project.supabase.co' ||
-      supabaseAnonKey == 'your_supabase_anon_key_here';
+      supabaseAnonKey == 'your_supabase_anon_key_here' ||
+      isLocalSupabaseUrl(supabaseUrl);
+
+  static bool isLocalSupabaseUrl(String value) {
+    final host = Uri.tryParse(value.trim())?.host.toLowerCase();
+    return host == 'localhost' || host == '127.0.0.1' || host == '::1';
+  }
 
   static bool get isProduction =>
       !isDevelopment && supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;

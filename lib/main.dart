@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/i18n/locale_preferences.dart';
 import 'package:horus/core/app/horus_app.dart';
 import 'package:horus/core/config/env_config.dart';
 
@@ -53,8 +54,8 @@ void main() async {
     }
   }
 
-  // Set locale
-  LocaleSettings.useDeviceLocale();
+  // Resolve the saved choice first, then use the supported device locale.
+  await LocalePreferences.initialize();
 
   runApp(TranslationProvider(child: const ProviderScope(child: HorusApp())));
 }

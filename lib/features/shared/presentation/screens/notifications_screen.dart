@@ -5,11 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/data/notification_provider.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class NotificationsScreen extends ConsumerWidget {
@@ -17,8 +13,7 @@ class NotificationsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
     final notificationsAsync = ref.watch(notificationControllerProvider);
 
     final body = CustomScrollView(
@@ -32,9 +27,9 @@ class NotificationsScreen extends ConsumerWidget {
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
               t.shared.notifications,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: isGlass ? Colors.white : Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColor,
               ),
             ),
             centerTitle: true,
@@ -74,7 +69,7 @@ class NotificationsScreen extends ConsumerWidget {
                       const SizedBox(height: 16),
                       Text(
                         t.shared.no_notifications_yet,
-                        style: GoogleFonts.outfit(color: Colors.white30),
+                        style: TextStyle(color: Colors.white30),
                       ),
                     ],
                   ),
@@ -99,13 +94,13 @@ class NotificationsScreen extends ConsumerWidget {
           loading: () => const SliverFillRemaining(
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (e, _) =>
-              SliverFillRemaining(child: Center(child: Text('Error: $e'))),
+          error: (_, _) =>
+              SliverFillRemaining(child: Center(child: Text(t.shared.error))),
         ),
       ],
     );
 
-    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+    return Scaffold(body: body);
   }
 
   Widget _buildGravityTile(
@@ -164,26 +159,22 @@ class NotificationsScreen extends ConsumerWidget {
                 children: [
                   Text(
                     note.title,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
-                      color: isGlass
-                          ? (note.isRead ? Colors.white30 : Colors.white)
-                          : (note.isRead
-                                ? Colors.grey
-                                : Theme.of(context).colorScheme.onSurface),
+                      color: (note.isRead
+                          ? Colors.grey
+                          : Theme.of(context).colorScheme.onSurface),
                     ),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     note.message,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 13,
-                      color: isGlass
-                          ? (note.isRead ? Colors.white12 : Colors.white60)
-                          : (note.isRead
-                                ? Colors.grey.shade300
-                                : Theme.of(context).hintColor),
+                      color: (note.isRead
+                          ? Colors.grey.shade300
+                          : Theme.of(context).hintColor),
                     ),
                   ),
                 ],
@@ -194,7 +185,7 @@ class NotificationsScreen extends ConsumerWidget {
                 width: 8,
                 height: 8,
                 decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 1.seconds),
+              ).animate().shimmer(duration: 1.seconds),
           ],
         ),
       ),
@@ -202,18 +193,12 @@ class NotificationsScreen extends ConsumerWidget {
 
     return Padding(
           padding: const EdgeInsets.only(bottom: 16),
-          child: isGlass
-              ? GlassContainer(
-                  borderRadius: BorderRadius.circular(24),
-                  padding: EdgeInsets.zero,
-                  child: content,
-                )
-              : Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  child: content,
-                ),
+          child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: content,
+          ),
         )
         .animate()
         .fadeIn(delay: (index * 100).ms)

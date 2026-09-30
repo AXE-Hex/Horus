@@ -3,7 +3,6 @@ import 'package:horus/core/config/supabase_client.dart';
 import 'package:horus/core/data/db_row.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
 import 'package:horus/features/enrollment/domain/registration_eligibility.dart';
-import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final registrationRepositoryProvider = Provider((ref) {
@@ -19,7 +18,7 @@ class RegistrationRepository {
     final response = await _supabase
         .from('courses')
         .select('''
-          *,
+          id,code,name_en,name_ar,description,credit_hours,department_id,is_active,
           course_prerequisites!course_prerequisites_course_id_fkey(
             minimum_grade,
             prerequisite_course:courses!course_prerequisites_prerequisite_course_id_fkey(
@@ -53,7 +52,9 @@ class RegistrationRepository {
   ) async {
     final response = await _supabase
         .from('schedules')
-        .select('*')
+        .select(
+          'id,course_id,day,start_time,end_time,semester,room,building,section_name,sub_section_name',
+        )
         .eq('course_id', courseId)
         .eq('semester', semester);
 
@@ -100,20 +101,17 @@ class RegistrationRepository {
     String studentId,
     String semester,
   ) async {
-    try {
-      final response = await _supabase
-          .from('student_registrations')
-          .select('*')
-          .eq('student_id', studentId)
-          .eq('semester', semester)
-          .maybeSingle();
+    final response = await _supabase
+        .from('student_registrations')
+        .select(
+          'id,student_id,semester,section_name,sub_section_name,registered_at',
+        )
+        .eq('student_id', studentId)
+        .eq('semester', semester)
+        .maybeSingle();
 
-      if (response == null) return null;
-      return StudentRegistration.fromJson(response);
-    } catch (e) {
-      debugPrint('Error registering student: $e');
-      return null;
-    }
+    if (response == null) return null;
+    return StudentRegistration.fromJson(response);
   }
 
   Future<List<CompletedCourseGrade>> getTranscript(String studentId) async {

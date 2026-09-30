@@ -72,6 +72,7 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSharedZh shared = _TranslationsSharedZh._(_root);
 	@override late final _TranslationsStudentsZh students = _TranslationsStudentsZh._(_root);
 	@override late final _TranslationsExtractedZh extracted = _TranslationsExtractedZh._(_root);
+	@override late final _TranslationsControlZh control = _TranslationsControlZh._(_root);
 }
 
 // Path: common
@@ -139,6 +140,9 @@ class _TranslationsAuthZh extends TranslationsAuthEn {
 	final TranslationsZh _root; // ignore: unused_field
 
 	// Translations
+	@override late final _TranslationsAuthSplashZh splash = _TranslationsAuthSplashZh._(_root);
+	@override late final _TranslationsAuthGuestRegistrationZh guest_registration = _TranslationsAuthGuestRegistrationZh._(_root);
+	@override late final _TranslationsAuthAccessPendingZh access_pending = _TranslationsAuthAccessPendingZh._(_root);
 	@override late final _TranslationsAuthLoginZh login = _TranslationsAuthLoginZh._(_root);
 	@override late final _TranslationsAuthForgotPasswordZh forgot_password = _TranslationsAuthForgotPasswordZh._(_root);
 	@override String get back => '后退';
@@ -159,6 +163,9 @@ class _TranslationsHomeZh extends TranslationsHomeEn {
 	@override String get home => '家';
 	@override String get student_portal => '学生门户';
 	@override String get colleges => '学院';
+	@override String get post_text => '文字';
+	@override String get post_image => '图片';
+	@override String get post_announcement => '公告';
 }
 
 // Path: dashboard
@@ -408,6 +415,8 @@ class _TranslationsAttendanceZh extends TranslationsAttendanceEn {
 	@override String get late => '迟到';
 	@override String get ratio => '出勤率';
 	@override late final _TranslationsAttendanceSubjectsZh subjects = _TranslationsAttendanceSubjectsZh._(_root);
+	@override String get excused => '已请假';
+	@override String get unknown => '不可用';
 }
 
 // Path: registration
@@ -668,6 +677,7 @@ class _TranslationsAcademicZh extends TranslationsAcademicEn {
 	@override String get ratio => '比率';
 	@override String get back => '后退';
 	@override String get no_data => '无可用数据';
+	@override String get no_reviews_yet => '暂无评价';
 	@override String get error => '错误';
 	@override String get search => '搜索';
 	@override String get retry => '重试';
@@ -715,11 +725,7 @@ class _TranslationsAcademicZh extends TranslationsAcademicEn {
 	@override String get data_structures => '数据结构';
 	@override String get d_mmmm => 'MMMM';
 	@override String get deep_learning => '深度学习';
-	@override String get dr_alan_turing => '艾伦·图灵博士';
 	@override String get days => '天';
-	@override String get dr_ada_lovelace => '艾达·洛夫莱斯博士';
-	@override String get dr_robert_smith => '罗伯特·史密斯博士';
-	@override String get dr_sarah_ahmed => '萨拉·艾哈迈德博士';
 	@override String get english_composition => '英语作文';
 	@override String get ethics_in_it => 'IT 道德';
 	@override String get fall_2023 => '2023 年秋季';
@@ -798,6 +804,10 @@ class _TranslationsAcademicZh extends TranslationsAcademicEn {
 	@override String get urgent_news => '紧急消息';
 	@override String get upload => '上传';
 	@override String get uploaded_successfully => '上传成功';
+	@override String get reviews_unavailable => '评价暂不可用';
+	@override String get reviews_unavailable_description => '教职员工评价功能暂未启用，未提交任何评价。';
+	@override String get select_file => '选择文件';
+	@override String get upload_file_size_error => '请选择不超过50 MB的非空文件。';
 }
 
 // Path: enrollment
@@ -907,6 +917,8 @@ class _TranslationsEnrollmentZh extends TranslationsEnrollmentEn {
 	@override String get notes_optional => '注释（可选）';
 	@override String get no_students_found => '没有找到学生';
 	@override String get overdue => '逾期';
+	@override String get refunded => '已退款';
+	@override String get unknown_status => '状态不可用';
 	@override String get paid => '有薪酬的';
 	@override String get partial => '部分的';
 	@override String get other => '其他';
@@ -1103,6 +1115,7 @@ class _TranslationsStudentsZh extends TranslationsStudentsEn {
 	@override String get share_identity => '分享身份';
 	@override String get settings => '设置';
 	@override String get smart_digital_id => '智能数字身份证';
+	@override String get id_unavailable => '此账户暂无电子身份信息。';
 	@override String get student => '学生';
 	@override String get status => '地位';
 	@override String get utilities => '公用事业';
@@ -1304,6 +1317,18 @@ class _TranslationsExtractedZh extends TranslationsExtractedEn {
 	@override String permanently_delete_user_fullname_this_ca({required Object userFullName}) => '永久删除${userFullName}？这无法撤销！';
 	@override String get soft_delete => '软删除';
 	@override String get permanent_delete => '永久删除';
+	@override String get system_appearance => '跟随系统';
+}
+
+// Path: control
+class _TranslationsControlZh extends TranslationsControlEn {
+	_TranslationsControlZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '大学管理';
+	@override String get subtitle => '您获授权的教学与行政工作区';
 }
 
 // Path: onboarding.language
@@ -1359,6 +1384,49 @@ class _TranslationsOnboardingThemeZh extends TranslationsOnboardingThemeEn {
 	@override String get dark => '黑暗';
 }
 
+// Path: auth.splash
+class _TranslationsAuthSplashZh extends TranslationsAuthSplashEn {
+	_TranslationsAuthSplashZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get welcome_prefix => '欢迎，';
+}
+
+// Path: auth.guest_registration
+class _TranslationsAuthGuestRegistrationZh extends TranslationsAuthGuestRegistrationEn {
+	_TranslationsAuthGuestRegistrationZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '创建访客账户';
+	@override String get subtitle => '访客账户只能访问大学公开信息。';
+	@override String get full_name => '姓名';
+	@override String get email => '大学邮箱';
+	@override String get password => '密码';
+	@override String get confirm_password => '确认密码';
+	@override String get submit => '创建访客账户';
+	@override String get validation => '请填写所有字段并使用有效的 @horus.edu.eg 邮箱。';
+	@override String get password_mismatch => '两次输入的密码不一致。';
+	@override String get request_failed => '无法创建账户。请检查信息后重试。';
+	@override String get already_have_account => '已有账户？登录';
+	@override String get confirmation_required => '请先通过邮件确认账户，再登录。';
+}
+
+// Path: auth.access_pending
+class _TranslationsAuthAccessPendingZh extends TranslationsAuthAccessPendingEn {
+	_TranslationsAuthAccessPendingZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '访问权限待审核';
+	@override String get body => '此账户没有有效的大学角色。如认为有误，请联系大学支持。';
+	@override String get sign_out => '退出登录';
+}
+
 // Path: auth.login
 class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
 	_TranslationsAuthLoginZh._(TranslationsZh root) : this._root = root, super.internal(root);
@@ -1369,7 +1437,11 @@ class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
 	@override String get welcome => '欢迎回来';
 	@override String get subtitle => '登录以继续';
 	@override String get email => '电子邮件';
+	@override String get email_hint => '输入大学邮箱或用户名';
 	@override String get password => '密码';
+	@override String get required_fields => '请输入邮箱和密码。';
+	@override String get invalid_email => '请使用以 @horus.edu.eg 结尾的有效大学邮箱。';
+	@override String get sign_in_failed => '无法登录。请检查信息后重试。';
 	@override String get forgot_password => '忘记密码？';
 	@override String get submit => '登录';
 	@override String get guest => '作为访客浏览';
@@ -1897,10 +1969,30 @@ extension on TranslationsZh {
 			'onboarding.premium_frosted_glass_blur_eff' => '优质磨砂玻璃模糊效果',
 			'onboarding.almost_there_just_one_more_ste' => '快到了！只需多一步。',
 			'onboarding.light_mode' => '灯光模式',
+			'auth.splash.welcome_prefix' => '欢迎，',
+			'auth.guest_registration.title' => '创建访客账户',
+			'auth.guest_registration.subtitle' => '访客账户只能访问大学公开信息。',
+			'auth.guest_registration.full_name' => '姓名',
+			'auth.guest_registration.email' => '大学邮箱',
+			'auth.guest_registration.password' => '密码',
+			'auth.guest_registration.confirm_password' => '确认密码',
+			'auth.guest_registration.submit' => '创建访客账户',
+			'auth.guest_registration.validation' => '请填写所有字段并使用有效的 @horus.edu.eg 邮箱。',
+			'auth.guest_registration.password_mismatch' => '两次输入的密码不一致。',
+			'auth.guest_registration.request_failed' => '无法创建账户。请检查信息后重试。',
+			'auth.guest_registration.already_have_account' => '已有账户？登录',
+			'auth.guest_registration.confirmation_required' => '请先通过邮件确认账户，再登录。',
+			'auth.access_pending.title' => '访问权限待审核',
+			'auth.access_pending.body' => '此账户没有有效的大学角色。如认为有误，请联系大学支持。',
+			'auth.access_pending.sign_out' => '退出登录',
 			'auth.login.welcome' => '欢迎回来',
 			'auth.login.subtitle' => '登录以继续',
 			'auth.login.email' => '电子邮件',
+			'auth.login.email_hint' => '输入大学邮箱或用户名',
 			'auth.login.password' => '密码',
+			'auth.login.required_fields' => '请输入邮箱和密码。',
+			'auth.login.invalid_email' => '请使用以 @horus.edu.eg 结尾的有效大学邮箱。',
+			'auth.login.sign_in_failed' => '无法登录。请检查信息后重试。',
 			'auth.login.forgot_password' => '忘记密码？',
 			'auth.login.submit' => '登录',
 			'auth.login.guest' => '作为访客浏览',
@@ -1933,6 +2025,9 @@ extension on TranslationsZh {
 			'home.home' => '家',
 			'home.student_portal' => '学生门户',
 			'home.colleges' => '学院',
+			'home.post_text' => '文字',
+			'home.post_image' => '图片',
+			'home.post_announcement' => '公告',
 			'dashboard.id_card.student_name' => '学生姓名',
 			'dashboard.id_card.college' => '学院',
 			'dashboard.id_card.id' => '学号',
@@ -2207,6 +2302,8 @@ extension on TranslationsZh {
 			'attendance.subjects.machine_learning' => '机器学习',
 			'attendance.subjects.calculus' => '高级微积分',
 			'attendance.subjects.ethics' => 'IT 道德',
+			'attendance.excused' => '已请假',
+			'attendance.unknown' => '不可用',
 			'registration.title' => '选课注册',
 			'registration.submit' => '提交注册',
 			'registration.enrolled_credits' => '已修学分',
@@ -2338,6 +2435,8 @@ extension on TranslationsZh {
 			'roles.descriptions.librarian' => '管理图书馆资源和资料',
 			'roles.descriptions.regular_student' => '拥有所有标准学术特权的正式学生',
 			'roles.descriptions.alumni' => '访问权限有限的毕业生',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.class_representative' => '代表班级的学生领袖',
 			'roles.descriptions.student' => '一般学生角色',
 			'roles.descriptions.academic_advisor' => '指导学生完成学业规划',
@@ -2363,8 +2462,6 @@ extension on TranslationsZh {
 			'academic.professor_dashboard' => '教授仪表板',
 			'academic.all_students' => '所有学生',
 			'academic.exam_schedule_title' => '考试时间表',
-			_ => null,
-		} ?? switch (path) {
 			'academic.tas' => '助教',
 			'academic.subject_results_title' => '科目结果',
 			'academic.office_hours' => '办公时间',
@@ -2415,6 +2512,7 @@ extension on TranslationsZh {
 			'academic.ratio' => '比率',
 			'academic.back' => '后退',
 			'academic.no_data' => '无可用数据',
+			'academic.no_reviews_yet' => '暂无评价',
 			'academic.error' => '错误',
 			'academic.search' => '搜索',
 			'academic.retry' => '重试',
@@ -2462,11 +2560,7 @@ extension on TranslationsZh {
 			'academic.data_structures' => '数据结构',
 			'academic.d_mmmm' => 'MMMM',
 			'academic.deep_learning' => '深度学习',
-			'academic.dr_alan_turing' => '艾伦·图灵博士',
 			'academic.days' => '天',
-			'academic.dr_ada_lovelace' => '艾达·洛夫莱斯博士',
-			'academic.dr_robert_smith' => '罗伯特·史密斯博士',
-			'academic.dr_sarah_ahmed' => '萨拉·艾哈迈德博士',
 			'academic.english_composition' => '英语作文',
 			'academic.ethics_in_it' => 'IT 道德',
 			'academic.fall_2023' => '2023 年秋季',
@@ -2545,6 +2639,10 @@ extension on TranslationsZh {
 			'academic.urgent_news' => '紧急消息',
 			'academic.upload' => '上传',
 			'academic.uploaded_successfully' => '上传成功',
+			'academic.reviews_unavailable' => '评价暂不可用',
+			'academic.reviews_unavailable_description' => '教职员工评价功能暂未启用，未提交任何评价。',
+			'academic.select_file' => '选择文件',
+			'academic.upload_file_size_error' => '请选择不超过50 MB的非空文件。',
 			'enrollment.registration_title' => '课程注册',
 			'enrollment.invoices_title' => '财务发票',
 			'enrollment.advisor_approval' => '顾问批准',
@@ -2645,6 +2743,8 @@ extension on TranslationsZh {
 			'enrollment.notes_optional' => '注释（可选）',
 			'enrollment.no_students_found' => '没有找到学生',
 			'enrollment.overdue' => '逾期',
+			'enrollment.refunded' => '已退款',
+			'enrollment.unknown_status' => '状态不可用',
 			'enrollment.paid' => '有薪酬的',
 			'enrollment.partial' => '部分的',
 			'enrollment.other' => '其他',
@@ -2823,6 +2923,7 @@ extension on TranslationsZh {
 			'students.share_identity' => '分享身份',
 			'students.settings' => '设置',
 			'students.smart_digital_id' => '智能数字身份证',
+			'students.id_unavailable' => '此账户暂无电子身份信息。',
 			'students.student' => '学生',
 			'students.status' => '地位',
 			'students.utilities' => '公用事业',
@@ -2848,6 +2949,8 @@ extension on TranslationsZh {
 			'extracted.notifications' => '通知',
 			'extracted.dark_mode' => '深色模式',
 			'extracted.toggle_between_dark_and_light_mode' => '在深色和浅色模式之间切换',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.about' => '关于',
 			'extracted.send_password_recovery_link_to_your_emai' => '将密码恢复链接发送到您的电子邮件',
 			'extracted.current_classic_design' => '当前： 经典设计',
@@ -2877,8 +2980,6 @@ extension on TranslationsZh {
 			'extracted.version_details_and_developer_info' => '版本详细信息和开发者信息',
 			'extracted.email_support' => '电子邮件支持',
 			'extracted.log_out' => '退出',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.about_app' => '关于应用程序',
 			'extracted.how_can_we_help_you' => '我们能为您提供什么帮助？',
 			'extracted.call_hotline' => '拨打热线',
@@ -3017,6 +3118,9 @@ extension on TranslationsZh {
 			'extracted.permanently_delete_user_fullname_this_ca' => ({required Object userFullName}) => '永久删除${userFullName}？这无法撤销！',
 			'extracted.soft_delete' => '软删除',
 			'extracted.permanent_delete' => '永久删除',
+			'extracted.system_appearance' => '跟随系统',
+			'control.title' => '大学管理',
+			'control.subtitle' => '您获授权的教学与行政工作区',
 			_ => null,
 		};
 	}

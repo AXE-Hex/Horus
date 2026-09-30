@@ -4,82 +4,16 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
 import '../../core/theme/app_text_styles.dart';
 
-class PulsingDot extends StatefulWidget {
+class PulsingDot extends StatelessWidget {
+  const PulsingDot({super.key, required this.color, this.size = 8});
   final Color color;
   final double size;
-
-  const PulsingDot({super.key, required this.color, this.size = 8.0});
-
   @override
-  State<PulsingDot> createState() => _PulsingDotState();
-}
-
-class _PulsingDotState extends State<PulsingDot>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scaleAnimation;
-  late Animation<double> _opacityAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1400),
-    )..repeat();
-
-    _scaleAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.6,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-
-    _opacityAnimation = Tween<double>(
-      begin: 0.8,
-      end: 0.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return Transform.scale(
-              scale: _scaleAnimation.value,
-              child: Opacity(
-                opacity: _opacityAnimation.value,
-                child: Container(
-                  width: widget.size * 2,
-                  height: widget.size * 2,
-                  decoration: BoxDecoration(
-                    color: widget.color,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            );
-          },
-        ),
-        Container(
-          width: widget.size,
-          height: widget.size,
-          decoration: BoxDecoration(
-            color: widget.color,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ],
-    );
-  }
+  Widget build(BuildContext context) => Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+  );
 }
 
 class LiveAlertBanner extends StatelessWidget {

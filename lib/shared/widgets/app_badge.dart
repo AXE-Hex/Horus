@@ -21,8 +21,8 @@ class AppBadge extends StatelessWidget {
     return AppBadge(
       key: key,
       label: label,
-      backgroundColor: const Color(0xFFF0FDF4),
-      textColor: const Color(0xFF16A34A),
+      backgroundColor: AppColors.successContainer,
+      textColor: AppColors.success,
     );
   }
 
@@ -30,8 +30,8 @@ class AppBadge extends StatelessWidget {
     return AppBadge(
       key: key,
       label: label,
-      backgroundColor: const Color(0xFFFBF1D8),
-      textColor: const Color(0xFF8A6A12),
+      backgroundColor: AppColors.warningContainer,
+      textColor: AppColors.warning,
     );
   }
 
@@ -39,8 +39,8 @@ class AppBadge extends StatelessWidget {
     return AppBadge(
       key: key,
       label: label,
-      backgroundColor: const Color(0xFFFEF2F2),
-      textColor: const Color(0xFFDC2626),
+      backgroundColor: AppColors.dangerContainer,
+      textColor: AppColors.danger,
     );
   }
 
@@ -48,11 +48,18 @@ class AppBadge extends StatelessWidget {
     return AppBadge(
       key: key,
       label: label,
-      backgroundColor: const Color(0xFFFBF1D8),
-      textColor: const Color(0xFF8A6A12),
-      border: Border.all(color: const Color(0xFFD4AF37), width: 1.0),
+      backgroundColor: AppColors.warningContainer,
+      textColor: AppColors.gold900,
+      border: Border.all(color: AppColors.gold500, width: 1.0),
     );
   }
+
+  factory AppBadge.info({required String label, Key? key}) => AppBadge(
+    key: key,
+    label: label,
+    backgroundColor: AppColors.infoContainer,
+    textColor: AppColors.info,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -64,16 +71,18 @@ class AppBadge extends StatelessWidget {
     BoxBorder? resolvedBorder = border;
 
     if (isDark) {
-      if (backgroundColor == const Color(0xFFFBF1D8)) {
-        // Gold icon/badge background in dark mode
-        resolvedBg = const Color(0xFF2A2110);
-        resolvedText = const Color(0xFFE8C766);
-      } else if (backgroundColor == const Color(0xFFF0FDF4)) {
-        resolvedBg = const Color(0xFF14532D).withValues(alpha: 0.4);
-        resolvedText = const Color(0xFF4ADE80);
-      } else if (backgroundColor == const Color(0xFFFEF2F2)) {
-        resolvedBg = const Color(0xFF7F1D1D).withValues(alpha: 0.4);
-        resolvedText = const Color(0xFFFCA5A5);
+      if (backgroundColor == AppColors.warningContainer) {
+        resolvedBg = AppColors.gold900.withValues(alpha: 0.35);
+        resolvedText = AppColors.gold300;
+      } else if (backgroundColor == AppColors.successContainer) {
+        resolvedBg = AppColors.success.withValues(alpha: 0.25);
+        resolvedText = const Color(0xFF7BD3A5);
+      } else if (backgroundColor == AppColors.dangerContainer) {
+        resolvedBg = AppColors.danger.withValues(alpha: 0.25);
+        resolvedText = const Color(0xFFFFA6A0);
+      } else if (backgroundColor == AppColors.infoContainer) {
+        resolvedBg = AppColors.info.withValues(alpha: 0.25);
+        resolvedText = AppColors.navy300;
       }
 
       if (resolvedBorder != null) {

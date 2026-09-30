@@ -18,7 +18,7 @@ extension _CollegePortalDepartments on _CollegePortalScreenState {
             const SizedBox(width: 12),
             Text(
               t.extracted.scientific_departments,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: isGlass ? Colors.white : null,
@@ -57,7 +57,7 @@ extension _CollegePortalDepartments on _CollegePortalScreenState {
                   Expanded(
                     child: Text(
                       dept,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: isGlass ? Colors.white : null,
                       ),

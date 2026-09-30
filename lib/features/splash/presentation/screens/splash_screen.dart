@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/features/shared/presentation/widgets/animated_mesh_background.dart';
+import 'package:horus/shared/widgets/horus_entrance.dart';
+import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:horus/core/auth/auth_provider.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/router/route_guard.dart';
+import 'package:horus/core/theme/app_spacing.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -14,120 +17,91 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  Timer? _fallbackTimer;
+  bool _brandReady = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(
+      AssetImage(
+        Theme.of(context).brightness == Brightness.dark
+            ? 'assets/images/Logo_dark.png'
+            : 'assets/images/Logo_light.png',
+      ),
+      context,
+    );
+  }
+
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 3500), () {
-      if (mounted) {
-        context.go('/welcome');
-      }
+    _fallbackTimer = Timer(const Duration(seconds: 5), () {
+      if (!mounted) return;
+      _brandReady = true;
+      final auth = ref.read(authControllerProvider);
+      if (!auth.isLoading) context.go(resolveInitialDestination(auth));
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          const AnimatedMeshBackground(),
-          SafeArea(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(),
-                  Container(
-                        width: 180,
-                        height: 180,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Theme.of(
-                                context,
-                              ).primaryColor.withValues(alpha: 0.2),
-                              blurRadius: 40,
-                              spreadRadius: 5,
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? 'assets/images/Logo_dark.png'
-                              : 'assets/images/Logo_light.png',
-                          width: 160,
-                          height: 160,
-                          fit: BoxFit.contain,
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 800.ms, curve: Curves.easeOut)
-                      .scale(
-                        begin: const Offset(0.8, 0.8),
-                        end: const Offset(1.0, 1.0),
-                        duration: 800.ms,
-                        curve: Curves.easeOutBack,
-                      )
-                      .then()
-                      .animate(
-                        onPlay: (controller) =>
-                            controller.repeat(reverse: true),
-                      )
-                      .moveY(
-                        begin: 0,
-                        end: -10,
-                        duration: 2.seconds,
-                        curve: Curves.easeInOut,
-                      ),
-                  const SizedBox(height: 24),
-                  ShaderMask(
-                        shaderCallback: (bounds) => LinearGradient(
-                          colors: [
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.black87,
-                            Theme.of(context).primaryColor,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ).createShader(bounds),
-                        child: Text(
-                          'HORUS',
-                          style: GoogleFonts.outfit(
-                            fontSize: 48,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 8,
-                            color: Colors.white,
-                            height: 1.0,
-                          ),
-                        ),
-                      )
-                      .animate()
-                      .fadeIn(delay: 400.ms, duration: 800.ms)
-                      .moveY(
-                        begin: 20,
-                        end: 0,
-                        duration: 800.ms,
-                        curve: Curves.easeOut,
-                      ),
+  void dispose() {
+    _fallbackTimer?.cancel();
+    super.dispose();
+  }
 
-                  const Spacer(),
+  @override
+  Widget build(BuildContext context) {
+    final auth = ref.watch(authControllerProvider);
+    ref.listen<AuthState>(authControllerProvider, (_, next) {
+      if (_brandReady && !next.isLoading) {
+        context.go(resolveInitialDestination(next));
+      }
+    });
+    final theme = Theme.of(context);
+    final userName = t.$meta.locale.languageCode == 'ar'
+        ? (auth.profile?.fullNameAr ?? auth.profile?.fullName)
+        : auth.profile?.fullName;
+
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: HorusEntrance(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.xl),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    theme.brightness == Brightness.dark
+                        ? 'assets/images/Logo_dark.png'
+                        : 'assets/images/Logo_light.png',
+                    width: 210,
+                    height: 104,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  Text(
+                    userName == null
+                        ? t.students.horus_university
+                        : '${t.auth.splash.welcome_prefix} $userName',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
                   SizedBox(
-                    width: 40,
-                    height: 40,
+                    width: 26,
+                    height: 26,
                     child: CircularProgressIndicator(
-                      strokeWidth: 3,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).primaryColor,
-                      ),
+                      strokeWidth: 2,
+                      color: theme.colorScheme.primary,
                     ),
-                  ).animate().fadeIn(delay: 1000.ms, duration: 500.ms),
-                  const SizedBox(height: 60),
+                  ),
                 ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

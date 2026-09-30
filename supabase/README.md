@@ -1,34 +1,32 @@
-# Horus UMS Database Architecture
+# Horus local database
 
-This directory contains the modernized, enterprise-grade database architecture for the Horus University Management System.
+`supabase/migrations/` is the only authoritative schema evolution path. Replay
+all files in CLI version order, including timestamped repairs after `001`–`015`.
+Historical migrations are immutable; fixes belong in a new forward migration.
+`001_reset.sql` is a legacy destructive bootstrap: never execute it manually on
+an established environment or replay it against production.
 
-## Principles
+```sh
+npx supabase start
+npx supabase db reset --local
+npx supabase test db --local
+npx supabase db lint --local --fail-on warning
+```
 
-1. **Modular Migrations**: The schema is broken down into 15 specific bounded contexts (Identity, Academic, Financial, etc.).
-2. **Strict Execution Order**: Migrations must be run in numeric order (001 -> 015).
-3. **Partitioning**: High-frequency append-only tables (`messages`, `audit_logs`, `analytics_events`, `exam_cheat_events`, `notification_deliveries`) are partitioned by date.
-4. **Performance**: All RLS policies use `EXISTS()` instead of `IN (SELECT)`. Role checks leverage JWT claims to bypass database lookups.
-5. **Normalization**: 3NF compliant. Free-text fields like `semester` have been migrated to reference tables.
-6. **Security**: Audit logging, field-level encryption for sensitive PII, and least-privilege `SECURITY DEFINER` functions.
+`config.toml` loads only `seed.sql`, strictly for local development. It creates
+twelve canonical test accounts, a deterministic institution, and synthetic
+linked records for the main academic and campus workflows. Canonical roles
+and permissions are seeded by migrations, not by development fixtures. Never
+run this seed on staging/production. Credentials: [development accounts](../docs/DEVELOPMENT_ACCOUNTS.md).
 
-## Migration Order
+The unconsumed `all_migrations.sql` concatenation and obsolete
+`seeds/001_seed.sql` were removed during the September 2026 audit. The latter
+contained dummy encryption keys and was incorrectly recommended by this README.
+Their removal changes no applied migration history or operational database rows.
 
-1. `001_reset.sql` - Complete schema teardown
-2. `002_extensions.sql` - PostgreSQL extensions (pgcrypto, moddatetime)
-3. `003_types.sql` - All ENUMs
-4. `004_identity.sql` - Profiles, roles, sessions
-5. `005_institution.sql` - Colleges, departments, semesters
-6. `006_academic.sql` - Courses, sections, schedules
-7. `007_registration.sql` - Enrollments, requests
-8. `008_grading.sql` - Grades, GPA
-9. `009_social.sql` - Feed, groups, forums
-10. `010_messaging.sql` - Chat, partitioned messages
-11. `011_financial.sql` - Invoices, payments
-12. `012_exams.sql` - Online exams, AI similarity
-13. `013_library.sql` - Physical and digital library
-14. `014_system.sql` - Settings, audit logs, analytics
-15. `015_functions_triggers_rls.sql` - All business logic and security policies
-
-## Seed Data
-
-After running all migrations, execute `seeds/001_seed.sql` to populate initial system roles, colleges, and configuration.
+Security boundaries, live catalog inventory, and reproducible read-only audit
+commands are documented in [database security audit](../docs/DATABASE_SECURITY_AUDIT.md),
+[inventory](../docs/DATABASE_INVENTORY.md), [RLS matrix](../docs/RLS_MATRIX.md), and
+[Storage contract](../docs/STORAGE_ACCESS.md). SQL audit scripts under
+`scripts/database/` target a local reset database only. No remote deployment,
+provider payment verification, or custom encryption safety is implied.

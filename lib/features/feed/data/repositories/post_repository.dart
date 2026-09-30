@@ -39,10 +39,9 @@ class PostRepository {
           post_likes(user_id)
         ''');
 
-    if (userId != null) {}
-
     final response = await query
         .order('created_at', ascending: false)
+        .order('id', ascending: false)
         .range(offset, offset + limit - 1);
 
     final posts = (response as List<dynamic>).map((e) async {
@@ -73,12 +72,21 @@ class PostRepository {
     });
   }
 
-  Future<List<CommentModel>> getComments(String postId) async {
+  Future<List<CommentModel>> getComments(
+    String postId, {
+    int offset = 0,
+    int limit = 50,
+  }) async {
+    if (offset < 0 || limit < 1 || limit > 100) {
+      throw ArgumentError('Comment pagination is out of range.');
+    }
     final response = await _supabase
         .from('post_comments')
         .select('*, profiles(full_name, avatar_url)')
         .eq('post_id', postId)
-        .order('created_at', ascending: true);
+        .order('created_at', ascending: true)
+        .order('id')
+        .range(offset, offset + limit - 1);
 
     return (response as List<dynamic>)
         .map((e) => CommentModel.fromJson(e as Map<String, dynamic>))

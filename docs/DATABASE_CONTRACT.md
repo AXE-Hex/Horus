@@ -90,7 +90,7 @@ definitions are in the migration listed for each bounded context.
 | `shared_files` | uploader/course/file ID bound to a canonical private Storage path, type, visibility and download count | `009_social.sql` plus audit remediation migration |
 | `forums` | bilingual name, category and active state | `009_social.sql` |
 | `forum_posts` | forum, author, title/content and moderation counters | `009_social.sql` |
-| `invoices` | student, semester, amount, status and payment metadata | `011_financial.sql` |
+| `invoices` | `student_id`, `semester`, `description`, `currency`, `amount`, `status`, due/paid dates, receipt and metadata | `011_financial.sql` |
 | `user_sessions` | user, device/session metadata and active state | `004_identity.sql` |
 | `notifications` | recipient, localized message, type, read state and metadata | `014_system.sql` |
 
@@ -189,3 +189,41 @@ the per-operation access matrix are documented in
 - Teaching assistants receive `attendance.manage` through a forward canonical
   role-permission grant; table policy checks still require an active course
   assignment.
+
+## September 2026 complete local hardening pass
+
+The timestamped migrations remain the sole schema authority. The unused SQL
+concatenation and obsolete seed containing dummy encryption material were
+removed; `supabase/seed.sql` remains local development only. See the
+[catalog inventory](DATABASE_INVENTORY.md) and [security audit](DATABASE_SECURITY_AUDIT.md).
+
+- `get_my_role` and `has_permission` both require a known active canonical role,
+  effective grant time, unexpired assignment, and active/non-banned/non-deleted
+  profile. Editable Auth metadata and `profiles.roles` never authorize.
+- Restrictive policies intersect every application's existing operation/scope
+  policies. Guests and external parent/recruiter identities cannot use internal
+  university relations. Self identity/preferences remain available to an active
+  canonical account; public avatar downloads remain intentional.
+- Notification UPDATE permits `is_read` and `read_at` only. No caller may change
+  message content, recipient, or delivery metadata. Notifications/comments/files
+  use bounded repository pages with deterministic ID tie breakers; unread
+  notification counts execute in PostgreSQL.
+- Private buckets always use signed URLs, including the shared upload helper.
+  `virtual_classes.host_url` is excluded from direct client reads.
+- Academic record identity fields are immutable for direct clients, while
+  same-key upserts remain valid. Grade writes require approved enrollment in
+  the same semester. Virtual attendance requires an approved matching enrollment.
+- Conversation membership uses caller-bound, recursion-free lookups. Creators
+  can read a newly created conversation before membership is inserted; only a
+  creator can add visible internal members. Reply targets must be live messages
+  in that same conversation; `reply_to_id` remains UUID-only because the
+  historical messages primary key includes the partition timestamp.
+- `profiles.department_id` and `college_id`, when both populated, must refer to
+  the same department/college relationship. University staff with null college
+  retain the existing department-only affiliation contract.
+- Deleting an institution/course cannot cascade through existing academic
+  course, enrollment, grade, or attendance history. Use active-state changes
+  instead. The relevant foreign keys now use RESTRICT.
+- New score/range/order checks are staged `NOT VALID` for existing deployments:
+  they enforce new/updated rows immediately. Validate and reconcile historical
+  rows before production rollout; no migration deletes or silently backfills them.

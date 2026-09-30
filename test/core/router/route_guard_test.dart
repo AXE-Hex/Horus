@@ -46,7 +46,12 @@ void main() {
 
   test('keeps public route declarations explicit', () {
     expect(publicRoutes.contains('/forgot-password'), isTrue);
+    expect(publicRoutes.contains('/welcome'), isFalse);
+    expect(publicRoutes.contains('/guest-registration'), isTrue);
     expect(publicRoutes.contains('/manage-tas'), isFalse);
+    expect(publicRoutes.contains('/ui-style-selection'), isFalse);
+    expect(publicRoutes.contains('/language-selection'), isFalse);
+    expect(publicRoutes.contains('/theme-selection'), isFalse);
   });
 
   test('redirects unauthenticated protected navigation to sign-in', () {
@@ -60,7 +65,7 @@ void main() {
       final student = _authenticatedState(permissions: {'courses.enroll'});
 
       expect(redirectForAuthState('/registration', student), isNull);
-      expect(redirectForAuthState('/manage-tas', student), '/splash');
+      expect(redirectForAuthState('/manage-tas', student), '/access-pending');
     },
   );
 
@@ -80,7 +85,63 @@ void main() {
       redirectForAuthState('/professor-dashboard', withPermission),
       isNull,
     );
-    expect(redirectForAuthState('/professor-dashboard', revoked), '/splash');
-    expect(redirectForAuthState('/professor-dashboard', inactive), '/splash');
+    expect(
+      redirectForAuthState('/professor-dashboard', revoked),
+      '/access-pending',
+    );
+    expect(
+      redirectForAuthState('/professor-dashboard', inactive),
+      '/access-pending',
+    );
   });
+
+  test(
+    'initial destination resolves from canonical permissions and fails closed',
+    () {
+      expect(resolveInitialDestination(const AuthState()), '/login');
+      expect(
+        resolveInitialDestination(
+          _authenticatedState(
+            roles: const [UserRole.professor],
+            permissions: {'grades.manage'},
+          ),
+        ),
+        '/professor-dashboard',
+      );
+      expect(
+        resolveInitialDestination(
+          _authenticatedState(
+            roles: const [UserRole.dean],
+            permissions: {'profiles.read', 'colleges.manage'},
+          ),
+        ),
+        '/home',
+      );
+      expect(
+        resolveInitialDestination(
+          _authenticatedState(
+            roles: const [UserRole.registrarOfficer],
+            permissions: {'registration.manage'},
+          ),
+        ),
+        '/registration',
+      );
+      expect(
+        resolveInitialDestination(
+          _authenticatedState(roles: const [UserRole.guest]),
+        ),
+        '/access-pending',
+      );
+      expect(
+        resolveInitialDestination(
+          _authenticatedState(
+            roles: const [UserRole.professor],
+            permissions: {'grades.manage'},
+            active: false,
+          ),
+        ),
+        '/access-pending',
+      );
+    },
+  );
 }

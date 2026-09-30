@@ -1,8 +1,6 @@
 part of 'roles.dart';
 
 extension UserRoleX on UserRole {
-  RoleInfo get info => roleRegistry[this]!;
-
   String displayName({bool isArabic = false}) {
     switch (this) {
       case UserRole.rector:
@@ -97,7 +95,29 @@ extension UserRoleX on UserRole {
     }
   }
 
-  RoleCategory get category => info.category;
+  RoleCategory get category => switch (this) {
+    UserRole.rector ||
+    UserRole.dean ||
+    UserRole.departmentHead ||
+    UserRole.assistantHod ||
+    UserRole.academicCoordinator => RoleCategory.academicLeadership,
+    UserRole.professor ||
+    UserRole.lecturer ||
+    UserRole.teachingAssistant => RoleCategory.teachingStaff,
+    UserRole.registrarOfficer ||
+    UserRole.academicAdvisor ||
+    UserRole.librarian => RoleCategory.studentAffairs,
+    UserRole.freshman ||
+    UserRole.regularStudent ||
+    UserRole.student ||
+    UserRole.classRepresentative ||
+    UserRole.alumni => RoleCategory.studentRoles,
+    UserRole.dormSupervisor ||
+    UserRole.securityOfficer => RoleCategory.facilitiesSecurity,
+    UserRole.guest ||
+    UserRole.parent ||
+    UserRole.recruiter => RoleCategory.externalRoles,
+  };
 
   bool get isLeadership => category == RoleCategory.academicLeadership;
 

@@ -64,11 +64,37 @@
     "premium_frosted_glass_blur_eff": "تأثير طمس زجاجي بلوري ممتاز"
   },
   "auth": {
+    "splash": {
+      "welcome_prefix": "مرحباً،"
+    },
+    "guest_registration": {
+      "title": "إنشاء حساب زائر",
+      "subtitle": "تتيح حسابات الزوار الوصول إلى المعلومات الجامعية العامة فقط.",
+      "full_name": "الاسم الكامل",
+      "email": "البريد الجامعي",
+      "password": "كلمة المرور",
+      "confirm_password": "تأكيد كلمة المرور",
+      "submit": "إنشاء حساب زائر",
+      "validation": "أكمل جميع الحقول واستخدم بريدًا صالحًا ينتهي بـ @horus.edu.eg.",
+      "password_mismatch": "كلمتا المرور غير متطابقتين.",
+      "request_failed": "تعذر إنشاء الحساب. تحقق من البيانات ثم حاول مجددًا.",
+      "already_have_account": "لديك حساب بالفعل؟ سجّل الدخول",
+      "confirmation_required": "راجع بريدك الإلكتروني لتأكيد حسابك قبل تسجيل الدخول."
+    },
+    "access_pending": {
+      "title": "الصلاحية قيد الانتظار",
+      "body": "لا يملك هذا الحساب دورًا جامعيًا نشطًا. تواصل مع دعم الجامعة إذا كنت تعتقد أن هذا خطأ.",
+      "sign_out": "تسجيل الخروج"
+    },
     "login": {
       "welcome": "مرحباً بعودتك",
       "subtitle": "سجل الدخول للمتابعة",
       "email": "البريد الإلكتروني",
+      "email_hint": "أدخل بريدك الجامعي الكامل أو اسم المستخدم",
       "password": "كلمة المرور",
+      "required_fields": "أدخل البريد الإلكتروني وكلمة المرور.",
+      "invalid_email": "استخدم بريدًا جامعيًا صالحًا ينتهي بـ @horus.edu.eg.",
+      "sign_in_failed": "تعذر تسجيل الدخول. تحقق من بياناتك ثم حاول مجددًا.",
       "forgot_password": "نسيت كلمة المرور؟",
       "submit": "تسجيل الدخول",
       "guest": "تصفح كزائر"
@@ -107,7 +133,10 @@
     "student_portal": "بوابة الطالب",
     "student": "طالب",
     "colleges": "الكليات",
-    "faculty_portal": "بوابة الكلية"
+    "faculty_portal": "بوابة الكلية",
+    "post_text": "نص",
+    "post_image": "صورة",
+    "post_announcement": "إعلان"
   },
   "feed": {
     "likes": "إعجابات",
@@ -442,7 +471,9 @@
       "machine_learning": "تعلم الآلة",
       "ethics": "أخلاقيات المهنة",
       "calculus": "تفاضل متقدم"
-    }
+    },
+    "excused": "بعذر",
+    "unknown": "غير متاح"
   },
   "registration": {
     "title": "التسجيل الأكاديمي",
@@ -870,7 +901,8 @@
     "edit_post": "Edit Post",
     "write_something": "Write something...",
     "dashboard": "Dashboard",
-    "share_your_thoughts_to_help_improve_the": "Share your thoughts to help improve the system"
+    "share_your_thoughts_to_help_improve_the": "Share your thoughts to help improve the system",
+    "system_appearance": "النظام"
   },
   "academic": {
     "university_requirements": "متطلبات الجامعة",
@@ -937,6 +969,7 @@
     "ratio": "نسبة",
     "search": "يبحث",
     "no_data": "لا توجد بيانات متاحة",
+    "no_reviews_yet": "لا توجد مراجعات بعد",
     "late": "متأخر",
     "present": "حاضر",
     "error": "خطأ",
@@ -986,14 +1019,10 @@
     "cumulative_gpa": "المعدل التراكمي",
     "deep_learning": "التعلم العميق",
     "days": "أيام",
-    "dr_ada_lovelace": "دكتورة أدا لوفليس",
-    "dr_robert_smith": "دكتور روبرت سميث",
     "ethics_in_it": "الأخلاقيات في مجال تكنولوجيا المعلومات",
-    "dr_sarah_ahmed": "د/سارة أحمد",
     "english_composition": "تكوين اللغة الإنجليزية",
     "field_internship": "التدريب الميداني",
     "exam_schedule": "جدول الامتحانات",
-    "dr_alan_turing": "الدكتور آلان تورينج",
     "fall_2023": "خريف 2023",
     "file_will_be_uploaded_to_cloud": "سيتم رفع الملف إلى التخزين السحابي",
     "file_title": "عنوان الملف",
@@ -1068,7 +1097,11 @@
     "urgent_news": "أخبار عاجلة",
     "web_programming": "برمجة الويب",
     "spring_2024": "ربيع 2024",
-    "summer_2024": "صيف 2024"
+    "summer_2024": "صيف 2024",
+    "reviews_unavailable": "التقييمات غير متاحة",
+    "reviews_unavailable_description": "تقييمات أعضاء هيئة التدريس غير مفعّلة حالياً. لم يتم إرسال أي تقييم.",
+    "select_file": "اختيار ملف",
+    "upload_file_size_error": "اختر ملفاً غير فارغ بحجم لا يتجاوز ٥٠ ميجابايت."
   },
   "enrollment": {
     "registration_title": "تسجيل الدورة",
@@ -1171,6 +1204,8 @@
     "other": "آخر",
     "no_schedules_available_for_thi": "لا توجد جداول متاحة لهذه الدورة",
     "overdue": "تأخرت",
+    "refunded": "مستردة",
+    "unknown_status": "حالة غير متاحة",
     "paid": "مدفوع",
     "partial": "جزئي",
     "pay": "يدفع",
@@ -1360,6 +1395,11 @@
     "student": "طالب",
     "status": "حالة",
     "smart_digital_id": "الهوية الرقمية الذكية",
+    "id_unavailable": "بيانات الهوية الرقمية غير متاحة لهذا الحساب.",
     "utilities": "المرافق"
+  },
+  "control": {
+    "title": "إدارة الجامعة",
+    "subtitle": "مساحة العمل الأكاديمية والإدارية وفق صلاحياتك"
   }
 }

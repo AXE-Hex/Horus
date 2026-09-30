@@ -1,18 +1,29 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show User;
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/auth/roles.dart';
 import 'package:horus/core/models/profile_model.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show Supabase;
+
+User testUser() => User(
+  id: 'user-1',
+  appMetadata: const {},
+  userMetadata: const {},
+  aud: 'authenticated',
+  createdAt: '2026-01-01T00:00:00Z',
+);
+
+ProfileModel testProfile() => ProfileModel(
+  id: 'user-1',
+  email: 'fixture@example.invalid',
+  fullName: 'Test Fixture',
+  roles: [UserRole.student],
+  createdAt: DateTime.utc(2026),
+  updatedAt: DateTime.utc(2026),
+  isActive: true,
+);
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-
-  setUpAll(() async {
-    SharedPreferences.setMockInitialValues({});
-    await Supabase.initialize(url: 'http://localhost', anonKey: 'test-key');
-  });
 
   group('canonical role parsing', () {
     test('maps all database roles, including assistant_hod', () {
@@ -46,7 +57,11 @@ void main() {
   });
 
   test('permission checks use canonical permission codes', () {
-    const auth = AuthState(permissionCodes: {'grades.read'});
+    final auth = AuthState(
+      user: testUser(),
+      profile: testProfile(),
+      permissionCodes: {'grades.read'},
+    );
 
     expect(auth.hasPermission(RolePermission.viewGrades), isTrue);
     expect(auth.hasPermission(RolePermission.manageGrades), isFalse);
@@ -65,7 +80,10 @@ void main() {
         updatedAt: DateTime.utc(2026),
         isActive: true,
       );
-      const auth = AuthState(permissionCodes: {'finance.read'});
+      final auth = AuthState(
+        user: testUser(),
+        permissionCodes: {'finance.read'},
+      );
       final refreshed = auth.copyWith(
         profile: active,
         permissionCodes: {'courses.enroll'},
@@ -93,27 +111,18 @@ void main() {
     },
   );
 
-  test('mock sign-in is unavailable in production builds', () {
-    expect(isMockSignInAllowed(false, 'student@horus.edu.eg'), isFalse);
-    expect(isMockSignInAllowed(true, ' student@horus.edu.eg '), isTrue);
-    expect(isMockSignInAllowed(true, 'unknown@horus.edu.eg'), isFalse);
+  test('university login accepts prefixes and full university email', () {
+    expect(
+      normalizeUniversityEmail(' Student.Dev '),
+      'student.dev@horus.edu.eg',
+    );
+    expect(
+      normalizeUniversityEmail(' Student.Dev@Horus.edu.eg '),
+      'student.dev@horus.edu.eg',
+    );
+    expect(isUniversityEmail('student.dev'), isTrue);
+    expect(isUniversityEmail('student.dev@horus.edu.eg'), isTrue);
+    expect(isUniversityEmail('student@elsewhere.example'), isFalse);
+    expect(isUniversityEmail('not an email'), isFalse);
   });
-
-  test(
-    'debug mock sign-in creates a scoped student session without network',
-    () async {
-      final container = ProviderContainer();
-      addTearDown(container.dispose);
-
-      await container
-          .read(authControllerProvider.notifier)
-          .signIn(' student@horus.edu.eg ', 'ignored-in-development');
-
-      final auth = container.read(authControllerProvider);
-      expect(auth.isAuthenticated, isTrue);
-      expect(auth.role, UserRole.regularStudent);
-      expect(auth.hasPermission(RolePermission.enrollCourses), isTrue);
-      expect(auth.hasRole, isTrue);
-    },
-  );
 }

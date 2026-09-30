@@ -64,7 +64,7 @@ class _ExamCard extends StatelessWidget {
                           children: [
                             Text(
                               exam['subject'] as String,
-                              style: GoogleFonts.outfit(
+                              style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w900,
                                 color: Colors.white,
@@ -75,7 +75,7 @@ class _ExamCard extends StatelessWidget {
                               children: [
                                 Text(
                                   exam['id'] as String,
-                                  style: GoogleFonts.shareTechMono(
+                                  style: TextStyle(
                                     fontSize: 13,
                                     color: color,
                                     fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class _ExamCard extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Text(
                                   exam['room'] as String,
-                                  style: GoogleFonts.outfit(
+                                  style: TextStyle(
                                     fontSize: 13,
                                     color: Colors.white60,
                                     fontWeight: FontWeight.w500,
@@ -154,7 +154,7 @@ class _ExamCard extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             seat,
-            style: GoogleFonts.shareTechMono(
+            style: TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.w900,
               fontSize: 14,
@@ -172,7 +172,7 @@ class _ExamCard extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           label,
-          style: GoogleFonts.shareTechMono(
+          style: TextStyle(
             color: Colors.white70,
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -203,7 +203,7 @@ class _ExamCard extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               label,
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.white70,
                 fontWeight: FontWeight.bold,
                 fontSize: 13,

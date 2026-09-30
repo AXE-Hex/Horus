@@ -1,7 +1,7 @@
 BEGIN;
 
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
-SELECT extensions.plan(12);
+SELECT extensions.plan(18);
 
 INSERT INTO auth.users (
   id,
@@ -29,21 +29,27 @@ SET LOCAL ROLE authenticated;
 
 SELECT extensions.is(
   (SELECT public.get_my_role()::text),
-  'student',
-  'signup assigns the server default role instead of trusting user metadata'
+  'guest',
+  'signup assigns the least-privilege guest role instead of trusting user metadata'
 );
 SELECT extensions.ok(
-  public.has_permission('courses.enroll'),
-  'the canonical student assignment grants course enrollment'
+  NOT public.has_permission('courses.enroll'),
+  'guest cannot enroll in courses'
 );
 SELECT extensions.ok(
   NOT public.has_permission('colleges.manage'),
-  'a default student receives no college management permission'
+  'guest receives no college management permission'
 );
 SELECT extensions.ok(
   NOT public.has_permission('posts.create'),
-  'a default student receives no post creation permission'
+  'guest receives no post creation permission'
 );
+SELECT extensions.ok(NOT public.has_permission('profiles.read'), 'guest cannot browse the profile directory');
+SELECT extensions.ok(NOT public.has_permission('grades.read'), 'guest cannot read grades');
+SELECT extensions.ok(NOT public.has_permission('attendance.read'), 'guest cannot read attendance');
+SELECT extensions.ok(NOT public.has_permission('finance.read'), 'guest cannot read invoices');
+SELECT extensions.ok(NOT public.has_permission('registration.manage'), 'guest cannot manage registration');
+SELECT extensions.ok(NOT public.has_permission('materials.read'), 'guest cannot access private course materials');
 SELECT extensions.ok(
   NOT has_column_privilege('authenticated', 'public.profiles', 'roles', 'UPDATE'),
   'authenticated clients cannot update the legacy roles cache'
@@ -60,12 +66,8 @@ SELECT extensions.ok(
   NOT has_column_privilege('authenticated', 'public.profiles', 'is_banned', 'UPDATE'),
   'authenticated clients cannot modify moderation state'
 );
-SELECT extensions.is(
-  (SELECT role_codes FROM public.profile_directory
-   WHERE id = 'f033c7bd-13cc-4c9b-b61d-ceb4116ea321'),
-  ARRAY['student']::text[],
-  'the directory exposes canonical role codes'
-);
+SELECT extensions.is((SELECT count(*)::integer FROM public.profile_directory), 0,
+  'guest cannot read the authenticated profile directory');
 
 SELECT public.update_my_profile('Updated Test Name', '555', 'self edit', NULL);
 SELECT extensions.is(
@@ -86,7 +88,7 @@ SELECT extensions.throws_ok(
     )$$,
   '42501',
   'insufficient privilege',
-  'a student cannot assign advisors'
+  'a guest cannot assign advisors'
 );
 
 RESET ROLE;

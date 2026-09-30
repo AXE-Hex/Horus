@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:horus/core/error/app_exception.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ErrorHandler {
   static void showError(BuildContext context, dynamic error) {
@@ -30,7 +29,7 @@ class ErrorHandler {
                 children: [
                   Text(
                     'SYSTEM ALERT: $code',
-                    style: GoogleFonts.sourceCodePro(
+                    style: TextStyle(
                       color: Colors.redAccent.shade100,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -39,7 +38,7 @@ class ErrorHandler {
                   const SizedBox(height: 4),
                   Text(
                     message,
-                    style: GoogleFonts.inter(color: Colors.white, fontSize: 14),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                 ],
               ),

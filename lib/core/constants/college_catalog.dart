@@ -32,22 +32,6 @@ final List<StaticCollegeData> allColleges = [
         'Serve the surrounding community',
       ],
     ),
-    dean: const DeanInfo(
-      nameAr: 'د. أشرف فوزي جودة',
-      nameEn: 'Dr. Ashraf Fawzy Gouda',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'أستاذ متميز في جراحة الفم والوجة والفكين، قاد الكلية لسنوات من التميز الأكاديمي.',
-      bioEn:
-          'Distinguished professor of oral and maxillofacial surgery, led the faculty for years of academic excellence.',
-    ),
-    stats: const CollegeStats(
-      students: 2450,
-      faculty: 120,
-      assistantStaff: 85,
-      researchPapers: 340,
-    ),
     departmentsAr: [
       'قسم جراحة الفم والوجة والفكين',
       'قسم التقويم وطب أسنان الأطفال',
@@ -87,22 +71,6 @@ final List<StaticCollegeData> allColleges = [
         'Support drug research projects',
         'Achieve international academic standards',
       ],
-    ),
-    dean: const DeanInfo(
-      nameAr: 'د. سحر محمد البارون',
-      nameEn: 'Dr. Sahar Mohamed El-Baron',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'خبيرة في الكيمياء الحيوية، لها مساهمات بحثية واسعة في مجالات الصيدلة المختلفة.',
-      bioEn:
-          'Expert in biochemistry, with extensive research contributions in various pharmaceutical fields.',
-    ),
-    stats: const CollegeStats(
-      students: 1800,
-      faculty: 95,
-      assistantStaff: 60,
-      researchPapers: 280,
     ),
     departmentsAr: [
       'قسم الكيمياء الصيدلية',
@@ -144,22 +112,6 @@ final List<StaticCollegeData> allColleges = [
         'Excellence in AI Engineering',
       ],
     ),
-    dean: const DeanInfo(
-      nameAr: 'د. خالد محمد عطيه',
-      nameEn: 'Dr. Khaled Mohamed Attia',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'أستاذ مرموق في العمارة، يركز على دمج التكنولوجيا في التصميم المعاصر.',
-      bioEn:
-          'Prestigious professor of architecture, focusing on integrating technology into contemporary design.',
-    ),
-    stats: const CollegeStats(
-      students: 2100,
-      faculty: 110,
-      assistantStaff: 70,
-      researchPapers: 450,
-    ),
     departmentsAr: [
       'قسم الهندسة المعمارية',
       'قسم الهندسة المدنية',
@@ -200,22 +152,6 @@ final List<StaticCollegeData> allColleges = [
         'Raise the level of clinical scientific research',
       ],
     ),
-    dean: const DeanInfo(
-      nameAr: 'د. نجوى محمود البارون',
-      nameEn: 'Dr. Nagwa Mahmoud El-Baron',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'رائدة في مجال العلاج الطبيعي للأعصاب، قادت الكلية لتحقيق طفرة في الخدمات العلاجية.',
-      bioEn:
-          'Pioneer in neurological physical therapy, led the faculty to achieve a breakthrough in therapeutic services.',
-    ),
-    stats: const CollegeStats(
-      students: 3200,
-      faculty: 140,
-      assistantStaff: 100,
-      researchPapers: 520,
-    ),
     departmentsAr: [
       'قسم الميكانيكا الحيوية',
       'قسم العلاج الطبيعي لأمراض العظام',
@@ -250,22 +186,6 @@ final List<StaticCollegeData> allColleges = [
         'Achieve administrative digital transformation',
       ],
     ),
-    dean: const DeanInfo(
-      nameAr: 'د. جمال عياد',
-      nameEn: 'Dr. Gamal Ayad',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'خبير في الاقتصاد والإدارة، عمل مستشاراً للعديد من المؤسسات المالية الكبرى.',
-      bioEn:
-          'Expert in economics and management, served as a consultant for many major financial institutions.',
-    ),
-    stats: const CollegeStats(
-      students: 1500,
-      faculty: 75,
-      assistantStaff: 45,
-      researchPapers: 210,
-    ),
     departmentsAr: ['قسم المحاسبة', 'قسم إدارة الأعمال', 'قسم الاقتصاد'],
     departmentsEn: ['Accounting', 'Business Management', 'Economics'],
   ),
@@ -297,21 +217,6 @@ final List<StaticCollegeData> allColleges = [
         'Participate in international exhibitions',
         'Integrate technology into digital arts',
       ],
-    ),
-    dean: const DeanInfo(
-      nameAr: 'د. إبراهيم محمد أحمد',
-      nameEn: 'Dr. Ibrahim Mohamed Ahmed',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr: 'فنان تشكيلي مرموق، له أعمال معروضة في كبرى المتاحف والمعارض.',
-      bioEn:
-          'Distinguished visual artist, with works exhibited in major museums and galleries.',
-    ),
-    stats: const CollegeStats(
-      students: 800,
-      faculty: 40,
-      assistantStaff: 30,
-      researchPapers: 50,
     ),
     departmentsAr: [
       'برنامج العمارة الداخلية',
@@ -354,22 +259,6 @@ final List<StaticCollegeData> allColleges = [
         'Improve society\'s quality of life',
       ],
     ),
-    dean: const DeanInfo(
-      nameAr: 'د. مسعد سليمان غيث',
-      nameEn: 'Dr. Mosaad Soliman Ghaith',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'أستاذ جراحة الأوعية الدموية، وأحد أبرز الاستشاريين في المجال الطبي.',
-      bioEn:
-          'Professor of vascular surgery, and one of the most prominent consultants in the medical field.',
-    ),
-    stats: const CollegeStats(
-      students: 1200,
-      faculty: 150,
-      assistantStaff: 120,
-      researchPapers: 600,
-    ),
     departmentsAr: [
       'قسم التشريح البشري',
       'قسم الكيمياء الحيوية',
@@ -403,22 +292,6 @@ final List<StaticCollegeData> allColleges = [
         'Develop imaging diagnosis skills',
         'Enhance respiratory care',
       ],
-    ),
-    dean: const DeanInfo(
-      nameAr: 'د. إبراهيم الجندي',
-      nameEn: 'Dr. Ibrahim El-Gendy',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'خبير في تكنولوجيا المختبرات، كرس حياته لتطوير مناهج التعليم الصحي التقني.',
-      bioEn:
-          'Expert in laboratory technology, dedicated his life to developing technical health education curricula.',
-    ),
-    stats: const CollegeStats(
-      students: 1100,
-      faculty: 50,
-      assistantStaff: 40,
-      researchPapers: 120,
     ),
     departmentsAr: [
       'تكنولوجيا المختبرات الطبية',
@@ -459,22 +332,6 @@ final List<StaticCollegeData> allColleges = [
         'Develop robotics research',
       ],
     ),
-    dean: const DeanInfo(
-      nameAr: 'د. أشرف فوزي',
-      nameEn: 'Dr. Ashraf Fawzy',
-      titleAr: 'المشرف على الكلية',
-      titleEn: 'Faculty Supervisor',
-      bioAr:
-          'خبير في علوم الحاسب والذكاء الاصطناعي، يتبنى رؤية طموحة للتحول الرقمي.',
-      bioEn:
-          'Expert in computer science and AI, adopts an ambitious vision for digital transformation.',
-    ),
-    stats: const CollegeStats(
-      students: 600,
-      faculty: 35,
-      assistantStaff: 25,
-      researchPapers: 45,
-    ),
     departmentsAr: [
       'الحوسبة الطبية الحيوية',
       'الأمن السيبراني',
@@ -508,22 +365,6 @@ final List<StaticCollegeData> allColleges = [
         'Enhance simultaneous translation skills',
         'Support foreign language learning',
       ],
-    ),
-    dean: const DeanInfo(
-      nameAr: 'د. ليلى عبد المعطي',
-      nameEn: 'Dr. Laila Abdel Moaty',
-      titleAr: 'عميد الكلية',
-      titleEn: 'Dean of the Faculty',
-      bioAr:
-          'أكاديمية مرموقة في مجال اللغويات، تتقن عدة لغات ولها دراسات في الأدب المقارن.',
-      bioEn:
-          'Distinguished academic in linguisitcs, masters several languages and has studies in comparative literature.',
-    ),
-    stats: const CollegeStats(
-      students: 500,
-      faculty: 30,
-      assistantStaff: 20,
-      researchPapers: 35,
     ),
     departmentsAr: [
       'قسم اللغة الإنجليزية',

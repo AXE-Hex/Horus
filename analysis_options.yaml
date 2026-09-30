@@ -12,6 +12,7 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+    - web/**
   errors:
     invalid_use_of_internal_member: ignore
 

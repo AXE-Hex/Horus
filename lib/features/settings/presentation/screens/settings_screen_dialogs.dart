@@ -54,7 +54,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                   children: [
                     Text(
                       t.extracted.support_center,
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onSurface,
@@ -62,7 +62,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                     ),
                     Text(
                       t.extracted.how_can_we_help_you,
-                      style: GoogleFonts.inter(
+                      style: TextStyle(
                         fontSize: 13,
                         color: Theme.of(
                           context,
@@ -147,7 +147,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: Theme.of(context).colorScheme.onSurface,
@@ -155,7 +155,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                   ),
                   Text(
                     subtitle,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(
                         context,
@@ -240,7 +240,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                       children: [
                         Text(
                           t.extracted.send_feedback,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.onSurface,
@@ -248,7 +248,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                         ),
                         Text(
                           t.extracted.your_opinion_helps_us_improve,
-                          style: GoogleFonts.inter(
+                          style: TextStyle(
                             fontSize: 13,
                             color: Theme.of(
                               context,
@@ -302,13 +302,13 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                   child: TextField(
                     controller: feedbackController,
                     maxLines: 4,
-                    style: GoogleFonts.inter(
+                    style: TextStyle(
                       color: Theme.of(context).colorScheme.onSurface,
                       fontSize: 14,
                     ),
                     decoration: InputDecoration(
                       hintText: t.extracted.write_your_feedback_here,
-                      hintStyle: GoogleFonts.inter(
+                      hintStyle: TextStyle(
                         color: Theme.of(
                           context,
                         ).colorScheme.onSurface.withValues(alpha: 0.35),
@@ -362,7 +362,7 @@ extension _SettingsScreenDialogs on _SettingsScreenState {
                     child: Center(
                       child: Text(
                         t.extracted.submit_feedback,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onSurface,

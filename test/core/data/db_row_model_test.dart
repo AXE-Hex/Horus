@@ -18,22 +18,22 @@ void main() {
       );
     });
 
-    test('keeps nullable invoice fields null and requires creation time', () {
+    test('maps nullable invoice fields and quarantines unknown SQL status', () {
       final invoice = Invoice.fromJson({
         'id': 'invoice-1',
         'student_id': 'student-1',
+        'description': 'Fixture invoice',
+        'currency': 'EGP',
         'amount': 12,
         'created_at': '2026-01-02T03:04:05Z',
         'due_date': null,
         'paid_at': null,
         'status': 'future_status',
-        'type': 'future_type',
       });
 
       expect(invoice.dueDate, isNull);
       expect(invoice.paidAt, isNull);
-      expect(invoice.status, InvoiceStatus.unpaid);
-      expect(invoice.type, InvoiceType.other);
+      expect(invoice.status, InvoiceStatus.unknown);
       expect(
         () => Invoice.fromJson({'id': 'invoice-1', 'student_id': 'student-1'}),
         throwsFormatException,

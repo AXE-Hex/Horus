@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import 'package:horus/features/academic/data/repositories/academic_repository.dart';
@@ -30,8 +27,6 @@ class ActionPlanScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
 
     final auth = ref.watch(authControllerProvider);
     final studentId = auth.user?.id;
@@ -94,7 +89,7 @@ class ActionPlanScreen extends ConsumerWidget {
               ),
               title: Text(
                 t.academic.action_plan,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontWeight: FontWeight.w900,
                   fontSize: 24,
                   color: Colors.white,
@@ -115,7 +110,7 @@ class ActionPlanScreen extends ConsumerWidget {
                           padding: const EdgeInsets.only(top: 40),
                           child: Text(
                             t.academic.no_data,
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               color: Colors.white60,
                               fontSize: 16,
                             ),
@@ -147,10 +142,10 @@ class ActionPlanScreen extends ConsumerWidget {
           ],
         );
 
-        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+        return Scaffold(body: body);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text('Error: $err')),
+      error: (_, _) => Center(child: Text(t.academic.error)),
     );
   }
 
@@ -173,7 +168,7 @@ class ActionPlanScreen extends ConsumerWidget {
                 children: [
                   Text(
                     t.academic.overall_progress,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.white60,
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
@@ -183,7 +178,7 @@ class ActionPlanScreen extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(
                     '$progressPercentage%',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
@@ -358,7 +353,7 @@ class _TimelineItem extends StatelessWidget {
                       children: [
                         Text(
                           data['title'] as String,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                             color: isCompleted || isInProgress
@@ -368,10 +363,7 @@ class _TimelineItem extends StatelessWidget {
                         ),
                         Text(
                           data['subtitle'] as String,
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: Colors.white38,
-                          ),
+                          style: TextStyle(fontSize: 12, color: Colors.white38),
                         ),
                       ],
                     ),

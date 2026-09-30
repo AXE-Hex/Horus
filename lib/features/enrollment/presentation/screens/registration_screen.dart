@@ -3,11 +3,8 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/features/enrollment/data/repositories/registration_repository.dart';
 import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
@@ -28,7 +25,7 @@ class RegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
-  String currentSemester = fallbackSemesterName;
+  String currentSemester = '';
 
   int _currentStep = 0;
   final List<Course> _selectedCourses = [];
@@ -64,7 +61,12 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       final advisorRepo = ref.read(advisorRepositoryProvider);
       final auth = ref.read(authControllerProvider);
       final studentId = auth.user?.id;
-      currentSemester = await ref.read(currentSemesterProvider.future);
+      final semester = await ref.read(currentSemesterProvider.future);
+      if (semester == null) {
+        _error = t.academic.no_data;
+        return;
+      }
+      currentSemester = semester.code;
 
       if (studentId == null) throw Exception("User not logged in");
 
@@ -98,7 +100,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
         _semesterCourses,
       );
     } catch (e) {
-      _error = e.toString();
+      _error = t.academic.error;
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -134,7 +136,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       }
       setState(() => _currentStep = 1);
     } catch (e) {
-      setState(() => _error = e.toString());
+      setState(() => _error = t.academic.error);
     } finally {
       setState(() => _isLoading = false);
     }
@@ -200,8 +202,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
 
     Widget body;
 
@@ -237,11 +238,9 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           ),
           title: Text(
             t.registration.title,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: isGlass
-                  ? Colors.white
-                  : Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
           centerTitle: true,
@@ -260,8 +259,6 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       ],
     );
 
-    return isGlass
-        ? GlassScaffold(body: scaffoldBody)
-        : Scaffold(body: scaffoldBody);
+    return Scaffold(body: scaffoldBody);
   }
 }

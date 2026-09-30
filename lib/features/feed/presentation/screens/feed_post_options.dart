@@ -41,10 +41,7 @@ class _OptionsMenu extends ConsumerWidget {
                     : Colors.black.withValues(alpha: 0.87),
               ),
               const SizedBox(width: 10),
-              Text(
-                isArabic ? 'تعديل' : 'Edit',
-                style: GoogleFonts.inter(fontSize: 14),
-              ),
+              Text(isArabic ? 'تعديل' : 'Edit', style: TextStyle(fontSize: 14)),
             ],
           ),
         ),
@@ -56,7 +53,7 @@ class _OptionsMenu extends ConsumerWidget {
               const SizedBox(width: 10),
               Text(
                 isArabic ? 'حذف' : 'Delete',
-                style: GoogleFonts.inter(fontSize: 14, color: _kDanger),
+                style: TextStyle(fontSize: 14, color: _kDanger),
               ),
             ],
           ),
@@ -100,7 +97,7 @@ class _OptionsMenu extends ConsumerWidget {
             ),
             Text(
               isArabic ? 'تعديل المنشور' : 'Edit Post',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: isDark ? Colors.white : _kBg,
@@ -123,14 +120,14 @@ class _OptionsMenu extends ConsumerWidget {
               child: TextField(
                 controller: controller,
                 maxLines: 6,
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   fontSize: 15,
                   color: isDark ? Colors.white.withValues(alpha: 0.87) : _kBg,
                 ),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: isArabic ? 'اكتب هنا...' : 'Write here...',
-                  hintStyle: GoogleFonts.inter(color: Colors.grey),
+                  hintStyle: TextStyle(color: Colors.grey),
                 ),
               ),
             ),
@@ -157,7 +154,7 @@ class _OptionsMenu extends ConsumerWidget {
                 child: Center(
                   child: Text(
                     isArabic ? 'حفظ التغييرات' : 'Save Changes',
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
@@ -181,20 +178,20 @@ class _OptionsMenu extends ConsumerWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           isArabic ? 'حذف المنشور؟' : 'Delete Post?',
-          style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         content: Text(
           isArabic
               ? 'هل أنت متأكد أنك تريد حذف هذا المنشور؟'
               : 'Are you sure you want to delete this post?',
-          style: GoogleFonts.inter(),
+          style: TextStyle(),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
               isArabic ? 'إلغاء' : 'Cancel',
-              style: GoogleFonts.outfit(color: Colors.grey),
+              style: TextStyle(color: Colors.grey),
             ),
           ),
           TextButton(
@@ -204,10 +201,7 @@ class _OptionsMenu extends ConsumerWidget {
             },
             child: Text(
               isArabic ? 'حذف' : 'Delete',
-              style: GoogleFonts.outfit(
-                color: _kDanger,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: _kDanger, fontWeight: FontWeight.bold),
             ),
           ),
         ],

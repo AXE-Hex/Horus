@@ -42,7 +42,6 @@ class LinkPreviewWidget extends StatelessWidget {
           ],
         ),
       ),
-      errorImage: 'https://via.placeholder.com/150',
       boxShadow: const [BoxShadow(blurRadius: 3, color: Colors.black12)],
       borderRadius: 12,
       removeElevation: true,

@@ -46,7 +46,7 @@ extension _StudentDashboardActionSections on DashboardScreen {
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: locked
@@ -75,7 +75,7 @@ extension _StudentDashboardActionSections on DashboardScreen {
                     (t
                         .extracted
                         .you_do_not_have_permission_to_access_this_section),
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),

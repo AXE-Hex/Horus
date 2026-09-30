@@ -1,3 +1,4 @@
+import 'package:horus/features/colleges/presentation/widgets/college_staff_panel.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 part 'college_details_sections.dart';
-part 'college_details_painter.dart';
 
 class CollegeDetailsScreen extends ConsumerWidget {
   final Map<String, dynamic> collegeData;
@@ -21,8 +18,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
     final color = collegeData['color'] as Color? ?? Colors.blue;
     final title = (collegeData['title'] as String Function(Translations))(t);
 
@@ -33,7 +29,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
           expandedHeight: 210,
           pinned: true,
           stretch: true,
-          backgroundColor: isGlass ? Colors.transparent : color,
+          backgroundColor: color,
           elevation: 0,
           leading: IconButton(
             icon: Container(
@@ -73,11 +69,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (isGlass)
-                  Opacity(
-                    opacity: 0.15,
-                    child: CustomPaint(painter: _MeshPainter()),
-                  ),
 
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -108,7 +99,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
                           child: Text(
                             title,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.outfit(
+                            style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -144,16 +135,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
                 const SizedBox(height: 24),
 
-                _buildSectionHeader(
-                  context,
-                  t.colleges.details.academic_statistics,
-                  color,
-                ),
-                const SizedBox(height: 12),
-                _buildStatsGrid(context, color, isGlass),
-
-                const SizedBox(height: 24),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -169,7 +150,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
                       },
                       child: Text(
                         t.colleges.details.view_all,
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
                           color: color,
                           fontWeight: FontWeight.w600,
                         ),
@@ -192,6 +173,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
       ],
     );
 
-    return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
+    return Scaffold(body: content);
   }
 }

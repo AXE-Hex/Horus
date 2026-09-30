@@ -41,7 +41,7 @@ class _ExamCountdown extends HookWidget {
         children: [
           Text(
             t.academic.next_exam_in,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: const Color(0xFF6366F1),
               fontWeight: FontWeight.w900,
               fontSize: 12,
@@ -75,7 +75,7 @@ class _ExamCountdown extends HookWidget {
       children: [
         Text(
           value,
-          style: GoogleFonts.shareTechMono(
+          style: TextStyle(
             fontSize: 36,
             fontWeight: FontWeight.w900,
             color: Colors.white,
@@ -83,7 +83,7 @@ class _ExamCountdown extends HookWidget {
         ),
         Text(
           label,
-          style: GoogleFonts.outfit(
+          style: TextStyle(
             fontSize: 10,
             color: Colors.white38,
             fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class _ExamCountdown extends HookWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Text(
         ':',
-        style: GoogleFonts.shareTechMono(
+        style: TextStyle(
           fontSize: 36,
           color: const Color(0xFF6366F1).withValues(alpha: 0.3),
           fontWeight: FontWeight.w900,

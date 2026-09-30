@@ -1,12 +1,10 @@
+import 'package:horus/features/colleges/presentation/widgets/college_staff_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/constants/colleges_data.dart';
 import 'package:horus/core/i18n/strings.g.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horus/features/institutional/data/repositories/institutional_repository.dart';
@@ -29,8 +27,7 @@ class CollegePortalScreen extends ConsumerStatefulWidget {
 class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
   @override
   Widget build(BuildContext context) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final college = widget.college;
     final title = isArabic ? college.nameAr : college.nameEn;
@@ -63,6 +60,6 @@ class _CollegePortalScreenState extends ConsumerState<CollegePortalScreen> {
       ],
     );
 
-    return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
+    return Scaffold(body: content);
   }
 }

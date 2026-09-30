@@ -1,14 +1,46 @@
 import 'package:horus/core/data/db_row.dart';
 
+class AcademicSemester {
+  const AcademicSemester({
+    required this.code,
+    required this.nameEn,
+    this.nameAr,
+  });
+
+  final String code;
+  final String nameEn;
+  final String? nameAr;
+
+  factory AcademicSemester.fromJson(Map<String, dynamic> json) {
+    final row = DbRow(json, context: 'semesters');
+    return AcademicSemester(
+      code: row.requiredString('code'),
+      nameEn: row.requiredString('name_en'),
+      nameAr: row.optionalString('name_ar'),
+    );
+  }
+}
+
 class GradeCourseSummary {
-  const GradeCourseSummary({required this.creditHours});
+  const GradeCourseSummary({
+    required this.creditHours,
+    this.code,
+    this.nameEn,
+    this.nameAr,
+  });
 
   final int? creditHours;
+  final String? code;
+  final String? nameEn;
+  final String? nameAr;
 
   factory GradeCourseSummary.fromRow(DbRow row) => GradeCourseSummary(
     creditHours: row['credit_hours'] == null
         ? null
         : row.requiredInt('credit_hours'),
+    code: row.optionalString('code'),
+    nameEn: row.optionalString('name_en'),
+    nameAr: row.optionalString('name_ar'),
   );
 }
 
@@ -136,6 +168,7 @@ class AttendanceRecord {
     required this.createdAt,
     this.notes,
     this.recordedBy,
+    this.course,
   });
 
   final String id;
@@ -146,6 +179,7 @@ class AttendanceRecord {
   final String? notes;
   final String? recordedBy;
   final DateTime createdAt;
+  final GradeCourseSummary? course;
 
   factory AttendanceRecord.fromJson(Map<String, dynamic> json) {
     final row = DbRow(json, context: 'attendance');
@@ -158,6 +192,9 @@ class AttendanceRecord {
       notes: row.optionalString('notes'),
       recordedBy: row.optionalString('recorded_by'),
       createdAt: row.requiredDateTime('created_at'),
+      course: row.optionalRow('courses') == null
+          ? null
+          : GradeCourseSummary.fromRow(row.optionalRow('courses')!),
     );
   }
 }

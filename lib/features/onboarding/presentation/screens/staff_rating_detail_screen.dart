@@ -1,13 +1,9 @@
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class StaffRatingDetailScreen extends ConsumerWidget {
@@ -17,13 +13,10 @@ class StaffRatingDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
     final color = Colors.blue;
 
-    return isGlass
-        ? GlassScaffold(body: _buildBody(context, isGlass, color))
-        : Scaffold(body: _buildBody(context, isGlass, color));
+    return Scaffold(body: _buildBody(context, isGlass, color));
   }
 
   Widget _buildBody(BuildContext context, bool isGlass, Color color) {
@@ -33,7 +26,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
         GlassSliverAppBar(
           expandedHeight: 200,
           pinned: true,
-          backgroundColor: isGlass ? Colors.transparent : color,
+          backgroundColor: color,
           elevation: 0,
           leading: IconButton(
             icon: Container(
@@ -78,7 +71,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
                       const SizedBox(height: 12),
                       Text(
                         staffMember['name']!,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -86,10 +79,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
                       ),
                       Text(
                         staffMember['role']!,
-                        style: GoogleFonts.inter(
-                          fontSize: 14,
-                          color: Colors.white70,
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.white70),
                       ),
                     ],
                   ),
@@ -104,9 +94,10 @@ class StaffRatingDetailScreen extends ConsumerWidget {
             delegate: SliverChildListDelegate([
               _buildRatingSection(context, isGlass, color),
               const SizedBox(height: 24),
-              _buildReviewsHeader(context, isGlass),
-              const SizedBox(height: 16),
-              ..._buildMockReviews(context, isGlass),
+              Text(
+                t.academic.no_reviews_yet,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
               const SizedBox(height: 100),
             ]),
           ),
@@ -165,10 +156,10 @@ class StaffRatingDetailScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           Text(
             rating.toString(),
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: isGlass ? Colors.white : null,
+              color: null,
             ),
           ),
           Row(
@@ -186,16 +177,13 @@ class StaffRatingDetailScreen extends ConsumerWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.inter(
-              fontSize: 10,
-              color: isGlass ? Colors.white60 : Colors.grey,
-            ),
+            style: TextStyle(fontSize: 10, color: Colors.grey),
           ),
         ],
       ),
     );
 
-    return isGlass ? GlassContainer(child: content) : Card(child: content);
+    return Card(child: content);
   }
 
   Widget _buildActionCard(BuildContext context, bool isGlass, Color color) {
@@ -210,17 +198,11 @@ class StaffRatingDetailScreen extends ConsumerWidget {
       ),
       title: Text(
         'Rate this Professional',
-        style: GoogleFonts.outfit(
-          fontWeight: FontWeight.bold,
-          color: isGlass ? Colors.white : null,
-        ),
+        style: TextStyle(fontWeight: FontWeight.bold, color: null),
       ),
       subtitle: Text(
         'Help others by sharing your experience',
-        style: GoogleFonts.inter(
-          fontSize: 12,
-          color: isGlass ? Colors.white60 : Colors.grey,
-        ),
+        style: TextStyle(fontSize: 12, color: Colors.grey),
       ),
       trailing: const Icon(
         LucideIcons.chevronRight,
@@ -229,111 +211,6 @@ class StaffRatingDetailScreen extends ConsumerWidget {
       ),
     );
 
-    return isGlass
-        ? GlassContainer(padding: EdgeInsets.zero, child: content)
-        : Card(child: content);
-  }
-
-  Widget _buildReviewsHeader(BuildContext context, bool isGlass) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Student Reviews',
-          style: GoogleFonts.outfit(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: isGlass ? Colors.white : null,
-          ),
-        ),
-        Text(
-          '24 Reviews',
-          style: GoogleFonts.inter(
-            fontSize: 12,
-            color: isGlass ? Colors.white30 : Colors.grey,
-          ),
-        ),
-      ],
-    );
-  }
-
-  List<Widget> _buildMockReviews(BuildContext context, bool isGlass) {
-    return [
-      _buildReviewCard(
-        context,
-        'Ahmed Hassan',
-        5,
-        'Best doctor I have ever met. The material is very updated.',
-        isGlass,
-      ),
-      _buildReviewCard(
-        context,
-        'Sarah Smith',
-        4,
-        'Very helpful, but the curriculum is a bit challenging.',
-        isGlass,
-      ),
-      _buildReviewCard(
-        context,
-        'John Doe',
-        3,
-        'Good performance but could be better in communication.',
-        isGlass,
-      ),
-    ].animate(interval: 100.ms).fadeIn().slideY(begin: 0.1, end: 0);
-  }
-
-  Widget _buildReviewCard(
-    BuildContext context,
-    String name,
-    int rating,
-    String text,
-    bool isGlass,
-  ) {
-    final content = Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                name,
-                style: GoogleFonts.outfit(
-                  fontWeight: FontWeight.bold,
-                  color: isGlass ? Colors.white : null,
-                ),
-              ),
-              Row(
-                children: List.generate(
-                  5,
-                  (i) => Icon(
-                    LucideIcons.star,
-                    size: 12,
-                    color: i < rating ? Colors.amber : Colors.white10,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            text,
-            style: GoogleFonts.inter(
-              fontSize: 13,
-              color: isGlass ? Colors.white70 : Colors.black87,
-            ),
-          ),
-        ],
-      ),
-    );
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: isGlass
-          ? GlassContainer(padding: EdgeInsets.zero, child: content)
-          : Card(child: content),
-    );
+    return Card(child: content);
   }
 }

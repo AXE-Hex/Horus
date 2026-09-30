@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -168,7 +167,7 @@ class _FeedHeader extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               isArabic ? 'المنشورات' : 'Feed',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
                 color: isDark ? Colors.white : const Color(0xFF0F172A),
@@ -183,7 +182,7 @@ class _FeedHeader extends StatelessWidget {
             children: [
               Text(
                 isArabic ? 'آخر التحديثات' : 'Latest updates',
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   fontSize: 13,
                   color: isDark
                       ? Colors.white.withValues(alpha: 0.38)
@@ -194,29 +193,6 @@ class _FeedHeader extends StatelessWidget {
           ),
         ),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            LucideIcons.search,
-            size: 20,
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.70)
-                : Colors.black.withValues(alpha: 0.54),
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Icon(
-            LucideIcons.filter,
-            size: 20,
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.70)
-                : Colors.black.withValues(alpha: 0.54),
-          ),
-        ),
-        const SizedBox(width: 4),
-      ],
     );
   }
 }
@@ -278,7 +254,7 @@ class _QuickPostBar extends StatelessWidget {
                 ),
                 child: Text(
                   isArabic ? 'شاركنا رأيك...' : "What's on your mind?",
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     color: isDark
                         ? Colors.white.withValues(alpha: 0.38)
                         : Colors.black.withValues(alpha: 0.38),
@@ -366,7 +342,7 @@ class _PostFab extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               isArabic ? 'منشور جديد' : 'New Post',
-              style: GoogleFonts.outfit(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,
                 fontSize: 14,

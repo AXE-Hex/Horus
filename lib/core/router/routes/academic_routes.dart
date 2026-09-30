@@ -69,11 +69,6 @@ final List<RouteBase> academicRoutes = [
     path: '/professor-dashboard',
     builder: (context, state) {
       final profile = state.extra as ProfessorProfile?;
-      if (profile == null) {
-        return const Scaffold(
-          body: Center(child: Text('Professor profile not available')),
-        );
-      }
       return ProfessorDashboardScreen(profile: profile);
     },
   ),

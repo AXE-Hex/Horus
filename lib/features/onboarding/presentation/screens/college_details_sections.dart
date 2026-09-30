@@ -4,7 +4,7 @@ extension _CollegeDetailsSections on CollegeDetailsScreen {
   Widget _buildSectionHeader(BuildContext context, String title, Color color) {
     return Text(
       title,
-      style: GoogleFonts.outfit(
+      style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
@@ -13,186 +13,14 @@ extension _CollegeDetailsSections on CollegeDetailsScreen {
   }
 
   Widget _buildDeanCard(BuildContext context, Color color, bool isGlass) {
-    final deanName = t.colleges.details.staff_member;
-
-    final card = Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24),
-        boxShadow: isGlass
-            ? []
-            : [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.1),
-                  blurRadius: 30,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [color, color.withValues(alpha: 0.5)],
-              ),
-            ),
-            child: CircleAvatar(
-              radius: 36,
-              backgroundColor: isGlass ? Colors.black26 : Colors.white,
-              child: Icon(LucideIcons.user, size: 36, color: color),
-            ),
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  deanName,
-                  style: GoogleFonts.outfit(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: isGlass ? Colors.white : null,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
-                    color: color.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: color.withValues(alpha: 0.2)),
-                  ),
-                  child: Text(
-                    t.colleges.details.dean_title,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: isGlass ? Colors.white : color,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(
-            LucideIcons.award,
-            size: 40,
-            color: color.withValues(alpha: 0.1),
-          ),
-        ],
-      ),
+    return CollegeStaffPanel(
+      collegeId: collegeData['id'] as String?,
+      deanOnly: true,
     );
-
-    return isGlass
-        ? GlassContainer(
-            borderRadius: BorderRadius.circular(24),
-            padding: EdgeInsets.zero,
-            child: card,
-          )
-        : card;
   }
 
   Widget _buildStaffList(BuildContext context, Color color, bool isGlass) {
-    final staff = [
-      {'role': t.colleges.details.vice_dean},
-      {'role': t.colleges.details.head_of_dept},
-      {'role': t.colleges.details.assoc_prof},
-    ];
-
-    return SizedBox(
-      height: 150,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
-        itemCount: staff.length,
-        separatorBuilder: (c, i) => const SizedBox(width: 12),
-        itemBuilder: (context, index) {
-          final member = staff[index];
-          final card = Container(
-            width: 130,
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: isGlass ? null : Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(20),
-              border: isGlass
-                  ? null
-                  : Border.all(color: color.withValues(alpha: 0.05)),
-              boxShadow: isGlass
-                  ? []
-                  : [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.02),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: color.withValues(alpha: 0.3)),
-                  ),
-                  child: CircleAvatar(
-                    radius: 24,
-                    backgroundColor: color.withValues(alpha: 0.1),
-                    child: Icon(LucideIcons.user, size: 24, color: color),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  t.colleges.details.staff_member,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  style: GoogleFonts.outfit(
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                    color: isGlass ? Colors.white : null,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  member['role']!,
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: isGlass
-                        ? Colors.white60
-                        : Theme.of(context).hintColor,
-                  ),
-                ),
-              ],
-            ),
-          );
-
-          return isGlass
-              ? GlassContainer(
-                  width: 150,
-                  borderRadius: BorderRadius.circular(24),
-                  padding: EdgeInsets.zero,
-                  child: card,
-                )
-              : card
-                    .animate()
-                    .fadeIn(delay: (index * 100).ms)
-                    .moveY(begin: 10, end: 0);
-        },
-      ),
-    );
+    return CollegeStaffPanel(collegeId: collegeData['id'] as String?);
   }
 
   Widget _buildDepartmentsButton(
@@ -221,14 +49,11 @@ extension _CollegeDetailsSections on CollegeDetailsScreen {
               children: [
                 Text(
                   t.colleges.details.departments,
-                  style: GoogleFonts.outfit(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text(
                   t.colleges.details.explore_majors,
-                  style: GoogleFonts.inter(
+                  style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context).hintColor,
                   ),
@@ -265,145 +90,5 @@ extension _CollegeDetailsSections on CollegeDetailsScreen {
         ),
       ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2);
     }
-  }
-
-  Widget _buildStatsGrid(BuildContext context, Color color, bool isGlass) {
-    final stats = collegeData['stats'] as Map<String, dynamic>? ?? {};
-    if (stats.isEmpty) return const SizedBox.shrink();
-
-    final statItems = [
-      {
-        'key': 'students',
-        'value': stats['students'] ?? '---',
-        'icon': LucideIcons.users,
-      },
-      {
-        'key': 'academic_staff',
-        'value': stats['academic_staff'] ?? '---',
-        'icon': LucideIcons.userCheck,
-      },
-      {
-        'key': 'teaching_assistants',
-        'value': stats['teaching_assistants'] ?? '---',
-        'icon': LucideIcons.graduationCap,
-      },
-      {
-        'key': 'published_articles',
-        'value': stats['published_articles'] ?? '---',
-        'icon': LucideIcons.fileText,
-      },
-    ];
-
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
-        childAspectRatio: 2.1,
-      ),
-      itemCount: statItems.length,
-      itemBuilder: (context, index) {
-        final item = statItems[index];
-        return _buildStatCard(
-          context,
-          (t['colleges.details.${item['key']}'] as String),
-          item['value'] as String,
-          item['icon'] as IconData,
-          color,
-          isGlass,
-          index,
-        );
-      },
-    );
-  }
-
-  Widget _buildStatCard(
-    BuildContext context,
-    String label,
-    String value,
-    IconData icon,
-    Color color,
-    bool isGlass,
-    int index,
-  ) {
-    final cardContent = Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: isGlass ? null : Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(20),
-        border: isGlass
-            ? null
-            : Border.all(color: color.withValues(alpha: 0.1), width: 1.2),
-        boxShadow: isGlass
-            ? []
-            : [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.04),
-                  blurRadius: 15,
-                  offset: const Offset(0, 6),
-                ),
-              ],
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            right: -8,
-            bottom: -8,
-            child: Icon(icon, size: 48, color: color.withValues(alpha: 0.05)),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(icon, size: 16, color: color),
-              ),
-              const Spacer(),
-              Text(
-                value,
-                style: GoogleFonts.outfit(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: isGlass
-                      ? Colors.white
-                      : Theme.of(context).colorScheme.onSurface,
-                  letterSpacing: -0.5,
-                ),
-              ),
-              const SizedBox(height: 1),
-              Text(
-                label,
-                style: GoogleFonts.inter(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color: isGlass ? Colors.white70 : Theme.of(context).hintColor,
-                  letterSpacing: 0.1,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-
-    return (isGlass
-            ? GlassContainer(
-                borderRadius: BorderRadius.circular(20),
-                padding: EdgeInsets.zero,
-                child: cardContent,
-              )
-            : cardContent)
-        .animate()
-        .fadeIn(delay: (index * 100).ms)
-        .moveY(begin: 20, end: 0, curve: Curves.easeOutQuart)
-        .scale(begin: const Offset(0.9, 0.9));
   }
 }

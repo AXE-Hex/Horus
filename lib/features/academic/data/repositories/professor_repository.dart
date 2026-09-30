@@ -1,7 +1,9 @@
+import 'dart:typed_data';
+import 'package:uuid/uuid.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' show FileOptions;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/config/supabase_client.dart';
-import 'package:flutter/foundation.dart';
 import 'package:horus/core/data/base_repository.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/academic/data/models/academic_records.dart';
@@ -20,9 +22,10 @@ final studentScheduleProvider = FutureProvider<List<StudentScheduleRecord>>((
   final auth = ref.watch(authControllerProvider);
   if (auth.user == null) return [];
   final semester = await ref.watch(currentSemesterProvider.future);
+  if (semester == null) return [];
   return ref
       .watch(academicRepositoryProvider)
-      .getStudentSchedule(studentId: auth.user!.id, semester: semester);
+      .getStudentSchedule(studentId: auth.user!.id, semester: semester.code);
 });
 
 final professorProfileProvider = FutureProvider<ProfessorProfile?>((ref) async {
@@ -55,42 +58,37 @@ final professorAverageRatingProvider = FutureProvider.family<double, String>((
 });
 
 class AcademicSummary {
-  final double gpa;
-  final int completedCredits;
-  final int remainingCredits;
-  final Map<String, double> categoryCompletion;
-
-  AcademicSummary({
+  const AcademicSummary({
+    required this.publishedCourseCount,
+    required this.recordedCredits,
     required this.gpa,
-    required this.completedCredits,
-    required this.remainingCredits,
-    required this.categoryCompletion,
   });
+
+  final int publishedCourseCount;
+  final int recordedCredits;
+  final double? gpa;
+
+  bool get hasPublishedGrades => publishedCourseCount > 0;
 
   factory AcademicSummary.fromGrades(List<GradeRecord> grades) {
     double totalPoints = 0;
     var totalCredits = 0;
-    var completedCredits = 0;
+    var publishedCourses = 0;
 
     for (final grade in grades) {
       if (!grade.isPublished) continue;
-      final credits = grade.course?.creditHours ?? 3;
-      final points = grade.gpaPoints ?? 0.0;
+      publishedCourses++;
+      final credits = grade.course?.creditHours;
+      final points = grade.gpaPoints;
+      if (credits == null || points == null) continue;
       totalPoints += points * credits;
       totalCredits += credits;
-      if (points > 0) completedCredits += credits;
     }
 
     return AcademicSummary(
-      gpa: totalCredits == 0 ? 0 : totalPoints / totalCredits,
-      completedCredits: completedCredits,
-      remainingCredits: 140 - completedCredits,
-      categoryCompletion: const {
-        'University': 0.66,
-        'Faculty': 0.71,
-        'Major': 0.76,
-        'Electives': 0.50,
-      },
+      publishedCourseCount: publishedCourses,
+      recordedCredits: totalCredits,
+      gpa: totalCredits == 0 ? null : totalPoints / totalCredits,
     );
   }
 }
@@ -98,11 +96,10 @@ class AcademicSummary {
 final academicSummaryProvider = FutureProvider<AcademicSummary>((ref) async {
   final auth = ref.watch(authControllerProvider);
   if (auth.user == null) {
-    return AcademicSummary(
-      gpa: 0,
-      completedCredits: 0,
-      remainingCredits: 140,
-      categoryCompletion: {},
+    return const AcademicSummary(
+      publishedCourseCount: 0,
+      recordedCredits: 0,
+      gpa: null,
     );
   }
 
@@ -142,17 +139,20 @@ class ProfessorRepository extends BaseRepository {
             'id, full_name, full_name_ar, avatar_url, college_id, department_id, created_at, updated_at, professor_details(*, departments(name_en, name_ar))',
           )
           .eq('id', professorId)
-          .single();
+          .maybeSingle();
+
+      if (profileResponse == null) return null;
 
       final pDetailsList = profileResponse['professor_details'];
-      final pDetails =
-          (pDetailsList != null && (pDetailsList as List).isNotEmpty)
-          ? pDetailsList[0]
+      final pDetails = pDetailsList is Map<String, dynamic>
+          ? pDetailsList
+          : pDetailsList is List && pDetailsList.isNotEmpty
+          ? pDetailsList.first as Map<String, dynamic>
           : null;
 
       final deptName = pDetails != null
-          ? (pDetails['departments']?['name_en'] ?? 'General')
-          : 'General';
+          ? (pDetails['departments']?['name_en'] ?? '')
+          : '';
       final officeSym = pDetails != null ? pDetails['office_symbol'] : '';
       final genRating = pDetails != null
           ? (pDetails['general_rating'] as num?)?.toDouble() ?? 0.0
@@ -181,23 +181,26 @@ class ProfessorRepository extends BaseRepository {
 
       final groupsResponse = await client
           .from('student_groups')
-          .select('*')
+          .select('id,name,description,group_members(count)')
           .eq('professor_id', professorId)
-          .eq('is_active', true);
+          .eq('is_active', true)
+          .limit(100);
 
       final groups = (groupsResponse as List).map((g) {
         return StudentGroup(
           id: g['id'].toString(),
           name: g['name'],
           description: g['description'] ?? '',
-          studentCount: g['max_students'] ?? 0,
+          studentCount: (g['group_members'] as List).isEmpty
+              ? 0
+              : (g['group_members'][0]['count'] as num).toInt(),
           isJoined: false,
         );
       }).toList();
 
       final announcementsResponse = await client
           .from('announcements')
-          .select('*')
+          .select('id,title,content,priority,created_at')
           .eq('author_id', professorId)
           .isFilter('deleted_at', null)
           .order('created_at', ascending: false)
@@ -215,7 +218,9 @@ class ProfessorRepository extends BaseRepository {
 
       final filesResponse = await client
           .from('shared_files')
-          .select('*')
+          .select(
+            'id,uploader_id,title,title_ar,file_path,file_type,file_size,download_count,is_public,created_at,course_id,deleted_at',
+          )
           .eq('uploader_id', professorId)
           .isFilter('deleted_at', null)
           .order('created_at', ascending: false)
@@ -229,7 +234,7 @@ class ProfessorRepository extends BaseRepository {
 
       final ohResponse = await client
           .from('office_hours')
-          .select('*')
+          .select('id,day,start_time,end_time,location,is_walk_in')
           .eq('professor_id', professorId);
 
       final officeHours = (ohResponse as List).map((o) {
@@ -245,11 +250,12 @@ class ProfessorRepository extends BaseRepository {
       return ProfessorProfile(
         id: profileResponse['id'],
         name: profileResponse['full_name'],
-        role: profileResponse['role'],
+        role: '',
         department: deptName,
         generalRating: genRating,
+        totalRatings: (pDetails?['total_ratings'] as num?)?.toInt() ?? 0,
         curriculumRating: curRating,
-        email: profileResponse['email'],
+        email: '',
         officeSymbol: officeSym ?? '',
         bio: profileResponse['bio'] ?? '',
         teachingAssistants: tas,
@@ -259,8 +265,7 @@ class ProfessorRepository extends BaseRepository {
         officeHours: officeHours,
       );
     } catch (e) {
-      debugPrint('Error uploading file to Superbase: $e');
-      return null;
+      rethrow;
     }
   }
 
@@ -336,29 +341,78 @@ class ProfessorRepository extends BaseRepository {
 
   Future<void> uploadSharedFile({
     required String professorId,
+    required String courseId,
     required String title,
-    required String filePath,
+    required Uint8List bytes,
     required String fileName,
   }) async {
-    final fileExt = fileName.split('.').last.toLowerCase();
-    const imageExtensions = {'png', 'jpg', 'jpeg', 'gif', 'webp'};
-    const videoExtensions = {'mp4', 'mov', 'webm'};
-    final fileType = switch (fileExt) {
-      'pdf' || 'docx' || 'pptx' || 'xlsx' => fileExt,
-      _ when imageExtensions.contains(fileExt) => 'image',
-      _ when videoExtensions.contains(fileExt) => 'video',
-      _ => 'other',
+    if (client.auth.currentUser?.id != professorId ||
+        title.trim().isEmpty ||
+        bytes.isEmpty ||
+        bytes.length > 50 * 1024 * 1024) {
+      throw ArgumentError('Invalid file upload.');
+    }
+    final extension = fileName.split('.').last.toLowerCase();
+    const mimeTypes = {
+      'pdf': 'application/pdf',
+      'doc': 'application/msword',
+      'docx':
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'pptx':
+          'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+      'xlsx':
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'txt': 'text/plain',
+      'jpg': 'image/jpeg',
+      'jpeg': 'image/jpeg',
+      'png': 'image/png',
+      'webp': 'image/webp',
+      'mp4': 'video/mp4',
+      'webm': 'video/webm',
     };
-    final path =
-        'professor-files/$professorId/${DateTime.now().millisecondsSinceEpoch}.$fileExt';
-
-    await client.from('shared_files').insert({
-      'uploader_id': professorId,
-      'title': title,
-      'file_path': path,
-      'file_type': fileType,
-      'file_size': 1024 * 1024,
-    });
+    final mimeType = mimeTypes[extension];
+    if (mimeType == null) throw ArgumentError('Unsupported file type.');
+    final id = const Uuid().v4();
+    final path = SharedFileUpload.buildCourseFilePath(
+      courseId: courseId,
+      uploaderId: professorId,
+      fileId: id,
+      fileName: fileName,
+    );
+    final type = switch (extension) {
+      'pdf' => SharedFileType.pdf,
+      'docx' => SharedFileType.docx,
+      'pptx' => SharedFileType.pptx,
+      'xlsx' => SharedFileType.xlsx,
+      'jpg' || 'jpeg' || 'png' || 'webp' => SharedFileType.image,
+      'mp4' || 'webm' => SharedFileType.video,
+      _ => SharedFileType.other,
+    };
+    final bucket = client.storage.from('course_files');
+    await bucket.uploadBinary(
+      path,
+      bytes,
+      fileOptions: FileOptions(contentType: mimeType),
+    );
+    try {
+      await client
+          .from('shared_files')
+          .insert(
+            SharedFileUpload(
+              id: id,
+              uploaderId: professorId,
+              courseId: courseId,
+              title: title.trim(),
+              path: path,
+              fileType: type,
+              fileSizeBytes: bytes.length,
+            ).toDatabase(),
+          );
+    } catch (_) {
+      // Compensate an incomplete upload rather than leave an unbound object.
+      await bucket.remove([path]);
+      rethrow;
+    }
   }
 
   Future<void> addMemberToGroup(String groupId, String studentId) async {

@@ -65,7 +65,7 @@ class _DateScroller extends StatelessWidget {
           ),
           child: Text(
             label.toUpperCase(),
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               color: isSelected ? Colors.white : Colors.white60,
               fontWeight: isSelected ? FontWeight.w900 : FontWeight.bold,
               fontSize: 12,

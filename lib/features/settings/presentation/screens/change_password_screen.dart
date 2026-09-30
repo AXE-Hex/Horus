@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
-import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -92,8 +89,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appStyle = ref.watch(styleControllerProvider);
-    final isGlass = appStyle.value == AppStyle.glass;
+    const isGlass = false;
 
     final body = CustomScrollView(
       physics: BouncingScrollPhysics(),
@@ -109,7 +105,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
           ),
           title: Text(
             t.settings.change_password,
-            style: GoogleFonts.outfit(
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
@@ -129,7 +125,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
               Text(
                 t.settings.enter_your_new_password,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.inter(
+                style: TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).hintColor,
                 ),
@@ -152,9 +148,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   filled: isGlass,
-                  fillColor: isGlass
-                      ? Colors.white.withValues(alpha: 0.4)
-                      : null,
+                  fillColor: null,
                 ),
               ),
               SizedBox(height: 16),
@@ -176,9 +170,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   filled: isGlass,
-                  fillColor: isGlass
-                      ? Colors.white.withValues(alpha: 0.4)
-                      : null,
+                  fillColor: null,
                 ),
               ),
               SizedBox(height: 32),
@@ -204,7 +196,7 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
                       )
                     : Text(
                         t.settings.change_password,
-                        style: GoogleFonts.inter(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -216,8 +208,6 @@ class _ChangePasswordScreenState extends ConsumerState<ChangePasswordScreen> {
       ],
     );
 
-    return isGlass
-        ? GlassScaffold(resizeToAvoidBottomInset: true, body: body)
-        : Scaffold(resizeToAvoidBottomInset: true, body: body);
+    return Scaffold(resizeToAvoidBottomInset: true, body: body);
   }
 }

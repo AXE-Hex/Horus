@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 SELECT extensions.plan(50);
 
 -- Isolated synthetic fixture; auth triggers give every account the default
--- student role before the test assigns a canonical role explicitly.
+-- guest role before the test assigns a canonical role explicitly.
 INSERT INTO auth.users (id, aud, role, email, raw_app_meta_data, raw_user_meta_data)
 VALUES
   ('40000000-0000-4000-8000-000000000001', 'authenticated', 'authenticated', 'p4-student-a@example.invalid', '{"provider":"email","providers":["email"]}', '{}'),

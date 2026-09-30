@@ -19,8 +19,10 @@ class _InvoiceCard extends ConsumerWidget {
         return Colors.orangeAccent;
       case InvoiceStatus.overdue:
         return Colors.redAccent;
-      case InvoiceStatus.partial:
+      case InvoiceStatus.refunded:
         return Colors.blueAccent;
+      case InvoiceStatus.unknown:
+        return Colors.grey;
     }
   }
 
@@ -32,25 +34,10 @@ class _InvoiceCard extends ConsumerWidget {
         return LucideIcons.clock;
       case InvoiceStatus.overdue:
         return LucideIcons.alertTriangle;
-      case InvoiceStatus.partial:
+      case InvoiceStatus.refunded:
         return LucideIcons.minusCircle;
-    }
-  }
-
-  IconData get _typeIcon {
-    switch (invoice.type) {
-      case InvoiceType.tuition:
-        return LucideIcons.graduationCap;
-      case InvoiceType.registration:
-        return LucideIcons.clipboardList;
-      case InvoiceType.library:
-        return LucideIcons.bookOpen;
-      case InvoiceType.exam:
-        return LucideIcons.fileText;
-      case InvoiceType.dormitory:
-        return LucideIcons.home;
-      case InvoiceType.other:
-        return LucideIcons.receipt;
+      case InvoiceStatus.unknown:
+        return LucideIcons.circleHelp;
     }
   }
 
@@ -76,7 +63,7 @@ class _InvoiceCard extends ConsumerWidget {
                   color: _statusColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: Icon(_typeIcon, color: _statusColor, size: 20),
+                child: Icon(LucideIcons.receipt, color: _statusColor, size: 20),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -84,19 +71,23 @@ class _InvoiceCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      invoice.type.label(isArabic: isArabic),
-                      style: GoogleFonts.outfit(
+                      isArabic && invoice.descriptionAr?.isNotEmpty == true
+                          ? invoice.descriptionAr!
+                          : invoice.description,
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                         color: isGlass ? Colors.white : null,
                       ),
                     ),
                     Text(
-                      '#${invoice.invoiceNumber}',
-                      style: GoogleFonts.shareTechMono(
+                      invoice.id,
+                      style: TextStyle(
                         fontSize: 11,
                         color: isGlass ? Colors.white54 : Colors.grey.shade500,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -116,8 +107,8 @@ class _InvoiceCard extends ConsumerWidget {
                     Icon(_statusIcon, size: 12, color: _statusColor),
                     const SizedBox(width: 4),
                     Text(
-                      invoice.status.label(isArabic: isArabic),
-                      style: GoogleFonts.outfit(
+                      invoice.status.label,
+                      style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                         color: _statusColor,
@@ -146,21 +137,12 @@ class _InvoiceCard extends ConsumerWidget {
                 children: [
                   Text(
                     _formatAmount(invoice.amount),
-                    style: GoogleFonts.shareTechMono(
+                    style: TextStyle(
                       fontSize: 26,
                       fontWeight: FontWeight.w900,
                       color: isGlass ? Colors.white : null,
                     ),
                   ),
-                  if (!invoice.isPaid && invoice.paidAmount > 0)
-                    Text(
-                      '${t.enrollment.remaining}${_formatAmount(invoice.remainingAmount)}',
-                      style: GoogleFonts.outfit(
-                        fontSize: 11,
-                        color: Colors.orangeAccent,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
                 ],
               ),
               if (invoice.semester != null)
@@ -175,7 +157,7 @@ class _InvoiceCard extends ConsumerWidget {
                   ),
                   child: Text(
                     invoice.semester!,
-                    style: GoogleFonts.outfit(
+                    style: TextStyle(
                       fontSize: 11,
                       color: const Color(0xFF6366F1),
                       fontWeight: FontWeight.bold,
@@ -197,7 +179,7 @@ class _InvoiceCard extends ConsumerWidget {
               const SizedBox(width: 4),
               Text(
                 dateStr,
-                style: GoogleFonts.outfit(
+                style: TextStyle(
                   fontSize: 11,
                   color: isGlass ? Colors.white38 : Colors.grey.shade500,
                 ),
@@ -214,7 +196,7 @@ class _InvoiceCard extends ConsumerWidget {
                 const SizedBox(width: 4),
                 Text(
                   '${t.enrollment.due}$dueDateStr',
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 11,
                     color: invoice.isOverdue
                         ? Colors.redAccent
@@ -224,29 +206,6 @@ class _InvoiceCard extends ConsumerWidget {
                 ),
               ],
               const Spacer(),
-
-              if (!invoice.isPaid)
-                GestureDetector(
-                  onTap: () => _showPayDialog(context),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF10B981),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Text(
-                      t.enrollment.pay,
-                      style: GoogleFonts.outfit(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
             ],
           ),
         ],
@@ -275,86 +234,5 @@ class _InvoiceCard extends ConsumerWidget {
             ),
             child: content,
           );
-  }
-
-  void _showPayDialog(BuildContext context) {
-    final isArabicLocal = isArabic;
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A2E),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-          side: const BorderSide(color: Colors.white10),
-        ),
-        title: Text(
-          isArabicLocal ? 'تأكيد الدفع' : 'Confirm Payment',
-          style: GoogleFonts.outfit(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(
-              LucideIcons.creditCard,
-              color: Color(0xFF10B981),
-              size: 50,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              _formatAmount(invoice.remainingAmount),
-              style: GoogleFonts.shareTechMono(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-                color: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              invoice.type.label(isArabic: isArabicLocal),
-              style: GoogleFonts.outfit(fontSize: 14, color: Colors.white60),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(
-              isArabicLocal ? 'إلغاء' : 'Cancel',
-              style: const TextStyle(color: Colors.white60),
-            ),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF10B981),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            onPressed: () {
-              Navigator.pop(ctx);
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor: Colors.orangeAccent,
-                    content: Text(t.shared.coming_soon),
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                );
-              }
-            },
-            child: Text(
-              isArabicLocal ? 'تأكيد' : 'Confirm',
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

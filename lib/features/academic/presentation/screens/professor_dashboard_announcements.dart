@@ -24,10 +24,10 @@ class _AnnouncementsList extends StatelessWidget {
                     Expanded(
                       child: Text(
                         announcement.title,
-                        style: GoogleFonts.outfit(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -46,7 +46,7 @@ class _AnnouncementsList extends StatelessWidget {
                         ),
                         child: Text(
                           t.academic.urgent_news,
-                          style: GoogleFonts.outfit(
+                          style: TextStyle(
                             fontSize: 10,
                             color: Colors.redAccent,
                             fontWeight: FontWeight.bold,
@@ -58,9 +58,9 @@ class _AnnouncementsList extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   announcement.content,
-                  style: GoogleFonts.outfit(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: Colors.white70,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -68,19 +68,19 @@ class _AnnouncementsList extends StatelessWidget {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    const Icon(
+                    Icon(
                       LucideIcons.calendar,
                       size: 14,
-                      color: Colors.white38,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
                     const SizedBox(width: 6),
                     Text(
                       DateFormat(
                         t.extracted.mmm_dd_yyyy,
                       ).format(announcement.date),
-                      style: GoogleFonts.outfit(
+                      style: TextStyle(
                         fontSize: 12,
-                        color: Colors.white38,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
                     ),
                   ],
