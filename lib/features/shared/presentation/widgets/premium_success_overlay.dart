@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -80,7 +81,7 @@ class PremiumSuccessOverlay extends StatelessWidget {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -92,7 +93,7 @@ class PremiumSuccessOverlay extends StatelessWidget {
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14, color: Colors.white70),
+                style: GoogleFonts.inter(fontSize: 14, color: Colors.white70),
               ).animate().fadeIn(delay: 400.ms).slideY(begin: 0.2, end: 0),
             ],
           ),
