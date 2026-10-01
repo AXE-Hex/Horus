@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_animations.dart';
 
 class Skeleton extends StatefulWidget {
   final double? width;
@@ -18,35 +16,19 @@ class _SkeletonState extends State<Skeleton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacityAnimation;
-  bool? _reduceMotion;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: AppDurations.shimmer,
-    );
+      duration: const Duration(milliseconds: 1000),
+    )..repeat(reverse: true);
 
     _opacityAnimation = Tween<double>(
       begin: 0.4,
       end: 0.8,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final reduceMotion = MediaQuery.disableAnimationsOf(context);
-    if (_reduceMotion == reduceMotion) return;
-    _reduceMotion = reduceMotion;
-    if (reduceMotion) {
-      _controller
-        ..stop()
-        ..value = 0.5;
-    } else {
-      _controller.repeat(reverse: true);
-    }
   }
 
   @override
@@ -58,7 +40,9 @@ class _SkeletonState extends State<Skeleton>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? AppColors.navy700 : AppColors.neutral200;
+    final baseColor = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE5E7EB);
 
     return AnimatedBuilder(
       animation: _controller,
@@ -91,10 +75,11 @@ class CardSkeleton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppSpacing.lg),
       decoration: BoxDecoration(
-        color: isDark ? AppColors.darkSurfaceElevated : AppColors.white,
+        color: isDark ? const Color(0xFF1E293B) : Colors.white,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         border: Border.all(
-          color: isDark ? AppColors.navy700 : AppColors.neutral200,
+          color: isDark ? const Color(0xFF334155) : const Color(0xFFE5E7EB),
+          width: 0.5,
         ),
       ),
       child: Column(
