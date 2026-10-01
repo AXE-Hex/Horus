@@ -26,7 +26,7 @@ extension _CollegePortalOverview on _CollegePortalScreenState {
             size: 20,
           ),
         ),
-        onPressed: () => context.pop(),
+        onPressed: () => context.backToHorus(),
       ),
       flexibleSpace: FlexibleSpaceBar(
         stretchModes: const [

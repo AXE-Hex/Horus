@@ -1,5 +1,5 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -21,7 +21,7 @@ class PlaceholderScreen extends ConsumerWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(LucideIcons.arrowLeft),
-          onPressed: () => context.pop(),
+          onPressed: () => context.backToHorus(),
         ),
         title: Text(
           title,

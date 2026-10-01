@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class SecurityScreen extends ConsumerWidget {
           elevation: 0,
           leading: IconButton(
             icon: const Icon(LucideIcons.arrowLeft),
-            onPressed: () => context.pop(),
+            onPressed: () => context.backToHorus(),
           ),
           title: Text(
             t.shared.security,

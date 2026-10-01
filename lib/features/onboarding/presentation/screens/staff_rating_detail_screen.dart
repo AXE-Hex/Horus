@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
               ),
               child: const Icon(LucideIcons.chevronLeft, color: Colors.white),
             ),
-            onPressed: () => context.pop(),
+            onPressed: () => context.backToHorus(),
           ),
           flexibleSpace: FlexibleSpaceBar(
             background: Stack(

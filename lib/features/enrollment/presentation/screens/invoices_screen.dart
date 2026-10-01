@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

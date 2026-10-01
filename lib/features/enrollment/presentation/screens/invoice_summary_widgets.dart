@@ -18,7 +18,7 @@ class _InvoicesAppBar extends StatelessWidget {
           isArabic ? LucideIcons.arrowRight : LucideIcons.arrowLeft,
           color: Colors.white,
         ),
-        onPressed: () => context.pop(),
+        onPressed: () => context.backToHorus(),
       ),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(

@@ -1,10 +1,10 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/academic/presentation/providers/course_catalog_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
@@ -40,7 +40,7 @@ class CoursesScreen extends ConsumerWidget {
                     elevation: 0,
                     leading: IconButton(
                       icon: const Icon(LucideIcons.arrowLeft),
-                      onPressed: () => context.pop(),
+                      onPressed: () => context.backToHorus(),
                     ),
                     title: Text(
                       t.academic.courses,
@@ -92,7 +92,7 @@ class CoursesScreen extends ConsumerWidget {
                 elevation: 0,
                 leading: IconButton(
                   icon: const Icon(LucideIcons.arrowLeft),
-                  onPressed: () => context.pop(),
+                  onPressed: () => context.backToHorus(),
                 ),
                 title: Text(
                   t.academic.courses,

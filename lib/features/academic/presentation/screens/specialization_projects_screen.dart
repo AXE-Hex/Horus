@@ -1,7 +1,7 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
@@ -46,7 +46,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
             elevation: 0,
             leading: IconButton(
               icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-              onPressed: () => context.pop(),
+              onPressed: () => context.backToHorus(),
             ),
             title: Text(
               t.academic.specialization_projects,
@@ -92,7 +92,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
           elevation: 0,
           leading: IconButton(
             icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
-            onPressed: () => context.pop(),
+            onPressed: () => context.backToHorus(),
           ),
           title: Text(
             t.academic.specialization_projects,

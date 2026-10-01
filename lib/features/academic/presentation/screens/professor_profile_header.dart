@@ -20,7 +20,7 @@ extension _ProfessorProfileHeader on ProfessorProfileScreen {
           ),
           child: const Icon(LucideIcons.chevronLeft, color: Colors.white),
         ),
-        onPressed: () => context.pop(),
+        onPressed: () => context.backToHorus(),
       ),
       flexibleSpace: FlexibleSpaceBar(
         background: Stack(

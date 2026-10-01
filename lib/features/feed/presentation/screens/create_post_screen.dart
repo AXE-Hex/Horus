@@ -1,10 +1,10 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -176,7 +176,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
           title: t.extracted.posted_successfully,
           message: t.extracted.your_post_is_now_live_on_the_feed,
         );
-        context.pop();
+        context.backToHorus();
       }
     } catch (e) {
       if (mounted) {
@@ -351,7 +351,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
       scrolledUnderElevation: 0.5,
       shadowColor: Colors.black.withValues(alpha: 0.12),
       leading: IconButton(
-        onPressed: () => context.pop(),
+        onPressed: () => context.backToHorus(),
         icon: Icon(
           LucideIcons.x,
           size: 22,

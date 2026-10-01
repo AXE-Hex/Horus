@@ -1,6 +1,6 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
@@ -27,7 +27,7 @@ class AboutScreen extends ConsumerWidget {
           elevation: 0,
           leading: IconButton(
             icon: const Icon(LucideIcons.arrowLeft),
-            onPressed: () => context.pop(),
+            onPressed: () => context.backToHorus(),
           ),
           title: Text(
             t.settings.about_app,

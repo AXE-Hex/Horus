@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -129,7 +130,7 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
   Widget _buildBackButton(BuildContext context, bool isGlass) {
     final button = IconButton(
       icon: const Icon(LucideIcons.chevronLeft),
-      onPressed: () => context.pop(),
+      onPressed: () => context.backToHorus(),
     );
 
     if (isGlass) {

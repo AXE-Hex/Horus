@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/messaging/data/repositories/conversation_repository.dart';
 import 'package:horus/core/i18n/strings.g.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
@@ -179,7 +179,7 @@ class _ProfessorChatScreenState extends ConsumerState<ProfessorChatScreen> {
       ),
       leading: IconButton(
         icon: const Icon(LucideIcons.chevronLeft, color: Colors.white),
-        onPressed: () => context.pop(),
+        onPressed: () => context.backToHorus(),
       ),
       actions: [
         IconButton(

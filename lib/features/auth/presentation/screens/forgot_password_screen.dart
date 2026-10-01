@@ -1,8 +1,8 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/error/app_exception.dart';
 import 'package:horus/core/error/error_handler.dart';
@@ -81,7 +81,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           backgroundColor: error == null ? Colors.green : Colors.red,
         ),
       );
-      if (error == null) context.pop();
+      if (error == null) context.backToHorus();
     } catch (e) {
       ErrorHandler.showError(context, e);
     }
@@ -168,7 +168,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
 
         const SizedBox(height: 16),
         TextButton(
-          onPressed: () => context.pop(),
+          onPressed: () => context.backToHorus(),
           child: Text(
             t.auth.back,
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),

@@ -201,7 +201,7 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
         ).animate().fadeIn(delay: 600.ms).scale(begin: const Offset(0.9, 0.9)),
         const SizedBox(height: 48),
         ElevatedButton(
-          onPressed: () => context.pop(),
+          onPressed: () => context.backToHorus(),
           style: ElevatedButton.styleFrom(
             backgroundColor: isGlass
                 ? Colors.white

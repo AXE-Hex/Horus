@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -71,7 +72,7 @@ class _TransitionScreenState extends ConsumerState<TransitionScreen> {
 
         if (mounted) {
           if (widget.isRefresh && context.canPop()) {
-            context.pop();
+            context.backToHorus();
           } else {
             context.go(widget.nextPath);
           }

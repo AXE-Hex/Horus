@@ -1,7 +1,7 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/core/theme/app_colors.dart';
@@ -43,7 +43,7 @@ class ConversationThreadScreen extends ConsumerWidget {
         }
         return Scaffold(
           appBar: AppBar(
-            leading: BackButton(onPressed: () => context.pop()),
+            leading: BackButton(onPressed: () => context.backToHorus()),
             title: _ConversationTitle(conversation: record),
             actions: [
               IconButton(

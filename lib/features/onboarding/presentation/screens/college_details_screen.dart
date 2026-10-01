@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/auth/roles.dart';
 import 'package:horus/features/colleges/presentation/legacy_college_data.dart';
 import 'package:horus/features/profiles/data/models/directory_profile_model.dart';
@@ -47,7 +48,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
               ),
               child: const Icon(LucideIcons.chevronLeft, color: Colors.white),
             ),
-            onPressed: () => context.pop(),
+            onPressed: () => context.backToHorus(),
           ),
           flexibleSpace: FlexibleSpaceBar(
             stretchModes: const [

@@ -1,10 +1,10 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'dart:async';
 
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
@@ -106,7 +106,7 @@ class ExamScheduleScreen extends HookConsumerWidget {
                       LucideIcons.arrowLeft,
                       color: Colors.white,
                     ),
-                    onPressed: () => context.pop(),
+                    onPressed: () => context.backToHorus(),
                   ),
                   title: Text(
                     t.academic.exam_schedule,

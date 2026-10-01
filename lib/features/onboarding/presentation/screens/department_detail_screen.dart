@@ -1,3 +1,4 @@
+import 'package:horus/core/router/back_navigation.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/institutional/data/models/institutional_models.dart';
 import 'package:horus/features/profiles/data/models/directory_profile_model.dart';
@@ -7,7 +8,6 @@ import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
@@ -51,7 +51,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
               ),
               child: const Icon(LucideIcons.chevronLeft, color: Colors.white),
             ),
-            onPressed: () => context.pop(),
+            onPressed: () => context.backToHorus(),
           ),
           flexibleSpace: FlexibleSpaceBar(
             title: Text(

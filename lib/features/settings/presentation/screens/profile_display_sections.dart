@@ -38,7 +38,7 @@ extension _ProfileDisplaySections on _ProfileScreenState {
                   LucideIcons.arrowLeft,
                   color: Theme.of(context).colorScheme.onSurface,
                 ),
-                onPressed: () => context.pop(),
+                onPressed: () => context.backToHorus(),
               ),
             ),
           ),
