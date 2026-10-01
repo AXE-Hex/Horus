@@ -5,7 +5,10 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,6 +37,7 @@ class ExamScheduleScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
+    final isGlass = ref.watch(styleControllerProvider).value == AppStyle.glass;
     final selectedDate = useState<DateTime?>(null);
     final semesterAsync = ref.watch(currentSemesterProvider);
 
@@ -64,10 +68,10 @@ class ExamScheduleScreen extends HookConsumerWidget {
 
               return {
                 'id': id,
-                'subject': e.courseName ?? e.courseCode ?? e.courseId,
+                'subject': e.courseName ?? t.academic.artificial_intelligence,
                 'dateTime': e.examDate,
-                'seat': e.room ?? '',
-                'room': e.room ?? '',
+                'seat': 'TBD',
+                'room': e.room ?? 'TBD',
                 'color': color,
                 'icon': icon,
               };
@@ -106,7 +110,7 @@ class ExamScheduleScreen extends HookConsumerWidget {
                   ),
                   title: Text(
                     t.academic.exam_schedule,
-                    style: TextStyle(
+                    style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w900,
                       fontSize: 24,
                       color: Colors.white,
@@ -154,7 +158,7 @@ class ExamScheduleScreen extends HookConsumerWidget {
                           const SizedBox(height: 20),
                           Text(
                             t.academic.no_exams_on_this_day,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               color: Colors.white38,
                               fontSize: 16,
                             ),
@@ -181,14 +185,16 @@ class ExamScheduleScreen extends HookConsumerWidget {
               ],
             );
 
-            return Scaffold(body: body);
+            return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (err, stack) => Center(child: Text(t.academic.error)),
+          error: (err, stack) =>
+              Center(child: Text('Error loading exams: $err')),
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (err, stack) => Center(child: Text(t.academic.error)),
+      error: (err, stack) =>
+          Center(child: Text('Error loading semester: $err')),
     );
   }
 }

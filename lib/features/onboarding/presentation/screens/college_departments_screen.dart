@@ -4,7 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/features/institutional/data/models/institutional_models.dart';
 import 'package:horus/features/institutional/data/repositories/institutional_repository.dart';
@@ -21,7 +24,8 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final collegeTitle = isArabic ? college.nameAr : college.nameEn;
 
@@ -40,17 +44,21 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
                     children: [
                       Text(
                         collegeTitle,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: isGlass
+                              ? Colors.white
+                              : Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                       Text(
                         '${college.studentCount} ${t.extracted.students}',
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 13,
-                          color: Theme.of(context).hintColor,
+                          color: isGlass
+                              ? Colors.white70
+                              : Theme.of(context).hintColor,
                         ),
                       ),
                     ],
@@ -70,7 +78,7 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
-                  return Center(child: Text(t.academic.error));
+                  return Center(child: Text('Error: ${snapshot.error}'));
                 }
 
                 final departments = snapshot.data ?? [];
@@ -81,7 +89,11 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
                       isArabic
                           ? 'لا توجد أقسام في هذه الكلية'
                           : 'No departments in this college',
-                      style: TextStyle(color: Theme.of(context).hintColor),
+                      style: GoogleFonts.inter(
+                        color: isGlass
+                            ? Colors.white70
+                            : Theme.of(context).hintColor,
+                      ),
                     ),
                   );
                 }
@@ -111,7 +123,7 @@ class CollegeDepartmentsScreen extends ConsumerWidget {
       ),
     );
 
-    return Scaffold(body: content);
+    return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
   }
 
   Widget _buildBackButton(BuildContext context, bool isGlass) {
@@ -170,16 +182,20 @@ class _DepartmentCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
+          color: isGlass ? null : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: color.withValues(alpha: 0.1)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.02),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
+          border: isGlass
+              ? null
+              : Border.all(color: color.withValues(alpha: 0.1)),
+          boxShadow: isGlass
+              ? []
+              : [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.02),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
         ),
         child: Row(
           children: [
@@ -198,15 +214,20 @@ class _DepartmentCard extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: GoogleFonts.outfit(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onSurface,
+                      color: isGlass
+                          ? Colors.white
+                          : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
                   Text(
                     'Tap to view identity & details',
-                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      color: isGlass ? Colors.white30 : Colors.grey,
+                    ),
                   ),
                 ],
               ),
@@ -216,14 +237,20 @@ class _DepartmentCard extends StatelessWidget {
                   ? LucideIcons.chevronLeft
                   : LucideIcons.chevronRight,
               size: 16,
-              color: Theme.of(context).hintColor,
+              color: isGlass ? Colors.white38 : Theme.of(context).hintColor,
             ),
           ],
         ),
       ),
     );
 
-    return (content)
+    return (isGlass
+            ? GlassContainer(
+                borderRadius: BorderRadius.circular(20),
+                padding: EdgeInsets.zero,
+                child: content,
+              )
+            : content)
         .animate()
         .fadeIn(delay: (index * 50).ms)
         .slideX(begin: 0.1, end: 0);

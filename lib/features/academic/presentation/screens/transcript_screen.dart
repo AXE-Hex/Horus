@@ -1,80 +1,472 @@
-import 'package:horus/shared/widgets/app_card.dart';
-import 'package:horus/shared/widgets/horus_error_state.dart';
-import 'package:horus/shared/layout/horus_page_body.dart';
-import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:horus/core/i18n/strings.g.dart';
-import 'package:horus/features/academic/data/models/academic_records.dart';
+import 'package:horus/features/academic/presentation/legacy_academic_view_data.dart';
 import 'package:horus/features/academic/presentation/providers/student_grades_provider.dart';
+import 'package:horus/features/academic/data/repositories/professor_repository.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/core/i18n/strings.g.dart';
+import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
-class TranscriptScreen extends ConsumerWidget {
+class TranscriptScreen extends HookConsumerWidget {
   const TranscriptScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final grades = ref.watch(studentGradesProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.academic.academic_journey),
-        leading: BackButton(onPressed: () => context.pop()),
-      ),
-      body: HorusPageBody(
-        child: grades.when(
-          loading: () => const Center(child: CircularProgressIndicator()),
-          error: (_, _) => HorusErrorState(
-            message: t.academic.error,
-            onRetry: () => ref.invalidate(studentGradesProvider),
+    final recordsAsync = ref.watch(studentGradesProvider);
+    if (recordsAsync.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    if (recordsAsync.hasError) {
+      return Scaffold(body: Center(child: Text(t.academic.error)));
+    }
+    final records = recordsAsync.value ?? [];
+    if (records.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: Center(child: Text(t.academic.no_data)),
+      );
+    }
+    final isArabic = t.$meta.locale.languageCode == 'ar';
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
+
+    final summary = AcademicSummary.fromGrades(records);
+    final transcriptData = [
+      for (final semester in records.map((g) => g.semester).toSet())
+        {
+          'semester': semester,
+          'gpa': AcademicSummary.fromGrades(
+            records.where((g) => g.semester == semester).toList(),
+          ).gpa,
+          'credits': AcademicSummary.fromGrades(
+            records.where((g) => g.semester == semester).toList(),
+          ).recordedCredits,
+          'courses': [
+            for (final (index, grade) in records.indexed)
+              if (grade.semester == semester) legacyGradeView(grade, index),
+          ],
+        },
+    ];
+
+    final body = CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        GlassSliverAppBar(
+          expandedHeight: 100,
+          floating: true,
+          pinned: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(LucideIcons.arrowLeft, color: Colors.white),
+            onPressed: () => context.pop(),
           ),
-          data: (records) {
-            if (records.isEmpty) {
-              return HorusEmptyState(
-                icon: Icons.school_outlined,
-                title: t.academic.no_data,
-              );
-            }
-            final bySemester = <String, List<GradeRecord>>{};
-            for (final record in records) {
-              bySemester.putIfAbsent(record.semester, () => []).add(record);
-            }
-            final semesters = bySemester.keys.toList()
-              ..sort((a, b) => b.compareTo(a));
-            return ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: semesters.length,
-              itemBuilder: (context, index) {
-                final semester = semesters[index];
-                final semesterGrades = bySemester[semester]!;
-                return AppCard(
-                  variant: AppCardVariant.academic,
-                  margin: const EdgeInsets.only(bottom: 14),
-                  child: ExpansionTile(
-                    title: Text(semester),
-                    subtitle: Text(
-                      '${semesterGrades.length} ${t.academic.courses}',
+          title: Text(
+            t.academic.academic_journey,
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.w900,
+              fontSize: 22,
+              color: Colors.white,
+              letterSpacing: 1.2,
+            ),
+          ),
+          centerTitle: true,
+        ),
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 40),
+            child: _AcademicSummary(
+              cumulativeGpa: summary.gpa,
+              earnedCredits: summary.recordedCredits,
+              totalRequired: null,
+              level: '—',
+              isArabic: isArabic,
+            ).animate().fadeIn(duration: 800.ms).slideY(begin: 0.1, end: 0),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => _SemesterTimelineNode(
+                data: transcriptData[index],
+                isLast: index == transcriptData.length - 1,
+                isArabic: isArabic,
+                index: index,
+              ),
+              childCount: transcriptData.length,
+            ),
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 100)),
+      ],
+    );
+
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+  }
+}
+
+class _AcademicSummary extends StatelessWidget {
+  final double? cumulativeGpa;
+  final int earnedCredits;
+  final int? totalRequired;
+  final String level;
+  final bool isArabic;
+
+  const _AcademicSummary({
+    required this.cumulativeGpa,
+    required this.earnedCredits,
+    required this.totalRequired,
+    required this.level,
+    required this.isArabic,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final progress = totalRequired == null || totalRequired == 0
+        ? 0.0
+        : earnedCredits / totalRequired!;
+
+    return GlassContainer(
+      borderRadius: BorderRadius.circular(32),
+      padding: const EdgeInsets.all(28),
+      border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      level.toUpperCase(),
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF6366F1),
+                        letterSpacing: 2,
+                      ),
                     ),
-                    children: [
-                      for (final grade in semesterGrades)
-                        ListTile(
-                          title: Text(
-                            (t.$meta.locale.languageCode == 'ar'
-                                    ? grade.course?.nameAr
-                                    : grade.course?.nameEn) ??
-                                grade.course?.code ??
-                                grade.courseId,
-                          ),
-                          subtitle: Text(
-                            '${grade.course?.code ?? grade.courseId} · ${grade.course?.creditHours ?? '—'} ${t.academic.credits_1}',
-                          ),
-                          trailing: Text(grade.gradeLetter ?? '—'),
-                        ),
-                    ],
+                    const SizedBox(height: 8),
+                    Text(
+                      t.academic.academic_standing_excellent,
+                      style: GoogleFonts.outfit(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.green.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.green.withValues(alpha: 0.2),
                   ),
-                );
-              },
-            );
-          },
+                ),
+                child: Text(
+                  t.academic.active,
+                  style: GoogleFonts.shareTechMono(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildLargeStat(
+                cumulativeGpa?.toStringAsFixed(2) ?? '—',
+                t.academic.gpa,
+              ),
+              Container(width: 1, height: 40, color: Colors.white10),
+              _buildLargeStat(earnedCredits.toString(), t.academic.credits_1),
+              Container(width: 1, height: 40, color: Colors.white10),
+              _buildLargeStat(
+                totalRequired == null ? '—' : '${(progress * 100).toInt()}%',
+                t.academic.progress,
+              ),
+            ],
+          ),
+          const SizedBox(height: 32),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    t.academic.graduation_progress,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: Colors.white38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '$earnedCredits / ${totalRequired ?? '—'}',
+                    style: GoogleFonts.shareTechMono(
+                      fontSize: 12,
+                      color: Colors.white60,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: LinearProgressIndicator(
+                  value: progress,
+                  backgroundColor: Colors.white.withValues(alpha: 0.05),
+                  valueColor: const AlwaysStoppedAnimation<Color>(
+                    Color(0xFF6366F1),
+                  ),
+                  minHeight: 8,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLargeStat(String value, String label) {
+    return Column(
+      children: [
+        Text(
+          value,
+          style: GoogleFonts.shareTechMono(
+            fontSize: 28,
+            fontWeight: FontWeight.w900,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: GoogleFonts.outfit(
+            fontSize: 10,
+            color: Colors.white38,
+            fontWeight: FontWeight.w900,
+            letterSpacing: 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SemesterTimelineNode extends StatelessWidget {
+  final Map<String, dynamic> data;
+  final bool isLast;
+  final bool isArabic;
+  final int index;
+
+  const _SemesterTimelineNode({
+    required this.data,
+    required this.isLast,
+    required this.isArabic,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final courses = data['courses'] as List<Map<String, dynamic>>;
+
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF6366F1),
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 4),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF6366F1).withValues(alpha: 0.5),
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+              ),
+              if (!isLast)
+                Expanded(
+                  child: Container(
+                    width: 2,
+                    color: Colors.white.withValues(alpha: 0.1),
+                    margin: const EdgeInsets.symmetric(vertical: 8),
+                  ),
+                ),
+            ],
+          ),
+          const SizedBox(width: 24),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      data['semester'] as String,
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        _buildSmallBadge(
+                          data['gpa'].toString(),
+                          const Color(0xFF6366F1),
+                        ),
+                        const SizedBox(width: 8),
+                        _buildSmallBadge(
+                          '${data['credits']}h',
+                          Colors.white.withValues(alpha: 0.1),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                ...List.generate(courses.length, (i) {
+                  return _TranscriptCourseCard(
+                        course: courses[i],
+                        isArabic: isArabic,
+                        index: i,
+                      )
+                      .animate(delay: (i * 50).ms)
+                      .fadeIn()
+                      .slideX(begin: 0.05, end: 0);
+                }),
+                const SizedBox(height: 48),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSmallBadge(String text, Color color) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
+      ),
+      child: Text(
+        text,
+        style: GoogleFonts.shareTechMono(
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+          color: color == Colors.white.withValues(alpha: 0.1)
+              ? Colors.white60
+              : color,
+        ),
+      ),
+    );
+  }
+}
+
+class _TranscriptCourseCard extends StatelessWidget {
+  final Map<String, dynamic> course;
+  final bool isArabic;
+  final int index;
+
+  const _TranscriptCourseCard({
+    required this.course,
+    required this.isArabic,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = course['color'] as Color;
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: GlassContainer(
+        borderRadius: BorderRadius.circular(20),
+        padding: const EdgeInsets.all(16),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    course['code'] as String,
+                    style: GoogleFonts.shareTechMono(
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    course['name'] as String,
+                    style: GoogleFonts.outfit(
+                      color: Colors.white.withValues(alpha: 0.9),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  course['grade'] as String,
+                  style: GoogleFonts.outfit(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 18,
+                  ),
+                ),
+                Text(
+                  '${course['credits']} Cr',
+                  style: GoogleFonts.outfit(
+                    color: Colors.white24,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

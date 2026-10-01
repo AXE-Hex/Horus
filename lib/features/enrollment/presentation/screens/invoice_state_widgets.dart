@@ -20,7 +20,7 @@ class _MiniStat extends StatelessWidget {
         children: [
           Text(
             value,
-            style: TextStyle(
+            style: GoogleFonts.shareTechMono(
               fontSize: 18,
               fontWeight: FontWeight.w900,
               color: color,
@@ -29,7 +29,7 @@ class _MiniStat extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 10,
               color: isGlass ? Colors.white54 : Colors.grey.shade500,
             ),
@@ -75,7 +75,7 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             t.enrollment.no_invoices_found,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: isGlass ? Colors.white60 : Colors.grey.shade600,
@@ -84,7 +84,7 @@ class _EmptyState extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             t.enrollment.your_account_is_clearnno_invoi,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 13,
               color: isGlass ? Colors.white38 : Colors.grey.shade400,
             ),
@@ -117,7 +117,7 @@ class _ErrorWidget extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             t.enrollment.failed_to_load_invoices,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Colors.redAccent,
@@ -126,7 +126,7 @@ class _ErrorWidget extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             error,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 11,
               color: isGlass ? Colors.white38 : Colors.grey.shade500,
             ),
@@ -180,7 +180,7 @@ class _SummaryCardError extends StatelessWidget {
       child: Center(
         child: Text(
           t.enrollment.error_loading_summary,
-          style: TextStyle(color: Colors.redAccent),
+          style: GoogleFonts.outfit(color: Colors.redAccent),
         ),
       ),
     );

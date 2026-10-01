@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
 import 'package:horus/features/enrollment/presentation/providers/advisor_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -23,7 +26,8 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
   @override
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final requestsAsync = ref.watch(advisorRequestsProvider);
 
     final scaffoldBody = CustomScrollView(
@@ -37,9 +41,11 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
           elevation: 0,
           title: Text(
             t.enrollment.registration_requests,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+              color: isGlass
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.primary,
             ),
           ),
           centerTitle: true,
@@ -56,9 +62,8 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
           loading: () => const SliverFillRemaining(
             child: Center(child: CircularProgressIndicator()),
           ),
-          error: (_, _) => SliverFillRemaining(
-            child: Center(child: Text(t.enrollment.error_loading)),
-          ),
+          error: (e, _) =>
+              SliverFillRemaining(child: Center(child: Text(t.academic.error))),
           data: (requests) {
             final filtered = _filterStatus == 'all'
                 ? requests
@@ -91,7 +96,9 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
       ],
     );
 
-    return Scaffold(resizeToAvoidBottomInset: true, body: scaffoldBody);
+    return isGlass
+        ? GlassScaffold(resizeToAvoidBottomInset: true, body: scaffoldBody)
+        : Scaffold(resizeToAvoidBottomInset: true, body: scaffoldBody);
   }
 
   Widget _buildFilterChips(bool isArabic, bool isGlass) {
@@ -147,7 +154,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                     const SizedBox(width: 6),
                     Text(
                       f.$2,
-                      style: TextStyle(
+                      style: GoogleFonts.outfit(
                         fontSize: 13,
                         color: isSelected ? Colors.white : Colors.white60,
                         fontWeight: isSelected
@@ -196,7 +203,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
               ),
               title: Text(
                 studentName,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
@@ -208,7 +215,10 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                   if (studentIdNum.isNotEmpty)
                     Text(
                       'ID: $studentIdNum',
-                      style: TextStyle(fontSize: 12, color: Colors.white54),
+                      style: GoogleFonts.outfit(
+                        fontSize: 12,
+                        color: Colors.white54,
+                      ),
                     ),
                   Row(
                     children: [
@@ -223,7 +233,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                         ),
                         child: Text(
                           request.status.label(isArabic: isArabic),
-                          style: TextStyle(
+                          style: GoogleFonts.outfit(
                             fontSize: 11,
                             color: statusColor,
                             fontWeight: FontWeight.w600,
@@ -233,7 +243,10 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                       const SizedBox(width: 8),
                       Text(
                         request.semester,
-                        style: TextStyle(fontSize: 11, color: Colors.white38),
+                        style: GoogleFonts.outfit(
+                          fontSize: 11,
+                          color: Colors.white38,
+                        ),
                       ),
                     ],
                   ),
@@ -259,7 +272,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                                       ? (course.nameAr ?? course.name)
                                       : course.name)
                                 : rc.courseId,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               fontSize: 13,
                               color: Colors.white70,
                             ),
@@ -268,7 +281,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                         if (rc.sectionName != null)
                           Text(
                             rc.sectionName!,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               fontSize: 12,
                               color: Colors.white38,
                             ),
@@ -293,7 +306,7 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
                     ),
                     child: Text(
                       '"${request.advisorNotes}"',
-                      style: TextStyle(
+                      style: GoogleFonts.outfit(
                         fontSize: 13,
                         color: Colors.white70,
                         fontStyle: FontStyle.italic,
@@ -323,10 +336,10 @@ class _AdvisorApprovalScreenState extends ConsumerState<AdvisorApprovalScreen> {
       children: [
         TextField(
           controller: notesController,
-          style: TextStyle(color: Colors.white, fontSize: 13),
+          style: GoogleFonts.outfit(color: Colors.white, fontSize: 13),
           decoration: InputDecoration(
             hintText: t.enrollment.notes_optional,
-            hintStyle: TextStyle(color: Colors.white38, fontSize: 13),
+            hintStyle: GoogleFonts.outfit(color: Colors.white38, fontSize: 13),
             filled: true,
             fillColor: Colors.white.withValues(alpha: 0.05),
             border: OutlineInputBorder(

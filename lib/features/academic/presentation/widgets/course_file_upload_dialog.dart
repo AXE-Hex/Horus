@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,9 +95,20 @@ class _CourseFileUploadDialogState
     return PopScope(
       canPop: !_busy,
       child: AlertDialog(
-        title: Text(t.academic.upload_new_file),
+        backgroundColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.white10),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        title: Text(
+          t.academic.upload_new_file,
+          style: GoogleFonts.outfit(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         content: SizedBox(
-          width: 420,
+          width: 320,
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -131,13 +143,36 @@ class _CourseFileUploadDialogState
                 TextField(
                   controller: _title,
                   enabled: !_busy,
-                  decoration: InputDecoration(labelText: t.academic.file_title),
+                  style: const TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    labelText: t.academic.file_title,
+                    labelStyle: const TextStyle(color: Colors.white60),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white10),
+                    ),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFF6366F1)),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 OutlinedButton.icon(
                   onPressed: _busy ? null : _pickFile,
-                  icon: const Icon(Icons.attach_file),
-                  label: Text(_file?.name ?? t.academic.select_file),
+                  icon: const Icon(Icons.attach_file, color: Colors.white70),
+                  label: Text(
+                    _file?.name ?? t.academic.file_will_be_uploaded_to_cloud,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.outfit(
+                      fontSize: 12,
+                      color: _file != null ? Colors.white : Colors.white38,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.white10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
                 ),
                 if (_error != null)
                   Padding(
@@ -157,13 +192,25 @@ class _CourseFileUploadDialogState
         actions: [
           TextButton(
             onPressed: _busy ? null : () => Navigator.pop(context),
-            child: Text(t.academic.cancel),
+            child: Text(
+              t.academic.cancel,
+              style: const TextStyle(color: Colors.white60),
+            ),
           ),
-          FilledButton(
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF6366F1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
             onPressed: _busy || _file == null || _courseId == null
                 ? null
                 : _upload,
-            child: Text(t.academic.upload),
+            child: Text(
+              t.academic.upload,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),

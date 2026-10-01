@@ -17,7 +17,7 @@ extension _RegistrationScheduleSections on _RegistrationScreenState {
             Expanded(
               child: Text(
                 t.enrollment.choose_schedules,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: isGlass ? Colors.white : Colors.black87,
@@ -43,7 +43,7 @@ extension _RegistrationScheduleSections on _RegistrationScreenState {
                   ),
                   child: Text(
                     isArabic ? (course.nameAr ?? course.name) : course.name,
-                    style: TextStyle(
+                    style: GoogleFonts.outfit(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: isGlass ? Colors.white : Colors.black87,
@@ -92,7 +92,10 @@ extension _RegistrationScheduleSections on _RegistrationScreenState {
           ),
           child: Text(
             t.enrollment.review_final_timetable,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
         ),
       ],
@@ -146,7 +149,7 @@ extension _RegistrationScheduleSections on _RegistrationScreenState {
                 children: [
                   Text(
                     day.substring(0, 3).toUpperCase(),
-                    style: TextStyle(
+                    style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w900,
                       color: isSelected
                           ? (isGlass
@@ -157,7 +160,7 @@ extension _RegistrationScheduleSections on _RegistrationScreenState {
                   ),
                   Text(
                     startTime.substring(0, 5),
-                    style: TextStyle(
+                    style: GoogleFonts.shareTechMono(
                       color: isSelected
                           ? (isGlass ? Colors.white70 : Colors.black54)
                           : (isGlass ? Colors.white38 : Colors.black26),
@@ -172,7 +175,7 @@ extension _RegistrationScheduleSections on _RegistrationScreenState {
                   children: [
                     Text(
                       "${t.enrollment.sec}: $section",
-                      style: TextStyle(
+                      style: GoogleFonts.outfit(
                         fontWeight: FontWeight.bold,
                         color: isGlass ? Colors.white : Colors.black87,
                       ),

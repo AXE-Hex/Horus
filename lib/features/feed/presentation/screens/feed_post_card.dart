@@ -8,9 +8,26 @@ class _PostCard extends ConsumerStatefulWidget {
   ConsumerState<_PostCard> createState() => _PostCardState();
 }
 
-class _PostCardState extends ConsumerState<_PostCard> {
+class _PostCardState extends ConsumerState<_PostCard>
+    with SingleTickerProviderStateMixin {
   bool _isLiking = false;
+  late AnimationController _likeAnim;
   bool _expanded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _likeAnim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+  }
+
+  @override
+  void dispose() {
+    _likeAnim.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,20 +70,21 @@ class _PostCardState extends ConsumerState<_PostCard> {
     }
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
       decoration: BoxDecoration(
-        color: isDark ? _kSurface : AppColors.warmWhite,
-        border: Border.all(
-          color: isDark ? Colors.white.withValues(alpha: 0.08) : _kBorderLight,
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: isDark ? 0.10 : 0.035),
-            blurRadius: 12,
-            offset: const Offset(0, 3),
+        color: isDark ? _kSurface : Colors.white,
+        border: Border(
+          top: BorderSide(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.06)
+                : _kBorderLight,
           ),
-        ],
+          bottom: BorderSide(
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.06)
+                : _kBorderLight,
+          ),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,8 +110,8 @@ class _PostCardState extends ConsumerState<_PostCard> {
                   Icon(LucideIcons.megaphone, color: _kGold, size: 14),
                   const SizedBox(width: 6),
                   Text(
-                    t.home.post_announcement,
-                    style: TextStyle(
+                    isArabic ? 'إعلان رسمي' : 'Official Announcement',
+                    style: GoogleFonts.outfit(
                       color: _kGold,
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
@@ -127,7 +145,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                           Flexible(
                             child: Text(
                               senderName,
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 15,
                                 color: isDark
@@ -178,7 +196,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                           ],
                           Text(
                             timeago.format(widget.post.createdAt),
-                            style: TextStyle(
+                            style: GoogleFonts.inter(
                               color: isDark
                                   ? Colors.white.withValues(alpha: 0.38)
                                   : Colors.black.withValues(alpha: 0.38),
@@ -195,6 +213,19 @@ class _PostCardState extends ConsumerState<_PostCard> {
                     post: widget.post,
                     isDark: isDark,
                     isArabic: isArabic,
+                  )
+                else
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      LucideIcons.moreHorizontal,
+                      size: 18,
+                      color: isDark
+                          ? Colors.white.withValues(alpha: 0.38)
+                          : Colors.black.withValues(alpha: 0.38),
+                    ),
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
                   ),
               ],
             ),
@@ -209,7 +240,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                 children: [
                   Text(
                     displayContent,
-                    style: TextStyle(
+                    style: GoogleFonts.inter(
                       fontSize: 15,
                       height: 1.55,
                       color: isDark
@@ -225,7 +256,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                         _expanded
                             ? (isArabic ? 'عرض أقل' : 'Show less')
                             : (isArabic ? 'عرض المزيد' : 'See more'),
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: _kPrimary,
@@ -278,7 +309,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                         const SizedBox(width: 4),
                         Text(
                           '${widget.post.likesCount}',
-                          style: TextStyle(
+                          style: GoogleFonts.inter(
                             fontSize: 12,
                             color: isDark
                                 ? Colors.white.withValues(alpha: 0.38)
@@ -291,7 +322,7 @@ class _PostCardState extends ConsumerState<_PostCard> {
                   if (widget.post.commentsCount > 0)
                     Text(
                       '${widget.post.commentsCount} ${isArabic ? 'تعليق' : 'comments'}',
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 12,
                         color: isDark
                             ? Colors.white.withValues(alpha: 0.38)
@@ -333,6 +364,14 @@ class _PostCardState extends ConsumerState<_PostCard> {
                     label: isArabic ? 'تعليق' : 'Comment',
                     isDark: isDark,
                     onTap: _showComments,
+                  ),
+                ),
+                Expanded(
+                  child: _ActionButton(
+                    icon: LucideIcons.share2,
+                    label: isArabic ? 'مشاركة' : 'Share',
+                    isDark: isDark,
+                    onTap: () {},
                   ),
                 ),
               ],
@@ -436,7 +475,7 @@ class _ActionButton extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
                 color: c,
@@ -470,7 +509,7 @@ class _RoleChip extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
+        style: GoogleFonts.inter(
           color: color,
           fontSize: 10,
           fontWeight: FontWeight.w700,

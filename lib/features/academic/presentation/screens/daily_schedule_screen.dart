@@ -4,7 +4,10 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,6 +21,8 @@ class DailyScheduleScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final selectedDay = useState(
       DateFormat('EEEE').format(DateTime.now()).toLowerCase(),
     );
@@ -64,7 +69,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
               ),
               title: Text(
                 t.schedule.daily_title,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w900,
                   fontSize: 24,
                   color: Colors.white,
@@ -100,10 +105,10 @@ class DailyScheduleScreen extends HookConsumerWidget {
           ],
         );
 
-        return Scaffold(body: body);
+        return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, _) => Center(child: Text(t.academic.error)),
+      error: (err, stack) => Center(child: Text(t.academic.error)),
     );
   }
 
@@ -152,7 +157,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
                 ),
                 child: Text(
                   isArabic ? _getArabicDay(day) : day.toUpperCase(),
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
                     color: isSelected ? Colors.white : Colors.white60,
                     fontWeight: isSelected ? FontWeight.w900 : FontWeight.bold,
                     fontSize: 12,
@@ -197,7 +202,7 @@ class DailyScheduleScreen extends HookConsumerWidget {
           const SizedBox(height: 20),
           Text(
             t.schedule.no_lectures,
-            style: TextStyle(color: Colors.white38, fontSize: 16),
+            style: GoogleFonts.outfit(color: Colors.white38, fontSize: 16),
           ),
         ],
       ),
@@ -260,7 +265,7 @@ class _ScheduleItem extends StatelessWidget {
                 children: [
                   Text(
                     startTimeStr,
-                    style: TextStyle(
+                    style: GoogleFonts.shareTechMono(
                       color: isActive
                           ? color
                           : (isPast ? Colors.white24 : Colors.white60),
@@ -290,7 +295,7 @@ class _ScheduleItem extends StatelessWidget {
                   ),
                   Text(
                     endTimeStr,
-                    style: TextStyle(
+                    style: GoogleFonts.shareTechMono(
                       color: isPast ? Colors.white10 : Colors.white24,
                       fontSize: 12,
                     ),
@@ -352,7 +357,7 @@ class _ScheduleItem extends StatelessWidget {
                                       slot.course?.nameEn ??
                                       '')
                                 : (slot.course?.nameEn ?? ''),
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               fontSize: 20,
                               fontWeight: FontWeight.w900,
                               color: isPast ? Colors.white24 : Colors.white,
@@ -369,7 +374,7 @@ class _ScheduleItem extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text(
                                 slot.course?.instructorName ?? '—',
-                                style: TextStyle(
+                                style: GoogleFonts.inter(
                                   color: isPast
                                       ? Colors.white10
                                       : Colors.white70,
@@ -405,7 +410,7 @@ class _ScheduleItem extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               '${(progress * 100).toInt()}% ${t.academic.completed_1}',
-                              style: TextStyle(
+                              style: GoogleFonts.shareTechMono(
                                 color: color,
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
@@ -445,7 +450,7 @@ class _ScheduleItem extends StatelessWidget {
       ),
       child: Text(
         (isLecture ? (t.academic.lecture) : (t.academic.section)).toUpperCase(),
-        style: TextStyle(
+        style: GoogleFonts.outfit(
           color: color,
           fontSize: 8,
           fontWeight: FontWeight.w900,
@@ -460,7 +465,7 @@ class _ScheduleItem extends StatelessWidget {
       children: [
         Text(
           t.academic.live,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             color: color,
             fontSize: 10,
             fontWeight: FontWeight.w900,
@@ -472,7 +477,7 @@ class _ScheduleItem extends StatelessWidget {
               height: 8,
               decoration: BoxDecoration(color: color, shape: BoxShape.circle),
             )
-            .animate()
+            .animate(onPlay: (c) => c.repeat())
             .scale(
               begin: const Offset(1, 1),
               end: const Offset(1.5, 1.5),
@@ -497,7 +502,7 @@ class _ScheduleItem extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.inter(
               color: isPast ? Colors.white10 : Colors.white60,
               fontSize: 11,
               fontWeight: FontWeight.w500,

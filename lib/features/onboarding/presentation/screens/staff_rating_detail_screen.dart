@@ -1,9 +1,13 @@
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class StaffRatingDetailScreen extends ConsumerWidget {
@@ -13,10 +17,13 @@ class StaffRatingDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final color = Colors.blue;
 
-    return Scaffold(body: _buildBody(context, isGlass, color));
+    return isGlass
+        ? GlassScaffold(body: _buildBody(context, isGlass, color))
+        : Scaffold(body: _buildBody(context, isGlass, color));
   }
 
   Widget _buildBody(BuildContext context, bool isGlass, Color color) {
@@ -26,7 +33,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
         GlassSliverAppBar(
           expandedHeight: 200,
           pinned: true,
-          backgroundColor: color,
+          backgroundColor: isGlass ? Colors.transparent : color,
           elevation: 0,
           leading: IconButton(
             icon: Container(
@@ -71,7 +78,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
                       const SizedBox(height: 12),
                       Text(
                         staffMember['name']!,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -79,7 +86,10 @@ class StaffRatingDetailScreen extends ConsumerWidget {
                       ),
                       Text(
                         staffMember['role']!,
-                        style: TextStyle(fontSize: 14, color: Colors.white70),
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
                       ),
                     ],
                   ),
@@ -94,10 +104,9 @@ class StaffRatingDetailScreen extends ConsumerWidget {
             delegate: SliverChildListDelegate([
               _buildRatingSection(context, isGlass, color),
               const SizedBox(height: 24),
-              Text(
-                t.academic.no_reviews_yet,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
+              _buildReviewsHeader(context, isGlass),
+              const SizedBox(height: 16),
+              ..._buildReviews(context, isGlass),
               const SizedBox(height: 100),
             ]),
           ),
@@ -115,7 +124,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
               child: _buildMetricCard(
                 context,
                 'General Performance',
-                staffMember['generalRating'] as double,
+                staffMember['generalRating'] as double?,
                 LucideIcons.user,
                 color,
                 isGlass,
@@ -126,7 +135,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
               child: _buildMetricCard(
                 context,
                 'Curriculum Quality',
-                staffMember['curriculumRating'] as double,
+                staffMember['curriculumRating'] as double?,
                 LucideIcons.bookOpen,
                 Colors.orange,
                 isGlass,
@@ -143,7 +152,7 @@ class StaffRatingDetailScreen extends ConsumerWidget {
   Widget _buildMetricCard(
     BuildContext context,
     String title,
-    double rating,
+    double? rating,
     IconData icon,
     Color color,
     bool isGlass,
@@ -155,11 +164,11 @@ class StaffRatingDetailScreen extends ConsumerWidget {
           Icon(icon, color: color, size: 24),
           const SizedBox(height: 8),
           Text(
-            rating.toString(),
-            style: TextStyle(
+            rating?.toString() ?? '—',
+            style: GoogleFonts.outfit(
               fontSize: 28,
               fontWeight: FontWeight.bold,
-              color: null,
+              color: isGlass ? Colors.white : null,
             ),
           ),
           Row(
@@ -169,7 +178,9 @@ class StaffRatingDetailScreen extends ConsumerWidget {
               (i) => Icon(
                 LucideIcons.star,
                 size: 14,
-                color: i < rating.floor() ? Colors.amber : Colors.white10,
+                color: i < (rating?.floor() ?? 0)
+                    ? Colors.amber
+                    : Colors.white10,
               ),
             ),
           ),
@@ -177,13 +188,16 @@ class StaffRatingDetailScreen extends ConsumerWidget {
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 10, color: Colors.grey),
+            style: GoogleFonts.inter(
+              fontSize: 10,
+              color: isGlass ? Colors.white60 : Colors.grey,
+            ),
           ),
         ],
       ),
     );
 
-    return Card(child: content);
+    return isGlass ? GlassContainer(child: content) : Card(child: content);
   }
 
   Widget _buildActionCard(BuildContext context, bool isGlass, Color color) {
@@ -198,11 +212,17 @@ class StaffRatingDetailScreen extends ConsumerWidget {
       ),
       title: Text(
         'Rate this Professional',
-        style: TextStyle(fontWeight: FontWeight.bold, color: null),
+        style: GoogleFonts.outfit(
+          fontWeight: FontWeight.bold,
+          color: isGlass ? Colors.white : null,
+        ),
       ),
       subtitle: Text(
         'Help others by sharing your experience',
-        style: TextStyle(fontSize: 12, color: Colors.grey),
+        style: GoogleFonts.inter(
+          fontSize: 12,
+          color: isGlass ? Colors.white60 : Colors.grey,
+        ),
       ),
       trailing: const Icon(
         LucideIcons.chevronRight,
@@ -211,6 +231,35 @@ class StaffRatingDetailScreen extends ConsumerWidget {
       ),
     );
 
-    return Card(child: content);
+    return isGlass
+        ? GlassContainer(padding: EdgeInsets.zero, child: content)
+        : Card(child: content);
   }
+
+  Widget _buildReviewsHeader(BuildContext context, bool isGlass) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Student Reviews',
+          style: GoogleFonts.outfit(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: isGlass ? Colors.white : null,
+          ),
+        ),
+        Text(
+          '—',
+          style: GoogleFonts.inter(
+            fontSize: 12,
+            color: isGlass ? Colors.white30 : Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildReviews(BuildContext context, bool isGlass) => [
+    Center(child: Text(t.academic.no_data)),
+  ];
 }

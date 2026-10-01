@@ -1,4 +1,6 @@
-import 'package:horus/features/colleges/presentation/widgets/college_staff_panel.dart';
+import 'package:horus/core/auth/roles.dart';
+import 'package:horus/features/colleges/presentation/legacy_college_data.dart';
+import 'package:horus/features/profiles/data/models/directory_profile_model.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +8,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 part 'college_details_sections.dart';
+part 'college_details_painter.dart';
 
 class CollegeDetailsScreen extends ConsumerWidget {
   final Map<String, dynamic> collegeData;
@@ -18,7 +24,8 @@ class CollegeDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final color = collegeData['color'] as Color? ?? Colors.blue;
     final title = (collegeData['title'] as String Function(Translations))(t);
 
@@ -29,7 +36,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
           expandedHeight: 210,
           pinned: true,
           stretch: true,
-          backgroundColor: color,
+          backgroundColor: isGlass ? Colors.transparent : color,
           elevation: 0,
           leading: IconButton(
             icon: Container(
@@ -69,6 +76,11 @@ class CollegeDetailsScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                if (isGlass)
+                  Opacity(
+                    opacity: 0.15,
+                    child: CustomPaint(painter: _MeshPainter()),
+                  ),
 
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -99,7 +111,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
                           child: Text(
                             title,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -131,7 +143,17 @@ class CollegeDetailsScreen extends ConsumerWidget {
               children: [
                 _buildSectionHeader(context, t.colleges.details.dean, color),
                 const SizedBox(height: 12),
-                _buildDeanCard(context, color, isGlass),
+                _buildDeanCard(context, ref, color, isGlass),
+
+                const SizedBox(height: 24),
+
+                _buildSectionHeader(
+                  context,
+                  t.colleges.details.academic_statistics,
+                  color,
+                ),
+                const SizedBox(height: 12),
+                _buildStatsGrid(context, color, isGlass),
 
                 const SizedBox(height: 24),
 
@@ -150,7 +172,7 @@ class CollegeDetailsScreen extends ConsumerWidget {
                       },
                       child: Text(
                         t.colleges.details.view_all,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           color: color,
                           fontWeight: FontWeight.w600,
                         ),
@@ -159,11 +181,17 @@ class CollegeDetailsScreen extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                _buildStaffList(context, color, isGlass),
+                _buildStaffList(context, ref, color, isGlass),
 
                 const SizedBox(height: 24),
 
-                _buildDepartmentsButton(context, collegeData, color, isGlass),
+                _buildDepartmentsButton(
+                  context,
+                  ref,
+                  collegeData,
+                  color,
+                  isGlass,
+                ),
 
                 const SizedBox(height: 60),
               ],
@@ -173,6 +201,6 @@ class CollegeDetailsScreen extends ConsumerWidget {
       ],
     );
 
-    return Scaffold(body: content);
+    return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
   }
 }

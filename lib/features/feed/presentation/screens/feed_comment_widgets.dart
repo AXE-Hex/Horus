@@ -38,7 +38,7 @@ class _CommentItem extends StatelessWidget {
                   children: [
                     Text(
                       comment.authorName ?? 'User',
-                      style: TextStyle(
+                      style: GoogleFonts.outfit(
                         fontWeight: FontWeight.w700,
                         fontSize: 13,
                         color: isDark ? Colors.white : _kBg,
@@ -47,7 +47,7 @@ class _CommentItem extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       comment.content,
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 13,
                         height: 1.4,
                         color: isDark
@@ -62,7 +62,7 @@ class _CommentItem extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 4, left: 4),
                 child: Text(
                   timeago.format(comment.createdAt),
-                  style: TextStyle(fontSize: 10, color: Colors.grey),
+                  style: GoogleFonts.inter(fontSize: 10, color: Colors.grey),
                 ),
               ),
             ],
@@ -106,7 +106,7 @@ class _AvatarWidget extends StatelessWidget {
       child: avatarUrl == null
           ? Text(
               isOrg ? '🏛' : initials,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: radius * 0.7,
                 fontWeight: FontWeight.bold,
                 color: _kPrimary,
@@ -141,7 +141,7 @@ class _EmptyFeedState extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             isArabic ? 'لا توجد منشورات' : 'No posts yet',
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: isDark ? Colors.white.withValues(alpha: 0.70) : _kBg,
@@ -152,7 +152,7 @@ class _EmptyFeedState extends StatelessWidget {
             isArabic
                 ? 'كن أول من ينشر شيئاً!'
                 : 'Be the first to share something!',
-            style: TextStyle(color: Colors.grey, fontSize: 14),
+            style: GoogleFonts.inter(color: Colors.grey, fontSize: 14),
           ),
         ],
       ),
@@ -176,7 +176,7 @@ class _ErrorState extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             'Something went wrong',
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: isDark ? Colors.white.withValues(alpha: 0.70) : _kBg,
@@ -185,7 +185,7 @@ class _ErrorState extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             error,
-            style: TextStyle(color: Colors.grey, fontSize: 12),
+            style: GoogleFonts.inter(color: Colors.grey, fontSize: 12),
             textAlign: TextAlign.center,
             maxLines: 2,
           ),
@@ -215,24 +215,11 @@ class _PostSkeletonState extends State<_PostSkeleton>
     _ctrl = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1200),
-    );
+    )..repeat(reverse: true);
     _anim = Tween<double>(
       begin: 0.4,
       end: 1.0,
     ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.disableAnimationsOf(context) ||
-        MediaQuery.accessibleNavigationOf(context)) {
-      _ctrl
-        ..stop()
-        ..value = 0.5;
-    } else if (!_ctrl.isAnimating) {
-      _ctrl.repeat(reverse: true);
-    }
   }
 
   @override

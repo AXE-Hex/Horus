@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -123,7 +124,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(t.shared.error)));
+        ).showSnackBar(SnackBar(content: Text(t.academic.error)));
       }
     }
   }
@@ -181,7 +182,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(t.shared.error),
+            content: Text(t.academic.error),
             backgroundColor: const Color(0xFFEF4444),
           ),
         );
@@ -361,7 +362,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
       ),
       title: Text(
         isArabic ? 'منشور جديد' : 'Create Post',
-        style: TextStyle(
+        style: GoogleFonts.outfit(
           fontWeight: FontWeight.w700,
           fontSize: 18,
           color: isDark ? Colors.white : _kBg,
@@ -401,7 +402,7 @@ class _CreatePostScreenState extends ConsumerState<CreatePostScreen>
                       )
                     : Text(
                         isArabic ? 'نشر' : 'Post',
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           color: Colors.white,
                           fontWeight: FontWeight.w700,
                           fontSize: 14,

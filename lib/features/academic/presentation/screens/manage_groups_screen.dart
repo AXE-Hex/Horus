@@ -5,7 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ManageGroupsScreen extends ConsumerStatefulWidget {
@@ -44,7 +48,8 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final theme = Theme.of(context);
     final color = Colors.indigo;
     final isArabic = t.$meta.locale.languageCode == 'ar';
@@ -59,12 +64,14 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
         GlassSliverAppBar(
           expandedHeight: 140,
           pinned: true,
-          backgroundColor: theme.scaffoldBackgroundColor,
+          backgroundColor: isGlass
+              ? Colors.transparent
+              : theme.scaffoldBackgroundColor,
           elevation: 0,
           leading: IconButton(
             icon: Icon(
               isArabic ? LucideIcons.chevronRight : LucideIcons.chevronLeft,
-              color: Colors.black87,
+              color: isGlass ? Colors.white : Colors.black87,
             ),
             onPressed: () => context.pop(),
           ),
@@ -75,10 +82,10 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
             ),
             title: Text(
               t.professor.stats.groups,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Colors.black87,
+                color: isGlass ? Colors.white : Colors.black87,
               ),
             ),
           ),
@@ -91,7 +98,10 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
               children: [
                 Text(
                   '${_selectedGroupIds.length} selected',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: color),
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
                 ),
                 TextButton.icon(
                   onPressed: _selectAllGroups,
@@ -104,7 +114,10 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                     allSelected
                         ? t.professor.deselect_all
                         : t.professor.select_all,
-                    style: TextStyle(color: color, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.inter(
+                      color: color,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -123,12 +136,15 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                         Icon(
                           LucideIcons.network,
                           size: 64,
-                          color: Colors.grey[300],
+                          color: isGlass ? Colors.white24 : Colors.grey[300],
                         ),
                         const SizedBox(height: 16),
                         Text(
                           t.professor.no_groups,
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
+                          style: GoogleFonts.outfit(
+                            fontSize: 18,
+                            color: isGlass ? Colors.white70 : Colors.grey,
+                          ),
                         ),
                       ],
                     ),
@@ -160,17 +176,20 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                       ),
                       title: Text(
                         group.name,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: Colors.black87,
+                          color: isGlass ? Colors.white : Colors.black87,
                         ),
                       ),
                       subtitle: Text(
                         group.description,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: isGlass ? Colors.white60 : Colors.grey[600],
+                        ),
                       ),
                       trailing: Checkbox(
                         value: isSelected,
@@ -193,12 +212,19 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
                                         ),
                                   borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: block,
-                                ),
+                                child: isGlass
+                                    ? GlassContainer(
+                                        padding: EdgeInsets.zero,
+                                        child: block,
+                                      )
+                                    : Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
+                                        child: block,
+                                      ),
                               )
                               .animate()
                               .fadeIn(delay: Duration(milliseconds: 50 * index))
@@ -210,12 +236,26 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
       ],
     );
 
-    return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: content,
-      floatingActionButton: _buildContextualAction(isGlass, color, isArabic),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
+    return isGlass
+        ? GlassScaffold(
+            body: content,
+            floatingActionButton: _buildContextualAction(
+              isGlass,
+              color,
+              isArabic,
+            ),
+          )
+        : Scaffold(
+            backgroundColor: theme.scaffoldBackgroundColor,
+            body: content,
+            floatingActionButton: _buildContextualAction(
+              isGlass,
+              color,
+              isArabic,
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
   }
 
   Widget? _buildContextualAction(bool isGlass, Color color, bool isArabic) {
@@ -241,7 +281,7 @@ class _ManageGroupsScreenState extends ConsumerState<ManageGroupsScreen> {
           const SizedBox(width: 12),
           Text(
             'Announcement',
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,

@@ -39,7 +39,7 @@ extension _ProfessorProfileAnnouncements on ProfessorProfileScreen {
                     children: [
                       Text(
                         ann.title,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                           color: Colors.redAccent,
@@ -48,7 +48,7 @@ extension _ProfessorProfileAnnouncements on ProfessorProfileScreen {
                       const SizedBox(height: 4),
                       Text(
                         ann.content,
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 13,
                           color: isGlass ? Colors.white70 : Colors.black87,
                         ),
@@ -56,7 +56,10 @@ extension _ProfessorProfileAnnouncements on ProfessorProfileScreen {
                       const SizedBox(height: 8),
                       Text(
                         DateFormat('MMM dd, hh:mm a').format(ann.date),
-                        style: TextStyle(fontSize: 10, color: Colors.grey),
+                        style: GoogleFonts.inter(
+                          fontSize: 10,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -144,7 +147,7 @@ extension _ProfessorProfileAnnouncements on ProfessorProfileScreen {
                       ta.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: GoogleFonts.outfit(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                         color: isGlass ? Colors.white : null,
@@ -154,7 +157,7 @@ extension _ProfessorProfileAnnouncements on ProfessorProfileScreen {
                       ta.role,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 10,
                         color: isGlass ? Colors.white60 : Colors.grey,
                       ),

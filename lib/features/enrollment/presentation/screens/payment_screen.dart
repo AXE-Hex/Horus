@@ -1,12 +1,13 @@
+import 'package:horus/features/enrollment/presentation/providers/invoice_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:horus/core/i18n/strings.g.dart';
-import 'package:horus/features/enrollment/presentation/providers/invoice_provider.dart';
-import 'package:horus/shared/widgets/app_card.dart';
-import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
-import 'package:horus/shared/widgets/horus_error_state.dart';
-import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class PaymentScreen extends ConsumerWidget {
@@ -15,104 +16,207 @@ class PaymentScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final summary = ref.watch(invoiceSummaryProvider);
-    final colors = Theme.of(context).colorScheme;
+    if (summary.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    if (summary.hasError) {
+      return Scaffold(
+        body: Center(child: Text(t.enrollment.failed_to_load_invoices)),
+      );
+    }
     final isArabic = t.$meta.locale.languageCode == 'ar';
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.payment.title),
-        leading: IconButton(
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          onPressed: () => context.pop(),
-          icon: const Icon(LucideIcons.arrowLeft),
+    final body = CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        GlassSliverAppBar(
+          expandedHeight: 120,
+          floating: true,
+          pinned: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(LucideIcons.arrowLeft),
+            onPressed: () => context.pop(),
+          ),
+          title: Text(
+            t.payment.title,
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          centerTitle: true,
         ),
-      ),
-      body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 760),
-            child: summary.when(
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (_, _) => HorusErrorState(
-                message: t.enrollment.failed_to_load_invoices,
-                onRetry: () => ref.invalidate(invoiceSummaryProvider),
-              ),
-              data: (value) {
-                if (value.invoiceCount == 0) {
-                  return HorusEmptyState(
-                    icon: LucideIcons.receipt,
-                    title: t.enrollment.no_invoices_found,
-                  );
-                }
-                final locale = isArabic ? 'ar' : 'en';
-                final amount = NumberFormat.currency(
-                  locale: locale,
-                  symbol: 'EGP ',
-                  decimalDigits: 2,
-                ).format(value.totalBalance);
-                return ListView(
-                  padding: const EdgeInsets.all(24),
-                  children: [
-                    AppCard(
-                      variant: AppCardVariant.academic,
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Icon(
-                              LucideIcons.wallet,
-                              color: colors.primary,
-                              size: 26,
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              t.payment.outstanding,
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              amount,
-                              style: Theme.of(context).textTheme.headlineMedium
-                                  ?.copyWith(
-                                    color: colors.primary,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '${value.unpaidCount} ${t.invoices.unpaid}',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    AppCard(
-                      child: ListTile(
-                        leading: Icon(
-                          LucideIcons.info,
-                          color: colors.onSurfaceVariant,
-                        ),
-                        title: Text(t.invoices.title),
-                        trailing: const Icon(LucideIcons.chevronRight),
-                        onTap: () => context.push('/invoices'),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    FilledButton.icon(
-                      onPressed: () => context.push('/invoices'),
-                      icon: const Icon(LucideIcons.receipt),
-                      label: Text(t.invoices.title),
-                    ),
-                  ],
-                );
-              },
+
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: _buildBalanceCard(
+              context,
+              isGlass,
+              isArabic,
+              summary.value!.totalBalance,
             ),
           ),
         ),
+
+        const SliverToBoxAdapter(child: SizedBox(height: 32)),
+
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  t.payment.methods,
+                  style: GoogleFonts.outfit(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: isGlass
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                _buildPaymentMethod(
+                  context,
+                  t.payment.credit_debit,
+                  LucideIcons.creditCard,
+                  isGlass,
+                ),
+                const SizedBox(height: 12),
+                _buildPaymentMethod(
+                  context,
+                  t.payment.fawry,
+                  LucideIcons.zap,
+                  isGlass,
+                ),
+                const SizedBox(height: 12),
+                _buildPaymentMethod(
+                  context,
+                  t.payment.bank_transfer,
+                  LucideIcons.landmark,
+                  isGlass,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
+  }
+
+  Widget _buildBalanceCard(
+    BuildContext context,
+    bool isGlass,
+    bool isArabic,
+    double balance,
+  ) {
+    final content = Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        children: [
+          Text(
+            '${balance.toStringAsFixed(2)} EGP',
+            style: GoogleFonts.shareTechMono(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: isGlass ? Colors.white : Theme.of(context).primaryColor,
+            ),
+          ),
+          Text(
+            t.payment.outstanding,
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              color: isGlass ? Colors.white60 : Theme.of(context).hintColor,
+            ),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: () => context.push('/invoices'),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).primaryColor,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              elevation: 0,
+            ),
+            child: Text(
+              t.enrollment.invoices,
+              style: GoogleFonts.outfit(fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
       ),
     );
+
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(32),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 20)],
+            ),
+            child: content,
+          );
+  }
+
+  Widget _buildPaymentMethod(
+    BuildContext context,
+    String name,
+    IconData icon,
+    bool isGlass,
+  ) {
+    final content = Padding(
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        children: [
+          Icon(icon, color: Theme.of(context).primaryColor),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Text(
+              name,
+              style: GoogleFonts.inter(
+                fontWeight: FontWeight.w500,
+                color: isGlass ? Colors.white : null,
+              ),
+            ),
+          ),
+          Icon(
+            LucideIcons.chevronRight,
+            size: 18,
+            color: Theme.of(context).hintColor,
+          ),
+        ],
+      ),
+    );
+
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(20),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: content,
+          );
   }
 }

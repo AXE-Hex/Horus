@@ -108,18 +108,18 @@ class _BentoCard extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             value,
-            style: TextStyle(
+            style: GoogleFonts.shareTechMono(
               fontSize: isSmall ? 28 : 36,
               fontWeight: FontWeight.w900,
-              color: Theme.of(context).colorScheme.onSurface,
+              color: Colors.white,
             ),
           ),
           Text(
             title,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              color: Colors.white70,
               letterSpacing: 0.5,
             ),
           ),
@@ -127,10 +127,7 @@ class _BentoCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               subtitle!,
-              style: TextStyle(
-                fontSize: 10,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+              style: GoogleFonts.outfit(fontSize: 10, color: Colors.white38),
             ),
           ],
         ],
@@ -165,8 +162,8 @@ class _GroupsBentoList extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      group.name.isEmpty ? '—' : group.name.substring(0, 1),
-                      style: TextStyle(
+                      group.name.substring(0, 1),
+                      style: GoogleFonts.outfit(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF6366F1),
@@ -181,17 +178,17 @@ class _GroupsBentoList extends StatelessWidget {
                     children: [
                       Text(
                         group.name,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.onSurface,
+                          color: Colors.white,
                         ),
                       ),
                       Text(
                         '${group.studentCount} ${t.academic.students}',
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          color: Colors.white38,
                         ),
                       ),
                     ],
@@ -199,7 +196,7 @@ class _GroupsBentoList extends StatelessWidget {
                 ),
                 Icon(
                   isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
-                  color: Theme.of(context).colorScheme.outline,
+                  color: Colors.white24,
                   size: 20,
                 ),
               ],

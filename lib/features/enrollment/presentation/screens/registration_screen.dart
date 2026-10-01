@@ -3,8 +3,11 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/features/enrollment/data/repositories/registration_repository.dart';
 import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
@@ -193,7 +196,7 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       }
     } catch (e) {
       setState(() {
-        _error = e.toString();
+        _error = t.academic.error;
         _isRegistering = false;
       });
     }
@@ -202,7 +205,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
 
     Widget body;
 
@@ -238,9 +242,11 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
           ),
           title: Text(
             t.registration.title,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+              color: isGlass
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.primary,
             ),
           ),
           centerTitle: true,
@@ -259,6 +265,8 @@ class _RegistrationScreenState extends ConsumerState<RegistrationScreen> {
       ],
     );
 
-    return Scaffold(body: scaffoldBody);
+    return isGlass
+        ? GlassScaffold(body: scaffoldBody)
+        : Scaffold(body: scaffoldBody);
   }
 }

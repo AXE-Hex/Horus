@@ -17,7 +17,7 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
             Expanded(
               child: Text(
                 t.enrollment.review_registration,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: isGlass ? Colors.white : Colors.black87,
@@ -34,7 +34,7 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
             children: [
               Text(
                 t.enrollment.selected_schedule_summary,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: isGlass
@@ -112,7 +112,10 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
                 )
               : Text(
                   t.enrollment.confirm_submit,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
                 ),
         ),
       ],
@@ -142,7 +145,7 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
                           ),
                         ),
                       )
-                      .animate()
+                      .animate(onPlay: (c) => c.repeat())
                       .scale(
                         duration: (1000 + i * 500).ms,
                         begin: const Offset(1, 1),
@@ -174,7 +177,7 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
         Text(
           t.registration.already_registered_title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 28,
             fontWeight: FontWeight.w900,
             color: isGlass ? Colors.white : Colors.black87,
@@ -217,7 +220,10 @@ extension _RegistrationConfirmationSections on _RegistrationScreenState {
           ),
           child: Text(
             t.registration.back_home,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: GoogleFonts.outfit(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ).animate().fadeIn(delay: 800.ms).slideY(begin: 0.2, end: 0),
       ],

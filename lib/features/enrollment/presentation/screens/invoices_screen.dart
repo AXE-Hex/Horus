@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/enrollment/data/models/invoice_models.dart';
 import 'package:horus/features/enrollment/presentation/providers/invoice_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
@@ -21,7 +24,8 @@ class InvoicesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
 
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -38,7 +42,7 @@ class InvoicesScreen extends ConsumerWidget {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
-            child: _QuickActionsRow(isGlass: isGlass),
+            child: _QuickActionsRow(isArabic: isArabic, isGlass: isGlass),
           ),
         ),
 
@@ -54,10 +58,10 @@ class InvoicesScreen extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
             child: Text(
               t.enrollment.invoices,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 20,
                 fontWeight: FontWeight.w900,
-                color: null,
+                color: isGlass ? Colors.white : null,
               ),
             ),
           ),
@@ -69,6 +73,6 @@ class InvoicesScreen extends ConsumerWidget {
       ],
     );
 
-    return Scaffold(body: body);
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
   }
 }

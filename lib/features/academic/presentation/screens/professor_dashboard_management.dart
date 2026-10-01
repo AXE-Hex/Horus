@@ -62,7 +62,7 @@ class _ManagementGrid extends ConsumerWidget {
           title: t.academic.shared_files,
           count: profile.sharedFiles.length,
           color: const Color(0xFFF59E0B),
-          onTap: null,
+          onTap: () {},
           isArabic: isArabic,
         ),
       ],
@@ -75,7 +75,7 @@ class _ManagementRow extends StatelessWidget {
   final String title;
   final int? count;
   final Color color;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
   final bool isArabic;
   final bool hideCount;
 
@@ -84,7 +84,7 @@ class _ManagementRow extends StatelessWidget {
     required this.title,
     required this.count,
     required this.color,
-    this.onTap,
+    required this.onTap,
     required this.isArabic,
     this.hideCount = false,
   });
@@ -110,10 +110,10 @@ class _ManagementRow extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -129,7 +129,7 @@ class _ManagementRow extends StatelessWidget {
                 ),
                 child: Text(
                   count?.toString() ?? '—',
-                  style: TextStyle(
+                  style: GoogleFonts.shareTechMono(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: color,
@@ -140,7 +140,7 @@ class _ManagementRow extends StatelessWidget {
 
             Icon(
               isArabic ? LucideIcons.chevronLeft : LucideIcons.chevronRight,
-              color: Theme.of(context).colorScheme.outline,
+              color: Colors.white24,
               size: 20,
             ),
           ],
@@ -152,12 +152,12 @@ class _ManagementRow extends StatelessWidget {
 
 class _SectionHeader extends StatelessWidget {
   final String title;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
   final bool isArabic;
 
   const _SectionHeader({
     required this.title,
-    this.onTap,
+    required this.onTap,
     required this.isArabic,
   });
 
@@ -168,24 +168,23 @@ class _SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 20,
             fontWeight: FontWeight.w900,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Colors.white,
           ),
         ),
-        if (onTap != null)
-          GestureDetector(
-            onTap: onTap,
-            child: Text(
-              t.academic.view_all,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF6366F1),
-              ),
+        GestureDetector(
+          onTap: onTap,
+          child: Text(
+            t.academic.view_all,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: const Color(0xFF6366F1),
             ),
           ),
+        ),
       ],
     );
   }

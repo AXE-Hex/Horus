@@ -1,9 +1,10 @@
 part of 'invoices_screen.dart';
 
 class _QuickActionsRow extends ConsumerWidget {
+  final bool isArabic;
   final bool isGlass;
 
-  const _QuickActionsRow({required this.isGlass});
+  const _QuickActionsRow({required this.isArabic, required this.isGlass});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -13,6 +14,12 @@ class _QuickActionsRow extends ConsumerWidget {
         label: t.enrollment.pay,
         color: const Color(0xFF6366F1),
         onTap: () => context.push('/payment'),
+      ),
+      (
+        icon: LucideIcons.fileDown,
+        label: t.enrollment.download,
+        color: const Color(0xFF10B981),
+        onTap: () => _showDownloadSnack(context, isArabic),
       ),
       (
         icon: LucideIcons.history,
@@ -51,6 +58,17 @@ class _QuickActionsRow extends ConsumerWidget {
           .toList(),
     ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.1, end: 0);
   }
+
+  void _showDownloadSnack(BuildContext context, bool isArabic) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: const Color(0xFF10B981),
+        content: Text(t.enrollment.preparing_pdf_statement),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
+    );
+  }
 }
 
 class _QuickActionBtn extends StatelessWidget {
@@ -85,7 +103,7 @@ class _QuickActionBtn extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
                 color: isGlass ? Colors.white : null,
@@ -147,7 +165,7 @@ class _FilterTabBar extends ConsumerWidget {
               ),
               child: Text(
                 tab.label,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: isActive

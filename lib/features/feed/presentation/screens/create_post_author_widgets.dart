@@ -26,7 +26,7 @@ class _AnnouncementBanner extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             isArabic ? 'أنت تنشر إعلاناً رسمياً' : 'Posting as Announcement',
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               color: const Color(0xFFF59E0B),
               fontWeight: FontWeight.w600,
               fontSize: 13,
@@ -77,7 +77,7 @@ class _AuthorHeader extends StatelessWidget {
             children: [
               Text(
                 authState.profile?.fullName ?? 'User',
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   color: isDark ? Colors.white : _kBg,
@@ -155,7 +155,7 @@ class _BadgeChip extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 11,
               fontWeight: FontWeight.w600,
               color: color,

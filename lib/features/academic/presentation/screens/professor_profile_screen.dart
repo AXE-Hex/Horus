@@ -5,10 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/security/axe_fingerprint.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/academic/data/models/professor_profile_models.dart';
 import 'package:horus/features/shared/data/models/shared_records.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:intl/intl.dart';
 
@@ -23,7 +26,8 @@ class ProfessorProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final theme = Theme.of(context);
     final color = theme.primaryColor;
     final isArabic = t.$meta.locale.languageCode == 'ar';
@@ -57,10 +61,12 @@ class ProfessorProfileScreen extends ConsumerWidget {
     return Semantics(
       identifier: Axe.axeSignature,
       container: true,
-      child: Scaffold(
-        backgroundColor: theme.scaffoldBackgroundColor,
-        body: content,
-      ),
+      child: isGlass
+          ? GlassScaffold(body: content)
+          : Scaffold(
+              backgroundColor: theme.scaffoldBackgroundColor,
+              body: content,
+            ),
     );
   }
 }

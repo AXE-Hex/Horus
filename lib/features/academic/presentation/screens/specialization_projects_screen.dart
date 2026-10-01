@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:horus/features/academic/data/repositories/academic_repository.dart';
 import 'package:horus/features/institutional/data/models/institutional_models.dart';
-import 'package:horus/shared/widgets/horus_error_state.dart';
 
 final departmentProjectsProvider =
     FutureProvider.family<List<DepartmentProjectModel>, String>((
@@ -26,7 +28,8 @@ class SpecializationProjectsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final isArabic = t.$meta.locale.languageCode == 'ar';
 
     final auth = ref.watch(authControllerProvider);
@@ -47,7 +50,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
             ),
             title: Text(
               t.academic.specialization_projects,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -63,7 +66,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   Text(
                     t.extracted.no_projects_available_yet,
-                    style: TextStyle(color: Colors.white60),
+                    style: GoogleFonts.outfit(color: Colors.white60),
                   ),
                 ],
               ),
@@ -71,7 +74,9 @@ class SpecializationProjectsScreen extends ConsumerWidget {
           ),
         ],
       );
-      return Scaffold(body: noDepBody);
+      return isGlass
+          ? GlassScaffold(body: noDepBody)
+          : Scaffold(body: noDepBody);
     }
 
     final projectsAsync = ref.watch(departmentProjectsProvider(departmentId));
@@ -91,7 +96,10 @@ class SpecializationProjectsScreen extends ConsumerWidget {
           ),
           title: Text(
             t.academic.specialization_projects,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           centerTitle: true,
         ),
@@ -113,7 +121,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
                         const SizedBox(height: 16),
                         Text(
                           t.extracted.no_projects_available_yet,
-                          style: TextStyle(color: Colors.white60),
+                          style: GoogleFonts.outfit(color: Colors.white60),
                         ),
                       ],
                     ),
@@ -136,11 +144,9 @@ class SpecializationProjectsScreen extends ConsumerWidget {
             loading: () => const SliverFillRemaining(
               child: Center(child: CircularProgressIndicator()),
             ),
-            error: (_, _) => SliverFillRemaining(
-              child: HorusErrorState(
-                message: t.academic.error,
-                onRetry: () =>
-                    ref.invalidate(departmentProjectsProvider(departmentId)),
+            error: (err, _) => SliverFillRemaining(
+              child: Center(
+                child: Text("Error: $err", style: TextStyle(color: Colors.red)),
               ),
             ),
           ),
@@ -148,7 +154,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
       ],
     );
 
-    return Scaffold(body: body);
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
   }
 
   Widget _buildProjectCard(
@@ -179,7 +185,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
                         Expanded(
                           child: Text(
                             title,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
@@ -192,7 +198,7 @@ class SpecializationProjectsScreen extends ConsumerWidget {
                     const SizedBox(height: 12),
                     Text(
                       description ?? '',
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontSize: 14,
                         color: Colors.white70,
                         height: 1.5,
@@ -211,7 +217,30 @@ class SpecializationProjectsScreen extends ConsumerWidget {
                           DateTime.parse(
                             project.createdAt.toIso8601String(),
                           ).toLocal().toString().split(' ')[0],
-                          style: TextStyle(color: Colors.white38, fontSize: 12),
+                          style: GoogleFonts.shareTechMono(
+                            color: Colors.white38,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              Text(
+                                t.extracted.details,
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Icon(
+                                LucideIcons.chevronRight,
+                                size: 16,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

@@ -7,7 +7,105 @@ extension _CollegePortalStaffSections on _CollegePortalScreenState {
     bool isGlass,
     bool isArabic,
   ) {
-    return CollegeStaffPanel(collegeId: college.id, deanOnly: true);
+    final staff = ref.watch(legacyCollegeStaffProvider(college.id));
+    if (staff.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (staff.hasError) return Center(child: Text(t.academic.error));
+    final deans = (staff.value ?? []).where(
+      (member) => member.roles.contains(UserRole.dean),
+    );
+    final dean = deans.firstOrNull;
+    final deanName = dean == null
+        ? '—'
+        : (isArabic ? dean.fullNameAr ?? dean.fullName : dean.fullName);
+    final deanTitle = t.colleges.details.dean_title;
+    const deanBio = '—';
+
+    final cardContent = Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: isGlass ? null : Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(28),
+        border: isGlass
+            ? null
+            : Border.all(color: color.withValues(alpha: 0.1)),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              CircleAvatar(
+                radius: 40,
+                backgroundColor: color.withValues(alpha: 0.1),
+                child: Icon(LucideIcons.user, size: 40, color: color),
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      deanName,
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: isGlass ? Colors.white : null,
+                      ),
+                    ),
+                    Text(
+                      deanTitle,
+                      style: GoogleFonts.outfit(
+                        fontSize: 14,
+                        color: color,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Text(
+            deanBio,
+            style: GoogleFonts.outfit(
+              fontSize: 14,
+              color: isGlass ? Colors.white70 : Colors.grey[600],
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(LucideIcons.award, color: color, size: 24),
+            const SizedBox(width: 12),
+            Text(
+              t.extracted.faculty_management,
+              style: GoogleFonts.outfit(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: isGlass ? Colors.white : null,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        isGlass
+            ? GlassContainer(
+                borderRadius: BorderRadius.circular(28),
+                padding: EdgeInsets.zero,
+                child: cardContent,
+              )
+            : cardContent,
+      ],
+    ).animate().fadeIn().slideY(begin: 0.2);
   }
 
   Widget _buildStaffSection(
@@ -16,7 +114,7 @@ extension _CollegePortalStaffSections on _CollegePortalScreenState {
     bool isGlass,
     bool isArabic,
   ) {
-    final staffAsync = ref.watch(collegeStaffListProvider(college.id));
+    final staffAsync = ref.watch(legacyCollegeStaffProvider(college.id));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,7 +125,7 @@ extension _CollegePortalStaffSections on _CollegePortalScreenState {
             const SizedBox(width: 12),
             Text(
               t.extracted.faculty_staff,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: isGlass ? Colors.white : null,
@@ -42,7 +140,7 @@ extension _CollegePortalStaffSections on _CollegePortalScreenState {
               return Center(
                 child: Text(
                   t.extracted.no_staff_registered_yet,
-                  style: TextStyle(color: Colors.grey),
+                  style: GoogleFonts.outfit(color: Colors.grey),
                 ),
               );
             }
@@ -89,14 +187,14 @@ extension _CollegePortalStaffSections on _CollegePortalScreenState {
                           children: [
                             Text(
                               name,
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 fontWeight: FontWeight.bold,
                                 color: isGlass ? Colors.white : null,
                               ),
                             ),
                             Text(
                               role,
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 fontSize: 13,
                                 color: color,
                                 fontWeight: FontWeight.w500,
@@ -120,7 +218,7 @@ extension _CollegePortalStaffSections on _CollegePortalScreenState {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (_, _) => Center(child: Text(t.academic.error)),
+          error: (e, _) => Center(child: Text(t.academic.error)),
         ),
       ],
     ).animate().fadeIn(delay: 200.ms).slideY(begin: 0.2);

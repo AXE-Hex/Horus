@@ -8,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -23,7 +26,8 @@ class DepartmentDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final isArabic = t.$meta.locale.languageCode == 'ar';
     final name = isArabic ? department.nameAr : department.nameEn;
     final bio =
@@ -36,7 +40,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
         GlassSliverAppBar(
           expandedHeight: 180,
           pinned: true,
-          backgroundColor: color,
+          backgroundColor: isGlass ? Colors.transparent : color,
           elevation: 0,
           leading: IconButton(
             icon: Container(
@@ -54,7 +58,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
               name,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
                 color: Colors.white,
@@ -83,11 +87,10 @@ class DepartmentDetailScreen extends ConsumerWidget {
                   ),
                 ),
                 Center(
-                  child: Icon(
-                    LucideIcons.binary,
-                    size: 60,
-                    color: Colors.white30,
-                  ).animate().rotate(duration: 10.seconds),
+                  child:
+                      Icon(LucideIcons.binary, size: 60, color: Colors.white30)
+                          .animate(onPlay: (c) => c.repeat())
+                          .rotate(duration: 10.seconds),
                 ),
               ],
             ),
@@ -119,7 +122,7 @@ class DepartmentDetailScreen extends ConsumerWidget {
       ],
     );
 
-    return Scaffold(body: content);
+    return isGlass ? GlassScaffold(body: content) : Scaffold(body: content);
   }
 
   Widget _buildHodSection(WidgetRef ref, Color themeColor, bool isGlass) {
@@ -136,10 +139,10 @@ class DepartmentDetailScreen extends ConsumerWidget {
                 t.$meta.locale.languageCode == 'ar'
                     ? 'لم يتم تعيين رئيس'
                     : 'No head assigned',
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: isGlass ? Colors.white : Colors.black87,
                 ),
               ),
             ],
@@ -187,11 +190,11 @@ class DepartmentDetailScreen extends ConsumerWidget {
         const SizedBox(width: 8),
         Text(
           title.toUpperCase(),
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 14,
             fontWeight: FontWeight.w900,
             letterSpacing: 1.2,
-            color: Colors.black54,
+            color: isGlass ? Colors.white70 : Colors.black54,
           ),
         ),
       ],
@@ -201,7 +204,11 @@ class DepartmentDetailScreen extends ConsumerWidget {
   Widget _buildBioText(String text, bool isGlass) {
     return Text(
       text,
-      style: TextStyle(fontSize: 15, height: 1.6, color: Colors.black87),
+      style: GoogleFonts.inter(
+        fontSize: 15,
+        height: 1.6,
+        color: isGlass ? Colors.white70 : Colors.black87,
+      ),
     ).animate().fadeIn(duration: 600.ms).slideY(begin: 0.1, end: 0);
   }
 }
@@ -325,7 +332,7 @@ class _HoDIdentityCard extends ConsumerWidget {
       children: [
         Text(
           hod.fullName,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -336,7 +343,7 @@ class _HoDIdentityCard extends ConsumerWidget {
           t.$meta.locale.languageCode == 'ar'
               ? 'رئيس القسم'
               : 'Head of Department',
-          style: TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: color,
@@ -357,7 +364,7 @@ class _HoDIdentityCard extends ConsumerWidget {
       ),
       child: Text(
         label,
-        style: TextStyle(
+        style: GoogleFonts.inter(
           fontSize: 10,
           fontWeight: FontWeight.bold,
           color: Colors.white,
@@ -377,11 +384,11 @@ class _HoDIdentityCard extends ConsumerWidget {
             children: [
               Text(
                 label,
-                style: TextStyle(fontSize: 10, color: Colors.white30),
+                style: GoogleFonts.inter(fontSize: 10, color: Colors.white30),
               ),
               Text(
                 value,
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
@@ -405,11 +412,11 @@ class _HoDIdentityCard extends ConsumerWidget {
           children: [
             Text(
               'Rating',
-              style: TextStyle(fontSize: 10, color: Colors.white30),
+              style: GoogleFonts.inter(fontSize: 10, color: Colors.white30),
             ),
             Text(
               '$rating / 5.0',
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 13,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

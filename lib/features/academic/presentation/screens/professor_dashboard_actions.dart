@@ -13,15 +13,24 @@ class _QuickActionsPanel extends HookConsumerWidget {
       children: [
         Text(
           t.academic.quick_actions,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 18,
             fontWeight: FontWeight.w900,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: Colors.white,
           ),
         ),
         const SizedBox(height: 16),
         Row(
           children: [
+            Expanded(
+              child: _ActionTile(
+                icon: LucideIcons.megaphone,
+                label: t.academic.urgent_news,
+                color: Colors.redAccent,
+                onTap: () {},
+              ),
+            ),
+            const SizedBox(width: 12),
             Expanded(
               child: _ActionTile(
                 icon: LucideIcons.uploadCloud,
@@ -87,10 +96,10 @@ class _ActionTile extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               label,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.onSurface,
+                color: Colors.white,
               ),
             ),
           ],

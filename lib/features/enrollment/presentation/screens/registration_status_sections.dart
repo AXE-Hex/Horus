@@ -123,7 +123,7 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
                 const SizedBox(height: 16),
                 Text(
                   statusLabel,
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: statusColor,
@@ -136,7 +136,10 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
                     t.enrollment.advisor_name_label(
                       name: request.advisor?.fullName ?? '',
                     ),
-                    style: TextStyle(fontSize: 14, color: Colors.white70),
+                    style: GoogleFonts.outfit(
+                      fontSize: 14,
+                      color: Colors.white70,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ],
@@ -154,7 +157,7 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
                     ),
                     child: Text(
                       '"${request.advisorNotes}"',
-                      style: TextStyle(
+                      style: GoogleFonts.outfit(
                         fontSize: 13,
                         color: Colors.white70,
                         fontStyle: FontStyle.italic,
@@ -168,7 +171,10 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
                   t.enrollment.semester_label_with_value(
                     semester: request.semester,
                   ),
-                  style: TextStyle(fontSize: 12, color: Colors.white38),
+                  style: GoogleFonts.outfit(
+                    fontSize: 12,
+                    color: Colors.white38,
+                  ),
                 ),
               ],
             ),
@@ -185,7 +191,7 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
               children: [
                 Text(
                   t.enrollment.requested_courses,
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -222,7 +228,7 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
                                           ? (course.nameAr ?? course.name)
                                           : course.name)
                                     : rc.courseId,
-                                style: TextStyle(
+                                style: GoogleFonts.outfit(
                                   fontSize: 14,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500,
@@ -231,7 +237,7 @@ extension _RegistrationStatusSections on _RegistrationScreenState {
                               if (rc.sectionName != null)
                                 Text(
                                   '${rc.sectionName}${rc.subSectionName != null ? ' / ${rc.subSectionName}' : ''}',
-                                  style: TextStyle(
+                                  style: GoogleFonts.outfit(
                                     fontSize: 12,
                                     color: Colors.white54,
                                   ),

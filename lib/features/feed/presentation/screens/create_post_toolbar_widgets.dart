@@ -46,7 +46,7 @@ class _Toolbar extends StatelessWidget {
         children: [
           Text(
             isArabic ? 'أضف للمنشور:' : 'Add to post:',
-            style: TextStyle(
+            style: GoogleFonts.inter(
               fontSize: 12,
               color: isDark
                   ? Colors.white.withValues(alpha: 0.38)

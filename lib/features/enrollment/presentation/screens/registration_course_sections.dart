@@ -17,7 +17,7 @@ extension _RegistrationCourseSections on _RegistrationScreenState {
       children: [
         Text(
           t.enrollment.select_your_courses,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 22,
             fontWeight: FontWeight.bold,
             color: isGlass
@@ -62,7 +62,10 @@ extension _RegistrationCourseSections on _RegistrationScreenState {
           ),
           child: Text(
             t.enrollment.next_pick_schedules,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
           ),
         ),
       ],
@@ -124,7 +127,7 @@ extension _RegistrationCourseSections on _RegistrationScreenState {
                 children: [
                   Text(
                     isArabic ? (course.nameAr ?? course.name) : course.name,
-                    style: TextStyle(
+                    style: GoogleFonts.outfit(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: isLocked ? Colors.white24 : Colors.white,
@@ -132,7 +135,7 @@ extension _RegistrationCourseSections on _RegistrationScreenState {
                   ),
                   Text(
                     course.code,
-                    style: TextStyle(
+                    style: GoogleFonts.shareTechMono(
                       fontSize: 12,
                       color: isLocked ? Colors.white10 : Colors.white54,
                     ),
@@ -143,7 +146,7 @@ extension _RegistrationCourseSections on _RegistrationScreenState {
             if (!isLocked)
               Text(
                 "${course.credits} ${t.enrollment.cr}",
-                style: TextStyle(
+                style: GoogleFonts.outfit(
                   fontWeight: FontWeight.bold,
                   color: isSelected ? Colors.white : Colors.white38,
                 ),

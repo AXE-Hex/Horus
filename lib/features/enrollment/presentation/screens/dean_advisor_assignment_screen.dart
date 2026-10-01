@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
+import 'package:horus/core/theme/style_provider.dart';
 import 'package:horus/features/enrollment/data/models/registration_models.dart';
 import 'package:horus/features/enrollment/data/repositories/advisor_repository.dart';
 import 'package:horus/features/enrollment/presentation/providers/advisor_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -26,7 +29,8 @@ class _DeanAdvisorAssignmentScreenState
   @override
   Widget build(BuildContext context) {
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
 
     final auth = ref.watch(authControllerProvider);
     final collegeId = auth.profile?.collegeId ?? '';
@@ -45,9 +49,11 @@ class _DeanAdvisorAssignmentScreenState
           elevation: 0,
           title: Text(
             t.enrollment.advisor_assignment,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
+              color: isGlass
+                  ? Colors.white
+                  : Theme.of(context).colorScheme.primary,
             ),
           ),
           centerTitle: true,
@@ -65,10 +71,16 @@ class _DeanAdvisorAssignmentScreenState
                     border: Border.all(color: Colors.white12),
                   ),
                   child: TextField(
-                    style: TextStyle(color: Colors.white, fontSize: 14),
+                    style: GoogleFonts.outfit(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
                     decoration: InputDecoration(
                       hintText: t.enrollment.search_students,
-                      hintStyle: TextStyle(color: Colors.white38, fontSize: 14),
+                      hintStyle: GoogleFonts.outfit(
+                        color: Colors.white38,
+                        fontSize: 14,
+                      ),
                       prefixIcon: const Icon(
                         LucideIcons.search,
                         color: Colors.white38,
@@ -119,7 +131,7 @@ class _DeanAdvisorAssignmentScreenState
                         const SizedBox(width: 8),
                         Text(
                           t.enrollment.unassigned_only,
-                          style: TextStyle(
+                          style: GoogleFonts.outfit(
                             fontSize: 13,
                             color: _onlyUnassigned
                                 ? Colors.orangeAccent
@@ -177,7 +189,7 @@ class _DeanAdvisorAssignmentScreenState
                           const SizedBox(height: 12),
                           Text(
                             t.enrollment.no_students_found,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               fontSize: 16,
                               color: Colors.white38,
                             ),
@@ -210,7 +222,9 @@ class _DeanAdvisorAssignmentScreenState
       ],
     );
 
-    return Scaffold(resizeToAvoidBottomInset: true, body: scaffoldBody);
+    return isGlass
+        ? GlassScaffold(resizeToAvoidBottomInset: true, body: scaffoldBody)
+        : Scaffold(resizeToAvoidBottomInset: true, body: scaffoldBody);
   }
 
   Widget _buildStudentCard(
@@ -250,7 +264,7 @@ class _DeanAdvisorAssignmentScreenState
                               studentName.isNotEmpty
                                   ? studentName[0].toUpperCase()
                                   : '?',
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 color: Colors.indigoAccent,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 18,
@@ -264,7 +278,7 @@ class _DeanAdvisorAssignmentScreenState
                               children: [
                                 Text(
                                   studentName,
-                                  style: TextStyle(
+                                  style: GoogleFonts.outfit(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
@@ -273,7 +287,7 @@ class _DeanAdvisorAssignmentScreenState
                                 if (studentIdNum.isNotEmpty)
                                   Text(
                                     'ID: $studentIdNum',
-                                    style: TextStyle(
+                                    style: GoogleFonts.outfit(
                                       fontSize: 12,
                                       color: Colors.white54,
                                     ),
@@ -297,7 +311,7 @@ class _DeanAdvisorAssignmentScreenState
                               currentAdvisor != null
                                   ? (t.enrollment.assigned)
                                   : (t.enrollment.unassigned),
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 fontSize: 11,
                                 fontWeight: FontWeight.w600,
                                 color: currentAdvisor != null
@@ -316,7 +330,7 @@ class _DeanAdvisorAssignmentScreenState
                         initialValue: currentAdvisorId,
                         decoration: InputDecoration(
                           labelText: t.enrollment.academic_advisor,
-                          labelStyle: TextStyle(
+                          labelStyle: GoogleFonts.outfit(
                             color: Colors.white54,
                             fontSize: 13,
                           ),
@@ -336,13 +350,16 @@ class _DeanAdvisorAssignmentScreenState
                           ),
                         ),
                         dropdownColor: const Color(0xFF1C1C2E),
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        style: GoogleFonts.outfit(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                         items: [
                           DropdownMenuItem<String?>(
                             value: null,
                             child: Text(
                               t.enrollment.no_advisor,
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 color: Colors.white38,
                                 fontSize: 13,
                               ),
@@ -353,7 +370,7 @@ class _DeanAdvisorAssignmentScreenState
                               value: a.id,
                               child: Text(
                                 a.fullName,
-                                style: TextStyle(
+                                style: GoogleFonts.outfit(
                                   color: Colors.white,
                                   fontSize: 13,
                                 ),
