@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_animations.dart';
 
 class AppProgressBar extends StatelessWidget {
   final double percentage; // 0.0 to 1.0
@@ -23,14 +21,13 @@ class AppProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final bg = isDark ? AppColors.navy700 : AppColors.navy100;
-    final reduceMotion = MediaQuery.disableAnimationsOf(context);
+    final bg = isDark ? const Color(0xFF334155) : const Color(0xFFF3F4F6);
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(AppRadius.xs),
+      borderRadius: BorderRadius.circular(4),
       child: TweenAnimationBuilder<double>(
         tween: Tween<double>(begin: 0.0, end: percentage),
-        duration: reduceMotion ? Duration.zero : AppDurations.panel,
+        duration: const Duration(milliseconds: 800),
         curve: Curves.easeOut,
         builder: (context, value, child) {
           return LinearProgressIndicator(
