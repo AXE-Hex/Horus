@@ -1,6 +1,31 @@
 part of 'settings_screen.dart';
 
 extension _SettingsScreenPreferences on _SettingsScreenState {
+  Future<void> _handleThemeSwitch(bool isDark) async {
+    final nextMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    HapticFeedback.mediumImpact();
+    await ref.read(themeControllerProvider.notifier).setTheme(nextMode);
+  }
+
+  Future<void> _handleStyleSwitch() async {
+    final currentStyle = ref.read(styleControllerProvider).value;
+    final nextStyle = currentStyle == AppStyle.glass
+        ? AppStyle.classic
+        : AppStyle.glass;
+    HapticFeedback.heavyImpact();
+    await ref.read(styleControllerProvider.notifier).setStyle(nextStyle);
+    if (!mounted) return;
+    context.go(
+      '/transition',
+      extra: {
+        'nextPath': '/settings',
+        'message': t.settings.messages.rebuilding_design,
+        'isRefresh': true,
+        'onComplete': null,
+      },
+    );
+  }
+
   void _handleLanguageSwitch(BuildContext context, AppLocale nextLocale) {
     if (nextLocale == LocaleSettings.currentLocale) return;
     context.go(
@@ -17,7 +42,7 @@ extension _SettingsScreenPreferences on _SettingsScreenState {
   }
 
   void _showLanguageSelector(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final isGlass = ref.read(styleControllerProvider).value == AppStyle.glass;
 
     showModalBottomSheet(
       context: context,
@@ -27,10 +52,7 @@ extension _SettingsScreenPreferences on _SettingsScreenState {
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Theme.of(context).colorScheme.surface,
-              Theme.of(context).colorScheme.surface,
-            ],
+            colors: [Color(0xFF1E1E3A), Color(0xFF12122A)],
           ),
           borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
           border: Border.all(
@@ -56,7 +78,7 @@ extension _SettingsScreenPreferences on _SettingsScreenState {
             SizedBox(height: 20),
             Text(
               t.settings.select_app_language,
-              style: TextStyle(
+              style: GoogleFonts.outfit(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onSurface,
@@ -129,7 +151,7 @@ extension _SettingsScreenPreferences on _SettingsScreenState {
         leading: Text(emoji, style: TextStyle(fontSize: 22, fontFamily: null)),
         title: Text(
           label,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 17,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
             color: Theme.of(context).colorScheme.onSurface,

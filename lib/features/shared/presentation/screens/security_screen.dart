@@ -3,6 +3,10 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SecurityScreen extends ConsumerWidget {
@@ -10,7 +14,8 @@ class SecurityScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
 
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -27,7 +32,7 @@ class SecurityScreen extends ConsumerWidget {
           ),
           title: Text(
             t.shared.security,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
@@ -83,7 +88,7 @@ class SecurityScreen extends ConsumerWidget {
       ],
     );
 
-    return Scaffold(body: body);
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
   }
 
   Widget _buildSecuritySection(
@@ -97,10 +102,12 @@ class SecurityScreen extends ConsumerWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface,
+            color: isGlass
+                ? Colors.white
+                : Theme.of(context).colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 12),
@@ -124,23 +131,35 @@ class SecurityScreen extends ConsumerWidget {
       onChanged: (val) {},
       title: Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.w600, color: null),
+        style: GoogleFonts.inter(
+          fontWeight: FontWeight.w600,
+          color: isGlass ? Colors.white : null,
+        ),
       ),
       subtitle: Text(
         desc,
-        style: TextStyle(fontSize: 12, color: Theme.of(context).hintColor),
+        style: GoogleFonts.inter(
+          fontSize: 12,
+          color: Theme.of(context).hintColor,
+        ),
       ),
       activeThumbColor: Theme.of(context).primaryColor,
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: content,
-    );
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(16),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: content,
+          );
   }
 
   Widget _buildActionTile(
@@ -156,11 +175,17 @@ class SecurityScreen extends ConsumerWidget {
       leading: Icon(icon, color: Theme.of(context).primaryColor),
       title: Text(
         title,
-        style: TextStyle(fontWeight: FontWeight.w600, color: null),
+        style: GoogleFonts.inter(
+          fontWeight: FontWeight.w600,
+          color: isGlass ? Colors.white : null,
+        ),
       ),
       subtitle: Text(
         desc,
-        style: TextStyle(fontSize: 12, color: Theme.of(context).hintColor),
+        style: GoogleFonts.inter(
+          fontSize: 12,
+          color: Theme.of(context).hintColor,
+        ),
       ),
       trailing: Icon(
         LucideIcons.chevronRight,
@@ -169,13 +194,19 @@ class SecurityScreen extends ConsumerWidget {
       ),
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: content,
-    );
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(16),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: content,
+          );
   }
 }

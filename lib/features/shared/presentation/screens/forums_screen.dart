@@ -1,12 +1,13 @@
+import 'package:horus/features/shared/data/shared_data_providers.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_app_bar.dart';
+import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:horus/core/i18n/strings.g.dart';
-import 'package:horus/features/shared/data/models/shared_records.dart';
-import 'package:horus/features/shared/data/shared_data_providers.dart';
-import 'package:horus/features/shared/presentation/widgets/horus_empty_state.dart';
-import 'package:horus/shared/widgets/horus_error_state.dart';
-import 'package:horus/shared/widgets/app_card.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class ForumsScreen extends ConsumerWidget {
@@ -14,63 +15,127 @@ class ForumsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final forums = ref.watch(forumsProvider);
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.shared.forums),
-        leading: IconButton(
-          tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-          onPressed: () => context.pop(),
-          icon: const Icon(LucideIcons.arrowLeft),
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
+
+    final valuesAsync = ref.watch(forumsProvider);
+    if (valuesAsync.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    if (valuesAsync.hasError) {
+      return Scaffold(body: Center(child: Text(t.shared.error)));
+    }
+    final forums = [
+      for (final item in valuesAsync.value ?? [])
+        {
+          'name': isArabic ? (item.nameAr ?? item.name) : item.name,
+          'threads': '—',
+          'members': '—',
+          'icon': LucideIcons.messageSquare,
+        },
+    ];
+    final body = CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      slivers: [
+        GlassSliverAppBar(
+          expandedHeight: 120,
+          floating: true,
+          pinned: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(LucideIcons.arrowLeft),
+            onPressed: () => context.pop(),
+          ),
+          title: Text(
+            t.shared.forums,
+            style: GoogleFonts.outfit(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+          centerTitle: true,
         ),
-      ),
-      body: forums.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, _) => HorusErrorState(
-          message: t.enrollment.error_loading,
-          onRetry: () => ref.invalidate(forumsProvider),
-        ),
-        data: (items) {
-          if (items.isEmpty) {
-            return HorusEmptyState(
-              icon: LucideIcons.messagesSquare,
-              title: t.academic.no_data,
-            );
-          }
-          return ListView.builder(
-            padding: const EdgeInsets.all(20),
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final forum = items[index];
-              final title = isArabic && forum.nameAr?.isNotEmpty == true
-                  ? forum.nameAr!
-                  : forum.name;
+
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          sliver: SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 12),
-                child: AppCard(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    leading: Icon(_iconFor(forum.category)),
-                    title: Text(title),
-                    subtitle: forum.description == null
-                        ? null
-                        : Text(forum.description!),
-                  ),
+                child: _buildForumTile(
+                  context,
+                  forums[index],
+                  isGlass,
+                  isArabic,
                 ),
               );
-            },
-          );
-        },
-      ),
+            }, childCount: forums.length),
+          ),
+        ),
+      ],
     );
+
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
   }
 
-  IconData _iconFor(ForumCategory category) => switch (category) {
-    ForumCategory.general => LucideIcons.messagesSquare,
-    ForumCategory.academic => LucideIcons.graduationCap,
-    ForumCategory.social => LucideIcons.users,
-    ForumCategory.feedback => LucideIcons.messageSquareText,
-    ForumCategory.unknown => LucideIcons.messageCircle,
-  };
+  Widget _buildForumTile(
+    BuildContext context,
+    Map<String, dynamic> forum,
+    bool isGlass,
+    bool isArabic,
+  ) {
+    final content = ListTile(
+      onTap: () {},
+      leading: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          forum['icon'] as IconData,
+          color: Theme.of(context).primaryColor,
+          size: 18,
+        ),
+      ),
+      title: Text(
+        forum['name'] as String,
+        style: GoogleFonts.outfit(
+          fontWeight: FontWeight.bold,
+          color: isGlass
+              ? Colors.white
+              : Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
+      subtitle: Text(
+        '${forum['threads']} ${t.shared.threads} • ${forum['members']} ${t.shared.members}',
+        style: GoogleFonts.inter(
+          fontSize: 12,
+          color: Theme.of(context).hintColor,
+        ),
+      ),
+      trailing: Icon(
+        LucideIcons.chevronRight,
+        size: 18,
+        color: Theme.of(context).hintColor,
+      ),
+    );
+
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(20),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: content,
+          );
+  }
 }

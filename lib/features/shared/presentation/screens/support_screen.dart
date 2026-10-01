@@ -3,6 +3,10 @@ import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:horus/core/theme/style_provider.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
+import 'package:horus/features/shared/presentation/widgets/glass_scaffold.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 class SupportScreen extends ConsumerWidget {
@@ -10,7 +14,8 @@ class SupportScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
 
     final body = CustomScrollView(
       physics: const BouncingScrollPhysics(),
@@ -27,7 +32,7 @@ class SupportScreen extends ConsumerWidget {
           ),
           title: Text(
             t.shared.support,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryColor,
             ),
@@ -82,10 +87,12 @@ class SupportScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
                 Text(
                   t.shared.contact_us,
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: isGlass
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -111,7 +118,7 @@ class SupportScreen extends ConsumerWidget {
       ],
     );
 
-    return Scaffold(body: body);
+    return isGlass ? GlassScaffold(body: body) : Scaffold(body: body);
   }
 
   Widget _buildSupportCard(
@@ -128,23 +135,29 @@ class SupportScreen extends ConsumerWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: null,
+            color: isGlass ? Colors.white : null,
           ),
         ),
       ],
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: content,
-    );
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(24),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: content,
+          );
   }
 
   Widget _buildContactTile(
@@ -165,14 +178,17 @@ class SupportScreen extends ConsumerWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   fontSize: 12,
                   color: Theme.of(context).hintColor,
                 ),
               ),
               Text(
                 value,
-                style: TextStyle(fontWeight: FontWeight.bold, color: null),
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.bold,
+                  color: isGlass ? Colors.white : null,
+                ),
               ),
             ],
           ),
@@ -180,13 +196,19 @@ class SupportScreen extends ConsumerWidget {
       ),
     );
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.black12),
-      ),
-      child: content,
-    );
+    return isGlass
+        ? GlassContainer(
+            borderRadius: BorderRadius.circular(16),
+            padding: EdgeInsets.zero,
+            child: content,
+          )
+        : Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.black12),
+            ),
+            child: content,
+          );
   }
 }

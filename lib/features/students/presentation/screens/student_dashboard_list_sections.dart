@@ -72,7 +72,7 @@ extension _StudentDashboardListSections on DashboardScreen {
                         child: Text(
                           title,
                           maxLines: 2,
-                          style: TextStyle(
+                          style: GoogleFonts.outfit(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             height: 1.1,
@@ -197,7 +197,7 @@ extension _StudentDashboardListSections on DashboardScreen {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         title,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: locked

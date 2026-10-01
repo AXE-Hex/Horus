@@ -4,7 +4,8 @@ extension _ProfileDisplaySections on _ProfileScreenState {
   Widget _buildProfileScreen(BuildContext context) {
     _loadProfile();
     final isArabic = t.$meta.locale.languageCode == 'ar';
-    const isGlass = false;
+    final appStyle = ref.watch(styleControllerProvider);
+    final isGlass = appStyle.value == AppStyle.glass;
     final auth = ref.watch(authControllerProvider);
     final primaryColor = Theme.of(context).primaryColor;
 
@@ -78,7 +79,7 @@ extension _ProfileDisplaySections on _ProfileScreenState {
                           )
                         : Text(
                             t.extracted.save,
-                            style: TextStyle(
+                            style: GoogleFonts.outfit(
                               color: Theme.of(context).colorScheme.onSurface,
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
@@ -263,7 +264,7 @@ extension _ProfileDisplaySections on _ProfileScreenState {
                       SizedBox(height: 16),
                       Text(
                         auth.profile?.fullName ?? (t.extracted.user),
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 26,
                           fontWeight: FontWeight.w900,
                           color: Theme.of(context).colorScheme.onSurface,
@@ -273,7 +274,7 @@ extension _ProfileDisplaySections on _ProfileScreenState {
                       SizedBox(height: 4),
                       Text(
                         auth.user?.email ?? '',
-                        style: TextStyle(
+                        style: GoogleFonts.inter(
                           fontSize: 13,
                           color: Theme.of(
                             context,
@@ -304,7 +305,7 @@ extension _ProfileDisplaySections on _ProfileScreenState {
                             SizedBox(width: 6),
                             Text(
                               auth.role.displayName(isArabic: isArabic),
-                              style: TextStyle(
+                              style: GoogleFonts.outfit(
                                 fontSize: 12,
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontWeight: FontWeight.w600,
@@ -430,10 +431,12 @@ extension _ProfileDisplaySections on _ProfileScreenState {
       ],
     );
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      resizeToAvoidBottomInset: true,
-      body: body,
-    );
+    return isGlass
+        ? GlassScaffold(resizeToAvoidBottomInset: true, body: body)
+        : Scaffold(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            resizeToAvoidBottomInset: true,
+            body: body,
+          );
   }
 }
