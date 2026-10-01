@@ -1,0 +1,2578 @@
+[
+  {
+    "path": "lib/core/app/horus_app.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "HorusApp"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/app_router.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/route_guard.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/academic_routes.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/auth_routes.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/enrollment_routes.dart",
+    "initial": "EXACT_OLD",
+    "classes": [],
+    "methods": [],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/feed_routes.dart",
+    "initial": "EXACT_OLD",
+    "classes": [],
+    "methods": [],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/home_routes.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/onboarding_routes.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/settings_routes.dart",
+    "initial": "EXACT_OLD",
+    "classes": [],
+    "methods": [],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/routes/shared_routes.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/app_animations.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AppDurations",
+      "AppCurves",
+      "AppMotion"
+    ],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/app_colors.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AppColors"
+    ],
+    "methods": [],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/app_layout.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "AppLayout"
+    ],
+    "methods": [],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/core/theme/app_shadows.dart",
+    "initial": "NEW_UI",
+    "classes": [],
+    "methods": [],
+    "final": "REMOVED",
+    "source_compared": false
+  },
+  {
+    "path": "lib/core/theme/app_spacing.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AppSpacing",
+      "AppRadius",
+      "AppBorders"
+    ],
+    "methods": [],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/app_text_styles.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AppTextStyles"
+    ],
+    "methods": [],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/app_theme.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AppTheme"
+    ],
+    "methods": [],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/low_performance_provider.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "LowPerformanceController"
+    ],
+    "methods": [
+      "_loadState",
+      "toggle"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/low_performance_provider.g.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "LowPerformanceControllerProvider",
+      "_"
+    ],
+    "methods": [
+      "runBuild"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/style_provider.dart",
+    "initial": "MISSING",
+    "classes": [
+      "AppStyle",
+      "StyleController"
+    ],
+    "methods": [
+      "build",
+      "setStyle"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/style_provider.g.dart",
+    "initial": "MISSING",
+    "classes": [
+      "StyleControllerProvider",
+      "_"
+    ],
+    "methods": [
+      "runBuild"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/theme_provider.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "ThemeController"
+    ],
+    "methods": [
+      "build",
+      "setTheme",
+      "toggleTheme"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/theme/theme_provider.g.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "ThemeControllerProvider",
+      "_"
+    ],
+    "methods": [
+      "runBuild"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/academic_progress_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AcademicProgressScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildCompletionSection",
+      "_buildStatItem",
+      "_buildCategoryCard"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/action_plan_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ActionPlanScreen",
+      "_TimelineItem"
+    ],
+    "methods": [
+      "build",
+      "_buildProgressHeader",
+      "build",
+      "_buildLine",
+      "_buildCard"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/attendance_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AttendanceScreen",
+      "_AttendanceScreenState",
+      "_AttendanceGauge",
+      "_AttendanceCourseCard",
+      "_SparklinePainter"
+    ],
+    "methods": [
+      "build",
+      "_buildAttendanceHeader",
+      "_buildStatDetail",
+      "build",
+      "build",
+      "paint"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/courses_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "CoursesScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildCourseList",
+      "_buildCourseCard"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/daily_schedule_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "DailyScheduleScreen",
+      "_ScheduleItem"
+    ],
+    "methods": [
+      "build",
+      "_buildDayPicker",
+      "_buildEmptyState",
+      "build",
+      "_buildTypeBadge",
+      "_buildLiveIndicator",
+      "_buildDetailChip"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/exam_card.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ExamCard"
+    ],
+    "methods": [
+      "build",
+      "_buildSeatBadge",
+      "_buildInfoItem",
+      "_buildSecondaryButton",
+      "_buildIconButton"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/exam_countdown.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ExamCountdown"
+    ],
+    "methods": [
+      "build",
+      "_buildTimeUnit",
+      "_buildDivider"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/exam_date_scroller.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_DateScroller"
+    ],
+    "methods": [
+      "build",
+      "_buildDateItem"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/exam_schedule_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ExamScheduleScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/grades_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "GradesScreen",
+      "_GPAHeader",
+      "_SemesterSelector",
+      "_GradeCard"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "_buildMiniStat",
+      "build",
+      "build",
+      "_buildGradeBadge",
+      "_buildDetailItem"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/manage_groups_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ManageGroupsScreen",
+      "_ManageGroupsScreenState"
+    ],
+    "methods": [
+      "_toggleGroupSelection",
+      "_selectAllGroups",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/manage_tas_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ManageTasScreen",
+      "_TACard"
+    ],
+    "methods": [
+      "build",
+      "_buildAppBar",
+      "_buildEmptyState",
+      "_handleDelete",
+      "_showAddTaBottomSheet",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_chat_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ProfessorChatScreen",
+      "_ChatMessage",
+      "_ProfessorChatScreenState"
+    ],
+    "methods": [
+      "initState",
+      "_loadMessages",
+      "_sendMessage",
+      "dispose",
+      "build",
+      "_buildChatBody",
+      "_buildMessageBubble",
+      "_buildInputArea"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_dashboard_actions.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_QuickActionsPanel",
+      "_ActionTile"
+    ],
+    "methods": [
+      "build",
+      "_showUploadDialog",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_dashboard_announcements.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_AnnouncementsList"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_dashboard_groups.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_BentoStatsGrid",
+      "_BentoCard",
+      "_GroupsBentoList"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_dashboard_header.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ImmersiveHeader"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_dashboard_management.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ManagementGrid",
+      "_ManagementRow",
+      "_SectionHeader"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_dashboard_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ProfessorDashboardScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_profile_announcements.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ProfessorProfileAnnouncements"
+    ],
+    "methods": [
+      "_buildUrgentAnnouncements",
+      "_buildTAsSection"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_profile_groups_files.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ProfessorProfileGroupsFiles"
+    ],
+    "methods": [
+      "_buildGroupsSection",
+      "_buildSharedFilesSection",
+      "_buildOfficeHoursSection",
+      "_buildSectionTitle"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_profile_header.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ProfessorProfileHeader"
+    ],
+    "methods": [
+      "_buildGlassSliverAppBar",
+      "_buildMiniTag",
+      "_buildQuickActions",
+      "_buildActionBtn"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/professor_profile_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ProfessorProfileScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/specialization_projects_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SpecializationProjectsScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildProjectCard",
+      "_buildStatusBadge"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_analytical_layout.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_AnalyticalLayout"
+    ],
+    "methods": [
+      "build",
+      "_buildStatsGrid"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_immersive_layout.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_ImmersiveLayout"
+    ],
+    "methods": [
+      "build",
+      "_buildGradeBadge",
+      "_buildCircularProgress",
+      "_buildInsights"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_layout_switcher.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_LayoutSwitcher"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_minimal_layout.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_MinimalLayout"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_result_components.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_ComponentCard",
+      "_StatCard"
+    ],
+    "methods": [
+      "build",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_results_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SubjectResultsScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildLayout"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/subject_scroller.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_SubjectScroller"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/screens/transcript_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "TranscriptScreen",
+      "_AcademicSummary",
+      "_SemesterTimelineNode",
+      "_TranscriptCourseCard"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "_buildLargeStat",
+      "build",
+      "_buildSmallBadge",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/widgets/course_file_upload_dialog.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "CourseFileUploadDialog",
+      "_CourseFileUploadDialogState"
+    ],
+    "methods": [
+      "dispose",
+      "_pickFile",
+      "_upload",
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/auth/presentation/screens/access_pending_screen.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "AccessPendingScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/auth/presentation/screens/forgot_password_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ForgotPasswordScreen",
+      "_ForgotPasswordScreenState",
+      "_MethodTab"
+    ],
+    "methods": [
+      "dispose",
+      "_submit",
+      "_showUnavailableIdUpload",
+      "build",
+      "_buildStudentAffairsContent",
+      "_buildOnlineContent",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/auth/presentation/screens/guest_registration_screen.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "GuestRegistrationScreen",
+      "_GuestRegistrationScreenState"
+    ],
+    "methods": [
+      "dispose",
+      "_register",
+      "_show",
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/auth/presentation/screens/login_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "LoginScreen",
+      "_LoginScreenState",
+      "_OrbsPainter"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "_handleSignIn",
+      "_showError",
+      "build",
+      "_buildLogo",
+      "_buildLoginCard",
+      "paint",
+      "_paintOrb"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/colleges/presentation/screens/college_portal_departments.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_CollegePortalDepartments"
+    ],
+    "methods": [
+      "_buildDepartmentsSection"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/colleges/presentation/screens/college_portal_overview.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_CollegePortalOverview"
+    ],
+    "methods": [
+      "_buildSliverAppBar",
+      "_buildStatsGrid",
+      "_buildStatItem",
+      "_buildAboutSection",
+      "_buildExpandableCard"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/colleges/presentation/screens/college_portal_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "CollegePortalScreen",
+      "_CollegePortalScreenState"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/colleges/presentation/screens/college_portal_staff_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_CollegePortalStaffSections"
+    ],
+    "methods": [
+      "_buildDeanSection",
+      "_buildStaffSection"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/colleges/presentation/widgets/college_staff_panel.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "CollegeStaffPanel"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/advisor_approval_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AdvisorApprovalScreen",
+      "_AdvisorApprovalScreenState"
+    ],
+    "methods": [
+      "build",
+      "_buildFilterChips",
+      "_buildRequestCard",
+      "_buildActionButtons",
+      "_buildEmptyState"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/dean_advisor_assignment_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "DeanAdvisorAssignmentScreen",
+      "_DeanAdvisorAssignmentScreenState"
+    ],
+    "methods": [
+      "build",
+      "_buildStudentCard"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/invoice_actions_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_QuickActionsRow",
+      "_QuickActionBtn",
+      "_FilterTabBar"
+    ],
+    "methods": [
+      "build",
+      "_showDownloadSnack",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/invoice_card_widget.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_InvoiceCard"
+    ],
+    "methods": [
+      "build",
+      "_showPayDialog"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/invoice_list_widgets.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "_InvoicesList"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/invoice_state_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_MiniStat",
+      "_VertDivider",
+      "_EmptyState",
+      "_ErrorWidget",
+      "_SummaryCardShimmer",
+      "_SummaryCardError"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/invoice_summary_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_InvoicesAppBar",
+      "_FinancialSummaryCard"
+    ],
+    "methods": [
+      "build",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/invoices_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "InvoicesScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/payment_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "PaymentScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildBalanceCard",
+      "_buildPaymentMethod"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/registration_confirmation_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_RegistrationConfirmationSections"
+    ],
+    "methods": [
+      "_buildConfirmationState",
+      "_buildSuccessState"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/registration_course_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_RegistrationCourseSections"
+    ],
+    "methods": [
+      "_buildFunnelSteps",
+      "_buildCourseSelection",
+      "_buildCourseSelectionCard"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/registration_schedule_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_RegistrationScheduleSections"
+    ],
+    "methods": [
+      "_buildScheduleSelection",
+      "_buildScheduleItemCard"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/registration_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "RegistrationScreen",
+      "_RegistrationScreenState"
+    ],
+    "methods": [
+      "_updateState",
+      "initState",
+      "_loadInitialData",
+      "_toggleCourse",
+      "_proceedToSchedules",
+      "_confirmRegistration",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/enrollment/presentation/screens/registration_status_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_RegistrationStatusSections"
+    ],
+    "methods": [
+      "_buildStepper",
+      "_buildStepIndicator",
+      "_buildStepLine",
+      "_buildRequestStatusCard"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/create_post_author_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_AnnouncementBanner",
+      "_AuthorHeader",
+      "_BadgeChip"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/create_post_content_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_MentionsRow",
+      "_ContentField",
+      "_LinkField",
+      "_MediaPreview"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/create_post_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "CreatePostScreen",
+      "_CreatePostScreenState"
+    ],
+    "methods": [
+      "initState",
+      "_loadInitialData",
+      "_loadDepartments",
+      "dispose",
+      "_pickMedia",
+      "_submitPost",
+      "build",
+      "_buildAppBar"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/create_post_toolbar_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_Toolbar",
+      "_ToolBtn"
+    ],
+    "methods": [
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/feed_comment_widgets.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_CommentItem",
+      "_AvatarWidget",
+      "_EmptyFeedState",
+      "_ErrorState",
+      "_PostSkeleton",
+      "_PostSkeletonState",
+      "_Bone"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build",
+      "build",
+      "initState",
+      "dispose",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/feed_comments.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_CommentSheet",
+      "_CommentSheetState"
+    ],
+    "methods": [
+      "dispose",
+      "build",
+      "_sendComment"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/feed_post_card.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_PostCard",
+      "_PostCardState",
+      "_ActionButton",
+      "_RoleChip"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "build",
+      "_handleLike",
+      "_showComments",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/feed_post_options.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_OptionsMenu"
+    ],
+    "methods": [
+      "build",
+      "_handleEdit",
+      "_confirmDelete"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/screens/feed_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "FeedScreen",
+      "_FeedHeader",
+      "_QuickPostBar",
+      "_QuickActionBtn",
+      "_PostFab"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/widgets/full_screen_gallery.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "FullScreenGallery",
+      "_FullScreenGalleryState"
+    ],
+    "methods": [
+      "initState",
+      "onPageChanged",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/widgets/link_preview_widget.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "LinkPreviewWidget"
+    ],
+    "methods": [
+      "_launchUrl",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/widgets/media_grid.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "MediaGrid"
+    ],
+    "methods": [
+      "_openGallery",
+      "build",
+      "_buildGrid",
+      "_buildMediaItem",
+      "_buildMoreItem"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/feed/presentation/widgets/video_feed_item.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "VideoFeedItem",
+      "_VideoFeedItemState"
+    ],
+    "methods": [
+      "initState",
+      "_initializePlayer",
+      "dispose",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/home/presentation/screens/control_dashboard_screen.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "ControlDashboardScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/home/presentation/screens/home_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "HomeScreen",
+      "_HomeScreenState",
+      "_TabItem"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "build",
+      "_showCreatePostMenu",
+      "_buildPostOption",
+      "_buildAppBar",
+      "_buildModernBottomNav"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/messaging/presentation/screens/conversation_list_screen.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "ConversationListScreen",
+      "_ConversationListScreenState",
+      "_ConversationListPanel",
+      "_ConversationTile",
+      "_ConversationPlaceholder",
+      "_ConversationError"
+    ],
+    "methods": [
+      "_loadMore",
+      "_showError",
+      "build",
+      "_refresh",
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/messaging/presentation/screens/conversation_thread_screen.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "ConversationThreadScreen",
+      "ConversationThreadView",
+      "_ConversationThreadViewState",
+      "_ConversationTitle",
+      "_MessageBubble",
+      "_MessageComposer",
+      "_MessageLoadError"
+    ],
+    "methods": [
+      "build",
+      "initState",
+      "dispose",
+      "_markRead",
+      "_send",
+      "_loadOlder",
+      "_showMessage",
+      "build",
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/academic_staff_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AcademicStaffScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildStaffListItem",
+      "_buildRatingMini"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/college_departments_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "CollegeDepartmentsScreen",
+      "_DepartmentCard"
+    ],
+    "methods": [
+      "build",
+      "_buildBackButton",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/college_details_painter.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_MeshPainter"
+    ],
+    "methods": [
+      "paint"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/college_details_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "CollegeDetailsScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/college_details_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_CollegeDetailsSections"
+    ],
+    "methods": [
+      "_buildSectionHeader",
+      "_buildDeanCard",
+      "_buildStaffList",
+      "_buildDepartmentsButton",
+      "_buildStatsGrid",
+      "_buildStatCard"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/colleges_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "CollegesScreen",
+      "_CollegesScreenState"
+    ],
+    "methods": [
+      "build",
+      "_onCollegeTap",
+      "_buildCollegeCard"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/department_detail_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "DepartmentDetailScreen",
+      "_HoDIdentityCard",
+      "_HoloLinesPainter"
+    ],
+    "methods": [
+      "build",
+      "_buildHodSection",
+      "_buildSectionHeader",
+      "_buildBioText",
+      "build",
+      "_buildProfileSection",
+      "_buildChip",
+      "_buildLocationStat",
+      "_buildRatingStat",
+      "paint"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/language_screen.dart",
+    "initial": "MISSING",
+    "classes": [
+      "LanguageScreen",
+      "_LanguageScreenState",
+      "_LanguageCard",
+      "_LanguageCardState"
+    ],
+    "methods": [
+      "_navigateToNext",
+      "build",
+      "Function",
+      "initState",
+      "dispose",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/staff_rating_detail_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "StaffRatingDetailScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildBody",
+      "_buildRatingSection",
+      "_buildMetricCard",
+      "_buildActionCard",
+      "_buildReviewsHeader",
+      "_buildReviews"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/style_screen.dart",
+    "initial": "MISSING",
+    "classes": [
+      "StyleScreen",
+      "_StyleScreenState",
+      "_StyleCard",
+      "_StyleCardState"
+    ],
+    "methods": [
+      "_selectStyle",
+      "build",
+      "Function",
+      "initState",
+      "dispose",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/submit_rating_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SubmitRatingScreen",
+      "_SubmitRatingScreenState"
+    ],
+    "methods": [
+      "dispose",
+      "build",
+      "_buildBody",
+      "_buildRatingCategory",
+      "_buildCommentField",
+      "_buildSubmitButton"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/onboarding/presentation/screens/theme_screen.dart",
+    "initial": "MISSING",
+    "classes": [
+      "ThemeScreen",
+      "_ThemeScreenState",
+      "_ThemeCard",
+      "_ThemeCardState"
+    ],
+    "methods": [
+      "_selectTheme",
+      "build",
+      "Function",
+      "initState",
+      "dispose",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/about_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AboutScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildInfoRow"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/change_password_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ChangePasswordScreen",
+      "_ChangePasswordScreenState"
+    ],
+    "methods": [
+      "dispose",
+      "_changePassword",
+      "_showError",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/privacy_policy_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "PrivacyPolicyScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/profile_display_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ProfileDisplaySections"
+    ],
+    "methods": [
+      "_buildProfileScreen"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/profile_editing_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ProfileEditingSections"
+    ],
+    "methods": [
+      "_pickImage",
+      "_imagePickerOption",
+      "_pickFromSource",
+      "_uploadAvatar",
+      "_saveProfile"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/profile_fields.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_ProfileFields"
+    ],
+    "methods": [
+      "_sectionLabel",
+      "_buildPremiumField",
+      "_buildAccountInfoCard",
+      "_infoRow",
+      "_buildSaveButton"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/profile_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ProfileScreen",
+      "_ProfileScreenState"
+    ],
+    "methods": [
+      "_updateState",
+      "initState",
+      "dispose",
+      "_loadProfile",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/settings_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SettingsScreen",
+      "_SettingsScreenState"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "_loadNotificationPref",
+      "_toggleNotifications",
+      "build",
+      "_buildBody"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/settings_screen_dialogs.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_SettingsScreenDialogs"
+    ],
+    "methods": [
+      "_showSupportDialog",
+      "_supportOption",
+      "_showFeedbackDialog"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/settings_screen_items.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_SettingsScreenItems"
+    ],
+    "methods": [
+      "_buildAboutSection",
+      "_buildLogoutButton",
+      "_buildSettingItem",
+      "_buildSwitch",
+      "_divider"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/settings_screen_painter.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_ParticlesPainter"
+    ],
+    "methods": [
+      "paint"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/settings_screen_preferences.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_SettingsScreenPreferences"
+    ],
+    "methods": [
+      "_handleThemeSwitch",
+      "_handleStyleSwitch",
+      "_handleLanguageSwitch",
+      "_showLanguageSelector",
+      "_buildLanguageItem"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/settings/presentation/screens/settings_screen_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_SettingsScreenSections"
+    ],
+    "methods": [
+      "_buildImmersiveHeader",
+      "_buildSectionHeader",
+      "_buildAccountSection",
+      "_buildAppearanceSection",
+      "_buildNotificationsSection",
+      "_buildLanguageSection",
+      "_buildSupportSection"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/forums_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "ForumsScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildForumTile"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/notifications_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "NotificationsScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildGravityTile"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/placeholder_screen.dart",
+    "initial": "MISSING",
+    "classes": [
+      "PlaceholderScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/security_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SecurityScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildSecuritySection",
+      "_buildSwitchTile",
+      "_buildActionTile"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/sessions_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SessionsScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildSessionTile"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/support_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SupportScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildSupportCard",
+      "_buildContactTile"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/transition_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "TransitionScreen",
+      "_TransitionScreenState"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "didUpdateWidget",
+      "_startTimer",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/screens/tutorials_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "TutorialsScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildTutorialCard"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/animated_mesh_background.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AnimatedMeshBackground"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/dashboard_action_widgets.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "DashboardSectionHeader",
+      "DashboardGridItem",
+      "DashboardHorizontalItem",
+      "DashboardSquareItem"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/glass_app_bar.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_GlassConfig",
+      "GlassSliverAppBar",
+      "_FrostedGlassBackground",
+      "_LowPerfBackground"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/glass_container.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "GlassContainer"
+    ],
+    "methods": [
+      "build",
+      "_buildClassic"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/glass_scaffold.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "GlassScaffold"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/horus_empty_state.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "HorusEmptyState"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/liquid_background.dart",
+    "initial": "MISSING",
+    "classes": [
+      "LiquidBackground",
+      "_LiquidBackgroundState",
+      "_LiquidPainter",
+      "_LiquidParticles",
+      "_LiquidParticlesState",
+      "_Particle",
+      "_ParticlePainter"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "build",
+      "paint",
+      "_drawBlob",
+      "initState",
+      "dispose",
+      "build",
+      "paint"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/liquid_toast_overlay.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "LiquidToastOverlay",
+      "_LiquidToastOverlayState"
+    ],
+    "methods": [
+      "show",
+      "initState",
+      "dispose",
+      "_show",
+      "build",
+      "_buildLiquidCard"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/shared/presentation/widgets/premium_success_overlay.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "PremiumSuccessOverlay"
+    ],
+    "methods": [
+      "show",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/splash/presentation/screens/splash_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "SplashScreen",
+      "_SplashScreenState"
+    ],
+    "methods": [
+      "_continueWhenReady",
+      "initState",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/digital_id_card_back.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_BackCard",
+      "_ShareOption"
+    ],
+    "methods": [
+      "build",
+      "_buildQR",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/digital_id_card_front.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_FrontCard"
+    ],
+    "methods": [
+      "build",
+      "_buildHolographicSweep",
+      "_buildGridPattern",
+      "_buildContent",
+      "_buildUniqueSignature",
+      "_buildBrand",
+      "_buildSecurityChip",
+      "_buildAvatar",
+      "_buildDeptBadge",
+      "_buildInfoBar",
+      "_buildInfoItem"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/digital_id_card_interaction.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_Interactive3DCard",
+      "_Interactive3DCardState"
+    ],
+    "methods": [
+      "initState",
+      "_toggleFlip",
+      "dispose",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/digital_id_card_patterns.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_CircuitPainter",
+      "_OrganicPattern"
+    ],
+    "methods": [
+      "paint",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/digital_id_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "DigitalIDScreen",
+      "_DigitalIDScreenState"
+    ],
+    "methods": [
+      "_updateState",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/digital_id_screen_sections.dart",
+    "initial": "MISSING",
+    "classes": [
+      "_DigitalIDScreenSections"
+    ],
+    "methods": [
+      "_buildThemeSelector",
+      "_buildDepartmentSelector",
+      "_buildSecurityStatus",
+      "_buildActionGrid",
+      "_buildActionCard",
+      "_showShareDialog"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/student_dashboard_academic_sections.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "_StudentDashboardAcademicSections"
+    ],
+    "methods": [
+      "_buildAcademicGrid",
+      "_buildEnrollmentGrid",
+      "_buildUtilitiesRow",
+      "_gatedGrid",
+      "_gatedHorizontal"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/student_dashboard_action_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_StudentDashboardActionSections"
+    ],
+    "methods": [
+      "_buildSquareItem",
+      "_showAccessDenied"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/student_dashboard_id_section.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_StudentDashboardIdSection"
+    ],
+    "methods": [
+      "_buildDigitalIDCard",
+      "_buildCardStat",
+      "_buildSectionHeader"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/student_dashboard_list_sections.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "_StudentDashboardListSections"
+    ],
+    "methods": [
+      "_buildGridItem",
+      "_buildHorizontalItem"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/screens/student_dashboard_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "DashboardScreen"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/presentation/widgets/horus_identity_card.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "HorusIdentityCard"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/welcome/presentation/screens/welcome_screen.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "WelcomeScreen"
+    ],
+    "methods": [
+      "build",
+      "_buildLogoCenterpiece",
+      "_buildHeroText",
+      "_buildActionButtons"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/layout/horus_adaptive_scaffold.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "HorusAdaptiveScaffold",
+      "_HorusAdaptiveScaffoldState",
+      "_NavigationItem"
+    ],
+    "methods": [
+      "build",
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/shared/layout/horus_app_shell.dart",
+    "initial": "NEW_UI",
+    "classes": [],
+    "methods": [],
+    "final": "REMOVED",
+    "source_compared": false
+  },
+  {
+    "path": "lib/shared/layout/horus_destination.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "HorusDestination"
+    ],
+    "methods": [],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/shared/layout/horus_page_body.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "HorusPageBody"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/shared/widgets/app_badge.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AppBadge"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/app_button.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AppButtonVariant",
+      "AppButton",
+      "PrimaryButton",
+      "GoldButton",
+      "SecondaryButton"
+    ],
+    "methods": [
+      "build",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/app_card.dart",
+    "initial": "PARTIALLY_RESTORED",
+    "classes": [
+      "AppCardVariant",
+      "AppCard",
+      "UniversityCard"
+    ],
+    "methods": [
+      "build",
+      "build"
+    ],
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/app_progress_bar.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AppProgressBar"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/app_section_header.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "SectionHeader"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/app_skeleton.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "Skeleton",
+      "_SkeletonState",
+      "CardSkeleton",
+      "ListSkeleton"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "build",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/app_text_field.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "AppTextField"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/horus_entrance.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "HorusEntrance"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/shared/widgets/horus_error_state.dart",
+    "initial": "NEW_UI",
+    "classes": [
+      "HorusErrorState"
+    ],
+    "methods": [
+      "build"
+    ],
+    "final": "NEW_UI",
+    "source_compared": false
+  },
+  {
+    "path": "lib/shared/widgets/live_alert_banner.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "PulsingDot",
+      "_PulsingDotState",
+      "LiveAlertBanner"
+    ],
+    "methods": [
+      "initState",
+      "dispose",
+      "build",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/shared/widgets/press_feedback.dart",
+    "initial": "EXACT_OLD",
+    "classes": [
+      "HapticFeedbackType",
+      "PressFeedback",
+      "_PressFeedbackState"
+    ],
+    "methods": [
+      "_triggerHaptic",
+      "build"
+    ],
+    "final": "EXACT_OLD",
+    "source_compared": true
+  },
+  {
+    "path": "lib/main.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "classes": [],
+    "methods": [
+      "main"
+    ],
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/data/digital_id_theme_repository.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "EXACT_OLD",
+    "classes": [
+      "DigitalIDThemeRepository"
+    ],
+    "methods": [],
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/students/domain/models/digital_id_theme.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "EXACT_OLD",
+    "classes": [
+      "DigitalIDDesignStyle",
+      "DigitalIDTheme"
+    ],
+    "methods": [],
+    "source_compared": true
+  },
+  {
+    "path": "lib/features/academic/presentation/legacy_academic_view_data.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "NEW_UI",
+    "classes": [],
+    "methods": [],
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/colleges/presentation/legacy_college_data.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "NEW_UI",
+    "classes": [],
+    "methods": [],
+    "source_compared": false
+  },
+  {
+    "path": "lib/features/academic/data/repositories/professor_repository.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "classes": [
+      "AcademicSummary",
+      "ProfessorRepository"
+    ],
+    "methods": [
+      "getFullProfessorProfile",
+      "removeOfficeHour",
+      "removeTA",
+      "joinGroup",
+      "leaveGroup",
+      "uploadSharedFile",
+      "addMemberToGroup",
+      "updateProfessorDetail"
+    ],
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/constants/colleges_data.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "classes": [
+      "StaticCollegeData",
+      "CollegeSection"
+    ],
+    "methods": [],
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/constants/college_catalog.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "classes": [],
+    "methods": [],
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/utils/responsive_helper.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "classes": [
+      "ResponsiveHelper",
+      "ResponsiveLayout"
+    ],
+    "methods": [
+      "build"
+    ],
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/error/error_handler.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "BACKEND_COMPATIBILITY_REQUIRED",
+    "classes": [
+      "ErrorHandler"
+    ],
+    "methods": [
+      "showError"
+    ],
+    "source_compared": true
+  },
+  {
+    "path": "lib/core/router/back_navigation.dart",
+    "initial": "BACKEND_COMPATIBILITY_REQUIRED",
+    "final": "NEW_UI",
+    "classes": [
+      "HorusBackNavigation"
+    ],
+    "methods": [
+      "backToHorus"
+    ],
+    "source_compared": false
+  }
+]

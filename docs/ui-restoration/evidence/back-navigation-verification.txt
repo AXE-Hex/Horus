@@ -1,0 +1,3 @@
+PASS: fresh browser, direct Digital ID link → Back → guarded /home.
+Page errors: 0.
+URL: http://127.0.0.1:8082/#/home

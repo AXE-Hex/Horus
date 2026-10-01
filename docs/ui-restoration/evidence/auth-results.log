@@ -1,0 +1,14 @@
+LOCAL DEVELOPMENT ONLY
+ACCOUNT                              CANONICAL ROLE         AUTH / ROLE
+rector.dev@horus.edu.eg              rector                 PASS / PASS
+dean.dev@horus.edu.eg                dean                   PASS / PASS
+hod.dev@horus.edu.eg                 department_head        PASS / PASS
+professor.dev@horus.edu.eg           professor              PASS / PASS
+ta.dev@horus.edu.eg                  teaching_assistant     PASS / PASS
+registrar.dev@horus.edu.eg           registrar_officer      PASS / PASS
+advisor.dev@horus.edu.eg             academic_advisor       PASS / PASS
+student.dev@horus.edu.eg             regular_student        PASS / PASS
+freshman.dev@horus.edu.eg            freshman               PASS / PASS
+guest.dev@horus.edu.eg               guest                  PASS / PASS
+student2.dev@horus.edu.eg            regular_student        PASS / PASS
+student3.dev@horus.edu.eg            regular_student        PASS / PASS

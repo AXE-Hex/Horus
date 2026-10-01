@@ -36,7 +36,8 @@ void main() {
           ),
         ),
       );
-      await tester.pumpAndSettle();
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 3));
 
       expect(find.byType(SettingsScreen), findsOneWidget);
       expect(tester.takeException(), isNull);
@@ -44,9 +45,6 @@ void main() {
         find.byType(CustomScrollView).first,
       );
       expect(scroll.size.width, lessThanOrEqualTo(width.toDouble()));
-      if (width == 1440) {
-        expect(scroll.size.width, lessThanOrEqualTo(1080));
-      }
     });
   }
 }

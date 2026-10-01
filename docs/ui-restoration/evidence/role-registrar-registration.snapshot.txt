@@ -1,0 +1,7 @@
+- button [ref=e192]
+- heading "Course Registration" [level=2, ref=e193]
+- button "Introduction to Programming DEV-CS101 3 CR" [ref=e194]
+- button "Calculus I DEV-MA101 3 CR" [ref=e195]
+- button "Data Structures DEV-CS201 3 CR" [ref=e196]
+- button "Database Systems DEV-CS301 3 CR" [ref=e197]
+- button "Next: Pick Schedules" [disabled, ref=e198]

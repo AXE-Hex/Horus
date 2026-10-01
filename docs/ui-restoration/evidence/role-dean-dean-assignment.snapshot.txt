@@ -1,0 +1,7 @@
+- heading "Advisor Assignment" [level=2, ref=e173]
+- textbox "Search students..." [ref=e179]
+- button "Unassigned Only" [ref=e174]
+- button "A Axe ID: DEV-STU-008 Assigned Academic Advisor Development Academic Advisor" [expanded=false, ref=e175]
+- button "D Development Freshman ID: DEV-STU-009 Unassigned Academic Advisor No Advisor" [expanded=false, ref=e176]
+- button "D Development Student Three ID: DEV-STU-012 Unassigned Academic Advisor No Advisor" [expanded=false, ref=e177]
+- button "D Development Student Two ID: DEV-STU-011 Unassigned Academic Advisor No Advisor" [expanded=false, ref=e178]

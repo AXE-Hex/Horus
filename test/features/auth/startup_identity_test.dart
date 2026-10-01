@@ -49,7 +49,7 @@ AuthState fixtureAuth({
 void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
   for (final scenario in <(String, AuthState, String)>[
-    ('signed out', const AuthState(), '/login'),
+    ('signed out', const AuthState(), '/welcome'),
     ('student', fixtureAuth(), '/dashboard'),
     (
       'professor',
@@ -73,7 +73,7 @@ void main() {
     ),
     ('banned', fixtureAuth(banned: true), '/access-pending'),
   ]) {
-    testWidgets('five-second startup routes ${scenario.$1}', (tester) async {
+    testWidgets('pre-EDIT startup routes ${scenario.$1}', (tester) async {
       LocaleSettings.setLocale(AppLocale.en);
       final router = GoRouter(
         initialLocation: '/splash',
@@ -81,6 +81,7 @@ void main() {
           GoRoute(path: '/splash', builder: (_, _) => const SplashScreen()),
           for (final route in [
             '/login',
+            '/welcome',
             '/dashboard',
             '/professor-dashboard',
             '/control',
@@ -104,10 +105,11 @@ void main() {
           ),
         ),
       );
-      await tester.pump(const Duration(seconds: 4));
+      await tester.pump(const Duration(seconds: 3));
       expect(find.byType(SplashScreen), findsOneWidget);
-      await tester.pump(const Duration(seconds: 1));
-      await tester.pumpAndSettle();
+      await tester.pump(const Duration(milliseconds: 500));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 3));
       expect(find.text(scenario.$3), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       router.dispose();
@@ -149,7 +151,8 @@ void main() {
             ),
           ),
         );
-        await tester.pumpAndSettle();
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 3));
         expect(find.text('TEST-ID-ONLY'), findsOneWidget);
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox.shrink());

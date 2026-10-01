@@ -1,0 +1,5 @@
+00:00 +0: loading /home/axe/المستندات/app/Horus/test/features/academic/professor_repository_compatibility_test.dart
+00:00 +0: professor public data survives optional details denial: true
+00:00 +1: professor public data survives optional details denial: false
+00:00 +2: other professor details failures remain errors
+00:00 +3: All tests passed!

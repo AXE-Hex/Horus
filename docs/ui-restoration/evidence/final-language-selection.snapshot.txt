@@ -1,0 +1,5 @@
+- button [ref=e291]
+- button "العربية Arabic" [ref=e292]
+- button "English English" [ref=e293]
+- button "Deutsch German" [ref=e294]
+- button "中文 Chinese" [ref=e295]

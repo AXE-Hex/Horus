@@ -1,0 +1,7 @@
+- heading "Registration Requests" [level=2, ref=e156]
+- button "All" [ref=e159]
+- button "Pending" [ref=e160]
+- button "Approved" [ref=e161]
+- button "Rejected" [ref=e162]
+- button "Axe Pending Review Fall 2026" [ref=e157]
+- button "Development Freshman Approved Fall 2026" [ref=e158]

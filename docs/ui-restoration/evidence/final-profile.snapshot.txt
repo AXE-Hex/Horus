@@ -1,0 +1,8 @@
+- button [ref=e44]
+- button "Save" [ref=e45]
+- heading "Axe student.dev@horus.edu.eg Regular Student" [level=2, ref=e46]
+- textbox "Full Name" [ref=e47]
+- textbox "Email" [ref=e48]
+- textbox "Phone Number" [ref=e49]
+- textbox "National ID" [ref=e50]
+- textbox "Write something about yourself..." [ref=e51]

@@ -1,0 +1,5 @@
+Historical/restored empty login
+Dimensions: (390, 844) / (390, 844)
+Mean absolute pixel difference RGB: [0.3357516101591931, 0.27261210353627413, 0.21972900716976546]
+Changed bounds: (0, 0, 390, 844)
+Animated backgrounds can differ by capture timing. Geometry, typography, assets and layout visually compared.

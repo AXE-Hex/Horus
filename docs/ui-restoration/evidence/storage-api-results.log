@@ -1,0 +1,9 @@
+PASS: all 12 development accounts authenticate with bcrypt hashes
+PASS: avatar disallowed.txt rejected by Storage API
+PASS: avatar oversized.png rejected by Storage API
+PASS: cross-owner avatar path rejected
+PASS: cross-owner avatar delete denied; owner delete allowed
+PASS: guest REST directory/grades/messages/catalog reads return zero rows
+PASS: 6 typed repository projections match the live local schema
+PASS: authenticated student can read seeded rows in 7 campus areas
+PASS: anonymous sensitive RPCs denied over REST

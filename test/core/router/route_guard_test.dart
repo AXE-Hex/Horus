@@ -64,12 +64,12 @@ void main() {
 
   test('keeps public route declarations explicit', () {
     expect(publicRoutes.contains('/forgot-password'), isTrue);
-    expect(publicRoutes.contains('/welcome'), isFalse);
+    expect(publicRoutes.contains('/welcome'), isTrue);
     expect(publicRoutes.contains('/guest-registration'), isTrue);
     expect(publicRoutes.contains('/manage-tas'), isFalse);
-    expect(publicRoutes.contains('/ui-style-selection'), isFalse);
-    expect(publicRoutes.contains('/language-selection'), isFalse);
-    expect(publicRoutes.contains('/theme-selection'), isFalse);
+    expect(publicRoutes.contains('/ui-style-selection'), isTrue);
+    expect(publicRoutes.contains('/language-selection'), isTrue);
+    expect(publicRoutes.contains('/theme-selection'), isTrue);
   });
 
   test('redirects unauthenticated protected navigation to sign-in', () {

@@ -1,0 +1,50 @@
+[
+  {
+    "file": "supabase/tests/audit_remediation_regressions.test.sql",
+    "passed": 39,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/complete_hardening.test.sql",
+    "passed": 102,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/guest_access_regressions.test.sql",
+    "passed": 17,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/phase2_contract_regressions.test.sql",
+    "passed": 9,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/phase3_profile_security.test.sql",
+    "passed": 18,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/phase4_rls_authorization.test.sql",
+    "passed": 50,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/phase5_storage_authorization.test.sql",
+    "passed": 33,
+    "failed": 0,
+    "exit": 0
+  },
+  {
+    "file": "supabase/tests/storage_hardening.test.sql",
+    "passed": 12,
+    "failed": 0,
+    "exit": 0
+  }
+]

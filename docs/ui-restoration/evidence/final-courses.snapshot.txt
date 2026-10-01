@@ -1,0 +1,4 @@
+- button [ref=e66]
+- heading "Courses" [level=2, ref=e67]
+- tab "Enrolled" [selected, ref=e68]
+- tab "Available" [ref=e69]

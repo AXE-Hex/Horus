@@ -1,0 +1,42 @@
+[
+  {
+    "table": "profiles",
+    "status": 200,
+    "rows": 1
+  },
+  {
+    "table": "professor_details",
+    "status": 403,
+    "error": "42501"
+  },
+  {
+    "table": "departments",
+    "status": 200,
+    "rows": 1
+  },
+  {
+    "table": "teaching_assistants",
+    "status": 200,
+    "rows": 1
+  },
+  {
+    "table": "student_groups",
+    "status": 200,
+    "rows": 2
+  },
+  {
+    "table": "announcements",
+    "status": 200,
+    "rows": 2
+  },
+  {
+    "table": "shared_files",
+    "status": 200,
+    "rows": 0
+  },
+  {
+    "table": "office_hours",
+    "status": 200,
+    "rows": 2
+  }
+]

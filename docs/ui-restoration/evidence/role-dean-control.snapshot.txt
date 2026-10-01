@@ -1,0 +1,7 @@
+- heading "University management" [level=2, ref=e180]
+- button "Settings" [ref=e181]
+- button "Students" [ref=e182]
+- button "Course Registration" [ref=e183]
+- button "Course Management" [ref=e184]
+- button "Academic Results" [ref=e185]
+- button "Horus University" [ref=e186]

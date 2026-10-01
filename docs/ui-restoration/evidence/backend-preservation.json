@@ -1,0 +1,8 @@
+{
+  "protected_files_checked": 74,
+  "unauthorized_changes": [],
+  "manually_adapted_read_boundary": [
+    "lib/features/academic/data/repositories/professor_repository.dart"
+  ],
+  "sql_change": "one trailing space removed; SQL token stream unchanged"
+}

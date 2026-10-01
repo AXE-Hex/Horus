@@ -1,0 +1,96 @@
+00:00 +0: loading /home/axe/المستندات/app/Horus/test/core/config/build_config_test.dart
+00:00 +0: /home/axe/المستندات/app/Horus/test/core/config/build_config_test.dart: BuildConfig traceabilityKey should not throw RangeError with short commitHash
+00:00 +1: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isLocalSupabaseUrl recognizes IPv4, IPv6, and localhost loopback URLs
+00:00 +2: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isLocalSupabaseUrl does not classify a hosted Supabase URL as local
+00:00 +3: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isClientSafeKey accepts a publishable API key
+00:00 +4: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isClientSafeKey accepts a legacy anon JWT but rejects privileged credentials
+00:00 +5: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: canonical role parsing maps all database roles, including assistant_hod
+00:00 +6: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: canonical role parsing unknown roles do not silently become guest
+00:00 +7: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: canonical role parsing profile roles come from canonical role assignments
+00:00 +8: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: permission checks use canonical permission codes
+00:00 +9: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: permission refresh replaces previous grants and inactive profiles deny
+00:00 +10: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: university login accepts prefixes and full university email
+00:00 +11: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode maps unconfirmed email and rate limiting to safe categories
+00:00 +12: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode maps connection failures without exposing backend details
+00:00 +13: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode keeps credential and unknown server errors generic
+00:01 +14: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: allows a protected route only with its mapped permission
+00:01 +15: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: denies routes with no explicit mapping
+00:01 +16: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: conversation routes require the community permission
+00:01 +17: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: keeps public route declarations explicit
+00:01 +18: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: redirects unauthenticated protected navigation to sign-in
+00:01 +19: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: student permissions allow course registration and deny admin routes
+00:01 +20: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: role and permission refresh protects subsequent transitions
+00:01 +21: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: initial destination resolves from canonical permissions and fails closed
+00:01 +22: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +23: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +24: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +25: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +26: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +27: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +28: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +29: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:01 +30: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +31: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +32: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +33: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +34: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +35: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +36: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +37: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:02 +38: /home/axe/المستندات/app/Horus/test/core/i18n/device_locale_test.dart: device language selects supported locale and falls back to English
+00:03 +39: /home/axe/المستندات/app/Horus/test/core/utils/responsive_helper_test.dart: shell breakpoint helpers classify the documented widths
+00:03 +40: /home/axe/المستندات/app/Horus/test/core/utils/responsive_helper_test.dart: shell breakpoint helpers classify the documented widths
+00:03 +41: /home/axe/المستندات/app/Horus/test/core/utils/responsive_helper_test.dart: shell breakpoint helpers classify the documented widths
+00:04 +42: /home/axe/المستندات/app/Horus/test/widget_test.dart: (setUpAll)
+00:04 +43: /home/axe/المستندات/app/Horus/test/widget_test.dart: (setUpAll)
+supabase.supabase_flutter: INFO: ***** Supabase init completed *****
+00:04 +43: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:04 +44: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:04 +45: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:04 +46: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:04 +47: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:04 +48: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:05 +49: /home/axe/المستندات/app/Horus/test/widget_test.dart: (tearDownAll)
+00:05 +49: /home/axe/المستندات/app/Horus/test/features/feed/presentation/media_grid_test.dart: empty media renders no feed media control
+00:05 +50: /home/axe/المستندات/app/Horus/test/features/feed/presentation/media_grid_test.dart: empty media renders no feed media control
+00:06 +51: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:06 +52: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:06 +53: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:06 +54: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:06 +55: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:06 +56: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:06 +57: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +58: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +59: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +60: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +61: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +62: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +63: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +64: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +65: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +66: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:07 +67: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 768px
+00:07 +68: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 1440px
+00:08 +69: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:09 +70: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:09 +71: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:10 +72: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:10 +73: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:10 +74: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:10 +75: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:10 +76: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:10 +77: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:10 +78: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:10 +79: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:10 +80: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:11 +81: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:11 +82: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:11 +83: /home/axe/المستندات/app/Horus/test/features/auth/startup_identity_test.dart: real identity fits 320px with large text in en
+00:11 +84: /home/axe/المستندات/app/Horus/test/features/auth/startup_identity_test.dart: real identity fits 320px with large text in en
+00:11 +85: /home/axe/المستندات/app/Horus/test/features/auth/startup_identity_test.dart: real identity fits 320px with large text in en
+00:11 +86: /home/axe/المستندات/app/Horus/test/shared/widgets/app_button_test.dart: button variants invoke the provided action and loading disables it
+00:11 +87: /home/axe/المستندات/app/Horus/test/shared/widgets/app_button_test.dart: button variants invoke the provided action and loading disables it
+00:11 +88: /home/axe/المستندات/app/Horus/test/shared/widgets/app_button_test.dart: button variants invoke the provided action and loading disables it
+00:11 +89: /home/axe/المستندات/app/Horus/test/shared/widgets/app_button_test.dart: button variants invoke the provided action and loading disables it
+00:11 +90: /home/axe/المستندات/app/Horus/test/shared/widgets/app_button_test.dart: button variants invoke the provided action and loading disables it
+00:12 +91: All tests passed!

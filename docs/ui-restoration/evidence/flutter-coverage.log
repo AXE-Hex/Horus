@@ -1,0 +1,97 @@
+00:00 +0: loading /home/axe/المستندات/app/Horus/test/core/config/build_config_test.dart
+00:00 +0: /home/axe/المستندات/app/Horus/test/core/config/build_config_test.dart: BuildConfig traceabilityKey should not throw RangeError with short commitHash
+00:00 +1: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isLocalSupabaseUrl recognizes IPv4, IPv6, and localhost loopback URLs
+00:00 +2: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isLocalSupabaseUrl does not classify a hosted Supabase URL as local
+00:00 +3: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isClientSafeKey accepts a publishable API key
+00:00 +4: /home/axe/المستندات/app/Horus/test/core/config/env_config_test.dart: EnvConfig.isClientSafeKey accepts a legacy anon JWT but rejects privileged credentials
+00:01 +5: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: canonical role parsing maps all database roles, including assistant_hod
+00:01 +6: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: canonical role parsing unknown roles do not silently become guest
+00:01 +7: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: canonical role parsing profile roles come from canonical role assignments
+00:01 +8: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: permission checks use canonical permission codes
+00:01 +9: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode maps unconfirmed email and rate limiting to safe categories
+00:01 +10: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode maps unconfirmed email and rate limiting to safe categories
+00:01 +11: /home/axe/المستندات/app/Horus/test/core/auth/authorization_test.dart: university login accepts prefixes and full university email
+00:01 +12: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode maps connection failures without exposing backend details
+00:01 +13: /home/axe/المستندات/app/Horus/test/core/auth/sign_in_failure_test.dart: signInFailureCode keeps credential and unknown server errors generic
+00:01 +14: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: allows a protected route only with its mapped permission
+00:01 +15: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: denies routes with no explicit mapping
+00:01 +16: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: conversation routes require the community permission
+00:01 +17: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: keeps public route declarations explicit
+00:01 +18: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: redirects unauthenticated protected navigation to sign-in
+00:01 +19: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: student permissions allow course registration and deny admin routes
+00:01 +20: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: role and permission refresh protects subsequent transitions
+00:01 +21: /home/axe/المستندات/app/Horus/test/core/router/route_guard_test.dart: initial destination resolves from canonical permissions and fails closed
+00:02 +22: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +23: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:02 +24: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:03 +25: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a direct screen link falls back to the guarded home route
+00:04 +26: /home/axe/المستندات/app/Horus/test/core/data/db_row_model_test.dart: database row mapping requires identifiers and gives a contextual malformed row error
+00:04 +27: /home/axe/المستندات/app/Horus/test/core/data/typed_domain_records_test.dart: registration request maps nested student and selected course rows
+00:04 +28: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:04 +29: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:04 +30: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:04 +31: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:04 +32: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:04 +33: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:04 +34: /home/axe/المستندات/app/Horus/test/core/router/back_navigation_test.dart: a pushed screen retains normal back behavior
+00:06 +35: /home/axe/المستندات/app/Horus/test/core/theme/theme_provider_test.dart: unrecognized or absent theme preference resolves to System
+00:06 +36: /home/axe/المستندات/app/Horus/test/core/theme/app_theme_test.dart: themes preserve pre-EDIT light and dark palette
+00:06 +37: /home/axe/المستندات/app/Horus/test/core/theme/app_theme_test.dart: themes preserve pre-EDIT light and dark palette
+00:06 +38: /home/axe/المستندات/app/Horus/test/core/i18n/device_locale_test.dart: device language selects supported locale and falls back to English
+00:07 +39: /home/axe/المستندات/app/Horus/test/core/i18n/device_locale_test.dart: saved language is restored before device locale fallback
+00:07 +40: /home/axe/المستندات/app/Horus/test/core/i18n/device_locale_test.dart: Arabic uses RTL and English uses LTR directionality
+00:08 +41: /home/axe/المستندات/app/Horus/test/core/utils/responsive_helper_test.dart: shell breakpoint helpers classify the documented widths
+00:08 +42: /home/axe/المستندات/app/Horus/test/core/utils/responsive_helper_test.dart: shell breakpoint helpers classify the documented widths
+00:08 +42: /home/axe/المستندات/app/Horus/test/widget_test.dart: (setUpAll)
+supabase.supabase_flutter: INFO: ***** Supabase init completed *****
+00:08 +42: /home/axe/المستندات/app/Horus/test/core/utils/responsive_helper_test.dart: shell breakpoint helpers classify the documented widths
+00:08 +43: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:09 +44: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:09 +45: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:09 +46: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:09 +47: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:09 +48: /home/axe/المستندات/app/Horus/test/widget_test.dart: Splash screen smoke test
+00:10 +49: /home/axe/المستندات/app/Horus/test/widget_test.dart: (tearDownAll)
+00:11 +49: /home/axe/المستندات/app/Horus/test/features/feed/presentation/media_grid_test.dart: empty media renders no feed media control
+00:12 +50: /home/axe/المستندات/app/Horus/test/features/feed/presentation/media_grid_test.dart: empty media renders no feed media control
+00:12 +51: /home/axe/المستندات/app/Horus/test/features/feed/presentation/media_grid_test.dart: grid indicates hidden items when a post has more than four
+00:13 +52: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:13 +53: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:13 +54: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:14 +55: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 390px
+00:14 +56: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 768px
+00:14 +57: /home/axe/المستندات/app/Horus/test/features/feed/feed_responsive_layout_test.dart: feed has no layout errors at 1440px
+00:15 +58: /home/axe/المستندات/app/Horus/test/features/academic/academic_summary_test.dart: academic summary calculates weighted GPA from published grades only
+00:16 +59: /home/axe/المستندات/app/Horus/test/features/academic/academic_summary_test.dart: empty transcript has no GPA and unknown credit hours are not invented
+00:16 +60: /home/axe/المستندات/app/Horus/test/features/academic/professor_repository_compatibility_test.dart: professor public data survives optional details denial: true
+00:16 +61: /home/axe/المستندات/app/Horus/test/features/academic/professor_repository_compatibility_test.dart: professor public data survives optional details denial: false
+00:16 +62: /home/axe/المستندات/app/Horus/test/features/academic/professor_repository_compatibility_test.dart: other professor details failures remain errors
+00:17 +63: /home/axe/المستندات/app/Horus/test/features/shared/data/models/audit_typed_records_test.dart: audit typed row contracts notification maps database type and nullable metadata safely
+00:17 +64: /home/axe/المستندات/app/Horus/test/features/shared/data/models/audit_typed_records_test.dart: audit typed row contracts clearing notification UI state represents persisted read state
+00:17 +65: /home/axe/المستندات/app/Horus/test/features/shared/data/models/audit_typed_records_test.dart: audit typed row contracts exam and action plan parse required values and nested course
+00:17 +66: /home/axe/المستندات/app/Horus/test/features/shared/data/models/audit_typed_records_test.dart: audit typed row contracts shared course file path binds course, uploader, row ID, filename
+00:17 +67: /home/axe/المستندات/app/Horus/test/features/shared/data/models/audit_typed_records_test.dart: audit typed row contracts announcement and forum rows map nested authors centrally
+00:17 +68: /home/axe/المستندات/app/Horus/test/features/shared/data/models/audit_typed_records_test.dart: audit typed row contracts forum, session, and department project contracts are typed
+00:18 +69: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:21 +70: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:21 +71: /home/axe/المستندات/app/Horus/test/features/auth/login_screen_test.dart: login shows university domain for a username only
+00:21 +72: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:21 +73: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:21 +74: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:21 +75: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:21 +76: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:22 +77: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:22 +78: /home/axe/المستندات/app/Horus/test/features/messaging/conversation_responsive_layout_test.dart: conversation layout has no errors at 390px
+00:22 +79: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:23 +80: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:23 +81: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:23 +82: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 390px
+00:23 +83: /home/axe/المستندات/app/Horus/test/shared/layout/horus_adaptive_scaffold_test.dart: mobile-bottom-navigation fits at 390px
+00:23 +84: /home/axe/المستندات/app/Horus/test/shared/layout/horus_adaptive_scaffold_test.dart: mobile-bottom-navigation fits at 390px
+00:23 +85: /home/axe/المستندات/app/Horus/test/shared/layout/horus_adaptive_scaffold_test.dart: mobile-bottom-navigation fits at 390px
+00:23 +86: /home/axe/المستندات/app/Horus/test/shared/layout/horus_adaptive_scaffold_test.dart: mobile-bottom-navigation fits at 390px
+00:24 +87: /home/axe/المستندات/app/Horus/test/features/settings/settings_responsive_layout_test.dart: settings has no layout errors at 1440px
+00:24 +88: /home/axe/المستندات/app/Horus/test/shared/layout/horus_adaptive_scaffold_test.dart: tablet-navigation-rail fits at 768px
+00:24 +89: /home/axe/المستندات/app/Horus/test/shared/layout/horus_adaptive_scaffold_test.dart: desktop-sidebar fits at 1440px
+00:26 +90: /home/axe/المستندات/app/Horus/test/shared/widgets/app_button_test.dart: button variants invoke the provided action and loading disables it
+00:29 +91: All tests passed!
