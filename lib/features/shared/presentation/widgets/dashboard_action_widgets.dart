@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -13,7 +14,7 @@ class DashboardSectionHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Text(
         title,
-        style: TextStyle(
+        style: GoogleFonts.outfit(
           fontSize: 18,
           fontWeight: FontWeight.w600,
           color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -104,7 +105,7 @@ class DashboardGridItem extends StatelessWidget {
                         child: Text(
                           title,
                           maxLines: 2,
-                          style: TextStyle(
+                          style: GoogleFonts.outfit(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             height: 1.1,
@@ -240,7 +241,7 @@ class DashboardHorizontalItem extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         title,
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: locked
@@ -326,7 +327,7 @@ class DashboardSquareItem extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: locked
