@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/data/notification_provider.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -145,7 +146,7 @@ class _LiquidToastOverlayState extends ConsumerState<LiquidToastOverlay>
               ],
             ),
             child: Icon(icon, color: color, size: 20),
-          ).animate().shimmer(duration: 2.seconds),
+          ).animate(onPlay: (c) => c.repeat()).shimmer(duration: 2.seconds),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -154,7 +155,7 @@ class _LiquidToastOverlayState extends ConsumerState<LiquidToastOverlay>
               children: [
                 Text(
                   note.title,
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,
                     color: Colors.white,
@@ -164,7 +165,7 @@ class _LiquidToastOverlayState extends ConsumerState<LiquidToastOverlay>
                   note.message,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 12, color: Colors.white70),
+                  style: GoogleFonts.inter(fontSize: 12, color: Colors.white70),
                 ),
               ],
             ),
