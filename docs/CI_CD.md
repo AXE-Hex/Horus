@@ -71,7 +71,7 @@ npx --yes supabase@2.118.0 stop
 
 ## Environment and secrets
 
-**Public build-time values:** `SUPABASE_URL` and the Supabase publishable/anon client key are embedded in Flutter Web at build time. They are public client configuration and must be protected by database RLS and Storage policies. For tagged Web releases, configure these as GitHub Environment **variables** named `SUPABASE_URL` and `SUPABASE_ANON_KEY` on the `production` environment. The release job fails if either is absent.
+**Public build-time values:** The existing Horus project URL (`https://reyvrbvdgojpnbecvzwn.supabase.co`) and its Supabase publishable client key are embedded in Flutter Web at build time. They are public client configuration and must be protected by database RLS and Storage policies. For tagged Web releases, configure `SUPABASE_PUBLISHABLE_KEY` as a GitHub Environment **variable** on the `production` environment. `SUPABASE_ANON_KEY` remains a legacy fallback name for existing environments. The release job fails if the key is absent.
 
 **Private secrets:** service-role keys, database passwords, payment provider secrets, signing keystores/passwords, and store publishing credentials are never Flutter build inputs and are not configured in current workflows. Never put them in Dart source, workflow YAML, docs, `.env.example`, or a client bundle.
 

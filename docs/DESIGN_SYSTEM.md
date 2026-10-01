@@ -1,8 +1,8 @@
 # HORUS Design System
 ## Horus University – Egypt Digital Product Design Standard
 
-**Document status:** Design System v1.0
-**Scope:** Horus Campus + Horus Control
+**Document status:** Design System v1.1 — University Super App direction
+**Scope:** One Horus University application with permission-adaptive features
 **Primary platforms:** Android, iOS, Web, Windows, macOS, Linux
 **Framework target:** Flutter
 **Brand:** Horus University – Egypt (HUE)
@@ -24,7 +24,7 @@ The goals are:
 2. Create one coherent digital product language.
 3. Support Light and Dark mode.
 4. Support Arabic RTL and English LTR correctly.
-5. Scale from mobile Campus experiences to dense Control dashboards.
+5. Adapt one university super app across compact, medium, and expanded devices.
 6. Keep accessibility, responsiveness, and maintainability first-class.
 7. Let developers and Codex build new screens without inventing new visual rules.
 
@@ -152,57 +152,35 @@ Do not allow:
 
 # 5. Core Design Principle
 
-## One identity, two product densities
+## One university super app, three adaptive presentations
 
-Horus uses one shared design system, but the two main products have different UX density.
+Horus combines the university social feed, conversations, course collaboration,
+academic services, university portal, and permissioned management workflows in
+one application shell. Roles and permissions change available data and actions;
+they do not switch users into separate visual products.
 
-### Horus Campus
+### Compact — phone
 
-For:
+- Feed-first, mobile application composition.
+- App bar, current feature, and no more than five primary bottom destinations.
+- Secondary academic and account actions live inside their product areas.
 
-- Students
-- Professors
-- Lecturers
-- Teaching assistants
-- Academic advisors
+### Medium — tablet
 
-Characteristics:
+- Navigation rail where useful.
+- Use two-pane list/detail layouts when they preserve selection and context.
+- Support portrait and landscape without stretching phone cards.
 
-- Mobile-first
-- Spacious
-- Task-oriented
-- Quick actions
-- Schedule-first
-- Course-first
-- More visual
-- Moderate motion
-- Friendly but professional
+### Expanded — desktop
 
-### Horus Control
+- Compact, collapsible application navigation.
+- Preserve a real application context bar and contained content widths.
+- Use remaining space for relevant feature context; reserve wide layouts for
+  genuine tables and communication workspaces.
 
-For:
-
-- Rector
-- Dean
-- Department head
-- Academic coordinator
-- Registrar
-- Finance
-- Library
-- Security
-- Administrative staff
-
-Characteristics:
-
-- Desktop-first
-- Higher information density
-- Tables and filters
-- Analytics
-- Bulk operations
-- Dense workflows
-- Minimal decorative motion
-- Strong hierarchy
-- Professional operational tone
+All device classes share the same Horus tokens, components, backend, and route
+authorization. Management workflows use permission-based entry points and the
+same Horus identity; management is a product domain, not a separate shell.
 
 Both products share:
 
@@ -857,7 +835,7 @@ Rules:
 
 # 24. Navigation
 
-## 24.1 Campus Mobile
+## 24.1 Compact — Mobile
 
 Use a bottom navigation bar for the most frequent destinations.
 
@@ -871,7 +849,7 @@ Avoid more than five.
 
 ---
 
-## 24.2 Campus Tablet/Desktop
+## 24.2 Medium — Tablet
 
 Use:
 
@@ -881,7 +859,7 @@ Use:
 
 ---
 
-## 24.3 Control Desktop
+## 24.3 Expanded — Desktop
 
 Use a persistent side navigation.
 
@@ -1256,9 +1234,9 @@ User preferences remain changeable later.
 
 ---
 
-# 43. Dashboard – Campus
+# 43. Academic overview (secondary to Home / Feed)
 
-The Campus dashboard should answer:
+Academic summary screens may answer:
 
 1. What do I have next?
 2. Is anything urgent?
@@ -1281,9 +1259,9 @@ Do not present every module equally.
 
 ---
 
-# 44. Dashboard – Control
+# 44. Management overview (permission-driven secondary destination)
 
-Control dashboard should answer:
+Management overview screens may answer:
 
 1. What needs attention?
 2. What changed?
@@ -1711,9 +1689,9 @@ Before completing a UI task, verify:
 
 ---
 
-# 66. Campus-Specific Rules
+# 66. Mobile-first content rules
 
-Campus may use:
+Compact experiences may use:
 
 - Larger touch areas
 - More visual hierarchy
@@ -1723,13 +1701,13 @@ Campus may use:
 - Timetable-first surfaces
 - Moderate animation
 
-Campus must not become playful or game-like.
+Mobile layouts must remain institutional and must not become playful or game-like.
 
 ---
 
-# 67. Control-Specific Rules
+# 67. Management workflow rules
 
-Control may use:
+Permissioned management screens may use:
 
 - Dense tables
 - Compact filters
@@ -1740,13 +1718,14 @@ Control may use:
 - Advanced search
 - Analytics
 
-Control must not use large decorative hero areas where operational density is required.
+Management workflows may use compact filters and tables where the task needs
+them, while retaining the shared Horus application shell and brand surfaces.
 
 ---
 
 # 68. Status Density
 
-Campus:
+Compact:
 
 ```text
 more whitespace
@@ -1754,7 +1733,7 @@ larger cards
 fewer simultaneous controls
 ```
 
-Control:
+Expanded management workflows:
 
 ```text
 tighter spacing
@@ -2479,9 +2458,9 @@ The following decisions are approved as the current baseline:
 - English is LTR.
 - Mandatory first-run language/theme selection is removed.
 - User-selectable design style is removed.
-- Campus and Control share the same design system.
-- Campus is lighter and mobile-first.
-- Control is denser and desktop-first.
+- Horus is one university super app; roles change capabilities, not product identity.
+- Compact, medium, and expanded layouts adapt composition to the device.
+- Home opens the university feed; academic summaries and management workflows are secondary destinations.
 - Glassmorphism is limited to premium surfaces.
 - Gold is an accent, not a universal primary/action/status color.
 - The liquid-drop logo animation concept is not part of the design system.

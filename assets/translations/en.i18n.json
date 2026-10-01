@@ -6,6 +6,10 @@
     "save": "Save",
     "back": "Back"
   },
+  "navigation": {
+    "more": "More",
+    "university": "University"
+  },
   "welcome": {
     "title": "Welcome To Horus",
     "subtitle": "Light up your world with meaningful connections.",
@@ -84,7 +88,9 @@
     "access_pending": {
       "title": "Access is pending",
       "body": "This account does not have an active university role. Contact university support if you believe this is an error.",
-      "sign_out": "Sign out"
+      "sign_out": "Sign out",
+      "profile_missing": "Your authenticated account is not linked to a Horus profile. Contact university support.",
+      "profile_load_failed": "Horus could not load your account permissions. Check your connection, then sign in again."
     },
     "login": {
       "welcome": "Welcome Back",
@@ -97,7 +103,11 @@
       "sign_in_failed": "Unable to sign in. Check your details and try again.",
       "forgot_password": "Forgot Password?",
       "submit": "Login",
-      "guest": "Browse as Guest"
+      "guest": "Browse as Guest",
+      "email_not_confirmed": "Confirm your email address before signing in.",
+      "network_error": "Couldn't reach Horus. Check your connection and try again.",
+      "too_many_attempts": "Too many sign-in attempts. Wait a moment and try again.",
+      "account_unavailable": "This account cannot sign in. Contact university support."
     },
     "forgot_password": {
       "title": "Forgot Password",
@@ -1400,5 +1410,16 @@
   "control": {
     "title": "University management",
     "subtitle": "Your authorized academic and operational workspace"
+  },
+  "messaging": {
+    "title": "Chats",
+    "no_conversations": "Your conversations will appear here.",
+    "unavailable": "This conversation is unavailable or you are no longer a member.",
+    "no_messages": "No messages yet. Start the conversation.",
+    "message_hint": "Write a message",
+    "send_failed": "Your message could not be sent. Check your connection and try again.",
+    "load_older": "Load earlier messages",
+    "refresh": "Refresh messages",
+    "load_more": "Load more conversations"
   }
 }

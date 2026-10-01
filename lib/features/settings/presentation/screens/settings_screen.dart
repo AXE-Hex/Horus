@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/core/i18n/locale_preferences.dart';
+import 'package:horus/core/theme/app_colors.dart';
 import 'package:horus/core/theme/theme_provider.dart';
 
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
@@ -17,7 +18,6 @@ part 'settings_screen_sections.dart';
 part 'settings_screen_items.dart';
 part 'settings_screen_dialogs.dart';
 part 'settings_screen_preferences.dart';
-part 'settings_screen_painter.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -26,26 +26,13 @@ class SettingsScreen extends ConsumerStatefulWidget {
   ConsumerState<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends ConsumerState<SettingsScreen>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _glowController;
+class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   bool _notificationsEnabled = true;
 
   @override
   void initState() {
     super.initState();
-    _glowController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 3),
-      value: 0.5,
-    );
     _loadNotificationPref();
-  }
-
-  @override
-  void dispose() {
-    _glowController.dispose();
-    super.dispose();
   }
 
   Future<void> _loadNotificationPref() async {
@@ -66,7 +53,12 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     final isArabic = LocaleSettings.currentLocale == AppLocale.ar;
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: _buildBody(context, isArabic, false),
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1080),
+          child: _buildBody(context, isArabic, false),
+        ),
+      ),
     );
   }
 
@@ -74,50 +66,90 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen>
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       slivers: [
-        _buildImmersiveHeader(context, isArabic, isGlass),
+        _buildImmersiveHeader(context, isArabic),
         SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 24),
-          sliver: SliverList(
-            delegate: SliverChildListDelegate([
-              _buildSectionHeader(t.extracted.account, LucideIcons.userCircle),
-              _buildAccountSection(context, isArabic, isGlass),
-              const SizedBox(height: 28),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          sliver: SliverToBoxAdapter(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final account = _settingsGroup(
+                  t.extracted.account,
+                  LucideIcons.userCircle,
+                  _buildAccountSection(context, isArabic, isGlass),
+                );
+                final appearance = _settingsGroup(
+                  t.extracted.appearance,
+                  LucideIcons.palette,
+                  _buildAppearanceSection(context, isArabic, isGlass),
+                );
+                final notifications = _settingsGroup(
+                  t.extracted.notifications,
+                  LucideIcons.bellRing,
+                  _buildNotificationsSection(context, isArabic, isGlass),
+                );
+                final language = _settingsGroup(
+                  t.extracted.language_region,
+                  LucideIcons.globe,
+                  _buildLanguageSection(context, isArabic, isGlass),
+                );
+                final support = _settingsGroup(
+                  t.extracted.support_feedback,
+                  LucideIcons.lifeBuoy,
+                  _buildSupportSection(context, isArabic, isGlass),
+                );
+                final about = _settingsGroup(
+                  t.extracted.about,
+                  LucideIcons.info,
+                  _buildAboutSection(context, isArabic, isGlass),
+                );
+                final wide = constraints.maxWidth >= 760;
 
-              _buildSectionHeader(t.extracted.appearance, LucideIcons.palette),
-              _buildAppearanceSection(context, isArabic, isGlass),
-              const SizedBox(height: 28),
-
-              _buildSectionHeader(
-                t.extracted.notifications,
-                LucideIcons.bellRing,
-              ),
-              _buildNotificationsSection(context, isArabic, isGlass),
-              const SizedBox(height: 28),
-
-              _buildSectionHeader(
-                t.extracted.language_region,
-                LucideIcons.globe,
-              ),
-              _buildLanguageSection(context, isArabic, isGlass),
-              const SizedBox(height: 28),
-
-              _buildSectionHeader(
-                t.extracted.support_feedback,
-                LucideIcons.lifeBuoy,
-              ),
-              _buildSupportSection(context, isArabic, isGlass),
-              const SizedBox(height: 28),
-
-              _buildSectionHeader(t.extracted.about, LucideIcons.info),
-              _buildAboutSection(context, isArabic, isGlass),
-              const SizedBox(height: 40),
-
-              _buildLogoutButton(context, isArabic, isGlass),
-              const SizedBox(height: 80),
-            ]),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (wide)
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              children: [account, appearance, support],
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                            child: Column(
+                              children: [notifications, language, about],
+                            ),
+                          ),
+                        ],
+                      )
+                    else ...[
+                      account,
+                      appearance,
+                      notifications,
+                      language,
+                      support,
+                      about,
+                    ],
+                    const SizedBox(height: 12),
+                    _buildLogoutButton(context, isArabic, isGlass),
+                    const SizedBox(height: 48),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ],
     );
   }
+
+  Widget _settingsGroup(String title, IconData icon, Widget content) => Padding(
+    padding: const EdgeInsets.only(bottom: 20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [_buildSectionHeader(title, icon), content],
+    ),
+  );
 }

@@ -6,6 +6,10 @@
     "save": "Speichern",
     "back": "Zurück"
   },
+  "navigation": {
+    "more": "Mehr",
+    "university": "Universität"
+  },
   "welcome": {
     "title": "Willkommen bei Horus",
     "subtitle": "Erleuchten Sie Ihre Welt mit bedeutungsvollen Verbindungen.",
@@ -84,7 +88,9 @@
     "access_pending": {
       "title": "Zugriff ausstehend",
       "body": "Dieses Konto hat keine aktive Hochschulrolle. Wenden Sie sich an den Hochschulsupport, wenn Sie dies für einen Fehler halten.",
-      "sign_out": "Abmelden"
+      "sign_out": "Abmelden",
+      "profile_missing": "Dieses Konto ist keinem Horus-Profil zugeordnet. Wenden Sie sich an den Hochschulsupport.",
+      "profile_load_failed": "Horus konnte die Kontoberechtigungen nicht laden. Prüfen Sie die Verbindung und melden Sie sich erneut an."
     },
     "login": {
       "welcome": "Willkommen zurück",
@@ -97,7 +103,11 @@
       "sign_in_failed": "Anmeldung nicht möglich. Prüfen Sie Ihre Daten und versuchen Sie es erneut.",
       "forgot_password": "Passwort vergessen?",
       "submit": "Anmelden",
-      "guest": "Als Gast stöbern"
+      "guest": "Als Gast stöbern",
+      "email_not_confirmed": "Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden.",
+      "network_error": "Horus ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+      "too_many_attempts": "Zu viele Anmeldeversuche. Warten Sie kurz und versuchen Sie es erneut.",
+      "account_unavailable": "Dieses Konto kann sich nicht anmelden. Wenden Sie sich an den Hochschulsupport."
     },
     "forgot_password": {
       "title": "Passwort vergessen",
@@ -1328,5 +1338,16 @@
   "control": {
     "title": "Universitätsverwaltung",
     "subtitle": "Ihr autorisierter akademischer und administrativer Arbeitsbereich"
+  },
+  "messaging": {
+    "title": "Chats",
+    "no_conversations": "Deine Unterhaltungen werden hier angezeigt.",
+    "unavailable": "Diese Unterhaltung ist nicht verfügbar oder du bist kein Mitglied mehr.",
+    "no_messages": "Noch keine Nachrichten. Beginne die Unterhaltung.",
+    "message_hint": "Nachricht schreiben",
+    "send_failed": "Die Nachricht konnte nicht gesendet werden. Prüfe die Verbindung und versuche es erneut.",
+    "load_older": "Ältere Nachrichten laden",
+    "refresh": "Nachrichten aktualisieren",
+    "load_more": "Weitere Chats laden"
   }
 }

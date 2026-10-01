@@ -40,6 +40,7 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override late final _TranslationsCommonDe common = _TranslationsCommonDe._(_root);
+	@override late final _TranslationsNavigationDe navigation = _TranslationsNavigationDe._(_root);
 	@override late final _TranslationsWelcomeDe welcome = _TranslationsWelcomeDe._(_root);
 	@override late final _TranslationsOnboardingDe onboarding = _TranslationsOnboardingDe._(_root);
 	@override late final _TranslationsAuthDe auth = _TranslationsAuthDe._(_root);
@@ -73,6 +74,7 @@ class TranslationsDe extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsStudentsDe students = _TranslationsStudentsDe._(_root);
 	@override late final _TranslationsExtractedDe extracted = _TranslationsExtractedDe._(_root);
 	@override late final _TranslationsControlDe control = _TranslationsControlDe._(_root);
+	@override late final _TranslationsMessagingDe messaging = _TranslationsMessagingDe._(_root);
 }
 
 // Path: common
@@ -87,6 +89,17 @@ class _TranslationsCommonDe extends TranslationsCommonEn {
 	@override String get confirm => 'Bestätigen';
 	@override String get save => 'Speichern';
 	@override String get back => 'Zurück';
+}
+
+// Path: navigation
+class _TranslationsNavigationDe extends TranslationsNavigationEn {
+	_TranslationsNavigationDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get more => 'Mehr';
+	@override String get university => 'Universität';
 }
 
 // Path: welcome
@@ -1331,6 +1344,24 @@ class _TranslationsControlDe extends TranslationsControlEn {
 	@override String get subtitle => 'Ihr autorisierter akademischer und administrativer Arbeitsbereich';
 }
 
+// Path: messaging
+class _TranslationsMessagingDe extends TranslationsMessagingEn {
+	_TranslationsMessagingDe._(TranslationsDe root) : this._root = root, super.internal(root);
+
+	final TranslationsDe _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Chats';
+	@override String get no_conversations => 'Deine Unterhaltungen werden hier angezeigt.';
+	@override String get unavailable => 'Diese Unterhaltung ist nicht verfügbar oder du bist kein Mitglied mehr.';
+	@override String get no_messages => 'Noch keine Nachrichten. Beginne die Unterhaltung.';
+	@override String get message_hint => 'Nachricht schreiben';
+	@override String get send_failed => 'Die Nachricht konnte nicht gesendet werden. Prüfe die Verbindung und versuche es erneut.';
+	@override String get load_older => 'Ältere Nachrichten laden';
+	@override String get refresh => 'Nachrichten aktualisieren';
+	@override String get load_more => 'Weitere Chats laden';
+}
+
 // Path: onboarding.language
 class _TranslationsOnboardingLanguageDe extends TranslationsOnboardingLanguageEn {
 	_TranslationsOnboardingLanguageDe._(TranslationsDe root) : this._root = root, super.internal(root);
@@ -1425,6 +1456,8 @@ class _TranslationsAuthAccessPendingDe extends TranslationsAuthAccessPendingEn {
 	@override String get title => 'Zugriff ausstehend';
 	@override String get body => 'Dieses Konto hat keine aktive Hochschulrolle. Wenden Sie sich an den Hochschulsupport, wenn Sie dies für einen Fehler halten.';
 	@override String get sign_out => 'Abmelden';
+	@override String get profile_missing => 'Dieses Konto ist keinem Horus-Profil zugeordnet. Wenden Sie sich an den Hochschulsupport.';
+	@override String get profile_load_failed => 'Horus konnte die Kontoberechtigungen nicht laden. Prüfen Sie die Verbindung und melden Sie sich erneut an.';
 }
 
 // Path: auth.login
@@ -1445,6 +1478,10 @@ class _TranslationsAuthLoginDe extends TranslationsAuthLoginEn {
 	@override String get forgot_password => 'Passwort vergessen?';
 	@override String get submit => 'Anmelden';
 	@override String get guest => 'Als Gast stöbern';
+	@override String get email_not_confirmed => 'Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden.';
+	@override String get network_error => 'Horus ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.';
+	@override String get too_many_attempts => 'Zu viele Anmeldeversuche. Warten Sie kurz und versuchen Sie es erneut.';
+	@override String get account_unavailable => 'Dieses Konto kann sich nicht anmelden. Wenden Sie sich an den Hochschulsupport.';
 }
 
 // Path: auth.forgot_password
@@ -1928,6 +1965,8 @@ extension on TranslationsDe {
 			'common.confirm' => 'Bestätigen',
 			'common.save' => 'Speichern',
 			'common.back' => 'Zurück',
+			'navigation.more' => 'Mehr',
+			'navigation.university' => 'Universität',
 			'welcome.title' => 'Willkommen bei Horus',
 			'welcome.subtitle' => 'Erleuchten Sie Ihre Welt mit bedeutungsvollen Verbindungen.',
 			'welcome.get_started' => 'Loslegen',
@@ -1985,6 +2024,8 @@ extension on TranslationsDe {
 			'auth.access_pending.title' => 'Zugriff ausstehend',
 			'auth.access_pending.body' => 'Dieses Konto hat keine aktive Hochschulrolle. Wenden Sie sich an den Hochschulsupport, wenn Sie dies für einen Fehler halten.',
 			'auth.access_pending.sign_out' => 'Abmelden',
+			'auth.access_pending.profile_missing' => 'Dieses Konto ist keinem Horus-Profil zugeordnet. Wenden Sie sich an den Hochschulsupport.',
+			'auth.access_pending.profile_load_failed' => 'Horus konnte die Kontoberechtigungen nicht laden. Prüfen Sie die Verbindung und melden Sie sich erneut an.',
 			'auth.login.welcome' => 'Willkommen zurück',
 			'auth.login.subtitle' => 'Melden Sie sich an, um fortzufahren',
 			'auth.login.email' => 'E-Mail',
@@ -1996,6 +2037,10 @@ extension on TranslationsDe {
 			'auth.login.forgot_password' => 'Passwort vergessen?',
 			'auth.login.submit' => 'Anmelden',
 			'auth.login.guest' => 'Als Gast stöbern',
+			'auth.login.email_not_confirmed' => 'Bestätigen Sie Ihre E-Mail-Adresse, bevor Sie sich anmelden.',
+			'auth.login.network_error' => 'Horus ist nicht erreichbar. Prüfen Sie Ihre Verbindung und versuchen Sie es erneut.',
+			'auth.login.too_many_attempts' => 'Zu viele Anmeldeversuche. Warten Sie kurz und versuchen Sie es erneut.',
+			'auth.login.account_unavailable' => 'Dieses Konto kann sich nicht anmelden. Wenden Sie sich an den Hochschulsupport.',
 			'auth.forgot_password.title' => 'Passwort vergessen',
 			'auth.forgot_password.subtitle' => 'Wählen Sie eine Wiederherstellungsmethode',
 			'auth.forgot_password.method_online' => 'Online-Anfrage',
@@ -2427,6 +2472,8 @@ extension on TranslationsDe {
 			'roles.descriptions.department_head' => 'Leiter einer wissenschaftlichen Abteilung',
 			'roles.descriptions.rector' => 'Universitätspräsident mit voller akademischer Aufsicht',
 			'roles.descriptions.dean' => 'Leiter einer Hochschule/Fakultät',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.teaching_assistant' => 'Unterstützt Professoren bei der Benotung, Laboren und Tutorials',
 			'roles.descriptions.academic_coordinator' => 'Koordiniert akademische Programme und Terminplanung',
 			'roles.descriptions.professor' => 'Fakultätsmitglied, das Kurse unterrichtet und verwaltet',
@@ -2435,8 +2482,6 @@ extension on TranslationsDe {
 			'roles.descriptions.freshman' => 'Studienanfänger mit eingeschränktem Systemzugriff',
 			'roles.descriptions.lecturer' => 'Lehrt Kurse ohne volle Professorenprivilegien',
 			'roles.descriptions.registrar_officer' => 'Verwaltet die Einschreibung und Registrierung von Studenten',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.regular_student' => 'Vollständiger Student mit allen üblichen akademischen Privilegien',
 			'roles.descriptions.alumni' => 'Absolvent mit eingeschränktem Zugang',
 			'roles.descriptions.student' => 'Allgemeine Schülerrolle',
@@ -2941,6 +2986,8 @@ extension on TranslationsDe {
 			'extracted.phone_number' => 'Telefonnummer',
 			'extracted.role' => 'Rolle',
 			'extracted.about_me' => 'Über mich',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.save_changes' => 'Änderungen speichern',
 			'extracted.active' => 'Aktiv',
 			'extracted.account' => 'Konto',
@@ -2949,8 +2996,6 @@ extension on TranslationsDe {
 			'extracted.appearance' => 'Aussehen',
 			'extracted.language_region' => 'Sprache und Region',
 			'extracted.about' => 'Um',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.edit_profile' => 'Profil bearbeiten',
 			'extracted.password_recovery' => 'Passwortwiederherstellung',
 			'extracted.send_password_recovery_link_to_your_emai' => 'Senden Sie den Link zur Passwortwiederherstellung per E-Mail',
@@ -3121,6 +3166,15 @@ extension on TranslationsDe {
 			'extracted.system_appearance' => 'System',
 			'control.title' => 'Universitätsverwaltung',
 			'control.subtitle' => 'Ihr autorisierter akademischer und administrativer Arbeitsbereich',
+			'messaging.title' => 'Chats',
+			'messaging.no_conversations' => 'Deine Unterhaltungen werden hier angezeigt.',
+			'messaging.unavailable' => 'Diese Unterhaltung ist nicht verfügbar oder du bist kein Mitglied mehr.',
+			'messaging.no_messages' => 'Noch keine Nachrichten. Beginne die Unterhaltung.',
+			'messaging.message_hint' => 'Nachricht schreiben',
+			'messaging.send_failed' => 'Die Nachricht konnte nicht gesendet werden. Prüfe die Verbindung und versuche es erneut.',
+			'messaging.load_older' => 'Ältere Nachrichten laden',
+			'messaging.refresh' => 'Nachrichten aktualisieren',
+			'messaging.load_more' => 'Weitere Chats laden',
 			_ => null,
 		};
 	}

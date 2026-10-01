@@ -1,16 +1,12 @@
 part of 'settings_screen.dart';
 
 extension _SettingsScreenSections on _SettingsScreenState {
-  Widget _buildImmersiveHeader(
-    BuildContext context,
-    bool isArabic,
-    bool isGlass,
-  ) {
+  Widget _buildImmersiveHeader(BuildContext context, bool isArabic) {
     final auth = ref.watch(authControllerProvider);
     final themeColor = Theme.of(context).primaryColor;
 
     return SliverAppBar(
-      expandedHeight: 330,
+      expandedHeight: 280,
       pinned: true,
       stretch: true,
       backgroundColor: Colors.transparent,
@@ -32,10 +28,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
-        stretchModes: const [
-          StretchMode.zoomBackground,
-          StretchMode.blurBackground,
-        ],
+        stretchModes: const [StretchMode.zoomBackground],
         background: Stack(
           fit: StackFit.expand,
           children: [
@@ -45,41 +38,29 @@ extension _SettingsScreenSections on _SettingsScreenState {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF1A0533),
-                    themeColor.withValues(alpha: 0.8),
-                    Color(0xFF0D1B2A),
+                    AppColors.navy800,
+                    AppColors.navy700,
+                    AppColors.navy950,
                   ],
                   stops: const [0.0, 0.5, 1.0],
                 ),
               ),
             ),
-            if (isGlass)
-              Positioned.fill(
-                child: IgnorePointer(
-                  child: CustomPaint(painter: _ParticlesPainter()),
-                ),
-              ),
-
             Positioned(
               right: isArabic ? null : -60,
               left: isArabic ? -60 : null,
               top: -60,
               child: IgnorePointer(
-                child: AnimatedBuilder(
-                  animation: _glowController,
-                  builder: (_, child) => Container(
-                    width: 250,
-                    height: 250,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          themeColor.withValues(
-                            alpha: 0.15 + 0.1 * _glowController.value,
-                          ),
-                          Colors.transparent,
-                        ],
-                      ),
+                child: Container(
+                  width: 220,
+                  height: 220,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(
+                      colors: [
+                        AppColors.gold500.withValues(alpha: 0.12),
+                        Colors.transparent,
+                      ],
                     ),
                   ),
                 ),
@@ -97,7 +78,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                     size: 260,
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
-                ).animate().rotate(duration: 20.seconds, curve: Curves.linear),
+                ),
               ),
             ),
             SafeArea(
@@ -118,7 +99,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 gradient: LinearGradient(
-                                  colors: [themeColor, Color(0xFF10B981)],
+                                  colors: [AppColors.gold400, themeColor],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
@@ -134,7 +115,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                                 padding: const EdgeInsets.all(3),
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Color(0xFF0D1B2A),
+                                  color: AppColors.navy950,
                                 ),
                                 child: CircleAvatar(
                                   radius: 60,
@@ -235,7 +216,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
                           Icon(
                             LucideIcons.shield,
                             size: 13,
-                            color: Colors.greenAccent,
+                            color: AppColors.gold400,
                           ),
                           SizedBox(width: 7),
                           Text(
@@ -309,7 +290,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.userCog,
-            iconColor: const Color(0xFF6366F1),
+            iconColor: AppColors.navy500,
             title: t.extracted.edit_profile,
             subtitle: t.extracted.update_your_personal_info_and_photo,
             isGlass: isGlass,
@@ -319,7 +300,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.unlock,
-            iconColor: Colors.orangeAccent,
+            iconColor: AppColors.gold500,
             title: t.extracted.password_recovery,
             subtitle: t.extracted.send_password_recovery_link_to_your_emai,
             isGlass: isGlass,
@@ -391,7 +372,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.bellRing,
-            iconColor: Colors.redAccent,
+            iconColor: AppColors.navy500,
             title: t.extracted.app_notifications,
             subtitle: _notificationsEnabled
                 ? (t.extracted.notifications_are_active)
@@ -400,14 +381,14 @@ extension _SettingsScreenSections on _SettingsScreenState {
             trailing: _buildSwitch(
               value: _notificationsEnabled,
               onChanged: _toggleNotifications,
-              activeColor: Colors.redAccent,
+              activeColor: Theme.of(context).colorScheme.primary,
             ),
           ),
           _divider(context),
           _buildSettingItem(
             context: context,
             icon: LucideIcons.bell,
-            iconColor: Colors.amberAccent,
+            iconColor: AppColors.gold500,
             title: t.extracted.notification_center,
             subtitle: t.extracted.view_all_your_notifications,
             isGlass: isGlass,
@@ -417,7 +398,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.bellDot,
-            iconColor: Colors.orangeAccent,
+            iconColor: AppColors.gold500,
             title: t.extracted.test_notification,
             subtitle: t.extracted.send_a_test_notification,
             isGlass: isGlass,
@@ -468,7 +449,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
       child: _buildSettingItem(
         context: context,
         icon: LucideIcons.languages,
-        iconColor: Colors.tealAccent,
+        iconColor: AppColors.navy500,
         title: t.extracted.app_language,
         subtitle: _getLanguageName(LocaleSettings.currentLocale.languageCode),
         isGlass: isGlass,
@@ -493,7 +474,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.lifeBuoy,
-            iconColor: Colors.cyanAccent,
+            iconColor: AppColors.navy500,
             title: t.extracted.support_center,
             subtitle: t.extracted.get_help_and_resolve_any_issues,
             isGlass: isGlass,
@@ -504,7 +485,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.messageSquare,
-            iconColor: const Color(0xFF8B5CF6),
+            iconColor: AppColors.navy500,
             title: t.extracted.send_feedback,
             subtitle: t.extracted.share_your_thoughts_to_help_improve_the,
             isGlass: isGlass,
@@ -515,7 +496,7 @@ extension _SettingsScreenSections on _SettingsScreenState {
           _buildSettingItem(
             context: context,
             icon: LucideIcons.star,
-            iconColor: Colors.amberAccent,
+            iconColor: AppColors.gold500,
             title: t.extracted.rate_the_app,
             subtitle: t.extracted.your_support_matters,
             isGlass: isGlass,

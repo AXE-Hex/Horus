@@ -1,16 +1,21 @@
+import 'dart:convert';
+
 class EnvConfig {
   EnvConfig._();
 
   // ── Supabase Configuration ──────────────────────────────────────────────
   static const String supabaseUrl = String.fromEnvironment(
     'SUPABASE_URL',
-    defaultValue: 'https://your-project.supabase.co',
+    defaultValue: 'https://reyvrbvdgojpnbecvzwn.supabase.co',
   );
 
-  static const String supabaseAnonKey = String.fromEnvironment(
-    'SUPABASE_ANON_KEY',
-    defaultValue: 'your_supabase_anon_key_here',
+  static const String supabasePublishableKey = String.fromEnvironment(
+    'SUPABASE_PUBLISHABLE_KEY',
+    defaultValue: String.fromEnvironment('SUPABASE_ANON_KEY'),
   );
+
+  /// Compatibility alias for the older Supabase Dart client parameter name.
+  static const String supabaseAnonKey = supabasePublishableKey;
 
   // ── External API Configuration ──────────────────────────────────────────
   static const String apiUrl = String.fromEnvironment(
@@ -55,10 +60,7 @@ class EnvConfig {
   static const bool enableOfflineCache = false;
 
   // ── Validation ─────────────────────────────────────────────────────────
-  static bool get isDevelopment =>
-      supabaseUrl == 'https://your-project.supabase.co' ||
-      supabaseAnonKey == 'your_supabase_anon_key_here' ||
-      isLocalSupabaseUrl(supabaseUrl);
+  static bool get isDevelopment => isLocalSupabaseUrl(supabaseUrl);
 
   static bool isLocalSupabaseUrl(String value) {
     final host = Uri.tryParse(value.trim())?.host.toLowerCase();
@@ -66,28 +68,41 @@ class EnvConfig {
   }
 
   static bool get isProduction =>
-      !isDevelopment && supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
+      !isDevelopment &&
+      supabaseUrl.isNotEmpty &&
+      supabasePublishableKey.isNotEmpty;
 
   static void validate() {
-    // Allow development mode without actual Supabase credentials
-    if (isDevelopment) {
-      return; // Skip validation in development
+    final uri = Uri.tryParse(supabaseUrl);
+    if (uri == null ||
+        !uri.hasAuthority ||
+        (uri.scheme != 'https' && !isLocalSupabaseUrl(supabaseUrl))) {
+      throw StateError('SUPABASE_URL is missing or invalid.');
     }
 
-    // Validate production credentials
-    assert(
-      supabaseUrl.isNotEmpty &&
-          supabaseUrl != 'https://your-project.supabase.co',
-      'SUPABASE_URL is missing or invalid! '
-      'Set a real Supabase URL or run with --dart-define-from-file=.env',
-    );
+    if (!isClientSafeKey(supabasePublishableKey)) {
+      throw StateError(
+        'A Supabase publishable key or legacy anon key is required. '
+        'Secret and service_role keys are not allowed in the Flutter client.',
+      );
+    }
+  }
 
-    assert(
-      supabaseAnonKey.isNotEmpty &&
-          supabaseAnonKey != 'your_supabase_anon_key_here',
-      'SUPABASE_ANON_KEY is missing or invalid! '
-      'Set a real Supabase key or run with --dart-define-from-file=.env',
-    );
+  static bool isClientSafeKey(String value) {
+    final key = value.trim();
+    if (key.startsWith('sb_publishable_')) return true;
+    if (key.isEmpty || key.startsWith('sb_secret_')) return false;
+
+    final segments = key.split('.');
+    if (segments.length != 3) return false;
+    try {
+      final payload = jsonDecode(
+        utf8.decode(base64Url.decode(base64Url.normalize(segments[1]))),
+      );
+      return payload is Map<String, dynamic> && payload['role'] == 'anon';
+    } on FormatException {
+      return false;
+    }
   }
 
   // ── Debug Info ─────────────────────────────────────────────────────────
@@ -96,7 +111,7 @@ class EnvConfig {
 ╔═══════════════════════════════════════════════════════════╗
 ║           Horus Environment Configuration                 ║
 ╠═══════════════════════════════════════════════════════════╣
-║ Environment: ${isDevelopment ? 'DEVELOPMENT' : 'PRODUCTION'}
+║ Environment: ${isDevelopment ? 'LOCAL' : 'REMOTE'}
 ║ Supabase URL: ${supabaseUrl.substring(0, (supabaseUrl.length ~/ 2).clamp(0, supabaseUrl.length))}***
 ║ API URL: $apiUrl
 ║ Build: $buildFingerprint

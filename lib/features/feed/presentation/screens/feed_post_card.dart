@@ -8,26 +8,9 @@ class _PostCard extends ConsumerStatefulWidget {
   ConsumerState<_PostCard> createState() => _PostCardState();
 }
 
-class _PostCardState extends ConsumerState<_PostCard>
-    with SingleTickerProviderStateMixin {
+class _PostCardState extends ConsumerState<_PostCard> {
   bool _isLiking = false;
-  late AnimationController _likeAnim;
   bool _expanded = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _likeAnim = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-  }
-
-  @override
-  void dispose() {
-    _likeAnim.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,21 +53,20 @@ class _PostCardState extends ConsumerState<_PostCard>
     }
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+      margin: const EdgeInsets.fromLTRB(12, 4, 12, 12),
       decoration: BoxDecoration(
-        color: isDark ? _kSurface : Colors.white,
-        border: Border(
-          top: BorderSide(
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.06)
-                : _kBorderLight,
-          ),
-          bottom: BorderSide(
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.06)
-                : _kBorderLight,
-          ),
+        color: isDark ? _kSurface : AppColors.warmWhite,
+        border: Border.all(
+          color: isDark ? Colors.white.withValues(alpha: 0.08) : _kBorderLight,
         ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: isDark ? 0.10 : 0.035),
+            blurRadius: 12,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,7 +92,7 @@ class _PostCardState extends ConsumerState<_PostCard>
                   Icon(LucideIcons.megaphone, color: _kGold, size: 14),
                   const SizedBox(width: 6),
                   Text(
-                    isArabic ? 'إعلان رسمي' : 'Official Announcement',
+                    t.home.post_announcement,
                     style: TextStyle(
                       color: _kGold,
                       fontSize: 12,

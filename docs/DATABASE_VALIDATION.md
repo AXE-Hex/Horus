@@ -11,7 +11,7 @@ was linked or contacted. The final catalog export was taken after a fresh
 | Fresh reset and seed | PASS | Replayed 001_reset through 20260929205453 and `supabase/seed.sql` without manual steps. |
 | pgTAP | PASS | 8 files, 280 assertions. |
 | DB lint | PASS | `npx supabase db lint --local`; no schema errors. |
-| Development Auth / Storage HTTP | PASS | All 12 local accounts authenticate; disallowed MIME, 5 MiB + 1 byte avatar, cross-owner upload and delete are rejected; owner can delete; guest REST profile directory/grades/messages/catalog are empty; anonymous sensitive RPCs fail. |
+| Development Auth / Storage HTTP | PASS | All 12 local accounts authenticate; regular student can read seeded rows across 7 campus areas; disallowed MIME, 5 MiB + 1 byte avatar, cross-owner upload and delete are rejected; owner can delete; guest REST profile directory/grades/messages/catalog are empty; anonymous sensitive RPCs fail. |
 | Catalog integrity | PASS | Zero violations across nine checked conditions: Auth/profile pairing, invalid RBAC links/codes, duplicate role assignments/permissions, profile affiliation mismatch, orphan messages, and development encryption keys. |
 | Staged constraint validation | PASS | Every top-level `NOT VALID` constraint validated in a local transaction and rolled back. |
 | Dart analysis | PASS | `dart analyze lib test`; no issues. |
@@ -20,8 +20,11 @@ was linked or contacted. The final catalog export was taken after a fresh
 
 Each of the 12 seeded accounts has the intended single canonical role and no
 expired assignment at reset. The seed provides related fixture rows across
-academic, social, registration, finance-read, library, scholarship, and
-notification workflows. These are local test fixtures, not production data.
+academic, social, registration, finance-read, library, scholarship, online
+exam, virtual class, and notification workflows. A REST-level check confirms
+a regular student can read seeded rows in seven campus areas while guest access
+remains empty for protected resources. These are local test fixtures, not
+production data.
 
 ## Catalog audit
 

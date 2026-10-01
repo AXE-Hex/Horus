@@ -15,73 +15,30 @@ class HorusAppShell extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final auth = ref.watch(authControllerProvider);
     final destinations = accessibleDestinations([
-      if (auth.permissionCodes.contains('grades.read'))
-        HorusDestination(
-          route: '/dashboard',
-          label: t.home.home,
-          icon: Icons.home_outlined,
-        )
-      else if (auth.permissionCodes.contains('grades.manage'))
-        HorusDestination(
-          route: '/professor-dashboard',
-          label: t.home.home,
-          icon: Icons.home_outlined,
-        )
-      else
-        HorusDestination(
-          route: '/home',
-          label: t.home.home,
-          icon: Icons.home_outlined,
-        ),
+      HorusDestination(
+        route: '/home',
+        label: t.home.home,
+        icon: Icons.dynamic_feed_outlined,
+      ),
+      HorusDestination(
+        route: '/conversations',
+        label: t.messaging.title,
+        icon: Icons.chat_bubble_outline_rounded,
+      ),
       HorusDestination(
         route: '/courses',
         label: t.academic.courses,
         icon: Icons.school_outlined,
       ),
       HorusDestination(
-        route: '/feed',
-        label: t.students.forums,
-        icon: Icons.dynamic_feed_outlined,
-      ),
-      HorusDestination(
-        route: '/schedule',
-        label: t.students.daily_schedule,
-        icon: Icons.calendar_today_outlined,
+        route: '/colleges-selection',
+        label: t.navigation.university,
+        icon: Icons.account_balance_outlined,
       ),
       HorusDestination(
         route: '/profile',
         label: t.extracted.account,
         icon: Icons.person_outline,
-      ),
-      HorusDestination(
-        route: '/control',
-        label: t.control.title,
-        icon: Icons.account_balance_outlined,
-      ),
-      HorusDestination(
-        route: '/registration',
-        label: t.registration.title,
-        icon: Icons.app_registration,
-      ),
-      HorusDestination(
-        route: '/advisor-approval',
-        label: t.academic.students,
-        icon: Icons.fact_check_outlined,
-      ),
-      HorusDestination(
-        route: '/grades',
-        label: t.academic.academic_results,
-        icon: Icons.analytics_outlined,
-      ),
-      HorusDestination(
-        route: '/notifications',
-        label: t.students.notifications,
-        icon: Icons.notifications_outlined,
-      ),
-      HorusDestination(
-        route: '/settings',
-        label: t.settings.title,
-        icon: Icons.settings_outlined,
       ),
     ], auth.hasRole ? auth.permissionCodes : const {});
     return HorusAdaptiveScaffold(

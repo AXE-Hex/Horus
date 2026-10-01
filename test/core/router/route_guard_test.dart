@@ -44,6 +44,24 @@ void main() {
     expect(canAccessRoute('/professor-dashboard', const {}), isFalse);
   });
 
+  test('conversation routes require the community permission', () {
+    expect(canAccessRoute('/conversations', {'forums.access'}), isTrue);
+    expect(
+      canAccessRoute('/conversations/11111111-1111-4111-8111-111111111111', {
+        'forums.access',
+      }),
+      isTrue,
+    );
+    expect(
+      canAccessRoute('/conversations/11111111-1111-4111-8111-111111111111', {}),
+      isFalse,
+    );
+    expect(
+      canAccessRoute('/conversations/nested/unmapped', {'forums.access'}),
+      isFalse,
+    );
+  });
+
   test('keeps public route declarations explicit', () {
     expect(publicRoutes.contains('/forgot-password'), isTrue);
     expect(publicRoutes.contains('/welcome'), isFalse);
@@ -65,7 +83,7 @@ void main() {
       final student = _authenticatedState(permissions: {'courses.enroll'});
 
       expect(redirectForAuthState('/registration', student), isNull);
-      expect(redirectForAuthState('/manage-tas', student), '/access-pending');
+      expect(redirectForAuthState('/manage-tas', student), '/courses');
     },
   );
 
@@ -103,10 +121,10 @@ void main() {
         resolveInitialDestination(
           _authenticatedState(
             roles: const [UserRole.professor],
-            permissions: {'grades.manage'},
+            permissions: {'grades.manage', 'profiles.read'},
           ),
         ),
-        '/professor-dashboard',
+        '/home',
       );
       expect(
         resolveInitialDestination(
@@ -121,10 +139,10 @@ void main() {
         resolveInitialDestination(
           _authenticatedState(
             roles: const [UserRole.registrarOfficer],
-            permissions: {'registration.manage'},
+            permissions: {'registration.manage', 'profiles.read'},
           ),
         ),
-        '/registration',
+        '/home',
       );
       expect(
         resolveInitialDestination(

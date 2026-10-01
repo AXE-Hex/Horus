@@ -5,6 +5,8 @@ import 'package:horus/features/shared/presentation/screens/security_screen.dart'
 import 'package:horus/features/shared/presentation/screens/sessions_screen.dart';
 import 'package:horus/features/shared/presentation/screens/tutorials_screen.dart';
 import 'package:horus/features/shared/presentation/screens/forums_screen.dart';
+import 'package:horus/features/messaging/presentation/screens/conversation_list_screen.dart';
+import 'package:horus/features/messaging/presentation/screens/conversation_thread_screen.dart';
 
 final List<RouteBase> sharedRoutes = [
   GoRoute(
@@ -20,6 +22,16 @@ final List<RouteBase> sharedRoutes = [
     builder: (context, state) => const NotificationsScreen(),
   ),
   GoRoute(path: '/forums', builder: (context, state) => const ForumsScreen()),
+  GoRoute(
+    path: '/conversations',
+    builder: (context, state) => const ConversationListScreen(),
+  ),
+  GoRoute(
+    path: '/conversations/:conversationId',
+    builder: (context, state) => ConversationThreadScreen(
+      conversationId: state.pathParameters['conversationId']!,
+    ),
+  ),
   GoRoute(path: '/support', builder: (context, state) => const SupportScreen()),
   GoRoute(
     path: '/tutorials',

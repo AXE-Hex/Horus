@@ -14,6 +14,12 @@ class AccessPendingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final copy = t.auth.access_pending;
+    final authError = ref.watch(authControllerProvider).error;
+    final detail = switch (authError) {
+      'profile_missing' => copy.profile_missing,
+      'profile_load_failed' => copy.profile_load_failed,
+      _ => copy.body,
+    };
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -37,7 +43,7 @@ class AccessPendingScreen extends ConsumerWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: AppSpacing.sm),
-                    Text(copy.body, textAlign: TextAlign.center),
+                    Text(detail, textAlign: TextAlign.center),
                     const SizedBox(height: AppSpacing.xl),
                     AppButton(
                       text: copy.sign_out,

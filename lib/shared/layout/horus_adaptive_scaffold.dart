@@ -91,7 +91,7 @@ class _HorusAdaptiveScaffoldState extends State<HorusAdaptiveScaffold> {
                                             Brightness.dark
                                         ? 'assets/images/Logo_dark.png'
                                         : 'assets/images/Logo_light.png',
-                                    height: 64,
+                                    height: 48,
                                     fit: BoxFit.contain,
                                   ),
                                 ),

@@ -16,4 +16,21 @@ void main() {
       );
     });
   });
+
+  group('EnvConfig.isClientSafeKey', () {
+    test('accepts a publishable API key', () {
+      expect(EnvConfig.isClientSafeKey('sb_publishable_test-value'), isTrue);
+    });
+
+    test('accepts a legacy anon JWT but rejects privileged credentials', () {
+      const anonKey = 'eyJhbGciOiJub25lIn0.eyJyb2xlIjoiYW5vbiJ9.signature';
+      const serviceRoleKey =
+          'eyJhbGciOiJub25lIn0.eyJyb2xlIjoic2VydmljZV9yb2xlIn0.signature';
+
+      expect(EnvConfig.isClientSafeKey(anonKey), isTrue);
+      expect(EnvConfig.isClientSafeKey(serviceRoleKey), isFalse);
+      expect(EnvConfig.isClientSafeKey('sb_secret_test-value'), isFalse);
+      expect(EnvConfig.isClientSafeKey('not-a-key'), isFalse);
+    });
+  });
 }

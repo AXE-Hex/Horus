@@ -64,8 +64,9 @@ String normalizeUniversityEmail(String value) {
 bool isUniversityEmail(String value) {
   final email = normalizeUniversityEmail(value);
 
-  final isOfficialUniversityEmail =
-      RegExp(r'^[a-z0-9._%+-]+@horus\.edu\.eg$').hasMatch(email);
+  final isOfficialUniversityEmail = RegExp(
+    r'^[a-z0-9._%+-]+@horus\.edu\.eg$',
+  ).hasMatch(email);
 
   if (isOfficialUniversityEmail) {
     return true;
@@ -86,6 +87,8 @@ class AuthController extends _$AuthController {
   StreamSubscription? _authSub;
   Timer? _roleExpiryTimer;
   int _loadGeneration = 0;
+  Future<void>? _profileLoadInFlight;
+  String? _profileLoadUserId;
 
   @override
   AuthState build() {
@@ -111,6 +114,8 @@ class AuthController extends _$AuthController {
         _loadProfile(session!.user);
       } else if (event == AuthChangeEvent.signedOut) {
         _loadGeneration++;
+        _profileLoadInFlight = null;
+        _profileLoadUserId = null;
         _roleExpiryTimer?.cancel();
         _unsubscribeFromProfile();
         state = const AuthState();
@@ -128,7 +133,12 @@ class AuthController extends _$AuthController {
       state = const AuthState(error: 'invalid_university_email');
       return;
     }
-    state = state.copyWith(isLoading: true, error: null);
+    state = AuthState(
+      user: state.user,
+      profile: state.profile,
+      isLoading: true,
+      permissionCodes: state.permissionCodes,
+    );
 
     try {
       final response = await _client.auth.signInWithPassword(
@@ -137,9 +147,16 @@ class AuthController extends _$AuthController {
       );
       if (response.user != null && response.session != null) {
         await _loadProfile(response.user!);
+      } else {
+        state = state.copyWith(isLoading: false, error: 'session_missing');
       }
-    } on AuthException catch (_) {
-      state = state.copyWith(isLoading: false, error: 'sign_in_failed');
+    } on AuthException catch (error) {
+      state = state.copyWith(
+        isLoading: false,
+        error: signInFailureCode(error.code, error.statusCode),
+      );
+    } on TimeoutException {
+      state = state.copyWith(isLoading: false, error: 'network_error');
     } catch (_) {
       state = state.copyWith(isLoading: false, error: 'sign_in_failed');
     }
@@ -211,8 +228,26 @@ class AuthController extends _$AuthController {
     }
   }
 
-  Future<void> _loadProfile(User user) async {
+  Future<void> _loadProfile(User user, {bool force = false}) {
+    final inFlight = _profileLoadInFlight;
+    if (!force && inFlight != null && _profileLoadUserId == user.id) {
+      return inFlight;
+    }
+
     final generation = ++_loadGeneration;
+    late final Future<void> request;
+    request = _fetchProfile(user, generation).whenComplete(() {
+      if (identical(_profileLoadInFlight, request)) {
+        _profileLoadInFlight = null;
+        _profileLoadUserId = null;
+      }
+    });
+    _profileLoadUserId = user.id;
+    _profileLoadInFlight = request;
+    return request;
+  }
+
+  Future<void> _fetchProfile(User user, int generation) async {
     try {
       final data = await _client
           .from('profiles')
@@ -286,7 +321,7 @@ class AuthController extends _$AuthController {
           remaining.isNegative ? Duration.zero : remaining,
           () {
             state = AuthState(user: user, isLoading: true);
-            _loadProfile(user);
+            _loadProfile(user, force: true);
           },
         );
       }
@@ -294,12 +329,12 @@ class AuthController extends _$AuthController {
       _subscribeToAuthorizationChanges(user.id);
     } catch (e) {
       if (generation != _loadGeneration) return;
-      final isMissingProfile = e.toString().contains('PGRST116');
+      final isMissingProfile = e is PostgrestException && e.code == 'PGRST116';
 
       state = AuthState(
         user: user,
         isLoading: false,
-        error: isMissingProfile ? null : 'profile_load_failed',
+        error: isMissingProfile ? 'profile_missing' : 'profile_load_failed',
       );
     }
   }
@@ -348,7 +383,7 @@ class AuthController extends _$AuthController {
 
   void _refreshAuthorization() {
     final user = state.user;
-    if (user != null) _loadProfile(user);
+    if (user != null) _loadProfile(user, force: true);
   }
 
   void _unsubscribeFromProfile() {
@@ -357,4 +392,19 @@ class AuthController extends _$AuthController {
       _profileChannel = null;
     }
   }
+}
+
+String signInFailureCode(String? code, String? statusCode) {
+  if (code == 'email_not_confirmed') return 'email_not_confirmed';
+  if (code == 'user_banned') return 'account_unavailable';
+  if (code == 'over_request_rate_limit' ||
+      code == 'over_email_send_rate_limit') {
+    return 'too_many_attempts';
+  }
+  if (code == 'request_timeout' ||
+      statusCode == '0' ||
+      (code == null && statusCode == null)) {
+    return 'network_error';
+  }
+  return 'sign_in_failed';
 }

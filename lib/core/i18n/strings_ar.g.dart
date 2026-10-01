@@ -40,6 +40,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override late final _TranslationsCommonAr common = _TranslationsCommonAr._(_root);
+	@override late final _TranslationsNavigationAr navigation = _TranslationsNavigationAr._(_root);
 	@override late final _TranslationsWelcomeAr welcome = _TranslationsWelcomeAr._(_root);
 	@override late final _TranslationsOnboardingAr onboarding = _TranslationsOnboardingAr._(_root);
 	@override late final _TranslationsAuthAr auth = _TranslationsAuthAr._(_root);
@@ -73,6 +74,7 @@ class TranslationsAr extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsSharedAr shared = _TranslationsSharedAr._(_root);
 	@override late final _TranslationsStudentsAr students = _TranslationsStudentsAr._(_root);
 	@override late final _TranslationsControlAr control = _TranslationsControlAr._(_root);
+	@override late final _TranslationsMessagingAr messaging = _TranslationsMessagingAr._(_root);
 }
 
 // Path: common
@@ -87,6 +89,17 @@ class _TranslationsCommonAr extends TranslationsCommonEn {
 	@override String get confirm => 'تأكيد';
 	@override String get save => 'حفظ';
 	@override String get back => 'رجوع';
+}
+
+// Path: navigation
+class _TranslationsNavigationAr extends TranslationsNavigationEn {
+	_TranslationsNavigationAr._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get more => 'المزيد';
+	@override String get university => 'الجامعة';
 }
 
 // Path: welcome
@@ -1404,6 +1417,24 @@ class _TranslationsControlAr extends TranslationsControlEn {
 	@override String get subtitle => 'مساحة العمل الأكاديمية والإدارية وفق صلاحياتك';
 }
 
+// Path: messaging
+class _TranslationsMessagingAr extends TranslationsMessagingEn {
+	_TranslationsMessagingAr._(TranslationsAr root) : this._root = root, super.internal(root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'المحادثات';
+	@override String get no_conversations => 'ستظهر محادثاتك هنا.';
+	@override String get unavailable => 'هذه المحادثة غير متاحة أو لم تعد عضوًا فيها.';
+	@override String get no_messages => 'لا توجد رسائل بعد. ابدأ المحادثة.';
+	@override String get message_hint => 'اكتب رسالة';
+	@override String get send_failed => 'تعذر إرسال الرسالة. تحقق من الاتصال وحاول مجددًا.';
+	@override String get load_older => 'تحميل رسائل أقدم';
+	@override String get refresh => 'تحديث الرسائل';
+	@override String get load_more => 'تحميل محادثات أخرى';
+}
+
 // Path: onboarding.language
 class _TranslationsOnboardingLanguageAr extends TranslationsOnboardingLanguageEn {
 	_TranslationsOnboardingLanguageAr._(TranslationsAr root) : this._root = root, super.internal(root);
@@ -1498,6 +1529,8 @@ class _TranslationsAuthAccessPendingAr extends TranslationsAuthAccessPendingEn {
 	@override String get title => 'الصلاحية قيد الانتظار';
 	@override String get body => 'لا يملك هذا الحساب دورًا جامعيًا نشطًا. تواصل مع دعم الجامعة إذا كنت تعتقد أن هذا خطأ.';
 	@override String get sign_out => 'تسجيل الخروج';
+	@override String get profile_missing => 'هذا الحساب غير مرتبط بملف شخصي في هورس. تواصل مع دعم الجامعة.';
+	@override String get profile_load_failed => 'تعذر تحميل صلاحيات الحساب. تحقق من الاتصال ثم سجّل الدخول مجددًا.';
 }
 
 // Path: auth.login
@@ -1518,6 +1551,10 @@ class _TranslationsAuthLoginAr extends TranslationsAuthLoginEn {
 	@override String get forgot_password => 'نسيت كلمة المرور؟';
 	@override String get submit => 'تسجيل الدخول';
 	@override String get guest => 'تصفح كزائر';
+	@override String get email_not_confirmed => 'أكد بريدك الإلكتروني قبل تسجيل الدخول.';
+	@override String get network_error => 'تعذر الاتصال بهورس. تحقق من اتصالك بالإنترنت ثم حاول مجددًا.';
+	@override String get too_many_attempts => 'تكررت محاولات تسجيل الدخول. انتظر قليلًا ثم حاول مجددًا.';
+	@override String get account_unavailable => 'لا يمكن تسجيل الدخول بهذا الحساب. تواصل مع دعم الجامعة.';
 }
 
 // Path: auth.forgot_password
@@ -2001,6 +2038,8 @@ extension on TranslationsAr {
 			'common.confirm' => 'تأكيد',
 			'common.save' => 'حفظ',
 			'common.back' => 'رجوع',
+			'navigation.more' => 'المزيد',
+			'navigation.university' => 'الجامعة',
 			'welcome.title' => 'مرحبا بك في حورس',
 			'welcome.subtitle' => 'أنر عالمك باتصالات ذات مغزى.',
 			'welcome.get_started' => 'ابدأ الآن',
@@ -2058,6 +2097,8 @@ extension on TranslationsAr {
 			'auth.access_pending.title' => 'الصلاحية قيد الانتظار',
 			'auth.access_pending.body' => 'لا يملك هذا الحساب دورًا جامعيًا نشطًا. تواصل مع دعم الجامعة إذا كنت تعتقد أن هذا خطأ.',
 			'auth.access_pending.sign_out' => 'تسجيل الخروج',
+			'auth.access_pending.profile_missing' => 'هذا الحساب غير مرتبط بملف شخصي في هورس. تواصل مع دعم الجامعة.',
+			'auth.access_pending.profile_load_failed' => 'تعذر تحميل صلاحيات الحساب. تحقق من الاتصال ثم سجّل الدخول مجددًا.',
 			'auth.login.welcome' => 'مرحباً بعودتك',
 			'auth.login.subtitle' => 'سجل الدخول للمتابعة',
 			'auth.login.email' => 'البريد الإلكتروني',
@@ -2069,6 +2110,10 @@ extension on TranslationsAr {
 			'auth.login.forgot_password' => 'نسيت كلمة المرور؟',
 			'auth.login.submit' => 'تسجيل الدخول',
 			'auth.login.guest' => 'تصفح كزائر',
+			'auth.login.email_not_confirmed' => 'أكد بريدك الإلكتروني قبل تسجيل الدخول.',
+			'auth.login.network_error' => 'تعذر الاتصال بهورس. تحقق من اتصالك بالإنترنت ثم حاول مجددًا.',
+			'auth.login.too_many_attempts' => 'تكررت محاولات تسجيل الدخول. انتظر قليلًا ثم حاول مجددًا.',
+			'auth.login.account_unavailable' => 'لا يمكن تسجيل الدخول بهذا الحساب. تواصل مع دعم الجامعة.',
 			'auth.forgot_password.title' => 'نسيت كلمة المرور',
 			'auth.forgot_password.subtitle' => 'اختر طريقة الاستعادة',
 			'auth.forgot_password.method_online' => 'طلب إلكتروني',
@@ -2500,6 +2545,8 @@ extension on TranslationsAr {
 			'roles.descriptions.rector' => 'مدير الجامعة مع إشراف أكاديمي كامل',
 			'roles.descriptions.dean' => 'رئيس كلية أو مجمع أكاديمي',
 			'roles.descriptions.department_head' => 'رئيس قسم أكاديمي',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.academic_coordinator' => 'تنسيق البرامج الأكاديمية والجداول',
 			'roles.descriptions.professor' => 'عضو هيئة تدريس يقوم بالتدريس وإدارة المقررات',
 			'roles.descriptions.lecturer' => 'يقوم بالتدريس بدون صلاحيات الأستاذ الكاملة',
@@ -2508,8 +2555,6 @@ extension on TranslationsAr {
 			'roles.descriptions.academic_advisor' => 'يرشد الطلاب خلال التخطيط الأكاديمي',
 			'roles.descriptions.librarian' => 'إدارة الموارد والمواد المكتبية',
 			'roles.descriptions.freshman' => 'طالب في السنة الأولى مع صلاحيات محدودة',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.regular_student' => 'طالب منتظم مع جميع الصلاحيات الأكاديمية المعتادة',
 			'roles.descriptions.student' => 'طالب عام',
 			'roles.descriptions.class_representative' => 'قائد طلابي يمثل مجموعته الدراسية',
@@ -3014,6 +3059,8 @@ extension on TranslationsAr {
 			'enrollment.save' => 'يحفظ',
 			'enrollment.cancel' => 'يلغي',
 			'enrollment.invoice_date' => 'تاريخ',
+			_ => null,
+		} ?? switch (path) {
 			'enrollment.invoice_id' => 'معرف الفاتورة',
 			'enrollment.invoice_amount' => 'كمية',
 			'enrollment.invoice_paid' => 'مدفوع',
@@ -3022,8 +3069,6 @@ extension on TranslationsAr {
 			'enrollment.pay_now' => 'ادفع الآن',
 			'enrollment.invoice_overdue' => 'تأخرت',
 			'enrollment.payment_method' => 'طريقة الدفع',
-			_ => null,
-		} ?? switch (path) {
 			'enrollment.credit_card' => 'بطاقة إئتمان',
 			'enrollment.bank_transfer' => 'التحويل البنكي',
 			'enrollment.fawry' => 'فوري',
@@ -3267,6 +3312,15 @@ extension on TranslationsAr {
 			'students.utilities' => 'المرافق',
 			'control.title' => 'إدارة الجامعة',
 			'control.subtitle' => 'مساحة العمل الأكاديمية والإدارية وفق صلاحياتك',
+			'messaging.title' => 'المحادثات',
+			'messaging.no_conversations' => 'ستظهر محادثاتك هنا.',
+			'messaging.unavailable' => 'هذه المحادثة غير متاحة أو لم تعد عضوًا فيها.',
+			'messaging.no_messages' => 'لا توجد رسائل بعد. ابدأ المحادثة.',
+			'messaging.message_hint' => 'اكتب رسالة',
+			'messaging.send_failed' => 'تعذر إرسال الرسالة. تحقق من الاتصال وحاول مجددًا.',
+			'messaging.load_older' => 'تحميل رسائل أقدم',
+			'messaging.refresh' => 'تحديث الرسائل',
+			'messaging.load_more' => 'تحميل محادثات أخرى',
 			_ => null,
 		};
 	}

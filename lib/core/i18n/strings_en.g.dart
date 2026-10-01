@@ -41,6 +41,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsCommonEn common = TranslationsCommonEn.internal(_root);
+	late final TranslationsNavigationEn navigation = TranslationsNavigationEn.internal(_root);
 	late final TranslationsWelcomeEn welcome = TranslationsWelcomeEn.internal(_root);
 	late final TranslationsOnboardingEn onboarding = TranslationsOnboardingEn.internal(_root);
 	late final TranslationsAuthEn auth = TranslationsAuthEn.internal(_root);
@@ -74,6 +75,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsStudentsEn students = TranslationsStudentsEn.internal(_root);
 	late final TranslationsExtractedEn extracted = TranslationsExtractedEn.internal(_root);
 	late final TranslationsControlEn control = TranslationsControlEn.internal(_root);
+	late final TranslationsMessagingEn messaging = TranslationsMessagingEn.internal(_root);
 }
 
 // Path: common
@@ -98,6 +100,21 @@ class TranslationsCommonEn {
 
 	/// en: 'Back'
 	String get back => 'Back';
+}
+
+// Path: navigation
+class TranslationsNavigationEn {
+	TranslationsNavigationEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'More'
+	String get more => 'More';
+
+	/// en: 'University'
+	String get university => 'University';
 }
 
 // Path: welcome
@@ -3397,6 +3414,42 @@ class TranslationsControlEn {
 	String get subtitle => 'Your authorized academic and operational workspace';
 }
 
+// Path: messaging
+class TranslationsMessagingEn {
+	TranslationsMessagingEn.internal(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Chats'
+	String get title => 'Chats';
+
+	/// en: 'Your conversations will appear here.'
+	String get no_conversations => 'Your conversations will appear here.';
+
+	/// en: 'This conversation is unavailable or you are no longer a member.'
+	String get unavailable => 'This conversation is unavailable or you are no longer a member.';
+
+	/// en: 'No messages yet. Start the conversation.'
+	String get no_messages => 'No messages yet. Start the conversation.';
+
+	/// en: 'Write a message'
+	String get message_hint => 'Write a message';
+
+	/// en: 'Your message could not be sent. Check your connection and try again.'
+	String get send_failed => 'Your message could not be sent. Check your connection and try again.';
+
+	/// en: 'Load earlier messages'
+	String get load_older => 'Load earlier messages';
+
+	/// en: 'Refresh messages'
+	String get refresh => 'Refresh messages';
+
+	/// en: 'Load more conversations'
+	String get load_more => 'Load more conversations';
+}
+
 // Path: onboarding.language
 class TranslationsOnboardingLanguageEn {
 	TranslationsOnboardingLanguageEn.internal(this._root);
@@ -3554,6 +3607,12 @@ class TranslationsAuthAccessPendingEn {
 
 	/// en: 'Sign out'
 	String get sign_out => 'Sign out';
+
+	/// en: 'Your authenticated account is not linked to a Horus profile. Contact university support.'
+	String get profile_missing => 'Your authenticated account is not linked to a Horus profile. Contact university support.';
+
+	/// en: 'Horus could not load your account permissions. Check your connection, then sign in again.'
+	String get profile_load_failed => 'Horus could not load your account permissions. Check your connection, then sign in again.';
 }
 
 // Path: auth.login
@@ -3596,6 +3655,18 @@ class TranslationsAuthLoginEn {
 
 	/// en: 'Browse as Guest'
 	String get guest => 'Browse as Guest';
+
+	/// en: 'Confirm your email address before signing in.'
+	String get email_not_confirmed => 'Confirm your email address before signing in.';
+
+	/// en: 'Couldn't reach Horus. Check your connection and try again.'
+	String get network_error => 'Couldn\'t reach Horus. Check your connection and try again.';
+
+	/// en: 'Too many sign-in attempts. Wait a moment and try again.'
+	String get too_many_attempts => 'Too many sign-in attempts. Wait a moment and try again.';
+
+	/// en: 'This account cannot sign in. Contact university support.'
+	String get account_unavailable => 'This account cannot sign in. Contact university support.';
 }
 
 // Path: auth.forgot_password
@@ -4543,6 +4614,8 @@ extension on Translations {
 			'common.confirm' => 'Confirm',
 			'common.save' => 'Save',
 			'common.back' => 'Back',
+			'navigation.more' => 'More',
+			'navigation.university' => 'University',
 			'welcome.title' => 'Welcome To Horus',
 			'welcome.subtitle' => 'Light up your world with meaningful connections.',
 			'welcome.get_started' => 'Get Started',
@@ -4600,6 +4673,8 @@ extension on Translations {
 			'auth.access_pending.title' => 'Access is pending',
 			'auth.access_pending.body' => 'This account does not have an active university role. Contact university support if you believe this is an error.',
 			'auth.access_pending.sign_out' => 'Sign out',
+			'auth.access_pending.profile_missing' => 'Your authenticated account is not linked to a Horus profile. Contact university support.',
+			'auth.access_pending.profile_load_failed' => 'Horus could not load your account permissions. Check your connection, then sign in again.',
 			'auth.login.welcome' => 'Welcome Back',
 			'auth.login.subtitle' => 'Sign in to continue',
 			'auth.login.email' => 'Email',
@@ -4611,6 +4686,10 @@ extension on Translations {
 			'auth.login.forgot_password' => 'Forgot Password?',
 			'auth.login.submit' => 'Login',
 			'auth.login.guest' => 'Browse as Guest',
+			'auth.login.email_not_confirmed' => 'Confirm your email address before signing in.',
+			'auth.login.network_error' => 'Couldn\'t reach Horus. Check your connection and try again.',
+			'auth.login.too_many_attempts' => 'Too many sign-in attempts. Wait a moment and try again.',
+			'auth.login.account_unavailable' => 'This account cannot sign in. Contact university support.',
 			'auth.forgot_password.title' => 'Forgot Password',
 			'auth.forgot_password.subtitle' => 'Choose a recovery method',
 			'auth.forgot_password.method_online' => 'Online Request',
@@ -5042,6 +5121,8 @@ extension on Translations {
 			'roles.descriptions.dean' => 'Head of a college/faculty',
 			'roles.descriptions.department_head' => 'Head of an academic department',
 			'roles.descriptions.academic_coordinator' => 'Coordinates academic programs and scheduling',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.professor' => 'Faculty member who teaches and manages courses',
 			'roles.descriptions.lecturer' => 'Teaches courses without full professor privileges',
 			'roles.descriptions.teaching_assistant' => 'Assists professors with grading, labs, and tutorials',
@@ -5050,8 +5131,6 @@ extension on Translations {
 			'roles.descriptions.librarian' => 'Manages library resources and materials',
 			'roles.descriptions.freshman' => 'First-year student with limited system access',
 			'roles.descriptions.regular_student' => 'Full student with all standard academic privileges',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.student' => 'General student role',
 			'roles.descriptions.class_representative' => 'Student leader who represents the class body',
 			'roles.descriptions.alumni' => 'Graduated student with limited access',
@@ -5556,6 +5635,8 @@ extension on Translations {
 			'extracted.full_name' => 'Full Name',
 			'extracted.required' => 'Required',
 			'extracted.email' => 'Email',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.phone_number' => 'Phone Number',
 			'extracted.national_id' => 'National ID',
 			'extracted.about_me' => 'About Me',
@@ -5564,8 +5645,6 @@ extension on Translations {
 			'extracted.role' => 'Role',
 			'extracted.account_status' => 'Account Status',
 			'extracted.active' => 'Active',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.save_changes' => 'Save Changes',
 			'extracted.account' => 'Account',
 			'extracted.appearance' => 'Appearance',
@@ -5808,6 +5887,15 @@ extension on Translations {
 			'extracted.system_appearance' => 'System',
 			'control.title' => 'University management',
 			'control.subtitle' => 'Your authorized academic and operational workspace',
+			'messaging.title' => 'Chats',
+			'messaging.no_conversations' => 'Your conversations will appear here.',
+			'messaging.unavailable' => 'This conversation is unavailable or you are no longer a member.',
+			'messaging.no_messages' => 'No messages yet. Start the conversation.',
+			'messaging.message_hint' => 'Write a message',
+			'messaging.send_failed' => 'Your message could not be sent. Check your connection and try again.',
+			'messaging.load_older' => 'Load earlier messages',
+			'messaging.refresh' => 'Refresh messages',
+			'messaging.load_more' => 'Load more conversations',
 			_ => null,
 		};
 	}

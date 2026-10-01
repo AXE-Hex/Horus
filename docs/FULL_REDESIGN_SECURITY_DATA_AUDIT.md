@@ -202,11 +202,11 @@ checks are in `scripts/database/storage_api_test.py`.
   and owner deletion.
 - `dart format lib test`: PASS.
 - `dart analyze lib test`: PASS, no issues.
-- `flutter test --coverage`: PASS, 68 tests in the latest completed run,
+- `flutter test --coverage`: PASS, 81 tests in the latest completed run,
   including the production sample-data regression scan.
 - `flutter build web --debug`: PASS in the latest completed build.
 - `git diff --check`: PASS at the last run.
-- Coverage: 11.31% (1,315 of 11,631 executable lines hit). Coverage is low
+- Coverage: 17.54% (2,126 of 12,120 executable lines hit). Coverage is low
   because tests focus on auth, data contracts, theme, routing, and selected
   widget flows rather than all screens.
 
@@ -231,3 +231,38 @@ checks are in `scripts/database/storage_api_test.py`.
   and production recommendations are documented separately.
 - Local tests do not establish production load capacity, payment-provider
   integrity, signed URL revocation, realtime privacy, or operational retention.
+
+
+## Product experience recovery follow-up — 2026-10-01
+
+The active product direction is one Horus university super app with Feed as
+Home, concise domain navigation, and responsive presentations. The current
+implementation update:
+
+- Main navigation now prioritizes Feed, Conversations, Courses, University,
+  and Profile. Dashboard routes remain secondary and role/permission gated.
+- Feed remains backed by the existing posts repository, is width constrained,
+  and places permission-filtered shortcuts in a desktop context panel. Official
+  trust marks remain limited to fields and scopes supported by the data contract.
+- Messaging has new list/thread routes and typed repository queries for the
+  existing conversations, member, profile, and message tables. Member RLS is
+  unchanged. It supports text send, refresh, and bounded paging; no realtime,
+  media upload, or presence claims were added. Routes reuse `forums.access`
+  because the validated RBAC contract has no dedicated messaging permission.
+- Courses now show a responsive selected-course summary from actual catalog
+  fields; unsupported assignment/material/channel areas were not fabricated.
+- Settings uses bounded grouped sections at wide widths and avoids its previous
+  decorative blur/continuous painter. The unreferenced painter was removed.
+- Screen inventory now records 55 GoRouter routes and 54 screen modules.
+- Responsive widget checks passed at 390, 768, and 1440 pixels for Feed, Settings,
+  Messaging, and the app navigation shell. This verifies layout constraints;
+  actual screenshot capture and visual comparison against the original app have
+  not yet been completed.
+- Current Flutter validation: 81 tests passed; analyzer clean; Linux debug build
+  succeeded; coverage 17.54%. No database migrations, RLS, or RBAC policies were
+  changed during this UI correction.
+
+The overall redesign remains incomplete. Most academic services, profile and
+Digital ID, university exploration, notifications, and management screens still
+need parity review and migration. Desktop visual inspection at 1440 and direct
+role-by-role interactive review remain outstanding.

@@ -55,13 +55,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (!mounted) return;
 
     final authState = ref.read(authControllerProvider);
-    if (authState.error != null) {
+    if (authState.isAuthenticated) {
+      HapticFeedback.lightImpact();
+      context.go(resolveInitialDestination(authState));
+    } else if (authState.error != null) {
       _showError(_authErrorMessage(authState.error!));
       setState(() => _isSigningIn = false);
       HapticFeedback.heavyImpact();
-    } else if (authState.isAuthenticated) {
-      HapticFeedback.lightImpact();
-      context.go(resolveInitialDestination(authState));
     } else {
       setState(() => _isSigningIn = false);
     }
@@ -70,6 +70,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   String _authErrorMessage(String code) => switch (code) {
     'invalid_university_email' => t.auth.login.invalid_email,
     'sign_in_failed' => t.auth.login.sign_in_failed,
+    'email_not_confirmed' => t.auth.login.email_not_confirmed,
+    'network_error' => t.auth.login.network_error,
+    'too_many_attempts' => t.auth.login.too_many_attempts,
+    'account_unavailable' => t.auth.login.account_unavailable,
     _ => t.auth.login.sign_in_failed,
   };
 

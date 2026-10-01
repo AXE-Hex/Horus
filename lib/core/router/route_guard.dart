@@ -11,6 +11,7 @@ const Set<String> publicRoutes = {
 /// the authority for data access and mutations.
 const Map<String, Set<String>> routePermissions = {
   '/home': {'profiles.read'},
+  '/colleges-selection': {'profiles.read'},
   '/control': {
     'courses.manage',
     'registration.manage',
@@ -49,6 +50,8 @@ const Map<String, Set<String>> routePermissions = {
   '/manage-groups': {'groups.manage'},
   '/professor-chat': {'forums.access'},
   '/feed': {'profiles.read', 'forums.access'},
+  '/conversations': {'forums.access'},
+  '/conversations/:conversationId': {'forums.access'},
   '/create-post': {'posts.create'},
   '/forums': {'forums.access'},
   '/settings': {'profiles.self_edit'},
@@ -64,7 +67,11 @@ const Map<String, Set<String>> routePermissions = {
 };
 
 bool canAccessRoute(String path, Set<String> permissionCodes) {
-  final requiredPermissions = routePermissions[path];
+  final requiredPermissions =
+      routePermissions[path] ??
+      (RegExp(r'^/conversations/[^/]+$').hasMatch(path)
+          ? routePermissions['/conversations/:conversationId']
+          : null);
   if (requiredPermissions == null || requiredPermissions.isEmpty) return false;
   return requiredPermissions.any(permissionCodes.contains);
 }
@@ -75,6 +82,7 @@ String resolveInitialDestination(AuthState authState) {
   if (!authState.hasRole) return '/access-pending';
 
   final permissions = authState.permissionCodes;
+  if (permissions.contains('profiles.read')) return '/home';
   if (authState.profile!.roles.any(
         (role) => role.category == RoleCategory.academicLeadership,
       ) &&
@@ -85,7 +93,9 @@ String resolveInitialDestination(AuthState authState) {
   if (permissions.contains('registration.manage')) return '/registration';
   if (permissions.contains('grades.manage')) return '/professor-dashboard';
   if (permissions.contains('grades.read')) return '/dashboard';
-  if (permissions.contains('profiles.read')) return '/home';
+  if (permissions.contains('forums.access')) return '/forums';
+  if (permissions.contains('courses.manage')) return '/courses';
+  if (permissions.contains('courses.enroll')) return '/courses';
   return '/access-pending';
 }
 

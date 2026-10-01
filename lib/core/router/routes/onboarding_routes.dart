@@ -17,7 +17,7 @@ final List<RouteBase> onboardingRoutes = [
   GoRoute(path: '/splash', builder: (context, state) => const SplashScreen()),
   GoRoute(
     path: '/colleges-selection',
-    builder: (context, state) => const CollegesScreen(),
+    builder: (context, state) => const CollegesScreen(isOnboarding: false),
   ),
   GoRoute(path: '/', builder: (context, state) => const WelcomeScreen()),
   GoRoute(path: '/welcome', builder: (context, state) => const WelcomeScreen()),

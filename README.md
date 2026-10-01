@@ -231,8 +231,12 @@ flutter pub get
 3. Configure environment values
 Create or provide the required environment configuration for:
 - `SUPABASE_URL`
-- `SUPABASE_ANON_KEY`
+- `SUPABASE_PUBLISHABLE_KEY` (preferred; `SUPABASE_ANON_KEY` remains supported for existing CI)
 - any additional API values used by the app
+
+The default URL targets the existing Horus project (`reyvrbvdgojpnbecvzwn`).
+Copy `.env.example` to `.env`, obtain that project's publishable key, and keep
+`.env` uncommitted. Never use a secret or `service_role` key in Flutter.
 
 4. Generate code if needed
 ```bash

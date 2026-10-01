@@ -6,6 +6,10 @@
     "save": "保存",
     "back": "返回"
   },
+  "navigation": {
+    "more": "更多",
+    "university": "大学"
+  },
   "welcome": {
     "title": "欢迎来到 Horus",
     "subtitle": "用有意义的联系点亮你的世界。",
@@ -84,7 +88,9 @@
     "access_pending": {
       "title": "访问权限待审核",
       "body": "此账户没有有效的大学角色。如认为有误，请联系大学支持。",
-      "sign_out": "退出登录"
+      "sign_out": "退出登录",
+      "profile_missing": "此认证账户未关联 Horus 个人资料。请联系大学支持。",
+      "profile_load_failed": "Horus 无法加载账户权限。请检查网络后重新登录。"
     },
     "login": {
       "welcome": "欢迎回来",
@@ -97,7 +103,11 @@
       "sign_in_failed": "无法登录。请检查信息后重试。",
       "forgot_password": "忘记密码？",
       "submit": "登录",
-      "guest": "作为访客浏览"
+      "guest": "作为访客浏览",
+      "email_not_confirmed": "请先验证电子邮件地址，然后再登录。",
+      "network_error": "无法连接 Horus。请检查网络连接后重试。",
+      "too_many_attempts": "登录尝试次数过多。请稍候再试。",
+      "account_unavailable": "此账户无法登录。请联系大学支持。"
     },
     "forgot_password": {
       "title": "忘记密码",
@@ -1328,5 +1338,16 @@
   "control": {
     "title": "大学管理",
     "subtitle": "您获授权的教学与行政工作区"
+  },
+  "messaging": {
+    "title": "聊天",
+    "no_conversations": "你的对话会显示在这里。",
+    "unavailable": "此对话不可用，或你已不再是成员。",
+    "no_messages": "暂无消息，开始聊天吧。",
+    "message_hint": "输入消息",
+    "send_failed": "消息发送失败。请检查网络后重试。",
+    "load_older": "加载更早的消息",
+    "refresh": "刷新消息",
+    "load_more": "加载更多对话"
   }
 }

@@ -57,20 +57,20 @@ jobs:
 
       - name: Validate public Supabase build configuration
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          SUPABASE_URL: https://reyvrbvdgojpnbecvzwn.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || vars.SUPABASE_ANON_KEY }}
         run: |
           test -n "$SUPABASE_URL" || { echo "Missing production environment variable SUPABASE_URL" >&2; exit 1; }
-          test -n "$SUPABASE_ANON_KEY" || { echo "Missing production environment variable SUPABASE_ANON_KEY" >&2; exit 1; }
+          test -n "$SUPABASE_PUBLISHABLE_KEY" || { echo "Missing production environment variable SUPABASE_PUBLISHABLE_KEY" >&2; exit 1; }
 
       - name: Build Flutter Web release
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          SUPABASE_URL: https://reyvrbvdgojpnbecvzwn.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY || vars.SUPABASE_ANON_KEY }}
         run: |
           flutter build web --release \
             --dart-define="SUPABASE_URL=$SUPABASE_URL" \
-            --dart-define="SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY"
+            --dart-define="SUPABASE_PUBLISHABLE_KEY=$SUPABASE_PUBLISHABLE_KEY"
 
       - name: Package Web release
         run: tar -C build/web -czf "horus-web-${GITHUB_REF_NAME}.tar.gz" .

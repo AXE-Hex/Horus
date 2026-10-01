@@ -40,6 +40,7 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 
 	// Translations
 	@override late final _TranslationsCommonZh common = _TranslationsCommonZh._(_root);
+	@override late final _TranslationsNavigationZh navigation = _TranslationsNavigationZh._(_root);
 	@override late final _TranslationsWelcomeZh welcome = _TranslationsWelcomeZh._(_root);
 	@override late final _TranslationsOnboardingZh onboarding = _TranslationsOnboardingZh._(_root);
 	@override late final _TranslationsAuthZh auth = _TranslationsAuthZh._(_root);
@@ -73,6 +74,7 @@ class TranslationsZh extends Translations with BaseTranslations<AppLocale, Trans
 	@override late final _TranslationsStudentsZh students = _TranslationsStudentsZh._(_root);
 	@override late final _TranslationsExtractedZh extracted = _TranslationsExtractedZh._(_root);
 	@override late final _TranslationsControlZh control = _TranslationsControlZh._(_root);
+	@override late final _TranslationsMessagingZh messaging = _TranslationsMessagingZh._(_root);
 }
 
 // Path: common
@@ -87,6 +89,17 @@ class _TranslationsCommonZh extends TranslationsCommonEn {
 	@override String get confirm => '确认';
 	@override String get save => '保存';
 	@override String get back => '返回';
+}
+
+// Path: navigation
+class _TranslationsNavigationZh extends TranslationsNavigationEn {
+	_TranslationsNavigationZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get more => '更多';
+	@override String get university => '大学';
 }
 
 // Path: welcome
@@ -1331,6 +1344,24 @@ class _TranslationsControlZh extends TranslationsControlEn {
 	@override String get subtitle => '您获授权的教学与行政工作区';
 }
 
+// Path: messaging
+class _TranslationsMessagingZh extends TranslationsMessagingEn {
+	_TranslationsMessagingZh._(TranslationsZh root) : this._root = root, super.internal(root);
+
+	final TranslationsZh _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '聊天';
+	@override String get no_conversations => '你的对话会显示在这里。';
+	@override String get unavailable => '此对话不可用，或你已不再是成员。';
+	@override String get no_messages => '暂无消息，开始聊天吧。';
+	@override String get message_hint => '输入消息';
+	@override String get send_failed => '消息发送失败。请检查网络后重试。';
+	@override String get load_older => '加载更早的消息';
+	@override String get refresh => '刷新消息';
+	@override String get load_more => '加载更多对话';
+}
+
 // Path: onboarding.language
 class _TranslationsOnboardingLanguageZh extends TranslationsOnboardingLanguageEn {
 	_TranslationsOnboardingLanguageZh._(TranslationsZh root) : this._root = root, super.internal(root);
@@ -1425,6 +1456,8 @@ class _TranslationsAuthAccessPendingZh extends TranslationsAuthAccessPendingEn {
 	@override String get title => '访问权限待审核';
 	@override String get body => '此账户没有有效的大学角色。如认为有误，请联系大学支持。';
 	@override String get sign_out => '退出登录';
+	@override String get profile_missing => '此认证账户未关联 Horus 个人资料。请联系大学支持。';
+	@override String get profile_load_failed => 'Horus 无法加载账户权限。请检查网络后重新登录。';
 }
 
 // Path: auth.login
@@ -1445,6 +1478,10 @@ class _TranslationsAuthLoginZh extends TranslationsAuthLoginEn {
 	@override String get forgot_password => '忘记密码？';
 	@override String get submit => '登录';
 	@override String get guest => '作为访客浏览';
+	@override String get email_not_confirmed => '请先验证电子邮件地址，然后再登录。';
+	@override String get network_error => '无法连接 Horus。请检查网络连接后重试。';
+	@override String get too_many_attempts => '登录尝试次数过多。请稍候再试。';
+	@override String get account_unavailable => '此账户无法登录。请联系大学支持。';
 }
 
 // Path: auth.forgot_password
@@ -1928,6 +1965,8 @@ extension on TranslationsZh {
 			'common.confirm' => '确认',
 			'common.save' => '保存',
 			'common.back' => '返回',
+			'navigation.more' => '更多',
+			'navigation.university' => '大学',
 			'welcome.title' => '欢迎来到 Horus',
 			'welcome.subtitle' => '用有意义的联系点亮你的世界。',
 			'welcome.get_started' => '开始使用',
@@ -1985,6 +2024,8 @@ extension on TranslationsZh {
 			'auth.access_pending.title' => '访问权限待审核',
 			'auth.access_pending.body' => '此账户没有有效的大学角色。如认为有误，请联系大学支持。',
 			'auth.access_pending.sign_out' => '退出登录',
+			'auth.access_pending.profile_missing' => '此认证账户未关联 Horus 个人资料。请联系大学支持。',
+			'auth.access_pending.profile_load_failed' => 'Horus 无法加载账户权限。请检查网络后重新登录。',
 			'auth.login.welcome' => '欢迎回来',
 			'auth.login.subtitle' => '登录以继续',
 			'auth.login.email' => '电子邮件',
@@ -1996,6 +2037,10 @@ extension on TranslationsZh {
 			'auth.login.forgot_password' => '忘记密码？',
 			'auth.login.submit' => '登录',
 			'auth.login.guest' => '作为访客浏览',
+			'auth.login.email_not_confirmed' => '请先验证电子邮件地址，然后再登录。',
+			'auth.login.network_error' => '无法连接 Horus。请检查网络连接后重试。',
+			'auth.login.too_many_attempts' => '登录尝试次数过多。请稍候再试。',
+			'auth.login.account_unavailable' => '此账户无法登录。请联系大学支持。',
 			'auth.forgot_password.title' => '忘记密码',
 			'auth.forgot_password.subtitle' => '选择恢复方法',
 			'auth.forgot_password.method_online' => '在线申请',
@@ -2427,6 +2472,8 @@ extension on TranslationsZh {
 			'roles.descriptions.rector' => '大学校长拥有全面的学术监督权',
 			'roles.descriptions.dean' => '学院/学院院长',
 			'roles.descriptions.department_head' => '学术部门负责人',
+			_ => null,
+		} ?? switch (path) {
 			'roles.descriptions.academic_coordinator' => '协调学术课程和日程安排',
 			'roles.descriptions.professor' => '教授和管理课程的教员',
 			'roles.descriptions.lecturer' => '在没有完全教授特权的情况下教授课程',
@@ -2435,8 +2482,6 @@ extension on TranslationsZh {
 			'roles.descriptions.librarian' => '管理图书馆资源和资料',
 			'roles.descriptions.regular_student' => '拥有所有标准学术特权的正式学生',
 			'roles.descriptions.alumni' => '访问权限有限的毕业生',
-			_ => null,
-		} ?? switch (path) {
 			'roles.descriptions.class_representative' => '代表班级的学生领袖',
 			'roles.descriptions.student' => '一般学生角色',
 			'roles.descriptions.academic_advisor' => '指导学生完成学业规划',
@@ -2941,6 +2986,8 @@ extension on TranslationsZh {
 			'extracted.role' => '角色',
 			'extracted.choose_from_gallery' => '从图库中选择',
 			'extracted.phone_number' => '电话号码',
+			_ => null,
+		} ?? switch (path) {
 			'extracted.user' => '用户',
 			'extracted.account' => '帐户',
 			'extracted.appearance' => '外貌',
@@ -2949,8 +2996,6 @@ extension on TranslationsZh {
 			'extracted.notifications' => '通知',
 			'extracted.dark_mode' => '深色模式',
 			'extracted.toggle_between_dark_and_light_mode' => '在深色和浅色模式之间切换',
-			_ => null,
-		} ?? switch (path) {
 			'extracted.about' => '关于',
 			'extracted.send_password_recovery_link_to_your_emai' => '将密码恢复链接发送到您的电子邮件',
 			'extracted.current_classic_design' => '当前： 经典设计',
@@ -3121,6 +3166,15 @@ extension on TranslationsZh {
 			'extracted.system_appearance' => '跟随系统',
 			'control.title' => '大学管理',
 			'control.subtitle' => '您获授权的教学与行政工作区',
+			'messaging.title' => '聊天',
+			'messaging.no_conversations' => '你的对话会显示在这里。',
+			'messaging.unavailable' => '此对话不可用，或你已不再是成员。',
+			'messaging.no_messages' => '暂无消息，开始聊天吧。',
+			'messaging.message_hint' => '输入消息',
+			'messaging.send_failed' => '消息发送失败。请检查网络后重试。',
+			'messaging.load_older' => '加载更早的消息',
+			'messaging.refresh' => '刷新消息',
+			'messaging.load_more' => '加载更多对话',
 			_ => null,
 		};
 	}

@@ -14,15 +14,7 @@ import 'core/security/branding_verifier.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Validate environment configuration
-  try {
-    EnvConfig.validate();
-  } catch (e) {
-    if (kDebugMode) {
-      debugPrint('⚠️  Environment validation: $e');
-      debugPrint(EnvConfig.getDebugInfo());
-    }
-  }
+  EnvConfig.validate();
 
   // Print environment and build info in debug mode
   if (kDebugMode) {
@@ -37,22 +29,13 @@ void main() async {
     debugPrint('⚠️  Branding verification failed - development mode');
   }
 
-  // Initialize Supabase
-  try {
-    await Supabase.initialize(
-      url: EnvConfig.supabaseUrl,
-      anonKey: EnvConfig.supabaseAnonKey,
-      debug: kDebugMode,
-    );
-    if (kDebugMode) {
-      debugPrint('✅ Supabase initialized successfully');
-    }
-  } catch (e) {
-    debugPrint('❌ Supabase initialization error: $e');
-    if (!EnvConfig.isDevelopment) {
-      rethrow; // Fail fast in production
-    }
-  }
+  // The SDK's legacy parameter name still accepts a modern publishable key.
+  // Disable SDK request logging so auth request payloads cannot reach logs.
+  await Supabase.initialize(
+    url: EnvConfig.supabaseUrl,
+    anonKey: EnvConfig.supabasePublishableKey,
+    debug: false,
+  );
 
   // Resolve the saved choice first, then use the supported device locale.
   await LocalePreferences.initialize();
