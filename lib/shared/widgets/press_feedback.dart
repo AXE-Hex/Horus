@@ -41,15 +41,21 @@ class _PressFeedbackState extends State<PressFeedback> {
   @override
   Widget build(BuildContext context) {
     if (widget.onTap == null) return widget.child;
-    return InkWell(
-      onHighlightChanged: (value) => setState(() => _isPressed = value),
+    return GestureDetector(
+      onTapDown: (_) {
+        setState(() => _isPressed = true);
+      },
+      onTapUp: (_) {
+        setState(() => _isPressed = false);
+      },
+      onTapCancel: () => setState(() => _isPressed = false),
       onTap: () {
         _triggerHaptic();
         widget.onTap?.call();
       },
       child: AnimatedScale(
         scale: _isPressed ? widget.scale : 1.0,
-        duration: AppMotion.duration(context, AppDurations.micro),
+        duration: AppDurations.micro,
         curve: AppCurves.smooth,
         child: widget.child,
       ),
