@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/router/route_guard.dart';
-import 'package:horus/shared/layout/horus_app_shell.dart';
 
 import 'package:horus/core/router/routes/auth_routes.dart';
 import 'package:horus/core/router/routes/onboarding_routes.dart';
@@ -39,23 +38,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     refreshListenable: authNotifier,
     redirect: (context, state) =>
         redirectForAuthState(state.matchedLocation, authNotifier.value),
-    routes: [
-      ...authRoutes,
-      ...featureRoutes.where(
-        (route) =>
-            route is GoRoute && !routePermissions.containsKey(route.path),
-      ),
-      ShellRoute(
-        builder: (context, state, child) =>
-            HorusAppShell(location: state.uri.path, child: child),
-        routes: featureRoutes
-            .where(
-              (route) =>
-                  route is GoRoute && routePermissions.containsKey(route.path),
-            )
-            .toList(),
-      ),
-    ],
+    routes: [...authRoutes, ...featureRoutes],
   );
   ref.onDispose(router.dispose);
   return router;

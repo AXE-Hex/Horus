@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:horus/features/shared/presentation/widgets/animated_mesh_background.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -60,38 +61,42 @@ class WelcomeScreen extends ConsumerWidget {
     return Center(
       child:
           Container(
-            width: 180,
-            height: 180,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Theme.of(context).primaryColor.withValues(alpha: 0.25),
-                  blurRadius: 50,
-                  spreadRadius: 10,
+                width: 180,
+                height: 180,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).primaryColor.withValues(alpha: 0.25),
+                      blurRadius: 50,
+                      spreadRadius: 10,
+                    ),
+                    if (!isDark)
+                      BoxShadow(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        blurRadius: 30,
+                        spreadRadius: 5,
+                      ),
+                  ],
                 ),
-                if (!isDark)
-                  BoxShadow(
-                    color: Colors.white.withValues(alpha: 0.8),
-                    blurRadius: 30,
-                    spreadRadius: 5,
-                  ),
-              ],
-            ),
-            child: Image.asset(
-              isDark
-                  ? 'assets/images/Logo_dark.png'
-                  : 'assets/images/Logo_light.png',
-              width: 160,
-              height: 160,
-              fit: BoxFit.contain,
-            ),
-          ).animate().moveY(
-            begin: -10,
-            end: 10,
-            duration: 3.seconds,
-            curve: Curves.easeInOutSine,
-          ),
+                child: Image.asset(
+                  isDark
+                      ? 'assets/images/Logo_dark.png'
+                      : 'assets/images/Logo_light.png',
+                  width: 160,
+                  height: 160,
+                  fit: BoxFit.contain,
+                ),
+              )
+              .animate(onPlay: (c) => c.repeat(reverse: true))
+              .moveY(
+                begin: -10,
+                end: 10,
+                duration: 3.seconds,
+                curve: Curves.easeInOutSine,
+              ),
     );
   }
 
@@ -109,7 +114,7 @@ class WelcomeScreen extends ConsumerWidget {
           child: Text(
             t.welcome.student_portal,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 56,
               fontWeight: FontWeight.w900,
               color: Colors.white,
@@ -122,7 +127,7 @@ class WelcomeScreen extends ConsumerWidget {
         Text(
           t.welcome.welcome_to_the_smart_universit,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 18,
             color: Theme.of(
               context,
@@ -140,65 +145,67 @@ class WelcomeScreen extends ConsumerWidget {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            HapticFeedback.mediumImpact();
-            context.go('/login');
-          },
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              gradient: LinearGradient(
-                colors: [
-                  primary,
-                  Color.fromRGBO(
-                    (primary.r * 255.0).round(),
-                    (primary.g * 255.0).round(),
-                    ((primary.b * 255.0).round() < 200)
-                        ? (primary.b * 255.0).round() + 50
-                        : 255,
-                    primary.a,
+              onTap: () {
+                HapticFeedback.mediumImpact();
+                context.go('/language-selection');
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient(
+                    colors: [
+                      primary,
+                      Color.fromRGBO(
+                        (primary.r * 255.0).round(),
+                        (primary.g * 255.0).round(),
+                        ((primary.b * 255.0).round() < 200)
+                            ? (primary.b * 255.0).round() + 50
+                            : 255,
+                        primary.a,
+                      ),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                  boxShadow: [
+                    BoxShadow(
+                      color: primary.withValues(alpha: 0.4),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      t.welcome.get_started,
+                      style: GoogleFonts.outfit(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    const Icon(
+                      LucideIcons.arrowRight,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                  ],
+                ),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: primary.withValues(alpha: 0.4),
-                  blurRadius: 24,
-                  offset: const Offset(0, 8),
-                ),
-              ],
+            )
+            .animate(onPlay: (c) => c.repeat(reverse: true))
+            .scale(
+              begin: const Offset(1, 1),
+              end: const Offset(1.02, 1.02),
+              duration: 2.seconds,
+              curve: Curves.easeInOutSine,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  t.welcome.get_started,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: 1,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Icon(
-                  LucideIcons.arrowRight,
-                  color: Colors.white,
-                  size: 24,
-                ),
-              ],
-            ),
-          ),
-        ).animate().scale(
-          begin: const Offset(1, 1),
-          end: const Offset(1.02, 1.02),
-          duration: 2.seconds,
-          curve: Curves.easeInOutSine,
-        ),
 
         const SizedBox(height: 24),
 
@@ -215,7 +222,7 @@ class WelcomeScreen extends ConsumerWidget {
           ),
           child: Text(
             t.welcome.i_already_have_an_account,
-            style: TextStyle(
+            style: GoogleFonts.outfit(
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: Theme.of(

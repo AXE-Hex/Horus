@@ -4,6 +4,12 @@ const Set<String> publicRoutes = {
   '/splash',
   '/login',
   '/forgot-password',
+  '/',
+  '/welcome',
+  '/language-selection',
+  '/ui-style-selection',
+  '/theme-selection',
+  '/transition',
   '/guest-registration',
 };
 

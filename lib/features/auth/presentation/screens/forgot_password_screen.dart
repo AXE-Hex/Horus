@@ -1,7 +1,9 @@
+import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/core/error/app_exception.dart';
 import 'package:horus/core/error/error_handler.dart';
 import 'package:horus/features/shared/presentation/widgets/glass_container.dart';
@@ -22,7 +24,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
   final _emailController = TextEditingController();
 
   int _selectedMethod = 0;
-  bool _isIdUploaded = false;
+  final bool _isIdUploaded = false;
 
   @override
   void dispose() {
@@ -31,7 +33,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     super.dispose();
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     try {
       String email = _emailController.text.trim();
       if (email.isEmpty) {
@@ -67,27 +69,28 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         builder: (context) => const Center(child: CircularProgressIndicator()),
       );
 
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(t.auth.forgot_password.success),
-              backgroundColor: Colors.green,
-            ),
-          );
-          context.pop();
-        }
-      });
+      await ref.read(authControllerProvider.notifier).resetPassword(email);
+      if (!mounted) return;
+      Navigator.pop(context);
+      final error = ref.read(authControllerProvider).error;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            error == null ? t.auth.forgot_password.success : t.academic.error,
+          ),
+          backgroundColor: error == null ? Colors.green : Colors.red,
+        ),
+      );
+      if (error == null) context.pop();
     } catch (e) {
       ErrorHandler.showError(context, e);
     }
   }
 
-  void _simulateUpload() {
-    setState(() {
-      _isIdUploaded = !_isIdUploaded;
-    });
+  void _showUnavailableIdUpload() {
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(t.academic.no_data)));
   }
 
   @override
@@ -100,7 +103,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         Text(
           t.settings.forgot_password,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.outfit(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).textTheme.displayLarge?.color,
@@ -110,7 +113,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         Text(
           t.auth.choose_account_recovery_method,
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: GoogleFonts.inter(
             fontSize: 14,
             color: Theme.of(
               context,
@@ -168,7 +171,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           onPressed: () => context.pop(),
           child: Text(
             t.auth.back,
-            style: TextStyle(fontWeight: FontWeight.w600),
+            style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
         ),
       ],
@@ -235,7 +238,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               ? 'يرجى زيارة مكتب شؤون الطلاب لإعادة تعيين كلمة المرور. احضر بطاقتك الجامعية سارية المفعول.'
               : 'Please visit the student affairs office to reset your password. Bring your valid university ID.',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, height: 1.5),
+          style: GoogleFonts.inter(fontSize: 16, height: 1.5),
         ),
         const SizedBox(height: 24),
       ],
@@ -253,7 +256,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             labelText: t.auth.login.email,
             prefixIcon: const Icon(LucideIcons.mail),
             suffixText: '@horus.edu.eg',
-            suffixStyle: TextStyle(
+            suffixStyle: GoogleFonts.inter(
               color: Theme.of(
                 context,
               ).colorScheme.onSurface.withValues(alpha: 0.5),
@@ -279,7 +282,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
         ),
         const SizedBox(height: 16),
         GestureDetector(
-          onTap: _simulateUpload,
+          onTap: _showUnavailableIdUpload,
           child: Container(
             height: 120,
             decoration: BoxDecoration(
@@ -309,7 +312,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   _isIdUploaded
                       ? t.auth.forgot_password.id_uploaded
                       : t.auth.forgot_password.upload_id,
-                  style: TextStyle(
+                  style: GoogleFonts.inter(
                     fontWeight: FontWeight.bold,
                     color: _isIdUploaded
                         ? Colors.green
@@ -321,7 +324,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
                   Text(
                     t.auth.forgot_password.upload_id_hint,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 10, color: Colors.grey),
+                    style: GoogleFonts.inter(fontSize: 10, color: Colors.grey),
                   ),
                 ],
               ],
@@ -342,7 +345,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           ),
           child: Text(
             t.auth.login.submit,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ],
@@ -396,7 +399,7 @@ class _MethodTab extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: GoogleFonts.inter(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                 color: isSelected

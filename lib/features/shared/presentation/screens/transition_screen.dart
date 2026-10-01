@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:horus/features/shared/presentation/widgets/animated_mesh_background.dart';
 import 'package:horus/core/i18n/strings.g.dart';
 
@@ -124,7 +125,10 @@ class _TransitionScreenState extends ConsumerState<TransitionScreen> {
                         curve: Curves.easeOutBack,
                       )
                       .then()
-                      .animate()
+                      .animate(
+                        onPlay: (controller) =>
+                            controller.repeat(reverse: true),
+                      )
                       .moveY(
                         begin: 0,
                         end: -10,
@@ -174,7 +178,7 @@ class _TransitionScreenState extends ConsumerState<TransitionScreen> {
 
                   Text(
                         widget.message ?? (t.shared.please_wait),
-                        style: TextStyle(
+                        style: GoogleFonts.outfit(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
                           color: Theme.of(
