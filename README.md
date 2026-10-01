@@ -249,6 +249,10 @@ dart run slang
 flutter run --dart-define-from-file=.env
 ```
 
+Android builds use JDK 17 with the checked-in Gradle, Android Gradle Plugin,
+and Kotlin Gradle Plugin versions. If Flutter selects another Java installation,
+point it to a JDK 17 directory with `flutter config --jdk-dir=/path/to/jdk-17`.
+
 ---
 
 ## Development Notes
