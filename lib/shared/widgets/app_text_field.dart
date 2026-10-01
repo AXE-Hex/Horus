@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
+import '../../core/theme/app_text_styles.dart';
 
 class AppTextField extends StatelessWidget {
   final String? label;
@@ -37,14 +39,26 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final fill = isDark ? const Color(0xFF1E293B) : const Color(0xFFF9FAFB);
+    final borderCol = isDark
+        ? const Color(0xFF334155)
+        : const Color(0xFFE5E7EB);
+    final primaryCol = isDark ? AppColors.navy400 : AppColors.navy600;
+
+    final labelColor = isDark ? const Color(0xFF94A3B8) : AppColors.neutral700;
+    final hintColor = isDark ? const Color(0xFF6B7280) : AppColors.neutral500;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          Text(label!, style: theme.textTheme.labelMedium),
+          Text(
+            label!,
+            style: AppTextStyles.labelMedium.copyWith(color: labelColor),
+          ),
           const SizedBox(height: AppSpacing.sm),
         ],
         TextFormField(
@@ -57,13 +71,49 @@ class AppTextField extends StatelessWidget {
           onChanged: onChanged,
           onFieldSubmitted: onFieldSubmitted,
           enabled: enabled,
-          style: theme.textTheme.bodyLarge,
+          style: AppTextStyles.bodyMedium.copyWith(
+            color: isDark ? const Color(0xFFF1F5F9) : AppColors.neutral900,
+          ),
           decoration: InputDecoration(
+            filled: true,
+            fillColor: fill,
             hintText: hintText,
+            hintStyle: AppTextStyles.bodyMedium.copyWith(color: hintColor),
             prefixIcon: prefixIcon,
+            prefixIconColor: primaryCol,
             suffixIcon: suffixIcon,
+            suffixIconColor: primaryCol,
             suffixText: suffixText,
-            suffixStyle: theme.textTheme.bodyMedium,
+            suffixStyle: suffixText != null
+                ? AppTextStyles.bodyMedium.copyWith(color: hintColor)
+                : null,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 14,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderSide: BorderSide(color: borderCol, width: 0.5),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderSide: BorderSide(color: borderCol, width: 0.5),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderSide: BorderSide(color: primaryCol, width: 1.5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderSide: const BorderSide(color: AppColors.danger, width: 1.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(AppRadius.md),
+              borderSide: const BorderSide(color: AppColors.danger, width: 1.5),
+            ),
+            errorStyle: AppTextStyles.labelSmall.copyWith(
+              color: AppColors.danger,
+            ),
           ),
         ),
       ],
