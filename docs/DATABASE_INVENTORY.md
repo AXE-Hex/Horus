@@ -4025,7 +4025,7 @@ BEGIN
   -- Store
   INSERT INTO public.encrypted_data (target_id, target_table, context, cipher_text)
   VALUES (p_target_id, p_table_name, p_context, v_cipher_text)
-  ON CONFLICT (target_id, target_table, context) 
+  ON CONFLICT (target_id, target_table, context)
   DO UPDATE SET cipher_text = v_cipher_text, updated_at = now();
 END;
 $function$
@@ -4326,7 +4326,7 @@ BEGIN
       UPDATE public.departments SET student_count = student_count + 1 WHERE id = NEW.department_id;
     END IF;
   END IF;
-  
+
   RETURN NULL;
 END;
 $function$

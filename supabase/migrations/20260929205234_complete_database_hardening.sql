@@ -324,7 +324,7 @@ CREATE TRIGGER virtual_class_attendance_immutable_identity BEFORE UPDATE ON publ
  FOR EACH ROW EXECUTE FUNCTION public.enforce_client_record_identity('student_id','virtual_class_id');
 
 DROP POLICY grades_insert_teacher ON public.grades;
-CREATE POLICY grades_insert_teacher ON public.grades FOR INSERT TO authenticated 
+CREATE POLICY grades_insert_teacher ON public.grades FOR INSERT TO authenticated
  WITH CHECK (public.has_permission('grades.manage') AND public.can_teach_course(course_id)
    AND EXISTS (SELECT 1 FROM public.enrollments e WHERE e.student_id=grades.student_id
      AND e.course_id=grades.course_id AND e.status='approved' AND e.semester=grades.semester));

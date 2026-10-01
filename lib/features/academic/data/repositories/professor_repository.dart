@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:uuid/uuid.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' show FileOptions;
+import 'package:supabase_flutter/supabase_flutter.dart'
+    show FileOptions, PostgrestException;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horus/core/auth/auth_provider.dart';
 import 'package:horus/core/config/supabase_client.dart';
@@ -136,23 +137,39 @@ class ProfessorRepository extends BaseRepository {
       final profileResponse = await client
           .from('profiles')
           .select(
-            'id, full_name, full_name_ar, avatar_url, college_id, department_id, created_at, updated_at, professor_details(*, departments(name_en, name_ar))',
+            'id, full_name, full_name_ar, avatar_url, college_id, department_id, created_at, updated_at',
           )
           .eq('id', professorId)
           .maybeSingle();
 
       if (profileResponse == null) return null;
 
-      final pDetailsList = profileResponse['professor_details'];
-      final pDetails = pDetailsList is Map<String, dynamic>
-          ? pDetailsList
-          : pDetailsList is List && pDetailsList.isNotEmpty
-          ? pDetailsList.first as Map<String, dynamic>
-          : null;
+      // Keep public identity independent of optional details. The current
+      // details policy may deny its nested profile read; do not broaden grants
+      // or let that denial hide all otherwise authorized campus data.
+      Map<String, dynamic>? pDetails;
+      try {
+        final detailsRows = await client
+            .from('professor_details')
+            .select(
+              'id,office_symbol,general_rating,curriculum_rating,total_ratings',
+            )
+            .eq('id', professorId)
+            .limit(1);
+        pDetails = detailsRows.firstOrNull;
+      } on PostgrestException catch (error) {
+        if (error.code != '42501') rethrow;
+      }
+      final departmentId = profileResponse['department_id'] as String?;
+      final department = departmentId == null
+          ? null
+          : await client
+                .from('departments')
+                .select('name_en,name_ar')
+                .eq('id', departmentId)
+                .maybeSingle();
+      final deptName = department?['name_en'] ?? '';
 
-      final deptName = pDetails != null
-          ? (pDetails['departments']?['name_en'] ?? '')
-          : '';
       final officeSym = pDetails != null ? pDetails['office_symbol'] : '';
       final genRating = pDetails != null
           ? (pDetails['general_rating'] as num?)?.toDouble() ?? 0.0
