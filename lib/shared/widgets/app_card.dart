@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_spacing.dart';
-import '../../core/theme/app_shadows.dart';
 import 'press_feedback.dart';
-
-enum AppCardVariant { standard, academic, premium }
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -13,7 +10,6 @@ class AppCard extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? backgroundColor;
   final BorderSide? borderSide;
-  final AppCardVariant variant;
 
   const AppCard({
     super.key,
@@ -23,35 +19,20 @@ class AppCard extends StatelessWidget {
     this.onTap,
     this.backgroundColor,
     this.borderSide,
-    this.variant = AppCardVariant.standard,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    final scheme = Theme.of(context).colorScheme;
     final resolvedBg =
-        backgroundColor ??
-        switch (variant) {
-          AppCardVariant.standard => scheme.surface,
-          AppCardVariant.academic =>
-            isDark ? AppColors.navy800 : AppColors.navy100,
-          AppCardVariant.premium =>
-            isDark ? AppColors.navy900 : AppColors.warmWhite,
-        };
+        backgroundColor ?? (isDark ? const Color(0xFF1E293B) : AppColors.white);
 
     final resolvedBorder =
         borderSide ??
-        switch (variant) {
-          AppCardVariant.standard => BorderSide(
-            color: isDark ? AppColors.navy700 : AppColors.neutral200,
-          ),
-          AppCardVariant.academic => BorderSide(
-            color: isDark ? AppColors.navy600 : AppColors.navy200,
-          ),
-          AppCardVariant.premium => AppBorders.goldSubtle,
-        };
+        (isDark
+            ? const BorderSide(color: Color(0xFF334155), width: 0.5)
+            : AppBorders.standard);
 
     final cardWidget = Container(
       margin: margin,
@@ -60,10 +41,6 @@ class AppCard extends StatelessWidget {
         color: resolvedBg,
         borderRadius: BorderRadius.circular(AppRadius.xl),
         border: Border.fromBorderSide(resolvedBorder),
-        boxShadow: AppShadows.forLevel(
-          variant == AppCardVariant.premium ? 2 : 1,
-          dark: isDark,
-        ),
       ),
       child: child,
     );
