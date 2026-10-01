@@ -9,6 +9,8 @@ class AppColors {
   static const Color navy600 = Color(0xFF1B3A6B);
   static const Color navy500 = Color(0xFF2C4E8A);
   static const Color navy400 = Color(0xFF3A6BC4);
+  static const Color navy300 = Color(0xFF91ADD0);
+  static const Color navy200 = Color(0xFFC5D3E5);
   static const Color navy100 = Color(0xFFE8EEFA);
   static const Color navy050 = Color(0xFFF2F5FD);
 
@@ -24,6 +26,8 @@ class AppColors {
   static const Color neutral900 = Color(0xFF111827);
   static const Color neutral700 = Color(0xFF374151);
   static const Color neutral500 = Color(0xFF6B7280);
+  static const Color neutral600 = Color(0xFF5D6878);
+  static const Color neutral800 = Color(0xFF293342);
   static const Color neutral400 = Color(
     0xFF9CA3AF,
   ); // Added neutral-400 as per 9.3 and 10.2
@@ -32,16 +36,28 @@ class AppColors {
   static const Color neutral100 = Color(0xFFF3F4F6);
   static const Color neutral050 = Color(0xFFF9FAFB);
   static const Color white = Color(0xFFFFFFFF);
+  static const Color warmWhite = Color(0xFFFFFEFC);
 
   // 🟢🔴🧡 Semantic States
   static const Color success = Color(0xFF16A34A);
   static const Color successBg = Color(0xFFF0FDF4);
+  static const Color successContainer = Color(0xFFE5F4EC);
   static const Color warning = Color(0xFFD97706);
   static const Color warningBg = Color(0xFFFFFBEB);
+  static const Color warningContainer = Color(0xFFFFF3D9);
   static const Color danger = Color(0xFFDC2626);
   static const Color dangerBg = Color(0xFFFEF2F2);
+  static const Color dangerContainer = Color(0xFFFCE9E7);
   static const Color info = Color(0xFF2563EB);
   static const Color infoBg = Color(0xFFEFF6FF);
+  static const Color infoContainer = Color(0xFFE6F1F8);
+
+  // Compatibility surfaces used by later feature screens.
+  static const Color lightBackground = Color(0xFFF6F7F9);
+  static const Color lightSurface = white;
+  static const Color darkBackground = Color(0xFF081421);
+  static const Color darkSurface = navy900;
+  static const Color darkSurfaceElevated = navy800;
 
   // Gradients
   static const universityCardGradient = LinearGradient(
